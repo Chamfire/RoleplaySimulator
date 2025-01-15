@@ -1,0 +1,353 @@
+import pygame
+from pygame.locals import *
+from pygame import mixer
+
+class UnionPartida:
+    #sound
+
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4):
+        #screen
+        self.screen = screen
+
+        #musica
+        self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
+        self.pressed_exit = pygame.mixer.Sound('sounds/button_pressed_ogg.ogg')
+        self.selected = pygame.mixer.Sound('sounds/selected_button.wav')
+        self.error = pygame.mixer.Sound('sounds/error.wav')
+
+        #widht y height
+        self.width = width
+        self.height = height
+
+        #canales
+        self.ch1 = ch1
+        self.ch2 = ch2
+        self.ch3 = ch3
+        self.ch4 = ch4
+
+        #variables
+        self.first_timeB = True # Aún no has pulsado el botón volver al menú
+        self.activeI = True
+        self.activeI2 = True
+        self.first_timeC = True #Aún no has pulsado el botón de buscar partida
+
+        #cargamos las imágenes del menú
+        self.backgroundPic = pygame.image.load("images/background.png")
+        self.titlePic = pygame.image.load("images/title.png")
+        self.buttonPic = pygame.image.load("images/button.png")
+        self.buttonSelectedPic = pygame.image.load("images/button_selected.png")
+        self.buttonPressedPic = pygame.image.load("images/button_pressed.png")
+        self.capa = pygame.image.load("images/capa.png")
+        self.bCreate = pygame.image.load("images/button_createPartida.png")
+        self.bCreate_selected = pygame.image.load("images/button_createPartida_selected.png")
+        self.bCreate_pressed = pygame.image.load("images/button_createPartida_pressed.png")
+        self.buttonUnavailablePic = pygame.image.load("images/button_unavailable.png")
+
+        #fuentes y colores
+        self.fuente = pygame.font.SysFont('agencyfb', 70)
+        self.color_white = (255,255,255)
+        self.color_dark_grey = pygame.Color((119,119,119))
+        self.color_light_pink = pygame.Color((234,135,255))
+        self.color_black = (0,0,0)
+        self.color_grey = pygame.Color((208,208,208))
+        self.back = self.fuente.render('Volver atrás', True, self.color_white)
+        self.crearT = self.fuente.render('Buscar partida',True,self.color_white)
+        self.codeT = self.fuente.render('Código de partida',True,self.color_white)
+        self.passwordT = self.fuente.render('Contraseña de acceso',True,self.color_white)
+
+        self.introduceTextLen = 37
+        self.max_lenght_name = 37
+        self.introduceTextLen2 = 37
+        self.max_lenght_name2 = 25
+
+    def setScreen(self,screen):
+        self.screen = screen
+        #self.width,self.height= (self.screen.get_width(), self.screen.get_height())
+    def getScreen(self):
+        return self.screen
+    def refresh(self):
+        self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
+        self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+        self.screen.blit(pygame.transform.scale(self.passwordT, (self.width/4.0000, self.height/17.5000)), (self.width/2.6667, self.height/12.2807)) #300 40 450 57
+        self.screen.blit(pygame.transform.scale(self.codeT, (self.width/5.3333, self.height/17.5000)), (self.width/2.4490, self.height/3.3333)) #225 40 490 210
+        if(self.password != None and self.password != ' ' and self.code != None and self.code != ' '):
+            self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
+        else:
+            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
+        self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
+
+
+    def render(self):
+        #render screen
+        self.password = None
+        self.code = None
+        self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
+        self.lettersize = self.letterwidth + 0.5 * self.letterwidth #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuenteText = pygame.font.SysFont('agencyfb', int(self.lettersize))
+        self.emptyText = self.fuenteText.render(' ', True, self.color_dark_grey)
+        self.introduceText2 = self.fuenteText.render('--> Introduce el código de la partida' , True, self.color_dark_grey)
+        self.emptyText2 = self.fuenteText.render(' ', True, self.color_dark_grey)
+        self.introduceText = self.fuenteText.render('--> Introduce la contraseña de acceso' , True, self.color_dark_grey)
+        if(self.password == None):
+            self.password = ' '
+            self.passwordText = self.introduceText
+        else:
+            self.passwordText = self.fuenteText.render(self.password, True, self.color_dark_grey)
+        #Input de la contraseña
+        if(self.code == None):
+            self.code = ' '
+            self.codeText = self.introduceText2
+        else:
+            self.codeText = self.fuenteText.render(self.code, True, self.color_dark_grey)
+
+        self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+
+        self.screen.blit(pygame.transform.scale(self.passwordT, (self.width/4.0000, self.height/17.5000)), (self.width/2.6667, self.height/12.2807)) #300 40 450 57
+        self.inputBox = pygame.Rect(self.width/4.8000, self.height/5.8333, self.width/1.7143, self.height/11.6667) #250 120 700 60 
+        pygame.draw.rect(self.screen, self.color_grey, self.inputBox, 2)
+        self.screen.blit(self.introduceText, (self.width/4.5455, self.height/5.6000)) #264 x 125
+
+
+        self.screen.blit(pygame.transform.scale(self.codeT, (self.width/5.3333, self.height/17.5000)), (self.width/2.4490, self.height/3.3333)) #225 40 490 210
+        self.inputBox2 = pygame.Rect(self.width/4.8000, self.height/2.5641, self.width/1.7143, self.height/11.6667) #250 273 700 60
+        pygame.draw.rect(self.screen, self.color_grey, self.inputBox2, 2)
+        self.screen.blit(self.introduceText2, (self.width/4.5455, self.height/2.5180)) #264 x 278
+        
+        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
+        self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+        if(self.password != None and self.password != ' ' and self.code != None and self.code != ' '):
+            self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
+        else:
+            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
+        self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
+        pygame.display.update() 
+
+    # size_x, size_y: tamaño del botón en x y en y
+    # x_start y y_start: posición de la esquina izquierda del botón
+    # pos_x y pos_y: posición actual del ratón
+    def checkIfMouseIsInButton(self,size_x,size_y,x_start,y_start,pos_x,pos_y):
+        if((pos_x >= x_start and pos_x <= size_x+x_start) and (pos_y >= y_start and pos_y <= size_y + y_start)):
+            return True
+        else:
+            return False
+
+    def clickedMouse(self):
+        #click del ratón
+        #calculo del tamaño del botón y su posición -> Empezar Simulación
+        x_size = self.width/4.0956
+        y_size = self.height/12.2807
+        x_start = self.width/4.1379
+        y_start = self.height/1.1667
+        x_startC = self.width/1.9355
+        (x,y) = pygame.mouse.get_pos()
+
+        #Botón volver al menú
+        if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
+            self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+            self.ch1.play(self.pressed)
+            self.activeI = False
+            self.activeI2 = False
+            pygame.display.update() 
+            return 'seleccionPartidas'
+
+        #Unirse a una partida
+        elif(self.checkIfMouseIsInButton(x_size,y_size,x_startC,y_start,x,y)):
+            pantalla = 'salaEspera'
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+            if(self.password != None and self.password != ' ' and self.code != None and self.code != ' '):
+                self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
+                self.ch1.play(self.pressed)
+            else:
+                pantalla = 'joinPartida'
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
+                self.ch1.play(self.error)
+            self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
+            self.activeI = False
+            self.activeI2 = False
+            pygame.display.update() 
+            return pantalla    
+
+        #Input code
+        elif self.inputBox2.collidepoint((x,y)):
+            self.refresh()
+            pygame.draw.rect(self.screen, self.color_light_pink, self.inputBox2, 2)
+            if(self.code == ' '):
+                self.codeText = self.emptyText
+                self.screen.blit(self.codeText, (self.width/4.5455, self.height/2.5180)) #264 x 278)
+            else:
+                self.screen.blit(self.codeText, (self.width/4.5455, self.height/2.5180)) #264 x 278
+
+            if(self.password == ' '):
+                self.passwordText = self.introduceText
+            else:
+                self.passwordText = self.fuenteText.render(self.password, True, self.color_grey)
+            pygame.draw.rect(self.screen, self.color_grey, self.inputBox, 2)
+            self.screen.blit(self.passwordText, (self.width/4.5455, self.height/5.6000)) #264 x 125
+            pygame.display.update() 
+            self.activeI = True
+            self.activeI2 = False
+            return 'joinPartida'
+
+        #Input password
+        elif self.inputBox.collidepoint((x,y)):
+            self.refresh()
+            pygame.draw.rect(self.screen, self.color_light_pink, self.inputBox, 2)
+            if(self.password == ' '):
+                self.passwordText = self.emptyText
+                self.screen.blit(self.passwordText, (self.width/4.5455, self.height/5.6000)) #264 x 125
+            else:
+                self.screen.blit(self.passwordText, (self.width/4.5455, self.height/5.6000)) #264 x 125
+
+            if(self.code == ' '):
+                self.codeText = self.introduceText2
+            else:
+                self.codeText = self.fuenteText.render(self.code, True, self.color_grey)
+            pygame.draw.rect(self.screen, self.color_grey, self.inputBox2, 2)
+            self.screen.blit(self.codeText, (self.width/4.5455, self.height/2.5180)) #264 x 278
+            pygame.display.update() 
+            self.activeI = False
+            self.activeI2 = True
+            return 'joinPartida'
+
+        else:
+            self.activeI = False
+            self.activeI2 = False
+            if(self.password == ' '):
+                self.passwordText = self.introduceText
+            else:
+                self.passwordText = self.fuenteText.render(self.password, True, self.color_grey)
+
+            if(self.code == ' '):
+                self.codeText = self.introduceText2
+            else:
+                self.codeText = self.fuenteText.render(self.code, True, self.color_grey)
+            self.refresh()
+            pygame.draw.rect(self.screen, self.color_grey, self.inputBox, 2)
+            self.screen.blit(self.passwordText, (self.width/4.5455, self.height/5.6000)) #264 x 125
+            #password
+            pygame.draw.rect(self.screen, self.color_grey, self.inputBox2, 2)
+            self.screen.blit(self.codeText, (self.width/4.5455, self.height/2.5180)) #264 x 278
+            pygame.display.update() 
+            return 'joinPartida'
+
+    def manageInputBox(self, key, unicode):
+        if(self.activeI):
+            self.activeI2 = False
+            if key == pygame.K_RETURN:
+                self.code = ' '
+            elif key == pygame.K_BACKSPACE:
+                self.code = self.code[:-1]
+                if(len(self.code) == 0):
+                    self.code = ' '
+            else:
+                if(len(self.code)<self.max_lenght_name):
+                    if(self.code == ' '):
+                        self.code = unicode
+                    else:
+                        self.code += unicode
+                    #self.widthText = self.letterwidth*len(self.name)
+                else:
+                    self.ch2.play(self.error)
+            self.refresh()
+            pygame.draw.rect(self.screen, self.color_light_pink, self.inputBox2, 2)
+            self.codeText = self.fuenteText.render(self.code, True, self.color_light_pink)
+            self.screen.blit(self.codeText, (self.width/4.5455, self.height/2.5180)) #264 x 278
+
+            if(self.password == ' '):
+                self.passwordText = self.introduceText
+            else:
+                self.passwordText = self.fuenteText.render(self.password, True, self.color_grey)
+            #password
+            pygame.draw.rect(self.screen, self.color_grey, self.inputBox, 2)
+            self.screen.blit(self.passwordText, (self.width/4.5455, self.height/5.6000)) #264 x 125
+            pygame.display.update() 
+
+        elif(self.activeI2):
+            self.activeI = False
+            if key == pygame.K_RETURN:
+                self.password = ' '
+            elif key == pygame.K_BACKSPACE:
+                self.password = self.password[:-1]
+                if(len(self.password) == 0):
+                    self.password = ' '
+            else:
+                if(len(self.password)<self.max_lenght_name2):
+                    if(self.password == ' '):
+                        self.password = unicode
+                    else:
+                        self.password += unicode
+                    #self.widthText = self.letterwidth*len(self.name)
+                else:
+                    self.ch2.play(self.error)
+            self.refresh()
+            pygame.draw.rect(self.screen, self.color_light_pink, self.inputBox, 2)
+            self.passwordText = self.fuenteText.render(self.password, True, self.color_light_pink)
+            self.screen.blit(self.passwordText, (self.width/4.5455, self.height/5.6000)) #264 x 125
+
+            if(self.code == ' '):
+                self.codeText = self.introduceText2
+            else:
+                self.codeText = self.fuenteText.render(self.code, True, self.color_grey)
+            #password
+            pygame.draw.rect(self.screen, self.color_grey, self.inputBox2, 2)
+            self.screen.blit(self.codeText, (self.width/4.5455, self.height/2.5180)) #264 x 278
+            pygame.display.update() 
+        else:
+            pass
+
+    def movedMouse(self):
+        x_size = self.width/4.0956
+        y_size = self.height/12.2807
+        x_start = self.width/4.1379
+        y_start = self.height/1.1667
+        x_startC = self.width/1.9355
+        (x,y) = pygame.mouse.get_pos()
+
+        #Botón volver al menú
+        if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
+            self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+            if(self.password != None and self.password != ' ' and self.code != None and self.code != ' '):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
+            self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
+            if(self.first_timeB):
+                self.first_timeB = False
+                self.first_timeC = True
+                self.ch2.play(self.selected)     
+            pygame.display.update() 
+
+        #Boton unirse a partida
+        elif(self.checkIfMouseIsInButton(x_size,y_size,x_startC,y_start,x,y)):
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+            if(self.password != None and self.password != ' ' and self.code != None and self.code != ' '):
+                self.screen.blit(pygame.transform.scale(self.bCreate_selected, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
+                if(self.first_timeC):
+                    self.first_timeC = False
+                    self.first_timeB = True
+                    self.ch1.play(self.selected)
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
+                if(self.first_timeC):
+                    self.first_timeC = False
+                    self.first_timeB = True
+            self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
+            pygame.display.update() 
+
+
+        else:
+            self.first_timeB = True
+            self.first_timeC = True
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+            pygame.display.update() 
+
+        
+    
