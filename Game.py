@@ -78,7 +78,8 @@ class Game:
 
         self.changedScreen = False #si está a true, se refrescará la pantalla que diga currentScreen
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.local_ip,self.public_ip = self.getLocalAndPublicIP()
+        #self.local_ip,self.public_ip = self.getLocalAndPublicIP()
+        self.local_ip = self.getLocalAndPublicIP()
         self.freePort = self.findFreePort()
         
         self.max_length_name = 13
@@ -89,7 +90,7 @@ class Game:
         self.options = Config(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.configuration.fps,self.configuration.dmVoice,self.configuration.volMusica, self.configuration.volEffects)
         self.login = Login(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.name,self.perfil.logged,self.perfil.avatarPicPerfil,self.max_length_name)
         self.seleccionPartidas = SeleccionPartidas(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4)
-        self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.public_ip,self.freePort)
+        self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.freePort)
         self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name)
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
@@ -292,9 +293,9 @@ class Game:
         self.ch4.set_volume(volE)
     def getLocalAndPublicIP(self):
         local_ip = socket.gethostbyname(socket.gethostname())
-        public_ip = requests.get('https://ident.me').text.strip()
-        return (local_ip,public_ip)
-        #print(self.local_ip,self.public_ip)
+        #public_ip = requests.get('https://ident.me').text.strip()
+        return (local_ip)
+        #return(local_ip,public_ip)
     def findFreePort(self):
         self.s.bind(('', 0)) #encuentra un puerto libre
         return self.s.getsockname()[1] #devuelve el nombre del puerto encontrado

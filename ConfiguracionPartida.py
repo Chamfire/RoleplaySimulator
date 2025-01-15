@@ -6,7 +6,7 @@ from Partida import Partida
 from datetime import datetime
 
 class ConfiguracionPartida:
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,public_ip,port):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,port):
         #screen
         self.screen = screen
 
@@ -22,7 +22,7 @@ class ConfiguracionPartida:
 
         self.partidas = {"p1": None, "p2": None, "p3": None}
         self.local_ip = local_ip
-        self.public_ip = public_ip
+        #self.public_ip = public_ip
         self.port = port
         
 
@@ -116,7 +116,7 @@ class ConfiguracionPartida:
         self.partidas[self.currentPartida].num_jugadores = row[0]
         self.partidas[self.currentPartida].ubicacion_historia = row[1]
         self.partidas[self.currentPartida].server_code = row[2]
-        self.partidas[self.currentPartida].server_port = str(self.public_ip)+":"+str(self.local_ip)+":"+str(self.port)
+        self.partidas[self.currentPartida].server_port = str(self.local_ip)+":"+str(self.port)
         self.partidas[self.currentPartida].horas_jugadas = row[3]
         self.partidas[self.currentPartida].ultima_conexion = row[4]
         self.partidas[self.currentPartida].numPartida = row[5]
@@ -136,7 +136,7 @@ class ConfiguracionPartida:
         self.screen.blit(pygame.transform.scale(self.line, (self.width/3.4286, self.height/100.0000)), (self.width/12.0000, self.height/2.1021)) #350 7 100 333
         self.screen.blit(pygame.transform.scale(self.serverPortIPLabel, (self.width/3.4286, self.height/17.5000)), (self.width/1.8462, self.height/2.3333))#350 40 650 300
         self.screen.blit(pygame.transform.scale(self.line, (self.width/3.4286, self.height/100.0000)), (self.width/1.8462, self.height/2.1021))
-        self.screen.blit(pygame.transform.scale(self.portLabel, (self.width/3.0000, self.height/17.5000)), (self.width/1.9200, self.height/1.9444)) #400 40 625 360
+        self.screen.blit(pygame.transform.scale(self.portLabel, (self.width/4.0000, self.height/17.5000)), (self.width/1.7778, self.height/1.9444)) #300 40 675 360
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/2.4000, self.height/1.1667))#293 57 500 600
         self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/2.1053, self.height/1.1570)) #150 40 570 605
         if(self.partidas[self.currentPartida].num_jugadores == 6):
@@ -219,7 +219,7 @@ class ConfiguracionPartida:
             if(len(rows) == 0):
                 self.partidas[self.currentPartida] = Partida()
                 self.partidas[self.currentPartida].numPartida = 1
-                self.partidas[self.currentPartida].server_port = str(self.public_ip)+":"+str(self.local_ip)+":"+str(self.port)
+                self.partidas[self.currentPartida].server_port = str(self.local_ip)+":"+str(self.port)
             else:
                 self.loadPartida(rows[0])
         elif(self.currentPartida == "p2"):
@@ -229,7 +229,7 @@ class ConfiguracionPartida:
             if(len(rows) == 0):
                 self.partidas[self.currentPartida] = Partida()
                 self.partidas[self.currentPartida].numPartida = 2
-                self.partidas[self.currentPartida].server_port = str(self.public_ip)+":"+str(self.local_ip)+":"+str(self.port)
+                self.partidas[self.currentPartida].server_port = str(self.local_ip)+":"+str(self.port)
             else:
                 self.loadPartida(rows[0])
         elif(self.currentPartida == "p3"):
@@ -239,7 +239,7 @@ class ConfiguracionPartida:
             if(len(rows) == 0):
                 self.partidas[self.currentPartida] = Partida()
                 self.partidas[self.currentPartida].numPartida = 3
-                self.partidas[self.currentPartida].server_port = str(self.public_ip)+":"+str(self.local_ip)+":"+str(self.port)
+                self.partidas[self.currentPartida].server_port = str(self.local_ip)+":"+str(self.port)
             else:
                 self.loadPartida(rows[0])
         else:
@@ -251,7 +251,7 @@ class ConfiguracionPartida:
             if(len(rows) == 0):
                 self.partidas[self.currentPartida] = Partida()
                 self.partidas[self.currentPartida].numPartida = 1
-                self.partidas[self.currentPartida].server_port = str(self.public_ip)+":"+str(self.local_ip)+":"+str(self.port)
+                self.partidas[self.currentPartida].server_port = str(self.local_ip)+":"+str(self.port)
             else:
                 self.loadPartida(rows[0])
         cur.close()
