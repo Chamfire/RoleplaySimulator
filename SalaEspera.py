@@ -2,11 +2,13 @@ import pygame
 from pygame.locals import *
 from pygame import mixer
 import sqlite3
+import socket
+import threading
 
 class SalaEspera:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,puerto):
         #screen
         self.screen = screen
 
@@ -33,6 +35,9 @@ class SalaEspera:
         self.currentPlayers = 1 #Por defecto siempre habrá 1 (tú mismo)
         self.isOnline = None
         self.otherPlayers = {}
+        self.ip = ip
+        self.puerto = puerto
+        self.password = None
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
@@ -73,6 +78,10 @@ class SalaEspera:
         self.currentIcono = icono
     def setSelfName(self,name):
         self.name = name
+    def setPassword(self,password):
+        self.password = password
+
+
 
     def render(self,isOnline):
         #render screen
@@ -97,18 +106,21 @@ class SalaEspera:
             cur = conn.cursor()
             if(self.currentPartida == "p1"):
                 #cargamos la partida 1, si existe: el orden de las columnas será ese
-                cur.execute("SELECT num_jugadores FROM partida WHERE numPartida = 'p1'")
+                cur.execute("SELECT num_jugadores,server_code FROM partida WHERE numPartida = 'p1'")
                 rows = cur.fetchall() #para llegar a esta pantalla, la pantalla tiene que existir sí o sí
-                if(rows[0] != None):
+                if(rows[0] != None and len(rows[0]) == 2):
                     self.numJugadores = rows[0][0]
+                    self.password = rows[0][1]
                     for i in range(1,self.numJugadores+1):
                         self.otherPlayers[i] = None
                 else:
-                    print("Error: El atributo num_jugadores de la partida 1 está corrupto. Estableciendo valor por defecto...")
+                    print("Error: El atributo num_jugadores o server_code de la partida 1 está corrupto. Estableciendo valores por defecto...")
                     self.numJugadores = 1 #valor por defecto
                     query_update_numj = """UPDATE partida SET num_jugadores = 1 WHERE numPartida = 'p1';"""
-                       
+                    self.password = "password"
+                    query_update_psw = """UPDATE partida SET server_code = 'password' WHERE numPartida = 'p1';"""
                     cur.execute(query_update_numj)
+                    cur.execute(query_update_psw)
                     conn.commit()
             
             elif(self.currentPartida == "p2"):
@@ -236,6 +248,27 @@ class SalaEspera:
                 else:
                     self.screen.blit(pygame.transform.scale(self.default_red, (x_size, y_size)), (x_start, y_start))#imagenes
         pygame.display.update() 
+        if(self.numJugadores > 1): #si vamos a permitir varios jugadores, iniciamos una conexión TCP
+            # ------ servidor TCP ---------
+            #hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP)
+            #hiloEscuchaTCP.start()
+            pass
+            # -----------------------------
+        
+
+    def escuchaTCP(self):
+        #Es multijugador
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.bind((self.ip, self.puerto))
+        server_socket.listen(self.numJugadores - 1) #solo escucharemos ese número de jugadores
+        while True:
+            socket_c, ip_port_client = server_socket.accept()
+            try_code_client = socket_c.recv(6000)
+            if(try_code_client == self.password):
+                pass
+
+
+
 
     # size_x, size_y: tamaño del botón en x y en y
     # x_start y y_start: posición de la esquina izquierda del botón

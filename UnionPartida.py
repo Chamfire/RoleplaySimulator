@@ -189,6 +189,8 @@ class UnionPartida:
                 if(n>=49152 and n <=65535):
                     (ip,port) = self.code.split(':')
                     return (True,(ip,port))
+                else:
+                    return (False,None)
             else:
                 return (False,None)
 
