@@ -229,15 +229,15 @@ class UnionPartida:
                     try:
                         socket_c.connect((ip_dest, port_dest))
                         socket_c.send(self.password.encode())
-                        #resp = socket_c.recv(60000)
-                        #print(f'Datos recibidos: {resp.decode()}')
+                        resp = socket_c.recv(60000)
+                        print(f'Datos recibidos: {resp.decode()}')
                         self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                         self.ch1.play(self.pressed)
                     except:
                         #mostrar en rojo el recuadro + texto de no es correcto + reseteo del valor de self.code
+                        self.code = ' ' 
                         self.refresh()
                         pygame.draw.rect(self.screen, self.color_dark_red, self.inputBox2, 2)
-                        self.code = ' ' 
                         self.screen.blit(self.introduceText3, (self.width/4.5455, self.height/2.5180)) #264 x 278
                         pygame.draw.rect(self.screen, self.color_grey, self.inputBox, 2)
                         if(self.password == ' '):
@@ -252,9 +252,9 @@ class UnionPartida:
                 # --------------------------
                 else:
                     #mostrar en rojo el recuadro + texto de no es correcto + reseteo del valor de self.code
+                    self.code = ' '
                     self.refresh()
                     pygame.draw.rect(self.screen, self.color_dark_red, self.inputBox2, 2)
-                    self.code = ' '
                     self.screen.blit(self.introduceText3, (self.width/4.5455, self.height/2.5180)) #264 x 278
                     pygame.draw.rect(self.screen, self.color_grey, self.inputBox, 2)
                     if(self.password == ' '):
