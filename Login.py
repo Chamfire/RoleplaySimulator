@@ -5,12 +5,13 @@ from pygame import mixer
 class Login:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,name,logged,picture,ml):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,name,logged,picture,ml,font):
         #screen
         self.screen = screen
         self.picture = picture
         self.logged = logged
         self.name = name #nombre del jugador
+        self.font = font
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -52,7 +53,7 @@ class Login:
         self.defaultSelected = pygame.image.load("images/iconos/icon_default_selected.png")
 
         #fuentes y colores
-        self.fuente = pygame.font.SysFont('agencyfb', 70)
+        self.fuente = pygame.font.SysFont(font, 70)
         self.color_white = (255,255,255)
         self.color_grey = pygame.Color((208,208,208))
         self.color_light_pink = pygame.Color((234,135,255))
@@ -83,7 +84,7 @@ class Login:
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
         self.lettersize = self.letterwidth + 0.5 * self.letterwidth #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.opened_screen = False #por si vuelve a abrir más tarde la pantalla
-        self.fuenteText = pygame.font.SysFont('agencyfb', int(self.lettersize))
+        self.fuenteText = pygame.font.SysFont(self.font, int(self.lettersize))
         self.emptyText = self.fuenteText.render(' ', True, self.color_light_pink)
         self.introduceText = self.fuenteText.render('-  Introduce tu nombre  -' , True, self.color_grey)
         #de la input box

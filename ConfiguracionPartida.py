@@ -6,9 +6,10 @@ from Partida import Partida
 from datetime import datetime
 
 class ConfiguracionPartida:
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,port):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,port,font):
         #screen
         self.screen = screen
+        self.font = font
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -76,7 +77,7 @@ class ConfiguracionPartida:
             self.ubicacionSelected[i] = pygame.image.load("images/ubicaciones/ubicacion_"+str(i)+"_selected.png")
 
         #fuentes y colores
-        self.fuente = pygame.font.SysFont('agencyfb', 70)
+        self.fuente = pygame.font.SysFont(font, 70)
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
         self.light_pink = (244,201,208)
@@ -198,7 +199,7 @@ class ConfiguracionPartida:
         #calculo tamaño de letras a mostrar
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
         self.lettersize = self.letterwidth + 0.5 * self.letterwidth #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
-        self.fuenteText = pygame.font.SysFont('agencyfb', int(self.lettersize))
+        self.fuenteText = pygame.font.SysFont(self.font, int(self.lettersize))
         self.emptyText = self.fuenteText.render(' ', True, self.color_dark_grey)
         self.introduceText = self.fuenteText.render('--- Nombre de la partida ---' , True, self.color_dark_grey)
         self.emptyText2 = self.fuenteText.render(' ', True, self.color_dark_grey)

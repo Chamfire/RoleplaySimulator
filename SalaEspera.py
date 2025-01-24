@@ -8,9 +8,10 @@ import threading
 class SalaEspera:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,puerto):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,puerto,font):
         #screen
         self.screen = screen
+        self.font = font
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -56,8 +57,8 @@ class SalaEspera:
         self.default_red = pygame.image.load("images/iconos/icon_default_red.png")
 
         #fuentes y colores
-        self.fuente = pygame.font.SysFont('agencyfb', 70)
-        self.fuente2 = pygame.font.SysFont('agencyfb',600)
+        self.fuente = pygame.font.SysFont(font, 70)
+        self.fuente2 = pygame.font.SysFont(font,600)
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
@@ -87,7 +88,7 @@ class SalaEspera:
         #render screen
         self.letterwidth = (self.width/3.4286)/10 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
-        self.fuente3 = pygame.font.SysFont('agencyfb',self.lettersize)
+        self.fuente3 = pygame.font.SysFont(self.font,self.lettersize)
         self.labelTitle = self.fuente3.render('-------- [ Jugadores ] --------',True, self.color_white)
         self.isOnline = isOnline
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar

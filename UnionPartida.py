@@ -6,9 +6,10 @@ import socket
 class UnionPartida:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
         #screen
         self.screen = screen
+        self.font = font
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -45,7 +46,7 @@ class UnionPartida:
         self.buttonUnavailablePic = pygame.image.load("images/button_unavailable.png")
 
         #fuentes y colores
-        self.fuente = pygame.font.SysFont('agencyfb', 70)
+        self.fuente = pygame.font.SysFont(font, 70)
         self.color_white = (255,255,255)
         self.color_dark_grey = pygame.Color((119,119,119))
         self.color_light_pink = pygame.Color((234,135,255))
@@ -89,7 +90,7 @@ class UnionPartida:
         self.code = None
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
         self.lettersize = self.letterwidth + 0.5 * self.letterwidth #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
-        self.fuenteText = pygame.font.SysFont('agencyfb', int(self.lettersize))
+        self.fuenteText = pygame.font.SysFont(self.font, int(self.lettersize))
         self.emptyText = self.fuenteText.render(' ', True, self.color_dark_grey)
         self.introduceText2 = self.fuenteText.render('--> Introduce el código de la partida' , True, self.color_dark_grey)
         self.emptyText2 = self.fuenteText.render(' ', True, self.color_dark_grey)
