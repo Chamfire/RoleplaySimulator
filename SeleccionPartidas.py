@@ -7,10 +7,11 @@ from Partida import Partida
 class SeleccionPartidas:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
         #screen
         self.screen = screen
         self.partidas = {0: None, 1: None, 2: None}
+        self.font = font
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -63,7 +64,7 @@ class SeleccionPartidas:
         self.bin_pressed = pygame.image.load("images/bin_pressed.png")
         
         #fuentes y colores
-        self.fuente = pygame.font.SysFont('agencyfb', 70)
+        self.fuente = pygame.font.SysFont(font, 70)
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
         self.light_pink = (244,201,208)
@@ -89,7 +90,7 @@ class SeleccionPartidas:
         #cargamos las partidas
         self.letterwidth = (self.width/3.4286)/11 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
-        self.fuente2 = pygame.font.SysFont('agencyfb', self.lettersize)
+        self.fuente2 = pygame.font.SysFont(self.font, self.lettersize)
         conn = sqlite3.connect("simuladordnd.db")
         cur = conn.cursor()
         cur.execute("SELECT nombre FROM partida WHERE numPartida = 'p1'")

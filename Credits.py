@@ -5,7 +5,7 @@ from pygame import mixer
 class Credits:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
         #screen
         self.screen = screen
 
@@ -36,8 +36,8 @@ class Credits:
         self.papiro = pygame.image.load("images/papiro.png")
 
         #fuentes y colores
-        self.fuente = pygame.font.SysFont('agencyfb', 70)
-        self.fuente2 = pygame.font.SysFont('agencyfb',600)
+        self.fuente = pygame.font.SysFont(font, 70)
+        self.fuente2 = pygame.font.SysFont(font,600)
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
         self.back = self.fuente.render('Volver al menú', True, self.color_white)

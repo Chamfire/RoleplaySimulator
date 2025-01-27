@@ -5,7 +5,7 @@ from pygame import mixer
 class Menu:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,logged,picture,name):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,logged,picture,name,font):
         #screen
         self.screen = screen
 
@@ -53,8 +53,8 @@ class Menu:
         self.creditsPressedPic = pygame.image.load("images/credits_pressed.png")
 
         #fuentes y colores
-        self.fuente = pygame.font.SysFont('agencyfb', 70)
-        self.fuente2 = pygame.font.SysFont('agencyfb',600)
+        self.fuente = pygame.font.SysFont(font, 70)
+        self.fuente2 = pygame.font.SysFont(font,600)
         self.color_white = (255,255,255)
         self.color_dark_red = (107,0,0)
         self.titleText = self.fuente2.render('  Roleplay          Simulator  ',True,self.color_white)

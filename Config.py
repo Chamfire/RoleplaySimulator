@@ -5,7 +5,7 @@ from pygame import mixer
 class Config:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,fps,dmvoz,music,effects):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,fps,dmvoz,music,effects,font):
         #screen
         self.screen = screen
 
@@ -53,7 +53,7 @@ class Config:
         self.selectorPic = pygame.image.load("images/selector.png")
 
         #fuentes y colores
-        self.fuente = pygame.font.SysFont('agencyfb', 70)
+        self.fuente = pygame.font.SysFont(font, 70)
         self.color_white = (255,255,255)
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
         self.musica = self.fuente.render('Música',True, self.color_white)
