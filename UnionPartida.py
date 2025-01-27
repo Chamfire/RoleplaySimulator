@@ -156,7 +156,7 @@ class UnionPartida:
             if(self.isNumber(code[0]) and ord(self.code[0]) != 48):
                 if(len(code)>=2 and self.isNumber(code[1])):
                     if(len(code)>=3 and self.isNumber(code[2])):
-                        if((it < 2 and (len(code)>=4 and code[3] == '.')) or (it == 3 and code[3] == ':')):
+                        if((it < 3 and (len(code)>=4 and code[3] == '.')) or (it == 3 and code[3] == ':')):
                             if(len(code)>=5):
                                 code = code[4:]
                                 return self.isProperFormat(code,it+1)
@@ -234,10 +234,10 @@ class UnionPartida:
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     try:
                         print(ip_dest,port_dest)
-                        socket_c.connect((ip_dest, port_dest))
+                        socket_c.connect((ip_dest, int(port_dest)))
                         msg_client = self.password + ":"+self.name+":"+self.avatarPicPerfil
-                        socket_c.send(msg_client.encode())
-                        resp = socket_c.recv(6000)
+                        socket_c.sendall(msg_client.encode())
+                        resp = socket_c.recv(1024)
                         print(f'Datos recibidos: {resp.decode()}')
                         self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                         self.ch1.play(self.pressed)

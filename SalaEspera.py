@@ -275,23 +275,23 @@ class SalaEspera:
         #Es multijugador
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((self.ip, self.puerto))
-        self.server_socket.listen(self.numJugadores - 1) #solo escucharemos ese número de jugadores
+        self.server_socket.listen() 
         while True:
             try:
                 socket_c, ip_port_client = self.server_socket.accept()
                 print("msg received in server")
-                msg_client = socket_c.recv(6000)
+                msg_client = socket_c.recv(1024)
                 resp = self.checkformat(msg_client)
                 if(resp[0] and (resp[1][0] == self.password) and self.currentPlayers < self.numJugadores):
                     msg_ok = "ok"
                     #self.otherPlayers[self.currentPlayers-1] = 
                     print("sending ok to player with ip and port "+ip_port_client)
-                    socket_c.send(msg_ok.encode())
+                    socket_c.sendall(msg_ok.encode())
                     self.currentPlayers = self.currentPlayers + 1
                 else:
                     msg_no = "no"
                     print("sending no to player with ip and port "+ip_port_client)
-                    socket_c.send(msg_no.encode())
+                    socket_c.sendall(msg_no.encode())
             except:
                 break
 

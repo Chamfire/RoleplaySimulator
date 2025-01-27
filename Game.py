@@ -299,8 +299,12 @@ class Game:
         self.ch3.set_volume(volE)
         self.ch4.set_volume(volE)
     def getLocalAndPublicIP(self):
-        local_ip = socket.gethostbyname(socket.gethostname())
+        #local_ip = socket.gethostbyname(socket.gethostname())
         #public_ip = requests.get('https://ident.me').text.strip()
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
         return (local_ip)
         #return(local_ip,public_ip)
     def findFreePort(self):
