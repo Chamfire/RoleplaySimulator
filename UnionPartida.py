@@ -152,7 +152,7 @@ class UnionPartida:
         
     def isProperFormat(self,code,it): #comprueba el formato 111.111.111:[49152-65535] -> puede haber de 1 a 3 números en la ip
         #no puede ser 012.304.000:64444 (que empieze por cero)
-        if((code != None or it>0)and it<=2): #si es 3, entonces estamos ya donde el puerto
+        if((code != None or it>0)and it<=3): #si es 4, entonces estamos ya donde el puerto
             if(self.isNumber(code[0]) and ord(self.code[0]) != 48):
                 if(len(code)>=2 and self.isNumber(code[1])):
                     if(len(code)>=3 and self.isNumber(code[2])):
@@ -182,7 +182,7 @@ class UnionPartida:
                     return (False,None)
             else:
                 return (False,None)
-        elif(it != 3):
+        elif(it != 4):
             return (False,None)
         else: #estamos donde el puerto
             if(len(code) == 5):
@@ -233,10 +233,11 @@ class UnionPartida:
                 # ----- conexión TCP -----
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     try:
+                        print(ip_dest,port_dest)
                         socket_c.connect((ip_dest, port_dest))
                         msg_client = self.password + ":"+self.name+":"+self.avatarPicPerfil
                         socket_c.send(msg_client.encode())
-                        resp = socket_c.recv(60000)
+                        resp = socket_c.recv(6000)
                         print(f'Datos recibidos: {resp.decode()}')
                         self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                         self.ch1.play(self.pressed)
