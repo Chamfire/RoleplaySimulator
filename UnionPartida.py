@@ -156,7 +156,7 @@ class UnionPartida:
             if(self.isNumber(code[0]) and ord(self.code[0]) != 48):
                 if(len(code)>=2 and self.isNumber(code[1])):
                     if(len(code)>=3 and self.isNumber(code[2])):
-                        if((it < 2 and (len(code)>=4 and code[3] == '.')) or (it == 2 and code[3] == ':')):
+                        if((it < 2 and (len(code)>=4 and code[3] == '.')) or (it == 3 and code[3] == ':')):
                             if(len(code)>=5):
                                 code = code[4:]
                                 return self.isProperFormat(code,it+1)
@@ -164,7 +164,7 @@ class UnionPartida:
                                 return (False,None)
                         else:
                             return (False,None)
-                    elif((it < 2 and (len(code)>=3 and code[2] == '.')) or (it == 2 and code[2] == ':')):
+                    elif((it < 3 and (len(code)>=3 and code[2] == '.')) or (it == 3 and code[2] == ':')):
                         if(len(code)>=4):
                             code = code[3:]
                             return self.isProperFormat(code,it+1)
@@ -172,7 +172,7 @@ class UnionPartida:
                             return (False,None)
                     else:
                         return (False,None)
-                elif((it < 2 and (len(code)>=2 and code[1] == '.')) or (it == 2 and code[1] == ':')):
+                elif((it < 3 and (len(code)>=2 and code[1] == '.')) or (it == 3 and code[1] == ':')):
                     if(len(code)>=3):
                         code = code[2:]
                         return self.isProperFormat(code,it+1)
