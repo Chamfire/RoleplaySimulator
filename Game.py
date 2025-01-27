@@ -22,8 +22,8 @@ class Game:
     #inits
     def __init__(self):
         pygame.init()
-        #self.font = 'agencyfb'
-        self.font = 'agencyfbnormal'
+        self.font = 'agencyfb'
+        #self.font = 'agencyfbnormal'
         self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
         #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
@@ -201,6 +201,8 @@ class Game:
                             self.changedScreen = True
                             self.currentScreen = screenToChange
                             self.online = False
+                            if(screenToChange != "partida"): #si no se carga una partida, y volvemos hacia atrás, cerramos el socket
+                                self.salaEspera.closeSocketTCPServer()
                             self.screen = self.salaEspera.getScreen()
                     elif self.currentScreen == "joinPartida":
                         self.joinPartida.setNameYAvatar(self.perfil.name,self.perfil.avatarPicPerfil)
@@ -284,6 +286,7 @@ class Game:
         #antes de cerrar el simulador hay que guardar la configuración
         self.perfil.savePerfilToFile()
         self.configuration.saveConfigurationToFile()
+        self.salaEspera.closeSocketTCPServer()
         self.s.close()
         pygame.quit()
     

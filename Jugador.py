@@ -34,6 +34,7 @@ class Jugador:
                 partidasEnProgreso = None
                 partidasCompletadas = None
                 numMuertes = None
+                id = None
                 try:
                     name = data["name"]
                 except:
@@ -78,7 +79,7 @@ class Jugador:
                 else:
                     print("En el archivo 'perfil' el valor de -partidasCompletadas- se ha visto alterado. Regresando a la configuración por defecto...")
                 if(numMuertes is not None and type(numMuertes)==int and numMuertes>=0):
-                    self.numMuertes
+                    self.numMuertes = numMuertes
                 else:
                     print("En el archivo 'perfil' el valor de -numMuertes- se ha visto alterado. Regresando a la configuración por defecto...")
                 if(self.name != " " and self.avatarPicPerfil is not None):
@@ -86,7 +87,7 @@ class Jugador:
                 else:
                     #no está loggeado -> dejamos selg.logged a false, que es su valor por defecto
                     pass
-                if(self.id != " " and self.id is not None):
+                if(id != " " and id is not None):
                     self.id = id
                 else:
                     print("En el archivo 'perfil' el valor de -id- se ha visto alterado. Reasignando id...")

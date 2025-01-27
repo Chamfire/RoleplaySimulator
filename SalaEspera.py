@@ -39,6 +39,7 @@ class SalaEspera:
         self.ip = ip
         self.puerto = puerto
         self.password = None
+        self.server_socket = None 
         
 
         #cargamos las imágenes del menú
@@ -254,28 +255,34 @@ class SalaEspera:
             # ------ servidor TCP ---------
             hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP)
             hiloEscuchaTCP.start()
-            pass
             # -----------------------------
         
 
     def escuchaTCP(self):
         #Es multijugador
-        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_socket.bind((self.ip, self.puerto))
-        server_socket.listen(self.numJugadores - 1) #solo escucharemos ese número de jugadores
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket.bind((self.ip, self.puerto))
+        self.server_socket.listen(self.numJugadores - 1) #solo escucharemos ese número de jugadores
         while True:
-            socket_c, ip_port_client = server_socket.accept()
-            msg_client = socket_c.recv(6000)
-            resp = self.checkformat(msg_client)
-            if(resp[0] and (resp[1][0] == self.password) and self.currentPlayers < self.numJugadores):
-                msg_ok = "ok"
-                #self.otherPlayers[self.currentPlayers-1] = 
-                socket_c.send(msg_ok.encode())
-                self.currentPlayers = self.currentPlayers + 1
-            else:
-                msg_no = "no"
-                socket_c.send(msg_no.encode())
-            
+            try:
+                socket_c, ip_port_client = self.server_socket.accept()
+                msg_client = socket_c.recv(6000)
+                resp = self.checkformat(msg_client)
+                if(resp[0] and (resp[1][0] == self.password) and self.currentPlayers < self.numJugadores):
+                    msg_ok = "ok"
+                    #self.otherPlayers[self.currentPlayers-1] = 
+                    socket_c.send(msg_ok.encode())
+                    self.currentPlayers = self.currentPlayers + 1
+                else:
+                    msg_no = "no"
+                    socket_c.send(msg_no.encode())
+            except:
+                break
+
+    def closeSocketTCPServer(self):
+        if(self.server_socket != None):
+            self.server_socket.close()
+
     def checkformat(self,msg):
         msg = ""
         try:
