@@ -301,10 +301,10 @@ class Game:
     def getLocalAndPublicIP(self):
         #local_ip = socket.gethostbyname(socket.gethostname())
         #public_ip = requests.get('https://ident.me').text.strip()
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        local_ip = s.getsockname()[0]
-        s.close()
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #socket
+        s.connect(("8.8.8.8", 80)) #conexión
+        local_ip = s.getsockname()[0] #ip
+        s.close() #cerramos
         return (local_ip)
         #return(local_ip,public_ip)
     def findFreePort(self):
