@@ -235,14 +235,15 @@ class UnionPartida:
                     try:
                         print(ip_dest,port_dest)
                         socket_c.connect((ip_dest, int(port_dest)))
-                        msg_client = self.password + ":"+self.name+":"+self.avatarPicPerfil
+                        msg_client = self.password + ":"+self.name+":"+str(self.avatarPicPerfil)
                         socket_c.sendall(msg_client.encode())
                         resp = socket_c.recv(1024)
                         print(f'Datos recibidos: {resp.decode()}')
                         self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                         self.ch1.play(self.pressed)
-                    except:
+                    except Exception as e:
                         #mostrar en rojo el recuadro + texto de no es correcto + reseteo del valor de self.code
+                        print(e)
                         self.code = ' ' 
                         self.refresh()
                         pygame.draw.rect(self.screen, self.color_dark_red, self.inputBox2, 2)
