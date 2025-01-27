@@ -38,6 +38,7 @@ class SalaEspera:
         self.ip = ip
         self.puerto = puerto
         self.password = None
+        
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
@@ -250,8 +251,8 @@ class SalaEspera:
         pygame.display.update() 
         if(self.numJugadores > 1): #si vamos a permitir varios jugadores, iniciamos una conexión TCP
             # ------ servidor TCP ---------
-            #hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP)
-            #hiloEscuchaTCP.start()
+            hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP)
+            hiloEscuchaTCP.start()
             pass
             # -----------------------------
         
@@ -263,10 +264,33 @@ class SalaEspera:
         server_socket.listen(self.numJugadores - 1) #solo escucharemos ese número de jugadores
         while True:
             socket_c, ip_port_client = server_socket.accept()
-            try_code_client = socket_c.recv(6000)
-            if(try_code_client == self.password):
-                pass
-
+            msg_client = socket_c.recv(6000)
+            resp = self.checkformat(msg_client)
+            if(resp[0] and (resp[1][0] == self.password) and self.currentPlayers < self.numJugadores):
+                msg_ok = "ok"
+                #self.otherPlayers[self.currentPlayers-1] = 
+                socket_c.send(msg_ok.encode())
+                self.currentPlayers = self.currentPlayers + 1
+            else:
+                msg_no = "no"
+                socket_c.send(msg_no.encode())
+            
+    def checkformat(self,msg):
+        msg = ""
+        try:
+            (password,nombre,pic) = msg.split(":")
+            if(password != None and len(password) < 37): #es la longitud de la password máxima
+                if(nombre != None and len(nombre) <= 13):
+                    if(pic != None and pic >=0 and pic <=6): #solo hay 6 iconos
+                        return (True,(password,nombre,pic))
+                    else:
+                        return (False,None)
+                else:
+                    return (False,None)
+            else:
+                return (False,None)
+        except:
+            return (False,None)
 
 
 

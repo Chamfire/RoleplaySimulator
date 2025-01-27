@@ -1,5 +1,6 @@
 import os
 import json
+import uuid
 
 class Jugador:
     def __init__(self):
@@ -14,6 +15,7 @@ class Jugador:
         self.badFile = False
         self.max_len_name = 13
         self.numIconos = 6
+        self.id = None
 
     def loadPerfilFromFile(self):
         # Create the assets directory if it doesn't exist
@@ -52,6 +54,12 @@ class Jugador:
                     numMuertes = data["numMuertes"]
                 except:
                     print("Archivo 'perfil' corrupto en atributo -numMuertes-: estableciendo contador de muertes del jugador a valor por defecto...")
+                try:
+                    id = data["id"]
+                except:
+                    print("Arhivo 'perfil' corrupto en atributo -id-: reasignando id...")
+                    id = str(uuid.uuid4())
+                
                 #vamos a comprobar que no haya corrupción en el valor de los atributos
                 if(name is not None and len(name) <= self.max_len_name):
                     self.name = name
@@ -78,14 +86,19 @@ class Jugador:
                 else:
                     #no está loggeado -> dejamos selg.logged a false, que es su valor por defecto
                     pass
+                if(self.id != " " and self.id is not None):
+                    self.id = id
+                else:
+                    print("En el archivo 'perfil' el valor de -id- se ha visto alterado. Reasignando id...")
+                    self.id = str(uuid.uuid4())
         else:
             #Configuración por defecto -> es la que se pone en el init
-            pass 
+            self.id = str(uuid.uuid4()) #le asignamos por primera vez una id al jugador
 
     def savePerfilToFile(self):
         if not os.path.exists(self.perfil_dir):
             os.makedirs(self.perfil_dir)
-        data = {"name":self.name,"avatarPicPerfil":self.avatarPicPerfil,"partidasEnProgreso":self.partidasEnProgreso,"partidasCompletadas":self.partidasCompletadas,"numMuertes":self.numMuertes}
+        data = {"name":self.name,"avatarPicPerfil":self.avatarPicPerfil,"partidasEnProgreso":self.partidasEnProgreso,"partidasCompletadas":self.partidasCompletadas,"numMuertes":self.numMuertes,"id":self.id}
 
         # Save the data to a JSON file
         with open(self.perfil_dir+'/'+self.perfil_file, 'w') as f:

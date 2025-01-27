@@ -31,6 +31,8 @@ class UnionPartida:
         self.activeI = True
         self.activeI2 = True
         self.first_timeC = True #Aún no has pulsado el botón de buscar partida
+        self.name = None
+        self.avatarPicPerfil = None
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
@@ -82,6 +84,9 @@ class UnionPartida:
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
         self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
 
+    def setNameYAvatar(self,name,a):
+        self.name = name
+        self.avatarPicPerfil = a
 
     def render(self):
         #render screen
@@ -228,7 +233,8 @@ class UnionPartida:
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     try:
                         socket_c.connect((ip_dest, port_dest))
-                        socket_c.send(self.password.encode())
+                        msg_client = self.password + ":"+self.name+":"+self.avatarPicPerfil
+                        socket_c.send(msg_client.encode())
                         resp = socket_c.recv(60000)
                         print(f'Datos recibidos: {resp.decode()}')
                         self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600

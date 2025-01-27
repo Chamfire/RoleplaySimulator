@@ -201,6 +201,7 @@ class Game:
                             self.online = False
                             self.screen = self.salaEspera.getScreen()
                     elif self.currentScreen == "joinPartida":
+                        self.joinPartida.setNameYAvatar(self.perfil.name,self.perfil.avatarPicPerfil)
                         screenToChange = self.joinPartida.clickedMouse()
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
@@ -208,6 +209,7 @@ class Game:
                             if(self.currentScreen == "salaEspera"):
                                 self.online = True
                             self.screen = self.joinPartida.getScreen()
+                             
                     #ahora toca actualizar
                     if self.changedScreen:
                         self.changedScreen = False
