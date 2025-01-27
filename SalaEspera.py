@@ -63,6 +63,7 @@ class SalaEspera:
         self.fuente2 = pygame.font.SysFont(font,600)
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
+        self.color_light_pink = pygame.Color((234,135,255))
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
         self.crearT = self.fuente.render('Cargar partida', True, self.color_white)
         self.labelTitle = None
@@ -103,6 +104,9 @@ class SalaEspera:
         else:
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+            self.letterwidth3 = (self.width/3.4286)/18 #cálculo de la base en píxeles 
+            self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3)
+            self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
             #--Cargar el número de jugadores de la partida--
 
             conn = sqlite3.connect("simuladordnd.db")
@@ -124,35 +128,41 @@ class SalaEspera:
                     query_update_psw = """UPDATE partida SET server_code = 'password' WHERE numPartida = 'p1';"""
                     cur.execute(query_update_numj)
                     cur.execute(query_update_psw)
-                    conn.commit()
+                    conn.commit() 
             
             elif(self.currentPartida == "p2"):
-                cur.execute("SELECT num_jugadores FROM partida WHERE numPartida = 'p2'")
+                cur.execute("SELECT num_jugadores,server_code FROM partida WHERE numPartida = 'p2'")
                 rows = cur.fetchall() #para llegar a esta pantalla, la pantalla tiene que existir sí o sí
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
+                    self.password = rows[0][1]
                     for i in range(1,self.numJugadores+1):
                         self.otherPlayers[i] = None
                 else:
-                    print("Error: El atributo num_jugadores de la partida 2 está corrupto. Estableciendo valor por defecto...")
+                    print("Error: El atributo num_jugadores o server_code de la partida 2 está corrupto. Estableciendo valor por defecto...")
                     self.numJugadores = 1 #valor por defecto
                     query_update_numj = """UPDATE partida SET num_jugadores = 1 WHERE numPartida = 'p2';"""
-                       
+                    self.password = "password"
+                    query_update_psw = """UPDATE partida SET server_code = 'password' WHERE numPartida = 'p2';"""
                     cur.execute(query_update_numj)
+                    cur.execute(query_update_psw)
                     conn.commit()
             elif(self.currentPartida == "p3"):
-                cur.execute("SELECT num_jugadores FROM partida WHERE numPartida = 'p3'")
+                cur.execute("SELECT num_jugadores,server_code FROM partida WHERE numPartida = 'p3'")
                 rows = cur.fetchall() #para llegar a esta pantalla, la pantalla tiene que existir sí o sí
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
+                    self.password = rows[0][1]
                     for i in range(1,self.numJugadores+1):
                         self.otherPlayers[i] = None
                 else:
-                    print("Error: El atributo num_jugadores de la partida 3 está corrupto. Estableciendo valor por defecto...")
+                    print("Error: El atributo num_jugadores o server_code de la partida 3 está corrupto. Estableciendo valor por defecto...")
                     self.numJugadores = 1 #valor por defecto
                     query_update_numj = """UPDATE partida SET num_jugadores = 1 WHERE numPartida = 'p3';"""
-                       
+                    self.password = "password"
+                    query_update_psw = """UPDATE partida SET server_code = 'password' WHERE numPartida = 'p2';"""
                     cur.execute(query_update_numj)
+                    cur.execute(query_update_psw)
                     conn.commit()
 
             cur.close()
@@ -162,6 +172,9 @@ class SalaEspera:
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
             self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
+            textPwd = "Contraseña de partida: "+self.password+" <-> Código: "+self.ip+":"+str(self.puerto)
+            self.textPassword = self.fuente4.render(textPwd, True, self.color_light_pink)
+            self.screen.blit(self.textPassword,(self.width/4.0000, self.height/7.0000)) #300 100
         #Título
         self.screen.blit(self.labelTitle, (self.width/3.4783, self.height/17.5000)) #345 40
         #Iconos de los jugadores
@@ -251,7 +264,7 @@ class SalaEspera:
                 else:
                     self.screen.blit(pygame.transform.scale(self.default_red, (x_size, y_size)), (x_start, y_start))#imagenes
         pygame.display.update() 
-        if(self.numJugadores > 1): #si vamos a permitir varios jugadores, iniciamos una conexión TCP
+        if(not self.isOnline and self.numJugadores > 1): #si vamos a permitir varios jugadores, iniciamos una conexión TCP
             # ------ servidor TCP ---------
             hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP)
             hiloEscuchaTCP.start()
@@ -287,7 +300,7 @@ class SalaEspera:
         msg = ""
         try:
             (password,nombre,pic) = msg.split(":")
-            if(password != None and len(password) < 37): #es la longitud de la password máxima
+            if(password != None and len(password) <= 16): #es la longitud de la password máxima
                 if(nombre != None and len(nombre) <= 13):
                     if(pic != None and pic >=0 and pic <=6): #solo hay 6 iconos
                         return (True,(password,nombre,pic))

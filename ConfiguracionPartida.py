@@ -102,7 +102,7 @@ class ConfiguracionPartida:
         self.introduceTextLen = 28
         self.max_lenght_name = 12
         self.introduceTextLen2 = 27
-        self.max_lenght_name2 = 25
+        self.max_lenght_name2 = 16
 
 
 
