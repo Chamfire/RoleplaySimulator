@@ -11,6 +11,8 @@ class UnionPartida:
         self.screen = screen
         self.font = font
         self.id = id
+        self.numJugadores = None
+        self.jugadores = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -151,6 +153,9 @@ class UnionPartida:
         else:
             return False
         
+    def getNumJugadoresAndJugadores(self):
+        return (self.numJugadores,self.jugadores)
+        
     def isProperFormat(self,code,it): #comprueba el formato 111.111.111:[49152-65535] -> puede haber de 1 a 3 números en la ip
         #no puede ser 012.304.000:64444 (que empieze por cero)
         if((code != None or it>0)and it<=3): #si es 4, entonces estamos ya donde el puerto
@@ -200,6 +205,22 @@ class UnionPartida:
                     return (False,None)
             else:
                 return (False,None)
+            
+    def checkformat(self,msg):
+        try:
+            resp = msg.split(':')
+            if(resp[0] == "ok" or resp[0] == 'no'):
+                if(resp[1] != None and int(resp[1])>=0 and int(resp[1])<=6):
+                    jugadores = []
+                    for i in range(0,len(resp)-2):
+                        jugadores[i] = resp[i+2]
+                    return (True,int(resp[1]),jugadores)
+                else:
+                    return (False,None,None)
+            else:
+                return (False,None,None)
+        except:
+            return (False,None,None)
 
     def clickedMouse(self):
         #click del ratón
@@ -238,10 +259,27 @@ class UnionPartida:
                         socket_c.connect((ip_dest, int(port_dest)))
                         msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)
                         socket_c.sendall(msg_client.encode('ascii'))
-                        resp = socket_c.recv(1024).decode('ascii')
-                        print('Datos recibidos: ',resp)
-                        self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
-                        self.ch1.play(self.pressed)
+                        respuesta = socket_c.recv(1024).decode('ascii')
+                        #print('Datos recibidos: ',resp)
+                        resp = self.checkformat(respuesta)
+                        if(not resp[0]):
+                            self.code = ' ' 
+                            self.refresh()
+                            pygame.draw.rect(self.screen, self.color_dark_red, self.inputBox2, 2)
+                            self.screen.blit(self.introduceText3, (self.width/4.5455, self.height/2.5180)) #264 x 278
+                            pygame.draw.rect(self.screen, self.color_grey, self.inputBox, 2)
+                            if(self.password == ' '):
+                                self.passwordText = self.introduceText
+                            else:
+                                self.passwordText = self.fuenteText.render(self.password, True, self.color_grey)
+                            self.screen.blit(self.passwordText, (self.width/4.5455, self.height/5.6000)) #264 x 125
+                            pantalla = "joinPartida"
+                            self.ch1.play(self.error)
+                        else:
+                            self.numJugadores = resp[1]
+                            self.jugadores = resp[2]
+                            self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
+                            self.ch1.play(self.pressed)
                     except Exception as e:
                         #mostrar en rojo el recuadro + texto de no es correcto + reseteo del valor de self.code
                         print(e)

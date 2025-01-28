@@ -85,7 +85,9 @@ class SalaEspera:
     def setPassword(self,password):
         self.password = password
 
-
+    def setNumJugadoresYOtherPlayers(self,no):
+        self.numJugadores = no[0]
+        self.otherPlayers = no[1]
 
     def render(self,isOnline):
         #render screen
@@ -99,8 +101,7 @@ class SalaEspera:
         if(isOnline):
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
-            #---- Solicitud del número de Jugadores ---
-            self.numJugadores = 1 #TODO: Cambiar cuando haga el servidor
+            #el número de jugadores y la lista de otros jugadores se la pasa por parámetro en game
         else:
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
@@ -118,7 +119,7 @@ class SalaEspera:
                 if(rows[0] != None and len(rows[0]) == 2):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
-                    for i in range(1,self.numJugadores+1):
+                    for i in range(0,self.numJugadores):
                         self.otherPlayers[i] = None
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 1 está corrupto. Estableciendo valores por defecto...")
@@ -136,7 +137,7 @@ class SalaEspera:
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
-                    for i in range(1,self.numJugadores+1):
+                    for i in range(0,self.numJugadores):
                         self.otherPlayers[i] = None
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 2 está corrupto. Estableciendo valor por defecto...")
@@ -153,7 +154,7 @@ class SalaEspera:
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
-                    for i in range(1,self.numJugadores+1):
+                    for i in range(0,self.numJugadores):
                         self.otherPlayers[i] = None
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 3 está corrupto. Estableciendo valor por defecto...")
@@ -279,29 +280,43 @@ class SalaEspera:
         while True:
             try:
                 socket_c, ip_port_client = self.server_socket.accept()
-                print("msg received in server")
+                #print("msg received in server")
                 msg_client = socket_c.recv(1024).decode('ascii')
                 resp = self.checkformat(msg_client)
-                print('msg: ',msg_client)
+                print('msg received: ',msg_client)
+                #print(resp[0])
+                #print(resp[1][0])
+                #print(self.password)
+                #print(self.currentPlayers)
+                #print(self.numJugadores)
                 if(resp[0] and (resp[1][0] == self.password) and self.currentPlayers < self.numJugadores):
                     msg_ok = "ok:"+str(self.numJugadores)
                     for i in range(0,len(self.otherPlayers)):
                         if(self.otherPlayers[i] != None):
-                            msg_ok = msg_ok+":"+str(i)+";"+self.otherPlayers[0]+";"+self.otherPlayers[1]
+                            msg_ok = msg_ok+":"+str(self.otherPlayers[0])+";"+self.otherPlayers[1][0]+";"+self.otherPlayers[1][1]
                             #el mensaje tendrá este formato -> ok:4:0;pepe;1:1;juan;4
+                    free_pos = -1
+                    possible = True
                     for i in range(0,len(self.otherPlayers)):
-                        if(self.otherPlayers[i][0] != resp[1][3]): #si no se ha conectado nunca, lo añadimos
-                            self.otherPlayers[self.currentPlayers-1] = (resp[1][3],(resp[1][1],resp[1][2])) #(id,(nombre,avatarPicPerfil) <- añado al jugador
-                            self.currentPlayers = self.currentPlayers + 1
-                    print("sending ok to player with ip and port "+ip_port_client)
-                    print("self.otherPlayers = ",self.otherPlayers)
+                        if(self.otherPlayers[i] == None): #si no se ha conectado nunca, lo añadimos
+                            free_pos = i
+                            for j in range(0,len(self.otherPlayers)):
+                                if(self.otherPlayers[j] != None and self.otherPlayers[j][0] == resp[1][3]):
+                                   possible = False #si ya está en la lista ese jugador, no lo vamos a añadir
+                                   break
+                            break
+                    if(possible):
+                        self.otherPlayers[free_pos] = (resp[1][3],(resp[1][1],resp[1][2])) #(id,(nombre,avatarPicPerfil) <- añado al jugador
+                        self.currentPlayers = self.currentPlayers + 1
+                    #es posible que se haya desconectado y se haya vuelto a conectar
+                            
+                    #print("self.otherPlayers = ",self.otherPlayers)
                     socket_c.sendall(msg_ok.encode('ascii'))
                 else:
                     msg_no = "no"
-                    print("sending no to player with ip and port "+ip_port_client)
                     socket_c.sendall(msg_no.encode('ascii'))
-            except Exception as e:
-                print(e)
+            except:
+                
                 break
 
     def closeSocketTCPServer(self):
@@ -311,10 +326,10 @@ class SalaEspera:
     def checkformat(self,msg):
         try:
             [password,nombre,pic,id] = msg.split(':')
-            print(password,nombre,pic,id)
+            #print(password,nombre,pic,id)
             if(password != None and len(password) <= 16): #es la longitud de la password máxima
                 if(nombre != None and len(nombre) <= 13):
-                    if(pic != None and pic >=0 and pic <=6): #solo hay 6 iconos
+                    if(pic != None and int(pic) >=0 and int(pic) <=6): #solo hay 6 iconos
                         if(id != None and id != ' '):
                             return (True,(password,nombre,pic,id))
                         else:

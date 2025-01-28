@@ -212,6 +212,7 @@ class Game:
                             self.currentScreen = screenToChange
                             if(self.currentScreen == "salaEspera"):
                                 self.online = True
+                                self.salaEspera.setNumJugadoresYOtherPlayers(self.joinPartida.getNumJugadoresAndJugadores())
                             self.screen = self.joinPartida.getScreen()
                              
                     #ahora toca actualizar
