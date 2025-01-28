@@ -236,7 +236,7 @@ class UnionPartida:
                     try:
                         print(ip_dest,port_dest)
                         socket_c.connect((ip_dest, int(port_dest)))
-                        msg_client = self.password + ":"+self.name+":"+str(self.avatarPicPerfil)+":"+str(self.id)
+                        msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)
                         socket_c.sendall(msg_client.encode('ascii'))
                         resp = socket_c.recv(1024).decode('ascii')
                         print('Datos recibidos: ',resp)

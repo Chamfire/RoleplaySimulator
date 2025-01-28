@@ -282,6 +282,7 @@ class SalaEspera:
                 print("msg received in server")
                 msg_client = socket_c.recv(1024).decode('ascii')
                 resp = self.checkformat(msg_client)
+                print('msg: ',msg_client)
                 if(resp[0] and (resp[1][0] == self.password) and self.currentPlayers < self.numJugadores):
                     msg_ok = "ok:"+str(self.numJugadores)
                     for i in range(0,len(self.otherPlayers)):
@@ -299,7 +300,8 @@ class SalaEspera:
                     msg_no = "no"
                     print("sending no to player with ip and port "+ip_port_client)
                     socket_c.sendall(msg_no.encode('ascii'))
-            except:
+            except Exception as e:
+                print(e)
                 break
 
     def closeSocketTCPServer(self):
@@ -307,13 +309,16 @@ class SalaEspera:
             self.server_socket.close()
 
     def checkformat(self,msg):
-        msg = ""
         try:
-            (password,nombre,pic,id) = msg.split(":")
+            [password,nombre,pic,id] = msg.split(':')
+            print(password,nombre,pic,id)
             if(password != None and len(password) <= 16): #es la longitud de la password máxima
                 if(nombre != None and len(nombre) <= 13):
                     if(pic != None and pic >=0 and pic <=6): #solo hay 6 iconos
-                        return (True,(password,nombre,pic,id))
+                        if(id != None and id != ' '):
+                            return (True,(password,nombre,pic,id))
+                        else:
+                            return (False,None)
                     else:
                         return (False,None)
                 else:
