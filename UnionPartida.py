@@ -6,10 +6,11 @@ import socket
 class UnionPartida:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,id):
         #screen
         self.screen = screen
         self.font = font
+        self.id = id
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -235,7 +236,7 @@ class UnionPartida:
                     try:
                         print(ip_dest,port_dest)
                         socket_c.connect((ip_dest, int(port_dest)))
-                        msg_client = self.password + ":"+self.name+":"+str(self.avatarPicPerfil)
+                        msg_client = self.password + ":"+self.name+":"+str(self.avatarPicPerfil)+":"+self.id
                         socket_c.sendall(msg_client.encode())
                         resp = socket_c.recv(1024)
                         print(f'Datos recibidos: {resp.decode()}')

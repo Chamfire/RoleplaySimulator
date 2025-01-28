@@ -283,11 +283,18 @@ class SalaEspera:
                 msg_client = socket_c.recv(1024)
                 resp = self.checkformat(msg_client)
                 if(resp[0] and (resp[1][0] == self.password) and self.currentPlayers < self.numJugadores):
-                    msg_ok = "ok"
-                    #self.otherPlayers[self.currentPlayers-1] = 
+                    msg_ok = "ok:"+str(self.numJugadores)
+                    for i in range(0,len(self.otherPlayers)):
+                        if(self.otherPlayers[i] != None):
+                            msg_ok = msg_ok+":"+str(i)+";"+self.otherPlayers[0]+";"+self.otherPlayers[1]
+                            #el mensaje tendrá este formato -> ok:4:0;pepe;1:1;juan;4
+                    for i in range(0,len(self.otherPlayers)):
+                        if(self.otherPlayers[i][0] != resp[1][3]): #si no se ha conectado nunca, lo añadimos
+                            self.otherPlayers[self.currentPlayers-1] = (resp[1][3],(resp[1][1],resp[1][2])) #(id,(nombre,avatarPicPerfil) <- añado al jugador
+                            self.currentPlayers = self.currentPlayers + 1
                     print("sending ok to player with ip and port "+ip_port_client)
+                    print("self.otherPlayers = ",self.otherPlayers)
                     socket_c.sendall(msg_ok.encode())
-                    self.currentPlayers = self.currentPlayers + 1
                 else:
                     msg_no = "no"
                     print("sending no to player with ip and port "+ip_port_client)
@@ -302,11 +309,11 @@ class SalaEspera:
     def checkformat(self,msg):
         msg = ""
         try:
-            (password,nombre,pic) = msg.split(":")
+            (password,nombre,pic,id) = msg.split(":")
             if(password != None and len(password) <= 16): #es la longitud de la password máxima
                 if(nombre != None and len(nombre) <= 13):
                     if(pic != None and pic >=0 and pic <=6): #solo hay 6 iconos
-                        return (True,(password,nombre,pic))
+                        return (True,(password,nombre,pic,id))
                     else:
                         return (False,None)
                 else:
