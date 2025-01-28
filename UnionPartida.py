@@ -236,10 +236,10 @@ class UnionPartida:
                     try:
                         print(ip_dest,port_dest)
                         socket_c.connect((ip_dest, int(port_dest)))
-                        msg_client = self.password + ":"+self.name+":"+str(self.avatarPicPerfil)+":"+self.id
-                        socket_c.sendall(msg_client.encode())
+                        msg_client = self.password + ":"+self.name+":"+str(self.avatarPicPerfil)+":"+str(self.id)
+                        socket_c.sendall(msg_client.encode('ascii'))
                         resp = socket_c.recv(1024)
-                        print(f'Datos recibidos: {resp.decode()}')
+                        print(f'Datos recibidos: ',resp)
                         self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                         self.ch1.play(self.pressed)
                     except Exception as e:

@@ -294,11 +294,11 @@ class SalaEspera:
                             self.currentPlayers = self.currentPlayers + 1
                     print("sending ok to player with ip and port "+ip_port_client)
                     print("self.otherPlayers = ",self.otherPlayers)
-                    socket_c.sendall(msg_ok.encode())
+                    socket_c.sendall(msg_ok.encode('ascii'))
                 else:
                     msg_no = "no"
                     print("sending no to player with ip and port "+ip_port_client)
-                    socket_c.sendall(msg_no.encode())
+                    socket_c.sendall(msg_no.encode('ascii'))
             except:
                 break
 
