@@ -280,9 +280,8 @@ class SalaEspera:
             try:
                 socket_c, ip_port_client = self.server_socket.accept()
                 print("msg received in server")
-                msg_client = socket_c.recv(1024)
-                respuesta = self.checkformat(msg_client)
-                resp = respuesta.decode('ascii')
+                msg_client = socket_c.recv(1024).decode('ascii')
+                resp = self.checkformat(msg_client)
                 if(resp[0] and (resp[1][0] == self.password) and self.currentPlayers < self.numJugadores):
                     msg_ok = "ok:"+str(self.numJugadores)
                     for i in range(0,len(self.otherPlayers)):
