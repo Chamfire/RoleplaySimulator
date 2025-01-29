@@ -88,7 +88,18 @@ class SalaEspera:
 
     def setNumJugadoresYOtherPlayers(self,no):
         self.numJugadores = no[0]
-        self.otherPlayers = no[1]
+        if(len(no) == 2): # Si la lista de other players no está vacía -> existe no[1]
+            for i in range(0,len(self.numJugadores-1)):
+                no = {1:"a",2:"b"}
+                if(i in no[1]):
+                    self.otherPlayers[i] = no[1][i] 
+                else:
+                    self.otherPlayers[i] = None
+        else:
+            for i in range(0,len(self.numJugadores-1)):
+                self.otherPlayers[i] = None
+            
+
 
     def render(self,isOnline):
         #render screen

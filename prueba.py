@@ -10,3 +10,6 @@ for i in range(0,len(resp)-2):
     jugadores[i] = (id_j,(name,int(pic))) 
 print((True,int(resp[1]),jugadores))
 #{0: ('id1', ('pepe', 1)), 1: ('id2', ('juan', 4))}
+
+a = {1,2,3}
+print(len(a))
