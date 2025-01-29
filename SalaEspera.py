@@ -282,8 +282,10 @@ class SalaEspera:
     
     def existsPlayer(self,id):
         for i in range(0,len(self.otherPlayers)):
-            if(id == self.otherPlayers[i][0]):
+            if(self.otherPlayers[i] != None and id == self.otherPlayers[i][0]):
+                print(self.otherPlayers[i][0])
                 return True
+            print(self.otherPlayers[i])
         return False
 
     def escuchaTCP(self):
@@ -292,36 +294,36 @@ class SalaEspera:
         self.server_socket.bind((self.ip, self.puerto))
         self.server_socket.listen() 
         while True:
-            try:
+            #try:
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
                 msg_client = socket_c.recv(1024).decode('ascii')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
-                #print(resp[0])
-                #print(resp[1][0])
-                #print(self.password)
-                #print(self.currentPlayers)
-                #print(self.numJugadores)
+                print(resp[0])
+                print(resp[1][0])
+                print(self.password)
+                print(self.currentPlayers)
+                print(self.numJugadores)
+                print(resp[1][3])
+                print(self.existsPlayer(resp[1][3]))
                 if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3]))):
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.otherPlayers)):
                         if(self.otherPlayers[i] != None):
-                            msg_ok = msg_ok+":"+str(self.otherPlayers[0])+";"+self.otherPlayers[1][0]+";"+self.otherPlayers[1][1]
+                            print(self.otherPlayers[i])
+                            msg_ok = msg_ok+":"+str(self.otherPlayers[i][0])+";"+self.otherPlayers[i][1][0]+";"+self.otherPlayers[i][1][1]
                             #el mensaje tendrá este formato -> ok:4:id1;pepe;1:id2;juan;4
                     free_pos = -1
-                    possible = True
                     for i in range(0,len(self.otherPlayers)):
                         if(self.otherPlayers[i] == None): #si no se ha conectado nunca, lo añadimos
                             free_pos = i
                             for j in range(0,len(self.otherPlayers)):
                                 if(self.otherPlayers[j] != None and self.otherPlayers[j][0] == resp[1][3]):
-                                   possible = False #si ya está en la lista ese jugador, no lo vamos a añadir
-                                   break
+                                   break #así nos quedamos con esa i -> si el jugador existe, actualizamos su nombre y pic
                             break
-                    if(possible):
-                        self.otherPlayers[free_pos] = (resp[1][3],(resp[1][1],resp[1][2])) #(id,(nombre,avatarPicPerfil) <- añado al jugador
-                        self.currentPlayers = self.currentPlayers + 1
+                    self.otherPlayers[free_pos] = (resp[1][3],(resp[1][1],int(resp[1][2]))) #(id,(nombre,avatarPicPerfil) <- añado al jugador
+                    self.currentPlayers = self.currentPlayers + 1
                     #es posible que se haya desconectado y se haya vuelto a conectar
                             
                     #print("self.otherPlayers = ",self.otherPlayers)
@@ -330,9 +332,9 @@ class SalaEspera:
                     msg_no = "no"
                     socket_c.sendall(msg_no.encode('ascii'))
                 socket_c.close()
-            except:
-                
-                break
+            #except Exception as e:
+            #    print(e)
+            #    break
 
     def closeSocketTCPServer(self):
         if(self.server_socket != None):
