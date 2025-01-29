@@ -92,9 +92,9 @@ class SalaEspera:
         for i in range(0,(self.numJugadores-1)):
             if((i in no[1]) and (no[1][i][0] != self.id)):
                 self.otherPlayers[cont] = no[1][i] 
-                cont = cont+1
             else:
                 self.otherPlayers[cont] = None
+            cont = cont+1
 
             
 
