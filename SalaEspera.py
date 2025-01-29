@@ -8,7 +8,7 @@ import threading
 class SalaEspera:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,puerto,font):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,puerto,font,id):
         #screen
         self.screen = screen
         self.font = font
@@ -40,6 +40,7 @@ class SalaEspera:
         self.puerto = puerto
         self.password = None
         self.server_socket = None 
+        self.id = id
         
 
         #cargamos las imágenes del menú
@@ -290,7 +291,7 @@ class SalaEspera:
                 #print(self.currentPlayers)
                 #print(self.numJugadores)
                 if(resp[0] and (resp[1][0] == self.password) and self.currentPlayers < self.numJugadores):
-                    msg_ok = "ok:"+str(self.numJugadores)
+                    msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.otherPlayers)):
                         if(self.otherPlayers[i] != None):
                             msg_ok = msg_ok+":"+str(self.otherPlayers[0])+";"+self.otherPlayers[1][0]+";"+self.otherPlayers[1][1]
@@ -315,6 +316,7 @@ class SalaEspera:
                 else:
                     msg_no = "no"
                     socket_c.sendall(msg_no.encode('ascii'))
+                socket_c.close()
             except:
                 
                 break
