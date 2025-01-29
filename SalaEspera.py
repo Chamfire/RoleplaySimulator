@@ -228,7 +228,7 @@ class SalaEspera:
                 if(i < self.numJugadores):
                     if(self.otherPlayers[i-1] != None):
                         #i: (id,(nombre,pic))
-                        temp = self.otherPlayers[i][1][0] # el nombre
+                        temp = self.otherPlayers[i-1][1][0] # el nombre
                         spaces = self.max_lenght_name - len(temp)
                         one_side = spaces//2
                         other_side = self.max_lenght_name - one_side - len(temp)
