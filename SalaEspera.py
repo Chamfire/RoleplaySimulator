@@ -227,8 +227,8 @@ class SalaEspera:
                 #self.screen.blit(pygame.transform.scale(self.avatarJugador[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
                 if(i < (self.numJugadores-1)):
                     if(self.otherPlayers[i] != None):
-                        #0: icono; 1:nombre
-                        temp = self.otherPlayers[i][1]
+                        #i: (id,(nombre,pic))
+                        temp = self.otherPlayers[i][1][0] # el nombre
                         spaces = self.max_lenght_name - len(temp)
                         one_side = spaces//2
                         other_side = self.max_lenght_name - one_side - len(temp)
@@ -247,7 +247,8 @@ class SalaEspera:
                         for i in range(0,other_side):
                             text_to_show += ' '
                         self.textName = self.fuente.render(text_to_show, True, self.color_white)
-                        self.screen.blit(pygame.transform.scale(self.avatarJugador[self.otherPlayers[0]], (x_size, y_size)), (x_start, y_start))#imagenes
+                        self.screen.blit(pygame.transform.scale(self.avatarJugador[self.otherPlayers[i][1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
+                        self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
                     else:
                         temp = "<?>"
                         spaces = self.max_lenght_name - len(temp)
