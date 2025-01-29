@@ -234,8 +234,8 @@ class SalaEspera:
                         other_side = self.max_lenght_name - one_side - len(temp)
                         text_to_show = ' '
                         inside = False
-                        for i in range(0,one_side):
-                            if(i == 0):
+                        for j in range(0,one_side):
+                            if(j == 0):
                                 text_to_show = ' '
                             text_to_show += ' '
                             inside = True
@@ -244,7 +244,7 @@ class SalaEspera:
                         else:
                             text_to_show = temp
                             inside = False
-                        for i in range(0,other_side):
+                        for j in range(0,other_side):
                             text_to_show += ' '
                         self.textName = self.fuente.render(text_to_show, True, self.color_white)
                         self.screen.blit(pygame.transform.scale(self.avatarJugador[self.otherPlayers[i-1][1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
@@ -256,8 +256,8 @@ class SalaEspera:
                         other_side = self.max_lenght_name - one_side - len(temp)
                         text_to_show = ' '
                         inside = False
-                        for i in range(0,one_side):
-                            if(i == 0):
+                        for j in range(0,one_side):
+                            if(j == 0):
                                 text_to_show = ' '
                             text_to_show += ' '
                             inside = True
@@ -266,7 +266,7 @@ class SalaEspera:
                         else:
                             text_to_show = temp
                             inside = False
-                        for i in range(0,other_side):
+                        for j in range(0,other_side):
                             text_to_show += ' '
                         self.textName = self.fuente.render(text_to_show, True, self.color_white)
                         self.screen.blit(pygame.transform.scale(self.default, (x_size, y_size)), (x_start, y_start))#imagenes
