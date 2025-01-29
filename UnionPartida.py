@@ -208,12 +208,15 @@ class UnionPartida:
             
     def checkformat(self,msg):
         try:
-            resp = msg.split(':')
+            #ok:4:id1;pepe;1:id2;juan;4
+                                  #  0  1        2           3
+            resp = msg.split(':') # ok  4  id1;pepe;1   id2;juan;4
             if(resp[0] == "ok" or resp[0] == 'no'):
-                if(resp[1] != None and int(resp[1])>=0 and int(resp[1])<=6):
-                    jugadores = []
+                if(resp[1] != None and int(resp[1])>=0 and int(resp[1])<=6): # si numjugadores recibido está entre 0 y 6
+                    jugadores = {}
                     for i in range(0,len(resp)-2):
-                        jugadores[i] = resp[i+2]
+                        [id_j,name,pic] = resp[i+2].split(';')
+                        jugadores[i] = (id_j,(name,int(pic))) 
                     return (True,int(resp[1]),jugadores)
                 else:
                     return (False,None,None)

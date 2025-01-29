@@ -294,7 +294,7 @@ class SalaEspera:
                     for i in range(0,len(self.otherPlayers)):
                         if(self.otherPlayers[i] != None):
                             msg_ok = msg_ok+":"+str(self.otherPlayers[0])+";"+self.otherPlayers[1][0]+";"+self.otherPlayers[1][1]
-                            #el mensaje tendrá este formato -> ok:4:0;pepe;1:1;juan;4
+                            #el mensaje tendrá este formato -> ok:4:id1;pepe;1:id2;juan;4
                     free_pos = -1
                     possible = True
                     for i in range(0,len(self.otherPlayers)):
