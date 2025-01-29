@@ -88,11 +88,13 @@ class SalaEspera:
 
     def setNumJugadoresYOtherPlayers(self,no):
         self.numJugadores = no[0] #la lista otherPlayers nunca va a estar vacía, porque siempre se envía como mínimo el otro jugador
+        cont = 0
         for i in range(0,(self.numJugadores-1)):
-            if(i in no[1]):
-                self.otherPlayers[i] = no[1][i] 
+            if((i in no[1]) and (no[1][i][0] != self.id)):
+                self.otherPlayers[cont] = no[1][i] 
+                cont = cont+1
             else:
-                self.otherPlayers[i] = None
+                self.otherPlayers[cont] = None
 
             
 
@@ -294,7 +296,7 @@ class SalaEspera:
         self.server_socket.bind((self.ip, self.puerto))
         self.server_socket.listen() 
         while True:
-            #try:
+            try:
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
                 msg_client = socket_c.recv(1024).decode('ascii')
@@ -312,7 +314,7 @@ class SalaEspera:
                     for i in range(0,len(self.otherPlayers)):
                         if(self.otherPlayers[i] != None):
                             print(self.otherPlayers[i])
-                            msg_ok = msg_ok+":"+str(self.otherPlayers[i][0])+";"+self.otherPlayers[i][1][0]+";"+self.otherPlayers[i][1][1]
+                            msg_ok = msg_ok+":"+str(self.otherPlayers[i][0])+";"+self.otherPlayers[i][1][0]+";"+str(self.otherPlayers[i][1][1])
                             #el mensaje tendrá este formato -> ok:4:id1;pepe;1:id2;juan;4
                     free_pos = -1
                     for i in range(0,len(self.otherPlayers)):
@@ -332,9 +334,8 @@ class SalaEspera:
                     msg_no = "no"
                     socket_c.sendall(msg_no.encode('ascii'))
                 socket_c.close()
-            #except Exception as e:
-            #    print(e)
-            #    break
+            except:
+                break
 
     def closeSocketTCPServer(self):
         if(self.server_socket != None):
