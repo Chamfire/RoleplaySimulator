@@ -225,7 +225,7 @@ class SalaEspera:
                 self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
             else:
                 #self.screen.blit(pygame.transform.scale(self.avatarJugador[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
-                if(i < self.numJugadores):
+                if(i < (self.numJugadores-1)):
                     if(self.otherPlayers[i] != None):
                         #0: icono; 1:nombre
                         temp = self.otherPlayers[i][1]
