@@ -89,7 +89,6 @@ class SalaEspera:
     def setNumJugadoresYOtherPlayers(self,no):
         self.numJugadores = no[0] #la lista otherPlayers nunca va a estar vacía, porque siempre se envía como mínimo el otro jugador
         for i in range(0,(self.numJugadores-1)):
-            no = {1:"a",2:"b"}
             if(i in no[1]):
                 self.otherPlayers[i] = no[1][i] 
             else:
@@ -279,7 +278,12 @@ class SalaEspera:
             hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP)
             hiloEscuchaTCP.start()
             # -----------------------------
-        
+    
+    def existsPlayer(self,id):
+        for i in range(0,len(self.otherPlayers)):
+            if(id == self.otherPlayers[i][0]):
+                return True
+        return False
 
     def escuchaTCP(self):
         #Es multijugador
@@ -298,7 +302,7 @@ class SalaEspera:
                 #print(self.password)
                 #print(self.currentPlayers)
                 #print(self.numJugadores)
-                if(resp[0] and (resp[1][0] == self.password) and self.currentPlayers < self.numJugadores):
+                if(resp[0] and (resp[1][0] == self.password) and (self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3])):
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.otherPlayers)):
                         if(self.otherPlayers[i] != None):

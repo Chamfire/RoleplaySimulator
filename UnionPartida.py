@@ -263,8 +263,9 @@ class UnionPartida:
                         msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)
                         socket_c.sendall(msg_client.encode('ascii'))
                         respuesta = socket_c.recv(1024).decode('ascii')
-                        #print('Datos recibidos: ',resp)
+                        print('Datos recibidos: ',respuesta)
                         resp = self.checkformat(respuesta)
+                        print(resp)
                         if(not resp[0]):
                             self.code = ' ' 
                             self.refresh()
