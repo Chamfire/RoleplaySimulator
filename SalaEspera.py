@@ -309,7 +309,8 @@ class SalaEspera:
                 print(self.numJugadores)
                 print(resp[1][3])
                 print(self.existsPlayer(resp[1][3]))
-                if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3]))):
+                #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
+                if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.id != resp[1][3]):
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.otherPlayers)):
                         if(self.otherPlayers[i] != None):
