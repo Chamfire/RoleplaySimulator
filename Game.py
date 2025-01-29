@@ -82,7 +82,7 @@ class Game:
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #self.local_ip,self.public_ip = self.getLocalAndPublicIP()
         self.local_ip = self.getLocalAndPublicIP()
-        self.freePort = self.findFreePort()
+        (self.freePortTCP, self.freePortUDP) = self.findFreePort()
         
         self.max_length_name = 13
         pygame.display.set_caption('DND_Simulator') #nombre de la ventana
@@ -93,7 +93,7 @@ class Game:
         self.login = Login(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.name,self.perfil.logged,self.perfil.avatarPicPerfil,self.max_length_name,self.font)
         self.seleccionPartidas = SeleccionPartidas(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.freePort,self.font)
-        self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.freePort,self.font,self.perfil.id)
+        self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.freePortTCP,self.freePortUDP,self.font,self.perfil.id)
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
@@ -288,6 +288,7 @@ class Game:
         self.perfil.savePerfilToFile()
         self.configuration.saveConfigurationToFile()
         self.salaEspera.closeSocketTCPServer()
+        self.salaEspera.closeSocketUDPServer()
         self.s.close()
         pygame.quit()
     
@@ -310,4 +311,9 @@ class Game:
         #return(local_ip,public_ip)
     def findFreePort(self):
         self.s.bind(('', 0)) #encuentra un puerto libre
-        return self.s.getsockname()[1] #devuelve el nombre del puerto encontrado
+        free_portTCP = self.s.getsockname()[1] #devuelve el nombre del puerto encontrado
+        free_portUDP = None
+        while(free_portUDP == None or free_portUDP == free_portTCP): #que busque un puerto libre distinto al de TCP
+            self.s.bind(('', 0)) #encuentra un puerto libre
+            free_portUDP = self.s.getsockname()[1] #devuelve el nombre del puerto encontrado
+        return (free_portTCP,free_portUDP)

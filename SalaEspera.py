@@ -8,7 +8,7 @@ import threading
 class SalaEspera:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,puerto,font,id):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,puertoTCP,puertoUDP,font,id):
         #screen
         self.screen = screen
         self.font = font
@@ -18,6 +18,7 @@ class SalaEspera:
         self.pressed_exit = pygame.mixer.Sound('sounds/button_pressed_ogg.ogg')
         self.selected = pygame.mixer.Sound('sounds/selected_button.wav')
         self.error = pygame.mixer.Sound('sounds/error.wav')
+        self.join = pygame.mixer.Sound('sounds/joinPartida.wav')
 
         #widht y height
         self.width = width
@@ -37,9 +38,11 @@ class SalaEspera:
         self.isOnline = None
         self.otherPlayers = {}
         self.ip = ip
-        self.puerto = puerto
+        self.puerto = puertoTCP
+        self.puertoUDP = puertoUDP
         self.password = None
         self.server_socket = None 
+        self.server_socketUDP = None
         self.id = id
         
 
@@ -91,12 +94,124 @@ class SalaEspera:
         cont = 0
         for i in range(0,(self.numJugadores-1)):
             if((i in no[1]) and (no[1][i][0] != self.id)):
-                self.otherPlayers[cont] = no[1][i] 
+                self.otherPlayers[cont] = no[1][i] #registro general de jugadores
             else:
                 self.otherPlayers[cont] = None
             cont = cont+1
 
+    def refresh(self):
+        self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+        if(self.isOnline):
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+            #el número de jugadores y la lista de otros jugadores se la pasa por parámetro en game
+        else:
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+            self.letterwidth3 = (self.width/3.4286)/18 #cálculo de la base en píxeles 
+            self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3)
+            self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
             
+            if(self.numJugadores == self.currentPlayers):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
+            self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
+            textPwd = "Contraseña de partida: "+self.password+" <-> Código: "+self.ip+":"+str(self.puerto)
+            self.textPassword = self.fuente4.render(textPwd, True, self.color_light_pink)
+            self.screen.blit(self.textPassword,(self.width/4.0000, self.height/7.0000)) #300 100
+        #Título
+        self.screen.blit(self.labelTitle, (self.width/3.4783, self.height/17.5000)) #345 40
+        #Iconos de los jugadores
+
+        for i in range(0,6):
+            x_size = self.width/8.0000 #150
+            y_size = self.width/8.0000
+            x_start = (self.width/4.0000) +  ((self.width/5.2863)*(i%3)) #300 + 227*(i%3)
+            y_start = (self.height/5.0000) +((self.height/3.0837)*(i//3)) #140 +227*(i//3)
+            if(i//3 <1):
+                y_start2 = self.height/2.3333  #300
+            else:
+                y_start2 = self.height/1.3283  #527 (140+227+150+10)
+
+            self.letterwidth2 = (self.width/8.0000)/(self.max_lenght_name+1) #the width for 1 letter
+            self.widthText2 = self.letterwidth2*self.max_lenght_name
+    
+            if(i == 0): #tú mismo
+                spaces = self.max_lenght_name - len(self.name)
+                one_side = spaces//2
+                other_side = self.max_lenght_name - one_side - len(self.name)
+                text_to_show = ' '
+                inside = False
+                for i in range(0,one_side):
+                    if(i == 0):
+                        text_to_show = ' '
+                    text_to_show += ' '
+                    inside = True
+                if (inside):
+                    text_to_show +=self.name
+                else:
+                    text_to_show = self.name
+                    inside = False
+                for i in range(0,other_side):
+                    text_to_show += ' '
+                self.textName = self.fuente.render(text_to_show, True, self.color_white)
+                #self.screen.blit(pygame.transform.scale(self.avatarJugador[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
+                self.screen.blit(pygame.transform.scale(self.avatarJugador[self.currentIcono], (x_size, y_size)), (x_start, y_start))
+                self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
+            else:
+                #self.screen.blit(pygame.transform.scale(self.avatarJugador[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
+                if(i < self.numJugadores):
+                    if(self.otherPlayers[i-1] != None):
+                        #i: (id,(nombre,pic))
+                        temp = self.otherPlayers[i-1][1][0] # el nombre
+                        spaces = self.max_lenght_name - len(temp)
+                        one_side = spaces//2
+                        other_side = self.max_lenght_name - one_side - len(temp)
+                        text_to_show = ' '
+                        inside = False
+                        for j in range(0,one_side):
+                            if(j == 0):
+                                text_to_show = ' '
+                            text_to_show += ' '
+                            inside = True
+                        if (inside):
+                            text_to_show +=temp
+                        else:
+                            text_to_show = temp
+                            inside = False
+                        for j in range(0,other_side):
+                            text_to_show += ' '
+                        self.textName = self.fuente.render(text_to_show, True, self.color_white)
+                        self.screen.blit(pygame.transform.scale(self.avatarJugador[self.otherPlayers[i-1][1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
+                        self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
+                    else:
+                        temp = "<?>"
+                        spaces = self.max_lenght_name - len(temp)
+                        one_side = spaces//2
+                        other_side = self.max_lenght_name - one_side - len(temp)
+                        text_to_show = ' '
+                        inside = False
+                        for j in range(0,one_side):
+                            if(j == 0):
+                                text_to_show = ' '
+                            text_to_show += ' '
+                            inside = True
+                        if (inside):
+                            text_to_show +=temp
+                        else:
+                            text_to_show = temp
+                            inside = False
+                        for j in range(0,other_side):
+                            text_to_show += ' '
+                        self.textName = self.fuente.render(text_to_show, True, self.color_white)
+                        self.screen.blit(pygame.transform.scale(self.default, (x_size, y_size)), (x_start, y_start))#imagenes
+                        self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
+                else:
+                    self.screen.blit(pygame.transform.scale(self.default_red, (x_size, y_size)), (x_start, y_start))#imagenes
+        self.ch1.play(self.join)
+        pygame.display.update() 
 
 
     def render(self,isOnline):
@@ -277,7 +392,9 @@ class SalaEspera:
                     self.screen.blit(pygame.transform.scale(self.default_red, (x_size, y_size)), (x_start, y_start))#imagenes
         pygame.display.update() 
         if(not self.isOnline and self.numJugadores > 1): #si vamos a permitir varios jugadores, iniciamos una conexión TCP
-            # ------ servidor TCP ---------
+            # ------ servidor UDP y TCP ---------
+            #hiloMantenerConexionUDP = threading.Thread(target = self.mantenerConexionUDP)
+            #hiloMantenerConexionUDP.start()
             hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP)
             hiloEscuchaTCP.start()
             # -----------------------------
@@ -290,25 +407,27 @@ class SalaEspera:
             print(self.otherPlayers[i])
         return False
 
-    def escuchaTCP(self):
-        #Es multijugador
-        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socket.bind((self.ip, self.puerto))
-        self.server_socket.listen() 
+    def mantenerConexionUDP(self):
+        #para asegurarnos de que siguen activos
+        #crear socket con puerto para UDP. Cada 3 segundos se va a comprobar si alguien no está. 
+        #Si uno no responde en 2 intentos, se le quitará de la lista de jugadores activos. 
+        self.server_socketUDP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socketUDP.bind((self.ip, self.puertoUDP))
+        self.server_socketUDP.listen() 
         while True:
             try:
-                socket_c, ip_port_client = self.server_socket.accept()
+                socket_c_udp, ip_port_client = self.server_socketUDP.accept()
                 #print("msg received in server")
-                msg_client = socket_c.recv(1024).decode('ascii')
+                msg_client = socket_c_udp.recv(1024).decode('ascii')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
-                print(resp[0])
-                print(resp[1][0])
-                print(self.password)
-                print(self.currentPlayers)
-                print(self.numJugadores)
-                print(resp[1][3])
-                print(self.existsPlayer(resp[1][3]))
+                #print(resp[0])
+                #print(resp[1][0])
+                #print(self.password)
+                #print(self.currentPlayers)
+                #print(self.numJugadores)
+                #print(resp[1][3])
+                #print(self.existsPlayer(resp[1][3]))
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
                 if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.id != resp[1][3]):
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
@@ -323,10 +442,62 @@ class SalaEspera:
                             free_pos = i
                             for j in range(0,len(self.otherPlayers)):
                                 if(self.otherPlayers[j] != None and self.otherPlayers[j][0] == resp[1][3]):
-                                   break #así nos quedamos con esa i -> si el jugador existe, actualizamos su nombre y pic
+                                   free_pos = j
+                                   break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                             break
                     self.otherPlayers[free_pos] = (resp[1][3],(resp[1][1],int(resp[1][2]))) #(id,(nombre,avatarPicPerfil) <- añado al jugador
                     self.currentPlayers = self.currentPlayers + 1
+                    self.refresh()
+                    #es posible que se haya desconectado y se haya vuelto a conectar
+                            
+                    #print("self.otherPlayers = ",self.otherPlayers)
+                    socket_c_udp.sendall(msg_ok.encode('ascii'))
+                else:
+                    msg_no = "no"
+                    socket_c_udp.sendall(msg_no.encode('ascii'))
+                socket_c_udp.close()
+            except:
+                break
+
+    def escuchaTCP(self):
+        #Es multijugador
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket.bind((self.ip, self.puerto))
+        self.server_socket.listen() 
+        while True:
+            try:
+                socket_c, ip_port_client = self.server_socket.accept()
+                #print("msg received in server")
+                msg_client = socket_c.recv(1024).decode('ascii')
+                resp = self.checkformat(msg_client)
+                print('msg received: ',msg_client)
+                #print(resp[0])
+                #print(resp[1][0])
+                #print(self.password)
+                #print(self.currentPlayers)
+                #print(self.numJugadores)
+                #print(resp[1][3])
+                #print(self.existsPlayer(resp[1][3]))
+                #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
+                if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.id != resp[1][3]):
+                    msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
+                    for i in range(0,len(self.otherPlayers)):
+                        if(self.otherPlayers[i] != None):
+                            print(self.otherPlayers[i])
+                            msg_ok = msg_ok+":"+str(self.otherPlayers[i][0])+";"+self.otherPlayers[i][1][0]+";"+str(self.otherPlayers[i][1][1])
+                            #el mensaje tendrá este formato -> ok:4:id1;pepe;1:id2;juan;4
+                    free_pos = -1
+                    for i in range(0,len(self.otherPlayers)):
+                        if(self.otherPlayers[i] == None): #si no se ha conectado nunca, lo añadimos
+                            free_pos = i
+                            for j in range(0,len(self.otherPlayers)):
+                                if(self.otherPlayers[j] != None and self.otherPlayers[j][0] == resp[1][3]):
+                                   free_pos = j
+                                   break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
+                            break
+                    self.otherPlayers[free_pos] = (resp[1][3],(resp[1][1],int(resp[1][2]))) #(id,(nombre,avatarPicPerfil) <- añado al jugador
+                    self.currentPlayers = self.currentPlayers + 1
+                    self.refresh()
                     #es posible que se haya desconectado y se haya vuelto a conectar
                             
                     #print("self.otherPlayers = ",self.otherPlayers)
@@ -341,6 +512,9 @@ class SalaEspera:
     def closeSocketTCPServer(self):
         if(self.server_socket != None):
             self.server_socket.close()
+    def closeSocketUDPServer(self):
+        if(self.server_socketUDP != None):
+            self.server_socketUDP.close()
 
     def checkformat(self,msg):
         try:
