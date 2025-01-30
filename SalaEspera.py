@@ -418,7 +418,7 @@ class SalaEspera:
             try:
                 socket_c_udp, ip_port_client = self.server_socketUDP.accept()
                 #print("msg received in server")
-                msg_client = socket_c_udp.recv(1024).decode('ascii')
+                msg_client = socket_c_udp.recv(1024).decode('utf-8')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
                 #print(resp[0])
@@ -451,10 +451,10 @@ class SalaEspera:
                     #es posible que se haya desconectado y se haya vuelto a conectar
                             
                     #print("self.otherPlayers = ",self.otherPlayers)
-                    socket_c_udp.sendall(msg_ok.encode('ascii'))
+                    socket_c_udp.sendall(msg_ok.encode('utf-8'))
                 else:
                     msg_no = "no"
-                    socket_c_udp.sendall(msg_no.encode('ascii'))
+                    socket_c_udp.sendall(msg_no.encode('utf-8'))
                 socket_c_udp.close()
             except:
                 break
@@ -468,7 +468,7 @@ class SalaEspera:
             try:
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
-                msg_client = socket_c.recv(1024).decode('ascii')
+                msg_client = socket_c.recv(1024).decode('utf-8')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
                 #print(resp[0])
@@ -501,10 +501,10 @@ class SalaEspera:
                     #es posible que se haya desconectado y se haya vuelto a conectar
                             
                     #print("self.otherPlayers = ",self.otherPlayers)
-                    socket_c.sendall(msg_ok.encode('ascii'))
+                    socket_c.sendall(msg_ok.encode('utf-8'))
                 else:
                     msg_no = "no"
-                    socket_c.sendall(msg_no.encode('ascii'))
+                    socket_c.sendall(msg_no.encode('utf-8'))
                 socket_c.close()
             except:
                 break
