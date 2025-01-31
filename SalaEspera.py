@@ -409,9 +409,9 @@ class SalaEspera:
     def existsPlayer(self,id):
         for i in range(0,len(self.otherPlayers)):
             if(self.otherPlayers[i] != None and id == self.otherPlayers[i][0]):
-                print('aquí 2' ,self.otherPlayers[i][0])
+                print(self.otherPlayers[i][0])
                 return True
-            print(self.otherPlayers[i])
+            #print(self.otherPlayers[i])
         return False
     
     def isNotCurrentlyActive(self,id):
@@ -421,7 +421,7 @@ class SalaEspera:
                     return True
                 else:
                     return False #ya está conectado supuestamente -> posible hacker
-            print(self.otherPlayers[i])
+            #print(self.otherPlayers[i])
         return True
 
         
@@ -450,6 +450,10 @@ class SalaEspera:
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
                 socket_c_udp.close()
             except:
+                try:
+                    socket_c_udp.close()
+                except:
+                    pass
                 break
 
     def escuchaTCP(self):
@@ -500,6 +504,10 @@ class SalaEspera:
                     socket_c.sendall(msg_no.encode('utf-8'))
                 socket_c.close()
             except:
+                try:
+                    socket_c.close()
+                except:
+                    pass
                 break
 
     def closeSocketTCPServer(self):
