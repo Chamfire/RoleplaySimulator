@@ -80,6 +80,7 @@ class Game:
 
         self.changedScreen = False #si está a true, se refrescará la pantalla que diga currentScreen
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #self.local_ip,self.public_ip = self.getLocalAndPublicIP()
         self.local_ip = self.getLocalAndPublicIP()
         (self.freePortTCP, self.freePortUDP) = self.findFreePort()
@@ -313,7 +314,6 @@ class Game:
         self.s.bind(('', 0)) #encuentra un puerto libre
         free_portTCP = self.s.getsockname()[1] #devuelve el nombre del puerto encontrado
         free_portUDP = None
-        #while(free_portUDP == None or free_portUDP == free_portTCP): #que busque un puerto libre distinto al de TCP
-        #    self.s.bind(('', 0)) #encuentra un puerto libre
-        #    free_portUDP = self.s.getsockname()[1] #devuelve el nombre del puerto encontrado
+        self.s2.bind(('', 0)) #encuentra un puerto libre
+        free_portUDP = self.s2.getsockname()[1] #devuelve el nombre del puerto encontrado
         return (free_portTCP,free_portUDP)

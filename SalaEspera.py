@@ -36,7 +36,8 @@ class SalaEspera:
         self.numJugadores = None
         self.currentPlayers = 1 #Por defecto siempre habrá 1 (tú mismo)
         self.isOnline = None
-        self.otherPlayers = {}
+        self.otherPlayers = {} #registro de jugadores activos -> solo lo actualizará el host
+        self.activeOtherPlayers = {} #jugadores actualmente conectados -> lo emplean host y clientes
         self.ip = ip
         self.puerto = puertoTCP
         self.puertoUDP = puertoUDP
@@ -57,8 +58,10 @@ class SalaEspera:
         self.bCreate_pressed = pygame.image.load("images/button_createPartida_pressed.png")
         self.buttonUnavailablePic = pygame.image.load("images/button_unavailable.png")
         self.avatarJugador = {}
+        self.avatarJugadorDefault = {}
         for i in range(0,6):
             self.avatarJugador[i] = pygame.image.load("images/iconos/icon_"+str(i)+".png")
+            self.avatarJugadorDefault[i] = pygame.image.load("images/iconos/icon_"+str(i)+"_default.png")
         self.default = pygame.image.load("images/iconos/icon_default.png")
         self.default_red = pygame.image.load("images/iconos/icon_default_red.png")
 
@@ -90,14 +93,17 @@ class SalaEspera:
         self.password = password
 
     def setNumJugadoresYOtherPlayers(self,no):
+        #Other players en el cliente va a tener los jugadores activos que haya en ese momento
+        #en el servidor es un registro de jugadores activos, donde se incluye una variable de actividad/no actividad
         self.numJugadores = no[0] #la lista otherPlayers nunca va a estar vacía, porque siempre se envía como mínimo el otro jugador
         cont = 0
         for i in range(0,(self.numJugadores-1)):
             if((i in no[1]) and (no[1][i][0] != self.id)):
-                self.otherPlayers[cont] = no[1][i] #registro general de jugadores
+                self.otherPlayers[cont] = no[1][i] #jugadores que hay activos cuando te conectas al servidor
             else:
-                self.otherPlayers[cont] = None
+                self.otherPlayers[cont] = None 
             cont = cont+1
+        
 
     def refresh(self):
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
@@ -183,6 +189,7 @@ class SalaEspera:
                             inside = False
                         for j in range(0,other_side):
                             text_to_show += ' '
+                        #TODO: Comprobamos si ese jugador está realmente conectado, o si solo está en el registro de otherPlayers
                         self.textName = self.fuente.render(text_to_show, True, self.color_white)
                         self.screen.blit(pygame.transform.scale(self.avatarJugador[self.otherPlayers[i-1][1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
                         self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
@@ -245,7 +252,7 @@ class SalaEspera:
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
                     for i in range(0,self.numJugadores):
-                        self.otherPlayers[i] = None
+                        self.otherPlayers[i] = None #TODO: incluir actividad/no actividad cuando se extraiga de la bbdd
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 1 está corrupto. Estableciendo valores por defecto...")
                     self.numJugadores = 1 #valor por defecto
@@ -403,9 +410,14 @@ class SalaEspera:
         for i in range(0,len(self.otherPlayers)):
             if(self.otherPlayers[i] != None and id == self.otherPlayers[i][0]):
                 print(self.otherPlayers[i][0])
-                return True
+                if(self.otherPlayers[i][1][2] == False):
+                    return True
+                else:
+                    return False #ya está conectado supuestamente -> posible hacker
             print(self.otherPlayers[i])
         return False
+    
+
 
     def mantenerConexionUDP(self):
         #para asegurarnos de que siguen activos
@@ -418,9 +430,9 @@ class SalaEspera:
             try:
                 socket_c_udp, ip_port_client = self.server_socketUDP.accept()
                 #print("msg received in server")
-                msg_client = socket_c_udp.recv(1024).decode('utf-8')
-                resp = self.checkformat(msg_client)
-                print('msg received: ',msg_client)
+                msg_clientUDP = socket_c_udp.recv(1024).decode('utf-8')
+                respUDP = self.checkformatUDP(msg_clientUDP)
+                print('msg received UDP: ',msg_clientUDP)
                 #print(resp[0])
                 #print(resp[1][0])
                 #print(self.password)
@@ -429,32 +441,6 @@ class SalaEspera:
                 #print(resp[1][3])
                 #print(self.existsPlayer(resp[1][3]))
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
-                if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.id != resp[1][3]):
-                    msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
-                    for i in range(0,len(self.otherPlayers)):
-                        if(self.otherPlayers[i] != None):
-                            print(self.otherPlayers[i])
-                            msg_ok = msg_ok+":"+str(self.otherPlayers[i][0])+";"+self.otherPlayers[i][1][0]+";"+str(self.otherPlayers[i][1][1])
-                            #el mensaje tendrá este formato -> ok:4:id1;pepe;1:id2;juan;4
-                    free_pos = -1
-                    for i in range(0,len(self.otherPlayers)):
-                        if(self.otherPlayers[i] == None): #si no se ha conectado nunca, lo añadimos
-                            free_pos = i
-                            for j in range(0,len(self.otherPlayers)):
-                                if(self.otherPlayers[j] != None and self.otherPlayers[j][0] == resp[1][3]):
-                                   free_pos = j
-                                   break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
-                            break
-                    self.otherPlayers[free_pos] = (resp[1][3],(resp[1][1],int(resp[1][2]))) #(id,(nombre,avatarPicPerfil) <- añado al jugador
-                    self.currentPlayers = self.currentPlayers + 1
-                    self.refresh()
-                    #es posible que se haya desconectado y se haya vuelto a conectar
-                            
-                    #print("self.otherPlayers = ",self.otherPlayers)
-                    socket_c_udp.sendall(msg_ok.encode('utf-8'))
-                else:
-                    msg_no = "no"
-                    socket_c_udp.sendall(msg_no.encode('utf-8'))
                 socket_c_udp.close()
             except:
                 break
@@ -479,10 +465,10 @@ class SalaEspera:
                 #print(resp[1][3])
                 #print(self.existsPlayer(resp[1][3]))
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
-                if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.id != resp[1][3]):
+                if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.id != resp[1][3]): #existsPlayer también comprueba que no esté activo actualmente
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.otherPlayers)):
-                        if(self.otherPlayers[i] != None):
+                        if(self.otherPlayers[i] != None and self.otherPlayers[i][1][2] == True): #True es que está activo el jugador en ese momento
                             print(self.otherPlayers[i])
                             msg_ok = msg_ok+":"+str(self.otherPlayers[i][0])+";"+self.otherPlayers[i][1][0]+";"+str(self.otherPlayers[i][1][1])
                             #el mensaje tendrá este formato -> ok:4:id1;pepe;1:id2;juan;4
@@ -495,7 +481,7 @@ class SalaEspera:
                                    free_pos = j
                                    break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                             break
-                    self.otherPlayers[free_pos] = (resp[1][3],(resp[1][1],int(resp[1][2]))) #(id,(nombre,avatarPicPerfil) <- añado al jugador
+                    self.otherPlayers[free_pos] = (resp[1][3],(resp[1][1],int(resp[1][2]),True)) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
                     self.currentPlayers = self.currentPlayers + 1
                     self.refresh()
                     #es posible que se haya desconectado y se haya vuelto a conectar
@@ -536,7 +522,11 @@ class SalaEspera:
         except:
             return (False,None)
 
-
+    def checkformatUDP(self,msg):
+        try:
+            pass
+        except:
+            return (False,None)
 
     # size_x, size_y: tamaño del botón en x y en y
     # x_start y y_start: posición de la esquina izquierda del botón
@@ -676,5 +666,6 @@ class SalaEspera:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
                 self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
             pygame.display.update() 
+
         
     
