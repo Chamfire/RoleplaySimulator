@@ -410,14 +410,21 @@ class SalaEspera:
         for i in range(0,len(self.otherPlayers)):
             if(self.otherPlayers[i] != None and id == self.otherPlayers[i][0]):
                 print(self.otherPlayers[i][0])
+                return True
+            print(self.otherPlayers[i])
+        return False
+    
+    def isNotCurrentlyActive(self,id):
+        for i in range(0,len(self.otherPlayers)):
+            if(self.otherPlayers[i] != None and id == self.otherPlayers[i][0]):
                 if(self.otherPlayers[i][1][2] == False):
                     return True
                 else:
                     return False #ya está conectado supuestamente -> posible hacker
             print(self.otherPlayers[i])
         return False
-    
 
+        
 
     def mantenerConexionUDP(self):
         #para asegurarnos de que siguen activos
@@ -465,7 +472,7 @@ class SalaEspera:
                 #print(resp[1][3])
                 #print(self.existsPlayer(resp[1][3]))
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
-                if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.id != resp[1][3]): #existsPlayer también comprueba que no esté activo actualmente
+                if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.id != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.otherPlayers)):
                         if(self.otherPlayers[i] != None and self.otherPlayers[i][1][2] == True): #True es que está activo el jugador en ese momento
