@@ -409,7 +409,7 @@ class SalaEspera:
     def existsPlayer(self,id):
         for i in range(0,len(self.otherPlayers)):
             if(self.otherPlayers[i] != None and id == self.otherPlayers[i][0]):
-                print(self.otherPlayers[i][0])
+                print('aquí 2' ,self.otherPlayers[i][0])
                 return True
             print(self.otherPlayers[i])
         return False
@@ -422,7 +422,7 @@ class SalaEspera:
                 else:
                     return False #ya está conectado supuestamente -> posible hacker
             print(self.otherPlayers[i])
-        return False
+        return True
 
         
 
@@ -476,7 +476,7 @@ class SalaEspera:
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.otherPlayers)):
                         if(self.otherPlayers[i] != None and self.otherPlayers[i][1][2] == True): #True es que está activo el jugador en ese momento
-                            print(self.otherPlayers[i])
+                            print('aquí' ,self.otherPlayers[i])
                             msg_ok = msg_ok+":"+str(self.otherPlayers[i][0])+";"+self.otherPlayers[i][1][0]+";"+str(self.otherPlayers[i][1][1])
                             #el mensaje tendrá este formato -> ok:4:id1;pepe;1:id2;juan;4
                     free_pos = -1
