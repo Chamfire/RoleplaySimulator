@@ -216,7 +216,7 @@ class UnionPartida:
             if(resp[0] == "ok"):
                 if(resp[1] != None and int(resp[1])>=0 and int(resp[1])<=6 and resp[2] != None and int(resp[2])>=49152 and int(resp[2]) <=65535): # si numjugadores recibido está entre 0 y 6 y el puerto es real
                     jugadores = {}
-                    for i in range(0,len(resp)-2):
+                    for i in range(0,len(resp)-3):
                         [id_j,name,pic] = resp[i+3].split(';')
                         jugadores[i] = (id_j,(name,int(pic))) 
                     return (True,int(resp[1]),jugadores,int(resp[2]))
