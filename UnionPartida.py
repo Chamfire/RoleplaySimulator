@@ -6,13 +6,15 @@ import socket
 class UnionPartida:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,id):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,id,portUDP):
         #screen
         self.screen = screen
         self.font = font
         self.id = id
         self.numJugadores = None
         self.jugadores = None
+        self.portUDP_server = None
+        self.portUDP = portUDP
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -153,8 +155,8 @@ class UnionPartida:
         else:
             return False
         
-    def getNumJugadoresAndJugadores(self):
-        return (self.numJugadores,self.jugadores)
+    def getNumJugadoresAndJugadoresAndPort(self):
+        return (self.numJugadores,self.jugadores,self.portUDP_server)
         
     def isProperFormat(self,code,it): #comprueba el formato 111.111.111:[49152-65535] -> puede haber de 1 a 3 números en la ip
         #no puede ser 012.304.000:64444 (que empieze por cero)
@@ -209,15 +211,15 @@ class UnionPartida:
     def checkformat(self,msg):
         try:
             #ok:4:id1;pepe;1:id2;juan;4
-                                  #  0  1        2           3
-            resp = msg.split(':') # ok  4  id1;pepe;1   id2;juan;4
-            if(resp[0] == "ok" or resp[0] == 'no'):
-                if(resp[1] != None and int(resp[1])>=0 and int(resp[1])<=6): # si numjugadores recibido está entre 0 y 6
+                                  #  0  1   2       3             4
+            resp = msg.split(':') # ok  4  54634 id1;pepe;1   id2;juan;4
+            if(resp[0] == "ok"):
+                if(resp[1] != None and int(resp[1])>=0 and int(resp[1])<=6 and resp[2] != None and int(resp[2])>=49152 and int(resp[2]) <=65535): # si numjugadores recibido está entre 0 y 6 y el puerto es real
                     jugadores = {}
                     for i in range(0,len(resp)-2):
-                        [id_j,name,pic] = resp[i+2].split(';')
+                        [id_j,name,pic] = resp[i+3].split(';')
                         jugadores[i] = (id_j,(name,int(pic))) 
-                    return (True,int(resp[1]),jugadores)
+                    return (True,int(resp[1]),jugadores,int(resp[2]))
                 else:
                     return (False,None,None)
             else:
@@ -260,7 +262,8 @@ class UnionPartida:
                     try:
                         print(ip_dest,port_dest)
                         socket_c.connect((ip_dest, int(port_dest)))
-                        msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)
+                        msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)+":"+str(self.portUDP)
+                        #patata:pepe:3:id:56384 <- ejemplo mensaje
                         socket_c.sendall(msg_client.encode('utf-8'))
                         respuesta = socket_c.recv(1024).decode('utf-8')
                         print('Datos recibidos: ',respuesta)
@@ -282,6 +285,7 @@ class UnionPartida:
                         else:
                             self.numJugadores = resp[1]
                             self.jugadores = resp[2]
+                            self.portUDP_server = resp[3]
                             self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                             self.ch1.play(self.pressed)
                     except Exception as e:

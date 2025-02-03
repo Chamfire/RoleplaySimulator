@@ -45,6 +45,7 @@ class SalaEspera:
         self.ip = ip
         self.puerto = puertoTCP
         self.puertoUDP = puertoUDP
+        self.puertoUDP_server = None
         self.password = None
         self.id = id
         
@@ -98,6 +99,7 @@ class SalaEspera:
         #Other players en el cliente va a tener los jugadores activos que haya en ese momento
         #en el servidor es un registro de jugadores activos, donde se incluye una variable de actividad/no actividad
         self.numJugadores = no[0] #la lista otherPlayers nunca va a estar vacía, porque siempre se envía como mínimo el otro jugador
+        self.puertoUDP_server = no[2]
         cont = 0
         for i in range(0,(self.numJugadores-1)):
             if((i in no[1]) and (no[1][i][0] != self.id)):
@@ -406,7 +408,7 @@ class SalaEspera:
             self.escuchaUDP.initialize(self.ip,self.puertoUDP)
             hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
             hiloMantenerConexionUDP.start()
-            self.escuchaTCP.initialize(self.ip,self.puerto,self.password,self.numJugadores,self.id,self.name,self.currentIcono)
+            self.escuchaTCP.initialize(self.ip,self.puerto,self.password,self.numJugadores,self.id,self.name,self.currentIcono,self.puertoUDP)
             hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP.escuchaTCP)
             hiloEscuchaTCP.start()
             # -----------------------------

@@ -13,9 +13,10 @@ class EscuchaTCP:
         self.nombrePropio = None
         self.miIcono = None
 
-    def initialize(self,ip,puerto,password,numJugadores,idPropia,nombrePropio,miIcono):
+    def initialize(self,ip,puerto,password,numJugadores,idPropia,nombrePropio,miIcono,puertoUDP):
         self.ip = ip
         self.puerto = puerto
+        self.puertoUDP = puertoUDP
         self.password = password
         self.numJugadores = numJugadores
         self.idPropia = idPropia
@@ -43,12 +44,12 @@ class EscuchaTCP:
                 #print(self.existsPlayer(resp[1][3]))
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
                 if(resp[0] and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and id != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
-                    msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.idPropia)+";"+self.nombrePropio+";"+str(self.miIcono) #te pasas a ti mismo como jugador, para que te añada
+                    msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.idPropia)+":"+str(self.puertoUDP)+";"+self.nombrePropio+";"+str(self.miIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2] == True): #True es que está activo el jugador en ese momento
                             print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
                             msg_ok = msg_ok+":"+str(self.GLOBAL.getOtherPlayersIndex(i)[0])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][0]+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][1])
-                            #el mensaje tendrá este formato -> ok:4:id1;pepe;1:id2;juan;4
+                            #el mensaje tendrá este formato -> ok:4:id1:56382;pepe;1:id2;juan;4
                     free_pos = -1
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) == None): #si no se ha conectado nunca, lo añadimos
@@ -58,7 +59,7 @@ class EscuchaTCP:
                                    free_pos = j
                                    break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                             break
-                    self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True))) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
+                    self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,resp[1][4]))) #(id,(nombre,avatarPicPerfil,True,54823) <- añado al jugador (True es porque está activo)
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
                     self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
                     #es posible que se haya desconectado y se haya vuelto a conectar
@@ -82,13 +83,16 @@ class EscuchaTCP:
     
     def checkformat(self,msg):
         try:
-            [password,nombre,pic,id] = msg.split(':')
+            [password,nombre,pic,id,puerto] = msg.split(':')
             #print(password,nombre,pic,id)
             if(password != None and len(password) <= 16): #es la longitud de la password máxima
                 if(nombre != None and len(nombre) <= 13):
                     if(pic != None and int(pic) >=0 and int(pic) <=6): #solo hay 6 iconos
                         if(id != None and id != ' '):
-                            return (True,(password,nombre,pic,id))
+                            if(puerto != None and int(puerto)>=49152 and int(puerto) <=65535):
+                                return (True,(password,nombre,pic,id))
+                            else:
+                                return (False,None)
                         else:
                             return (False,None)
                     else:
