@@ -11,9 +11,9 @@ class Global:
 
     def setOtherPlayers(self,list):
         global otherPlayers
-        print('antes',otherPlayers)
+        #print('antes',otherPlayers)
         otherPlayers = list
-        print('despues',otherPlayers)
+        #print('despues',otherPlayers)
 
     def setRefreshScreen(self,screenToRefresh):
         global refreshScreen
@@ -25,8 +25,8 @@ class Global:
 
     def setOtherPlayersIndex(self,i,v):
         global otherPlayers
-        print(otherPlayers)
         otherPlayers[i] = v
+        #print(otherPlayers)
 
     def setCurrentPlayers(self,i):
         global currentPlayers

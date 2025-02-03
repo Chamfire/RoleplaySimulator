@@ -225,6 +225,7 @@ class SalaEspera:
 
     def render(self,isOnline):
         #render screen
+        self.GLOBAL.setOtherPlayers({}) #reiniciamos la lista de otherPlayers
         self.letterwidth = (self.width/3.4286)/10 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente3 = pygame.font.SysFont(self.font,self.lettersize)
@@ -253,7 +254,7 @@ class SalaEspera:
                 if(rows[0] != None and len(rows[0]) == 2):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
-                    for i in range(0,self.numJugadores):
+                    for i in range(0,self.numJugadores-1):
                         self.GLOBAL.setOtherPlayersIndex(i,None) #TODO: incluir actividad/no actividad cuando se extraiga de la bbdd
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 1 está corrupto. Estableciendo valores por defecto...")
@@ -271,7 +272,7 @@ class SalaEspera:
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
-                    for i in range(0,self.numJugadores):
+                    for i in range(0,self.numJugadores-1):
                         self.GLOBAL.setOtherPlayersIndex(i,None)
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 2 está corrupto. Estableciendo valor por defecto...")
@@ -288,7 +289,7 @@ class SalaEspera:
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
-                    for i in range(0,self.numJugadores):
+                    for i in range(0,self.numJugadores-1):
                         self.GLOBAL.setOtherPlayersIndex(i,None)
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 3 está corrupto. Estableciendo valor por defecto...")
