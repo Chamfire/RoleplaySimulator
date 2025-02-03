@@ -4,6 +4,9 @@ from pygame import mixer
 import sqlite3
 import socket
 import threading
+from EscuchaTCP import EscuchaTCP
+from EscuchaUDP import EscuchaUDP
+from Global import Global
 
 class SalaEspera:
     #sound
@@ -12,6 +15,9 @@ class SalaEspera:
         #screen
         self.screen = screen
         self.font = font
+        self.escuchaTCP = EscuchaTCP()
+        self.escuchaUDP = EscuchaUDP()
+        self.GLOBAL = Global() 
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -34,16 +40,12 @@ class SalaEspera:
         self.first_timeB = True # Aún no has pulsado el botón volver al menú
         self.first_timeC = True # Aún no has pulsado el botón cargar partida
         self.numJugadores = None
-        self.currentPlayers = 1 #Por defecto siempre habrá 1 (tú mismo)
         self.isOnline = None
-        self.otherPlayers = {} #registro de jugadores activos -> solo lo actualizará el host
         self.activeOtherPlayers = {} #jugadores actualmente conectados -> lo emplean host y clientes
         self.ip = ip
         self.puerto = puertoTCP
         self.puertoUDP = puertoUDP
         self.password = None
-        self.server_socket = None 
-        self.server_socketUDP = None
         self.id = id
         
 
@@ -99,9 +101,9 @@ class SalaEspera:
         cont = 0
         for i in range(0,(self.numJugadores-1)):
             if((i in no[1]) and (no[1][i][0] != self.id)):
-                self.otherPlayers[cont] = no[1][i] #jugadores que hay activos cuando te conectas al servidor
+                self.GLOBAL.setOtherPlayersIndex(cont,no[1][i]) #jugadores que hay activos cuando te conectas al servidor
             else:
-                self.otherPlayers[cont] = None 
+                self.GLOBAL.setOtherPlayers(cont,None)
             cont = cont+1
         
 
@@ -119,7 +121,7 @@ class SalaEspera:
             self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3)
             self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
             
-            if(self.numJugadores == self.currentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
                 self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
@@ -169,9 +171,9 @@ class SalaEspera:
             else:
                 #self.screen.blit(pygame.transform.scale(self.avatarJugador[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
                 if(i < self.numJugadores):
-                    if(self.otherPlayers[i-1] != None):
+                    if(self.GLOBAL.getOtherPlayersIndex((i-1)) != None):
                         #i: (id,(nombre,pic))
-                        temp = self.otherPlayers[i-1][1][0] # el nombre
+                        temp = self.GLOBAL.getOtherPlayersIndex((i-1))[1][0] # el nombre
                         spaces = self.max_lenght_name - len(temp)
                         one_side = spaces//2
                         other_side = self.max_lenght_name - one_side - len(temp)
@@ -191,7 +193,7 @@ class SalaEspera:
                             text_to_show += ' '
                         #TODO: Comprobamos si ese jugador está realmente conectado, o si solo está en el registro de otherPlayers
                         self.textName = self.fuente.render(text_to_show, True, self.color_white)
-                        self.screen.blit(pygame.transform.scale(self.avatarJugador[self.otherPlayers[i-1][1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
+                        self.screen.blit(pygame.transform.scale(self.avatarJugador[self.GLOBAL.getOtherPlayersIndex((i-1))[1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
                         self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
                     else:
                         temp = "<?>"
@@ -252,7 +254,7 @@ class SalaEspera:
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
                     for i in range(0,self.numJugadores):
-                        self.otherPlayers[i] = None #TODO: incluir actividad/no actividad cuando se extraiga de la bbdd
+                        self.GLOBAL.setOtherPlayersIndex(i,None) #TODO: incluir actividad/no actividad cuando se extraiga de la bbdd
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 1 está corrupto. Estableciendo valores por defecto...")
                     self.numJugadores = 1 #valor por defecto
@@ -270,7 +272,7 @@ class SalaEspera:
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
                     for i in range(0,self.numJugadores):
-                        self.otherPlayers[i] = None
+                        self.GLOBAL.setOtherPlayersIndex(i,None)
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 2 está corrupto. Estableciendo valor por defecto...")
                     self.numJugadores = 1 #valor por defecto
@@ -287,7 +289,7 @@ class SalaEspera:
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
                     for i in range(0,self.numJugadores):
-                        self.otherPlayers[i] = None
+                        self.GLOBAL.setOtherPlayersIndex(i,None)
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 3 está corrupto. Estableciendo valor por defecto...")
                     self.numJugadores = 1 #valor por defecto
@@ -300,7 +302,7 @@ class SalaEspera:
 
             cur.close()
             conn.close() #cerramos la conexión con la bbdd
-            if(self.numJugadores == self.currentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
                 self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
@@ -350,9 +352,9 @@ class SalaEspera:
             else:
                 #self.screen.blit(pygame.transform.scale(self.avatarJugador[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
                 if(i < self.numJugadores):
-                    if(self.otherPlayers[i-1] != None):
+                    if(self.GLOBAL.getOtherPlayersIndex((i-1)) != None):
                         #i: (id,(nombre,pic))
-                        temp = self.otherPlayers[i-1][1][0] # el nombre
+                        temp = self.GLOBAL.getOtherPlayersIndex((i-1))[1][0] # el nombre
                         spaces = self.max_lenght_name - len(temp)
                         one_side = spaces//2
                         other_side = self.max_lenght_name - one_side - len(temp)
@@ -371,7 +373,7 @@ class SalaEspera:
                         for j in range(0,other_side):
                             text_to_show += ' '
                         self.textName = self.fuente.render(text_to_show, True, self.color_white)
-                        self.screen.blit(pygame.transform.scale(self.avatarJugador[self.otherPlayers[i-1][1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
+                        self.screen.blit(pygame.transform.scale(self.avatarJugador[self.GLOBAL.getOtherPlayersIndex((i-1))[1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
                         self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
                     else:
                         temp = "<?>"
@@ -400,148 +402,14 @@ class SalaEspera:
         pygame.display.update() 
         if(not self.isOnline and self.numJugadores > 1): #si vamos a permitir varios jugadores, iniciamos una conexión TCP
             # ------ servidor UDP y TCP ---------
-            #hiloMantenerConexionUDP = threading.Thread(target = self.mantenerConexionUDP)
-            #hiloMantenerConexionUDP.start()
-            hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP)
+            self.escuchaUDP.initialize(self.ip,self.puertoUDP)
+            hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
+            hiloMantenerConexionUDP.start()
+            self.escuchaTCP.initialize(self.ip,self.puerto,self.password,self.numJugadores,self.id,self.name,self.currentIcono)
+            hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP.escuchaTCP)
             hiloEscuchaTCP.start()
             # -----------------------------
     
-    def existsPlayer(self,id):
-        for i in range(0,len(self.otherPlayers)):
-            if(self.otherPlayers[i] != None and id == self.otherPlayers[i][0]):
-                print(self.otherPlayers[i][0])
-                return True
-            #print(self.otherPlayers[i])
-        return False
-    
-    def isNotCurrentlyActive(self,id):
-        for i in range(0,len(self.otherPlayers)):
-            if(self.otherPlayers[i] != None and id == self.otherPlayers[i][0]):
-                if(self.otherPlayers[i][1][2] == False):
-                    return True
-                else:
-                    return False #ya está conectado supuestamente -> posible hacker
-            #print(self.otherPlayers[i])
-        return True
-
-        
-
-    def mantenerConexionUDP(self):
-        #para asegurarnos de que siguen activos
-        #crear socket con puerto para UDP. Cada 3 segundos se va a comprobar si alguien no está. 
-        #Si uno no responde en 2 intentos, se le quitará de la lista de jugadores activos. 
-        self.server_socketUDP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socketUDP.bind((self.ip, self.puertoUDP))
-        self.server_socketUDP.listen() 
-        while True:
-            try:
-                socket_c_udp, ip_port_client = self.server_socketUDP.accept()
-                #print("msg received in server")
-                msg_clientUDP = socket_c_udp.recv(1024).decode('utf-8')
-                respUDP = self.checkformatUDP(msg_clientUDP)
-                print('msg received UDP: ',msg_clientUDP)
-                #print(resp[0])
-                #print(resp[1][0])
-                #print(self.password)
-                #print(self.currentPlayers)
-                #print(self.numJugadores)
-                #print(resp[1][3])
-                #print(self.existsPlayer(resp[1][3]))
-                #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
-                socket_c_udp.close()
-            except:
-                try:
-                    socket_c_udp.close()
-                except:
-                    pass
-                break
-
-    def escuchaTCP(self):
-        #Es multijugador
-        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socket.bind((self.ip, self.puerto))
-        self.server_socket.listen() 
-        while True:
-            try:
-                socket_c, ip_port_client = self.server_socket.accept()
-                #print("msg received in server")
-                msg_client = socket_c.recv(1024).decode('utf-8')
-                resp = self.checkformat(msg_client)
-                print('msg received: ',msg_client)
-                #print(resp[0])
-                #print(resp[1][0])
-                #print(self.password)
-                #print(self.currentPlayers)
-                #print(self.numJugadores)
-                #print(resp[1][3])
-                #print(self.existsPlayer(resp[1][3]))
-                #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
-                if(resp[0] and (resp[1][0] == self.password) and ((self.currentPlayers < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.id != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
-                    msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.id)+";"+self.name+";"+str(self.currentIcono) #te pasas a ti mismo como jugador, para que te añada
-                    for i in range(0,len(self.otherPlayers)):
-                        if(self.otherPlayers[i] != None and self.otherPlayers[i][1][2] == True): #True es que está activo el jugador en ese momento
-                            print('aquí' ,self.otherPlayers[i])
-                            msg_ok = msg_ok+":"+str(self.otherPlayers[i][0])+";"+self.otherPlayers[i][1][0]+";"+str(self.otherPlayers[i][1][1])
-                            #el mensaje tendrá este formato -> ok:4:id1;pepe;1:id2;juan;4
-                    free_pos = -1
-                    for i in range(0,len(self.otherPlayers)):
-                        if(self.otherPlayers[i] == None): #si no se ha conectado nunca, lo añadimos
-                            free_pos = i
-                            for j in range(0,len(self.otherPlayers)):
-                                if(self.otherPlayers[j] != None and self.otherPlayers[j][0] == resp[1][3]):
-                                   free_pos = j
-                                   break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
-                            break
-                    self.otherPlayers[free_pos] = (resp[1][3],(resp[1][1],int(resp[1][2]),True)) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
-                    self.currentPlayers = self.currentPlayers + 1
-                    self.refresh()
-                    #es posible que se haya desconectado y se haya vuelto a conectar
-                            
-                    #print("self.otherPlayers = ",self.otherPlayers)
-                    socket_c.sendall(msg_ok.encode('utf-8'))
-                else:
-                    msg_no = "no"
-                    socket_c.sendall(msg_no.encode('utf-8'))
-                socket_c.close()
-            except:
-                try:
-                    socket_c.close()
-                except:
-                    pass
-                break
-
-    def closeSocketTCPServer(self):
-        if(self.server_socket != None):
-            self.server_socket.close()
-    def closeSocketUDPServer(self):
-        if(self.server_socketUDP != None):
-            self.server_socketUDP.close()
-
-    def checkformat(self,msg):
-        try:
-            [password,nombre,pic,id] = msg.split(':')
-            #print(password,nombre,pic,id)
-            if(password != None and len(password) <= 16): #es la longitud de la password máxima
-                if(nombre != None and len(nombre) <= 13):
-                    if(pic != None and int(pic) >=0 and int(pic) <=6): #solo hay 6 iconos
-                        if(id != None and id != ' '):
-                            return (True,(password,nombre,pic,id))
-                        else:
-                            return (False,None)
-                    else:
-                        return (False,None)
-                else:
-                    return (False,None)
-            else:
-                return (False,None)
-        except:
-            return (False,None)
-
-    def checkformatUDP(self,msg):
-        try:
-            pass
-        except:
-            return (False,None)
 
     # size_x, size_y: tamaño del botón en x y en y
     # x_start y y_start: posición de la esquina izquierda del botón
@@ -576,7 +444,7 @@ class SalaEspera:
         elif(not self.isOnline and self.checkIfMouseIsInButton(x_size2,y_size,x_start2,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
-            if(self.numJugadores == self.currentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
                 self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
@@ -590,7 +458,7 @@ class SalaEspera:
             pantalla = "partida"
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
-            if(self.numJugadores == self.currentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
                 self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                 self.ch1.play(self.pressed) 
                       
@@ -632,7 +500,7 @@ class SalaEspera:
         elif(not self.isOnline and self.checkIfMouseIsInButton(x_size2,y_size,x_start2,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
-            if(self.numJugadores == self.currentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
                 self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                 if(self.first_timeB):
                     self.first_timeB = False
@@ -651,7 +519,7 @@ class SalaEspera:
         elif(not self.isOnline and self.checkIfMouseIsInButton(x_size2,y_size,x_startC,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
-            if(self.numJugadores == self.currentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
                 self.screen.blit(pygame.transform.scale(self.bCreate_selected, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                 if(self.first_timeC):
                     self.first_timeC = False
@@ -675,7 +543,7 @@ class SalaEspera:
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
-                if(self.numJugadores == self.currentPlayers):
+                if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
                     self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))

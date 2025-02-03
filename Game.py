@@ -14,6 +14,7 @@ from SalaEspera import SalaEspera
 from CrearTablas import CrearTablas
 from ConfiguracionPartida import ConfiguracionPartida
 from UnionPartida import UnionPartida
+from Global import Global
 import socket
 #import requests
 
@@ -88,6 +89,8 @@ class Game:
         self.max_length_name = 13
         pygame.display.set_caption('DND_Simulator') #nombre de la ventana
         self.currentScreen = "menu"
+        self.GLOBAL = Global()
+        self.GLOBAL.initialize() #inicializamos las variables globales
         self.menu = Menu(self.width, self.height,self.screen,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.logged,self.perfil.avatarPicPerfil,self.perfil.name,self.font)
         self.credits = Credits(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         self.options = Config(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.configuration.fps,self.configuration.dmVoice,self.configuration.volMusica, self.configuration.volEffects,self.font)
@@ -105,6 +108,13 @@ class Game:
         self.menu.render()
         while self.currentScreen != 'quit':
             #nombre del simulador
+
+            if self.GLOBAL.getRefreshScreen() != None:
+                #nos ha llegado información de los hilos
+                screenToRefresh = self.GLOBAL.getRefreshScreen()
+                if screenToRefresh == "salaEspera":
+                    self.GLOBAL.setRefreshScreen = None
+                    self.salaEspera.refresh() #refrescamos la pantalla
 
             if pygame.display.get_active() and self.minimized:
                 self.minimized = False #ya hemos renderizado de nuevo los objetos
@@ -203,7 +213,8 @@ class Game:
                             self.currentScreen = screenToChange
                             self.online = False
                             if(screenToChange != "partida"): #si no se carga una partida, y volvemos hacia atrás, cerramos el socket
-                                self.salaEspera.closeSocketTCPServer()
+                                self.salaEspera.escuchaTCP.closeSocketTCPServer()
+                                self.salaEspera.escuchaUDP.closeSocketUDPServer()
                             self.screen = self.salaEspera.getScreen()
                     elif self.currentScreen == "joinPartida":
                         self.joinPartida.setNameYAvatar(self.perfil.name,self.perfil.avatarPicPerfil)
@@ -287,10 +298,23 @@ class Game:
             self.clock.tick(self.configuration.fps)
         #antes de cerrar el simulador hay que guardar la configuración
         self.perfil.savePerfilToFile()
+        try:
+            self.salaEspera.escuchaTCP.closeSocketTCPServer()
+        except:
+            pass
+        try:
+            self.salaEspera.escuchaUDP.closeSocketUDPServer()
+        except:
+            pass
         self.configuration.saveConfigurationToFile()
-        self.salaEspera.closeSocketTCPServer()
-        self.salaEspera.closeSocketUDPServer()
-        self.s.close()
+        try:
+            self.s.close()
+        except:
+            pass
+        try:
+            self.s2.close()
+        except:
+            pass
         pygame.quit()
     
     def change_music(self,volM,volE):
@@ -316,4 +340,6 @@ class Game:
         free_portUDP = None
         self.s2.bind(('', 0)) #encuentra un puerto libre
         free_portUDP = self.s2.getsockname()[1] #devuelve el nombre del puerto encontrado
+        self.s.close()
+        self.s2.close()
         return (free_portTCP,free_portUDP)
