@@ -60,7 +60,7 @@ class EscuchaTCP:
                             break
                     self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True))) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
-                    self.GLOBAL.setRefreshScreen = "salaEspera" #le damos un aviso a GAME para actualizar esta pantalla
+                    self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
                     #es posible que se haya desconectado y se haya vuelto a conectar
                             
                     #print("self.otherPlayers = ",self.otherPlayers)

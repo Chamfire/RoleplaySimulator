@@ -108,12 +108,11 @@ class Game:
         self.menu.render()
         while self.currentScreen != 'quit':
             #nombre del simulador
-
             if self.GLOBAL.getRefreshScreen() != None:
                 #nos ha llegado información de los hilos
                 screenToRefresh = self.GLOBAL.getRefreshScreen()
                 if screenToRefresh == "salaEspera":
-                    self.GLOBAL.setRefreshScreen = None
+                    self.GLOBAL.setRefreshScreen(None)
                     self.salaEspera.refresh() #refrescamos la pantalla
 
             if pygame.display.get_active() and self.minimized:
