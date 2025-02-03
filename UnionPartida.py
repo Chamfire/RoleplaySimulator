@@ -15,6 +15,7 @@ class UnionPartida:
         self.jugadores = None
         self.portUDP_server = None
         self.portUDP = portUDP
+        self.ip_dest = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -156,7 +157,7 @@ class UnionPartida:
             return False
         
     def getNumJugadoresAndJugadoresAndPort(self):
-        return (self.numJugadores,self.jugadores,self.portUDP_server)
+        return (self.numJugadores,self.jugadores,self.portUDP_server,self.ip_dest)
         
     def isProperFormat(self,code,it): #comprueba el formato 111.111.111:[49152-65535] -> puede haber de 1 a 3 números en la ip
         #no puede ser 012.304.000:64444 (que empieze por cero)
@@ -261,6 +262,7 @@ class UnionPartida:
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     try:
                         print(ip_dest,port_dest)
+                        self.ip_dest = ip_dest
                         socket_c.connect((ip_dest, int(port_dest)))
                         msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)+":"+str(self.portUDP)
                         #patata:pepe:3:id:56384 <- ejemplo mensaje

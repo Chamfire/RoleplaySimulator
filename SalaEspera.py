@@ -6,6 +6,7 @@ import socket
 import threading
 from EscuchaTCP import EscuchaTCP
 from EscuchaUDP import EscuchaUDP
+from EnviarEstadoUDP import EnviarEstadoUDP
 from Global import Global
 
 class SalaEspera:
@@ -18,6 +19,7 @@ class SalaEspera:
         self.escuchaTCP = EscuchaTCP()
         self.escuchaUDP = EscuchaUDP()
         self.GLOBAL = Global() 
+        self.enviarEstadoUDP = None #tenemos que esperarnos a recibir la variable isOnline para saber qué tipo de envío se hará
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -100,6 +102,7 @@ class SalaEspera:
         #en el servidor es un registro de jugadores activos, donde se incluye una variable de actividad/no actividad
         self.numJugadores = no[0] #la lista otherPlayers nunca va a estar vacía, porque siempre se envía como mínimo el otro jugador
         self.puertoUDP_server = no[2]
+        self.ip_dest = no[3]
         cont = 0
         for i in range(0,(self.numJugadores-1)):
             if((i in no[1]) and (no[1][i][0] != self.id)):
@@ -227,6 +230,7 @@ class SalaEspera:
 
     def render(self,isOnline):
         #render screen
+        self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest)
         self.letterwidth = (self.width/3.4286)/10 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente3 = pygame.font.SysFont(self.font,self.lettersize)
@@ -408,6 +412,8 @@ class SalaEspera:
             self.escuchaUDP.initialize(self.ip,self.puertoUDP)
             hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
             hiloMantenerConexionUDP.start()
+            hiloEnviarEstadoUDP = threading.Thread(target = self.enviarEstadoUDP.enviarEstadoUDP)
+            hiloEnviarEstadoUDP.start()
             self.escuchaTCP.initialize(self.ip,self.puerto,self.password,self.numJugadores,self.id,self.name,self.currentIcono,self.puertoUDP)
             hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP.escuchaTCP)
             hiloEscuchaTCP.start()
