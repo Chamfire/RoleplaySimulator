@@ -210,7 +210,7 @@ class UnionPartida:
             
     def checkformat(self,msg):
         try:
-            #ok:4:id1;pepe;1:id2;juan;4
+            #ok:4:53456:id1;pepe;1:id2;juan;4
                                   #  0  1   2       3             4
             resp = msg.split(':') # ok  4  54634 id1;pepe;1   id2;juan;4
             if(resp[0] == "ok"):
