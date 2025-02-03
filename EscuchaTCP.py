@@ -4,7 +4,7 @@ class EscuchaTCP:
 
     def __init__(self):
         self.GLOBAL = Global()
-        self.server_socketTCP = None
+        self.server_socket = None
         self.ip = None
         self.puerto = None
         self.password = None
