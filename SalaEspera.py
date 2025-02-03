@@ -97,7 +97,6 @@ class SalaEspera:
     def setNumJugadoresYOtherPlayers(self,no):
         #Other players en el cliente va a tener los jugadores activos que haya en ese momento
         #en el servidor es un registro de jugadores activos, donde se incluye una variable de actividad/no actividad
-        print(no)
         self.numJugadores = no[0] #la lista otherPlayers nunca va a estar vacía, porque siempre se envía como mínimo el otro jugador
         cont = 0
         for i in range(0,(self.numJugadores-1)):
@@ -106,7 +105,6 @@ class SalaEspera:
             else:
                 self.GLOBAL.setOtherPlayersIndex(cont,None)
             cont = cont+1
-        print('paso de pantalla', self.GLOBAL.getOtherPlayers())
         
 
     def refresh(self):
@@ -227,7 +225,6 @@ class SalaEspera:
 
     def render(self,isOnline):
         #render screen
-        self.GLOBAL.setOtherPlayers({}) #reiniciamos la lista de otherPlayers
         self.letterwidth = (self.width/3.4286)/10 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente3 = pygame.font.SysFont(self.font,self.lettersize)
@@ -240,6 +237,7 @@ class SalaEspera:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
             #el número de jugadores y la lista de otros jugadores se la pasa por parámetro en game
         else:
+            self.GLOBAL.setOtherPlayers({}) #reiniciamos la lista de otherPlayers
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
             self.letterwidth3 = (self.width/3.4286)/18 #cálculo de la base en píxeles 
