@@ -44,7 +44,7 @@ class EscuchaTCP:
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
                 if(resp[0] and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and id != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.idPropia)+";"+self.nombrePropio+";"+str(self.miIcono) #te pasas a ti mismo como jugador, para que te añada
-                    for i in range(0,len(self.GLOBAL.getOtherPlayers)):
+                    for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2] == True): #True es que está activo el jugador en ese momento
                             print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
                             msg_ok = msg_ok+":"+str(self.GLOBAL.getOtherPlayersIndex(i)[0])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][0]+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][1])

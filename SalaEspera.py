@@ -103,7 +103,7 @@ class SalaEspera:
             if((i in no[1]) and (no[1][i][0] != self.id)):
                 self.GLOBAL.setOtherPlayersIndex(cont,no[1][i]) #jugadores que hay activos cuando te conectas al servidor
             else:
-                self.GLOBAL.setOtherPlayers(cont,None)
+                self.GLOBAL.setOtherPlayersIndex(cont,None)
             cont = cont+1
         
 
