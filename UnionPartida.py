@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from pygame import mixer
+from EscuchaTCPClient import EscuchaTCPClient
 import socket
 
 class UnionPartida:
@@ -16,6 +17,7 @@ class UnionPartida:
         self.portUDP_server = None
         self.portUDP = portUDP
         self.ip_dest = None
+        self.escuchaTCPClient = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -261,13 +263,13 @@ class UnionPartida:
                 # ----- conexión TCP -----
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     try:
-                        print(ip_dest,port_dest)
+                        #print(ip_dest,port_dest)
                         self.ip_dest = ip_dest
                         socket_c.connect((ip_dest, int(port_dest)))
                         msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)+":"+str(self.portUDP)
                         #patata:pepe:3:id:56384 <- ejemplo mensaje
                         socket_c.sendall(msg_client.encode('utf-8'))
-                        respuesta = socket_c.recv(1024).decode('utf-8')
+                        respuesta = socket_c.recv(1024).decode('utf-8') #tiene timeout de unos segundos
                         print('Datos recibidos: ',respuesta)
                         resp = self.checkformat(respuesta)
                         print(resp)
@@ -306,7 +308,11 @@ class UnionPartida:
                         pantalla = "joinPartida"
                         self.ch1.play(self.error)
                     finally:
-                        socket_c.close()
+                        #socket_c.close()
+                        ip = socket_c.getsockname()[0]
+                        port = socket_c.getsockname()[1]
+                        self.escuchaTCPClient = EscuchaTCPClient(socket_c,ip,port) #creamos un servidor para recibir mensajes TCP del host
+                        
                 # --------------------------
                 else:
                     #mostrar en rojo el recuadro + texto de no es correcto + reseteo del valor de self.code

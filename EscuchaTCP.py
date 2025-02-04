@@ -59,7 +59,7 @@ class EscuchaTCP:
                                    free_pos = j
                                    break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                             break
-                    self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4])))) #(id,(nombre,avatarPicPerfil,True,54823) <- añado al jugador (True es porque está activo)
+                    self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4]),ip_port_client[0]))) #(id,(nombre,avatarPicPerfil,True,54823,ip) <- añado al jugador (True es porque está activo)
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
                     self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
                     #es posible que se haya desconectado y se haya vuelto a conectar
@@ -79,6 +79,17 @@ class EscuchaTCP:
 
     def closeSocketTCPServer(self):
         if(self.server_socket != None):
+            for jugador in self.GLOBAL.getOtherPlayers():
+                if(jugador[1][2]): #si el jugador está activo, le mandamos un mensaje de que el servidor se va a desconectar
+                    msg = "servidor_desconectado"
+                    socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    try:
+                        ip_dest = jugador[1][4]
+                        socket_c.connect((ip_dest, int(jugador[1][3])))
+                        socket_c.sendall(msg.encode('utf-8')) #mensaje de meMuero, para que los jugadores se salgan del servidor
+                        #Si el mensaje de me muero no se pudiera enviar, se detectaría a través del timeout de UDP
+                    except:
+                        pass
             self.server_socket.close()
     
     def checkformat(self,msg):

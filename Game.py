@@ -15,6 +15,7 @@ from CrearTablas import CrearTablas
 from ConfiguracionPartida import ConfiguracionPartida
 from UnionPartida import UnionPartida
 from Global import Global
+from ServerDisconected import ServerDisconected
 import socket
 #import requests
 
@@ -99,6 +100,7 @@ class Game:
         self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.freePortTCP,self.font)
         self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.freePortTCP,self.freePortUDP,self.font,self.perfil.id)
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id,self.freePortUDP)
+        self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
         mixer.music.play(-1)
@@ -114,6 +116,9 @@ class Game:
                 if screenToRefresh == "salaEspera":
                     self.GLOBAL.setRefreshScreen(None)
                     self.salaEspera.refresh() #refrescamos la pantalla
+                elif screenToRefresh == "server_disc":
+                    self.GLOBAL.setRefreshScreen(None)
+                    self.seleccionPartidas.refresh()
 
             if pygame.display.get_active() and self.minimized:
                 self.minimized = False #ya hemos renderizado de nuevo los objetos
@@ -133,6 +138,8 @@ class Game:
                     self.salaEspera.render()
                 elif self.currentScreen == "joinPartida":
                     self.joinPartida.render(self.online)
+                elif self.currentScreen == "server_disc":
+                    self.serverDisc.render()
             if not pygame.display.get_active():
                 self.minimized = True #se ha hecho escape para ir al escritorio
 
@@ -212,6 +219,7 @@ class Game:
                             self.currentScreen = screenToChange
                             self.online = False
                             if(screenToChange != "partida"): #si no se carga una partida, y volvemos hacia atrás, cerramos el socket
+                                print("quit?")
                                 self.salaEspera.escuchaTCP.closeSocketTCPServer()
                                 self.salaEspera.escuchaUDP.closeSocketUDPServer()
                             self.screen = self.salaEspera.getScreen()
@@ -225,6 +233,12 @@ class Game:
                                 self.online = True
                                 self.salaEspera.setNumJugadoresYOtherPlayers(self.joinPartida.getNumJugadoresAndJugadoresAndPort())
                             self.screen = self.joinPartida.getScreen()
+                    elif self.currentScreen == "serverDisc":
+                        screenToChange = self.serverDisc.clickedMouse()
+                        if(screenToChange != self.currentScreen):
+                            self.changedScreen = True
+                            self.currentScreen = screenToChange
+                            self.screen = self.serverDisc.getScreen()
                              
                     #ahora toca actualizar
                     if self.changedScreen:
@@ -253,6 +267,9 @@ class Game:
                         elif(self.currentScreen == "joinPartida"):
                             self.joinPartida.setScreen(self.screen)
                             self.joinPartida.render()
+                        elif(self.currentScreen == "server_disc"):
+                            self.serverDisc.setScreen(self.screen)
+                            self.serverDisc.render()
                         else:
                             self.screen.fill((0,0,0))
                             pygame.display.flip()
@@ -290,6 +307,8 @@ class Game:
                         self.salaEspera.movedMouse()
                     elif self.currentScreen == "joinPartida":
                         self.joinPartida.movedMouse()
+                    elif self.currentScreen == "server_disc":
+                        self.serverDisc.movedMouse()
                     else:
                         pass
             #print("FPS = ",int(self.clock.get_fps()))
@@ -303,6 +322,10 @@ class Game:
             pass
         try:
             self.salaEspera.escuchaUDP.closeSocketUDPServer()
+        except:
+            pass
+        try:
+            self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
         except:
             pass
         self.configuration.saveConfigurationToFile()

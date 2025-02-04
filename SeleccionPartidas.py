@@ -18,6 +18,7 @@ class SeleccionPartidas:
         self.pressed_exit = pygame.mixer.Sound('sounds/button_pressed_ogg.ogg')
         self.selected = pygame.mixer.Sound('sounds/selected_button.wav')
         self.partida_deleted = pygame.mixer.Sound('sounds/error.wav')
+        self.error = pygame.mixer.Sound('sounds/error.wav')
 
         #widht y height
         self.width = width

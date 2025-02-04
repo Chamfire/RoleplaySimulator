@@ -25,7 +25,6 @@ class SalaEspera:
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
         self.pressed_exit = pygame.mixer.Sound('sounds/button_pressed_ogg.ogg')
         self.selected = pygame.mixer.Sound('sounds/selected_button.wav')
-        self.error = pygame.mixer.Sound('sounds/error.wav')
         self.join = pygame.mixer.Sound('sounds/joinPartida.wav')
 
         #widht y height
@@ -447,6 +446,7 @@ class SalaEspera:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
             self.ch1.play(self.pressed)
             pygame.display.update() 
+
             return 'menu'
         
         #Volver al menú siendo el líder de la partida
