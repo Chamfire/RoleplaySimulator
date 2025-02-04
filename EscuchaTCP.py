@@ -36,6 +36,7 @@ class EscuchaTCP:
                 msg_client = socket_c.recv(1024).decode('utf-8')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
+                #print(resp)
                 #print(resp[0])
                 #print(resp[1][0])
                 #print(self.password)
@@ -44,7 +45,7 @@ class EscuchaTCP:
                 #print(resp[1][3])
                 #print(self.existsPlayer(resp[1][3]))
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
-                if(resp[0] == 1):
+                if(resp[0] == 2):
                     #quitamos al jugador de la lista de jugadores activos
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers-1)
                     for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
@@ -55,7 +56,7 @@ class EscuchaTCP:
                             #TODO: modificar cuando esté en partida (coger currentScreen)
                 elif(resp[0] == -1):
                     pass
-                elif(resp[0] == 0 and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and id != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
+                elif(resp[0] == 1 and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and id != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2] == True): #True es que está activo el jugador en ese momento
@@ -104,7 +105,7 @@ class EscuchaTCP:
                     except:
                         pass
             self.server_socket.close()
-            print("TCP closed in server")
+            #print("TCP closed in server")
     
     def checkformat(self,msg):
         try:
@@ -143,6 +144,8 @@ class EscuchaTCP:
                         return (-1,None)
                 else:
                     return (-1,None)
+            else:
+                return (0,None)
         except:
             return (0,None)
         
