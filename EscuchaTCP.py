@@ -83,8 +83,7 @@ class EscuchaTCP:
                     msg_no = "no"
                     socket_c.sendall(msg_no.encode('utf-8'))
                 socket_c.close()
-            except Exception as e:
-                print(e)
+            except:
                 try:
                     socket_c.close()
                 except:
