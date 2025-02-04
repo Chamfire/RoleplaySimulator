@@ -176,7 +176,7 @@ class SalaEspera:
             else:
                 #self.screen.blit(pygame.transform.scale(self.avatarJugador[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
                 if(i < self.numJugadores):
-                    if(self.GLOBAL.getOtherPlayersIndex((i-1)) != None):
+                    if(self.GLOBAL.getOtherPlayersIndex((i-1)) != None and self.GLOBAL.getOtherPlayersIndex((i-1))[1][2]):
                         #i: (id,(nombre,pic))
                         temp = self.GLOBAL.getOtherPlayersIndex((i-1))[1][0] # el nombre
                         spaces = self.max_lenght_name - len(temp)
@@ -196,7 +196,6 @@ class SalaEspera:
                             inside = False
                         for j in range(0,other_side):
                             text_to_show += ' '
-                        #TODO: Comprobamos si ese jugador está realmente conectado, o si solo está en el registro de otherPlayers
                         self.textName = self.fuente.render(text_to_show, True, self.color_white)
                         self.screen.blit(pygame.transform.scale(self.avatarJugador[self.GLOBAL.getOtherPlayersIndex((i-1))[1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
                         self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
