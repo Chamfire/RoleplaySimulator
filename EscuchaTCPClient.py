@@ -49,7 +49,7 @@ class EscuchaTCPClient:
             msg = str(self.password)+":"+str(self.id)+":"+"usuario_desconectado"
             socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             try:
-                socket_c.connect((self.ip_server, self.puerto_server))
+                socket_c.connect((self.ip_server, int(self.puerto_server)))
                 socket_c.sendall(msg.encode('utf-8')) #mensaje de meMuero, para que los jugadores se salgan del servidor
                 #Si el mensaje de me muero no se pudiera enviar, se detectaría a través del timeout de UDP
             except:
