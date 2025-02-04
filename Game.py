@@ -118,7 +118,7 @@ class Game:
                     self.salaEspera.refresh() #refrescamos la pantalla
                 elif screenToRefresh == "server_disc":
                     self.GLOBAL.setRefreshScreen(None)
-                    self.seleccionPartidas.refresh()
+                    self.seleccionPartidas.render()
 
             if pygame.display.get_active() and self.minimized:
                 self.minimized = False #ya hemos renderizado de nuevo los objetos

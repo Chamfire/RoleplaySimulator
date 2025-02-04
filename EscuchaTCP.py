@@ -36,7 +36,7 @@ class EscuchaTCP:
                 msg_client = socket_c.recv(1024).decode('utf-8')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
-                #print(resp)
+                print(resp)
                 #print(resp[0])
                 #print(resp[1][0])
                 #print(self.password)
@@ -47,13 +47,13 @@ class EscuchaTCP:
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
                 if(resp[0] == 2):
                     #quitamos al jugador de la lista de jugadores activos
-                    self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers-1)
+                    self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()-1)
                     for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
-                        if(jugador[0] == resp[1]):
-                            jugador[1][2] = False
-                            self.GLOBAL.setOtherPlayersIndex(posicion,jugador) #modificamos el jugador, y lo ponemos como inactivo
-                            self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
-                            #TODO: modificar cuando esté en partida (coger currentScreen)
+                        if(jugador != None and jugador[0] == resp[1]):
+                            jugador_modificado = (jugador[0],(jugador[1][0],jugador[1][1],False,jugador[1][3],jugador[1][4]))
+                            self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
+                    self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
+                    #TODO: modificar cuando esté en partida (coger currentScreen)
                 elif(resp[0] == -1):
                     pass
                 elif(resp[0] == 1 and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and id != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
@@ -83,7 +83,8 @@ class EscuchaTCP:
                     msg_no = "no"
                     socket_c.sendall(msg_no.encode('utf-8'))
                 socket_c.close()
-            except:
+            except Exception as e:
+                print(e)
                 try:
                     socket_c.close()
                 except:
@@ -152,7 +153,7 @@ class EscuchaTCP:
     def existsPlayer(self,id):
         for i in range(0,len(self.GLOBAL.getOtherPlayers())):
             if(self.GLOBAL.getOtherPlayersIndex(i) != None and id == self.GLOBAL.getOtherPlayersIndex(i)[0]):
-                print(self.GLOBAL.getOtherPlayersIndex(i)[0])
+                #print(self.GLOBAL.getOtherPlayersIndex(i)[0])
                 return True
             #print(self.otherPlayers[i])
         return False
