@@ -103,8 +103,9 @@ class EscuchaTCP:
                         socket_c.sendall(msg.encode('utf-8')) #mensaje de meMuero, para que los jugadores se salgan del servidor
                         #Si el mensaje de me muero no se pudiera enviar, se detectaría a través del timeout de UDP
                         socket_c.close()
-                    except:
-                        pass
+                    except Exception as e:
+                        print(e)
+                        #pass
             self.server_socket.close()
             #print("TCP closed in server")
     
