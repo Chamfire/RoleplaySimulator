@@ -222,6 +222,11 @@ class Game:
                                 self.salaEspera.escuchaTCP.closeSocketTCPServer()
                                 self.salaEspera.escuchaUDP.closeSocketUDPServer()
                                 self.salaEspera.enviarEstadoUDP.desconectar()
+                                try:
+                                    #solo se podrá cerrar si eres el cliente
+                                    self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
+                                except:
+                                    pass 
                             self.screen = self.salaEspera.getScreen()
                     elif self.currentScreen == "joinPartida":
                         self.joinPartida.setNameYAvatar(self.perfil.name,self.perfil.avatarPicPerfil)
