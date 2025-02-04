@@ -95,7 +95,7 @@ class EscuchaTCP:
         if(self.server_socket != None):
             for id,jugador in self.GLOBAL.getOtherPlayers().items():
                 if(jugador != None and jugador[1][2]): #si el jugador está activo, le mandamos un mensaje de que el servidor se va a desconectar
-                    msg = str(self.password)+str(self.idPropia)+";servidor_desconectado"
+                    msg = str(self.password)+";"+str(self.idPropia)+";servidor_desconectado"
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     try:
                         ip_dest = jugador[1][4]

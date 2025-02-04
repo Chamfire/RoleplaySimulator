@@ -54,4 +54,4 @@ class EscuchaTCPClient:
             except:
                 pass
             self.server_socket.close()
-            #print("TCP closed in client")
+            print("TCP closed in client")
