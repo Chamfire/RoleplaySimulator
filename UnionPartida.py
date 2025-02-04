@@ -3,6 +3,7 @@ from pygame.locals import *
 from pygame import mixer
 from EscuchaTCPClient import EscuchaTCPClient
 import socket
+import threading
 
 class UnionPartida:
     #sound
@@ -312,7 +313,8 @@ class UnionPartida:
                         ip = socket_c.getsockname()[0]
                         port = socket_c.getsockname()[1]
                         self.escuchaTCPClient = EscuchaTCPClient(socket_c,ip,port,ip_dest,port_dest,self.id,self.password) #creamos un servidor para recibir mensajes TCP del host
-                        
+                        hiloEscuchaTCPClient = threading.Thread(target=self.escuchaTCPClient.escuchaTCPClient)
+                        hiloEscuchaTCPClient.start()
                 # --------------------------
                 else:
                     #mostrar en rojo el recuadro + texto de no es correcto + reseteo del valor de self.code
