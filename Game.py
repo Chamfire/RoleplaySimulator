@@ -219,7 +219,6 @@ class Game:
                             self.currentScreen = screenToChange
                             self.online = False
                             if(screenToChange != "partida"): #si no se carga una partida, y volvemos hacia atrás, cerramos el socket
-                                print("quit?")
                                 self.salaEspera.escuchaTCP.closeSocketTCPServer()
                                 self.salaEspera.escuchaUDP.closeSocketUDPServer()
                             self.screen = self.salaEspera.getScreen()
@@ -326,6 +325,10 @@ class Game:
             pass
         try:
             self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
+        except:
+            pass
+        try:
+            self.salaEspera.enviarEstadoUDP.desconectar()
         except:
             pass
         self.configuration.saveConfigurationToFile()

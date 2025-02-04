@@ -2,6 +2,7 @@ import socket
 from Global import Global
 class EscuchaTCPClient:
     def __init__(self,server_socket,ip,puerto,ip_server,puerto_server,id,password):
+        self.imUser = True
         self.server_socket = server_socket
         self.ip = ip
         self.puerto = puerto
@@ -50,4 +51,5 @@ class EscuchaTCPClient:
                 #Si el mensaje de me muero no se pudiera enviar, se detectaría a través del timeout de UDP
             except:
                 pass
-        self.server_socket.close()
+            self.server_socket.close()
+            #print("TCP closed in client")

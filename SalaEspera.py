@@ -46,6 +46,7 @@ class SalaEspera:
         self.ip = ip
         self.puerto = puertoTCP
         self.puertoUDP = puertoUDP
+        self.ip_dest = None
         self.puertoUDP_server = None
         self.password = None
         self.id = id
