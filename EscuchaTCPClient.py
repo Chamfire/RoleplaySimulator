@@ -13,6 +13,7 @@ class EscuchaTCPClient:
         self.GLOBAL = Global()
         
     def escuchaTCPClient(self):
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((self.ip, self.puerto))
         self.server_socket.listen() 
 
