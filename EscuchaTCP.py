@@ -43,7 +43,18 @@ class EscuchaTCP:
                 #print(resp[1][3])
                 #print(self.existsPlayer(resp[1][3]))
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
-                if(resp[0] and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and id != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
+                if(resp[0] == 1):
+                    #quitamos al jugador de la lista de jugadores activos
+                    self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers-1)
+                    for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
+                        if(jugador[0] == resp[1]):
+                            jugador[1][2] = False
+                            self.GLOBAL.setOtherPlayersIndex(posicion,jugador) #modificamos el jugador, y lo ponemos como inactivo
+                            self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
+                            #TODO: modificar cuando esté en partida (coger currentScreen)
+                elif(resp[0] == -1):
+                    pass
+                elif(resp[0] == 0 and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and id != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2] == True): #True es que está activo el jugador en ese momento
@@ -81,7 +92,7 @@ class EscuchaTCP:
         if(self.server_socket != None):
             for jugador in self.GLOBAL.getOtherPlayers():
                 if(jugador[1][2]): #si el jugador está activo, le mandamos un mensaje de que el servidor se va a desconectar
-                    msg = "servidor_desconectado"
+                    msg = str(self.password)+str(self.idPropia)+";servidor_desconectado"
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     try:
                         ip_dest = jugador[1][4]
@@ -94,26 +105,43 @@ class EscuchaTCP:
     
     def checkformat(self,msg):
         try:
-            [password,nombre,pic,id,puerto] = msg.split(':')
-            #print(password,nombre,pic,id)
-            if(password != None and len(password) <= 16): #es la longitud de la password máxima
-                if(nombre != None and len(nombre) <= 13):
-                    if(pic != None and int(pic) >=0 and int(pic) <=6): #solo hay 6 iconos
-                        if(id != None and id != ' '):
-                            if(puerto != None and int(puerto)>=49152 and int(puerto) <=65535):
-                                return (True,(password,nombre,pic,id,puerto))
+            #0: Mensaje erróneo
+            #1: Mensaje correcto de solicitud de acceso
+            #2: Mensaje correcto de desconexión
+            resp = msg.split(':')
+            if(len(resp) == 5):
+                #MENSAJE TIPO 1 -> solicitud de acceso
+                [password,nombre,pic,id,puerto] = resp
+                #print(password,nombre,pic,id)
+                if(password != None and len(password) <= 16): #es la longitud de la password máxima
+                    if(nombre != None and len(nombre) <= 13):
+                        if(pic != None and int(pic) >=0 and int(pic) <=6): #solo hay 6 iconos
+                            if(id != None and id != ' '):
+                                if(puerto != None and int(puerto)>=49152 and int(puerto) <=65535):
+                                    return (1,(password,nombre,pic,id,puerto))
+                                else:
+                                    return (0,None)
                             else:
-                                return (False,None)
+                                return (0,None)
                         else:
-                            return (False,None)
+                            return (0,None)
                     else:
-                        return (False,None)
+                        return (0,None)
                 else:
-                    return (False,None)
-            else:
-                return (False,None)
+                    return (0,None)
+                
+            elif(len(resp) == 3):
+                #MENSAJE TIPO 2 -> DESCONEXIÓN
+                [pswd,id_user,contenido] = resp
+                if (pswd != None and pswd == self.password and self.existsPlayer(id_user) and not self.isNotCurrentlyActive(id_user)):
+                    if(contenido != None and contenido == "usuario_desconectado"):
+                        return (2,id_user)
+                    else:
+                        return (-1,None)
+                else:
+                    return (-1,None)
         except:
-            return (False,None)
+            return (0,None)
         
     def existsPlayer(self,id):
         for i in range(0,len(self.GLOBAL.getOtherPlayers())):

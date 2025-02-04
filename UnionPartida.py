@@ -311,7 +311,7 @@ class UnionPartida:
                         #socket_c.close()
                         ip = socket_c.getsockname()[0]
                         port = socket_c.getsockname()[1]
-                        self.escuchaTCPClient = EscuchaTCPClient(socket_c,ip,port) #creamos un servidor para recibir mensajes TCP del host
+                        self.escuchaTCPClient = EscuchaTCPClient(socket_c,ip,port,ip_dest,port_dest,self.id,self.password) #creamos un servidor para recibir mensajes TCP del host
                         
                 # --------------------------
                 else:
