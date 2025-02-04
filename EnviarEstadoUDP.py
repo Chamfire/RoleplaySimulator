@@ -12,6 +12,7 @@ class EnviarEstadoUDP:
         
     def enviarEstadoUDP(self):
         while self.conected:
+            #print("activo en enviarUDP")
             try:
                 client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 if(self.isOnline):
@@ -22,11 +23,12 @@ class EnviarEstadoUDP:
                     pass #recorrer lista de usuarios activos y mandarles mensajes de ver si están conectados
                 threading.Event().wait(2) #2 segundos
             except:
-                pass
+                threading.Event().wait(2) #2 segundos
         try:
             client_socket.close()
         except:
             pass
+        #print("fin hilo enviarUDP")
 
     def desconectar(self):
         self.conected = False

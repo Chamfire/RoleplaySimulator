@@ -21,6 +21,7 @@ class EscuchaUDP:
         self.server_socketUDP.bind((self.ip, self.puertoUDP))
         self.server_socketUDP.listen() 
         while True:
+            #print("activo en UDP")
             try:
                 socket_c_udp, ip_port_client = self.server_socketUDP.accept()
                 #print("msg received in server")
@@ -42,6 +43,7 @@ class EscuchaUDP:
                 except:
                     pass
                 break
+        #print("fin hilo UDP")
     
     def closeSocketUDPServer(self):
         if(self.server_socketUDP != None):

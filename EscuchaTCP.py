@@ -29,6 +29,7 @@ class EscuchaTCP:
         self.server_socket.bind((self.ip, self.puerto))
         self.server_socket.listen() 
         while True:
+            #print("activo en TCP escucha")
             try:
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
@@ -87,6 +88,7 @@ class EscuchaTCP:
                 except:
                     pass
                 break
+        #print("fin hilo TCP escucha")
 
     def closeSocketTCPServer(self):
         if(self.server_socket != None):

@@ -221,6 +221,7 @@ class Game:
                             if(screenToChange != "partida"): #si no se carga una partida, y volvemos hacia atrás, cerramos el socket
                                 self.salaEspera.escuchaTCP.closeSocketTCPServer()
                                 self.salaEspera.escuchaUDP.closeSocketUDPServer()
+                                self.salaEspera.enviarEstadoUDP.desconectar()
                             self.screen = self.salaEspera.getScreen()
                     elif self.currentScreen == "joinPartida":
                         self.joinPartida.setNameYAvatar(self.perfil.name,self.perfil.avatarPicPerfil)
