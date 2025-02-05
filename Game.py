@@ -138,7 +138,7 @@ class Game:
                 elif self.currentScreen == "configuracionPartida":
                     self.configuracionPartida.render()
                 elif self.currentScreen == "salaEspera":
-                    self.salaEspera.render()
+                    self.salaEspera.render(self.online)
                 elif self.currentScreen == "joinPartida":
                     self.joinPartida.render(self.online)
                 elif self.currentScreen == "server_disc":
@@ -168,18 +168,21 @@ class Game:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if self.currentScreen == "menu":
                         screenToChange = self.menu.clickedMouse()
+                        self.online = False
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
                             self.screen = self.menu.getScreen()
                     elif self.currentScreen == "credits":
                         screenToChange = self.credits.clickedMouse()
+                        self.online = False
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
                             self.screen = self.credits.getScreen()
                     elif self.currentScreen == "options":
                         screenToChange = self.options.clickedMouse()
+                        self.online = False
                         self.configuration.fps = self.options.getFPS()
                         self.configuration.dmVoice = self.options.getDMVoice()
                         if(screenToChange != self.currentScreen):
@@ -188,6 +191,7 @@ class Game:
                             self.screen = self.options.getScreen()
                     elif self.currentScreen == "seleccionPartidas":
                         screenToChange = self.seleccionPartidas.clickedMouse()
+                        self.online = False
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
@@ -197,6 +201,7 @@ class Game:
                             #TODO: también a la sala de espera, y las otras pantallas que gestionan las partidas, y lo mismo desde sus refrescos
                     elif self.currentScreen == "login":
                         screenToChange = self.login.clickedMouse()
+                        self.online = False
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
@@ -211,6 +216,7 @@ class Game:
                             self.salaEspera.setSelfName(self.perfil.name)
                     elif self.currentScreen == "configuracionPartida":
                         screenToChange = self.configuracionPartida.clickedMouse()
+                        self.online = False
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
@@ -243,6 +249,7 @@ class Game:
                             self.screen = self.joinPartida.getScreen()
                     elif self.currentScreen == "server_disc":
                         screenToChange = self.serverDisc.clickedMouse()
+                        self.online = False
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
