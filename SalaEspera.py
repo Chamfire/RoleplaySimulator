@@ -249,6 +249,7 @@ class SalaEspera:
             #el número de jugadores y la lista de otros jugadores se la pasa por parámetro en game
         else:
             self.GLOBAL.setOtherPlayers({}) #reiniciamos la lista de otherPlayers
+            self.GLOBAL.setCurrentPlayers(1) #reiniciamos el número de jugadores actuales en partida
             print(self.GLOBAL.getOtherPlayers())
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
