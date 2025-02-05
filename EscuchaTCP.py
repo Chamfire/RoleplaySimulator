@@ -99,6 +99,8 @@ class EscuchaTCP:
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     try:
                         ip_dest = jugador[1][4]
+                        print(self.GLOBAL.getOtherPlayers())
+                        print(id,jugador)
                         print(msg,ip_dest,jugador[1][5])
                         socket_c.connect((ip_dest, int(jugador[1][5])))
                         socket_c.sendall(msg.encode('utf-8')) #mensaje de meMuero, para que los jugadores se salgan del servidor
@@ -112,6 +114,7 @@ class EscuchaTCP:
                         except Exception as e:
                             print('en cierre de socket exception',e)
             self.server_socket.close()
+            self.server_socket = None
             #print("TCP closed in server")
     
     def checkformat(self,msg):

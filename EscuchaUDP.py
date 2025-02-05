@@ -48,6 +48,7 @@ class EscuchaUDP:
     def closeSocketUDPServer(self):
         if(self.server_socketUDP != None):
             self.server_socketUDP.close()
+            self.server_socketUDP = None
             #print("UDP closed in server")
     
     def checkformatUDP(self,msg):
