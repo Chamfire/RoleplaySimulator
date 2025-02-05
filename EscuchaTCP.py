@@ -29,7 +29,8 @@ class EscuchaTCP:
         self.server_socket.bind((self.ip, self.puerto))
         self.server_socket.listen() 
         while True:
-            #print("activo en TCP escucha")
+            print("activo en TCP escucha")
+            print(self.GLOBAL.getOtherPlayers())
             try:
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
@@ -56,7 +57,7 @@ class EscuchaTCP:
                     #TODO: modificar cuando esté en partida (coger currentScreen)
                 elif(resp[0] == -1):
                     pass
-                elif(resp[0] == 1 and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and id != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
+                elif(resp[0] == 1 and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.idPropia != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono) #te pasas a ti mismo como jugador, para que te añada
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2] == True): #True es que está activo el jugador en ese momento
