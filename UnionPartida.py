@@ -313,9 +313,10 @@ class UnionPartida:
                         ip = socket_c.getsockname()[0]
                         port = socket_c.getsockname()[1]
                         socket_c.close() #lo cierro y lo abro de nuevo como socket servidor
-                        self.escuchaTCPClient = EscuchaTCPClient(socket_c,ip,port,ip_dest,port_dest,self.id,self.password) #creamos un servidor para recibir mensajes TCP del host
-                        hiloEscuchaTCPClient = threading.Thread(target=self.escuchaTCPClient.escuchaTCPClient)
-                        hiloEscuchaTCPClient.start()
+                        if(resp[0]): #solo pondremos las conexiones si nos ha dicho que sí el servidor
+                            self.escuchaTCPClient = EscuchaTCPClient(socket_c,ip,port,ip_dest,port_dest,self.id,self.password) #creamos un servidor para recibir mensajes TCP del host
+                            hiloEscuchaTCPClient = threading.Thread(target=self.escuchaTCPClient.escuchaTCPClient)
+                            hiloEscuchaTCPClient.start()
                 # --------------------------
                 else:
                     #mostrar en rojo el recuadro + texto de no es correcto + reseteo del valor de self.code

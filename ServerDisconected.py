@@ -38,6 +38,7 @@ class ServerDisconected:
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
+        self.msg = self.fuente.render('¡Vaya! Parece que el host se ha desconectado...', True, self.color_white)
 
     def setScreen(self,screen):
         self.screen = screen
@@ -49,7 +50,7 @@ class ServerDisconected:
         #render screen
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
-        
+        self.screen.blit(pygame.transform.scale(self.msg, (self.width/2.4000, self.height/7.0000)), (self.width/8.0000, self.height/4.0000)) #500 100 150 175 
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         pygame.display.update() 
