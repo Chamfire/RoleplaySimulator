@@ -29,8 +29,9 @@ class EscuchaTCPClient:
                     [password,id_server,content] = msg_client.split(";")
                     #el primero siempre es el servidor -> posición 0
                     #Comprobamos la contraseña de la partida, y si la id que me está pasando == la id del servidor -> comprobamos que el mensaje es de desconexión
-                    if(password == self.password and id_server == self.GLOBAL.getOtherPlayersIndex[0][0] and content == "servidor_desconectado"):
-                        self.GLOBAL.setOtherPlayersIndex({}) #se reestablece a lista vacía
+                    print(self.password,id_server,content)
+                    if(password == self.password and id_server == self.GLOBAL.getOtherPlayersIndex(0)[0] and content == "servidor_desconectado"):
+                        self.GLOBAL.setOtherPlayersIndex(0,{}) #se reestablece a lista vacía
                         self.GLOBAL.setRefreshScreen("server_disc") #le decimos que se ha desactivado el servidor
                     #si no es el id del servidor, o la contraseña no es correcta, lo ignoramos
                 except:

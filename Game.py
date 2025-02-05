@@ -113,12 +113,15 @@ class Game:
             if self.GLOBAL.getRefreshScreen() != None:
                 #nos ha llegado información de los hilos
                 screenToRefresh = self.GLOBAL.getRefreshScreen()
-                if screenToRefresh == "salaEspera":
+                if screenToRefresh == "salaEspera": #como estamos ya en esa sala, no hace falta cambiar la pantalla
                     self.GLOBAL.setRefreshScreen(None)
                     self.salaEspera.refresh() #refrescamos la pantalla
                 elif screenToRefresh == "server_disc":
+                    self.currentScreen = screenToRefresh
                     self.GLOBAL.setRefreshScreen(None)
-                    self.seleccionPartidas.render()
+                    self.screen = self.salaEspera.getScreen() #es la única forma de tomar la pantalla
+                    self.serverDisc.setScreen(self.screen)
+                    self.serverDisc.render()
 
             if pygame.display.get_active() and self.minimized:
                 self.minimized = False #ya hemos renderizado de nuevo los objetos
