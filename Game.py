@@ -241,7 +241,7 @@ class Game:
                                 self.online = True
                                 self.salaEspera.setNumJugadoresYOtherPlayers(self.joinPartida.getNumJugadoresAndJugadoresAndPort())
                             self.screen = self.joinPartida.getScreen()
-                    elif self.currentScreen == "serverDisc":
+                    elif self.currentScreen == "server_disc":
                         screenToChange = self.serverDisc.clickedMouse()
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
