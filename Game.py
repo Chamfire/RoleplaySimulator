@@ -121,6 +121,9 @@ class Game:
                     self.GLOBAL.setRefreshScreen(None)
                     self.screen = self.salaEspera.getScreen() #es la única forma de tomar la pantalla
                     self.serverDisc.setScreen(self.screen)
+                    self.salaEspera.escuchaUDP.closeSocketUDPServer()
+                    self.salaEspera.enviarEstadoUDP.desconectar()
+                    self.joinPartida.escuchaTCPClient.closeSocketTCPServerSinMSG()
                     self.serverDisc.render()
 
             if pygame.display.get_active() and self.minimized:

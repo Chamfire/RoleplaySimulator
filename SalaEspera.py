@@ -415,15 +415,16 @@ class SalaEspera:
         pygame.display.update() 
         if(not self.isOnline and self.numJugadores > 1): #si vamos a permitir varios jugadores, iniciamos una conexión TCP
             # ------ servidor UDP y TCP ---------
+            self.escuchaTCP.initialize(self.ip,self.puerto,self.password,self.numJugadores,self.id,self.name,self.currentIcono,self.puertoUDP)
+            hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP.escuchaTCP)
+            hiloEscuchaTCP.start()
+            # -----------------------------
+        if(self.numJugadores >1): #tanto en cliente como en servidor vamos a usar UDP
             self.escuchaUDP.initialize(self.ip,self.puertoUDP)
             hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
             hiloMantenerConexionUDP.start()
             hiloEnviarEstadoUDP = threading.Thread(target = self.enviarEstadoUDP.enviarEstadoUDP)
             hiloEnviarEstadoUDP.start()
-            self.escuchaTCP.initialize(self.ip,self.puerto,self.password,self.numJugadores,self.id,self.name,self.currentIcono,self.puertoUDP)
-            hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP.escuchaTCP)
-            hiloEscuchaTCP.start()
-            # -----------------------------
     
 
     # size_x, size_y: tamaño del botón en x y en y

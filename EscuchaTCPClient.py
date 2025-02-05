@@ -58,4 +58,9 @@ class EscuchaTCPClient:
                 pass
             self.server_socket.close()
             self.server_socket = None
-            print("TCP closed in client")
+            #print("TCP closed in client")
+
+    def closeSocketTCPServerSinMSG(self):
+        if(self.server_socket != None):
+            self.server_socket.close()
+            self.server_socket = None
