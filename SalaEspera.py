@@ -20,7 +20,7 @@ class SalaEspera:
         self.escuchaUDP = EscuchaUDP()
         self.GLOBAL = Global() 
         self.enviarEstadoUDP = None #tenemos que esperarnos a recibir la variable isOnline para saber qué tipo de envío se hará
-        self.socketTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socketTCP = None
         self.socketUDP = None
 
         #musica
@@ -251,6 +251,7 @@ class SalaEspera:
     def render(self,isOnline):
         #render screen
         #abro socket TCP y UDP
+        self.socketTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         (self.puerto,pudp) = self.findFreePort(isOnline) #pudp será distinto de none si no es online
         if(pudp != None):
             self.puertoUDP = pudp
@@ -269,7 +270,7 @@ class SalaEspera:
         else:
             self.GLOBAL.setOtherPlayers({}) #reiniciamos la lista de otherPlayers
             self.GLOBAL.setCurrentPlayers(1) #reiniciamos el número de jugadores actuales en partida
-            print(self.GLOBAL.getOtherPlayers())
+            #print(self.GLOBAL.getOtherPlayers())
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
             self.letterwidth3 = (self.width/3.4286)/18 #cálculo de la base en píxeles 
