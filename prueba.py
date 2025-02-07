@@ -16,4 +16,4 @@ print(len(a))
 
 s3 = "hola"
 resp2 = s3.split(":")
-print(resp2)
+print(resp2[0])

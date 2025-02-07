@@ -71,7 +71,7 @@ class EscuchaTCP:
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None): #le pasamos la lista de jugadores tanto activos como inactivos
                             print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
-                            msg_ok = msg_ok+":"+str(self.GLOBAL.getOtherPlayersIndex(i)[0])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][0]+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][1])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][2]
+                            msg_ok = msg_ok+":"+str(self.GLOBAL.getOtherPlayersIndex(i)[0])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][0]+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][1])+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][2])
                             #el mensaje tendrá este formato -> ok:4:56382:id1;pepe;1:id2;juan;4
                     free_pos = -1
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
@@ -131,14 +131,13 @@ class EscuchaTCP:
                         socket_c.connect((ip_dest, int(jugador[1][5])))
                         socket_c.sendall(msg.encode('utf-8')) #mensaje de meMuero, para que los jugadores se salgan del servidor
                         #Si el mensaje de me muero no se pudiera enviar, se detectaría a través del timeout de UDP
-                    except Exception as e:
-                        print(e)
-                        #pass
+                    except:
+                        pass
                     finally:
                         try:
                             socket_c.close()
-                        except Exception as e:
-                            print('en cierre de socket exception',e)
+                        except:
+                            pass
             self.server_socket.close()
             self.server_socket = None
             #print("TCP closed in server")
