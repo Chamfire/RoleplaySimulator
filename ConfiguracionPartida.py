@@ -6,7 +6,7 @@ from Partida import Partida
 from datetime import datetime
 
 class ConfiguracionPartida:
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,port,font):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,font):
         #screen
         self.screen = screen
         self.font = font
@@ -24,7 +24,7 @@ class ConfiguracionPartida:
         self.partidas = {"p1": None, "p2": None, "p3": None}
         self.local_ip = local_ip
         #self.public_ip = public_ip
-        self.port = port
+        self.port = None
         
 
         #canales
@@ -93,12 +93,12 @@ class ConfiguracionPartida:
         self.nJugadoresLabel = self.fuente.render('Número de jugadores:', True, self.light_pink)
         self.passwordLabel = self.fuente.render('Contraseña de acceso a la partida:', True, self.light_pink)
         self.ubicacionLabel = self.fuente.render('Ubicación de la historia:', True, self.light_pink)
-        self.serverPortIPLabel = self.fuente.render('Código de localización:', True, self.light_pink)
+        #self.serverPortIPLabel = self.fuente.render('Código de localización:', True, self.light_pink)
         self.select = self.fuente.render('- Escoge una ubicación -',True, self.color_grey)
         self.back2 = self.fuente.render('Guardar y volver', True, self.color_white)
         self.select2 = self.fuente.render('Selecciona la ubicación para tu partida:',True, self.color_white)
 
-        self.portLabel = None
+        #self.portLabel = None
         self.introduceTextLen = 28
         self.max_lenght_name = 12
         self.introduceTextLen2 = 27
@@ -117,7 +117,7 @@ class ConfiguracionPartida:
         self.partidas[self.currentPartida].num_jugadores = row[0]
         self.partidas[self.currentPartida].ubicacion_historia = row[1]
         self.partidas[self.currentPartida].server_code = row[2]
-        self.partidas[self.currentPartida].server_port = str(self.local_ip)+":"+str(self.port)
+        self.partidas[self.currentPartida].server_port = None #str(self.local_ip)+":"+str(self.port)
         self.partidas[self.currentPartida].horas_jugadas = row[3]
         self.partidas[self.currentPartida].ultima_conexion = row[4]
         self.partidas[self.currentPartida].numPartida = row[5]
@@ -135,9 +135,9 @@ class ConfiguracionPartida:
         self.screen.blit(pygame.transform.scale(self.line, (self.width/2.4000, self.height/100.0000)), (self.width/12.0000, self.height/2.7668)) #500 7 100 253
         self.screen.blit(pygame.transform.scale(self.ubicacionLabel, (self.width/3.4286, self.height/17.5000)), (self.width/12.0000, self.height/2.3333)) #350 40 100 300
         self.screen.blit(pygame.transform.scale(self.line, (self.width/3.4286, self.height/100.0000)), (self.width/12.0000, self.height/2.1021)) #350 7 100 333
-        self.screen.blit(pygame.transform.scale(self.serverPortIPLabel, (self.width/3.4286, self.height/17.5000)), (self.width/1.8462, self.height/2.3333))#350 40 650 300
-        self.screen.blit(pygame.transform.scale(self.line, (self.width/3.4286, self.height/100.0000)), (self.width/1.8462, self.height/2.1021))
-        self.screen.blit(pygame.transform.scale(self.portLabel, (self.width/4.0000, self.height/17.5000)), (self.width/1.7778, self.height/1.9444)) #300 40 675 360
+        #self.screen.blit(pygame.transform.scale(self.serverPortIPLabel, (self.width/3.4286, self.height/17.5000)), (self.width/1.8462, self.height/2.3333))#350 40 650 300
+        #self.screen.blit(pygame.transform.scale(self.line, (self.width/3.4286, self.height/100.0000)), (self.width/1.8462, self.height/2.1021))
+        #self.screen.blit(pygame.transform.scale(self.portLabel, (self.width/4.0000, self.height/17.5000)), (self.width/1.7778, self.height/1.9444)) #300 40 675 360
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/2.4000, self.height/1.1667))#293 57 500 600
         self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/2.1053, self.height/1.1570)) #150 40 570 605
         if(self.partidas[self.currentPartida].num_jugadores == 6):
@@ -220,7 +220,6 @@ class ConfiguracionPartida:
             if(len(rows) == 0):
                 self.partidas[self.currentPartida] = Partida()
                 self.partidas[self.currentPartida].numPartida = 1
-                self.partidas[self.currentPartida].server_port = str(self.local_ip)+":"+str(self.port)
             else:
                 self.loadPartida(rows[0])
         elif(self.currentPartida == "p2"):
@@ -230,7 +229,6 @@ class ConfiguracionPartida:
             if(len(rows) == 0):
                 self.partidas[self.currentPartida] = Partida()
                 self.partidas[self.currentPartida].numPartida = 2
-                self.partidas[self.currentPartida].server_port = str(self.local_ip)+":"+str(self.port)
             else:
                 self.loadPartida(rows[0])
         elif(self.currentPartida == "p3"):
@@ -240,7 +238,6 @@ class ConfiguracionPartida:
             if(len(rows) == 0):
                 self.partidas[self.currentPartida] = Partida()
                 self.partidas[self.currentPartida].numPartida = 3
-                self.partidas[self.currentPartida].server_port = str(self.local_ip)+":"+str(self.port)
             else:
                 self.loadPartida(rows[0])
         else:
@@ -252,7 +249,6 @@ class ConfiguracionPartida:
             if(len(rows) == 0):
                 self.partidas[self.currentPartida] = Partida()
                 self.partidas[self.currentPartida].numPartida = 1
-                self.partidas[self.currentPartida].server_port = str(self.local_ip)+":"+str(self.port)
             else:
                 self.loadPartida(rows[0])
         cur.close()
@@ -272,7 +268,7 @@ class ConfiguracionPartida:
         else:
             self.textPassword = self.fuenteText.render(self.partidas[self.currentPartida].server_code, True, self.color_dark_grey)
         
-        self.portLabel = self.fuente.render(self.partidas[self.currentPartida].server_port, True, self.color_white)
+        #self.portLabel = self.fuente.render(self.partidas[self.currentPartida].server_port, True, self.color_white)
         self.refresh()
         #nombre partida
         self.inputBox = pygame.Rect(self.width/2.8571, self.height/11.6667, self.width/3.4286, self.height/11.6667) #420 60 350 60

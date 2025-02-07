@@ -8,17 +8,18 @@ class EscuchaUDP:
         self.ip = None
         self.puertoUDP = None
 
-    def initialize(self,ip,puertoUDP):
+    def initialize(self,ip,puertoUDP,socket):
         self.ip = ip
         self.puertoUDP = puertoUDP
+        self.server_socketUDP = socket
 
 
     def escuchaUDP(self):
         #para asegurarnos de que siguen activos
         #crear socket con puerto para UDP. Cada 3 segundos se va a comprobar si alguien no está. 
         #Si uno no responde en 2 intentos, se le quitará de la lista de jugadores activos. 
-        self.server_socketUDP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socketUDP.bind((self.ip, self.puertoUDP))
+        #self.server_socketUDP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #self.server_socketUDP.bind((self.ip, self.puertoUDP))
         self.server_socketUDP.listen() 
         while True:
             #print("activo en UDP")

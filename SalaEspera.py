@@ -12,7 +12,7 @@ from Global import Global
 class SalaEspera:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,puertoTCP,puertoUDP,font,id):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,font,id):
         #screen
         self.screen = screen
         self.font = font
@@ -20,6 +20,8 @@ class SalaEspera:
         self.escuchaUDP = EscuchaUDP()
         self.GLOBAL = Global() 
         self.enviarEstadoUDP = None #tenemos que esperarnos a recibir la variable isOnline para saber qué tipo de envío se hará
+        self.socketTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socketUDP = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -44,8 +46,8 @@ class SalaEspera:
         self.isOnline = None
         self.activeOtherPlayers = {} #jugadores actualmente conectados -> lo emplean host y clientes
         self.ip = ip
-        self.puerto = puertoTCP
-        self.puertoUDP = puertoUDP
+        self.puerto = None
+        self.puertoUDP = None
         self.ip_dest = None
         self.puertoUDP_server = None
         self.password = None
@@ -97,6 +99,10 @@ class SalaEspera:
         self.name = name
     def setPassword(self,password):
         self.password = password
+
+    def setPortUDPYSocketUDP(self,port,socket): #solo la usará un jugador que se vaya a unir a la partida
+        self.puertoUDP = port
+        self.socketUDP = socket
 
     def setNumJugadoresYOtherPlayers(self,no):
         #Other players en el cliente va a tener los jugadores activos que haya en ese momento
@@ -232,9 +238,22 @@ class SalaEspera:
         self.ch1.play(self.join)
         pygame.display.update() 
 
+    def findFreePort(self,isOnline):
+        self.socketTCP.bind(('', 0)) #encuentra un puerto libre
+        free_portTCP = self.socketTCP.getsockname()[1] #devuelve el nombre del puerto encontrado
+        free_portUDP = None
+        if(not isOnline): #si es online, ya se lo han pasado como parámetro el puerto UDP y el socket de UDP
+            self.socketUDP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.socketUDP.bind(('', 0)) #encuentra un puerto libre
+            free_portUDP = self.socketUDP.getsockname()[1] #devuelve el nombre del puerto encontrado
+        return (free_portTCP,free_portUDP)
 
     def render(self,isOnline):
         #render screen
+        #abro socket TCP y UDP
+        (self.puerto,pudp) = self.findFreePort(isOnline) #pudp será distinto de none si no es online
+        if(pudp != None):
+            self.puertoUDP = pudp
         self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest)
         self.letterwidth = (self.width/3.4286)/10 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
@@ -416,16 +435,17 @@ class SalaEspera:
         pygame.display.update() 
         if(not self.isOnline and self.numJugadores > 1): #si vamos a permitir varios jugadores, iniciamos una conexión TCP
             # ------ servidor UDP y TCP ---------
-            self.escuchaTCP.initialize(self.ip,self.puerto,self.password,self.numJugadores,self.id,self.name,self.currentIcono,self.puertoUDP)
+            self.escuchaTCP.initialize(self.ip,self.puerto,self.password,self.numJugadores,self.id,self.name,self.currentIcono,self.puertoUDP,self.socketTCP)
             hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP.escuchaTCP)
             hiloEscuchaTCP.start()
             # -----------------------------
-        if(self.numJugadores >1): #tanto en cliente como en servidor vamos a usar UDP
-            self.escuchaUDP.initialize(self.ip,self.puertoUDP)
+        if(self.numJugadores >1): #se inicializa UDP en el servidor
+            self.escuchaUDP.initialize(self.ip,self.puertoUDP,self.socketUDP)
             hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
             hiloMantenerConexionUDP.start()
             hiloEnviarEstadoUDP = threading.Thread(target = self.enviarEstadoUDP.enviarEstadoUDP)
             hiloEnviarEstadoUDP.start()
+        
     
 
     # size_x, size_y: tamaño del botón en x y en y

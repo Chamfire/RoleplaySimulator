@@ -82,10 +82,10 @@ class Game:
 
         self.changedScreen = False #si está a true, se refrescará la pantalla que diga currentScreen
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #self.s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #self.local_ip,self.public_ip = self.getLocalAndPublicIP()
-        self.local_ip = self.getLocalAndPublicIP()
-        (self.freePortTCP, self.freePortUDP) = self.findFreePort()
+        self.local_ip = self.getLocalIP()
+        #(self.freePortTCP, self.freePortUDP) = self.findFreePort()
         
         self.max_length_name = 13
         pygame.display.set_caption('DND_Simulator') #nombre de la ventana
@@ -97,9 +97,9 @@ class Game:
         self.options = Config(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.configuration.fps,self.configuration.dmVoice,self.configuration.volMusica, self.configuration.volEffects,self.font)
         self.login = Login(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.name,self.perfil.logged,self.perfil.avatarPicPerfil,self.max_length_name,self.font)
         self.seleccionPartidas = SeleccionPartidas(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
-        self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.freePortTCP,self.font)
-        self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.freePortTCP,self.freePortUDP,self.font,self.perfil.id)
-        self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id,self.freePortUDP)
+        self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.font)
+        self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.font,self.perfil.id)
+        self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
@@ -249,6 +249,7 @@ class Game:
                             if(self.currentScreen == "salaEspera"):
                                 self.online = True
                                 self.salaEspera.setNumJugadoresYOtherPlayers(self.joinPartida.getNumJugadoresAndJugadoresAndPort())
+                                self.salaEspera.setPortUDPYSocketUDP(self.joinPartida.getPortUDPYSocket())
                             self.screen = self.joinPartida.getScreen()
                     elif self.currentScreen == "server_disc":
                         screenToChange = self.serverDisc.clickedMouse()
@@ -355,10 +356,6 @@ class Game:
             self.s.close()
         except:
             pass
-        try:
-            self.s2.close()
-        except:
-            pass
         pygame.quit()
     
     def change_music(self,volM,volE):
@@ -369,7 +366,7 @@ class Game:
         self.ch2.set_volume(volE)
         self.ch3.set_volume(volE)
         self.ch4.set_volume(volE)
-    def getLocalAndPublicIP(self):
+    def getLocalIP(self):
         #local_ip = socket.gethostbyname(socket.gethostname())
         #public_ip = requests.get('https://ident.me').text.strip()
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #socket
@@ -378,12 +375,3 @@ class Game:
         s.close() #cerramos
         return (local_ip)
         #return(local_ip,public_ip)
-    def findFreePort(self):
-        self.s.bind(('', 0)) #encuentra un puerto libre
-        free_portTCP = self.s.getsockname()[1] #devuelve el nombre del puerto encontrado
-        free_portUDP = None
-        self.s2.bind(('', 0)) #encuentra un puerto libre
-        free_portUDP = self.s2.getsockname()[1] #devuelve el nombre del puerto encontrado
-        self.s.close()
-        self.s2.close()
-        return (free_portTCP,free_portUDP)

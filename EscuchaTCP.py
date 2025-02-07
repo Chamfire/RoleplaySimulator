@@ -13,7 +13,7 @@ class EscuchaTCP:
         self.nombrePropio = None
         self.miIcono = None
 
-    def initialize(self,ip,puerto,password,numJugadores,idPropia,nombrePropio,miIcono,puertoUDP):
+    def initialize(self,ip,puerto,password,numJugadores,idPropia,nombrePropio,miIcono,puertoUDP,socket):
         self.ip = ip
         self.puerto = puerto
         self.puertoUDP = puertoUDP
@@ -22,11 +22,12 @@ class EscuchaTCP:
         self.idPropia = idPropia
         self.nombrePropio = nombrePropio
         self.miIcono = miIcono
+        self.server_socket = socket
 
     def escuchaTCP(self):
         #Es multijugador
-        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socket.bind((self.ip, self.puerto))
+        #self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #self.server_socket.bind((self.ip, self.puerto))
         self.server_socket.listen() 
         while True:
             #print("activo en TCP escucha")
