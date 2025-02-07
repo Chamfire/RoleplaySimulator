@@ -38,6 +38,7 @@ class EscuchaTCP:
                 msg_client = socket_c.recv(1024).decode('utf-8')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
+                msg_to_OtherPlayers = None
                 #print(resp)
                 #print(resp[0])
                 #print(resp[1][0])
@@ -58,15 +59,19 @@ class EscuchaTCP:
                             jugador_modificado = (jugador[0],(jugador[1][0],jugador[1][1],False,jugador[1][3],jugador[1][4],jugador[1][5]))
                             self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
                     self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
+
+                    #enviamos la actualizacón que deben hacer los jugadores conectados actualmente
+                    msg_to_OtherPlayers = self.password+";"+str(self.idPropia)+";usuario_desconectado:"+resp[1]
+                    
                     #TODO: modificar cuando esté en partida (coger currentScreen)
                 elif(resp[0] == -1):
                     pass
                 elif(resp[0] == 1 and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.idPropia != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
-                    msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono) #te pasas a ti mismo como jugador, para que te añada
+                    msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
-                        if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2] == True): #True es que está activo el jugador en ese momento
+                        if(self.GLOBAL.getOtherPlayersIndex(i) != None): #le pasamos la lista de jugadores tanto activos como inactivos
                             print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
-                            msg_ok = msg_ok+":"+str(self.GLOBAL.getOtherPlayersIndex(i)[0])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][0]+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][1])
+                            msg_ok = msg_ok+":"+str(self.GLOBAL.getOtherPlayersIndex(i)[0])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][0]+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][1])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][2]
                             #el mensaje tendrá este formato -> ok:4:56382:id1;pepe;1:id2;juan;4
                     free_pos = -1
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
@@ -79,6 +84,7 @@ class EscuchaTCP:
                             break
                     self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4]),ip_port_client[0],ip_port_client[1]))) #(id,(nombre,avatarPicPerfil,True,54823,ip,puertoTCP) <- añado al jugador (True es porque está activo)
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
+                    msg_to_OtherPlayers = str(self.password)+";"+str(self.idPropia)+";"+str(resp[1][3])+":usuario_nuevo:"+str(resp[1][1])+":"+str(resp[1][2])+"True" #patata;id:nombre:avatarPicPerfil:True;usuario_nuevo
                     self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
                     #es posible que se haya desconectado y se haya vuelto a conectar
                             
@@ -88,6 +94,21 @@ class EscuchaTCP:
                     msg_no = "no"
                     socket_c.sendall(msg_no.encode('utf-8'))
                 socket_c.close()
+
+                if(msg_to_OtherPlayers != None):
+                    #hemos recibido un mensaje que implica la modificación de la lista de jugadores activos, y hay que
+                    #enviarles el cambio a los otros jugadores ACTIVOS 
+                    for i in range(0,len(self.GLOBAL.getOtherPlayers())):
+                        if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
+                            socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                            try:
+                                socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
+                                socket_temporal.sendall(msg_to_OtherPlayers.encode('utf-8'))
+                            except:
+                                pass
+                            finally:
+                                socket_temporal.close() #se cierra el socket al terminar
+
             except:
                 try:
                     socket_c.close()

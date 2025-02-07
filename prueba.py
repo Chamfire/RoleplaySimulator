@@ -13,3 +13,7 @@ print((True,int(resp[1]),jugadores))
 
 a = {1,2,3}
 print(len(a))
+
+s3 = "hola"
+resp2 = s3.split(":")
+print(resp2)

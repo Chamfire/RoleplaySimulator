@@ -30,9 +30,32 @@ class EscuchaTCPClient:
                     #el primero siempre es el servidor -> posición 0
                     #Comprobamos la contraseña de la partida, y si la id que me está pasando == la id del servidor -> comprobamos que el mensaje es de desconexión
                     print(self.password,id_server,content)
-                    if(password == self.password and id_server == self.GLOBAL.getOtherPlayersIndex(0)[0] and content == "servidor_desconectado"):
-                        self.GLOBAL.setOtherPlayersIndex(0,{}) #se reestablece a lista vacía
-                        self.GLOBAL.setRefreshScreen("server_disc") #le decimos que se ha desactivado el servidor
+                    if(password == self.password and id_server == self.GLOBAL.getOtherPlayersIndex(0)[0]):
+                        resp = content.split(":")
+                        if(len(resp) == 1 and content[0] == "servidor_desconectado"):
+                            self.GLOBAL.setOtherPlayersIndex(0,{}) #se reestablece a lista vacía
+                            self.GLOBAL.setRefreshScreen("server_disc") #le decimos que se ha desactivado el servidor
+                        elif(len(resp) == 4 and content[0] == "usuario_nuevo"):
+                            #añadimos a jugador en la lista, y hacer refresh
+                            for i in range(0,len(self.GLOBAL.getOtherPlayers())):
+                                if(self.GLOBAL.getOtherPlayersIndex(i) == None): #si no se ha conectado nunca, lo añadimos
+                                    free_pos = i
+                                    for j in range(0,len(self.GLOBAL.getOtherPlayers())):
+                                        if(self.GLOBAL.getOtherPlayersIndex(j) != None and self.GLOBAL.getOtherPlayersIndex(j)[0] == resp[1][3]):
+                                            free_pos = j
+                                            break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
+                                    break
+                            self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True))) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
+                            self.GLOBAL.setRefreshScreen("salaEspera")
+                        elif(len(resp) == 2 and content[0] == "usuario_desconectado"):
+                            #ponemos el jugador como inactivo en la lista
+                            for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
+                                if(jugador != None and jugador[0] == resp[1]):
+                                    jugador_modificado = (jugador[0],(jugador[1][0],jugador[1][1],False))
+                                    self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
+                                    break
+                            self.GLOBAL.setRefreshScreen("salaEspera")
+                    
                     #si no es el id del servidor, o la contraseña no es correcta, lo ignoramos
                 except:
                     pass #si no es el id del servidor, lo ignoramos
