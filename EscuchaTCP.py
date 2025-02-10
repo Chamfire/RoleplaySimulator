@@ -85,6 +85,7 @@ class EscuchaTCP:
                     self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4]),ip_port_client[0],ip_port_client[1]))) #(id,(nombre,avatarPicPerfil,True,54823,ip,puertoTCP) <- añado al jugador (True es porque está activo)
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
                     msg_to_OtherPlayers = str(self.password)+";"+str(self.idPropia)+";"+"usuario_nuevo:"+str(resp[1][3])+":"+str(resp[1][1])+":"+str(resp[1][2])+":True" #patata;idPropia;usuario_nuevo:id:nombre:avatarPicPerfil:True
+                    id_new_player = resp[1][3]
                     self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
                     #es posible que se haya desconectado y se haya vuelto a conectar
                             
@@ -99,7 +100,7 @@ class EscuchaTCP:
                     #hemos recibido un mensaje que implica la modificación de la lista de jugadores activos, y hay que
                     #enviarles el cambio a los otros jugadores ACTIVOS 
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
-                        if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
+                        if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2] and id_new_player != self.GLOBAL.getOtherPlayersIndex(i)[0]): 
                             socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                             try:
                                 socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
