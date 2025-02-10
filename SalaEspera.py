@@ -120,7 +120,7 @@ class SalaEspera:
             elif((i in no[1]) and (no[1][i][0] == self.id)):
                 pass 
             else:
-                if(cont < self.numJugadores):
+                if(cont < self.numJugadores - 1):
                     self.GLOBAL.setOtherPlayersIndex(cont,None)
                     cont = cont+1
                 #si el contador ya está a 2 para una partida de 3 jugadores, paramos
