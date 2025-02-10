@@ -40,7 +40,7 @@ class EscuchaTCP:
                 print('msg received: ',msg_client)
                 msg_to_OtherPlayers = None
                 id_new_player = None
-                #print(resp)
+                print(resp)
                 #print(resp[0])
                 #print(resp[1][0])
                 #print(self.password)
@@ -78,11 +78,12 @@ class EscuchaTCP:
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) == None): #si no se ha conectado nunca, lo añadimos
                             free_pos = i
-                            for j in range(0,len(self.GLOBAL.getOtherPlayers())):
-                                if(self.GLOBAL.getOtherPlayersIndex(j) != None and self.GLOBAL.getOtherPlayersIndex(j)[0] == resp[1][3]):
-                                   free_pos = j
-                                   break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                             break
+                    for j in range(0,len(self.GLOBAL.getOtherPlayers())):
+                        if(self.GLOBAL.getOtherPlayersIndex(j) != None and self.GLOBAL.getOtherPlayersIndex(j)[0] == resp[1][3]):
+                            free_pos = j
+                            break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
+        
                     self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4]),ip_port_client[0],ip_port_client[1]))) #(id,(nombre,avatarPicPerfil,True,54823,ip,puertoTCP) <- añado al jugador (True es porque está activo)
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
                     msg_to_OtherPlayers = str(self.password)+";"+str(self.idPropia)+";"+"usuario_nuevo:"+str(resp[1][3])+":"+str(resp[1][1])+":"+str(resp[1][2])+":True" #patata;idPropia;usuario_nuevo:id:nombre:avatarPicPerfil:True
