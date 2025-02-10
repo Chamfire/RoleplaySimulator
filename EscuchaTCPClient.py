@@ -46,7 +46,6 @@ class EscuchaTCPClient:
                                             break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                                     break
                             self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1],(resp[2],int(resp[3]),True))) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
-                            self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
                             self.GLOBAL.setRefreshScreen("salaEspera")
                         elif(len(resp) == 2 and resp[0] == "usuario_desconectado"):
                             #ponemos el jugador como inactivo en la lista
@@ -55,7 +54,6 @@ class EscuchaTCPClient:
                                     jugador_modificado = (jugador[0],(jugador[1][0],jugador[1][1],False))
                                     self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
                                     break
-                            self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()-1)
                             self.GLOBAL.setRefreshScreen("salaEspera")
                     
                     #si no es el id del servidor, o la contraseña no es correcta, lo ignoramos
