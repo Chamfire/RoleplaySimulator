@@ -38,7 +38,8 @@ class EscuchaUDP:
                 #print(self.existsPlayer(resp[1][3]))
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
                 socket_c_udp.close()
-            except:
+            except Exception as e:
+                print(e)
                 try:
                     socket_c_udp.close()
                 except:

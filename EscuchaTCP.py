@@ -40,7 +40,7 @@ class EscuchaTCP:
                 print('msg received: ',msg_client)
                 msg_to_OtherPlayers = None
                 id_new_player = None
-                print(resp)
+                #print(resp)
                 #print(resp[0])
                 #print(resp[1][0])
                 #print(self.password)
@@ -71,7 +71,7 @@ class EscuchaTCP:
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None): #le pasamos la lista de jugadores tanto activos como inactivos
-                            print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
+                            #print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
                             msg_ok = msg_ok+":"+str(self.GLOBAL.getOtherPlayersIndex(i)[0])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][0]+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][1])+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][2])
                             #el mensaje tendrá este formato -> ok:4:56382:id1;pepe;1:id2;juan;4
                     free_pos = -1
@@ -104,7 +104,7 @@ class EscuchaTCP:
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
                             if((id_new_player == None) or (id_new_player != self.GLOBAL.getOtherPlayersIndex(i)[0])):
-                                print("dentro de envío a otros jugadores")
+                                #print("dentro de envío a otros jugadores")
                                 socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                                 try:
                                     socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
@@ -131,9 +131,9 @@ class EscuchaTCP:
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     try:
                         ip_dest = jugador[1][4]
-                        print(self.GLOBAL.getOtherPlayers())
-                        print(id,jugador)
-                        print(msg,ip_dest,jugador[1][5])
+                        #print(self.GLOBAL.getOtherPlayers())
+                        #print(id,jugador)
+                        #print(msg,ip_dest,jugador[1][5])
                         socket_c.connect((ip_dest, int(jugador[1][5])))
                         socket_c.sendall(msg.encode('utf-8')) #mensaje de meMuero, para que los jugadores se salgan del servidor
                         #Si el mensaje de me muero no se pudiera enviar, se detectaría a través del timeout de UDP

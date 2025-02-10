@@ -16,17 +16,19 @@ class EnviarEstadoUDP:
             try:
                 client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 if(self.isOnline):
-                    message = b'msg a modificar con el estado'
-                    client_socket.sendto(message, (self.ipDest, int(self.serverPortUDP)))
+                    message = 'estoy'
+                    client_socket.sendto(message.encode('utf-8'), (self.ipDest, int(self.serverPortUDP)))
                     client_socket.close()
                 else:
                     pass #recorrer lista de usuarios activos y mandarles mensajes de ver si están conectados
                 threading.Event().wait(2) #2 segundos
-            except:
+            except Exception as e:
+                print(e)
                 threading.Event().wait(2) #2 segundos
         try:
             client_socket.close()
-        except:
+        except Exception as e1:
+            print("saliendo ",e1)
             pass
         #print("fin hilo enviarUDP")
 
