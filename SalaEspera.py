@@ -112,12 +112,14 @@ class SalaEspera:
         self.ip_dest = no[3]
         cont = 0
         print('numJugadores: ',self.numJugadores)
-        for i in range(0,(self.numJugadores-1)):
+        for i in range(0,(self.numJugadores)): #te can a pasar a ti mismo también
             if((i in no[1]) and (no[1][i][0] != self.id)):
                 self.GLOBAL.setOtherPlayersIndex(cont,no[1][i]) #jugadores que hay activos cuando te conectas al servidor
+            elif((i in no[1]) and no[1][i][0] == self.id):
+                pass 
             else:
                 self.GLOBAL.setOtherPlayersIndex(cont,None)
-            cont = cont+1
+                cont = cont+1
         print('otherPlayers: ',self.GLOBAL.getOtherPlayers())
         
 
