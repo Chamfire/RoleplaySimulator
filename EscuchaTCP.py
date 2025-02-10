@@ -30,7 +30,7 @@ class EscuchaTCP:
         #self.server_socket.bind((self.ip, self.puerto))
         self.server_socket.listen() 
         while True:
-            #print("activo en TCP escucha")
+            #print("activo en TCP escucha: ",self.server_socket.getsockname())
             #print(self.GLOBAL.getOtherPlayers())
             try:
                 socket_c, ip_port_client = self.server_socket.accept()
