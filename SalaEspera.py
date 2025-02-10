@@ -111,15 +111,19 @@ class SalaEspera:
         self.puertoUDP_server = no[2]
         self.ip_dest = no[3]
         cont = 0
+        print(no)
         print('numJugadores: ',self.numJugadores)
-        for i in range(0,(self.numJugadores)): #te can a pasar a ti mismo también
+        for i in range(0,(self.numJugadores)): #te pueden pasar a ti mismo también
             if((i in no[1]) and (no[1][i][0] != self.id)):
                 self.GLOBAL.setOtherPlayersIndex(cont,no[1][i]) #jugadores que hay activos cuando te conectas al servidor
-            elif((i in no[1]) and no[1][i][0] == self.id):
+                cont = cont+1
+            elif((i in no[1]) and (no[1][i][0] == self.id)):
                 pass 
             else:
-                self.GLOBAL.setOtherPlayersIndex(cont,None)
-                cont = cont+1
+                if(cont < self.numJugadores):
+                    self.GLOBAL.setOtherPlayersIndex(cont,None)
+                    cont = cont+1
+                #si el contador ya está a 2 para una partida de 3 jugadores, paramos
         print('otherPlayers: ',self.GLOBAL.getOtherPlayers())
         
 
