@@ -297,6 +297,7 @@ class UnionPartida:
                             self.numJugadores = resp[1]
                             self.jugadores = resp[2]
                             self.portUDP_server = resp[3]
+                            print('jugadores: ',self.jugadores)
                             self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                             self.ch1.play(self.pressed)
                     except Exception as e:
