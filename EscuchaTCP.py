@@ -84,7 +84,7 @@ class EscuchaTCP:
                             free_pos = j
                             break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
         
-                    self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4]),ip_port_client[0],resp[1][5]))) #(id,(nombre,avatarPicPerfil,True,54823,ip,puertoTCP) <- añado al jugador (True es porque está activo)
+                    self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4]),ip_port_client[0],int(resp[1][5])))) #(id,(nombre,avatarPicPerfil,True,54823,ip,puertoTCP) <- añado al jugador (True es porque está activo)
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
                     msg_to_OtherPlayers = str(self.password)+";"+str(self.idPropia)+";"+"usuario_nuevo:"+str(resp[1][3])+":"+str(resp[1][1])+":"+str(resp[1][2])+":True" #patata;idPropia;usuario_nuevo:id:nombre:avatarPicPerfil:True
                     id_new_player = resp[1][3]
@@ -104,6 +104,7 @@ class EscuchaTCP:
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
                             if((id_new_player == None) or (id_new_player != self.GLOBAL.getOtherPlayersIndex(i)[0])):
+                                print("dentro de envío a otros jugadores")
                                 socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                                 try:
                                     socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
