@@ -218,7 +218,7 @@ class UnionPartida:
                                   #  0  1   2       3                  4
             resp = msg.split(':') # ok  4  54634 id1;pepe;1;True   id2;juan;4;True
             if(resp[0] == "ok"):
-                if(resp[1] != None and int(resp[1])>=0 and int(resp[1])<=6 and resp[2] != None and int(resp[2])>=49152 and int(resp[2]) <=65535): # si numjugadores recibido está entre 0 y 6 y el puerto es real
+                if(resp[1] != None and int(resp[1])>=0 and int(resp[1])<=6 and resp[2] != None and int(resp[2])>=10000 and int(resp[2]) <=99999): # si numjugadores recibido está entre 0 y 6 y el puerto es real
                     jugadores = {}
                     for i in range(0,len(resp)-3):
                         [id_j,name,pic,isActive] = resp[i+3].split(';')

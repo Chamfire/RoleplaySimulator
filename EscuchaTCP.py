@@ -161,7 +161,7 @@ class EscuchaTCP:
                     if(nombre != None and len(nombre) <= 13):
                         if(pic != None and int(pic) >=0 and int(pic) <=6): #solo hay 6 iconos
                             if(id != None and id != ' '):
-                                if(puerto != None and int(puerto)>=49152 and int(puerto) <=65535):
+                                if(puerto != None and int(puerto)>=10000 and int(puerto) <=99999):
                                     return (1,(password,nombre,pic,id,puerto))
                                 else:
                                     return (0,None)
