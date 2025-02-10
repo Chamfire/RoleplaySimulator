@@ -62,15 +62,17 @@ class EscuchaTCPClient:
                     except:
                         pass
                 #si no es eso, lo ignoramos
-                self.server_socket.close()
-            except Exception as e:
-                print(e)
+            except:
                 try:
                     self.server_socket.close()
                 except:
                     pass
                 break
             #print("Fin hilo EscuchaTCPClient")
+        try:
+            self.server_socket.close()
+        except:
+            pass
 
     def closeSocketTCPServer(self):
         if(self.server_socket != None):
