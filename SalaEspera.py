@@ -343,7 +343,7 @@ class SalaEspera:
 
             cur.close()
             conn.close() #cerramos la conexión con la bbdd
-            if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
                 self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
@@ -504,7 +504,7 @@ class SalaEspera:
             pantalla = "partida"
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
-            if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
                 self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                 self.ch1.play(self.pressed) 
                       
@@ -546,7 +546,7 @@ class SalaEspera:
         elif(not self.isOnline and self.checkIfMouseIsInButton(x_size2,y_size,x_start2,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
-            if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
                 self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                 if(self.first_timeB):
                     self.first_timeB = False
@@ -565,7 +565,7 @@ class SalaEspera:
         elif(not self.isOnline and self.checkIfMouseIsInButton(x_size2,y_size,x_startC,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
-            if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
                 self.screen.blit(pygame.transform.scale(self.bCreate_selected, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                 if(self.first_timeC):
                     self.first_timeC = False
@@ -589,7 +589,7 @@ class SalaEspera:
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
-                if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
+                if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
                     self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
