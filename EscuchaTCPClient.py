@@ -35,7 +35,7 @@ class EscuchaTCPClient:
                         if(len(resp) == 1 and resp[0] == "servidor_desconectado"):
                             self.GLOBAL.setOtherPlayersIndex(0,{}) #se reestablece a lista vacía
                             self.GLOBAL.setRefreshScreen("server_disc") #le decimos que se ha desactivado el servidor
-                        elif(len(resp) == 4 and resp[0] == "usuario_nuevo"):
+                        elif(len(resp) == 5 and resp[0] == "usuario_nuevo"):
                             #añadimos a jugador en la lista, y hacer refresh
                             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                                 if(self.GLOBAL.getOtherPlayersIndex(i) == None): #si no se ha conectado nunca, lo añadimos
