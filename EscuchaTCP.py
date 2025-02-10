@@ -39,6 +39,7 @@ class EscuchaTCP:
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
                 msg_to_OtherPlayers = None
+                id_new_player = None
                 #print(resp)
                 #print(resp[0])
                 #print(resp[1][0])
@@ -100,15 +101,17 @@ class EscuchaTCP:
                     #hemos recibido un mensaje que implica la modificación de la lista de jugadores activos, y hay que
                     #enviarles el cambio a los otros jugadores ACTIVOS 
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
-                        if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2] and id_new_player != self.GLOBAL.getOtherPlayersIndex(i)[0]): 
-                            socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                            try:
-                                socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
-                                socket_temporal.sendall(msg_to_OtherPlayers.encode('utf-8'))
-                            except:
-                                pass
-                            finally:
-                                socket_temporal.close() #se cierra el socket al terminar
+                        if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
+                            if((id_new_player == None) or (id_new_player != self.GLOBAL.getOtherPlayersIndex(i)[0])):
+                                socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                                try:
+                                    socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
+                                    socket_temporal.sendall(msg_to_OtherPlayers.encode('utf-8'))
+                                except:
+                                    pass
+                                finally:
+                                    socket_temporal.close() #se cierra el socket al terminar
+                    id_new_player = None
 
             except:
                 try:
