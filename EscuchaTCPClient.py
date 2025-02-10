@@ -30,6 +30,7 @@ class EscuchaTCPClient:
                     print(self.password,id_server,content)
                     if(password == self.password and id_server == self.GLOBAL.getOtherPlayersIndex(0)[0]):
                         resp = content.split(":")
+                        print(resp)
                         if(len(resp) == 1 and resp[0] == "servidor_desconectado"):
                             self.GLOBAL.setOtherPlayersIndex(0,{}) #se reestablece a lista vacía
                             self.GLOBAL.setRefreshScreen("server_disc") #le decimos que se ha desactivado el servidor
@@ -40,10 +41,11 @@ class EscuchaTCPClient:
                                     free_pos = i
                                     break
                             for j in range(0,len(self.GLOBAL.getOtherPlayers())):
-                                if(self.GLOBAL.getOtherPlayersIndex(j) != None and self.GLOBAL.getOtherPlayersIndex(j)[0] == resp[1][3]):
+                                if(self.GLOBAL.getOtherPlayersIndex(j) != None and self.GLOBAL.getOtherPlayersIndex(j)[0] == resp[1]):
                                     free_pos = j
                                     break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                             self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1],(resp[2],int(resp[3]),True))) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
+                            print(self.GLOBAL.getOtherPlayers())
                             self.GLOBAL.setRefreshScreen("salaEspera")
                         elif(len(resp) == 2 and resp[0] == "usuario_desconectado"):
                             #ponemos el jugador como inactivo en la lista
