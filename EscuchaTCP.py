@@ -84,7 +84,7 @@ class EscuchaTCP:
                             free_pos = j
                             break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
         
-                    self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4]),ip_port_client[0],ip_port_client[1]))) #(id,(nombre,avatarPicPerfil,True,54823,ip,puertoTCP) <- añado al jugador (True es porque está activo)
+                    self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4]),ip_port_client[0],resp[1][5]))) #(id,(nombre,avatarPicPerfil,True,54823,ip,puertoTCP) <- añado al jugador (True es porque está activo)
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
                     msg_to_OtherPlayers = str(self.password)+";"+str(self.idPropia)+";"+"usuario_nuevo:"+str(resp[1][3])+":"+str(resp[1][1])+":"+str(resp[1][2])+":True" #patata;idPropia;usuario_nuevo:id:nombre:avatarPicPerfil:True
                     id_new_player = resp[1][3]
@@ -153,16 +153,16 @@ class EscuchaTCP:
             #1: Mensaje correcto de solicitud de acceso
             #2: Mensaje correcto de desconexión
             resp = msg.split(':')
-            if(len(resp) == 5):
+            if(len(resp) == 6):
                 #MENSAJE TIPO 1 -> solicitud de acceso
-                [password,nombre,pic,id,puerto] = resp
+                [password,nombre,pic,id,puerto,puertoTCP] = resp
                 #print(password,nombre,pic,id)
                 if(password != None and len(password) <= 16): #es la longitud de la password máxima
                     if(nombre != None and len(nombre) <= 13):
                         if(pic != None and int(pic) >=0 and int(pic) <=6): #solo hay 6 iconos
                             if(id != None and id != ' '):
-                                if(puerto != None and int(puerto)>=10000 and int(puerto) <=99999):
-                                    return (1,(password,nombre,pic,id,puerto))
+                                if(puerto != None and puertoTCP != None and int(puerto)>=10000 and int(puertoTCP)>= 10000 and int(puerto) <=99999 and int(puertoTCP)<=99999):
+                                    return (1,(password,nombre,pic,id,puerto,puertoTCP))
                                 else:
                                     return (0,None)
                             else:

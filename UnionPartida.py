@@ -266,15 +266,18 @@ class UnionPartida:
                     port_dest = result[1][1]
                 # ----- conexión TCP  -----
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    server_socket_tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    server_socket_tcp.bind(('', 0)) #encuentra un puerto libre
                     self.socketUDP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.socketUDP.bind(('', 0)) #encuentra un puerto libre
                     self.portUDP = self.socketUDP.getsockname()[1] #devuelve el nombre del puerto encontrado
+                    puertoTCP = server_socket_tcp.getsockname()[1]
                     try:
                         #print(ip_dest,port_dest)
                         self.ip_dest = ip_dest
                         socket_c.connect((ip_dest, int(port_dest)))
-                        msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)+":"+str(self.portUDP)
-                        #patata:pepe:3:id:56384 <- ejemplo mensaje
+                        msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)+":"+str(self.portUDP)+":"+str(puertoTCP)
+                        #patata:pepe:3:id:56384:49234 <- ejemplo mensaje
                         socket_c.sendall(msg_client.encode('utf-8'))
                         respuesta = socket_c.recv(1024).decode('utf-8') #tiene timeout de unos segundos
                         print('Datos recibidos: ',respuesta)
@@ -318,9 +321,10 @@ class UnionPartida:
                     finally:
                         ip = socket_c.getsockname()[0]
                         port = socket_c.getsockname()[1]
+                        socket_c.close()
                         print(ip,port)
                         if(resp[0]): #solo pondremos las conexiones si nos ha dicho que sí el servidor
-                            self.escuchaTCPClient = EscuchaTCPClient(socket_c,ip,port,ip_dest,port_dest,self.id,self.password) #creamos un servidor para recibir mensajes TCP del host
+                            self.escuchaTCPClient = EscuchaTCPClient(server_socket_tcp,ip,puertoTCP,ip_dest,port_dest,self.id,self.password) #creamos un servidor para recibir mensajes TCP del host
                             hiloEscuchaTCPClient = threading.Thread(target=self.escuchaTCPClient.escuchaTCPClient)
                             hiloEscuchaTCPClient.start()
                 # --------------------------

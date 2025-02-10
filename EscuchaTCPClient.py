@@ -53,15 +53,20 @@ class EscuchaTCPClient:
                                     self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
                                     break
                             self.GLOBAL.setRefreshScreen("salaEspera")
-                    
                     #si no es el id del servidor, o la contraseña no es correcta, lo ignoramos
                 except:
                     pass #si no es el id del servidor, lo ignoramos
+                finally:
+                    try:
+                        socket_c.close()
+                    except:
+                        pass
                 #si no es eso, lo ignoramos
-                socket_c.close()
-            except:
+                self.server_socket.close()
+            except Exception as e:
+                print(e)
                 try:
-                    socket_c.close()
+                    self.server_socket.close()
                 except:
                     pass
                 break
