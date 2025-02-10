@@ -38,11 +38,11 @@ class EscuchaTCPClient:
                             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                                 if(self.GLOBAL.getOtherPlayersIndex(i) == None): #si no se ha conectado nunca, lo añadimos
                                     free_pos = i
-                                    for j in range(0,len(self.GLOBAL.getOtherPlayers())):
-                                        if(self.GLOBAL.getOtherPlayersIndex(j) != None and self.GLOBAL.getOtherPlayersIndex(j)[0] == resp[1][3]):
-                                            free_pos = j
-                                            break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                                     break
+                            for j in range(0,len(self.GLOBAL.getOtherPlayers())):
+                                if(self.GLOBAL.getOtherPlayersIndex(j) != None and self.GLOBAL.getOtherPlayersIndex(j)[0] == resp[1][3]):
+                                    free_pos = j
+                                    break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                             self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1],(resp[2],int(resp[3]),True))) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
                             self.GLOBAL.setRefreshScreen("salaEspera")
                         elif(len(resp) == 2 and resp[0] == "usuario_desconectado"):
