@@ -318,9 +318,8 @@ class UnionPartida:
                     finally:
                         ip = socket_c.getsockname()[0]
                         port = socket_c.getsockname()[1]
-                    
+                        print(ip,port)
                         if(resp[0]): #solo pondremos las conexiones si nos ha dicho que sí el servidor
-                            socket_c.bind((ip, port))
                             self.escuchaTCPClient = EscuchaTCPClient(socket_c,ip,port,ip_dest,port_dest,self.id,self.password) #creamos un servidor para recibir mensajes TCP del host
                             hiloEscuchaTCPClient = threading.Thread(target=self.escuchaTCPClient.escuchaTCPClient)
                             hiloEscuchaTCPClient.start()
