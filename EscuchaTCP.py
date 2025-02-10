@@ -84,7 +84,7 @@ class EscuchaTCP:
                             break
                     self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4]),ip_port_client[0],ip_port_client[1]))) #(id,(nombre,avatarPicPerfil,True,54823,ip,puertoTCP) <- añado al jugador (True es porque está activo)
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
-                    msg_to_OtherPlayers = str(self.password)+";"+str(self.idPropia)+";"+str(resp[1][3])+":usuario_nuevo:"+str(resp[1][1])+":"+str(resp[1][2])+":True" #patata;id:nombre:avatarPicPerfil:True;usuario_nuevo
+                    msg_to_OtherPlayers = str(self.password)+";"+str(self.idPropia)+";"+"usuario_nuevo:"+str(resp[1][3])+":"+str(resp[1][1])+":"+str(resp[1][2])+":True" #patata;idPropia;usuario_nuevo:id:nombre:avatarPicPerfil:True
                     self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
                     #es posible que se haya desconectado y se haya vuelto a conectar
                             

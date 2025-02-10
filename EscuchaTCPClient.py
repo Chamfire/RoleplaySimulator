@@ -45,7 +45,7 @@ class EscuchaTCPClient:
                                             free_pos = j
                                             break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                                     break
-                            self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True))) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
+                            self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1],(resp[2],int(resp[3]),True))) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
                             self.GLOBAL.setRefreshScreen("salaEspera")
                         elif(len(resp) == 2 and resp[0] == "usuario_desconectado"):
                             #ponemos el jugador como inactivo en la lista
