@@ -140,8 +140,7 @@ class SalaEspera:
             self.letterwidth3 = (self.width/3.4286)/18 #cálculo de la base en píxeles 
             self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3)
             self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
-            
-            if(self.numJugadores == self.GLOBAL.getCurrentPlayers):
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
                 self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
