@@ -14,8 +14,6 @@ class EscuchaTCPClient:
         
     def escuchaTCPClient(self):
         print('escuchando en ',self.ip,self.puerto)
-        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socket.bind((self.ip, self.puerto))
         self.server_socket.listen() 
 
         while True:
