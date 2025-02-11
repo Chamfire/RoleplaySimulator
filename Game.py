@@ -250,6 +250,7 @@ class Game:
                                 self.online = True
                                 self.salaEspera.setNumJugadoresYOtherPlayers(self.joinPartida.getNumJugadoresAndJugadoresAndPort())
                                 self.salaEspera.setPortUDPYSocketUDP(self.joinPartida.getPortUDPYSocket())
+                                self.salaEspera.setPassword(self.joinPartida.getPassword())
                             self.screen = self.joinPartida.getScreen()
                     elif self.currentScreen == "server_disc":
                         screenToChange = self.serverDisc.clickedMouse()

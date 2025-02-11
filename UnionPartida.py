@@ -98,6 +98,9 @@ class UnionPartida:
         self.name = name
         self.avatarPicPerfil = a
 
+    def getPassword(self):
+        return self.password
+
     def render(self):
         #render screen
         self.password = None
