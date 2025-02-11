@@ -26,6 +26,7 @@ class Game:
     def __init__(self):
         pygame.init()
         self.font = 'agencyfb'
+        self.noEnPartida = True
         #self.font = 'agencyfbnormal'
         #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
@@ -112,7 +113,7 @@ class Game:
         while self.currentScreen != 'quit':
             #nombre del simulador
             screenToRefresh = self.GLOBAL.getRefreshScreen()
-            if screenToRefresh != None:
+            if screenToRefresh != None and not self.GLOBAL.getNoEnPartida():
                 #nos ha llegado información de los hilos
                 if screenToRefresh == "salaEspera": #como estamos ya en esa sala, no hace falta cambiar la pantalla
                     self.GLOBAL.setRefreshScreen(None)

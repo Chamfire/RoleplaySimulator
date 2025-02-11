@@ -5,6 +5,7 @@ class Global:
         self.lock_cp = threading.Lock() #para currentPlayers
         self.lock_rs = threading.Lock() #para refreshScreen
         self.lock_to = threading.Lock() #para timeout
+        self.lock_np = threading.Lock() #para gestionar las salidas de la partida
 
     def initialize(self):
         global otherPlayers 
@@ -15,6 +16,8 @@ class Global:
         refreshScreen = None
         global timeout
         timeout = None
+        global noEnPartida
+        noEnPartida = True
 
     def setOtherPlayers(self,list):
         global otherPlayers
@@ -27,6 +30,22 @@ class Global:
     def getTimeout(self):
         global timeout
         return timeout
+    
+    def setEnPartida(self):
+        global noEnPartida
+        self.lock_np.acquire()
+        noEnPartida = True
+        self.lock_np.release()
+
+    def getNoEnPartida(self):
+        global noEnPartida
+        return noEnPartida
+    
+    def setNoEnPartida(self):
+        global noEnPartida
+        self.lock_np.acquire()
+        noEnPartida = False
+        self.lock_np.release()
     
     def setTimeout(self,v):
         global timeout
