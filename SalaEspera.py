@@ -262,7 +262,6 @@ class SalaEspera:
         (self.puerto,pudp) = self.findFreePort(isOnline) #pudp será distinto de none si no es online
         if(pudp != None):
             self.puertoUDP = pudp
-        self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest,self.id,self.password)
         self.letterwidth = (self.width/3.4286)/10 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente3 = pygame.font.SysFont(self.font,self.lettersize)
@@ -354,7 +353,7 @@ class SalaEspera:
         #Título
         self.screen.blit(self.labelTitle, (self.width/3.4783, self.height/17.5000)) #345 40
         #Iconos de los jugadores
-
+        self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest,self.id,self.password)
         for i in range(0,6):
             x_size = self.width/8.0000 #150
             y_size = self.width/8.0000
