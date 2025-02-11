@@ -29,8 +29,7 @@ class EnviarEstadoUDP:
                         self.GLOBAL.setRefreshScreen("server_disc") #le decimos que se ha desactivado el servidor
                         self.GLOBAL.setTimeout(None) #reiniciamos el contador para posibles nuevas partidas
             
-                except Exception as e:
-                    print(e)
+                except:
                     threading.Event().wait(0.2) #0.2 segundos
         else:
             cont = {}
