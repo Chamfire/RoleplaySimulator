@@ -113,9 +113,9 @@ class Game:
         while self.currentScreen != 'quit':
             #nombre del simulador
             screenToRefresh = self.GLOBAL.getRefreshScreen()
-            if screenToRefresh != None and not self.GLOBAL.getNoEnPartida():
+            if screenToRefresh != None:
                 #nos ha llegado información de los hilos
-                if screenToRefresh == "salaEspera": #como estamos ya en esa sala, no hace falta cambiar la pantalla
+                if screenToRefresh == "salaEspera" and not self.GLOBAL.getNoEnPartida(): #como estamos ya en esa sala, no hace falta cambiar la pantalla
                     self.GLOBAL.setRefreshScreen(None)
                     self.salaEspera.refresh() #refrescamos la pantalla
                 elif screenToRefresh == "server_disc":

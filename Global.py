@@ -34,7 +34,7 @@ class Global:
     def setEnPartida(self):
         global noEnPartida
         self.lock_np.acquire()
-        noEnPartida = True
+        noEnPartida = False
         self.lock_np.release()
 
     def getNoEnPartida(self):
@@ -44,7 +44,7 @@ class Global:
     def setNoEnPartida(self):
         global noEnPartida
         self.lock_np.acquire()
-        noEnPartida = False
+        noEnPartida = True
         self.lock_np.release()
     
     def setTimeout(self,v):
