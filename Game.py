@@ -17,6 +17,7 @@ from UnionPartida import UnionPartida
 from Global import Global
 from ServerDisconected import ServerDisconected
 import socket
+import threading
 #import requests
 
 
@@ -110,9 +111,9 @@ class Game:
         self.menu.render()
         while self.currentScreen != 'quit':
             #nombre del simulador
-            if self.GLOBAL.getRefreshScreen() != None:
+            screenToRefresh = self.GLOBAL.getRefreshScreen()
+            if screenToRefresh != None:
                 #nos ha llegado información de los hilos
-                screenToRefresh = self.GLOBAL.getRefreshScreen()
                 if screenToRefresh == "salaEspera": #como estamos ya en esa sala, no hace falta cambiar la pantalla
                     self.GLOBAL.setRefreshScreen(None)
                     self.salaEspera.refresh() #refrescamos la pantalla
@@ -125,6 +126,8 @@ class Game:
                     self.salaEspera.enviarEstadoUDP.desconectar()
                     self.joinPartida.escuchaTCPClient.closeSocketTCPServerSinMSG()
                     self.serverDisc.render()
+                else:
+                    pass
 
             if pygame.display.get_active() and self.minimized:
                 self.minimized = False #ya hemos renderizado de nuevo los objetos
