@@ -271,7 +271,7 @@ class UnionPartida:
                     socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     server_socket_tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     server_socket_tcp.bind(('', 0)) #encuentra un puerto libre
-                    self.socketUDP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    self.socketUDP = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
                     self.socketUDP.bind(('', 0)) #encuentra un puerto libre
                     self.portUDP = self.socketUDP.getsockname()[1] #devuelve el nombre del puerto encontrado
                     puertoTCP = server_socket_tcp.getsockname()[1]
