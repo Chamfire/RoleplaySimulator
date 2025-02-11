@@ -26,7 +26,6 @@ class Game:
     def __init__(self):
         pygame.init()
         self.font = 'agencyfb'
-        self.noEnPartida = True
         #self.font = 'agencyfbnormal'
         #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
@@ -93,6 +92,7 @@ class Game:
         pygame.display.set_caption('DND_Simulator') #nombre de la ventana
         self.currentScreen = "menu"
         self.GLOBAL = Global()
+        self.GLOBAL.setNoEnPartida() #establecemos que no está en partida
         self.GLOBAL.initialize() #inicializamos las variables globales
         self.menu = Menu(self.width, self.height,self.screen,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.logged,self.perfil.avatarPicPerfil,self.perfil.name,self.font)
         self.credits = Credits(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)

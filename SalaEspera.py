@@ -258,6 +258,7 @@ class SalaEspera:
     def render(self,isOnline):
         #render screen
         #abro socket TCP y UDP
+        self.GLOBAL.setEnPartida()
         self.socketTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         (self.puerto,pudp) = self.findFreePort(isOnline) #pudp será distinto de none si no es online
         if(pudp != None):
@@ -496,6 +497,7 @@ class SalaEspera:
             self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
             self.ch1.play(self.pressed)
             pygame.display.update() 
+            self.GLOBAL.setNoEnPartida() #establecemos que se ha salido de la partida
             return 'menu'
         
         #Botón cargar partida si eres el líder de la partida

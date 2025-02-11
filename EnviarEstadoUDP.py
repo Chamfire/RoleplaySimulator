@@ -26,6 +26,7 @@ class EnviarEstadoUDP:
                     self.GLOBAL.decreaseTimeout() 
                     if(self.GLOBAL.getTimeout() == 0): #no hemos recibido ningún mensaje del servidor en 15 envíos de mensaje
                         self.GLOBAL.setOtherPlayers({})  #se reestablece a lista vacía
+                        self.GLOBAL.setNoEnPartida() #se sale de la partida
                         self.GLOBAL.setRefreshScreen("server_disc") #le decimos que se ha desactivado el servidor
                         self.GLOBAL.setTimeout(None) #reiniciamos el contador para posibles nuevas partidas
             
