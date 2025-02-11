@@ -44,39 +44,38 @@ class EnviarEstadoUDP:
             while self.conected:
                 print("activo en enviarUDP servidor")
                 try:
-                    for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
-                        if(jugador[1][2] and self.GLOBAL.getTimeoutIndex(posicion) != None):
-                            client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                            message = str(self.password)+":"+self.id+":estoy"
-                            client_socket.sendto(message.encode('utf-8'), (self.ipDest, int(self.serverPortUDP)))
-                            client_socket.close()
-                            self.GLOBAL.decreaseTimeoutIndex(posicion)
-                            if(self.GLOBAL.getTimeoutIndex(posicion) == 0):
-                                #consideramos que el jugador se ha desconectado
-                                self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()-1)
-                                jugador_modificado = (jugador[0],(jugador[1][0],jugador[1][1],False,jugador[1][3],jugador[1][4],jugador[1][5]))
-                                self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
-                                self.GLOBAL.setTimeoutIndex(posicion,None)
-                                self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
+                    if(self.GLOBAL.getOtherPlayers() != None):
+                        for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
+                            if(jugador[1][2] and self.GLOBAL.getTimeoutIndex(posicion) != None):
+                                client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                                message = str(self.password)+":"+self.id+":estoy"
+                                client_socket.sendto(message.encode('utf-8'), (self.ipDest, int(self.serverPortUDP)))
+                                client_socket.close()
+                                self.GLOBAL.decreaseTimeoutIndex(posicion)
+                                if(self.GLOBAL.getTimeoutIndex(posicion) == 0):
+                                    #consideramos que el jugador se ha desconectado
+                                    self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()-1)
+                                    jugador_modificado = (jugador[0],(jugador[1][0],jugador[1][1],False,jugador[1][3],jugador[1][4],jugador[1][5]))
+                                    self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
+                                    self.GLOBAL.setTimeoutIndex(posicion,None)
+                                    self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
 
-                                #enviamos la actualizacón que deben hacer los jugadores conectados actualmente
-                                msg_to_OtherPlayers = str(self.password)+";"+str(self.id)+";usuario_desconectado:"+str(jugador[0])
-                                socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                                try:
-                                    socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(posicion)[1][4],self.GLOBAL.getOtherPlayersIndex(posicion)[1][5]))
-                                    socket_temporal.sendall(msg_to_OtherPlayers.encode('utf-8'))
-                                except:
-                                    pass
-                                finally:
-                                    socket_temporal.close() #se cierra el socket al terminar
+                                    #enviamos la actualizacón que deben hacer los jugadores conectados actualmente
+                                    msg_to_OtherPlayers = str(self.password)+";"+str(self.id)+";usuario_desconectado:"+str(jugador[0])
+                                    socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                                    try:
+                                        socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(posicion)[1][4],self.GLOBAL.getOtherPlayersIndex(posicion)[1][5]))
+                                        socket_temporal.sendall(msg_to_OtherPlayers.encode('utf-8'))
+                                    except:
+                                        pass
+                                    finally:
+                                        socket_temporal.close() #se cierra el socket al terminar
                     threading.Event().wait(0.2) #0.2 segundos
-                except Exception as e:
-                    print(e)
+                except:
                     threading.Event().wait(0.2) #0.2 segundos
         try:
             client_socket.close()
-        except Exception as e1:
-            print("saliendo ",e1)
+        except:
             pass
         print("fin hilo enviarUDP")
 
