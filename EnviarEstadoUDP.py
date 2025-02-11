@@ -47,7 +47,7 @@ class EnviarEstadoUDP:
                         if(jugador != None and jugador[1][2] and self.GLOBAL.getTimeoutIndex(posicion) != None):
                             client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                             message = str(self.password)+":"+self.id+":estoy"
-                            client_socket.sendto(message.encode('utf-8'), (jugador[1][3], int(jugador[1][4])))
+                            client_socket.sendto(message.encode('utf-8'), (jugador[1][4], int(jugador[1][3])))
                             client_socket.close()
                             self.GLOBAL.decreaseTimeoutIndex(posicion)
                             if(self.GLOBAL.getTimeoutIndex(posicion) == 0):
