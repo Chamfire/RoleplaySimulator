@@ -8,12 +8,38 @@ class Global:
         currentPlayers = 1
         global refreshScreen
         refreshScreen = None
+        global timeout
+        timeout = None
 
     def setOtherPlayers(self,list):
         global otherPlayers
         #print('antes',otherPlayers)
         otherPlayers = list
         #print('despues',otherPlayers)
+
+    def getTimeout(self):
+        global timeout
+        return timeout
+    
+    def setTimeout(self,v):
+        global timeout
+        timeout = v
+
+    def decreaseTimeout(self):
+        global timeout
+        timeout = timeout - 1
+
+    def getTimeoutIndex(self,i):
+        global timeout
+        return timeout[i]
+    
+    def decreaseTimeoutIndex(self,i):
+        global timeout
+        timeout[i] = timeout[i] - 1
+
+    def setTimeoutIndex(self,i,v):
+        global timeout
+        timeout[i] = v
 
     def setRefreshScreen(self,screenToRefresh):
         global refreshScreen

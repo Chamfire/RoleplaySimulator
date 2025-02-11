@@ -54,11 +54,14 @@ class EscuchaTCP:
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
                 if(resp[0] == 2):
                     #quitamos al jugador de la lista de jugadores activos
-                    self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()-1)
                     for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
                         if(jugador != None and jugador[0] == resp[1]):
+                            self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()-1)
                             jugador_modificado = (jugador[0],(jugador[1][0],jugador[1][1],False,jugador[1][3],jugador[1][4],jugador[1][5]))
                             self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
+                            self.GLOBAL.setTimeoutIndex(posicion,None)
+                            break
+                    #quitamos su contador el timeout
                     self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
 
                     #enviamos la actualizacón que deben hacer los jugadores conectados actualmente
@@ -88,6 +91,8 @@ class EscuchaTCP:
                     self.GLOBAL.setCurrentPlayers(self.GLOBAL.getCurrentPlayers()+1)
                     msg_to_OtherPlayers = str(self.password)+";"+str(self.idPropia)+";"+"usuario_nuevo:"+str(resp[1][3])+":"+str(resp[1][1])+":"+str(resp[1][2])+":True" #patata;idPropia;usuario_nuevo:id:nombre:avatarPicPerfil:True
                     id_new_player = resp[1][3]
+                    #hay que crear un nuevo index para ese jugador en cont de timeout
+                    self.GLOBAL.setTimeoutIndex(free_pos,15) #la id en cont es la misma que en otherPlayers
                     self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
                     #es posible que se haya desconectado y se haya vuelto a conectar
                             

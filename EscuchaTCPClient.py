@@ -32,8 +32,9 @@ class EscuchaTCPClient:
                         resp = content.split(":")
                         #print(resp)
                         if(len(resp) == 1 and resp[0] == "servidor_desconectado"):
-                            self.GLOBAL.setOtherPlayersIndex(0,{}) #se reestablece a lista vacía
+                            self.GLOBAL.setOtherPlayers({}) #se reestablece a lista vacía
                             self.GLOBAL.setRefreshScreen("server_disc") #le decimos que se ha desactivado el servidor
+                            self.GLOBAL.setTimeout(None)
                         elif(len(resp) == 5 and resp[0] == "usuario_nuevo"):
                             #añadimos a jugador en la lista, y hacer refresh
                             for i in range(0,len(self.GLOBAL.getOtherPlayers())):

@@ -8,11 +8,13 @@ class EscuchaUDP:
         self.ip = None
         self.puertoUDP = None
 
-    def initialize(self,ip,puertoUDP,socket,isOnline):
+    def initialize(self,ip,puertoUDP,socket,isOnline,password,id):
         self.ip = ip
         self.puertoUDP = puertoUDP
         self.server_socketUDP = socket
         self.isOnline = isOnline
+        self.password = password
+        self.id = id
 
 
     def escuchaUDP(self):
@@ -22,10 +24,8 @@ class EscuchaUDP:
         #self.server_socketUDP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #self.server_socketUDP.bind((self.ip, self.puertoUDP))
         #self.server_socketUDP.listen() 
-        
+
         if(self.isOnline):
-            cont = 0 #veces sin recibir mensajes de "estoy" del servidor
-            recv_server = False
             while True:
                 print("activo en UDP: ",self.server_socketUDP.getsockname())
                 try:
@@ -42,17 +42,14 @@ class EscuchaUDP:
                     #print(resp[1][3])
                     #print(self.existsPlayer(resp[1][3]))
                     #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
-                except Exception as e:
-                    print(e)
+                    if(respUDP[0] and respUDP[1][0] == self.password and respUDP[1][1] == self.GLOBAL.getOtherPlayersIndex(0)[0]):
+                        if(respUDP[1][2] == "estoy"):
+                            self.GLOBAL.setTimeout(15) #reiniciamos el contador, pues hemos recibido un mensaje suyo
+                            print("reinicio contador servidor a 15")
+                except: 
                     break
+                    
         else:
-            cont = {}
-            recv_server = False
-            for i in range(0,len(self.GLOBAL.getOtherPlayers())):
-                if(self.GLOBAL.getOtherPlayersIndex(i) != None):
-                    cont[i] = 0 #veces sin recibir mensajes de "estoy" del jugador i
-                else:
-                    cont[i] = None
 
             while True:
                 print("activo en UDP: ",self.server_socketUDP.getsockname())
@@ -62,6 +59,13 @@ class EscuchaUDP:
                     msg_clientUDP = data.decode('utf-8')
                     respUDP = self.checkformatUDP(msg_clientUDP)
                     print('msg received UDP: ',msg_clientUDP)
+                    if(respUDP[0] and respUDP[1][0] == self.password and respUDP[1][1] != self.id):
+                        if(respUDP[1][2] == "estoy"):
+                            for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
+                                if(jugador != None and jugador[0] == respUDP[1][1]): #es el id de un jugador existente
+                                    self.GLOBAL.setTimeoutIndex(posicion,15) #reiniciamos su contador
+                                    print("reinicio contador jugador a 15")
+                                    break 
                     #print(resp[0])
                     #print(resp[1][0])
                     #print(self.password)
@@ -70,6 +74,7 @@ class EscuchaUDP:
                     #print(resp[1][3])
                     #print(self.existsPlayer(resp[1][3]))
                     #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
+
                 except Exception as e:
                     print(e)
                     break
@@ -89,6 +94,10 @@ class EscuchaUDP:
     
     def checkformatUDP(self,msg):
         try:
-            pass
+            [password,id,content] = msg.split(":")
+            if(password != None and password != ' ' and id != None and id != ' ' and content != None and content != ' '):
+                return (True,(password,id,content))
+            else:
+                return (False,None)
         except:
             return (False,None)

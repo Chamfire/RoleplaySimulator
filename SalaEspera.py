@@ -262,7 +262,7 @@ class SalaEspera:
         (self.puerto,pudp) = self.findFreePort(isOnline) #pudp será distinto de none si no es online
         if(pudp != None):
             self.puertoUDP = pudp
-        self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest,self.id)
+        self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest,self.id,self.password)
         self.letterwidth = (self.width/3.4286)/10 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente3 = pygame.font.SysFont(self.font,self.lettersize)
@@ -448,7 +448,7 @@ class SalaEspera:
             hiloEscuchaTCP.start()
             # -----------------------------
         if(self.numJugadores >1): #se inicializa UDP en el servidor
-            self.escuchaUDP.initialize(self.ip,self.puertoUDP,self.socketUDP,self.isOnline)
+            self.escuchaUDP.initialize(self.ip,self.puertoUDP,self.socketUDP,self.isOnline,self.password,self.id)
             hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
             hiloMantenerConexionUDP.start()
             hiloEnviarEstadoUDP = threading.Thread(target = self.enviarEstadoUDP.enviarEstadoUDP)
