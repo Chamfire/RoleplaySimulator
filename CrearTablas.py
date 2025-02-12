@@ -156,13 +156,24 @@ class CrearTablas:
                 partida_id text NOT NULL REFERENCES partida(numPartida) ON DELETE CASCADE,
                 id_jugador text NOT NULL REFERENCES jugador(id_jugador) ON DELETE CASCADE,
                 PRIMARY KEY(partida_id,id_jugador)
-            )
+            )        
         """
         )
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador
                 AFTER UPDATE ON jugador
+                BEGIN
+                    UPDATE partida_jugador
+                    SET id_jugador = NEW.id_jugador
+                    WHERE id_jugador = OLD.id_jugador;
+                END;
+        """
+        )
+        cursor.execute(
+            """
+            CREATE TRIGGER IF NOT EXISTS eliminar_registro_partida
+                AFTER DELETE ON partida
                 BEGIN
                     UPDATE partida_jugador
                     SET id_jugador = NEW.id_jugador

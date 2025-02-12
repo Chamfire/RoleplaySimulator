@@ -299,8 +299,8 @@ class SalaEspera:
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
-                        if(len(rows2) < i): 
-                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[0]+"'"
+                        if(rows2 != [] and len(rows2) < i): 
+                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
                             self.GLOBAL.setOtherPlayersIndex(i,(jugador[0],(jugador[2],jugador[1],False,None,None,None)))
@@ -326,8 +326,8 @@ class SalaEspera:
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
-                        if(len(rows2) < i): 
-                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[0]+"'"
+                        if(rows2 != [] and len(rows2) < i): 
+                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
                             self.GLOBAL.setOtherPlayersIndex(i,(jugador[0],(jugador[2],jugador[1],False,None,None,None)))
@@ -352,8 +352,8 @@ class SalaEspera:
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
-                        if(len(rows2) < i): 
-                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[0]+"'"
+                        if(rows2 != [] and len(rows2) < i): 
+                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
                             self.GLOBAL.setOtherPlayersIndex(i,(jugador[0],(jugador[2],jugador[1],False,None,None,None)))
