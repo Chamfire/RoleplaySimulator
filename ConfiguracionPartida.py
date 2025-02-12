@@ -466,11 +466,13 @@ class ConfiguracionPartida:
                                         existo = True
                                         break
                                     else:
+                                        print("id corrupta")
                                         #si se corrompió el archivo y te tuvo que reasignar otra id, se va a actualizar ahora en la bbdd
                                         query_update_id = "UPDATE jugador SET id_jugador = '"+self.id+"' WHERE id_jugador = '"+row[0]+"';"
                                         cursor.execute(query_update_id)
                                         conn.commit() 
                                         existo = True
+                                        break
                                         
 
                         else:
