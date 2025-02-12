@@ -300,7 +300,7 @@ class SalaEspera:
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
                         #print(rows2,self.numJugadores)
-                        if(rows2 != [] and i <= len(rows2)): 
+                        if(rows2 != [] and i < len(rows2)): 
                             print("en el if")
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
@@ -330,7 +330,7 @@ class SalaEspera:
                     cur.execute(query_find_jugadores-1)
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores):
-                        if(rows2 != [] and i <= len(rows2)): 
+                        if(rows2 != [] and i < len(rows2)): 
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
@@ -356,7 +356,7 @@ class SalaEspera:
                     cur.execute(query_find_jugadores-1)
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores):
-                        if(rows2 != [] and i <= len(rows2)): 
+                        if(rows2 != [] and i < len(rows2)): 
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
