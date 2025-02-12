@@ -488,7 +488,7 @@ class ConfiguracionPartida:
                             cursor.execute(query_save_me,data_jugador_yo)
                         else:
                             #siempre actualizaremos nombre y pic del host por si hubieran sido modificados
-                            query_update_pic = "UPDATE jugador SET pic = '"+self.pic+"' WHERE id_jugador = '"+self.id+"';"
+                            query_update_pic = "UPDATE jugador SET pic = '"+str(self.pic)+"' WHERE id_jugador = '"+self.id+"';"
                             cursor.execute(query_update_pic)
                             query_update_name = "UPDATE jugador SET name = '"+self.name+"' WHERE id_jugador = '"+self.id+"';"
                             cursor.execute(query_update_name)
