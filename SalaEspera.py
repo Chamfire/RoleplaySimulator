@@ -294,6 +294,8 @@ class SalaEspera:
                 if(rows[0] != None and len(rows[0]) == 2):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
+                    #cargamos los jugadores de esta partida
+                    cur.execute("SELECT id_jugador FROM partida_jugador WHERE numPartida = 'p1'")
                     for i in range(0,self.numJugadores-1):
                         self.GLOBAL.setOtherPlayersIndex(i,None) #TODO: incluir actividad/no actividad cuando se extraiga de la bbdd
                 else:

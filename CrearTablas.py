@@ -9,6 +9,8 @@ class CrearTablas:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS jugador (
                 id_jugador text PRIMARY KEY,
+                pic integer NOT NULL CONSTRAINT pic_no_valido CHECK(pic >=0 AND pic <=6),
+                name text NOT NULL,
                 is_my_id boolean NOT NULL
             )
         """)

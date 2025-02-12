@@ -6,11 +6,13 @@ from Partida import Partida
 from datetime import datetime
 
 class ConfiguracionPartida:
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,font,id):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,font,id,pic,name):
         #screen
         self.screen = screen
         self.font = font
         self.id = id
+        self.pic = pic
+        self.name = name
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -479,11 +481,18 @@ class ConfiguracionPartida:
 
                         if(not existo):
                             #hay que meterlo
-                            data_jugador_yo = (self.id,True)
+                            data_jugador_yo = (self.id,True,self.pic,self.name)
                             query_save_me = """INSERT INTO jugador
-                                                (id_jugador,is_my_id) 
-                                                VALUES (?,?)"""
+                                                (id_jugador,is_my_id,pic,name) 
+                                                VALUES (?,?,?,?)"""
                             cursor.execute(query_save_me,data_jugador_yo)
+                        else:
+                            #siempre actualizaremos nombre y pic del host por si hubieran sido modificados
+                            query_update_pic = "UPDATE jugador SET pic = '"+self.pic+"' WHERE id_jugador = '"+self.id+"';"
+                            cursor.execute(query_update_id)
+                            query_update_name = "UPDATE jugador SET name = '"+self.name+"' WHERE id_jugador = '"+self.id+"';"
+                            cursor.execute(query_update_id)
+                            conn.commit() 
 
                         #es la primera vez que asignamos este jugador a la partida sí o sí (la partida no existía)
                         data_jugador_partida = (0,self.currentPartida,self.id) #nMuertes_partida,partida_id,id_jugador
