@@ -275,6 +275,7 @@ class UnionPartida:
                     self.socketUDP.bind(('', 0)) #encuentra un puerto libre
                     self.portUDP = self.socketUDP.getsockname()[1] #devuelve el nombre del puerto encontrado
                     puertoTCP = server_socket_tcp.getsockname()[1]
+                    resp = None
                     try:
                         #print(ip_dest,port_dest)
                         self.ip_dest = ip_dest
@@ -326,7 +327,7 @@ class UnionPartida:
                         port = socket_c.getsockname()[1]
                         socket_c.close()
                         print(ip,port)
-                        if(resp[0]): #solo pondremos las conexiones si nos ha dicho que sí el servidor
+                        if(resp != None and resp[0]): #solo pondremos las conexiones si nos ha dicho que sí el servidor
                             self.escuchaTCPClient = EscuchaTCPClient(server_socket_tcp,ip,puertoTCP,ip_dest,port_dest,self.id,self.password) #creamos un servidor para recibir mensajes TCP del host
                             hiloEscuchaTCPClient = threading.Thread(target=self.escuchaTCPClient.escuchaTCPClient)
                             hiloEscuchaTCPClient.start()
