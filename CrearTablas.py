@@ -162,23 +162,12 @@ class CrearTablas:
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador
-                AFTER UPDATE ON jugador
-                BEGIN
-                    UPDATE partida_jugador
-                    SET id_jugador = NEW.id_jugador
-                    WHERE id_jugador = OLD.id_jugador;
-                END;
-        """
-        )
-        cursor.execute(
-            """
-            CREATE TRIGGER IF NOT EXISTS eliminar_registro_partida
-                AFTER DELETE ON partida
-                BEGIN
-                    UPDATE partida_jugador
-                    SET id_jugador = NEW.id_jugador
-                    WHERE id_jugador = OLD.id_jugador;
-                END;
+                BEFORE UPDATE ON jugador
+                    BEGIN
+                        UPDATE partida_jugador
+                        SET id_jugador = NEW.id_jugador
+                        WHERE id_jugador = OLD.id_jugador;
+                    END;
         """
         )
         cursor.execute("""
@@ -223,7 +212,7 @@ class CrearTablas:
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador_personaje
-                AFTER UPDATE ON jugador
+                BEFORE UPDATE ON jugador
                 BEGIN
                     UPDATE personaje
                     SET id_jugador = NEW.id_jugador
@@ -252,7 +241,7 @@ class CrearTablas:
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador_comp_idioma
-                AFTER UPDATE ON jugador
+                BEFORE UPDATE ON jugador
                 BEGIN
                     UPDATE comp_idioma
                     SET id_jugador = NEW.id_jugador
@@ -286,7 +275,7 @@ class CrearTablas:
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador_salvaciones_comp
-                AFTER UPDATE ON jugador
+                BEFORE UPDATE ON jugador
                 BEGIN
                     UPDATE salvaciones_comp
                     SET id_jugador = NEW.id_jugador
@@ -308,7 +297,7 @@ class CrearTablas:
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador_habilidades_comp
-                AFTER UPDATE ON jugador
+                BEFORE UPDATE ON jugador
                 BEGIN
                     UPDATE habilidades_comp
                     SET id_jugador = NEW.id_jugador
@@ -337,7 +326,7 @@ class CrearTablas:
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador_inventario
-                AFTER UPDATE ON jugador
+                BEFORE UPDATE ON jugador
                 BEGIN
                     UPDATE inventario
                     SET id_jugador = NEW.id_jugador
