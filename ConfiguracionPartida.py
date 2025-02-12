@@ -6,10 +6,11 @@ from Partida import Partida
 from datetime import datetime
 
 class ConfiguracionPartida:
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,font):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,font,id):
         #screen
         self.screen = screen
         self.font = font
+        self.id = id
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -435,6 +436,7 @@ class ConfiguracionPartida:
                         query_save_partida = """INSERT INTO partida
                                                 (server_code, numPartida, ultima_conexion, horas_jugadas, ubicacion_historia, num_jugadores, nombre) 
                                                 VALUES (?,?,?,?,?,?,?)"""
+                        
                         actual_time = datetime.now()
                         if(self.partidas[self.currentPartida].ubicacion_historia == 0):
                             ubicacion = 'Mazmorra'
@@ -450,10 +452,47 @@ class ConfiguracionPartida:
                             ubicacion = 'Bosque'
                         data_partida = (self.partidas[self.currentPartida].server_code,self.currentPartida,actual_time, 0,ubicacion, self.partidas[self.currentPartida].num_jugadores, self.partidas[self.currentPartida].nombre)
                         
+                        #comprobamos si el jugador existe ya en la bbdd (si no ha creado ninguna partida, habrá que registrarlo)
+                        sql_get_me = "SELECT id_jugador FROM jugador"
+                        cursor.execute(sql_get_me)
+                        rows = cursor.fetchall() #para llegar a esta pantalla, la pantalla tiene que existir sí o sí
+                        print(rows)
+                        existo = False
+                        if rows != []:
+                            for row in rows:
+                                if(row[1] == True):
+                                    if(row[0] == self.id):
+                                        #existe, y es tu id
+                                        existo = True
+                                        break
+                                    else:
+                                        #si se corrompió el archivo y te tuvo que reasignar otra id, se va a actualizar ahora en la bbdd
+                                        query_update_id = "UPDATE jugador SET id_jugador = '"+self.id+"' WHERE id_jugador = '"+row[0]+"';"
+                                        cursor.execute(query_update_id)
+                                        conn.commit() 
+                                        existo = True
+                                        
+
+                        else:
+                            existo = False
+
+                        if(not existo):
+                            #hay que meterlo
+                            data_jugador_yo = (self.id,True)
+                            query_save_me = """INSERT INTO jugador
+                                                (id_jugador,is_my_id) 
+                                                VALUES (?,?)"""
+                            cursor.execute(query_save_me,data_jugador_yo)
+
+                        #es la primera vez que asignamos este jugador a la partida sí o sí (la partida no existía)
+                        data_jugador_partida = (0,self.currentPartida,self.id) #nMuertes_partida,partida_id,id_jugador
+                        query_save_partida_jugador = """INSERT INTO partida_jugador
+                                                        (nMuertes_partida,partida_id,id_jugador) 
+                                                        VALUES (?,?,?)"""
                         try:
                             cursor.execute(query_save_partida, data_partida)
+                            cursor.execute(query_save_partida_jugador,data_jugador_partida)
                             conn.commit()
-                            self.ch1.play(self.pressed)
                         except sqlite3.IntegrityError as e:
                             pantalla = 'configuracionPartida'
                             self.textNombrePartida = self.introduceText3
@@ -471,6 +510,7 @@ class ConfiguracionPartida:
                             self.screen.blit(self.textPassword, (self.width/1.8927, self.height/3.1818)) #634 220
                             pygame.display.update() 
                         finally:
+                            self.ch1.play(self.pressed)
                             conn.close()
 
                     else:

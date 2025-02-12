@@ -8,7 +8,8 @@ class CrearTablas:
         cursor = conn.cursor()
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS jugador (
-                id_Jugador text PRIMARY KEY
+                id_jugador text PRIMARY KEY,
+                is_my_id boolean NOT NULL
             )
         """)
         cursor.execute("""

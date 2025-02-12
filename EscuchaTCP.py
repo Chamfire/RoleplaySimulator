@@ -78,6 +78,7 @@ class EscuchaTCP:
                             msg_ok = msg_ok+":"+str(self.GLOBAL.getOtherPlayersIndex(i)[0])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][0]+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][1])+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][2])
                             #el mensaje tendrá este formato -> ok:4:56382:id1;pepe;1:id2;juan;4
                     free_pos = -1
+                    existing_player = False
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) == None): #si no se ha conectado nunca, lo añadimos
                             free_pos = i
@@ -85,6 +86,7 @@ class EscuchaTCP:
                     for j in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(j) != None and self.GLOBAL.getOtherPlayersIndex(j)[0] == resp[1][3]):
                             free_pos = j
+                            existing_player = True
                             break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
         
                     self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1][3],(resp[1][1],int(resp[1][2]),True,int(resp[1][4]),ip_port_client[0],int(resp[1][5])))) #(id,(nombre,avatarPicPerfil,True,54823,ip,puertoTCP) <- añado al jugador (True es porque está activo)
@@ -98,6 +100,8 @@ class EscuchaTCP:
                             
                     #print("self.otherPlayers = ",self.otherPlayers)
                     socket_c.sendall(msg_ok.encode('utf-8'))
+                    #lo guardamos en la bbdd como jugador y lo metemos en partida-jugador
+                    
                 else:
                     msg_no = "no"
                     socket_c.sendall(msg_no.encode('utf-8'))
@@ -119,6 +123,7 @@ class EscuchaTCP:
                                 finally:
                                     socket_temporal.close() #se cierra el socket al terminar
                     id_new_player = None
+
 
             except:
                 try:
