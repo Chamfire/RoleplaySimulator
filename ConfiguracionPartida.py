@@ -453,7 +453,7 @@ class ConfiguracionPartida:
                         data_partida = (self.partidas[self.currentPartida].server_code,self.currentPartida,actual_time, 0,ubicacion, self.partidas[self.currentPartida].num_jugadores, self.partidas[self.currentPartida].nombre)
                         
                         #comprobamos si el jugador existe ya en la bbdd (si no ha creado ninguna partida, habrá que registrarlo)
-                        sql_get_me = "SELECT id_jugador FROM jugador"
+                        sql_get_me = "SELECT id_jugador,is_my_id FROM jugador"
                         cursor.execute(sql_get_me)
                         rows = cursor.fetchall() #para llegar a esta pantalla, la pantalla tiene que existir sí o sí
                         print(rows)
@@ -466,7 +466,6 @@ class ConfiguracionPartida:
                                         existo = True
                                         break
                                     else:
-                                        print("id corrupta")
                                         #si se corrompió el archivo y te tuvo que reasignar otra id, se va a actualizar ahora en la bbdd
                                         query_update_id = "UPDATE jugador SET id_jugador = '"+self.id+"' WHERE id_jugador = '"+row[0]+"';"
                                         cursor.execute(query_update_id)
