@@ -295,12 +295,12 @@ class SalaEspera:
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
                     #cargamos los jugadores de esta partida
-                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != "+self.id
+                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != '"+self.id+"'"
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
                         if(len(rows2) < i): 
-                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = "+rows2[0]
+                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
                             self.GLOBAL.setOtherPlayersIndex(i,(jugador[0],(jugador[2],jugador[1],False,None,None,None)))
@@ -322,12 +322,12 @@ class SalaEspera:
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
-                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != "+self.id
+                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != '"+self.id+"'"
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
                         if(len(rows2) < i): 
-                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = "+rows2[0]
+                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
                             self.GLOBAL.setOtherPlayersIndex(i,(jugador[0],(jugador[2],jugador[1],False,None,None,None)))
@@ -348,12 +348,12 @@ class SalaEspera:
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
-                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != "+self.id
+                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != '"+self.id+"'"
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
                         if(len(rows2) < i): 
-                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = "+rows2[0]
+                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
                             self.GLOBAL.setOtherPlayersIndex(i,(jugador[0],(jugador[2],jugador[1],False,None,None,None)))
