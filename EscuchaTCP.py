@@ -1,5 +1,6 @@
 import socket
 from Global import Global
+import sqlite3
 class EscuchaTCP:
 
     def __init__(self):
@@ -101,7 +102,18 @@ class EscuchaTCP:
                     #print("self.otherPlayers = ",self.otherPlayers)
                     socket_c.sendall(msg_ok.encode('utf-8'))
                     #lo guardamos en la bbdd como jugador y lo metemos en partida-jugador
-                    
+                    if(existing_player):
+                        #si el jugador ya existía, modificamos puertoTCP,ip,puertoUDP, nombre y pic (pueden haber cambiado)
+                        conn = sqlite3.connect("simuladordnd.db")
+                        cursor = conn.cursor()
+                        #query_update_pic = "UPDATE jugador SET pic = '"+self.pic+"' WHERE id_jugador = '"+self.id+"';"
+                        #cursor.execute(query_update_pic)
+                        #query_update_name = "UPDATE jugador SET name = '"+self.name+"' WHERE id_jugador = '"+self.id+"';"
+                        #cursor.execute(query_update_name)
+                        conn.commit() 
+                    else:
+                        #hay que comprobar si el jugador es un jugador que ya existía en otra partida
+                        
                 else:
                     msg_no = "no"
                     socket_c.sendall(msg_no.encode('utf-8'))

@@ -489,9 +489,9 @@ class ConfiguracionPartida:
                         else:
                             #siempre actualizaremos nombre y pic del host por si hubieran sido modificados
                             query_update_pic = "UPDATE jugador SET pic = '"+self.pic+"' WHERE id_jugador = '"+self.id+"';"
-                            cursor.execute(query_update_id)
+                            cursor.execute(query_update_pic)
                             query_update_name = "UPDATE jugador SET name = '"+self.name+"' WHERE id_jugador = '"+self.id+"';"
-                            cursor.execute(query_update_id)
+                            cursor.execute(query_update_name)
                             conn.commit() 
 
                         #es la primera vez que asignamos este jugador a la partida sí o sí (la partida no existía)
