@@ -14,7 +14,7 @@ class EscuchaTCP:
         self.nombrePropio = None
         self.miIcono = None
 
-    def initialize(self,ip,puerto,password,numJugadores,idPropia,nombrePropio,miIcono,puertoUDP,socket):
+    def initialize(self,ip,puerto,password,numJugadores,idPropia,nombrePropio,miIcono,puertoUDP,socket,currentPartida):
         self.ip = ip
         self.puerto = puerto
         self.puertoUDP = puertoUDP
@@ -24,6 +24,7 @@ class EscuchaTCP:
         self.nombrePropio = nombrePropio
         self.miIcono = miIcono
         self.server_socket = socket
+        self.currentPartida = currentPartida
 
     def escuchaTCP(self):
         #Es multijugador
@@ -103,17 +104,47 @@ class EscuchaTCP:
                     socket_c.sendall(msg_ok.encode('utf-8'))
                     #lo guardamos en la bbdd como jugador y lo metemos en partida-jugador
                     if(existing_player):
-                        #si el jugador ya existía, modificamos puertoTCP,ip,puertoUDP, nombre y pic (pueden haber cambiado)
+                        #si el jugador ya existía, modificamos nombre y pic en la bbdd (pueden haber cambiado)
                         conn = sqlite3.connect("simuladordnd.db")
                         cursor = conn.cursor()
-                        #query_update_pic = "UPDATE jugador SET pic = '"+self.pic+"' WHERE id_jugador = '"+self.id+"';"
-                        #cursor.execute(query_update_pic)
-                        #query_update_name = "UPDATE jugador SET name = '"+self.name+"' WHERE id_jugador = '"+self.id+"';"
-                        #cursor.execute(query_update_name)
+                        query_update_pic = "UPDATE jugador SET pic = '"+resp[1][2]+"' WHERE id_jugador = '"+resp[1][3]+"';"
+                        cursor.execute(query_update_pic)  
+                        query_update_name = "UPDATE jugador SET name = '"+resp[1][1]+"' WHERE id_jugador = '"+resp[1][3]+"';"
+                        cursor.execute(query_update_name)  
                         conn.commit() 
+                        conn.close()
                     else:
                         #hay que comprobar si el jugador es un jugador que ya existía en otra partida
-                        
+                        query_find_player = "SELECT id_jugador FROM jugador WHERE id_jugador = "+resp[1][3]
+                        cursor.execute(query_find_player)
+                        rows = cursor.fetchall() 
+                        if(rows != [] and rows[0] == resp[1][3]): #si existe la id 
+                            #actualizamos pic y name
+                            conn = sqlite3.connect("simuladordnd.db")
+                            cursor = conn.cursor()
+                            query_update_pic = "UPDATE jugador SET pic = '"+resp[1][2]+"' WHERE id_jugador = '"+resp[1][3]+"';"
+                            cursor.execute(query_update_pic)  
+                            query_update_name = "UPDATE jugador SET name = '"+resp[1][1]+"' WHERE id_jugador = '"+resp[1][3]+"';"
+                            cursor.execute(query_update_name)  
+                            conn.commit() 
+                            conn.close()
+                        else: #no existe el jugador -> lo añadimos
+                            conn = sqlite3.connect("simuladordnd.db")
+                            cursor = conn.cursor()
+                            data_jugador_yo = (resp[1][3],False,resp[1][2],resp[1][1])
+                            query_save_jugador = """INSERT INTO jugador
+                                                (id_jugador,is_my_id,pic,name) 
+                                                VALUES (?,?,?,?)"""
+                            cursor.execute(query_save_jugador,data_jugador_yo)  
+                            conn.commit() 
+                            data_jugador_partida = (0,self.currentPartida,resp[1][3]) #nMuertes_partida,partida_id,id_jugador
+                            query_save_partida_jugador = """INSERT INTO partida_jugador
+                                                        (nMuertes_partida,partida_id,id_jugador) 
+                                                        VALUES (?,?,?)"""
+                            cursor.execute(query_save_partida_jugador,data_jugador_partida)  
+                            conn.commit() 
+                            conn.close()
+                    
                 else:
                     msg_no = "no"
                     socket_c.sendall(msg_no.encode('utf-8'))

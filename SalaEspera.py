@@ -471,7 +471,7 @@ class SalaEspera:
         pygame.display.update() 
         if(not self.isOnline and self.numJugadores > 1): #si vamos a permitir varios jugadores, iniciamos una conexión TCP
             # ------ servidor UDP y TCP ---------
-            self.escuchaTCP.initialize(self.ip,self.puerto,self.password,self.numJugadores,self.id,self.name,self.currentIcono,self.puertoUDP,self.socketTCP)
+            self.escuchaTCP.initialize(self.ip,self.puerto,self.password,self.numJugadores,self.id,self.name,self.currentIcono,self.puertoUDP,self.socketTCP,self.currentPartida)
             hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP.escuchaTCP)
             hiloEscuchaTCP.start()
             # -----------------------------
