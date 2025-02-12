@@ -35,8 +35,9 @@ class EscuchaTCP:
             #print("activo en TCP escucha: ",self.server_socket.getsockname())
             #print(self.GLOBAL.getOtherPlayers())
             try:
+                print("esperando TCP")
                 socket_c, ip_port_client = self.server_socket.accept()
-                #print("msg received in server")
+                print("msg received in server")
                 msg_client = socket_c.recv(1024).decode('utf-8')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
@@ -115,13 +116,13 @@ class EscuchaTCP:
                         conn.close()
                     else:
                         #hay que comprobar si el jugador es un jugador que ya existía en otra partida
-                        query_find_player = "SELECT id_jugador FROM jugador WHERE id_jugador = "+resp[1][3]
+                        conn = sqlite3.connect("simuladordnd.db")
+                        query_find_player = "SELECT id_jugador FROM jugador WHERE id_jugador = '"+resp[1][3]+"';"
+                        cursor = conn.cursor()
                         cursor.execute(query_find_player)
                         rows = cursor.fetchall() 
                         if(rows != [] and rows[0] == resp[1][3]): #si existe la id 
                             #actualizamos pic y name
-                            conn = sqlite3.connect("simuladordnd.db")
-                            cursor = conn.cursor()
                             query_update_pic = "UPDATE jugador SET pic = "+str(resp[1][2])+" WHERE id_jugador = '"+resp[1][3]+"';"
                             cursor.execute(query_update_pic)  
                             query_update_name = "UPDATE jugador SET name = '"+resp[1][1]+"' WHERE id_jugador = '"+resp[1][3]+"';"
@@ -168,7 +169,8 @@ class EscuchaTCP:
                     id_new_player = None
 
 
-            except:
+            except Exception as e:
+                #print(e)
                 try:
                     socket_c.close()
                 except:

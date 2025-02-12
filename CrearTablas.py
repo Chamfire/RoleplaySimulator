@@ -218,7 +218,7 @@ class CrearTablas:
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador
-                BEFORE UPDATE ON jugador
+                BEFORE UPDATE OF id_jugador ON jugador
                     BEGIN
                         UPDATE partida_jugador
                         SET id_jugador = NEW.id_jugador
