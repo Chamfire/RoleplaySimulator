@@ -27,15 +27,27 @@ class CrearTablas:
         """)
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS mapageneral (
-                partida_id text REFERENCES partida(numPartida) ON DELETE CASCADE PRIMARY KEY,
+                partida_id text REFERENCES partida(numPartida) PRIMARY KEY,
                 size text NOT NULL,
                 directorio_imagen text NOT NULL,
                 matriz_codificacion text NOT NULL
             )
         """)
+
+        cursor.execute(
+            """
+            CREATE TRIGGER IF NOT EXISTS eliminar_mapa_general
+                BEFORE DELETE ON partida
+                    BEGIN
+                        DELETE FROM mapageneral
+                        WHERE partida_id = OLD.numPartida;
+                    END;
+        """
+        )
+
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS ubicacion (
-                partida_id_mapa text NOT NULL REFERENCES mapageneral(numPartida) ON DELETE CASCADE,
+                partida_id_mapa text NOT NULL REFERENCES mapageneral(numPartida),
                 nombre text NOT NULL,
                 es_fin boolean NOT NULL,
                 matriz_codificacion text NOT NULL,
@@ -48,6 +60,17 @@ class CrearTablas:
                 PRIMARY KEY(partida_id_mapa,nombre)
             )
         """)
+
+        cursor.execute(
+            """
+            CREATE TRIGGER IF NOT EXISTS eliminar_ubicacion
+                BEFORE DELETE ON partida
+                    BEGIN
+                        DELETE FROM ubicacion
+                        WHERE partida_id_mapa = OLD.numPartida;
+                    END;
+        """
+        )
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS quest (
                 partida_id text REFERENCES partida(numPartida) ON DELETE CASCADE NOT NULL,
@@ -153,8 +176,8 @@ class CrearTablas:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS partida_jugador (
                 nMuertes_partida integer NOT NULL CONSTRAINT nMuertes_less_than_zero CHECK(nMuertes_partida >=0),
-                partida_id text NOT NULL REFERENCES partida(numPartida) ON DELETE CASCADE,
-                id_jugador text NOT NULL REFERENCES jugador(id_jugador) ON DELETE CASCADE,
+                partida_id text NOT NULL REFERENCES partida(numPartida),
+                id_jugador text NOT NULL REFERENCES jugador(id_jugador),
                 PRIMARY KEY(partida_id,id_jugador)
             )        
         """
@@ -166,7 +189,17 @@ class CrearTablas:
                     BEGIN
                         UPDATE partida_jugador
                         SET id_jugador = NEW.id_jugador
-                        WHERE id_jugador = OLD.id_jugador;
+                        WHERE partida_id = OLD.partida_id;
+                    END;
+        """
+        )
+        cursor.execute(
+            """
+            CREATE TRIGGER IF NOT EXISTS eliminar_partida_jugador
+                BEFORE DELETE ON partida
+                    BEGIN
+                        DELETE FROM partida_jugador
+                        WHERE partida_id = OLD.numPartida;
                     END;
         """
         )

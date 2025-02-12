@@ -6,13 +6,13 @@ from Partida import Partida
 from datetime import datetime
 
 class ConfiguracionPartida:
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,font,id,pic,name):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,local_ip,font,id):
         #screen
         self.screen = screen
         self.font = font
         self.id = id
-        self.pic = pic
-        self.name = name
+        self.pic = None
+        self.name = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -198,7 +198,9 @@ class ConfiguracionPartida:
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
         self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.3889, self.height/1.1570))
 
-    def render(self):
+    def render(self,pic,name):
+        self.pic = pic
+        self.name = name
         #calculo tamaño de letras a mostrar
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
         self.lettersize = self.letterwidth + 0.5 * self.letterwidth #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
@@ -488,7 +490,7 @@ class ConfiguracionPartida:
                             cursor.execute(query_save_me,data_jugador_yo)
                         else:
                             #siempre actualizaremos nombre y pic del host por si hubieran sido modificados
-                            query_update_pic = "UPDATE jugador SET pic = '"+str(self.pic)+"' WHERE id_jugador = '"+self.id+"';"
+                            query_update_pic = "UPDATE jugador SET pic = "+str(self.pic)+" WHERE id_jugador = '"+self.id+"';"
                             cursor.execute(query_update_pic)
                             query_update_name = "UPDATE jugador SET name = '"+self.name+"' WHERE id_jugador = '"+self.id+"';"
                             cursor.execute(query_update_name)

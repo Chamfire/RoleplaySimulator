@@ -107,7 +107,7 @@ class EscuchaTCP:
                         #si el jugador ya existía, modificamos nombre y pic en la bbdd (pueden haber cambiado)
                         conn = sqlite3.connect("simuladordnd.db")
                         cursor = conn.cursor()
-                        query_update_pic = "UPDATE jugador SET pic = '"+resp[1][2]+"' WHERE id_jugador = '"+resp[1][3]+"';"
+                        query_update_pic = "UPDATE jugador SET pic = "+resp[1][2]+" WHERE id_jugador = '"+resp[1][3]+"';"
                         cursor.execute(query_update_pic)  
                         query_update_name = "UPDATE jugador SET name = '"+resp[1][1]+"' WHERE id_jugador = '"+resp[1][3]+"';"
                         cursor.execute(query_update_name)  
@@ -122,7 +122,7 @@ class EscuchaTCP:
                             #actualizamos pic y name
                             conn = sqlite3.connect("simuladordnd.db")
                             cursor = conn.cursor()
-                            query_update_pic = "UPDATE jugador SET pic = '"+str(resp[1][2])+"' WHERE id_jugador = '"+resp[1][3]+"';"
+                            query_update_pic = "UPDATE jugador SET pic = "+str(resp[1][2])+" WHERE id_jugador = '"+resp[1][3]+"';"
                             cursor.execute(query_update_pic)  
                             query_update_name = "UPDATE jugador SET name = '"+resp[1][1]+"' WHERE id_jugador = '"+resp[1][3]+"';"
                             cursor.execute(query_update_name)  

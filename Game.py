@@ -99,7 +99,7 @@ class Game:
         self.options = Config(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.configuration.fps,self.configuration.dmVoice,self.configuration.volMusica, self.configuration.volEffects,self.font)
         self.login = Login(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.name,self.perfil.logged,self.perfil.avatarPicPerfil,self.max_length_name,self.font)
         self.seleccionPartidas = SeleccionPartidas(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
-        self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.font,self.perfil.id,self.perfil.avatarPicPerfil,self.perfil.name)
+        self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.font,self.perfil.id)
         self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.font,self.perfil.id)
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
@@ -143,7 +143,7 @@ class Game:
                 elif self.currentScreen == "seleccionPartidas":
                     self.seleccionPartidas.render()
                 elif self.currentScreen == "configuracionPartida":
-                    self.configuracionPartida.render()
+                    self.configuracionPartida.render(self.perfil.avatarPicPerfil,self.perfil.name)
                 elif self.currentScreen == "salaEspera":
                     self.salaEspera.render(self.online)
                 elif self.currentScreen == "joinPartida":
@@ -284,7 +284,7 @@ class Game:
                             self.seleccionPartidas.render()
                         elif(self.currentScreen == "configuracionPartida"):
                             self.configuracionPartida.setScreen(self.screen)
-                            self.configuracionPartida.render()
+                            self.configuracionPartida.render(self.perfil.avatarPicPerfil,self.perfil.name)
                         elif(self.currentScreen == "salaEspera"):
                             self.salaEspera.setScreen(self.screen)
                             self.salaEspera.render(self.online)
