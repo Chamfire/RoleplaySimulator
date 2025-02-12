@@ -299,11 +299,15 @@ class SalaEspera:
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
-                        if(rows2 != [] and len(rows2) < i): 
+                        #print(rows2,self.numJugadores)
+                        if(rows2 != [] and len(rows2) <= (self.numJugadores-1)): 
+                            print("en el if")
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
                             self.GLOBAL.setOtherPlayersIndex(i,(jugador[0],(jugador[2],jugador[1],False,None,None,None)))
+                            #print(jugador)
+                            #print(self.GLOBAL.getOtherPlayersIndex(i))
                         else:
                             self.GLOBAL.setOtherPlayersIndex(i,None) 
                 else:
@@ -323,10 +327,10 @@ class SalaEspera:
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
                     query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != '"+self.id+"'"
-                    cur.execute(query_find_jugadores)
+                    cur.execute(query_find_jugadores-1)
                     rows2 = cur.fetchall()
-                    for i in range(0,self.numJugadores-1):
-                        if(rows2 != [] and len(rows2) < i): 
+                    for i in range(0,self.numJugadores):
+                        if(rows2 != [] and len(rows2) <= (self.numJugadores-1)): 
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
@@ -349,10 +353,10 @@ class SalaEspera:
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
                     query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != '"+self.id+"'"
-                    cur.execute(query_find_jugadores)
+                    cur.execute(query_find_jugadores-1)
                     rows2 = cur.fetchall()
-                    for i in range(0,self.numJugadores-1):
-                        if(rows2 != [] and len(rows2) < i): 
+                    for i in range(0,self.numJugadores):
+                        if(rows2 != [] and len(rows2) <= (self.numJugadores-1)): 
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
                             jugador = cur.fetchall()[0]
@@ -441,9 +445,14 @@ class SalaEspera:
                             inside = False
                         for j in range(0,other_side):
                             text_to_show += ' '
-                        self.textName = self.fuente.render(text_to_show, True, self.color_white)
-                        self.screen.blit(pygame.transform.scale(self.avatarJugador[self.GLOBAL.getOtherPlayersIndex((i-1))[1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
-                        self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
+                        if(self.GLOBAL.getOtherPlayersIndex((i-1))[1][2]):
+                            self.textName = self.fuente.render(text_to_show, True, self.color_white)
+                            self.screen.blit(pygame.transform.scale(self.avatarJugador[self.GLOBAL.getOtherPlayersIndex((i-1))[1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
+                            self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
+                        else:
+                            self.textName = self.fuente.render(text_to_show, True, self.color_grey)
+                            self.screen.blit(pygame.transform.scale(self.avatarJugadorDefault[self.GLOBAL.getOtherPlayersIndex((i-1))[1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
+                            self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
                     else:
                         temp = "<?>"
                         spaces = self.max_lenght_name - len(temp)
