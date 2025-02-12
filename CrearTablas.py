@@ -93,6 +93,12 @@ class CrearTablas:
                     END;
         """
         )
+
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS enum_estado (
+                estado_quest text PRIMARY KEY 
+            )
+        """)
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS eliminar_quest
@@ -103,12 +109,6 @@ class CrearTablas:
                     END;
         """
         )
-
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS enum_estado (
-                estado_quest text PRIMARY KEY 
-            )
-        """)
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS variable_chequeo (
                 valor text,
