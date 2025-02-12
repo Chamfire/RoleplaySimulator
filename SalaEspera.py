@@ -295,9 +295,17 @@ class SalaEspera:
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
                     #cargamos los jugadores de esta partida
-                    cur.execute("SELECT id_jugador FROM partida_jugador WHERE numPartida = 'p1'")
+                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != "+self.id
+                    cur.execute(query_find_jugadores)
+                    rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
-                        self.GLOBAL.setOtherPlayersIndex(i,None) #TODO: incluir actividad/no actividad cuando se extraiga de la bbdd
+                        if(len(rows2) < i): 
+                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = "+rows2[0]
+                            cur.execute(query_find_attr_jugador)
+                            jugador = cur.fetchall()[0]
+                            self.GLOBAL.setOtherPlayersIndex(i,(jugador[0],(jugador[2],jugador[1],False,None,None,None)))
+                        else:
+                            self.GLOBAL.setOtherPlayersIndex(i,None) 
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 1 está corrupto. Estableciendo valores por defecto...")
                     self.numJugadores = 1 #valor por defecto
@@ -314,8 +322,17 @@ class SalaEspera:
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
+                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != "+self.id
+                    cur.execute(query_find_jugadores)
+                    rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
-                        self.GLOBAL.setOtherPlayersIndex(i,None)
+                        if(len(rows2) < i): 
+                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = "+rows2[0]
+                            cur.execute(query_find_attr_jugador)
+                            jugador = cur.fetchall()[0]
+                            self.GLOBAL.setOtherPlayersIndex(i,(jugador[0],(jugador[2],jugador[1],False,None,None,None)))
+                        else:
+                            self.GLOBAL.setOtherPlayersIndex(i,None) 
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 2 está corrupto. Estableciendo valor por defecto...")
                     self.numJugadores = 1 #valor por defecto
@@ -331,8 +348,17 @@ class SalaEspera:
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
+                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != "+self.id
+                    cur.execute(query_find_jugadores)
+                    rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
-                        self.GLOBAL.setOtherPlayersIndex(i,None)
+                        if(len(rows2) < i): 
+                            query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = "+rows2[0]
+                            cur.execute(query_find_attr_jugador)
+                            jugador = cur.fetchall()[0]
+                            self.GLOBAL.setOtherPlayersIndex(i,(jugador[0],(jugador[2],jugador[1],False,None,None,None)))
+                        else:
+                            self.GLOBAL.setOtherPlayersIndex(i,None) 
                 else:
                     print("Error: El atributo num_jugadores o server_code de la partida 3 está corrupto. Estableciendo valor por defecto...")
                     self.numJugadores = 1 #valor por defecto
