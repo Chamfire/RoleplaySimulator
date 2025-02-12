@@ -17,7 +17,7 @@ class EnviarEstadoUDP:
         if(self.isOnline):
             self.GLOBAL.setTimeout(15)
             while self.conected:
-                print("activo en enviarUDP usuario")
+                print("activo en enviarUDP usuario a ip y puerto: ", self.ipDest,self.serverPortUDP)
                 try:
                     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                     message = str(self.password)+":"+self.id+":estoy"
@@ -30,8 +30,10 @@ class EnviarEstadoUDP:
                         self.GLOBAL.setRefreshScreen("server_disc") #le decimos que se ha desactivado el servidor
                         self.GLOBAL.setTimeout(None) #reiniciamos el contador para posibles nuevas partidas
             
-                except:
+                except Exception as e:
+                    print('Excepción en enviarEstadoUDP ',e)
                     threading.Event().wait(0.2) #0.2 segundos
+                threading.Event().wait(0.2) #0.2 segundos
         else:
             cont = {}
             for i in range(0,len(self.GLOBAL.getOtherPlayers())):

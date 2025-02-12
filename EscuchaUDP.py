@@ -46,7 +46,10 @@ class EscuchaUDP:
                         if(respUDP[1][2] == "estoy"):
                             self.GLOBAL.setTimeout(15) #reiniciamos el contador, pues hemos recibido un mensaje suyo
                             print("reinicio contador servidor a 15")
-                except: 
+                    else:
+                        print("mensaje con mal formato")
+                except Exception as e:
+                    print('Exception en escuchaUDP jugador', e) 
                     break
                     
         else:
