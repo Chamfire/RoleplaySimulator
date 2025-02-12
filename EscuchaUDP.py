@@ -27,7 +27,7 @@ class EscuchaUDP:
 
         if(self.isOnline):
             while True:
-                print("activo en UDP: ",self.server_socketUDP.getsockname())
+                #print("activo en UDP: ",self.server_socketUDP.getsockname())
                 try:
                     data,addr = self.server_socketUDP.recvfrom(1024)
                     #print("msg received in server")
@@ -45,17 +45,18 @@ class EscuchaUDP:
                     if(respUDP[0] and respUDP[1][0] == self.password and respUDP[1][1] == self.GLOBAL.getOtherPlayersIndex(0)[0]):
                         if(respUDP[1][2] == "estoy"):
                             self.GLOBAL.setTimeout(15) #reiniciamos el contador, pues hemos recibido un mensaje suyo
-                            print("reinicio contador servidor a 15")
+                            #print("reinicio contador servidor a 15")
                     else:
-                        print("mensaje con mal formato")
-                except Exception as e:
-                    print('Exception en escuchaUDP jugador', e) 
+                        #print("mensaje con mal formato")
+                        pass
+                except:
+                    #print('Exception en escuchaUDP jugador', e) 
                     break
                     
         else:
 
             while True:
-                print("activo en UDP: ",self.server_socketUDP.getsockname())
+                #print("activo en UDP: ",self.server_socketUDP.getsockname())
                 try:
                     data,addr = self.server_socketUDP.recvfrom(1024)
                     #print("msg received in server")
@@ -67,7 +68,7 @@ class EscuchaUDP:
                             for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
                                 if(jugador != None and jugador[0] == respUDP[1][1]): #es el id de un jugador existente
                                     self.GLOBAL.setTimeoutIndex(posicion,15) #reiniciamos su contador
-                                    print("reinicio contador jugador a 15")
+                                    #print("reinicio contador jugador a 15")
                                     break 
                     #print(resp[0])
                     #print(resp[1][0])
@@ -86,7 +87,7 @@ class EscuchaUDP:
             self.server_socketUDP.close()
         except:
             pass
-        print("fin hilo UDP")
+        #print("fin hilo UDP")
     
     def closeSocketUDPServer(self):
         if(self.server_socketUDP != None):

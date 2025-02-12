@@ -13,11 +13,11 @@ class EscuchaTCPClient:
         self.GLOBAL = Global()
         
     def escuchaTCPClient(self):
-        print('escuchando en ',self.ip,self.puerto)
+        #print('escuchando en ',self.ip,self.puerto)
         self.server_socket.listen() 
 
         while True:
-            print("activo en TCPClient")
+            #print("activo en TCPClient")
             try:
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
