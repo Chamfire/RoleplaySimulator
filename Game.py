@@ -67,6 +67,7 @@ class Game:
         self.perfil = Jugador()
         self.perfil.loadPerfilFromFile()
         #print(self.configuration.getConfiguration())
+
         self.clock = pygame.time.Clock()
 
         self.ch1 = pygame.mixer.Channel(0)
@@ -98,7 +99,7 @@ class Game:
         self.credits = Credits(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         self.options = Config(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.configuration.fps,self.configuration.dmVoice,self.configuration.volMusica, self.configuration.volEffects,self.font)
         self.login = Login(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.name,self.perfil.logged,self.perfil.avatarPicPerfil,self.max_length_name,self.font)
-        self.seleccionPartidas = SeleccionPartidas(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
+        self.seleccionPartidas = SeleccionPartidas(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.font,self.perfil.id)
         self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.font,self.perfil.id)
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
@@ -141,7 +142,7 @@ class Game:
                 elif self.currentScreen == "login":
                     self.login.render()
                 elif self.currentScreen == "seleccionPartidas":
-                    self.seleccionPartidas.render()
+                    self.seleccionPartidas.render(self.perfil.avatarPicPerfil,self.perfil.name)
                 elif self.currentScreen == "configuracionPartida":
                     self.configuracionPartida.render(self.perfil.avatarPicPerfil,self.perfil.name)
                 elif self.currentScreen == "salaEspera":
@@ -281,7 +282,7 @@ class Game:
                             self.login.render()
                         elif(self.currentScreen == "seleccionPartidas"):
                             self.seleccionPartidas.setScreen(self.screen)
-                            self.seleccionPartidas.render()
+                            self.seleccionPartidas.render(self.perfil.avatarPicPerfil,self.perfil.name)
                         elif(self.currentScreen == "configuracionPartida"):
                             self.configuracionPartida.setScreen(self.screen)
                             self.configuracionPartida.render(self.perfil.avatarPicPerfil,self.perfil.name)

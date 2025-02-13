@@ -219,10 +219,12 @@ class CrearTablas:
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador
                 BEFORE UPDATE OF id_jugador ON jugador
+                WHEN EXISTS (SELECT 1 FROM partida_jugador WHERE id_jugador = OLD.id_jugador)
+                AND EXISTS (SELECT 1 FROM partida_jugador)
                     BEGIN
                         UPDATE partida_jugador
                         SET id_jugador = NEW.id_jugador
-                        WHERE partida_id = OLD.partida_id;
+                        WHERE id_jugador = OLD.id_jugador;
                     END;
         """
         )

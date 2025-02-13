@@ -7,11 +7,12 @@ from Partida import Partida
 class SeleccionPartidas:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,id):
         #screen
         self.screen = screen
         self.partidas = {0: None, 1: None, 2: None}
         self.font = font
+        self.id = id
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -40,6 +41,8 @@ class SeleccionPartidas:
         self.first_timeS3 = True # Aún no has pulsado el botón del slot 3
         self.first_timeB3 = True
         self.partidaToLoad = None
+        self.pic = None
+        self.name = None
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
@@ -87,7 +90,9 @@ class SeleccionPartidas:
         self.partidas[p].nombre = row[0]
         self.labelP[p] = self.fuente2.render(self.partidas[p].nombre, True, self.light_purple)
 
-    def render(self):
+    def render(self,pic,name):
+        self.pic = pic
+        self.name = name
         #cargamos las partidas
         self.letterwidth = (self.width/3.4286)/11 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
@@ -106,6 +111,48 @@ class SeleccionPartidas:
         rows = cur.fetchall()
         if(len(rows) != 0):
             self.loadPartida(rows[0],2)
+
+
+        #vamos a comprobar el id de la bbdd:
+        sql_get_me = "SELECT id_jugador,is_my_id FROM jugador"
+        cur.execute(sql_get_me)
+        rows = cur.fetchall()
+        existo = False
+        if rows != []:
+            for row in rows:
+                if(row[1] == True):
+                    if(row[0] == self.id):
+                        #existe, y es tu id
+                        existo = True
+                        break
+                    else:
+                        #si se corrompió el archivo y te tuvo que reasignar otra id, se va a actualizar ahora en la bbdd
+                        query_update_id = "UPDATE jugador SET id_jugador = '"+self.id+"' WHERE id_jugador = '"+row[0]+"';"
+                        cur.execute(query_update_id)
+                        conn.commit() 
+                        existo = True
+                        break
+                                        
+
+        else:
+            existo = False
+
+        if(not existo):
+            #hay que meterlo
+            data_jugador_yo = (self.id,True,self.pic,self.name)
+            query_save_me = """INSERT INTO jugador
+                                (id_jugador,is_my_id,pic,name) 
+                                VALUES (?,?,?,?)"""
+            cur.execute(query_save_me,data_jugador_yo)
+            conn.commit() 
+        else:
+            #siempre actualizaremos nombre y pic del host por si hubieran sido modificados
+            query_update_pic = "UPDATE jugador SET pic = "+str(self.pic)+" WHERE id_jugador = '"+self.id+"';"
+            cur.execute(query_update_pic)
+            query_update_name = "UPDATE jugador SET name = '"+self.name+"' WHERE id_jugador = '"+self.id+"';"
+            cur.execute(query_update_name)
+            conn.commit() 
+
         self.newGame = self.fuente2.render('+ Nueva Partida', True, self.light_pink)
         cur.close()
         conn.close() #cerramos la conexión con la bbdd
