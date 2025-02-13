@@ -326,9 +326,9 @@ class SalaEspera:
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
                     query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != '"+self.id+"'"
-                    cur.execute(query_find_jugadores-1)
+                    cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
-                    for i in range(0,self.numJugadores):
+                    for i in range(0,self.numJugadores-1):
                         if(rows2 != [] and i < len(rows2)): 
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
@@ -352,9 +352,9 @@ class SalaEspera:
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
                     query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != '"+self.id+"'"
-                    cur.execute(query_find_jugadores-1)
+                    cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
-                    for i in range(0,self.numJugadores):
+                    for i in range(0,self.numJugadores-1):
                         if(rows2 != [] and i < len(rows2)): 
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
                             cur.execute(query_find_attr_jugador)
