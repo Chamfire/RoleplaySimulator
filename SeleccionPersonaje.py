@@ -29,21 +29,16 @@ class SeleccionPersonaje:
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
-        self.titlePic = pygame.image.load("images/title.png")
         self.buttonPic = pygame.image.load("images/button.png")
+        self.capa = pygame.image.load("images/capa.png")
         self.buttonSelectedPic = pygame.image.load("images/button_selected.png")
         self.buttonPressedPic = pygame.image.load("images/button_pressed.png")
-        self.papiro = pygame.image.load("images/papiro.png")
 
         #fuentes y colores
         self.fuente = pygame.font.SysFont(font, 70)
-        self.fuente2 = pygame.font.SysFont(font,600)
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
-        self.titleText = self.fuente2.render('  Roleplay          Simulator  ',True,self.color_white)
-        self.autor1 = self.fuente.render('Desarrollado por: Teresa Valero Díaz', True, self.color_black)
-        self.autor2 = self.fuente.render('Tutora: María Julia Flores Gallego', True, self.color_black)
 
     def setScreen(self,screen):
         self.screen = screen
@@ -54,10 +49,7 @@ class SeleccionPersonaje:
     def render(self):
         #render screen
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
-        self.screen.blit(pygame.transform.scale(self.titleText, (self.width/1.0000, self.height/3.8889)), (0, self.height/28.0000)) #1200 180 0 25
-        self.screen.blit(pygame.transform.scale(self.papiro, (self.width/2.0000, self.height/3.0435)), (self.width/4.4444, self.height/1.7500))
-        self.screen.blit(pygame.transform.scale(self.autor1, (self.width/3.0000, self.height/17.5000)), (self.width/3.1579, self.height/1.5909))
-        self.screen.blit(pygame.transform.scale(self.autor2, (self.width/3.0769, self.height/17.5000)), (self.width/3.1579, self.height/1.4286))
+        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         pygame.display.update() 
