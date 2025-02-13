@@ -16,6 +16,7 @@ from ConfiguracionPartida import ConfiguracionPartida
 from UnionPartida import UnionPartida
 from Global import Global
 from ServerDisconected import ServerDisconected
+from SeleccionPersonaje import SeleccionPersonaje
 import socket
 import threading
 #import requests
@@ -104,6 +105,7 @@ class Game:
         self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.font,self.perfil.id)
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
+        self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
         mixer.music.play(-1)
@@ -151,6 +153,8 @@ class Game:
                     self.joinPartida.render(self.online)
                 elif self.currentScreen == "server_disc":
                     self.serverDisc.render()
+                elif self.currentScreen == "seleccionPersonaje":
+                    self.seleccionPersonaje.render()
             if not pygame.display.get_active():
                 self.minimized = True #se ha hecho escape para ir al escritorio
 
@@ -234,8 +238,8 @@ class Game:
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
-                            self.online = False
-                            if(screenToChange != "partida"): #si no se carga una partida, y volvemos hacia atrás, cerramos el socket
+                            if(screenToChange != "seleccionPersonaje"): #si no se carga una partida, y volvemos hacia atrás, cerramos el socket
+                                self.online = False
                                 self.salaEspera.escuchaTCP.closeSocketTCPServer()
                                 self.salaEspera.escuchaUDP.closeSocketUDPServer()
                                 self.salaEspera.enviarEstadoUDP.desconectar()
@@ -264,6 +268,22 @@ class Game:
                             self.changedScreen = True
                             self.currentScreen = screenToChange
                             self.screen = self.serverDisc.getScreen()
+                    elif self.currentScreen == "seleccionPersonaje":
+                        screenToChange = self.seleccionPersonaje.clickedMouse()
+                        if(screenToChange != self.currentScreen):
+                            self.changedScreen = True
+                            self.currentScreen = screenToChange
+                            self.screen = self.seleccionPersonaje.getScreen()
+                            if(screenToChange != "partida"):
+                                self.online = False
+                                self.salaEspera.escuchaTCP.closeSocketTCPServer()
+                                self.salaEspera.escuchaUDP.closeSocketUDPServer()
+                                self.salaEspera.enviarEstadoUDP.desconectar()
+                                try:
+                                    #solo se podrá cerrar si eres el cliente
+                                    self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
+                                except:
+                                    pass 
                              
                     #ahora toca actualizar
                     if self.changedScreen:
@@ -295,6 +315,9 @@ class Game:
                         elif(self.currentScreen == "server_disc"):
                             self.serverDisc.setScreen(self.screen)
                             self.serverDisc.render()
+                        elif(self.currentScreen == "seleccionPersonaje"):
+                            self.seleccionPersonaje.setScreen(self.screen)
+                            self.seleccionPersonaje.render()
                         else:
                             self.screen.fill((0,0,0))
                             pygame.display.flip()

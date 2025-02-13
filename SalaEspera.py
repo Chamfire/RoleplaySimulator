@@ -538,7 +538,7 @@ class SalaEspera:
         
         #Botón cargar partida si eres el líder de la partida
         elif(not self.isOnline and self.checkIfMouseIsInButton(x_size2,y_size,x_startC,y_start,x,y)):
-            pantalla = "partida"
+            pantalla = "seleccionPersonaje"
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
             if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
