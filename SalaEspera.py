@@ -12,7 +12,7 @@ from Global import Global
 class SalaEspera:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,font,id):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,font,id,t):
         #screen
         self.screen = screen
         self.font = font
@@ -22,6 +22,7 @@ class SalaEspera:
         self.enviarEstadoUDP = None #tenemos que esperarnos a recibir la variable isOnline para saber qué tipo de envío se hará
         self.socketTCP = None
         self.socketUDP = None
+        self.t = t
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -385,7 +386,7 @@ class SalaEspera:
         #Título
         self.screen.blit(self.labelTitle, (self.width/3.4783, self.height/17.5000)) #345 40
         #Iconos de los jugadores
-        self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest,self.id,self.password)
+        self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest,self.id,self.password,self.t)
         for i in range(0,6):
             x_size = self.width/8.0000 #150
             y_size = self.width/8.0000

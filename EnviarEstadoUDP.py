@@ -3,7 +3,7 @@ from Global import Global
 import threading
 
 class EnviarEstadoUDP:
-    def __init__(self,isOnline,serverPort,ipDest,id,password):
+    def __init__(self,isOnline,serverPort,ipDest,id,password,t):
         self.id = id
         self.GLOBAL = Global()
         self.isOnline = isOnline
@@ -12,6 +12,7 @@ class EnviarEstadoUDP:
             self.ipDest = ipDest
         self.conected = True
         self.password = password
+        self.t = t
         
     def enviarEstadoUDP(self):
         if(self.isOnline):
@@ -32,8 +33,8 @@ class EnviarEstadoUDP:
             
                 except:
                     #print('Excepción en enviarEstadoUDP ',e)
-                    threading.Event().wait(0.2) #0.2 segundos
-                threading.Event().wait(0.2) #0.2 segundos
+                    threading.Event().wait(t) #0.2 segundos
+                threading.Event().wait(t) #0.2 segundos
         else:
             cont = {}
             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
@@ -72,10 +73,10 @@ class EnviarEstadoUDP:
                                     pass
                                 finally:
                                     socket_temporal.close() #se cierra el socket al terminar
-                    threading.Event().wait(0.2) #0.2 segundos
+                    threading.Event().wait(t) #0.2 segundos
                 except:
                     #print(e)
-                    threading.Event().wait(0.2) #0.2 segundos
+                    threading.Event().wait(t) #0.2 segundos
         try:
             client_socket.close()
         except:

@@ -32,6 +32,7 @@ class Game:
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
         #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()
+        self.msg_delay = 0.2
         #print(info.current_w,info.current_h)
         rel = (info.current_w/info.current_h)
         if(1.7 <= rel <= 1.8): #aprox 16 x 9 -> 1.77
@@ -102,7 +103,7 @@ class Game:
         self.login = Login(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.name,self.perfil.logged,self.perfil.avatarPicPerfil,self.max_length_name,self.font)
         self.seleccionPartidas = SeleccionPartidas(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.font,self.perfil.id)
-        self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.font,self.perfil.id)
+        self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.font,self.perfil.id,self.msg_delay)
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
