@@ -33,8 +33,8 @@ class EnviarEstadoUDP:
             
                 except:
                     #print('Excepción en enviarEstadoUDP ',e)
-                    threading.Event().wait(t) #0.2 segundos
-                threading.Event().wait(t) #0.2 segundos
+                    threading.Event().wait(self.t) #0.2 segundos
+                threading.Event().wait(self.t) #0.2 segundos
         else:
             cont = {}
             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
@@ -73,10 +73,10 @@ class EnviarEstadoUDP:
                                     pass
                                 finally:
                                     socket_temporal.close() #se cierra el socket al terminar
-                    threading.Event().wait(t) #0.2 segundos
+                    threading.Event().wait(self.t) #0.2 segundos
                 except:
                     #print(e)
-                    threading.Event().wait(t) #0.2 segundos
+                    threading.Event().wait(self.t) #0.2 segundos
         try:
             client_socket.close()
         except:
