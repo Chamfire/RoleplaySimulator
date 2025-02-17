@@ -1,13 +1,18 @@
 import pygame
 from pygame.locals import *
 from pygame import mixer
+import socket
+from Global import Global
 
 class SeleccionPersonaje:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,myId):
         #screen
         self.screen = screen
+        self.isOnline = None
+        self.GLOBAL = Global()
+        self.id = myId
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -46,14 +51,28 @@ class SeleccionPersonaje:
     def getScreen(self):
         return self.screen
 
-    def render(self):
+    def setPassword(self,pswd):
+        self.password = pswd
+
+    def render(self,isOnline):
         #render screen
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
-        #-- Envío de mensaje TCP de que pasen a la selección de personajes
-        
+        #-- Envío de mensaje TCP de que pasen a la selección de personajes por parte de servidor 
+        if(not isOnline):
+            for i in range(0,len(self.GLOBAL.getOtherPlayers())):
+                if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
+                    socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    try:
+                        socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
+                        msg = str(self.password)+";"+str(self.id)+";seleccion_personaje"
+                        socket_temporal.sendall(msg.encode('utf-8'))
+                    except:
+                        pass
+                    finally:
+                        socket_temporal.close() #se cierra el socket al terminar
         pygame.display.update() 
         
 

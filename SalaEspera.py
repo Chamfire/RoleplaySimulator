@@ -256,6 +256,9 @@ class SalaEspera:
             free_portUDP = self.socketUDP.getsockname()[1] #devuelve el nombre del puerto encontrado
         return (free_portTCP,free_portUDP)
 
+    def getPassword(self):
+        return self.password
+
     def render(self,isOnline):
         #render screen
         #abro socket TCP y UDP

@@ -106,7 +106,7 @@ class Game:
         self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.font,self.perfil.id,self.msg_delay)
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
-        self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
+        self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
         mixer.music.play(-1)
@@ -131,6 +131,12 @@ class Game:
                     self.salaEspera.enviarEstadoUDP.desconectar()
                     self.joinPartida.escuchaTCPClient.closeSocketTCPServerSinMSG()
                     self.serverDisc.render()
+                elif screenToRefresh == "seleccionPersonaje":
+                    self.currentScreen = screenToRefresh
+                    self.GLOBAL.setRefreshScreen(None)
+                    self.screen = self.salaEspera.getScreen()
+                    self.seleccionPersonaje.setScreen(self.screen)
+                    self.seleccionPersonaje.render(self.online)
                 else:
                     pass
 
@@ -155,7 +161,7 @@ class Game:
                 elif self.currentScreen == "server_disc":
                     self.serverDisc.render()
                 elif self.currentScreen == "seleccionPersonaje":
-                    self.seleccionPersonaje.render()
+                    self.seleccionPersonaje.render(self.online)
             if not pygame.display.get_active():
                 self.minimized = True #se ha hecho escape para ir al escritorio
 
@@ -248,7 +254,9 @@ class Game:
                                     #solo se podrá cerrar si eres el cliente
                                     self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
                                 except:
-                                    pass 
+                                    pass
+                            else: #si la siguiente es seleccionPersonaje le pasamos la contraseña
+                                self.seleccionPersonaje(self.salaEspera.getPassword())
                             self.screen = self.salaEspera.getScreen()
                     elif self.currentScreen == "joinPartida":
                         self.joinPartida.setNameYAvatar(self.perfil.name,self.perfil.avatarPicPerfil)
@@ -318,7 +326,7 @@ class Game:
                             self.serverDisc.render()
                         elif(self.currentScreen == "seleccionPersonaje"):
                             self.seleccionPersonaje.setScreen(self.screen)
-                            self.seleccionPersonaje.render()
+                            self.seleccionPersonaje.render(self.online)
                         else:
                             self.screen.fill((0,0,0))
                             pygame.display.flip()

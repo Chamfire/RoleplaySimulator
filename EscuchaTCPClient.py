@@ -56,6 +56,9 @@ class EscuchaTCPClient:
                                     self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
                                     break
                             self.GLOBAL.setRefreshScreen("salaEspera")
+                        elif(len(resp) == 1 and resp[0] == "seleccion_personaje"):
+                            #que cambie de pantalla a selección de personaje
+                            self.GLOBAL.setRefreshScreen("seleccionPersonaje")
                     #si no es el id del servidor, o la contraseña no es correcta, lo ignoramos
                 except:
                     pass #si no es el id del servidor, lo ignoramos
