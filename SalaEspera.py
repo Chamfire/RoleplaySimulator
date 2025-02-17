@@ -329,9 +329,10 @@ class SalaEspera:
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
-                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != '"+self.id+"'"
+                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p2' AND id_jugador != '"+self.id+"'"
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
+                    
                     for i in range(0,self.numJugadores-1):
                         if(rows2 != [] and i < len(rows2)): 
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
@@ -355,7 +356,7 @@ class SalaEspera:
                 if(rows[0] != None):
                     self.numJugadores = rows[0][0]
                     self.password = rows[0][1]
-                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p1' AND id_jugador != '"+self.id+"'"
+                    query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p3' AND id_jugador != '"+self.id+"'"
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
                     for i in range(0,self.numJugadores-1):
@@ -371,7 +372,7 @@ class SalaEspera:
                     self.numJugadores = 1 #valor por defecto
                     query_update_numj = """UPDATE partida SET num_jugadores = 1 WHERE numPartida = 'p3';"""
                     self.password = "password"
-                    query_update_psw = """UPDATE partida SET server_code = 'password' WHERE numPartida = 'p2';"""
+                    query_update_psw = """UPDATE partida SET server_code = 'password' WHERE numPartida = 'p3';"""
                     cur.execute(query_update_numj)
                     cur.execute(query_update_psw)
                     conn.commit()
@@ -390,6 +391,7 @@ class SalaEspera:
         self.screen.blit(self.labelTitle, (self.width/3.4783, self.height/17.5000)) #345 40
         #Iconos de los jugadores
         self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest,self.id,self.password,self.t)
+        print(self.GLOBAL.getOtherPlayers())
         for i in range(0,6):
             x_size = self.width/8.0000 #150
             y_size = self.width/8.0000
@@ -402,7 +404,7 @@ class SalaEspera:
 
             self.letterwidth2 = (self.width/8.0000)/(self.max_lenght_name+1) #the width for 1 letter
             self.widthText2 = self.letterwidth2*self.max_lenght_name
-    
+
             if(i == 0): #tú mismo
                 spaces = self.max_lenght_name - len(self.name)
                 one_side = spaces//2
