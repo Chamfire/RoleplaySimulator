@@ -111,6 +111,8 @@ class SeleccionPersonaje:
         self.defaultTextRaza = self.fuente3.render('Raza', True, self.color_white)
         self.screen.blit(self.defaultTextRaza,(self.width/5.4545, self.height/5.3846)) #220 130
         self.screen.blit(pygame.transform.scale(self.default, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+        self.defaultTextClase = self.fuente3.render('Clase', True, self.color_white)
+        self.screen.blit(self.defaultTextClase,(self.width/2.6667, self.height/5.3846)) #450 130
         if(not isOnline):
             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                 if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
