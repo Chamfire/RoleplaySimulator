@@ -6,6 +6,7 @@ class Global:
         self.lock_rs = threading.Lock() #para refreshScreen
         self.lock_to = threading.Lock() #para timeout
         self.lock_np = threading.Lock() #para gestionar las salidas de la partida
+        self.lock_cs = threading.Lock() #para gestionar la currentScreen
 
     def initialize(self):
         global otherPlayers 
@@ -18,7 +19,17 @@ class Global:
         timeout = None
         global noEnPartida
         noEnPartida = True
+        global currentScreen
+        currentScreen = "menu"
 
+    def setCurrentScreen(self,s):
+        global currentScreen
+        currentScreen = s
+
+    def getCurrentScreen(self,s):
+        global currentScreen
+        return currentScreen
+    
     def setOtherPlayers(self,list):
         global otherPlayers
         #print('antes',otherPlayers)

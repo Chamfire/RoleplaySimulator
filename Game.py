@@ -28,9 +28,9 @@ class Game:
         pygame.init()
         self.font = 'agencyfb'
         #self.font = 'agencyfbnormal'
-        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
-        #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
+        self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()
         self.msg_delay = 0.2
         #print(info.current_w,info.current_h)
@@ -76,6 +76,7 @@ class Game:
         self.ch2 = pygame.mixer.Channel(1)
         self.ch3 = pygame.mixer.Channel(2)
         self.ch4 = pygame.mixer.Channel(3)
+        self.ch5 = pygame.mixer.Channel(4) #para el hilo de TCP
         self.minimized = False
         self.online = False #para pasarselo como parámetro a self.joinPartida y saber cuál de las 2 pantallas cargar
 
@@ -103,7 +104,7 @@ class Game:
         self.login = Login(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.name,self.perfil.logged,self.perfil.avatarPicPerfil,self.max_length_name,self.font)
         self.seleccionPartidas = SeleccionPartidas(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.configuracionPartida = ConfiguracionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.local_ip,self.font,self.perfil.id)
-        self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.font,self.perfil.id,self.msg_delay)
+        self.salaEspera = SalaEspera(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.avatarPicPerfil,self.perfil.name,self.max_length_name,self.local_ip,self.font,self.perfil.id,self.msg_delay,self.ch5)
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
@@ -124,6 +125,7 @@ class Game:
                     self.salaEspera.refresh() #refrescamos la pantalla
                 elif screenToRefresh == "server_disc":
                     self.currentScreen = screenToRefresh
+                    self.GLOBAL.setCurrentScreen(screenToRefresh)
                     self.GLOBAL.setRefreshScreen(None)
                     self.screen = self.salaEspera.getScreen() #es la única forma de tomar la pantalla
                     self.serverDisc.setScreen(self.screen)
@@ -133,6 +135,7 @@ class Game:
                     self.serverDisc.render()
                 elif screenToRefresh == "seleccionPersonaje":
                     self.currentScreen = screenToRefresh
+                    self.GLOBAL.setCurrentScreen(screenToRefresh)
                     self.GLOBAL.setRefreshScreen(None)
                     self.screen = self.salaEspera.getScreen()
                     self.seleccionPersonaje.setScreen(self.screen)
@@ -168,6 +171,7 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.currentScreen = 'quit'
+                    self.GLOBAL.setCurrentScreen('quit')
                 #si le maximiza, o resizea la pantalla
                 #elif event.type == VIDEORESIZE: #no lo voy a permitir
                 #    self.width,self.height= (self.screen.get_width(), self.screen.get_height())
@@ -191,6 +195,7 @@ class Game:
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.menu.getScreen()
                     elif self.currentScreen == "credits":
                         screenToChange = self.credits.clickedMouse()
@@ -198,6 +203,7 @@ class Game:
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.credits.getScreen()
                     elif self.currentScreen == "options":
                         screenToChange = self.options.clickedMouse()
@@ -207,6 +213,7 @@ class Game:
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.options.getScreen()
                     elif self.currentScreen == "seleccionPartidas":
                         screenToChange = self.seleccionPartidas.clickedMouse()
@@ -214,6 +221,7 @@ class Game:
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.seleccionPartidas.getScreen()
                             self.configuracionPartida.setCurrentPartida(self.seleccionPartidas.getPartidaToLoad())
                             self.salaEspera.setCurrentPartida(self.seleccionPartidas.getPartidaToLoad())
@@ -224,6 +232,7 @@ class Game:
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.login.getScreen()
                             self.perfil.logged= self.login.getLog()
                             self.menu.setLog(self.perfil.logged) #hay que actualizar la variable logged del menú
@@ -239,12 +248,14 @@ class Game:
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.configuracionPartida.getScreen()
                     elif self.currentScreen == "salaEspera":
                         screenToChange = self.salaEspera.clickedMouse()
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
                             if(screenToChange != "seleccionPersonaje"): #si no se carga una partida, y volvemos hacia atrás, cerramos el socket
                                 self.online = False
                                 self.salaEspera.escuchaTCP.closeSocketTCPServer()
@@ -264,6 +275,7 @@ class Game:
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
                             if(self.currentScreen == "salaEspera"):
                                 self.online = True
                                 self.salaEspera.setNumJugadoresYOtherPlayers(self.joinPartida.getNumJugadoresAndJugadoresAndPort())
@@ -276,12 +288,14 @@ class Game:
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.serverDisc.getScreen()
                     elif self.currentScreen == "seleccionPersonaje":
                         screenToChange = self.seleccionPersonaje.clickedMouse()
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.seleccionPersonaje.getScreen()
                             if(screenToChange != "partida"):
                                 self.online = False

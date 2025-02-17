@@ -1,9 +1,11 @@
 import socket
 from Global import Global
 import sqlite3
+import pygame
+from pygame import mixer
 class EscuchaTCP:
 
-    def __init__(self):
+    def __init__(self,ch5):
         self.GLOBAL = Global()
         self.server_socket = None
         self.ip = None
@@ -13,6 +15,8 @@ class EscuchaTCP:
         self.idPropia = None
         self.nombrePropio = None
         self.miIcono = None
+        self.ch5 = ch5
+        self.join = pygame.mixer.Sound('sounds/joinPartida.wav')
 
     def initialize(self,ip,puerto,password,numJugadores,idPropia,nombrePropio,miIcono,puertoUDP,socket,currentPartida):
         self.ip = ip
@@ -65,7 +69,11 @@ class EscuchaTCP:
                             self.GLOBAL.setTimeoutIndex(posicion,None)
                             break
                     #quitamos su contador el timeout
-                    self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
+                    if(self.GLOBAL.getCurrentScreen() == "salaEspera"):
+                        self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
+                    else:
+                        #en otro caso la desconexión de un jugador se limitará a la reproducción de un sonido
+                        self.ch5.play(self.join)
 
                     #enviamos la actualizacón que deben hacer los jugadores conectados actualmente
                     msg_to_OtherPlayers = self.password+";"+str(self.idPropia)+";usuario_desconectado:"+resp[1]
@@ -98,7 +106,11 @@ class EscuchaTCP:
                     id_new_player = resp[1][3]
                     #hay que crear un nuevo index para ese jugador en cont de timeout
                     self.GLOBAL.setTimeoutIndex(free_pos,15) #la id en cont es la misma que en otherPlayers
-                    self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
+                    if(self.GLOBAL.getCurrentScreen() == "salaEspera"):
+                        self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
+                    else:
+                        #en otro caso la desconexión de un jugador se limitará a la reproducción de un sonido
+                        self.ch5.play(self.join)
                     #es posible que se haya desconectado y se haya vuelto a conectar
                             
                     #print("self.otherPlayers = ",self.otherPlayers)

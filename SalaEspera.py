@@ -12,11 +12,11 @@ from Global import Global
 class SalaEspera:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,font,id,t):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,font,id,t,ch5):
         #screen
         self.screen = screen
         self.font = font
-        self.escuchaTCP = EscuchaTCP()
+        self.escuchaTCP = EscuchaTCP(ch5)
         self.escuchaUDP = EscuchaUDP()
         self.GLOBAL = Global() 
         self.enviarEstadoUDP = None #tenemos que esperarnos a recibir la variable isOnline para saber qué tipo de envío se hará
@@ -332,7 +332,7 @@ class SalaEspera:
                     query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p2' AND id_jugador != '"+self.id+"'"
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
-                    
+                    print(rows2)
                     for i in range(0,self.numJugadores-1):
                         if(rows2 != [] and i < len(rows2)): 
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
