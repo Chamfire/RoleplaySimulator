@@ -460,7 +460,7 @@ class ConfiguracionPartida:
                         sql_get_me = "SELECT id_jugador,is_my_id FROM jugador"
                         cursor.execute(sql_get_me)
                         rows = cursor.fetchall() #para llegar a esta pantalla, la pantalla tiene que existir sí o sí
-                        print(rows)
+                        #print(rows)
                         existo = False
                         if rows != []:
                             for row in rows:

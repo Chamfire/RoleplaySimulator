@@ -13,11 +13,13 @@ class SeleccionPersonaje:
         self.isOnline = None
         self.GLOBAL = Global()
         self.id = myId
+        self.font = font
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
         self.pressed_exit = pygame.mixer.Sound('sounds/button_pressed_ogg.ogg')
         self.selected = pygame.mixer.Sound('sounds/selected_button.wav')
+        self.error = pygame.mixer.Sound('sounds/error.wav')
 
         #widht y height
         self.width = width
@@ -38,12 +40,22 @@ class SeleccionPersonaje:
         self.capa = pygame.image.load("images/capa.png")
         self.buttonSelectedPic = pygame.image.load("images/button_selected.png")
         self.buttonPressedPic = pygame.image.load("images/button_pressed.png")
+        self.flechaDesplegable = pygame.image.load("images/flecha_menu_desplegable.png")
+        self.bCreate = pygame.image.load("images/button_createPartida.png")
+        self.bCreate_selected = pygame.image.load("images/button_createPartida_selected.png")
+        self.bCreate_pressed = pygame.image.load("images/button_createPartida_pressed.png")
+        self.buttonUnavailablePic = pygame.image.load("images/button_unavailable.png")
 
         #fuentes y colores
         self.fuente = pygame.font.SysFont(font, 70)
         self.color_white = (255,255,255)
+        self.color_grey = pygame.Color((208,208,208))
+        self.color_light_grey = pygame.Color((144,144,144))
         self.color_black = (0,0,0)
+        self.color_light_purple = pygame.Color((141,69,188))
+        self.color_purple = pygame.Color((79,32,94))
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
+        self.crearPersonaje = self.fuente.render('Crear personaje', True, self.color_white)
 
     def setScreen(self,screen):
         self.screen = screen
@@ -56,12 +68,40 @@ class SeleccionPersonaje:
 
     def render(self,isOnline):
         #render screen
-        print("en render")
+        self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
+        self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
+
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
-        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-        self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+        self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+        self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
         #-- Envío de mensaje TCP de que pasen a la selección de personajes por parte de servidor 
+        #self.rect1 = pygame.Rect(self.width/12.0000, self.height/14.0000,self.width/1.2000, self.height/11.6667) #100 50 1000 60
+        self.rect1 = pygame.Rect(self.width/17.1429, self.height/14.0000,self.width/4.6154, self.height/11.6667) #70 50 260 60 -> rectángulo de ficha personaje
+        self.rect2 = pygame.Rect(self.width/3.6364, self.height/14.0000, self.width/60.0000, self.height/11.6667) #330 50 20 60 -> decoración morada 1
+        self.rect3 = pygame.Rect(self.width/1.5228, self.height/14.0000, self.width/60.0000, self.height/11.6667) #788 50 20 60 -> decoración morada 2
+        self.inputBox = pygame.Rect(self.width/3.4384, self.height/14.0000, self.width/2.7273, self.height/11.6667) #349 50 440 60 -> escribir nombre
+        self.desplegableTrasfondo = pygame.Rect(self.width/1.4870, self.height/14.0000, self.width//4.1379, self.height/11.6667) #807 50 290 60
+        self.rect4 = pygame.Rect(self.width/1.0949, self.height/14.0000, self.width/40.0000, self.height/11.6667) #1096 50 30 60  -> rectángulo sobre la flecha del menú desplegable 
+        pygame.draw.rect(self.screen, self.color_light_purple, self.rect1, 0)
+        pygame.draw.rect(self.screen, self.color_grey, self.rect1, 2)
+        pygame.draw.rect(self.screen, self.color_purple, self.rect2, 0)
+        pygame.draw.rect(self.screen, self.color_grey, self.rect2, 2)
+        pygame.draw.rect(self.screen,self.color_grey, self.inputBox, 2)
+        pygame.draw.rect(self.screen, self.color_purple, self.rect3, 0)
+        pygame.draw.rect(self.screen, self.color_grey, self.rect3, 2)
+        pygame.draw.rect(self.screen, self.color_grey, self.desplegableTrasfondo, 2)
+        self.fichaText = self.fuente2.render('Ficha de personaje', True, self.color_white)
+        self.defaultTextName = self.fuente2.render('Escribe el nombre de tu personaje', True, self.color_light_grey)
+        self.defaultTextTrasfondo = self.fuente2.render('-- Escoge trasfondo --', True, self.color_light_grey)
+        self.screen.blit(self.fichaText,(self.width/13.3333, self.height/12.7273)) #90 55
+        self.screen.blit(self.defaultTextName,(self.width/3.2520, self.height/12.7273)) #369 55
+        self.screen.blit(self.defaultTextTrasfondo,(self.width/1.4528, self.height/12.7273)) #826 55
+        self.screen.blit(pygame.transform.scale(self.flechaDesplegable, (self.width/40.0000, self.height/11.6667)), (self.width/1.0949, self.height/14.0000)) #30 60 1096 50 
+        pygame.draw.rect(self.screen, self.color_grey, self.rect4, 2)
         if(not isOnline):
             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                 if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
@@ -93,30 +133,42 @@ class SeleccionPersonaje:
         y_size = self.height/12.2807
         x_start = self.width/2.7907
         y_start = self.height/1.1667
+        x_start2 = self.width/11.7647
         (x,y) = pygame.mouse.get_pos()
 
-        #Botón volver al menú
+        #Botón crear personaje
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
-            self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+            #self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            #self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+            #self.ch1.play(self.pressed)
+            #pygame.display.update() 
+            self.ch1.play(self.error)
+            return 'seleccionPersonaje'
+        #Botón volver al menú
+        elif(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
+            self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.ch1.play(self.pressed)
             pygame.display.update() 
             return 'menu'
         else:
             return 'seleccionPersonaje'
-        
+
 
     def movedMouse(self):
         x_size = self.width/3.8339
         y_size = self.height/12.2807
         x_start = self.width/2.7907
         y_start = self.height/1.1667
+        x_start2 = self.width/11.7647
         (x,y) = pygame.mouse.get_pos()
 
+        #TODO: Botón crear personaje cuando esté toda la funcionalidad
+        
         #Botón volver al menú
-        if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
-            self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+        if(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
+            self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             if(self.first_timeB):
                 self.first_timeB = False
                 self.ch2.play(self.selected)     
@@ -124,6 +176,9 @@ class SeleccionPersonaje:
 
         else:
             self.first_timeB = True
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+            #TODO: comprobar que todos los campos están bien antes de printear el botón
+            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
             pygame.display.update() 

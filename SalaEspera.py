@@ -112,8 +112,8 @@ class SalaEspera:
         self.puertoUDP_server = no[2]
         self.ip_dest = no[3]
         cont = 0
-        print(no)
-        print('numJugadores: ',self.numJugadores)
+        #print(no)
+        #print('numJugadores: ',self.numJugadores)
         for i in range(0,(self.numJugadores)): #te pueden pasar a ti mismo también
             if((i in no[1]) and (no[1][i][0] != self.id)):
                 self.GLOBAL.setOtherPlayersIndex(cont,no[1][i]) #jugadores que hay activos cuando te conectas al servidor
@@ -125,7 +125,7 @@ class SalaEspera:
                     self.GLOBAL.setOtherPlayersIndex(cont,None)
                     cont = cont+1
                 #si el contador ya está a 2 para una partida de 3 jugadores, paramos
-        print('otherPlayers: ',self.GLOBAL.getOtherPlayers())
+        #print('otherPlayers: ',self.GLOBAL.getOtherPlayers())
         
 
     def refresh(self):
@@ -332,7 +332,7 @@ class SalaEspera:
                     query_find_jugadores = "SELECT id_jugador FROM partida_jugador WHERE partida_id = 'p2' AND id_jugador != '"+self.id+"'"
                     cur.execute(query_find_jugadores)
                     rows2 = cur.fetchall()
-                    print(rows2)
+                    #print(rows2)
                     for i in range(0,self.numJugadores-1):
                         if(rows2 != [] and i < len(rows2)): 
                             query_find_attr_jugador = "SELECT id_jugador,pic,name FROM jugador WHERE id_jugador = '"+rows2[i][0]+"'"
@@ -391,7 +391,7 @@ class SalaEspera:
         self.screen.blit(self.labelTitle, (self.width/3.4783, self.height/17.5000)) #345 40
         #Iconos de los jugadores
         self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest,self.id,self.password,self.t)
-        print(self.GLOBAL.getOtherPlayers())
+        #print(self.GLOBAL.getOtherPlayers())
         for i in range(0,6):
             x_size = self.width/8.0000 #150
             y_size = self.width/8.0000
