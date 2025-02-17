@@ -45,6 +45,8 @@ class SeleccionPersonaje:
         self.bCreate_selected = pygame.image.load("images/button_createPartida_selected.png")
         self.bCreate_pressed = pygame.image.load("images/button_createPartida_pressed.png")
         self.buttonUnavailablePic = pygame.image.load("images/button_unavailable.png")
+        self.defaultIconRaza = pygame.image.load("images/iconos/icon_default_large.png")
+        self.default = pygame.image.load("images/iconos/icon_default.png")
 
         #fuentes y colores
         self.fuente = pygame.font.SysFont(font, 70)
@@ -71,6 +73,9 @@ class SeleccionPersonaje:
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
+        self.letterwidth2 = (self.width/3.4286)/10 #cálculo de la base en píxeles 
+        self.lettersize2 = int(self.letterwidth2 + 0.5 * self.letterwidth2) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente3 = pygame.font.SysFont(self.font,self.lettersize2)
 
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
@@ -102,6 +107,10 @@ class SeleccionPersonaje:
         self.screen.blit(self.defaultTextTrasfondo,(self.width/1.4528, self.height/12.7273)) #826 55
         self.screen.blit(pygame.transform.scale(self.flechaDesplegable, (self.width/40.0000, self.height/11.6667)), (self.width/1.0949, self.height/14.0000)) #30 60 1096 50 
         pygame.draw.rect(self.screen, self.color_grey, self.rect4, 2)
+        self.screen.blit(pygame.transform.scale(self.defaultIconRaza, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+        self.defaultTextRaza = self.fuente3.render('Raza', True, self.color_white)
+        self.screen.blit(self.defaultTextRaza,(self.width/5.4545, self.height/5.3846)) #220 130
+        self.screen.blit(pygame.transform.scale(self.default, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
         if(not isOnline):
             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                 if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
@@ -164,7 +173,7 @@ class SeleccionPersonaje:
         (x,y) = pygame.mouse.get_pos()
 
         #TODO: Botón crear personaje cuando esté toda la funcionalidad
-        
+
         #Botón volver al menú
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
