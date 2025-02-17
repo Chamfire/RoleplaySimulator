@@ -157,7 +157,7 @@ class Game:
                 elif self.currentScreen == "salaEspera":
                     self.salaEspera.render(self.online)
                 elif self.currentScreen == "joinPartida":
-                    self.joinPartida.render(self.online)
+                    self.joinPartida.render()
                 elif self.currentScreen == "server_disc":
                     self.serverDisc.render()
                 elif self.currentScreen == "seleccionPersonaje":
@@ -256,7 +256,7 @@ class Game:
                                 except:
                                     pass
                             else: #si la siguiente es seleccionPersonaje le pasamos la contraseña
-                                self.seleccionPersonaje(self.salaEspera.getPassword())
+                                self.seleccionPersonaje.setPassword(self.salaEspera.getPassword())
                             self.screen = self.salaEspera.getScreen()
                     elif self.currentScreen == "joinPartida":
                         self.joinPartida.setNameYAvatar(self.perfil.name,self.perfil.avatarPicPerfil)

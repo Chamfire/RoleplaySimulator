@@ -505,8 +505,7 @@ class ConfiguracionPartida:
                             cursor.execute(query_save_partida, data_partida)
                             cursor.execute(query_save_partida_jugador,data_jugador_partida)
                             conn.commit()
-                        except sqlite3.IntegrityError as e:
-                            print(e)
+                        except sqlite3.IntegrityError:
                             pantalla = 'configuracionPartida'
                             self.textNombrePartida = self.introduceText3
                             self.ch1.play(self.error)
