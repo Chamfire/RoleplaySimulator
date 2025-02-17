@@ -182,7 +182,7 @@ class EscuchaTCP:
 
 
             except Exception as e:
-                #print(e)
+                print(e)
                 try:
                     socket_c.close()
                 except:

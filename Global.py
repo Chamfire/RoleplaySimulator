@@ -26,7 +26,7 @@ class Global:
         global currentScreen
         currentScreen = s
 
-    def getCurrentScreen(self,s):
+    def getCurrentScreen(self):
         global currentScreen
         return currentScreen
     
