@@ -84,8 +84,9 @@ class SeleccionPersonaje:
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
-        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
-        self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+        if(not isOnline):
+            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
         #-- Envío de mensaje TCP de que pasen a la selección de personajes por parte de servidor 
         #self.rect1 = pygame.Rect(self.width/12.0000, self.height/14.0000,self.width/1.2000, self.height/11.6667) #100 50 1000 60
         self.rect1 = pygame.Rect(self.width/17.1429, self.height/14.0000,self.width/4.6154, self.height/11.6667) #70 50 260 60 -> rectángulo de ficha personaje
@@ -127,10 +128,14 @@ class SeleccionPersonaje:
         self.screen.blit(self.defectosText,(self.width/2.0168, self.height/2.5090)) #595 279
         self.screen.blit(self.rasgosText,(self.width/2.8571, self.height/1.8041)) #420 388
         self.screen.blit(self.idealesText,(self.width/1.9512, self.height/1.4085)) #615 497
-        self.rect5 = pygame.Rect(self.width/1.6901, self.height/5.0000, self.width/80.0000, self.height/6.3636) #710 140 15 110
+        self.rect5 = pygame.Rect(self.width/1.6901, self.height/5.0000, self.width/80.0000, self.height/6.3636) #710 140 15 110 #rectángulos de colores
         self.rect6 = pygame.Rect(self.width/1.6901, self.height/2.8112, self.width/80.0000, self.height/6.3636) #710 249 15 110
-        self.rect7 = pygame.Rect((self.width/1.6901, self.height/1.9553, self.width/80.0000, self.height/6.3636)) #710 358 15 110
-        self.rect8 = pygame.Rect((self.width/1.6901, self.height/1.4989, self.width/80.0000, self.height/6.3636)) #710 467 15 110
+        self.rect7 = pygame.Rect(self.width/1.6901, self.height/1.9553, self.width/80.0000, self.height/6.3636) #710 358 15 110
+        self.rect8 = pygame.Rect(self.width/1.6901, self.height/1.4989, self.width/80.0000, self.height/6.3636) #710 467 15 110
+        self.rect9 = pygame.Rect(self.width/1.6575, self.height/5.0000, self.width/3.0000, self.height/6.3636) #724 140 400 110 #recuadro de vínculos
+        self.rect10 = pygame.Rect(self.width/1.6575, self.height/2.8112, self.width/3.0000, self.height/6.3636) #724 249 400 110 #recuadro de defectos
+        self.rect11 = pygame.Rect(self.width/1.6575, self.height/1.9553, self.width/3.0000, self.height/6.3636) #724 358 400 110 #recuadro de rasgos
+        self.rect12 = pygame.Rect(self.width/1.6575, self.height/1.4989, self.width/3.0000, self.height/6.3636) #724 467 400 110 #recuadro de ideales
         pygame.draw.rect(self.screen, self.color_light_purple, self.rect5, 0)
         pygame.draw.rect(self.screen, self.color_grey, self.rect5, 2)
         pygame.draw.rect(self.screen, self.color_light_red, self.rect6, 0)
@@ -139,6 +144,18 @@ class SeleccionPersonaje:
         pygame.draw.rect(self.screen, self.color_grey, self.rect7, 2)
         pygame.draw.rect(self.screen, self.color_light_blue, self.rect8, 0)
         pygame.draw.rect(self.screen, self.color_grey, self.rect8, 2)
+        pygame.draw.rect(self.screen, self.color_grey, self.rect9, 2)
+        pygame.draw.rect(self.screen, self.color_grey, self.rect10, 2)
+        pygame.draw.rect(self.screen, self.color_grey, self.rect11, 2)
+        pygame.draw.rect(self.screen, self.color_grey, self.rect12, 2)
+        self.vinculosText2 = self.fuente2.render('-- Selecciona un vínculo --', True, self.color_light_grey)
+        self.defectosText2 = self.fuente2.render('-- Selecciona un defecto --', True, self.color_light_grey)
+        self.rasgosText2 = self.fuente2.render('-- Selecciona tu personalidad --', True, self.color_light_grey)
+        self.idealesText2 = self.fuente2.render('-- Selecciona un ideal --', True, self.color_light_grey)
+        self.screen.blit(self.vinculosText2,(self.width/1.5707, self.height/4.1176)) #764 170
+        self.screen.blit(self.defectosText2,(self.width/1.5810, self.height/2.5090)) #759 279
+        self.screen.blit(self.rasgosText2,(self.width/1.6238, self.height/1.8041)) #739 388
+        self.screen.blit(self.idealesText2,(self.width/1.5306, self.height/1.4085)) #784 497
         if(not isOnline):
             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                 if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
