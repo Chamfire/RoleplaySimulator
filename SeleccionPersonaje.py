@@ -176,6 +176,9 @@ class SeleccionPersonaje:
         self.letterwidth2 = (self.width/3.4286)/10 #cálculo de la base en píxeles 
         self.lettersize2 = int(self.letterwidth2 + 0.5 * self.letterwidth2) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente3 = pygame.font.SysFont(self.font,self.lettersize2)
+        self.letterwidth3 = (self.width/3.4286)/18 #cálculo de la base en píxeles 
+        self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
         self.emptyText = self.fuente2.render(' ', True, self.color_white)
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
@@ -351,42 +354,62 @@ class SeleccionPersonaje:
                 self.acolito_option = pygame.Rect(self.width/1.4870, self.height/6.4220, self.width/3.7500, self.height/17.5000) #807 109 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.acolito_option, 3)
+                self.acolito_text = self.fuente4.render("Acólito", True, self.color_white)
+                self.screen.blit(self.acolito_text,(self.width/1.2834, self.height/6.2500)) #935 112
                 self.artesano_option = pygame.Rect(self.width/1.4870, self.height/4.7297, self.width/3.7500, self.height/17.5000) #807 148 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.artesano_option, 3)
+                self.artesano_text = self.fuente4.render("Artesano Gremial", True, self.color_white)
+                self.screen.blit(self.artesano_text,(self.width/1.3483, self.height/4.6358)) #890 151
                 self.artista_option = pygame.Rect(self.width/1.4870, self.height/3.7433, self.width/3.7500, self.height/17.5000) #807 187 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.artista_option, 3)
+                self.artista_text = self.fuente4.render("Artista", True, self.color_white)
+                self.screen.blit(self.artista_text,(self.width/1.2834, self.height/3.6842)) #935 190
                 self.charlatan_option = pygame.Rect(self.width/1.4870, self.height/3.0973, self.width/3.7500, self.height/17.5000) #807 226 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.charlatan_option, 3)
+                self.charlatan_text = self.fuente4.render("Charlatán", True, self.color_white)
+                self.screen.blit(self.charlatan_text,(self.width/1.3015, self.height/3.0568)) #922 229
                 self.criminal_option = pygame.Rect(self.width/1.4870, self.height/2.6415, self.width/3.7500, self.height/17.5000) #807 265 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.criminal_option, 3)
+                self.criminal_text = self.fuente4.render("Criminal", True, self.color_white)
+                self.screen.blit(self.criminal_text,(self.width/1.2903, self.height/2.6119)) #930 268
                 self.ermitano_option = pygame.Rect(self.width/1.4870, self.height/2.3026, self.width/3.7500, self.height/17.5000) #807 304 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.ermitano_option, 3)
+                self.eritano_text = self.fuente4.render("Ermitaño", True, self.color_white)
+                self.screen.blit(self.eritano_text,(self.width/1.2945, self.height/2.2801)) #927 307
                 self.forastero_option = pygame.Rect(self.width/1.4870, self.height/2.0408, self.width/3.7500, self.height/17.5000) #807 343 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.forastero_option, 3)
+                self.forastero_text = self.fuente4.render("Forastero", True, self.color_white)
+                self.screen.blit(self.forastero_text,(self.width/1.2945, self.height/2.2801)) #920 346
                 self.heroe_option = pygame.Rect(self.width/1.4870, self.height/1.8325, self.width/3.7500, self.height/17.5000) #807 382 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.heroe_option, 3)
+                self.heroe_text = self.fuente4.render("Héroe del pueblo", True, self.color_white)
                 self.huerfano_option = pygame.Rect(self.width/1.4870, self.height/1.6627, self.width/3.7500, self.height/17.5000) #807 421 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.huerfano_option, 3)
+                self.huerfano_text = self.fuente4.render("Huérfano", True, self.color_white)
                 self.marinero_option = pygame.Rect(self.width/1.4870, self.height/1.5217, self.width/3.7500, self.height/17.5000) #807 460 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.marinero_option, 3)
+                self.marinero_text = self.fuente4.render("Marinero", True, self.color_white)
                 self.noble_option = pygame.Rect(self.width/1.4870, self.height/1.4028, self.width/3.7500, self.height/17.5000) #807 499 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.noble_option, 3)
+                self.noble_text = self.fuente4.render("Noble", True, self.color_white)
                 self.sabio_option = pygame.Rect(self.width/1.4870, self.height/1.3011, self.width/3.7500, self.height/17.5000) #807 538 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.sabio_option, 3)
+                self.sabio_text = self.fuente4.render("Sabio", True, self.color_white)
                 self.soldado_option = pygame.Rect(self.width/1.4870, self.height/1.2132, self.width/3.7500, self.height/17.5000) #807 577 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.soldado_option, 3)
+                self.soldado_text = self.fuente4.render("Soldado", True, self.color_white)
                 pygame.display.update() 
             else:
                 self.ch1.play(self.error)
