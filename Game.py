@@ -360,6 +360,9 @@ class Game:
                         self.configuracionPartida.manageInputBox(event.key,event.unicode)
                     elif self.currentScreen == "joinPartida":
                         self.joinPartida.manageInputBox(event.key,event.unicode)
+                    elif self.currentScreen == "seleccionPersonaje":
+                        self.seleccionPersonaje.manageInputBox(event.key,event.unicode)
+                        pass
                     else:
                         pass
                 elif event.type == pygame.MOUSEMOTION:

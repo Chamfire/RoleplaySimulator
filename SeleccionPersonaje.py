@@ -19,7 +19,8 @@ class SeleccionPersonaje:
         self.textName = None #se modifica al hacer render
         self.emptyText = None #se modifica en render
         self.activeI = False
-        self.max_length_name = 13
+        self.max_length_name = 20
+        self.personaje = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -164,7 +165,8 @@ class SeleccionPersonaje:
     def render(self,isOnline):
         #render screen
         self.isOnline = isOnline
-        self.personaje = Personaje(False,self.currentPartida,self.id) #False porque no es NPC
+        if(self.personaje == None): #si volvemos atrás desde la segunda pantalla, se cargará el personaje que teníamos
+            self.personaje = Personaje(False,self.currentPartida,self.id) #False porque no es NPC
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
@@ -289,14 +291,20 @@ class SeleccionPersonaje:
             #self.ch1.play(self.pressed)
             #pygame.display.update() 
             self.activeI = True
+            if(self.personaje.name == ' '):
+                self.textName = self.defaultTextName
+            else:
+                self.textName = self.fuente2.render(self.personaje.name, True, self.color_white)
             pygame.draw.rect(self.screen,self.color_black, self.inputBox, 0)
             pygame.draw.rect(self.screen,self.color_grey, self.inputBox, 2)
             self.screen.blit(self.textName,(self.width/3.2520, self.height/12.7273)) #369 55
+            pygame.display.update() 
             self.ch1.play(self.error)
             return 'seleccionPersonaje'
         #Botón volver al menú
         elif(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
             self.activeI = False
+            self.personaje = None #reiniciamos el personaje para que si abrimos otra partida, no haya restos de esta
             self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.ch1.play(self.pressed)
@@ -320,7 +328,12 @@ class SeleccionPersonaje:
             self.activeI = False
             pygame.draw.rect(self.screen,self.color_black, self.inputBox, 0)
             pygame.draw.rect(self.screen,self.color_grey, self.inputBox, 2)
+            if(self.personaje.name == ' '):
+                self.textName = self.defaultTextName
+            else:
+                self.textName = self.fuente2.render(self.personaje.name, True, self.color_white)
             self.screen.blit(self.textName,(self.width/3.2520, self.height/12.7273)) #369 55
+            pygame.display.update() 
             return 'seleccionPersonaje'
 
     def manageInputBox(self, key, unicode):
