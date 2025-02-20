@@ -41,6 +41,19 @@ class SeleccionPersonaje:
 
         #variables
         self.first_timeB = True # Aún no has pulsado el botón volver al menú
+        self.first_time1 = True # Del menú desplegable, cada opción no ha sido pulsada aún
+        self.first_time2 = True
+        self.first_time3 = True
+        self.first_time4 = True
+        self.first_time5 = True
+        self.first_time6 = True
+        self.first_time7 = True
+        self.first_time8 = True
+        self.first_time9 = True
+        self.first_time10 = True
+        self.first_time11 = True
+        self.first_time12 = True
+        self.first_time13 = True
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
@@ -92,14 +105,7 @@ class SeleccionPersonaje:
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
         self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
         self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-        #-- Envío de mensaje TCP de que pasen a la selección de personajes por parte de servidor 
-        #self.rect1 = pygame.Rect(self.width/12.0000, self.height/14.0000,self.width/1.2000, self.height/11.6667) #100 50 1000 60
-        #self.rect1 = pygame.Rect(self.width/17.1429, self.height/14.0000,self.width/4.6154, self.height/11.6667) #70 50 260 60 -> rectángulo de ficha personaje
-        #self.rect2 = pygame.Rect(self.width/3.6364, self.height/14.0000, self.width/60.0000, self.height/11.6667) #330 50 20 60 -> decoración morada 1
-        #self.rect3 = pygame.Rect(self.width/1.5228, self.height/14.0000, self.width/60.0000, self.height/11.6667) #788 50 20 60 -> decoración morada 2
-        #self.inputBox = pygame.Rect(self.width/3.4384, self.height/14.0000, self.width/2.7273, self.height/11.6667) #349 50 440 60 -> escribir nombre
-        #self.desplegableTrasfondo = pygame.Rect(self.width/1.4870, self.height/14.0000, self.width//4.1379, self.height/11.6667) #807 50 290 60
-        #self.rect4 = pygame.Rect(self.width/1.0949, self.height/14.0000, self.width/40.0000, self.height/11.6667) #1096 50 30 60  -> rectángulo sobre la flecha del menú desplegable 
+    
         pygame.draw.rect(self.screen, self.color_light_purple, self.rect1, 0)
         pygame.draw.rect(self.screen, self.color_grey, self.rect1, 2)
         pygame.draw.rect(self.screen, self.color_purple, self.rect2, 0)
@@ -136,14 +142,6 @@ class SeleccionPersonaje:
         self.screen.blit(self.defectosText,(self.width/2.0168, self.height/2.5090)) #595 279
         self.screen.blit(self.rasgosText,(self.width/2.8571, self.height/1.8041)) #420 388
         self.screen.blit(self.idealesText,(self.width/1.9512, self.height/1.4085)) #615 497
-        #self.rect5 = pygame.Rect(self.width/1.6901, self.height/5.0000, self.width/80.0000, self.height/6.3636) #710 140 15 110 #rectángulos de colores
-        #self.rect6 = pygame.Rect(self.width/1.6901, self.height/2.8112, self.width/80.0000, self.height/6.3636) #710 249 15 110
-        #self.rect7 = pygame.Rect(self.width/1.6901, self.height/1.9553, self.width/80.0000, self.height/6.3636) #710 358 15 110
-        #self.rect8 = pygame.Rect(self.width/1.6901, self.height/1.4989, self.width/80.0000, self.height/6.3636) #710 467 15 110
-        #self.rect9 = pygame.Rect(self.width/1.6575, self.height/5.0000, self.width/3.0000, self.height/6.3636) #724 140 400 110 #recuadro de vínculos
-        #self.rect10 = pygame.Rect(self.width/1.6575, self.height/2.8112, self.width/3.0000, self.height/6.3636) #724 249 400 110 #recuadro de defectos
-        #self.rect11 = pygame.Rect(self.width/1.6575, self.height/1.9553, self.width/3.0000, self.height/6.3636) #724 358 400 110 #recuadro de rasgos
-        #self.rect12 = pygame.Rect(self.width/1.6575, self.height/1.4989, self.width/3.0000, self.height/6.3636) #724 467 400 110 #recuadro de ideales
         pygame.draw.rect(self.screen, self.color_light_purple, self.rect5, 0)
         pygame.draw.rect(self.screen, self.color_grey, self.rect5, 2)
         pygame.draw.rect(self.screen, self.color_light_red, self.rect6, 0)
@@ -187,7 +185,6 @@ class SeleccionPersonaje:
         self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
         self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
         #-- Envío de mensaje TCP de que pasen a la selección de personajes por parte de servidor 
-        #self.rect1 = pygame.Rect(self.width/12.0000, self.height/14.0000,self.width/1.2000, self.height/11.6667) #100 50 1000 60
         self.rect1 = pygame.Rect(self.width/17.1429, self.height/14.0000,self.width/4.6154, self.height/11.6667) #70 50 260 60 -> rectángulo de ficha personaje
         self.rect2 = pygame.Rect(self.width/3.6364, self.height/14.0000, self.width/60.0000, self.height/11.6667) #330 50 20 60 -> decoración morada 1
         self.rect3 = pygame.Rect(self.width/1.5228, self.height/14.0000, self.width/60.0000, self.height/11.6667) #788 50 20 60 -> decoración morada 2
@@ -270,7 +267,259 @@ class SeleccionPersonaje:
                     finally:
                         socket_temporal.close() #se cierra el socket al terminar
         pygame.display.update() 
-        
+        #precargamos todo lo de la interfaz gráfica en el render
+        self.acolito_option = pygame.Rect(self.width/1.4870, self.height/6.4220, self.width/3.7500, self.height/17.5000) #807 109 320 40
+        self.acolito_text = self.fuente4.render("Acólito", True, self.color_white)
+        self.artesano_option = pygame.Rect(self.width/1.4870, self.height/4.7297, self.width/3.7500, self.height/17.5000) #807 148 320 40
+        self.artesano_text = self.fuente4.render("Artesano Gremial", True, self.color_white)
+        self.artista_option = pygame.Rect(self.width/1.4870, self.height/3.7433, self.width/3.7500, self.height/17.5000) #807 187 320 40
+        self.artista_text = self.fuente4.render("Artista", True, self.color_white)
+        self.charlatan_option = pygame.Rect(self.width/1.4870, self.height/3.0973, self.width/3.7500, self.height/17.5000) #807 226 320 40
+        self.charlatan_text = self.fuente4.render("Charlatán", True, self.color_white)
+        self.criminal_option = pygame.Rect(self.width/1.4870, self.height/2.6415, self.width/3.7500, self.height/17.5000) #807 265 320 40
+        self.criminal_text = self.fuente4.render("Criminal", True, self.color_white)
+        self.ermitano_option = pygame.Rect(self.width/1.4870, self.height/2.3026, self.width/3.7500, self.height/17.5000) #807 304 320 40
+        self.eritano_text = self.fuente4.render("Ermitaño", True, self.color_white)
+        self.forastero_option = pygame.Rect(self.width/1.4870, self.height/2.0408, self.width/3.7500, self.height/17.5000) #807 343 320 40
+        self.forastero_text = self.fuente4.render("Forastero", True, self.color_white)
+        self.heroe_option = pygame.Rect(self.width/1.4870, self.height/1.8325, self.width/3.7500, self.height/17.5000) #807 382 320 40
+        self.heroe_text = self.fuente4.render("Héroe del pueblo", True, self.color_white)
+        self.huerfano_option = pygame.Rect(self.width/1.4870, self.height/1.6627, self.width/3.7500, self.height/17.5000) #807 421 320 40
+        self.huerfano_text = self.fuente4.render("Huérfano", True, self.color_white)
+        self.marinero_option = pygame.Rect(self.width/1.4870, self.height/1.5217, self.width/3.7500, self.height/17.5000) #807 460 320 40
+        self.marinero_text = self.fuente4.render("Marinero", True, self.color_white)
+        self.noble_option = pygame.Rect(self.width/1.4870, self.height/1.4028, self.width/3.7500, self.height/17.5000) #807 499 320 40
+        self.noble_text = self.fuente4.render("Noble", True, self.color_white)
+        self.sabio_option = pygame.Rect(self.width/1.4870, self.height/1.3011, self.width/3.7500, self.height/17.5000) #807 538 320 40
+        self.sabio_text = self.fuente4.render("Sabio", True, self.color_white)
+        self.soldado_option = pygame.Rect(self.width/1.4870, self.height/1.2132, self.width/3.7500, self.height/17.5000) #807 577 320 40
+        self.soldado_text = self.fuente4.render("Soldado", True, self.color_white)
+
+
+    def select_option(self,op):
+        if(op == "Acólito"):
+            pygame.draw.rect(self.screen,self.color_magenta, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Artesano Gremial"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Artista"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Charlatán"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Criminal"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Ermitaño"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Forastero"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Héroe del pueblo"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Huérfano"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Marinero"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Noble"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Sabio"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+        elif(op == "Soldado"):
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.soldado_option, 0)
+        else:
+            pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+
+        pygame.draw.rect(self.screen,self.color_grey, self.acolito_option, 3)
+        self.screen.blit(self.acolito_text,(self.width/1.2834, self.height/6.2500)) #935 112
+        pygame.draw.rect(self.screen,self.color_grey, self.artesano_option, 3)
+        self.screen.blit(self.artesano_text,(self.width/1.3483, self.height/4.6358)) #890 151
+        pygame.draw.rect(self.screen,self.color_grey, self.artista_option, 3)
+        self.screen.blit(self.artista_text,(self.width/1.2834, self.height/3.6842)) #935 190
+        pygame.draw.rect(self.screen,self.color_grey, self.charlatan_option, 3)
+        self.screen.blit(self.charlatan_text,(self.width/1.3015, self.height/3.0568)) #922 229
+        pygame.draw.rect(self.screen,self.color_grey, self.criminal_option, 3)
+        self.screen.blit(self.criminal_text,(self.width/1.2903, self.height/2.6119)) #930 268
+        pygame.draw.rect(self.screen,self.color_grey, self.ermitano_option, 3)
+        self.screen.blit(self.eritano_text,(self.width/1.2945, self.height/2.2801)) #927 307
+        pygame.draw.rect(self.screen,self.color_grey, self.forastero_option, 3)
+        self.screen.blit(self.forastero_text,(self.width/1.3015, self.height/2.0231)) #922 346
+        pygame.draw.rect(self.screen,self.color_grey, self.heroe_option, 3)
+        self.screen.blit(self.heroe_text,(self.width/1.3483, self.height/1.8182)) #895 385
+        pygame.draw.rect(self.screen,self.color_grey, self.huerfano_option, 3)
+        self.screen.blit(self.huerfano_text,(self.width/1.2945, self.height/1.6509)) #927 424
+        pygame.draw.rect(self.screen,self.color_grey, self.marinero_option, 3)
+        self.screen.blit(self.marinero_text,(self.width/1.2945, self.height/1.5119)) #927 463
+        pygame.draw.rect(self.screen,self.color_grey, self.noble_option, 3)
+        self.screen.blit(self.noble_text,(self.width/1.2766, self.height/1.3944)) #940 502
+        pygame.draw.rect(self.screen,self.color_grey, self.sabio_option, 3)
+        self.screen.blit(self.sabio_text,(self.width/1.2766, self.height/1.2939)) #940 541
+        pygame.draw.rect(self.screen,self.color_grey, self.soldado_option, 3)
+        self.screen.blit(self.soldado_text,(self.width/1.2903, self.height/1.2069)) #930 580
 
     # size_x, size_y: tamaño del botón en x y en y
     # x_start y y_start: posición de la esquina izquierda del botón
@@ -332,6 +581,7 @@ class SeleccionPersonaje:
             else:
                 self.ch2.play(self.error)
                 return 'seleccionPersonaje'
+            
 
         #Menú desplegable de trasfondos: si le da al recuadro o a la flecha
         elif (self.desplegableTrasfondo.collidepoint((x,y)) or self.rect4.collidepoint((x,y))):
@@ -351,75 +601,156 @@ class SeleccionPersonaje:
                 pygame.display.update() 
 
                 self.opened_screen = 1 #tipo 1: trasfondos
-                self.acolito_option = pygame.Rect(self.width/1.4870, self.height/6.4220, self.width/3.7500, self.height/17.5000) #807 109 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.acolito_option, 3)
-                self.acolito_text = self.fuente4.render("Acólito", True, self.color_white)
                 self.screen.blit(self.acolito_text,(self.width/1.2834, self.height/6.2500)) #935 112
-                self.artesano_option = pygame.Rect(self.width/1.4870, self.height/4.7297, self.width/3.7500, self.height/17.5000) #807 148 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.artesano_option, 3)
-                self.artesano_text = self.fuente4.render("Artesano Gremial", True, self.color_white)
                 self.screen.blit(self.artesano_text,(self.width/1.3483, self.height/4.6358)) #890 151
-                self.artista_option = pygame.Rect(self.width/1.4870, self.height/3.7433, self.width/3.7500, self.height/17.5000) #807 187 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.artista_option, 3)
-                self.artista_text = self.fuente4.render("Artista", True, self.color_white)
                 self.screen.blit(self.artista_text,(self.width/1.2834, self.height/3.6842)) #935 190
-                self.charlatan_option = pygame.Rect(self.width/1.4870, self.height/3.0973, self.width/3.7500, self.height/17.5000) #807 226 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.charlatan_option, 3)
-                self.charlatan_text = self.fuente4.render("Charlatán", True, self.color_white)
                 self.screen.blit(self.charlatan_text,(self.width/1.3015, self.height/3.0568)) #922 229
-                self.criminal_option = pygame.Rect(self.width/1.4870, self.height/2.6415, self.width/3.7500, self.height/17.5000) #807 265 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.criminal_option, 3)
-                self.criminal_text = self.fuente4.render("Criminal", True, self.color_white)
                 self.screen.blit(self.criminal_text,(self.width/1.2903, self.height/2.6119)) #930 268
-                self.ermitano_option = pygame.Rect(self.width/1.4870, self.height/2.3026, self.width/3.7500, self.height/17.5000) #807 304 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.ermitano_option, 3)
-                self.eritano_text = self.fuente4.render("Ermitaño", True, self.color_white)
                 self.screen.blit(self.eritano_text,(self.width/1.2945, self.height/2.2801)) #927 307
-                self.forastero_option = pygame.Rect(self.width/1.4870, self.height/2.0408, self.width/3.7500, self.height/17.5000) #807 343 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.forastero_option, 3)
-                self.forastero_text = self.fuente4.render("Forastero", True, self.color_white)
                 self.screen.blit(self.forastero_text,(self.width/1.3015, self.height/2.0231)) #922 346
-                self.heroe_option = pygame.Rect(self.width/1.4870, self.height/1.8325, self.width/3.7500, self.height/17.5000) #807 382 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.heroe_option, 3)
-                self.heroe_text = self.fuente4.render("Héroe del pueblo", True, self.color_white)
                 self.screen.blit(self.heroe_text,(self.width/1.3483, self.height/1.8182)) #895 385
-                self.huerfano_option = pygame.Rect(self.width/1.4870, self.height/1.6627, self.width/3.7500, self.height/17.5000) #807 421 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.huerfano_option, 3)
-                self.huerfano_text = self.fuente4.render("Huérfano", True, self.color_white)
                 self.screen.blit(self.huerfano_text,(self.width/1.2945, self.height/1.6509)) #927 424
-                self.marinero_option = pygame.Rect(self.width/1.4870, self.height/1.5217, self.width/3.7500, self.height/17.5000) #807 460 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.marinero_option, 3)
-                self.marinero_text = self.fuente4.render("Marinero", True, self.color_white)
                 self.screen.blit(self.marinero_text,(self.width/1.2945, self.height/1.5119)) #927 463
-                self.noble_option = pygame.Rect(self.width/1.4870, self.height/1.4028, self.width/3.7500, self.height/17.5000) #807 499 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.noble_option, 3)
-                self.noble_text = self.fuente4.render("Noble", True, self.color_white)
                 self.screen.blit(self.noble_text,(self.width/1.2766, self.height/1.3944)) #940 502
-                self.sabio_option = pygame.Rect(self.width/1.4870, self.height/1.3011, self.width/3.7500, self.height/17.5000) #807 538 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.sabio_option, 3)
-                self.sabio_text = self.fuente4.render("Sabio", True, self.color_white)
                 self.screen.blit(self.sabio_text,(self.width/1.2766, self.height/1.2939)) #940 541
-                self.soldado_option = pygame.Rect(self.width/1.4870, self.height/1.2132, self.width/3.7500, self.height/17.5000) #807 577 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.soldado_option, 3)
-                self.soldado_text = self.fuente4.render("Soldado", True, self.color_white)
                 self.screen.blit(self.soldado_text,(self.width/1.2903, self.height/1.2069)) #930 580
                 pygame.display.update() 
             else:
                 self.ch1.play(self.error)
             return 'seleccionPersonaje'
+        
+        #Elección de trasfondo
+        elif(self.acolito_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Acólito"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Acólito', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.artesano_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Artesano Gremial"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Artesano Gremial', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.artista_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Artista"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Artista', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.charlatan_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Charlatán"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Charlatán', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.criminal_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Criminal"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Criminal', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.ermitano_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Ermitaño"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Ermitaño', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.forastero_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Forastero"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Forastero', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.heroe_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Héroe del pueblo"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Héroe del pueblo', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.huerfano_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Huérfano"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Huérfano', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.marinero_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Marinero"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Marinero', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.noble_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Noble"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Noble', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.sabio_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Sabio"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Sabio', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.soldado_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.personaje.id_trasfondo = "Soldado"
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Soldado', True, self.color_white)
+            self.refresh(2,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+
 
         else:
             self.activeI = False
@@ -472,11 +803,301 @@ class SeleccionPersonaje:
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
             if(self.first_timeB):
                 self.first_timeB = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
                 self.ch2.play(self.selected)     
             pygame.display.update() 
 
+
+        elif(self.acolito_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Acólito")
+            if(self.first_time1):
+                self.first_time1 = False
+                self.first_timeB = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch3.play(self.selected)    
+            pygame.display.update() 
+
+        elif(self.artesano_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Artesano Gremial")
+            if(self.first_time2):
+                self.first_time2 = False
+                self.first_time1 = True 
+                self.first_timeB = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch4.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.artista_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Artista")
+            if(self.first_time3):
+                self.first_time3 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_timeB = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch2.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.charlatan_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Charlatán")
+            if(self.first_time4):
+                self.first_time4 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_timeB = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.criminal_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Criminal")
+            if(self.first_time5):
+                self.first_time5 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_timeB = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch4.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.ermitano_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Ermitaño")
+            if(self.first_time6):
+                self.first_time6 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_timeB = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch2.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.forastero_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Forastero")
+            if(self.first_time7):
+                self.first_time7 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_timeB = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.heroe_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Héroe del pueblo")
+            if(self.first_time8):
+                self.first_time8 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_timeB = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch4.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.huerfano_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Huérfano")
+            if(self.first_time9):
+                self.first_time9 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_timeB = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch2.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.marinero_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Marinero")
+            if(self.first_time10):
+                self.first_time10 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_timeB = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.noble_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Noble")
+            if(self.first_time11):
+                self.first_time11 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_timeB = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.ch4.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.sabio_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Sabio")
+            if(self.first_time12):
+                self.first_time12 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_timeB = True
+                self.first_time13 = True
+                self.ch2.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.soldado_option.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Soldado")
+            if(self.first_time13):
+                self.first_time13 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_timeB = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+
+
         else:
             self.first_timeB = True
+            self.first_time1 = True 
+            self.first_time2 = True
+            self.first_time3 = True
+            self.first_time4 = True
+            self.first_time5 = True
+            self.first_time6 = True
+            self.first_time7 = True
+            self.first_time8 = True
+            self.first_time9 = True
+            self.first_time10 = True
+            self.first_time11 = True
+            self.first_time12 = True
+            self.first_time13 = True
+            if(self.opened_screen == 1):
+                self.select_option("default")
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             #TODO: comprobar que todos los campos están bien antes de printear el botón
