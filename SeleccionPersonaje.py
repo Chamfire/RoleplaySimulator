@@ -385,31 +385,37 @@ class SeleccionPersonaje:
                 pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.forastero_option, 3)
                 self.forastero_text = self.fuente4.render("Forastero", True, self.color_white)
-                self.screen.blit(self.forastero_text,(self.width/1.2945, self.height/2.2801)) #920 346
+                self.screen.blit(self.forastero_text,(self.width/1.3015, self.height/2.0231)) #922 346
                 self.heroe_option = pygame.Rect(self.width/1.4870, self.height/1.8325, self.width/3.7500, self.height/17.5000) #807 382 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.heroe_option, 3)
                 self.heroe_text = self.fuente4.render("Héroe del pueblo", True, self.color_white)
+                self.screen.blit(self.heroe_text,(self.width/1.3483, self.height/1.8182)) #895 385
                 self.huerfano_option = pygame.Rect(self.width/1.4870, self.height/1.6627, self.width/3.7500, self.height/17.5000) #807 421 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.huerfano_option, 3)
                 self.huerfano_text = self.fuente4.render("Huérfano", True, self.color_white)
+                self.screen.blit(self.huerfano_text,(self.width/1.2945, self.height/1.6509)) #927 424
                 self.marinero_option = pygame.Rect(self.width/1.4870, self.height/1.5217, self.width/3.7500, self.height/17.5000) #807 460 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.marinero_option, 3)
                 self.marinero_text = self.fuente4.render("Marinero", True, self.color_white)
+                self.screen.blit(self.marinero_text,(self.width/1.2945, self.height/1.5119)) #927 463
                 self.noble_option = pygame.Rect(self.width/1.4870, self.height/1.4028, self.width/3.7500, self.height/17.5000) #807 499 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.noble_option, 3)
                 self.noble_text = self.fuente4.render("Noble", True, self.color_white)
+                self.screen.blit(self.noble_text,(self.width/1.2766, self.height/1.3944)) #940 502
                 self.sabio_option = pygame.Rect(self.width/1.4870, self.height/1.3011, self.width/3.7500, self.height/17.5000) #807 538 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.sabio_option, 3)
                 self.sabio_text = self.fuente4.render("Sabio", True, self.color_white)
+                self.screen.blit(self.sabio_text,(self.width/1.2766, self.height/1.2939)) #940 541
                 self.soldado_option = pygame.Rect(self.width/1.4870, self.height/1.2132, self.width/3.7500, self.height/17.5000) #807 577 320 40
                 pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
                 pygame.draw.rect(self.screen,self.color_grey, self.soldado_option, 3)
                 self.soldado_text = self.fuente4.render("Soldado", True, self.color_white)
+                self.screen.blit(self.soldado_text,(self.width/1.2903, self.height/1.2069)) #930 580
                 pygame.display.update() 
             else:
                 self.ch1.play(self.error)
