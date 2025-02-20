@@ -62,7 +62,7 @@ class SeleccionPersonaje:
         self.color_light_green = pygame.Color((104,188,69))
         self.color_light_blue = pygame.Color((70,166,188))
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
-        self.crearPersonaje = self.fuente.render('Crear personaje', True, self.color_white)
+        self.crearPersonaje = self.fuente.render('Editar aspecto', True, self.color_white)
 
     def setScreen(self,screen):
         self.screen = screen
@@ -81,9 +81,8 @@ class SeleccionPersonaje:
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
-        if(not self.isOnline):
-            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
-            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+        self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
         #-- Envío de mensaje TCP de que pasen a la selección de personajes por parte de servidor 
         #self.rect1 = pygame.Rect(self.width/12.0000, self.height/14.0000,self.width/1.2000, self.height/11.6667) #100 50 1000 60
         #self.rect1 = pygame.Rect(self.width/17.1429, self.height/14.0000,self.width/4.6154, self.height/11.6667) #70 50 260 60 -> rectángulo de ficha personaje
@@ -172,9 +171,8 @@ class SeleccionPersonaje:
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
-        if(not isOnline):
-            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
-            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+        self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
         #-- Envío de mensaje TCP de que pasen a la selección de personajes por parte de servidor 
         #self.rect1 = pygame.Rect(self.width/12.0000, self.height/14.0000,self.width/1.2000, self.height/11.6667) #100 50 1000 60
         self.rect1 = pygame.Rect(self.width/17.1429, self.height/14.0000,self.width/4.6154, self.height/11.6667) #70 50 260 60 -> rectángulo de ficha personaje
