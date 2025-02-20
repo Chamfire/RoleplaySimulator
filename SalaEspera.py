@@ -80,6 +80,7 @@ class SalaEspera:
         self.color_black = (0,0,0)
         self.color_light_pink = pygame.Color((234,135,255))
         self.color_grey = pygame.Color((208,208,208))
+        self.color_light_red = pygame.Color((228,99,86))
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
         self.crearT = self.fuente.render('Cargar partida', True, self.color_white)
         self.labelTitle = None
@@ -258,6 +259,9 @@ class SalaEspera:
 
     def getPassword(self):
         return self.password
+    
+    def getCurrentPartida(self):
+        return self.currentPartida
 
     def render(self,isOnline):
         #render screen
@@ -384,8 +388,12 @@ class SalaEspera:
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
             self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
-            textPwd = "Contraseña de partida: "+self.password+" <-> Código: "+self.ip+":"+str(self.puerto)
-            self.textPassword = self.fuente4.render(textPwd, True, self.color_light_pink)
+            if(self.ip != None):
+                textPwd = "Contraseña de partida: "+self.password+" <-> Código: "+self.ip+":"+str(self.puerto)
+                self.textPassword = self.fuente4.render(textPwd, True, self.color_light_pink)
+            else:
+                textPwd = "No estás conectado a una red wifi. Si esperas a más jugadores, conéctate y reinicia el juego."
+                self.textPassword = self.fuente4.render(textPwd, True, self.color_light_red)
             self.screen.blit(self.textPassword,(self.width/4.0000, self.height/7.0000)) #300 100
         #Título
         self.screen.blit(self.labelTitle, (self.width/3.4783, self.height/17.5000)) #345 40
