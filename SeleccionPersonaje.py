@@ -21,6 +21,7 @@ class SeleccionPersonaje:
         self.activeI = False
         self.max_length_name = 20
         self.personaje = None
+        self.textTrasfondo = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -48,6 +49,7 @@ class SeleccionPersonaje:
         self.buttonSelectedPic = pygame.image.load("images/button_selected.png")
         self.buttonPressedPic = pygame.image.load("images/button_pressed.png")
         self.flechaDesplegable = pygame.image.load("images/flecha_menu_desplegable.png")
+        self.flechaDesplegable_selected = pygame.image.load("images/flecha_menu_desplegable_selected.png")
         self.bCreate = pygame.image.load("images/button_createPartida.png")
         self.bCreate_selected = pygame.image.load("images/button_createPartida_selected.png")
         self.bCreate_pressed = pygame.image.load("images/button_createPartida_pressed.png")
@@ -111,9 +113,10 @@ class SeleccionPersonaje:
         if(op == 1):
             self.textName = content
         self.screen.blit(self.textName,(self.width/3.2520, self.height/12.7273)) #369 55
-        self.defaultTextTrasfondo = self.fuente2.render('-- Escoge trasfondo --', True, self.color_light_grey)
+        if(op == 2):
+            self.textTrasfondo = content
         self.screen.blit(self.fichaText,(self.width/13.3333, self.height/12.7273)) #90 55
-        self.screen.blit(self.defaultTextTrasfondo,(self.width/1.4528, self.height/12.7273)) #826 55
+        self.screen.blit(self.textTrasfondo,(self.width/1.4528, self.height/12.7273)) #826 55
         self.screen.blit(pygame.transform.scale(self.flechaDesplegable, (self.width/40.0000, self.height/11.6667)), (self.width/1.0949, self.height/14.0000)) #30 60 1096 50 
         pygame.draw.rect(self.screen, self.color_grey, self.rect4, 2)
         self.screen.blit(pygame.transform.scale(self.defaultIconRaza, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
@@ -202,7 +205,8 @@ class SeleccionPersonaje:
         self.defaultTextTrasfondo = self.fuente2.render('-- Escoge trasfondo --', True, self.color_light_grey)
         self.screen.blit(self.fichaText,(self.width/13.3333, self.height/12.7273)) #90 55
         self.screen.blit(self.textName,(self.width/3.2520, self.height/12.7273)) #369 55
-        self.screen.blit(self.defaultTextTrasfondo,(self.width/1.4528, self.height/12.7273)) #826 55
+        self.textTrasfondo = self.defaultTextTrasfondo
+        self.screen.blit(self.textTrasfondo,(self.width/1.4528, self.height/12.7273)) #826 55
         self.screen.blit(pygame.transform.scale(self.flechaDesplegable, (self.width/40.0000, self.height/11.6667)), (self.width/1.0949, self.height/14.0000)) #30 60 1096 50 
         pygame.draw.rect(self.screen, self.color_grey, self.rect4, 2)
         self.screen.blit(pygame.transform.scale(self.defaultIconRaza, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
@@ -295,15 +299,15 @@ class SeleccionPersonaje:
                 self.textName = self.defaultTextName
             else:
                 self.textName = self.fuente2.render(self.personaje.name, True, self.color_white)
-            pygame.draw.rect(self.screen,self.color_black, self.inputBox, 0)
-            pygame.draw.rect(self.screen,self.color_grey, self.inputBox, 2)
-            self.screen.blit(self.textName,(self.width/3.2520, self.height/12.7273)) #369 55
+            self.opened_screen = None #TODO:comprobar si hay pantallas de clase o raza abiertas
+            self.refresh(0,None)
             pygame.display.update() 
             self.ch1.play(self.error)
             return 'seleccionPersonaje'
         #Botón volver al menú
         elif(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
             self.activeI = False
+            self.opened_screen = None #TODO:comprobar si hay pantallas de clase o raza abiertas
             self.personaje = None #reiniciamos el personaje para que si abrimos otra partida, no haya restos de esta
             self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
@@ -311,9 +315,11 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'menu'
         
-        #Input de nombre de partida
+        #Input de nombre de personaje
         elif self.inputBox.collidepoint((x,y)):
-            if(self.opened_screen == None):
+            if(self.opened_screen == None or self.opened_screen == 1):
+                if(self.opened_screen == 1):
+                    self.opened_screen = None
                 if(self.personaje.name == ' '):
                     self.textName= self.emptyText
                 self.refresh(1,self.textName)
@@ -324,15 +330,77 @@ class SeleccionPersonaje:
                 self.ch2.play(self.error)
                 return 'seleccionPersonaje'
 
+        #Menú desplegable de trasfondos: si le da al recuadro o a la flecha
+        elif (self.desplegableTrasfondo.collidepoint((x,y)) or self.rect4.collidepoint((x,y))):
+            if(self.opened_screen == None):
+                #desactivo inputBox
+                self.ch1.play(self.pressed)
+                self.activeI = False
+                pygame.draw.rect(self.screen,self.color_black, self.inputBox, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.inputBox, 2)
+                if(self.personaje.name == ' '):
+                    self.textName = self.defaultTextName
+                else:
+                    self.textName = self.fuente2.render(self.personaje.name, True, self.color_white)
+                self.screen.blit(self.textName,(self.width/3.2520, self.height/12.7273)) #369 55
+                self.screen.blit(pygame.transform.scale(self.flechaDesplegable_selected, (self.width/40.0000, self.height/11.6667)), (self.width/1.0949, self.height/14.0000)) #30 60 1096 50 
+                pygame.draw.rect(self.screen, self.color_grey, self.rect4, 2)
+                pygame.display.update() 
+
+                self.opened_screen = 1 #tipo 1: trasfondos
+                self.acolito_option = pygame.Rect(self.width/1.4870, self.height/6.4220, self.width/3.7500, self.height/17.5000) #807 109 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.acolito_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.acolito_option, 3)
+                self.artesano_option = pygame.Rect(self.width/1.4870, self.height/4.7297, self.width/3.7500, self.height/17.5000) #807 148 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.artesano_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.artesano_option, 3)
+                self.artista_option = pygame.Rect(self.width/1.4870, self.height/3.7433, self.width/3.7500, self.height/17.5000) #807 187 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.artista_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.artista_option, 3)
+                self.charlatan_option = pygame.Rect(self.width/1.4870, self.height/3.0973, self.width/3.7500, self.height/17.5000) #807 226 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.charlatan_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.charlatan_option, 3)
+                self.criminal_option = pygame.Rect(self.width/1.4870, self.height/2.6415, self.width/3.7500, self.height/17.5000) #807 265 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.criminal_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.criminal_option, 3)
+                self.ermitano_option = pygame.Rect(self.width/1.4870, self.height/2.3026, self.width/3.7500, self.height/17.5000) #807 304 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.ermitano_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.ermitano_option, 3)
+                self.forastero_option = pygame.Rect(self.width/1.4870, self.height/2.0408, self.width/3.7500, self.height/17.5000) #807 343 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.forastero_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.forastero_option, 3)
+                self.heroe_option = pygame.Rect(self.width/1.4870, self.height/1.8325, self.width/3.7500, self.height/17.5000) #807 382 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.heroe_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.heroe_option, 3)
+                self.huerfano_option = pygame.Rect(self.width/1.4870, self.height/1.6627, self.width/3.7500, self.height/17.5000) #807 421 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.huerfano_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.huerfano_option, 3)
+                self.marinero_option = pygame.Rect(self.width/1.4870, self.height/1.5217, self.width/3.7500, self.height/17.5000) #807 460 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.marinero_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.marinero_option, 3)
+                self.noble_option = pygame.Rect(self.width/1.4870, self.height/1.4028, self.width/3.7500, self.height/17.5000) #807 499 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.noble_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.noble_option, 3)
+                self.sabio_option = pygame.Rect(self.width/1.4870, self.height/1.3011, self.width/3.7500, self.height/17.5000) #807 538 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.sabio_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.sabio_option, 3)
+                self.soldado_option = pygame.Rect(self.width/1.4870, self.height/1.2132, self.width/3.7500, self.height/17.5000) #807 577 320 40
+                pygame.draw.rect(self.screen,self.color_black, self.soldado_option, 0)
+                pygame.draw.rect(self.screen,self.color_grey, self.soldado_option, 3)
+                pygame.display.update() 
+            else:
+                self.ch1.play(self.error)
+            return 'seleccionPersonaje'
+
         else:
             self.activeI = False
-            pygame.draw.rect(self.screen,self.color_black, self.inputBox, 0)
-            pygame.draw.rect(self.screen,self.color_grey, self.inputBox, 2)
+            self.opened_screen = None #TODO: Check si hay pantallas de raza o clase abiertas
             if(self.personaje.name == ' '):
                 self.textName = self.defaultTextName
             else:
                 self.textName = self.fuente2.render(self.personaje.name, True, self.color_white)
             self.screen.blit(self.textName,(self.width/3.2520, self.height/12.7273)) #369 55
+            self.refresh(0,None)
             pygame.display.update() 
             return 'seleccionPersonaje'
 
