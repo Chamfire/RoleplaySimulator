@@ -542,6 +542,22 @@ class ConfiguracionPartida:
                 if(self.opened_screen):
                     self.ch3.play(self.error)
                 else:
+                    if(self.partidas[self.currentPartida].nombre == ' '):
+                        self.textNombrePartida = self.introduceText
+                    else:
+                        self.textNombrePartida = self.fuenteText.render(self.partidas[self.currentPartida].nombre, True, self.color_grey)
+
+                    if(self.partidas[self.currentPartida].server_code == ' '):
+                        self.textPassword = self.introduceText2
+                    else:
+                        self.textPassword = self.fuenteText.render(self.partidas[self.currentPartida].server_code, True, self.color_grey)
+                    self.refresh()
+                    pygame.draw.rect(self.screen, self.color_grey, self.inputBox, 2)
+                    self.screen.blit(self.textNombrePartida, (self.width/2.7650, self.height/10.7692)) #434 x 65
+                    #password
+                    pygame.draw.rect(self.screen, self.color_grey, self.inputBox2, 2)
+                    self.screen.blit(self.textPassword, (self.width/1.8927, self.height/3.1818)) #634 220
+                    pygame.display.update()
                     self.screen.blit(pygame.transform.scale(self.screen_icons, (self.width/1.7143, self.height/1.2727)), (self.width/3.0000, self.height/16.2791)) #self.width/30.0000
                     self.screen.blit(pygame.transform.scale(self.select2, (self.width/2.4000, self.height/14.0000)), (self.width/2.6667, self.height/8.7500)) #self.width/13.3333
                     if(self.partidas[self.currentPartida].ubicacion_historia == None):

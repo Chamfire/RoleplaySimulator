@@ -31,7 +31,6 @@ class SeleccionPersonaje2:
         self.buttonPic = pygame.image.load("images/button.png")
         self.buttonSelectedPic = pygame.image.load("images/button_selected.png")
         self.buttonPressedPic = pygame.image.load("images/button_pressed.png")
-        self.papiro = pygame.image.load("images/papiro.png")
 
         #fuentes y colores
         self.fuente = pygame.font.SysFont(font, 70)
@@ -39,9 +38,6 @@ class SeleccionPersonaje2:
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
         self.back = self.fuente.render('Volver atrás', True, self.color_white)
-        self.titleText = self.fuente2.render('  Roleplay          Simulator  ',True,self.color_white)
-        self.autor1 = self.fuente.render('Desarrollado por: Teresa Valero Díaz', True, self.color_black)
-        self.autor2 = self.fuente.render('Tutora: María Julia Flores Gallego', True, self.color_black)
 
     def setScreen(self,screen):
         self.screen = screen
@@ -52,7 +48,6 @@ class SeleccionPersonaje2:
     def render(self):
         #render screen
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
-        self.screen.blit(pygame.transform.scale(self.titleText, (self.width/1.0000, self.height/3.8889)), (0, self.height/28.0000)) #1200 180 0 25
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         pygame.display.update() 
@@ -84,7 +79,6 @@ class SeleccionPersonaje2:
             return 'seleccionPersonaje'
         else:
             return 'seleccionPersonaje2'
-        
 
     def movedMouse(self):
         x_size = self.width/3.8339
