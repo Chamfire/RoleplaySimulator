@@ -69,6 +69,7 @@ class SeleccionPersonaje:
         self.buttonUnavailablePic = pygame.image.load("images/button_unavailable.png")
         self.defaultIconRaza = pygame.image.load("images/iconos/icon_default_large.png")
         self.default = pygame.image.load("images/iconos/icon_default.png")
+        self.screen_icons = pygame.image.load("images/screen_icons.png")
 
         #fuentes y colores
         self.fuente = pygame.font.SysFont(font, 70)
