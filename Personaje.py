@@ -16,14 +16,18 @@ class Personaje:
         self.coordenadas_actuales = None #se calcula con el mapa
         self.vida_temp = None #cambiar al escoger la clase
         self.ca = None #cambiar al escoger personaje
-        self.edad = None #es aleatorio en función de la raza
-        self.peso = None #es aleatorio en función de la raza
+        self.edad = None #lo escoge el jugador
+        self.peso = None #lo escoge el jugador
         self.velocidad = None #cambiar al escoger la raza
         self.descripcion_fisica = None #la debe proporcionar el jugador
         self.tipo_raza = None #la escoge el jugador
         self.tipo_clase = None #la escoge el jugador
         self.tipo_alineamiento = None #lo escoge el jugador
         self.id_trasfondo = None #lo escoge el jugador
+        self.vinculo = None #lo escoge el jugador
+        self.defecto = None #lo escoge el jugador
+        self.rasgo_personalidad = None #lo escoge el jugador
+        self.ideal = None #lo escoge el jugador
         self.tipo_size = None #en función de la raza, será uno u otro
         self.partida_id = partida_id
         if(isNPC):

@@ -4,6 +4,7 @@ from pygame import mixer
 import socket
 from Global import Global
 from Personaje import Personaje
+import sqlite3
 
 class SeleccionPersonaje:
     #sound
@@ -22,7 +23,10 @@ class SeleccionPersonaje:
         self.max_length_name = 20
         self.personaje = None
         self.textTrasfondo = None
-
+        self.vinculos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
+        self.defectos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
+        self.rasgos_personalidad = {0:[None,None,None,None,None,None,None,None],1:[None,None,None,None,None,None,None,None],2:[None,None,None,None,None,None,None,None],3:[None,None,None,None,None,None,None,None],4:[None,None,None,None,None,None,None,None],5:[None,None,None,None,None,None,None,None],6:[None,None,None,None,None,None,None,None],7:[None,None,None,None,None,None,None,None],8:[None,None,None,None,None,None,None,None],9:[None,None,None,None,None,None,None,None],10:[None,None,None,None,None,None,None,None],11:[None,None,None,None,None,None,None,None],12:[None,None,None,None,None,None,None,None]}
+        self.ideales = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
         self.pressed_exit = pygame.mixer.Sound('sounds/button_pressed_ogg.ogg')
@@ -41,7 +45,8 @@ class SeleccionPersonaje:
 
         #variables
         self.first_timeB = True # Aún no has pulsado el botón volver al menú
-        self.first_time1 = True # Del menú desplegable, cada opción no ha sido pulsada aún
+        #Del menú desplegable, cada opción no ha sido pulsada aún
+        self.first_time1 = True 
         self.first_time2 = True
         self.first_time3 = True
         self.first_time4 = True
@@ -54,6 +59,15 @@ class SeleccionPersonaje:
         self.first_time11 = True
         self.first_time12 = True
         self.first_time13 = True
+        #Vínculos,rasgos, ideales y defectos
+        self.first_timed0 = True
+        self.first_timed1 = True
+        self.first_timed2 = True
+        self.first_timed3 = True
+        self.first_timed4 = True
+        self.first_timed5 = True
+        self.first_timed6 = True
+        self.first_timed7 = True
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
@@ -155,21 +169,76 @@ class SeleccionPersonaje:
         pygame.draw.rect(self.screen, self.color_grey, self.rect10, 2)
         pygame.draw.rect(self.screen, self.color_grey, self.rect11, 2)
         pygame.draw.rect(self.screen, self.color_grey, self.rect12, 2)
-        self.vinculosText2 = self.fuente2.render('-- Selecciona un vínculo --', True, self.color_light_grey)
-        self.defectosText2 = self.fuente2.render('-- Selecciona un defecto --', True, self.color_light_grey)
-        self.rasgosText2 = self.fuente2.render('-- Selecciona tu personalidad --', True, self.color_light_grey)
-        self.idealesText2 = self.fuente2.render('-- Selecciona un ideal --', True, self.color_light_grey)
+        if(op == 3):
+            self.vinculosText2 = content
+        else:
+            if(self.personaje.vinculo != None):
+                self.vinculosText2 = self.fuente2.render('Vínculo Seleccionado: ('+str(self.personaje.vinculo[1])+')', True, self.color_white)
+            else:
+                self.vinculosText2 = self.fuente2.render('-- Selecciona un vínculo --', True, self.color_light_grey)
         self.screen.blit(self.vinculosText2,(self.width/1.5707, self.height/4.1176)) #764 170
-        self.screen.blit(self.defectosText2,(self.width/1.5810, self.height/2.5090)) #759 279
-        self.screen.blit(self.rasgosText2,(self.width/1.6238, self.height/1.8041)) #739 388
-        self.screen.blit(self.idealesText2,(self.width/1.5306, self.height/1.4085)) #784 497
+        if(op == 4):
+            self.defectosText2 = content
+            self.screen.blit(self.defectosText2,(self.width/1.5707, self.height/2.5090)) #764 279
+        else:
+            if(self.personaje.defecto != None):
+                self.defectosText2 = self.fuente2.render('Defecto Seleccionado: ('+str(self.personaje.defecto[1])+')', True, self.color_white)
+                self.screen.blit(self.defectosText2,(self.width/1.5707, self.height/2.5090)) #764 279
+            else:
+                self.defectosText2 = self.fuente2.render('-- Selecciona un defecto --', True, self.color_light_grey)
+                self.screen.blit(self.defectosText2,(self.width/1.5810, self.height/2.5090)) #759 279
+        if(op == 5):
+            self.rasgosText2 = content
+            self.screen.blit(self.rasgosText2,(self.width/1.5707, self.height/1.8041)) #764 388
+        else:
+            if(self.personaje.rasgo_personalidad != None):
+                self.rasgosText2 = self.fuente2.render('Rasgo Seleccionado: ('+str(self.personaje.rasgo_personalidad[1])+')', True, self.color_white)
+                self.screen.blit(self.rasgosText2,(self.width/1.5707, self.height/1.8041)) #764 388
+            else:
+                self.rasgosText2 = self.fuente2.render('-- Selecciona tu personalidad --', True, self.color_light_grey)
+                self.screen.blit(self.rasgosText2,(self.width/1.6238, self.height/1.8041)) #739 388
+        if(op == 6):
+            self.idealesText2 = content
+            self.screen.blit(self.idealesText2,(self.width/1.5707, self.height/1.4085)) #764 497
+        else:
+            if(self.personaje.ideal != None):
+                self.idealesText2 = self.fuente2.render('Ideal Seleccionado: ('+str(self.personaje.ideal[1])+')', True, self.color_white)
+                self.screen.blit(self.idealesText2,(self.width/1.5707, self.height/1.4085)) #764 497
+            else:
+                self.idealesText2 = self.fuente2.render('-- Selecciona un ideal --', True, self.color_light_grey)
+                self.screen.blit(self.idealesText2,(self.width/1.5306, self.height/1.4085)) #784 497
+
 
     def render(self,isOnline):
+        #obtenemos de la base de datos los rasgos de personalidad, vínculos, defectos e ideales:
+        conn = sqlite3.connect("simuladordnd.db")
+        cur = conn.cursor()
+        cur.execute("SELECT num_id,vinculo FROM vinculos")
+        rows = cur.fetchall()
+        for i in range(0,78):
+            self.vinculos[(i//6)][(i%6)] = rows[i] #cargo los vínculos en el array
+        
+        cur.execute("SELECT num_id,defecto FROM defectos")
+        rows = cur.fetchall()
+        for i in range(0,78):
+            self.defectos[(i//6)][(i%6)] = rows[i] #cargo los vínculos en el array
+        
+        cur.execute("SELECT num_id,ideal FROM ideales")
+        rows = cur.fetchall()
+        for i in range(0,78):
+            self.ideales[(i//6)][(i%6)] = rows[i] #cargo los vínculos en el array
+
+        cur.execute("SELECT num_id,rasgo_personalidad FROM rasgos_personalidad")
+        rows = cur.fetchall()
+        for i in range(0,104):
+            self.rasgos_personalidad[(i//8)][(i%8)] = rows[i] #cargo los vínculos en el array
+
         #render screen
         self.isOnline = isOnline
         if(self.personaje == None): #si volvemos atrás desde la segunda pantalla, se cargará el personaje que teníamos
             self.personaje = Personaje(False,self.currentPartida,self.id) #False porque no es NPC
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
+
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
         self.letterwidth2 = (self.width/3.4286)/10 #cálculo de la base en píxeles 
@@ -178,6 +247,11 @@ class SeleccionPersonaje:
         self.letterwidth3 = (self.width/3.4286)/18 #cálculo de la base en píxeles 
         self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
+        self.letterwidth4 = (self.width/3.4286)/24.2 #cálculo de la base en píxeles 
+        self.lettersize4 = int(self.letterwidth4 + 0.5 * self.letterwidth4) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente5 = pygame.font.SysFont(self.font,self.lettersize4)
+
+
         self.emptyText = self.fuente2.render(' ', True, self.color_white)
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
@@ -295,7 +369,15 @@ class SeleccionPersonaje:
         self.sabio_text = self.fuente4.render("Sabio", True, self.color_white)
         self.soldado_option = pygame.Rect(self.width/1.4870, self.height/1.2132, self.width/3.7500, self.height/17.5000) #807 577 320 40
         self.soldado_text = self.fuente4.render("Soldado", True, self.color_white)
-
+        #rectángulos de seleccion de defectos, vínculos, ideales y rasgos de personalidad
+        self.r1 = pygame.Rect(self.width/15.0000, self.height/7.7778, self.width/1.1538, self.height/11.6667) #80 90 1040 60 
+        self.r2 = pygame.Rect(self.width/15.0000, self.height/4.6980, self.width/1.1538, self.height/11.6667) #80 149 1040 60
+        self.r3 = pygame.Rect(self.width/15.0000, self.height/3.3654, self.width/1.1538, self.height/11.6667) #80 208 1040 60 
+        self.r4 = pygame.Rect(self.width/15.0000, self.height/2.6217, self.width/1.1538, self.height/11.6667) #80 267 1040 60 
+        self.r5 = pygame.Rect(self.width/15.0000, self.height/2.1472, self.width/1.1538, self.height/11.6667) #80 326 1040 60 
+        self.r6 = pygame.Rect(self.width/15.0000, self.height/1.8182, self.width/1.1538, self.height/11.6667) #80 385 1040 60 
+        self.r7 = pygame.Rect(self.width/15.0000, self.height/1.5766, self.width/1.1538, self.height/11.6667) #80 444 1040 60 
+        self.r8 = pygame.Rect(self.width/15.0000, self.height/1.3917, self.width/1.1538, self.height/11.6667) #80 503 1040 60  
 
     def select_option(self,op):
         if(op == "Acólito"):
@@ -546,16 +628,19 @@ class SeleccionPersonaje:
             #self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             #self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             #self.ch1.play(self.pressed)
-            #pygame.display.update() 
-            self.activeI = True
-            if(self.personaje.name == ' '):
-                self.textName = self.defaultTextName
+            #pygame.display.update()
+            if(self.opened_screen == None): 
+                self.activeI = True
+                if(self.personaje.name == ' '):
+                    self.textName = self.defaultTextName
+                else:
+                    self.textName = self.fuente2.render(self.personaje.name, True, self.color_white)
+                self.opened_screen = None #TODO:comprobar si hay pantallas de clase o raza abiertas
+                self.refresh(0,None)
+                pygame.display.update() 
+                self.ch1.play(self.error)
             else:
-                self.textName = self.fuente2.render(self.personaje.name, True, self.color_white)
-            self.opened_screen = None #TODO:comprobar si hay pantallas de clase o raza abiertas
-            self.refresh(0,None)
-            pygame.display.update() 
-            self.ch1.play(self.error)
+                self.ch1.play(self.error)
             return 'seleccionPersonaje'
         #Botón volver al menú
         elif(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
@@ -567,6 +652,7 @@ class SeleccionPersonaje:
             self.ch1.play(self.pressed)
             pygame.display.update() 
             return 'menu'
+
         
         #Input de nombre de personaje
         elif self.inputBox.collidepoint((x,y)):
@@ -648,7 +734,7 @@ class SeleccionPersonaje:
         
         #Elección de trasfondo
         elif(self.acolito_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Acólito"
+            self.personaje.id_trasfondo = ("Acólito",0)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Acólito', True, self.color_white)
             self.refresh(2,content)
@@ -656,7 +742,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.artesano_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Artesano Gremial"
+            self.personaje.id_trasfondo = ("Artesano Gremial",1)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Artesano Gremial', True, self.color_white)
             self.refresh(2,content)
@@ -664,7 +750,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.artista_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Artista"
+            self.personaje.id_trasfondo = ("Artista",2)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Artista', True, self.color_white)
             self.refresh(2,content)
@@ -672,7 +758,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.charlatan_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Charlatán"
+            self.personaje.id_trasfondo = ("Charlatán",3)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Charlatán', True, self.color_white)
             self.refresh(2,content)
@@ -680,7 +766,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.criminal_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Criminal"
+            self.personaje.id_trasfondo = ("Criminal",4)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Criminal', True, self.color_white)
             self.refresh(2,content)
@@ -688,7 +774,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.ermitano_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Ermitaño"
+            self.personaje.id_trasfondo = ("Ermitaño",5)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Ermitaño', True, self.color_white)
             self.refresh(2,content)
@@ -696,7 +782,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.forastero_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Forastero"
+            self.personaje.id_trasfondo = ("Forastero",6)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Forastero', True, self.color_white)
             self.refresh(2,content)
@@ -704,7 +790,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.heroe_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Héroe del pueblo"
+            self.personaje.id_trasfondo = ("Héroe del pueblo",7)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Héroe del pueblo', True, self.color_white)
             self.refresh(2,content)
@@ -712,7 +798,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.huerfano_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Huérfano"
+            self.personaje.id_trasfondo = ("Huérfano",8)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Huérfano', True, self.color_white)
             self.refresh(2,content)
@@ -720,7 +806,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.marinero_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Marinero"
+            self.personaje.id_trasfondo = ("Marinero",9)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Marinero', True, self.color_white)
             self.refresh(2,content)
@@ -728,7 +814,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.noble_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Noble"
+            self.personaje.id_trasfondo = ("Noble",10)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Noble', True, self.color_white)
             self.refresh(2,content)
@@ -736,7 +822,7 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.sabio_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Sabio"
+            self.personaje.id_trasfondo = ("Sabio",11)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Sabio', True, self.color_white)
             self.refresh(2,content)
@@ -744,15 +830,292 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.soldado_option.collidepoint((x,y)) and self.opened_screen == 1):
-            self.personaje.id_trasfondo = "Soldado"
+            self.personaje.id_trasfondo = ("Soldado",12)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Soldado', True, self.color_white)
             self.refresh(2,content)
             self.opened_screen = None
             pygame.display.update() 
             return 'seleccionPersonaje'
+        #vínculos
+        elif(self.rect9.collidepoint((x,y)) and self.opened_screen == None):
+            if(self.personaje.id_trasfondo != None):
+                self.activeI = False
+                self.ch1.play(self.pressed)
+                self.opened_screen = 2
+                self.screen.blit(pygame.transform.scale(self.screen_icons,  (self.width/1.0909, self.height/1.2727)), (self.width/24.0000, self.height/14.0000)) #1100 550 50 50
+                pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+                self.d1 = self.fuente5.render(self.vinculos[self.personaje.id_trasfondo[1]][0][1], True, self.color_white)
+                self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+                self.d2 = self.fuente5.render(self.vinculos[self.personaje.id_trasfondo[1]][1][1], True, self.color_white)
+                self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+                self.d3 = self.fuente5.render(self.vinculos[self.personaje.id_trasfondo[1]][2][1], True, self.color_white)
+                self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+                self.d4 = self.fuente5.render(self.vinculos[self.personaje.id_trasfondo[1]][3][1], True, self.color_white)
+                self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+                self.d5 = self.fuente5.render(self.vinculos[self.personaje.id_trasfondo[1]][4][1], True, self.color_white)
+                self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+                self.d6 = self.fuente5.render(self.vinculos[self.personaje.id_trasfondo[1]][5][1], True, self.color_white)
+                self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+                pygame.display.update() 
+            else:
+                self.ch1.play(self.error)
+            return 'seleccionPersonaje'
+        #defectos
+        elif(self.rect10.collidepoint((x,y)) and self.opened_screen == None):
+            if(self.personaje.id_trasfondo != None):
+                self.activeI = False
+                self.ch1.play(self.pressed)
+                self.opened_screen = 3
+                #El defecto 42 es el texto más largo -> Forastero último posible defecto
+                self.screen.blit(pygame.transform.scale(self.screen_icons,  (self.width/1.0909, self.height/1.2727)), (self.width/24.0000, self.height/14.0000)) #1100 550 50 50
+                pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+                self.d1 = self.fuente5.render(self.defectos[self.personaje.id_trasfondo[1]][0][1], True, self.color_white)
+                self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+                self.d2 = self.fuente5.render(self.defectos[self.personaje.id_trasfondo[1]][1][1], True, self.color_white)
+                self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+                self.d3 = self.fuente5.render(self.defectos[self.personaje.id_trasfondo[1]][2][1], True, self.color_white)
+                self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+                self.d4 = self.fuente5.render(self.defectos[self.personaje.id_trasfondo[1]][3][1], True, self.color_white)
+                self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+                self.d5 = self.fuente5.render(self.defectos[self.personaje.id_trasfondo[1]][4][1], True, self.color_white)
+                self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+                self.d6 = self.fuente5.render(self.defectos[self.personaje.id_trasfondo[1]][5][1], True, self.color_white)
+                self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
 
-
+                pygame.display.update() 
+            else:
+                self.ch1.play(self.error)
+            return 'seleccionPersonaje'
+        #rasgos
+        elif(self.rect11.collidepoint((x,y)) and self.opened_screen == None):
+            if(self.personaje.id_trasfondo != None):
+                self.activeI = False
+                self.ch1.play(self.pressed)
+                self.opened_screen = 4
+                self.screen.blit(pygame.transform.scale(self.screen_icons,  (self.width/1.0909, self.height/1.2727)), (self.width/24.0000, self.height/14.0000)) #1100 550 50 50
+                pygame.draw.rect(self.screen,self.color_white, self.r1, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
+                self.d0 = self.fuente5.render(self.rasgos_personalidad[self.personaje.id_trasfondo[1]][0][1], True, self.color_white)
+                self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
+                self.d1 = self.fuente5.render(self.rasgos_personalidad[self.personaje.id_trasfondo[1]][1][1], True, self.color_white)
+                self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+                self.d2 = self.fuente5.render(self.rasgos_personalidad[self.personaje.id_trasfondo[1]][2][1], True, self.color_white)
+                self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+                self.d3 = self.fuente5.render(self.rasgos_personalidad[self.personaje.id_trasfondo[1]][3][1], True, self.color_white)
+                self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+                self.d4 = self.fuente5.render(self.rasgos_personalidad[self.personaje.id_trasfondo[1]][4][1], True, self.color_white)
+                self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+                self.d5 = self.fuente5.render(self.rasgos_personalidad[self.personaje.id_trasfondo[1]][5][1], True, self.color_white)
+                self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+                self.d6 = self.fuente5.render(self.rasgos_personalidad[self.personaje.id_trasfondo[1]][6][1], True, self.color_white)
+                self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+                self.d7 = self.fuente5.render(self.rasgos_personalidad[self.personaje.id_trasfondo[1]][7][1], True, self.color_white)
+                self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
+                pygame.display.update() 
+            else:
+                self.ch1.play(self.error)
+            return 'seleccionPersonaje'
+        #ideales
+        elif(self.rect12.collidepoint((x,y)) and self.opened_screen == None):
+            if(self.personaje.id_trasfondo != None):
+                self.activeI = False
+                self.ch1.play(self.pressed)
+                self.opened_screen = 5
+                self.screen.blit(pygame.transform.scale(self.screen_icons,  (self.width/1.0909, self.height/1.2727)), (self.width/24.0000, self.height/14.0000)) #1100 550 50 50
+                pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+                pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+                self.d1 = self.fuente5.render(self.ideales[self.personaje.id_trasfondo[1]][0][1], True, self.color_white)
+                self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+                self.d2 = self.fuente5.render(self.ideales[self.personaje.id_trasfondo[1]][1][1], True, self.color_white)
+                self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+                self.d3 = self.fuente5.render(self.ideales[self.personaje.id_trasfondo[1]][2][1], True, self.color_white)
+                self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+                self.d4 = self.fuente5.render(self.ideales[self.personaje.id_trasfondo[1]][3][1], True, self.color_white)
+                self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+                self.d5 = self.fuente5.render(self.ideales[self.personaje.id_trasfondo[1]][4][1], True, self.color_white)
+                self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+                self.d6 = self.fuente5.render(self.ideales[self.personaje.id_trasfondo[1]][5][1], True, self.color_white)
+                self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+                pygame.display.update() 
+            else:
+                self.ch1.play(self.error)
+            return 'seleccionPersonaje'
+        
+        elif(self.r1.collidepoint((x,y)) and self.opened_screen == 4):
+            self.personaje.rasgo_personalidad = (self.rasgos_personalidad[self.personaje.id_trasfondo[1]][0][1],1)
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Rasgo Seleccionado: (1)', True, self.color_white)
+            self.refresh(5,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.r2.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen >=2 and self.opened_screen<=5):
+            if(self.opened_screen == 2):
+                self.personaje.vinculo = (self.vinculos[self.personaje.id_trasfondo[1]][0][1],1)
+                text = "Vínculo Seleccionado: (1)"
+                op = 3
+            elif(self.opened_screen == 3):
+                self.personaje.defecto = (self.defectos[self.personaje.id_trasfondo[1]][0][1],1)
+                text = "Defecto Seleccionado: (1)"
+                op = 4
+            elif(self.opened_screen == 4):
+                self.personaje.rasgo_personalidad = (self.rasgos_personalidad[self.personaje.id_trasfondo[1]][1][1],2)
+                text = "Rasgo Seleccionado: (2)"
+                op = 5
+            else:
+                self.personaje.ideal = (self.ideales[self.personaje.id_trasfondo[1]][0][1],1)
+                text = "Ideal Seleccionado: (1)"
+                op = 6
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render(text, True, self.color_white)
+            self.refresh(op,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.r3.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen >=2 and self.opened_screen<=5):
+            if(self.opened_screen == 2):
+                self.personaje.vinculo = (self.vinculos[self.personaje.id_trasfondo[1]][1][1],2)
+                text = "Vínculo Seleccionado: (2)"
+                op = 3
+            elif(self.opened_screen == 3):
+                self.personaje.defecto = (self.defectos[self.personaje.id_trasfondo[1]][1][1],2)
+                text = "Defecto Seleccionado: (2)"
+                op = 4
+            elif(self.opened_screen == 4):
+                self.personaje.rasgo_personalidad = (self.rasgos_personalidad[self.personaje.id_trasfondo[1]][2][1],3)
+                text = "Rasgo Seleccionado: (3)"
+                op = 5
+            else:
+                self.personaje.ideal = (self.ideales[self.personaje.id_trasfondo[1]][1][1],2)
+                text = "Ideal Seleccionado: (2)"
+                op = 6
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render(text, True, self.color_white)
+            self.refresh(op,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.r4.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen >=2 and self.opened_screen<=5):
+            if(self.opened_screen == 2):
+                self.personaje.vinculo = (self.vinculos[self.personaje.id_trasfondo[1]][2][1],3)
+                text = "Vínculo Seleccionado: (3)"
+                op = 3
+            elif(self.opened_screen == 3):
+                self.personaje.defecto = (self.defectos[self.personaje.id_trasfondo[1]][2][1],3)
+                text = "Defecto Seleccionado: (3)"
+                op = 4
+            elif(self.opened_screen == 4):
+                self.personaje.rasgo_personalidad = (self.rasgos_personalidad[self.personaje.id_trasfondo[1]][3][1],4)
+                text = "Rasgo Seleccionado: (4)"
+                op = 5
+            else:
+                self.personaje.ideal = (self.ideales[self.personaje.id_trasfondo[1]][2][1],3)
+                text = "Ideal Seleccionado: (3)"
+                op = 6
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render(text, True, self.color_white)
+            self.refresh(op,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.r5.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen >=2 and self.opened_screen<=5):
+            if(self.opened_screen == 2):
+                self.personaje.vinculo = (self.vinculos[self.personaje.id_trasfondo[1]][3][1],4)
+                text = "Vínculo Seleccionado: (4)"
+                op = 3
+            elif(self.opened_screen == 3):
+                self.personaje.defecto = (self.defectos[self.personaje.id_trasfondo[1]][3][1],4)
+                text = "Defecto Seleccionado: (4)"
+                op = 4
+            elif(self.opened_screen == 4):
+                self.personaje.rasgo_personalidad = (self.rasgos_personalidad[self.personaje.id_trasfondo[1]][4][1],5)
+                text = "Rasgo Seleccionado: (5)"
+                op = 5
+            else:
+                self.personaje.ideal = (self.ideales[self.personaje.id_trasfondo[1]][3][1],4)
+                text = "Ideal Seleccionado: (4)"
+                op = 6
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render(text, True, self.color_white)
+            self.refresh(op,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.r6.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen >=2 and self.opened_screen<=5):
+            if(self.opened_screen == 2):
+                self.personaje.vinculo = (self.vinculos[self.personaje.id_trasfondo[1]][4][1],5)
+                text = "Vínculo Seleccionado: (5)"
+                op = 3
+            elif(self.opened_screen == 3):
+                self.personaje.defecto = (self.defectos[self.personaje.id_trasfondo[1]][4][1],5)
+                text = "Defecto Seleccionado: (5)"
+                op = 4
+            elif(self.opened_screen == 4):
+                self.personaje.rasgo_personalidad = (self.rasgos_personalidad[self.personaje.id_trasfondo[1]][5][1],6)
+                text = "Rasgo Seleccionado: (6)"
+                op = 5
+            else:
+                self.personaje.ideal = (self.ideales[self.personaje.id_trasfondo[1]][4][1],5)
+                text = "Ideal Seleccionado: (5)"
+                op = 6
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render(text, True, self.color_white)
+            self.refresh(op,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.r7.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen >=2 and self.opened_screen<=5):
+            if(self.opened_screen == 2):
+                self.personaje.vinculo = (self.vinculos[self.personaje.id_trasfondo[1]][5][1],6)
+                text = "Vínculo Seleccionado: (6)"
+                op = 3
+            elif(self.opened_screen == 3):
+                self.personaje.defecto = (self.defectos[self.personaje.id_trasfondo[1]][5][1],6)
+                text = "Defecto Seleccionado: (6)"
+                op = 4
+            elif(self.opened_screen == 4):
+                self.personaje.rasgo_personalidad = (self.rasgos_personalidad[self.personaje.id_trasfondo[1]][6][1],7)
+                text = "Rasgo Seleccionado: (7)"
+                op = 5
+            else:
+                self.personaje.ideal = (self.ideales[self.personaje.id_trasfondo[1]][5][1],6)
+                text = "Ideal Seleccionado: (6)"
+                op = 6
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render(text, True, self.color_white)
+            self.refresh(op,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        elif(self.r8.collidepoint((x,y)) and self.opened_screen == 4):
+            self.personaje.rasgo_personalidad = (self.rasgos_personalidad[self.personaje.id_trasfondo[1]][7][1],7)
+            self.ch1.play(self.pressed)
+            content = self.fuente2.render('Rasgo Seleccionado: (8)', True, self.color_white)
+            self.refresh(5,content)
+            self.opened_screen = None
+            pygame.display.update() 
+            return 'seleccionPersonaje'
         else:
             self.activeI = False
             self.opened_screen = None #TODO: Check si hay pantallas de raza o clase abiertas
@@ -817,6 +1180,15 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+
                 self.ch2.play(self.selected)     
             pygame.display.update() 
 
@@ -838,6 +1210,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch3.play(self.selected)    
             pygame.display.update() 
 
@@ -858,6 +1238,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch4.play(self.selected) 
             pygame.display.update() 
 
@@ -878,6 +1266,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch2.play(self.selected) 
             pygame.display.update() 
 
@@ -898,6 +1294,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
 
@@ -918,6 +1322,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch4.play(self.selected) 
             pygame.display.update() 
 
@@ -938,6 +1350,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch2.play(self.selected) 
             pygame.display.update() 
 
@@ -958,6 +1378,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
 
@@ -978,6 +1406,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch4.play(self.selected) 
             pygame.display.update() 
 
@@ -998,6 +1434,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch2.play(self.selected) 
             pygame.display.update() 
 
@@ -1018,6 +1462,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
 
@@ -1038,6 +1490,14 @@ class SeleccionPersonaje:
                 self.first_timeB = True
                 self.first_time12 = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch4.play(self.selected) 
             pygame.display.update() 
 
@@ -1058,6 +1518,14 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_timeB = True
                 self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch2.play(self.selected) 
             pygame.display.update() 
 
@@ -1078,9 +1546,432 @@ class SeleccionPersonaje:
                 self.first_time11 = True
                 self.first_time12 = True
                 self.first_timeB = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
 
+        elif(self.r1.collidepoint((x,y)) and self.opened_screen == 4): #este rectángulo solo aparece en rasgos de personalidad
+            pygame.draw.rect(self.screen,self.color_magenta, self.r1, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r1, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r2, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r3, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r4, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r5, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r6, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r7, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r8, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
+            self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
+            self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+            self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+            self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+            self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+            self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+            self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+            self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
+
+            if(self.first_timed0):
+                self.first_timed0 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_timeB = True
+                self.first_timed1 = True
+                self.first_time13 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+
+        elif(self.r8.collidepoint((x,y)) and self.opened_screen == 4): #este rectángulo solo aparece en rasgos de personalidad
+            pygame.draw.rect(self.screen,self.color_black, self.r1, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r1, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r2, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r3, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r4, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r5, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r6, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r7, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+            pygame.draw.rect(self.screen,self.color_magenta, self.r8, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
+            self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
+            self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+            self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+            self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+            self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+            self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+            self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+            self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
+            if(self.first_timed7):
+                self.first_timed7 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_timeB = True
+                self.first_timed1 = True
+                self.first_time13 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed0 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+        elif(self.r2.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
+            pygame.draw.rect(self.screen,self.color_magenta, self.r2, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r3, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r4, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r5, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r6, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r7, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+            self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+            self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+            self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+            self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+            self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+            self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+
+            if(self.opened_screen == 4):
+                pygame.draw.rect(self.screen,self.color_black, self.r1, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r1, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r8, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
+                self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
+                self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
+
+            if(self.first_timed1):
+                self.first_timed1 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_timeB = True
+                self.first_timed0 = True
+                self.first_time13 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+        elif(self.r3.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
+            pygame.draw.rect(self.screen,self.color_black, self.r2, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+            pygame.draw.rect(self.screen,self.color_magenta, self.r3, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r4, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r5, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r6, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r7, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+            self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+            self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+            self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+            self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+            self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+            self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+
+            if(self.opened_screen == 4):
+                pygame.draw.rect(self.screen,self.color_black, self.r1, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r1, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r8, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
+                self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
+                self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
+            if(self.first_timed2):
+                self.first_timed2 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_timeB = True
+                self.first_timed1 = True
+                self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+        elif(self.r4.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
+            pygame.draw.rect(self.screen,self.color_black, self.r2, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r3, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+            pygame.draw.rect(self.screen,self.color_magenta, self.r4, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r5, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r6, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r7, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+            self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+            self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+            self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+            self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+            self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+            self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+
+            if(self.opened_screen == 4):
+                pygame.draw.rect(self.screen,self.color_black, self.r1, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r1, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r8, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
+                self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
+                self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
+            if(self.first_timed3):
+                self.first_timed3 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_timeB = True
+                self.first_timed1 = True
+                self.first_time13 = True
+                self.first_timed2 = True
+                self.first_timed0 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+        elif(self.r5.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
+            pygame.draw.rect(self.screen,self.color_black, self.r2, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r3, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r4, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+            pygame.draw.rect(self.screen,self.color_magenta, self.r5, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r6, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r7, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+            self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+            self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+            self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+            self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+            self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+            self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+
+            if(self.opened_screen == 4):
+                pygame.draw.rect(self.screen,self.color_black, self.r1, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r1, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r8, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
+                self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
+                self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
+            if(self.first_timed4):
+                self.first_timed4 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_timeB = True
+                self.first_timed1 = True
+                self.first_time13 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed0 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+        elif(self.r6.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
+            pygame.draw.rect(self.screen,self.color_black, self.r2, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r3, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r4, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r5, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+            pygame.draw.rect(self.screen,self.color_magenta, self.r6, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r7, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+            self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+            self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+            self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+            self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+            self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+            self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+
+            if(self.opened_screen == 4):
+                pygame.draw.rect(self.screen,self.color_black, self.r1, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r1, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r8, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
+                self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
+                self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
+            if(self.first_timed5):
+                self.first_timed5 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_timeB = True
+                self.first_timed1 = True
+                self.first_time13 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed0 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
+        elif(self.r7.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
+            pygame.draw.rect(self.screen,self.color_black, self.r2, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r3, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r4, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r5, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+            pygame.draw.rect(self.screen,self.color_black, self.r6, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+            pygame.draw.rect(self.screen,self.color_magenta, self.r7, 0)
+            pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+            self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+            self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+            self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+            self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+            self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+            self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+
+            if(self.opened_screen == 4):
+                pygame.draw.rect(self.screen,self.color_black, self.r1, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r1, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r8, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
+                self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
+                self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
+            if(self.first_timed6):
+                self.first_timed6 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_timeB = True
+                self.first_timed1 = True
+                self.first_time13 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed0 = True
+                self.first_timed7 = True
+                self.ch3.play(self.selected) 
+            pygame.display.update() 
 
         else:
             self.first_timeB = True
@@ -1097,8 +1988,43 @@ class SeleccionPersonaje:
             self.first_time11 = True
             self.first_time12 = True
             self.first_time13 = True
+            self.first_timed0 = True
+            self.first_timed1 = True
+            self.first_timed2 = True
+            self.first_timed3 = True
+            self.first_timed4 = True
+            self.first_timed5 = True
+            self.first_timed6 = True
+            self.first_timed7 = True
             if(self.opened_screen == 1):
                 self.select_option("default")
+            elif(self.opened_screen != None and self.opened_screen >=2 and self.opened_screen <=5):
+                pygame.draw.rect(self.screen,self.color_black, self.r2, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r3, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r3, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r4, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r4, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r5, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r5, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r6, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r6, 3)
+                pygame.draw.rect(self.screen,self.color_black, self.r7, 0)
+                pygame.draw.rect(self.screen,self.color_white, self.r7, 3)
+                self.screen.blit(self.d1,(self.width/13.3333, self.height/4.2683)) #90 164
+                self.screen.blit(self.d2,(self.width/13.3333, self.height/3.1390)) #90 223
+                self.screen.blit(self.d3,(self.width/13.3333, self.height/2.4823)) #90 282
+                self.screen.blit(self.d4,(self.width/13.3333, self.height/2.0528)) #90 341
+                self.screen.blit(self.d5,(self.width/13.3333, self.height/1.7500)) #90 400
+                self.screen.blit(self.d6,(self.width/13.3333, self.height/1.5251)) #90 459
+
+                if(self.opened_screen == 4):
+                    pygame.draw.rect(self.screen,self.color_black, self.r1, 0)
+                    pygame.draw.rect(self.screen,self.color_white, self.r1, 3)
+                    pygame.draw.rect(self.screen,self.color_black, self.r8, 0)
+                    pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
+                    self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
+                    self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             #TODO: comprobar que todos los campos están bien antes de printear el botón

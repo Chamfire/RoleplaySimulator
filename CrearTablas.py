@@ -425,10 +425,10 @@ class CrearTablas:
             (11, "Algún día, volveré a mi gremio y probaré que soy el más grande artesano."),
             (12, "Me vengaré de las malvadas fuerzas que destruyeron mi lugar de trabajo y arruinaron mi estilo de vida."),
             #Artista
-            (13, "Mi instrumento es mi posesión más preciada y me recuerda a al-guien que amo."),
+            (13, "Mi instrumento es mi posesión más preciada y me recuerda a alguien que amo."),
             (14, "Alguien robó mi preciado instrumento, y algún día lo recuperaré."),
             (15, "Quiero ser famoso, cueste lo que cueste."),
-            (16, "Idolatro a un héroe de los viejos cuentos y mido mis actos con-forme a los suyos."),
+            (16, "Idolatro a un héroe de los viejos cuentos y mido mis actos conforme a los suyos."),
             (17, "Haré cualquier cosa para demostrarle mi superioridad a mi odiado rival."),
             (18, "Haría cualquier cosa por los demás miembros de mi antiguo grupo de teatro."),
             #Charlatán
@@ -551,7 +551,7 @@ class CrearTablas:
             (39, "Recuerdo todos los insultos que he recibido y albergo un resentimiento silencioso hacia toda persona que alguna vez me ha ofendido."),
             (40, "Tardo mucho en confiar en los miembros de otras razas, tribus y sociedades."),
             (41, "La violencia es mi respuesta a casi cualquier desafío."),
-            (42, "No esperes que salve a los que no se puede salvarse sí mismos. Es la manera en la que la naturaleza hace que el fuerte prospere y que el débil perezca."),
+            (42, "No esperes que salve a los que no pueden salvarse sí mismos. Es la manera en la que la naturaleza hace que el fuerte prospere y que el débil perezca."),
             #Héroe del pueblo
             (43, "El tirano que gobierna mi tierra no se detendrá ante nada con tal de verme muerto."),
             (44, "Estoy convencido de la importancia de mi destino, y ciego frente a mis carencias y el riesgo de fracasar."),
