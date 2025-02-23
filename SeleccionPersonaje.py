@@ -100,6 +100,7 @@ class SeleccionPersonaje:
         self.color_light_blue = pygame.Color((70,166,188))
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
         self.crearPersonaje = self.fuente.render('Seguir con la ficha', True, self.color_white)
+        self.select = self.fuente.render('Selecciona una de las siguientes razas:',True, self.color_white)
 
     def setScreen(self,screen):
         self.screen = screen
@@ -621,6 +622,10 @@ class SeleccionPersonaje:
         x_start = self.width/2.7907
         y_start = self.height/1.1667
         x_start2 = self.width/11.7647
+        x_sizeR = self.width/5.0000
+        y_sizeR = self.height/1.9444
+        x_startR = self.width/8.5714
+        y_startR = self.height/3.5000
         (x,y) = pygame.mouse.get_pos()
 
         #Botón crear personaje
@@ -653,7 +658,19 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'menu'
 
-        
+        #Raza
+        elif(self.checkIfMouseIsInButton(x_sizeR,y_sizeR,x_startR,y_startR,x,y)):
+            if(self.opened_screen == None or self.opened_screen == 1):
+                self.activeI = False
+                self.refresh(0,None)
+                self.opened_screen = 6 
+                self.ch1.play(self.pressed)
+                self.screen.blit(pygame.transform.scale(self.screen_icons, (self.width/1.7143, self.height/1.2727)), (self.width/30.0000, self.height/16.2791))
+                self.screen.blit(pygame.transform.scale(self.select, (self.width/2.4000, self.height/14.0000)), (self.width/13.3333, self.height/8.7500))
+                pygame.display.update() 
+            return 'seleccionPersonaje'
+            
+
         #Input de nombre de personaje
         elif self.inputBox.collidepoint((x,y)):
             if(self.opened_screen == None or self.opened_screen == 1):
@@ -672,8 +689,10 @@ class SeleccionPersonaje:
 
         #Menú desplegable de trasfondos: si le da al recuadro o a la flecha
         elif (self.desplegableTrasfondo.collidepoint((x,y)) or self.rect4.collidepoint((x,y))):
-            if(self.opened_screen == None):
+            if(self.opened_screen == None or self.opened_screen == 6):
                 #desactivo inputBox
+                self.refresh(0,None)
+                pygame.display.update() 
                 self.ch1.play(self.pressed)
                 self.activeI = False
                 pygame.draw.rect(self.screen,self.color_black, self.inputBox, 0)
@@ -734,6 +753,13 @@ class SeleccionPersonaje:
         
         #Elección de trasfondo
         elif(self.acolito_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Acólito",0)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Acólito', True, self.color_white)
@@ -742,6 +768,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.artesano_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Artesano Gremial")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Artesano Gremial",1)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Artesano Gremial', True, self.color_white)
@@ -750,6 +783,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.artista_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Artista")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Artista",2)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Artista', True, self.color_white)
@@ -758,6 +798,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.charlatan_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Charlatán")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Charlatán",3)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Charlatán', True, self.color_white)
@@ -766,6 +813,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.criminal_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Criminal")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Criminal",4)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Criminal', True, self.color_white)
@@ -774,6 +828,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.ermitano_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Ermitaño")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Ermitaño",5)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Ermitaño', True, self.color_white)
@@ -782,6 +843,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.forastero_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Forastero")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Forastero",6)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Forastero', True, self.color_white)
@@ -790,6 +858,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.heroe_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Héroe del pueblo")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Héroe del pueblo",7)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Héroe del pueblo', True, self.color_white)
@@ -798,6 +873,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.huerfano_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Huérfano")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Huérfano",8)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Huérfano', True, self.color_white)
@@ -806,6 +888,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.marinero_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Marinero")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Marinero",9)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Marinero', True, self.color_white)
@@ -814,6 +903,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.noble_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Noble")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Noble",10)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Noble', True, self.color_white)
@@ -822,6 +918,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.sabio_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Sabio")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Sabio",11)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Sabio', True, self.color_white)
@@ -830,6 +933,13 @@ class SeleccionPersonaje:
             pygame.display.update() 
             return 'seleccionPersonaje'
         elif(self.soldado_option.collidepoint((x,y)) and self.opened_screen == 1):
+            if(self.personaje.id_trasfondo == None or (self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Soldado")): #si no tenía acólito seleccionado o no había nada, se resetean los vínculos, defectos, etc
+                self.personaje.vinculo = None
+                self.personaje.defecto = None
+                self.personaje.rasgo_personalidad = None
+                self.personaje.ideal = None
+                if(self.personaje.id_trasfondo != None and self.personaje.id_trasfondo[0] != "Acólito"):
+                    self.ch4.play(self.error)
             self.personaje.id_trasfondo = ("Soldado",12)
             self.ch1.play(self.pressed)
             content = self.fuente2.render('Soldado', True, self.color_white)
@@ -837,6 +947,9 @@ class SeleccionPersonaje:
             self.opened_screen = None
             pygame.display.update() 
             return 'seleccionPersonaje'
+        
+        
+
         #vínculos
         elif(self.rect9.collidepoint((x,y)) and self.opened_screen == None):
             if(self.personaje.id_trasfondo != None):
