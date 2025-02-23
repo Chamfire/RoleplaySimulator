@@ -45,6 +45,7 @@ class SeleccionPersonaje:
 
         #variables
         self.first_timeB = True # Aún no has pulsado el botón volver al menú
+        self.first_timeCP = True #Botón de crear personaje
         #Del menú desplegable, cada opción no ha sido pulsada aún
         self.first_time1 = True 
         self.first_time2 = True
@@ -68,6 +69,14 @@ class SeleccionPersonaje:
         self.first_timed5 = True
         self.first_timed6 = True
         self.first_timed7 = True
+        #raza
+        self.first_timeR = True #icono de raza en el menú
+        self.first_timeR1 = True #desplegable
+        self.first_timeR2 = True
+        #clase
+        self.first_timeC = True #icono de clase en el menú
+        self.first_timeC1 = True #desplegable
+        self.first_timeC2 = True
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
@@ -82,8 +91,18 @@ class SeleccionPersonaje:
         self.bCreate_pressed = pygame.image.load("images/button_createPartida_pressed.png")
         self.buttonUnavailablePic = pygame.image.load("images/button_unavailable.png")
         self.defaultIconRaza = pygame.image.load("images/iconos/icon_default_large.png")
+        self.defaultIconRaza_selected = pygame.image.load("images/iconos/icon_default_large_selected.png")
         self.default = pygame.image.load("images/iconos/icon_default.png")
         self.screen_icons = pygame.image.load("images/screen_icons.png")
+        self.icon_barbarbarian = pygame.image.load("images/iconos/icon_barbarian.png")
+        self.icon_explorer = pygame.image.load("images/iconos/icon_explorer.png")
+        self.icon_large_dwarf = pygame.image.load("images/iconos/icon_large_dwarf.png")
+        self.icon_large_elf = pygame.image.load("images/iconos/icon_large_elf.png")
+        self.icon_barbarbarian_selected = pygame.image.load("images/iconos/icon_barbarian_selected.png")
+        self.icon_explorer_selected = pygame.image.load("images/iconos/icon_explorer_selected.png")
+        self.icon_large_dwarf_selected = pygame.image.load("images/iconos/icon_large_dwarf_selected.png")
+        self.icon_large_elf_selected = pygame.image.load("images/iconos/icon_large_elf_selected.png")
+        self.defaultSelected = pygame.image.load("images/iconos/icon_default_selected.png")
 
         #fuentes y colores
         self.fuente = pygame.font.SysFont(font, 70)
@@ -101,6 +120,7 @@ class SeleccionPersonaje:
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
         self.crearPersonaje = self.fuente.render('Seguir con la ficha', True, self.color_white)
         self.select = self.fuente.render('Selecciona una de las siguientes razas:',True, self.color_white)
+        self.select2 = self.fuente.render('Selecciona una de las siguientes clases:',True, self.color_white)
 
     def setScreen(self,screen):
         self.screen = screen
@@ -119,7 +139,10 @@ class SeleccionPersonaje:
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
-        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+        if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+            self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+        else:
+            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
         self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
     
         pygame.draw.rect(self.screen, self.color_light_purple, self.rect1, 0)
@@ -134,22 +157,39 @@ class SeleccionPersonaje:
         pygame.draw.rect(self.screen,self.color_grey, self.inputBox, 2)
         if(op == 1):
             self.textName = content
+        else:
+            if(self.personaje.name == ' ' or self.personaje.name == None):
+                self.textName = self.defaultTextName
+            else:
+                self.textName = self.fuente2.render(self.personaje.name, True, self.color_white)
         self.screen.blit(self.textName,(self.width/3.2520, self.height/12.7273)) #369 55
         if(op == 2):
             self.textTrasfondo = content
+           
         self.screen.blit(self.fichaText,(self.width/13.3333, self.height/12.7273)) #90 55
         self.screen.blit(self.textTrasfondo,(self.width/1.4528, self.height/12.7273)) #826 55
         self.screen.blit(pygame.transform.scale(self.flechaDesplegable, (self.width/40.0000, self.height/11.6667)), (self.width/1.0949, self.height/14.0000)) #30 60 1096 50 
         pygame.draw.rect(self.screen, self.color_grey, self.rect4, 2)
-        self.screen.blit(pygame.transform.scale(self.defaultIconRaza, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+        self.defaultRaza = self.fuente3.render('<?>', True, self.color_white)
+        if(self.personaje.tipo_raza == None):
+            self.screen.blit(pygame.transform.scale(self.defaultIconRaza, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+            self.screen.blit(self.defaultRaza,(self.width/5.1502, self.height/2.0000)) #233 350
+        elif(self.personaje.tipo_raza == "Enano"):
+           self.screen.blit(pygame.transform.scale(self.icon_large_dwarf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+        elif(self.personaje.tipo_raza == "Elfo"):
+            self.screen.blit(pygame.transform.scale(self.icon_large_elf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
         self.defaultTextRaza = self.fuente3.render('Raza', True, self.color_white)
         self.screen.blit(self.defaultTextRaza,(self.width/5.4545, self.height/5.3846)) #220 130
-        self.screen.blit(pygame.transform.scale(self.default, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+        
+        if(self.personaje.tipo_clase == None):
+            self.screen.blit(pygame.transform.scale(self.default, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+            self.screen.blit(self.defaultRaza,(self.width/2.5696, self.height/2.9167)) #467 240
+        elif(self.personaje.tipo_clase == "Bárbaro"):
+            self.screen.blit(pygame.transform.scale(self.icon_barbarbarian, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+        elif(self.personaje.tipo_clase == "Explorador"):
+            self.screen.blit(pygame.transform.scale(self.icon_explorer, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
         self.defaultTextClase = self.fuente3.render('Clase', True, self.color_white)
         self.screen.blit(self.defaultTextClase,(self.width/2.6667, self.height/5.3846)) #450 130
-        self.defaultRaza = self.fuente3.render('<?>', True, self.color_white)
-        self.screen.blit(self.defaultRaza,(self.width/5.1502, self.height/2.0000)) #233 350
-        self.screen.blit(self.defaultRaza,(self.width/2.5696, self.height/2.9167)) #467 240
         self.vinculosText = self.fuente2.render('Vínculos', True, self.color_white)
         self.defectosText = self.fuente2.render('Defectos', True, self.color_white)
         self.rasgosText = self.fuente2.render('Rasgos de personalidad', True, self.color_white)
@@ -626,50 +666,118 @@ class SeleccionPersonaje:
         y_sizeR = self.height/1.9444
         x_startR = self.width/8.5714
         y_startR = self.height/3.5000
+        x_sizeIB = self.width/5.2632
+        y_sizeIB = self.height/2.1875
+        x_startIB = self.width/10.0000
+        y_startIB = self.height/5.0000
+        x_startIE = ((self.width/10.0000) + ((self.width/7.7922)*2))
+        x_sizeC = self.width/8.0000
+        y_sizeC = self.height/4.6667
+        x_startC = self.width/2.8571
+        y_startC = self.height/3.5000
         (x,y) = pygame.mouse.get_pos()
 
         #Botón crear personaje
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
-            #self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
-            #self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
-            #self.ch1.play(self.pressed)
-            #pygame.display.update()
+            screen = 'seleccionPersonaje'
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             if(self.opened_screen == None): 
-                self.activeI = True
-                if(self.personaje.name == ' '):
-                    self.textName = self.defaultTextName
+                self.activeI = False
+                self.opened_screen = None
+                if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                    self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+                    self.ch1.play(self.pressed)
+                    screen = 'seleccionPersonaje2'
                 else:
-                    self.textName = self.fuente2.render(self.personaje.name, True, self.color_white)
-                self.opened_screen = None #TODO:comprobar si hay pantallas de clase o raza abiertas
-                self.refresh(0,None)
+                    self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+                    self.ch1.play(self.error)
+                self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
                 pygame.display.update() 
-                self.ch1.play(self.error)
             else:
                 self.ch1.play(self.error)
-            return 'seleccionPersonaje'
+            return screen
+        
         #Botón volver al menú
         elif(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
             self.activeI = False
-            self.opened_screen = None #TODO:comprobar si hay pantallas de clase o raza abiertas
-            self.personaje = None #reiniciamos el personaje para que si abrimos otra partida, no haya restos de esta
+            self.opened_screen = None 
             self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+            if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p       
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+            self.personaje = None #reiniciamos el personaje para que si abrimos otra partida, no haya restos de esta
             self.ch1.play(self.pressed)
             pygame.display.update() 
             return 'menu'
 
         #Raza
-        elif(self.checkIfMouseIsInButton(x_sizeR,y_sizeR,x_startR,y_startR,x,y)):
-            if(self.opened_screen == None or self.opened_screen == 1):
-                self.activeI = False
-                self.refresh(0,None)
-                self.opened_screen = 6 
-                self.ch1.play(self.pressed)
-                self.screen.blit(pygame.transform.scale(self.screen_icons, (self.width/1.7143, self.height/1.2727)), (self.width/30.0000, self.height/16.2791))
-                self.screen.blit(pygame.transform.scale(self.select, (self.width/2.4000, self.height/14.0000)), (self.width/13.3333, self.height/8.7500))
-                pygame.display.update() 
+        elif(self.checkIfMouseIsInButton(x_sizeR,y_sizeR,x_startR,y_startR,x,y) and (self.opened_screen == None or self.opened_screen == 1)):
+            self.activeI = False
+            self.refresh(0,None)
+            self.opened_screen = 6 
+            self.ch1.play(self.pressed)
+            self.screen.blit(pygame.transform.scale(self.screen_icons, (self.width/1.7143, self.height/1.2727)), (self.width/30.0000, self.height/16.2791)) 
+            self.screen.blit(pygame.transform.scale(self.select, (self.width/2.4000, self.height/14.0000)), (self.width/13.3333, self.height/8.7500))
+            self.screen.blit(pygame.transform.scale(self.icon_large_dwarf, (self.width/5.2632, self.height/2.1875)), (self.width/10.0000, self.height/5.0000)) #114 160 120 
+            self.screen.blit(pygame.transform.scale(self.icon_large_elf, (self.width/5.2632, self.height/2.1875)), (((self.width/10.0000) + ((self.width/7.7922)*2)), self.height/5.0000)) #114 160 
+            pygame.display.update() 
             return 'seleccionPersonaje'
+    
+        #Icono de enano
+        elif(self.checkIfMouseIsInButton(x_sizeIB,y_sizeIB,x_startIB,y_startIB,x,y) and self.opened_screen == 6):
+            self.opened_screen = None
+            self.personaje.tipo_raza = "Enano"
+            self.ch1.play(self.pressed)
+            self.refresh(0,None)
+            pygame.display.update()
+            return 'seleccionPersonaje'   
             
+        #Icono de elfo
+        elif(self.checkIfMouseIsInButton(x_sizeIB,y_sizeIB,x_startIE,y_startIB,x,y) and self.opened_screen == 6):
+            self.opened_screen = None
+            self.personaje.tipo_raza = "Elfo"
+            self.ch1.play(self.pressed)
+            self.refresh(0,None)
+            pygame.display.update()
+            return 'seleccionPersonaje' 
+
+        #Clase
+        elif(self.checkIfMouseIsInButton(x_sizeC,y_sizeC,x_startC,y_startC,x,y) and (self.opened_screen == None or self.opened_screen == 1)):
+            self.activeI = False
+            self.refresh(0,None)
+            self.opened_screen = 7 
+            self.ch1.play(self.pressed)
+            self.screen.blit(pygame.transform.scale(self.screen_icons, (self.width/1.7143, self.height/1.2727)), (self.width/30.0000, self.height/16.2791)) 
+            self.screen.blit(pygame.transform.scale(self.select2, (self.width/2.4000, self.height/14.0000)), (self.width/13.3333, self.height/8.7500))
+            self.screen.blit(pygame.transform.scale(self.icon_barbarbarian, (self.width/5.2632, self.width/5.2632)), (self.width/10.0000, self.height/5.0000)) #114 228 120 140
+            self.barbarian_name = self.fuente2.render('Bárbaro', True, self.color_white)
+            self.explorer_name = self.fuente2.render('Explorador', True, self.color_white)
+            self.screen.blit(self.barbarian_name,(self.width/10.0000, self.height/1.8041)) #120 388
+            self.screen.blit(pygame.transform.scale(self.icon_explorer, (self.width/5.2632, self.width/5.2632)), (((self.width/10.0000) + ((self.width/7.7922)*2)), self.height/5.0000)) #114 160 
+            self.screen.blit(self.explorer_name,(((self.width/10.0000) + ((self.width/7.7922)*2)), self.height/1.8041)) # 388
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        
+        #Bárbaro
+        elif(self.checkIfMouseIsInButton(x_sizeIB,x_sizeIB,x_startIB,y_startIB,x,y) and self.opened_screen == 7):
+            self.opened_screen = None
+            self.personaje.tipo_clase = "Bárbaro"
+            self.ch1.play(self.pressed)
+            self.refresh(0,None)
+            pygame.display.update()
+            return 'seleccionPersonaje' 
+        #Explorador
+        elif(self.checkIfMouseIsInButton(x_sizeIB,x_sizeIB,x_startIE,y_startIB,x,y) and self.opened_screen == 7):
+            self.opened_screen = None
+            self.personaje.tipo_clase = "Explorador"
+            self.ch1.play(self.pressed)
+            self.refresh(0,None)
+            pygame.display.update()
+            return 'seleccionPersonaje' 
 
         #Input de nombre de personaje
         elif self.inputBox.collidepoint((x,y)):
@@ -1268,16 +1376,103 @@ class SeleccionPersonaje:
         x_start = self.width/2.7907
         y_start = self.height/1.1667
         x_start2 = self.width/11.7647
+        x_sizeR = self.width/5.0000
+        y_sizeR = self.height/1.9444
+        x_startR = self.width/8.5714
+        y_startR = self.height/3.5000
+        x_sizeIB = self.width/5.2632
+        y_sizeIB = self.height/2.1875
+        x_startIB = self.width/10.0000
+        y_startIB = self.height/5.0000
+        x_startIE = ((self.width/10.0000) + ((self.width/7.7922)*2))
+        x_sizeC = self.width/8.0000
+        y_sizeC = self.height/4.6667
+        x_startC = self.width/2.8571
+        y_startC = self.height/3.5000
         (x,y) = pygame.mouse.get_pos()
 
-        #TODO: Botón crear personaje cuando esté toda la funcionalidad
+        #Botón seguir con la ficha
+        if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+            if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                self.screen.blit(pygame.transform.scale(self.bCreate_selected, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+            if(self.opened_screen != 6 and self.opened_screen != 7 and self.opened_screen != 2 and self.opened_screen != 3 and self.opened_screen != 4 and self.opened_screen != 5):
+                if(self.personaje.tipo_raza == None):
+                    self.screen.blit(pygame.transform.scale(self.defaultIconRaza, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                    self.screen.blit(self.defaultRaza,(self.width/5.1502, self.height/2.0000)) #233 350
+                elif(self.personaje.tipo_raza == "Enano"):
+                    self.screen.blit(pygame.transform.scale(self.icon_large_dwarf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                elif(self.personaje.tipo_raza == "Elfo"):
+                    self.screen.blit(pygame.transform.scale(self.icon_large_elf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                if(self.personaje.tipo_clase == None):
+                    self.screen.blit(pygame.transform.scale(self.default, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+                    self.screen.blit(self.defaultRaza,(self.width/2.5696, self.height/2.9167)) #467 240
+                elif(self.personaje.tipo_clase == "Bárbaro"):
+                    self.screen.blit(pygame.transform.scale(self.icon_barbarbarian, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+                elif(self.personaje.tipo_clase == "Explorador"):
+                    self.screen.blit(pygame.transform.scale(self.icon_explorer, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+            if(self.first_timeCP):
+                self.first_timeCP = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeB = True
+                if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                    self.ch2.play(self.selected)
+            pygame.display.update() 
 
         #Botón volver al menú
-        if(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
+        elif(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
-            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+            if(self.opened_screen != 6 and self.opened_screen != 7 and self.opened_screen != 2 and self.opened_screen != 3 and self.opened_screen != 4 and self.opened_screen != 5):
+                if(self.personaje.tipo_raza == None):
+                    self.screen.blit(pygame.transform.scale(self.defaultIconRaza, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                    self.screen.blit(self.defaultRaza,(self.width/5.1502, self.height/2.0000)) #233 350
+                elif(self.personaje.tipo_raza == "Enano"):
+                    self.screen.blit(pygame.transform.scale(self.icon_large_dwarf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                elif(self.personaje.tipo_raza == "Elfo"):
+                    self.screen.blit(pygame.transform.scale(self.icon_large_elf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                if(self.personaje.tipo_clase == None):
+                    self.screen.blit(pygame.transform.scale(self.default, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+                    self.screen.blit(self.defaultRaza,(self.width/2.5696, self.height/2.9167)) #467 240
+                elif(self.personaje.tipo_clase == "Bárbaro"):
+                    self.screen.blit(pygame.transform.scale(self.icon_barbarbarian, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+                elif(self.personaje.tipo_clase == "Explorador"):
+                    self.screen.blit(pygame.transform.scale(self.icon_explorer, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
             if(self.first_timeB):
                 self.first_timeB = False
                 self.first_time1 = True 
@@ -1301,10 +1496,308 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
-
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch2.play(self.selected)     
             pygame.display.update() 
 
+        #Raza
+        elif(self.checkIfMouseIsInButton(x_sizeR,y_sizeR,x_startR,y_startR,x,y) and (self.opened_screen == None or self.opened_screen == 1)):
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+            if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+            if(self.personaje.tipo_raza == None):
+                self.screen.blit(pygame.transform.scale(self.defaultIconRaza_selected, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                self.screen.blit(self.defaultRaza,(self.width/5.1502, self.height/2.0000)) #233 350
+            elif(self.personaje.tipo_raza == "Enano"):
+                self.screen.blit(pygame.transform.scale(self.icon_large_dwarf_selected, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+            elif(self.personaje.tipo_raza == "Elfo"):
+                self.screen.blit(pygame.transform.scale(self.icon_large_elf_selected, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+            if(self.personaje.tipo_clase == None):
+                self.screen.blit(pygame.transform.scale(self.default, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+                self.screen.blit(self.defaultRaza,(self.width/2.5696, self.height/2.9167)) #467 240
+            elif(self.personaje.tipo_clase == "Bárbaro"):
+                self.screen.blit(pygame.transform.scale(self.icon_barbarbarian, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+            elif(self.personaje.tipo_clase == "Explorador"):
+                self.screen.blit(pygame.transform.scale(self.icon_explorer, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+            if(self.first_timeR):
+                self.first_timeR = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeB = True
+                self.first_timeC = True
+                self.first_timeCP = True
+                self.ch2.play(self.selected) 
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+    
+        #Icono de enano
+        elif(self.checkIfMouseIsInButton(x_sizeIB,y_sizeIB,x_startIB,y_startIB,x,y) and self.opened_screen == 6):
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+            if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+            self.screen.blit(pygame.transform.scale(self.icon_large_dwarf_selected, (self.width/5.2632, self.height/2.1875)), (self.width/10.0000, self.height/5.0000)) #114 160 120 
+            self.screen.blit(pygame.transform.scale(self.icon_large_elf, (self.width/5.2632, self.height/2.1875)), (((self.width/10.0000) + ((self.width/7.7922)*2)), self.height/5.0000)) #114 160 
+            if(self.first_timeR1):
+                self.first_timeR1 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.first_timeR = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeB = True
+                self.first_timeC = True
+                self.first_timeCP = True
+                self.ch2.play(self.selected) 
+            pygame.display.update()
+            return 'seleccionPersonaje'   
+            
+        #Icono de elfo
+        elif(self.checkIfMouseIsInButton(x_sizeIB,y_sizeIB,x_startIE,y_startIB,x,y) and self.opened_screen == 6):
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+            if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+            self.screen.blit(pygame.transform.scale(self.icon_large_dwarf, (self.width/5.2632, self.height/2.1875)), (self.width/10.0000, self.height/5.0000)) #114 160 120 
+            self.screen.blit(pygame.transform.scale(self.icon_large_elf_selected, (self.width/5.2632, self.height/2.1875)), (((self.width/10.0000) + ((self.width/7.7922)*2)), self.height/5.0000)) #114 160 
+            if(self.first_timeR2):
+                self.first_timeR2 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeB = True
+                self.first_timeC = True
+                self.first_timeCP = True
+                self.ch2.play(self.selected) 
+            pygame.display.update()
+            return 'seleccionPersonaje' 
+
+        #Clase
+        elif(self.checkIfMouseIsInButton(x_sizeC,y_sizeC,x_startC,y_startC,x,y) and (self.opened_screen == None or self.opened_screen == 1)):
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+            if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+            if(self.personaje.tipo_raza == None):
+                self.screen.blit(pygame.transform.scale(self.defaultIconRaza, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                self.screen.blit(self.defaultRaza,(self.width/5.1502, self.height/2.0000)) #233 350
+            elif(self.personaje.tipo_raza == "Enano"):
+                self.screen.blit(pygame.transform.scale(self.icon_large_dwarf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+            elif(self.personaje.tipo_raza == "Elfo"):
+                self.screen.blit(pygame.transform.scale(self.icon_large_elf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+            if(self.personaje.tipo_clase == None):
+                self.screen.blit(pygame.transform.scale(self.defaultSelected, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+                self.screen.blit(self.defaultRaza,(self.width/2.5696, self.height/2.9167)) #467 240
+            elif(self.personaje.tipo_clase == "Bárbaro"):
+                self.screen.blit(pygame.transform.scale(self.icon_barbarbarian_selected, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+            elif(self.personaje.tipo_clase == "Explorador"):
+                self.screen.blit(pygame.transform.scale(self.icon_explorer_selected, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+            if(self.first_timeC):
+                self.first_timeC = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeB = True
+                self.first_timeR = True
+                self.first_timeCP = True
+                self.ch2.play(self.selected) 
+            pygame.display.update() 
+            return 'seleccionPersonaje'
+        
+        #Bárbaro
+        elif(self.checkIfMouseIsInButton(x_sizeIB,x_sizeIB,x_startIB,y_startIB,x,y) and self.opened_screen == 7):
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+            if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+            self.screen.blit(pygame.transform.scale(self.icon_barbarbarian_selected, (self.width/5.2632, self.width/5.2632)), (self.width/10.0000, self.height/5.0000)) #114 228 120 140
+            self.screen.blit(pygame.transform.scale(self.icon_explorer, (self.width/5.2632, self.width/5.2632)), (((self.width/10.0000) + ((self.width/7.7922)*2)), self.height/5.0000)) #114 160 
+            if(self.first_timeC1):
+                self.first_timeC1 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeR = True
+                self.first_timeC2 = True
+                self.first_timeB = True
+                self.first_timeC = True
+                self.first_timeCP = True
+                self.ch2.play(self.selected) 
+            pygame.display.update()
+            return 'seleccionPersonaje' 
+        #Explorador
+        elif(self.checkIfMouseIsInButton(x_sizeIB,x_sizeIB,x_startIE,y_startIB,x,y) and self.opened_screen == 7):
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+            if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+            self.screen.blit(pygame.transform.scale(self.icon_barbarbarian, (self.width/5.2632, self.width/5.2632)), (self.width/10.0000, self.height/5.0000)) #114 228 120 140
+            self.screen.blit(pygame.transform.scale(self.icon_explorer_selected, (self.width/5.2632, self.width/5.2632)), (((self.width/10.0000) + ((self.width/7.7922)*2)), self.height/5.0000)) #114 160 
+            if(self.first_timeC2):
+                self.first_timeC2 = False
+                self.first_time1 = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.first_time10 = True
+                self.first_time11 = True
+                self.first_time12 = True
+                self.first_time13 = True
+                self.first_timed0 = True
+                self.first_timed1 = True
+                self.first_timed2 = True
+                self.first_timed3 = True
+                self.first_timed4 = True
+                self.first_timed5 = True
+                self.first_timed6 = True
+                self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeR = True
+                self.first_timeB = True
+                self.first_timeC = True
+                self.first_timeCP = True
+                self.ch2.play(self.selected) 
+            pygame.display.update()
+            return 'seleccionPersonaje' 
 
         elif(self.acolito_option.collidepoint((x,y)) and self.opened_screen == 1):
             self.select_option("Acólito")
@@ -1331,6 +1824,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected)    
             pygame.display.update() 
 
@@ -1359,6 +1859,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch4.play(self.selected) 
             pygame.display.update() 
 
@@ -1387,6 +1894,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch2.play(self.selected) 
             pygame.display.update() 
 
@@ -1415,6 +1929,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
 
@@ -1443,6 +1964,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch4.play(self.selected) 
             pygame.display.update() 
 
@@ -1471,6 +1999,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch2.play(self.selected) 
             pygame.display.update() 
 
@@ -1499,6 +2034,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
 
@@ -1527,6 +2069,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch4.play(self.selected) 
             pygame.display.update() 
 
@@ -1555,6 +2104,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch2.play(self.selected) 
             pygame.display.update() 
 
@@ -1583,6 +2139,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
 
@@ -1611,6 +2174,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch4.play(self.selected) 
             pygame.display.update() 
 
@@ -1639,6 +2209,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch2.play(self.selected) 
             pygame.display.update() 
 
@@ -1667,6 +2244,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
 
@@ -1719,6 +2303,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
 
@@ -1770,6 +2361,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed0 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
         elif(self.r2.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
@@ -1823,6 +2421,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
         elif(self.r3.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
@@ -1875,6 +2480,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
         elif(self.r4.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
@@ -1927,6 +2539,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
         elif(self.r5.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
@@ -1979,6 +2598,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
         elif(self.r6.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
@@ -2031,6 +2657,13 @@ class SeleccionPersonaje:
                 self.first_timed0 = True
                 self.first_timed6 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
         elif(self.r7.collidepoint((x,y)) and self.opened_screen != None and self.opened_screen>=2 and self.opened_screen<=5): 
@@ -2083,6 +2716,13 @@ class SeleccionPersonaje:
                 self.first_timed5 = True
                 self.first_timed0 = True
                 self.first_timed7 = True
+                self.first_timeR1 = True
+                self.first_timeR2 = True
+                self.first_timeC1 = True
+                self.first_timeC2 = True
+                self.first_timeR = True
+                self.first_timeC = True
+                self.first_timeCP = True
                 self.ch3.play(self.selected) 
             pygame.display.update() 
 
@@ -2109,8 +2749,29 @@ class SeleccionPersonaje:
             self.first_timed5 = True
             self.first_timed6 = True
             self.first_timed7 = True
+            self.first_timeR1 = True
+            self.first_timeR2 = True
+            self.first_timeC1 = True
+            self.first_timeC2 = True
+            self.first_timeR = True
+            self.first_timeC = True
+            self.first_timeCP = True
             if(self.opened_screen == 1):
                 self.select_option("default")
+                if(self.personaje.tipo_raza == None):
+                    self.screen.blit(pygame.transform.scale(self.defaultIconRaza, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                    self.screen.blit(self.defaultRaza,(self.width/5.1502, self.height/2.0000)) #233 350
+                elif(self.personaje.tipo_raza == "Enano"):
+                    self.screen.blit(pygame.transform.scale(self.icon_large_dwarf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                elif(self.personaje.tipo_raza == "Elfo"):
+                    self.screen.blit(pygame.transform.scale(self.icon_large_elf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                if(self.personaje.tipo_clase == None):
+                    self.screen.blit(pygame.transform.scale(self.default, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+                    self.screen.blit(self.defaultRaza,(self.width/2.5696, self.height/2.9167)) #467 240
+                elif(self.personaje.tipo_clase == "Bárbaro"):
+                    self.screen.blit(pygame.transform.scale(self.icon_barbarbarian, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+                elif(self.personaje.tipo_clase == "Explorador"):
+                    self.screen.blit(pygame.transform.scale(self.icon_explorer, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
             elif(self.opened_screen != None and self.opened_screen >=2 and self.opened_screen <=5):
                 pygame.draw.rect(self.screen,self.color_black, self.r2, 0)
                 pygame.draw.rect(self.screen,self.color_white, self.r2, 3)
@@ -2138,9 +2799,32 @@ class SeleccionPersonaje:
                     pygame.draw.rect(self.screen,self.color_white, self.r8, 3)
                     self.screen.blit(self.d0,(self.width/13.3333, self.height/6.6667)) #90 105
                     self.screen.blit(self.d7,(self.width/13.3333, self.height/1.3514)) #90 518
+            elif(self.opened_screen == 6):
+                self.screen.blit(pygame.transform.scale(self.icon_large_dwarf, (self.width/5.2632, self.height/2.1875)), (self.width/10.0000, self.height/5.0000)) #114 160 120 
+                self.screen.blit(pygame.transform.scale(self.icon_large_elf, (self.width/5.2632, self.height/2.1875)), (((self.width/10.0000) + ((self.width/7.7922)*2)), self.height/5.0000)) #114 160 
+            elif(self.opened_screen == 7):
+                self.screen.blit(pygame.transform.scale(self.icon_barbarbarian, (self.width/5.2632, self.width/5.2632)), (self.width/10.0000, self.height/5.0000)) #114 228 120 140
+                self.screen.blit(pygame.transform.scale(self.icon_explorer, (self.width/5.2632, self.width/5.2632)), (((self.width/10.0000) + ((self.width/7.7922)*2)), self.height/5.0000)) #114 160 
+            if(self.opened_screen == None):
+                if(self.personaje.tipo_raza == None):
+                    self.screen.blit(pygame.transform.scale(self.defaultIconRaza, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                    self.screen.blit(self.defaultRaza,(self.width/5.1502, self.height/2.0000)) #233 350
+                elif(self.personaje.tipo_raza == "Enano"):
+                    self.screen.blit(pygame.transform.scale(self.icon_large_dwarf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                elif(self.personaje.tipo_raza == "Elfo"):
+                    self.screen.blit(pygame.transform.scale(self.icon_large_elf, (self.width/5.0000, self.height/1.9444)), (self.width/8.5714, self.height/3.5000)) #240 360 140 200
+                if(self.personaje.tipo_clase == None):
+                    self.screen.blit(pygame.transform.scale(self.default, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+                    self.screen.blit(self.defaultRaza,(self.width/2.5696, self.height/2.9167)) #467 240
+                elif(self.personaje.tipo_clase == "Bárbaro"):
+                    self.screen.blit(pygame.transform.scale(self.icon_barbarbarian, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
+                elif(self.personaje.tipo_clase == "Explorador"):
+                    self.screen.blit(pygame.transform.scale(self.icon_explorer, (self.width/8.0000, self.height/4.6667)), (self.width/2.8571, self.height/3.5000)) #150 150 420 200
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
-            #TODO: comprobar que todos los campos están bien antes de printear el botón
-            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
             pygame.display.update() 
