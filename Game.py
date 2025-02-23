@@ -17,6 +17,7 @@ from UnionPartida import UnionPartida
 from Global import Global
 from ServerDisconected import ServerDisconected
 from SeleccionPersonaje import SeleccionPersonaje
+from SeleccionPersonaje2 import SeleccionPersonaje2
 import socket
 import threading
 #import requests
@@ -108,6 +109,7 @@ class Game:
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
+        self.seleccionPersonaje2 = SeleccionPersonaje2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
         mixer.music.play(-1)
@@ -165,6 +167,8 @@ class Game:
                     self.serverDisc.render()
                 elif self.currentScreen == "seleccionPersonaje":
                     self.seleccionPersonaje.render(self.online)
+                elif self.currentScreen == "seleccionPersonaje2":
+                    self.seleccionPersonaje2.render()
             if not pygame.display.get_active():
                 self.minimized = True #se ha hecho escape para ir al escritorio
 
@@ -298,6 +302,23 @@ class Game:
                             self.currentScreen = screenToChange
                             self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.seleccionPersonaje.getScreen()
+                            if(screenToChange != "seleccionPersonaje2"):
+                                self.online = False
+                                self.salaEspera.escuchaTCP.closeSocketTCPServer()
+                                self.salaEspera.escuchaUDP.closeSocketUDPServer()
+                                self.salaEspera.enviarEstadoUDP.desconectar()
+                                try:
+                                    #solo se podrá cerrar si eres el cliente
+                                    self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
+                                except:
+                                    pass 
+                    elif self.currentScreen == "seleccionPersonaje2":
+                        screenToChange = self.seleccionPersonaje2.clickedMouse()
+                        if(screenToChange != self.currentScreen):
+                            self.changedScreen = True
+                            self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
+                            self.screen = self.seleccionPersonaje2.getScreen()
                             if(screenToChange != "partida"):
                                 self.online = False
                                 self.salaEspera.escuchaTCP.closeSocketTCPServer()
@@ -342,6 +363,9 @@ class Game:
                         elif(self.currentScreen == "seleccionPersonaje"):
                             self.seleccionPersonaje.setScreen(self.screen)
                             self.seleccionPersonaje.render(self.online)
+                        elif(self.currentScreen == "seleccionPersonaje2"):
+                            self.seleccionPersonaje2.setScreen(self.screen)
+                            self.seleccionPersonaje2.render()
                         else:
                             self.screen.fill((0,0,0))
                             pygame.display.flip()
@@ -386,6 +410,8 @@ class Game:
                         self.serverDisc.movedMouse()
                     elif self.currentScreen == "seleccionPersonaje":
                         self.seleccionPersonaje.movedMouse()
+                    elif self.currentScreen == "seleccionPersonaje2":
+                        self.seleccionPersonaje2.movedMouse()
                     else:
                         pass
             #print("FPS = ",int(self.clock.get_fps()))

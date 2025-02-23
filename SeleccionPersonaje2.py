@@ -27,17 +27,17 @@ class SeleccionPersonaje2:
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
-        self.titlePic = pygame.image.load("images/title.png")
         self.buttonPic = pygame.image.load("images/button.png")
         self.buttonSelectedPic = pygame.image.load("images/button_selected.png")
         self.buttonPressedPic = pygame.image.load("images/button_pressed.png")
+        self.capa = pygame.image.load("images/capa.png")
 
         #fuentes y colores
         self.fuente = pygame.font.SysFont(font, 70)
         self.fuente2 = pygame.font.SysFont(font,600)
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
-        self.back = self.fuente.render('Volver atrás', True, self.color_white)
+        self.back = self.fuente.render('Volver al menú', True, self.color_white)
 
     def setScreen(self,screen):
         self.screen = screen
@@ -48,6 +48,7 @@ class SeleccionPersonaje2:
     def render(self):
         #render screen
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         pygame.display.update() 
@@ -76,7 +77,7 @@ class SeleccionPersonaje2:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
             self.ch1.play(self.pressed)
             pygame.display.update() 
-            return 'seleccionPersonaje'
+            return 'menu'
         else:
             return 'seleccionPersonaje2'
 
