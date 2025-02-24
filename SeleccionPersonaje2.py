@@ -9,6 +9,7 @@ class SeleccionPersonaje2:
         self.opened_screen = None
         self.isOnline = None
         self.personaje = None
+        self.emptyText = None #se modifica en render
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -60,6 +61,8 @@ class SeleccionPersonaje2:
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
         self.color_light_grey = pygame.Color((144,144,144))
+        self.color_magenta = pygame.Color((121,34,53))
+        self.color_light_pink = pygame.Color((234,135,255))
         self.color_grey = pygame.Color((208,208,208))
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
         self.crearPersonaje = self.fuente.render('Crear personaje', True, self.color_white)
@@ -122,6 +125,7 @@ class SeleccionPersonaje2:
         self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
 
+        self.emptyText = self.fuente2.render(' ', True, self.color_white)
         self.alineamientoText = self.fuente2.render('Alineamiento', True, self.color_white)
         self.edadText = self.fuente2.render('Edad', True, self.color_white)
         self.pesoText = self.fuente2.render('Peso', True, self.color_white)
@@ -191,6 +195,128 @@ class SeleccionPersonaje2:
             return True
         else:
             return False
+        
+    def select_option(self,op):
+        if(op == "Legal Bueno"):
+            pygame.draw.rect(self.screen,self.color_magenta, self.legal_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_malvado, 0)
+
+        elif(op == "Neutral Bueno"):
+            pygame.draw.rect(self.screen,self.color_black, self.legal_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.neutral_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_malvado, 0)
+        elif(op == "Caótico Bueno"):
+            pygame.draw.rect(self.screen,self.color_black, self.legal_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.caotico_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_malvado, 0)
+        elif(op == "Legal Neutral"):
+            pygame.draw.rect(self.screen,self.color_black, self.legal_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.legal_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_malvado, 0)
+        elif(op == "Neutral"):
+            pygame.draw.rect(self.screen,self.color_black, self.legal_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_malvado, 0)
+        elif(op == "Caótico Neutral"):
+            pygame.draw.rect(self.screen,self.color_black, self.legal_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.caotico_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_malvado, 0)
+        elif(op == "Legal Malvado"):
+            pygame.draw.rect(self.screen,self.color_black, self.legal_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.legal_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_malvado, 0)
+        elif(op == "Neutral Malvado"):
+            pygame.draw.rect(self.screen,self.color_black, self.legal_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.neutral_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_malvado, 0)
+        elif(op == "Caótico Malvado"):
+            pygame.draw.rect(self.screen,self.color_black, self.legal_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_magenta, self.caotico_malvado, 0)
+        else:
+            pygame.draw.rect(self.screen,self.color_black, self.legal_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_bueno, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_neutral, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.legal_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.neutral_malvado, 0)
+            pygame.draw.rect(self.screen,self.color_black, self.caotico_malvado, 0)
+
+        pygame.draw.rect(self.screen,self.color_grey, self.legal_bueno, 3)
+        self.screen.blit(self.lb_text,(self.width/5.4795, self.height/4.2424)) #219 165
+        pygame.draw.rect(self.screen,self.color_grey, self.neutral_bueno, 3)
+        self.screen.blit(self.nb_text,(self.width/5.7416, self.height/3.4314)) #209 204
+        pygame.draw.rect(self.screen,self.color_grey, self.caotico_bueno, 3)
+        self.screen.blit(self.cb_text,(self.width/5.7416, self.height/2.8807)) #209 243
+        pygame.draw.rect(self.screen,self.color_grey, self.legal_neutral, 3)
+        self.screen.blit(self.ln_text,(self.width/5.7692, self.height/2.4823)) #208 282
+        pygame.draw.rect(self.screen,self.color_grey, self.neutral, 3)
+        self.screen.blit(self.n_text,(self.width/5.0209, self.height/2.1807)) #239 321 
+        pygame.draw.rect(self.screen,self.color_grey, self.caotico_neutral, 3)
+        self.screen.blit(self.cn_text,(self.width/6.0302, self.height/1.9444)) #199 360 
+        pygame.draw.rect(self.screen,self.color_grey, self.legal_malvado, 3)
+        self.screen.blit(self.lm_text,(self.width/5.7416, self.height/1.7544)) #209 399
+        pygame.draw.rect(self.screen,self.color_grey, self.neutral_malvado, 3)
+        self.screen.blit(self.nm_text,(self.width/6.0302, self.height/1.5982)) #199 438 
+        pygame.draw.rect(self.screen,self.color_grey, self.caotico_malvado, 3)
+        self.screen.blit(self.cm_text,(self.width/6.0302, self.height/1.4675)) #199 477 
 
     def clickedMouse(self):
         #click del ratón
@@ -204,6 +330,7 @@ class SeleccionPersonaje2:
 
         #Botón volver al menú
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
+            self.opened_screen = None
             self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
@@ -214,6 +341,7 @@ class SeleccionPersonaje2:
         
         #Botón crear personaje
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
+            self.opened_screen = None
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
@@ -221,6 +349,21 @@ class SeleccionPersonaje2:
             self.ch1.play(self.error)
             pygame.display.update() 
             return 'seleccionPersonaje2'
+        
+        #Input de edad
+        elif self.inputBoxEdad.collidepoint((x,y)):
+            if(self.opened_screen == None or self.opened_screen == 1):
+                if(self.opened_screen == 1):
+                    self.opened_screen = None
+                if(self.personaje.edad == ' '):
+                    self.textEdad= self.emptyText
+                self.refresh(1,self.textEdad)
+                pygame.display.update() 
+                self.activeI = True
+                return 'seleccionPersonaje'
+            else:
+                self.ch2.play(self.error)
+                return 'seleccionPersonaje'
         
         #Menú desplegable de trasfondos: si le da al recuadro o a la flecha
         elif (self.desplegableAlineamiento.collidepoint((x,y)) or self.rect4.collidepoint((x,y))):
@@ -342,8 +485,31 @@ class SeleccionPersonaje2:
 
         else:
             self.refresh(0,None)
+            self.opened_screen = None
             pygame.display.update() 
             return 'seleccionPersonaje2'
+        
+
+    def manageInputBox(self, key, unicode):
+        if(self.activeI):
+            if key == pygame.K_RETURN:
+                self.personaje.edad = ' '
+            elif key == pygame.K_BACKSPACE:
+                self.personaje.edad = self.personaje.edad[:-1]
+                if(len(self.personaje.edad) == 0):
+                    self.personaje.edad = ' '
+            else:
+                if(len(self.personaje.edad)<4): #la edad puede ser de 0 a 350 para enanos, y de 0 a 750 elfos
+                    if(self.personaje.edad == ' '):
+                        self.personaje.edad = unicode
+                    else:
+                        self.personaje.edad += unicode
+                    #self.widthText = self.letterwidth*len(self.name)
+                else:
+                    self.ch2.play(self.error)
+            content = self.fuente2.render(self.personaje.edad, True, self.color_light_pink)
+            self.refresh(1,content)
+            pygame.display.update() 
 
     def movedMouse(self):
         x_size = self.width/3.8339
@@ -395,6 +561,151 @@ class SeleccionPersonaje2:
                 self.ch2.play(self.selected)     
             pygame.display.update() 
 
+        elif(self.legal_bueno.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Legal Bueno")
+            if(self.first_time1):
+                self.first_time1 = False
+                self.first_timeB = True
+                self.first_timeCP = True 
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.ch3.play(self.selected)    
+            pygame.display.update() 
+        elif(self.neutral_bueno.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Neutral Bueno")
+            if(self.first_time2):
+                self.first_time2 = False
+                self.first_timeB = True
+                self.first_timeCP = True 
+                self.first_timeB = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.ch3.play(self.selected)    
+            pygame.display.update() 
+        elif(self.caotico_bueno.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Caótico Bueno")
+            if(self.first_time3):
+                self.first_time3 = False
+                self.first_timeB = True
+                self.first_timeCP = True 
+                self.first_time1 = True
+                self.first_time2 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.ch3.play(self.selected)    
+            pygame.display.update() 
+        elif(self.legal_neutral.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Legal Neutral")
+            if(self.first_time4):
+                self.first_time4 = False
+                self.first_timeB = True
+                self.first_timeCP = True 
+                self.first_time1 = True
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.ch3.play(self.selected)    
+            pygame.display.update() 
+        elif(self.neutral.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Neutral")
+            if(self.first_time5):
+                self.first_time5 = False
+                self.first_timeB = True
+                self.first_timeCP = True 
+                self.first_time1 = True
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.ch3.play(self.selected)    
+            pygame.display.update() 
+        elif(self.caotico_neutral.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Caótico Neutral")
+            if(self.first_time6):
+                self.first_time6 = False
+                self.first_timeB = True
+                self.first_timeCP = True 
+                self.first_time1 = True
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.ch3.play(self.selected)    
+            pygame.display.update() 
+        elif(self.legal_malvado.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Legal Malvado")
+            if(self.first_time7):
+                self.first_time7 = False
+                self.first_timeB = True
+                self.first_timeCP = True 
+                self.first_time1 = True
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time8 = True
+                self.first_time9 = True
+                self.ch3.play(self.selected)    
+            pygame.display.update() 
+        elif(self.neutral_malvado.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Neutral Malvado")
+            if(self.first_time8):
+                self.first_time8 = False
+                self.first_timeB = True
+                self.first_timeCP = True 
+                self.first_time1 = True
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time9 = True
+                self.ch3.play(self.selected)    
+            pygame.display.update() 
+        elif(self.caotico_malvado.collidepoint((x,y)) and self.opened_screen == 1):
+            self.select_option("Caótico Malvado")
+            if(self.first_time9):
+                self.first_time8 = False
+                self.first_timeB = True
+                self.first_timeCP = True 
+                self.first_time1 = True
+                self.first_time2 = True
+                self.first_time3 = True
+                self.first_time4 = True
+                self.first_time5 = True
+                self.first_time6 = True
+                self.first_time7 = True
+                self.first_time8 = True
+                self.ch3.play(self.selected)    
+            pygame.display.update() 
+
         else:
             self.first_timeB = True
             self.first_timeCP = True
@@ -411,4 +722,6 @@ class SeleccionPersonaje2:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+            if(self.opened_screen == 1):
+                self.select_option("default")
             pygame.display.update() 
