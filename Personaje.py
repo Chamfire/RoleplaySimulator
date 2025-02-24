@@ -16,7 +16,7 @@ class Personaje:
         self.coordenadas_actuales = None #se calcula con el mapa
         self.vida_temp = None #cambiar al escoger la clase
         self.ca = None #cambiar al escoger personaje
-        self.edad = None #lo escoge el jugador
+        self.edad = ' ' #lo escoge el jugador
         self.peso = None #lo escoge el jugador
         self.velocidad = None #cambiar al escoger la raza
         self.descripcion_fisica = None #la debe proporcionar el jugador

@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from pygame import mixer
+import numpy as np
 
 class SeleccionPersonaje2:
     def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
@@ -40,6 +41,9 @@ class SeleccionPersonaje2:
         self.first_time7 = True
         self.first_time8 = True
         self.first_time9 = True
+        #inputbox
+        self.activeI = False
+        self.activeI2 = False
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
@@ -60,6 +64,7 @@ class SeleccionPersonaje2:
         self.fuente2 = pygame.font.SysFont(font,600)
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
+        self.color_dark_red_sat = pygame.Color((121,58,58))
         self.color_light_grey = pygame.Color((144,144,144))
         self.color_magenta = pygame.Color((121,34,53))
         self.color_light_pink = pygame.Color((234,135,255))
@@ -96,9 +101,16 @@ class SeleccionPersonaje2:
                 self.textAlineamiento = self.defaultTextAlineamiento
         self.screen.blit(self.textAlineamiento,(self.width/11.0092, self.height/6.3636)) #109 110
         #edad
+        if(op == 2):
+            self.textEdad = content
+        else:
+            if(self.personaje.edad != None):
+                self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+            else:
+                self.textEdad = self.defaultTextEdad
         self.screen.blit(self.edadText,(self.width/2.4000, self.height/12.7273)) #500 55
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxEdad, 2)
-        self.screen.blit(self.defaultTextEdad,(self.width/2.3301, self.height/6.3636)) #515 110
+        self.screen.blit(self.textEdad,(self.width/2.3301, self.height/6.3636)) #515 110
         #peso
         self.screen.blit(self.pesoText,(self.width/1.7143, self.height/12.7273)) #700 55
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxPeso, 2)
@@ -131,9 +143,19 @@ class SeleccionPersonaje2:
         self.pesoText = self.fuente2.render('Peso', True, self.color_white)
         self.descripcionText = self.fuente2.render('Descripción Física', True, self.color_white)
         self.defaultTextAlineamiento = self.fuente2.render('-- Escoge alineamiento --', True, self.color_light_grey)
-        self.defaultTextEdad = self.fuente2.render('nº', True, self.color_light_grey)
+        if(self.personaje.tipo_raza == "Enano"):
+            self.defaultTextEdad = self.fuente2.render('1-350', True, self.color_light_grey)
+            #60-80kg para un elfo
+            peso = str(np.random.randint(60, 80))
+            self.defaultTextPeso = self.fuente2.render(str(peso+'kg'), True, self.color_white)
+        elif(self.personaje.tipo_raza == "Elfo"):
+            self.defaultTextEdad = self.fuente2.render('1-750', True, self.color_light_grey)
+            #45-66kg para un elfo
+            peso = str(np.random.randint(45, 67))
+            self.defaultTextPeso = self.fuente2.render(str(peso+'kg'), True, self.color_white)
+        self.textEdad = self.defaultTextEdad
         self.textAlineamiento = self.defaultTextAlineamiento
-        self.defaultTextPeso = self.fuente2.render('XXX.XX', True, self.color_light_grey)
+    
         self.textPeso = self.defaultTextPeso
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
@@ -172,7 +194,7 @@ class SeleccionPersonaje2:
         self.screen.blit(self.edadText,(self.width/2.4000, self.height/12.7273)) #500 55
         self.inputBoxEdad = pygame.Rect(self.width/2.4000, self.height/6.6667, self.width/12.0000, self.height/11.6667) #500 105 100 60
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxEdad, 2)
-        self.screen.blit(self.defaultTextEdad,(self.width/2.3301, self.height/6.3636)) #515 110
+        self.screen.blit(self.textEdad,(self.width/2.3301, self.height/6.3636)) #515 110
         #peso
         self.screen.blit(self.pesoText,(self.width/1.7143, self.height/12.7273)) #700 55
         self.inputBoxPeso = pygame.Rect(self.width/1.7143, self.height/6.6667, self.width/8.0000, self.height/11.6667) #700 105 150 60
@@ -318,6 +340,12 @@ class SeleccionPersonaje2:
         pygame.draw.rect(self.screen,self.color_grey, self.caotico_malvado, 3)
         self.screen.blit(self.cm_text,(self.width/6.0302, self.height/1.4675)) #199 477 
 
+    def checkIfIsNumber(self,n):
+        try:
+            number = int(n)
+            return True
+        except:
+            return False
     def clickedMouse(self):
         #click del ratón
         #calculo del tamaño del botón y su posición -> Empezar Simulación
@@ -331,17 +359,40 @@ class SeleccionPersonaje2:
         #Botón volver al menú
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start2,y_start,x,y)):
             self.opened_screen = None
+            self.activeI = False
             self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
             self.ch1.play(self.pressed)
+            self.personaje = None
             pygame.display.update() 
             return 'menu'
         
         #Botón crear personaje
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
             self.opened_screen = None
+            self.activeI = False
+            if(self.personaje.tipo_raza == "Enano"):
+                if(self.personaje.edad == ' '):
+                    self.textEdad = self.defaultTextEdad
+                elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=350):
+                    self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                else:
+                    self.textEdad = self.fuente2.render('1-350', True, self.color_dark_red_sat)
+                    self.personaje.edad = ' '
+                    self.ch1.play(self.error)
+            elif(self.personaje.tipo_raza == "Elfo"):
+                if(self.personaje.edad == ' '):
+                    self.textEdad = self.defaultTextEdad
+                elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=750):
+                    self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                else:
+                    self.textEdad = self.fuente2.render('1-750', True, self.color_dark_red_sat)
+                    self.personaje.edad = ' '
+                    self.ch1.play(self.error)
+            self.refresh(2,self.textEdad)
+            pygame.display.update() 
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
@@ -357,16 +408,36 @@ class SeleccionPersonaje2:
                     self.opened_screen = None
                 if(self.personaje.edad == ' '):
                     self.textEdad= self.emptyText
-                self.refresh(1,self.textEdad)
+                self.refresh(2,self.textEdad)
                 pygame.display.update() 
                 self.activeI = True
-                return 'seleccionPersonaje'
+                return 'seleccionPersonaje2'
             else:
                 self.ch2.play(self.error)
-                return 'seleccionPersonaje'
+                return 'seleccionPersonaje2'
         
         #Menú desplegable de trasfondos: si le da al recuadro o a la flecha
         elif (self.desplegableAlineamiento.collidepoint((x,y)) or self.rect4.collidepoint((x,y))):
+            if(self.personaje.tipo_raza == "Enano"):
+                if(self.personaje.edad == ' '):
+                    self.textEdad = self.defaultTextEdad
+                elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=350):
+                    self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                else:
+                    self.textEdad = self.fuente2.render('1-350', True, self.color_dark_red_sat)
+                    self.personaje.edad = ' '
+                    self.ch1.play(self.error)
+            elif(self.personaje.tipo_raza == "Elfo"):
+                if(self.personaje.edad == ' '):
+                    self.textEdad = self.defaultTextEdad
+                elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=750):
+                    self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                else:
+                    self.textEdad = self.fuente2.render('1-750', True, self.color_dark_red_sat)
+                    self.personaje.edad = ' '
+                    self.ch1.play(self.error)
+            self.refresh(2,self.textEdad)
+            pygame.display.update() 
             if(self.opened_screen == None):
                 self.refresh(0,None)
                 pygame.display.update() 
@@ -484,9 +555,27 @@ class SeleccionPersonaje2:
             return 'seleccionPersonaje2'
 
         else:
-            self.refresh(0,None)
-            self.opened_screen = None
+            if(self.personaje.tipo_raza == "Enano"):
+                if(self.personaje.edad == ' '):
+                    self.textEdad = self.defaultTextEdad
+                elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=350):
+                    self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                else:
+                    self.textEdad = self.fuente2.render('1-350', True, self.color_dark_red_sat)
+                    self.personaje.edad = ' '
+                    self.ch1.play(self.error)
+            elif(self.personaje.tipo_raza == "Elfo"):
+                if(self.personaje.edad == ' '):
+                    self.textEdad = self.defaultTextEdad
+                elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=750):
+                    self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                else:
+                    self.textEdad = self.fuente2.render('1-750', True, self.color_dark_red_sat)
+                    self.personaje.edad = ' '
+                    self.ch1.play(self.error)
+            self.refresh(2,self.textEdad)
             pygame.display.update() 
+            self.opened_screen = None
             return 'seleccionPersonaje2'
         
 
@@ -499,7 +588,7 @@ class SeleccionPersonaje2:
                 if(len(self.personaje.edad) == 0):
                     self.personaje.edad = ' '
             else:
-                if(len(self.personaje.edad)<4): #la edad puede ser de 0 a 350 para enanos, y de 0 a 750 elfos
+                if(len(self.personaje.edad)<3): #la edad puede ser de 1 a 350 para enanos, y de 1 a 750 elfos -> 3 dígitos
                     if(self.personaje.edad == ' '):
                         self.personaje.edad = unicode
                     else:
@@ -508,7 +597,7 @@ class SeleccionPersonaje2:
                 else:
                     self.ch2.play(self.error)
             content = self.fuente2.render(self.personaje.edad, True, self.color_light_pink)
-            self.refresh(1,content)
+            self.refresh(2,content)
             pygame.display.update() 
 
     def movedMouse(self):
