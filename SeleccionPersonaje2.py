@@ -56,6 +56,11 @@ class SeleccionPersonaje2:
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
+
+        self.letterwidth3 = (self.width/3.4286)/18 #cálculo de la base en píxeles 
+        self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
+
         self.alineamientoText = self.fuente2.render('Alineamiento', True, self.color_white)
         self.edadText = self.fuente2.render('Edad', True, self.color_white)
         self.pesoText = self.fuente2.render('Peso', True, self.color_white)
@@ -77,6 +82,25 @@ class SeleccionPersonaje2:
         self.screen.blit(pygame.transform.scale(self.flechaDesplegable, (self.width/40.0000, self.height/11.6667)), (self.width/2.9340, self.height/6.6667)) #30 60 409 105 
         pygame.draw.rect(self.screen, self.color_grey, self.rect4, 2)
         self.screen.blit(self.textAlineamiento,(self.width/11.0092, self.height/6.3636)) #109 110
+        #parte desplegable. TODO: Cambiar
+        self.legal_bueno = pygame.Rect(self.width/1.4870, self.height/6.4220, self.width/3.7500, self.height/17.5000) #807 109 320 40
+        self.lb_text = self.fuente4.render("Legal Bueno", True, self.color_white)
+        self.neutral_bueno = pygame.Rect(self.width/1.4870, self.height/4.7297, self.width/3.7500, self.height/17.5000) #807 148 320 40
+        self.nb_text = self.fuente4.render("Neutral Bueno", True, self.color_white)
+        self.caotico_bueno = pygame.Rect(self.width/1.4870, self.height/3.7433, self.width/3.7500, self.height/17.5000) #807 187 320 40
+        self.cb_text = self.fuente4.render("Caótico Bueno", True, self.color_white)
+        self.legal_neutral = pygame.Rect(self.width/1.4870, self.height/3.0973, self.width/3.7500, self.height/17.5000) #807 226 320 40
+        self.ln_text = self.fuente4.render("Legal Neutral", True, self.color_white)
+        self.neutral = pygame.Rect(self.width/1.4870, self.height/2.6415, self.width/3.7500, self.height/17.5000) #807 265 320 40
+        self.n_text = self.fuente4.render("Neutral", True, self.color_white)
+        self.caotico_neutral = pygame.Rect(self.width/1.4870, self.height/2.3026, self.width/3.7500, self.height/17.5000) #807 304 320 40
+        self.cn_text = self.fuente4.render("Caótico Neutral", True, self.color_white)
+        self.legal_malvado = pygame.Rect(self.width/1.4870, self.height/2.0408, self.width/3.7500, self.height/17.5000) #807 343 320 40
+        self.lm_text = self.fuente4.render("Legal Malvado", True, self.color_white)
+        self.neutral_malvado = pygame.Rect(self.width/1.4870, self.height/1.8325, self.width/3.7500, self.height/17.5000) #807 382 320 40
+        self.nm_text = self.fuente4.render("Neutral Malvado", True, self.color_white)
+        self.caotico_malvado = pygame.Rect(self.width/1.4870, self.height/1.6627, self.width/3.7500, self.height/17.5000) #807 421 320 40
+        self.cm_text = self.fuente4.render("Caótico Malvado", True, self.color_white)
         #edad
         self.screen.blit(self.edadText,(self.width/2.4000, self.height/12.7273)) #500 55
         self.inputBoxEdad = pygame.Rect(self.width/2.4000, self.height/6.6667, self.width/12.0000, self.height/11.6667) #500 105 100 60
