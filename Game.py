@@ -312,6 +312,8 @@ class Game:
                                     self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
                                 except:
                                     pass 
+                            else:
+                                self.seleccionPersonaje2.setPersonaje(self.seleccionPersonaje.getPersonaje())
                     elif self.currentScreen == "seleccionPersonaje2":
                         screenToChange = self.seleccionPersonaje2.clickedMouse()
                         if(screenToChange != self.currentScreen):

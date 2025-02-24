@@ -45,7 +45,7 @@ class SeleccionPersonaje:
 
         #variables
         self.first_timeB = True # Aún no has pulsado el botón volver al menú
-        self.first_timeCP = True #Botón de crear personaje
+        self.first_timeCP = True #Botón de seguir con la ficha
         #Del menú desplegable, cada opción no ha sido pulsada aún
         self.first_time1 = True 
         self.first_time2 = True
@@ -133,6 +133,9 @@ class SeleccionPersonaje:
 
     def setCurrentPartida(self,p):
         self.currentPartida = p
+
+    def getPersonaje(self):
+        return self.personaje
 
     def refresh(self,op,content):
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
