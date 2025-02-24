@@ -277,8 +277,8 @@ class SeleccionPersonaje:
         #render screen
         self.isOnline = isOnline
         self.personaje = Personaje(False,self.currentPartida,self.id) #False porque no es NPC
+        
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
-
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
         self.letterwidth2 = (self.width/3.4286)/10 #cálculo de la base en píxeles 

@@ -31,13 +31,19 @@ class SeleccionPersonaje2:
         self.buttonSelectedPic = pygame.image.load("images/button_selected.png")
         self.buttonPressedPic = pygame.image.load("images/button_pressed.png")
         self.capa = pygame.image.load("images/capa.png")
+        self.flechaDesplegable = pygame.image.load("images/flecha_menu_desplegable.png")
+        self.flechaDesplegable_selected = pygame.image.load("images/flecha_menu_desplegable_selected.png")
 
         #fuentes y colores
+        self.font = font
         self.fuente = pygame.font.SysFont(font, 70)
         self.fuente2 = pygame.font.SysFont(font,600)
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
+        self.color_light_grey = pygame.Color((144,144,144))
+        self.color_grey = pygame.Color((208,208,208))
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
+        
 
     def setScreen(self,screen):
         self.screen = screen
@@ -45,12 +51,33 @@ class SeleccionPersonaje2:
     def getScreen(self):
         return self.screen
 
-    def render(self):
+    def render(self,isOnline):
         #render screen
+        self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
+        self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
+        self.alineamientoText = self.fuente2.render('Alineamiento', True, self.color_white)
+        self.edadText = self.fuente2.render('Edad', True, self.color_white)
+        self.pesoText = self.fuente2.render('Peso (X.XX)', True, self.color_white)
+        self.descripcionText = self.fuente2.render('Descripción Física', True, self.color_white)
+        self.defaultTextAlineamiento = self.fuente2.render('-- Escoge alineamiento --', True, self.color_light_grey)
+        self.defaultTextEdad = self.fuente2.render('nº', True, self.color_light_grey)
+        self.textAlineamiento = self.defaultTextAlineamiento
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+        self.screen.blit(self.alineamientoText,(self.width/13.3333, self.height/12.7273)) #90 55
+        self.desplegableAlineamiento = pygame.Rect(self.width/13.3333, self.height/6.6667, self.width//3.6364, self.height/11.6667) #90 105 330 60
+        pygame.draw.rect(self.screen, self.color_grey, self.desplegableAlineamiento, 2)
+        self.rect4 = pygame.Rect(self.width/2.9340, self.height/6.6667, self.width/40.0000, self.height/11.6667) #409 105 30 60  -> rectángulo sobre la flecha del menú desplegable 
+        self.screen.blit(pygame.transform.scale(self.flechaDesplegable, (self.width/40.0000, self.height/11.6667)), (self.width/2.9340, self.height/6.6667)) #30 60 409 105 
+        pygame.draw.rect(self.screen, self.color_grey, self.rect4, 2)
+        self.screen.blit(self.textAlineamiento,(self.width/11.0092, self.height/6.3636)) #109 110
+        self.screen.blit(self.edadText,(self.width/2.4000, self.height/12.7273)) #500 55
+        self.inputBoxEdad = pygame.Rect(self.width/2.4000, self.height/6.6667, self.width/12.0000, self.height/11.6667) #500 105 100 60
+        pygame.draw.rect(self.screen, self.color_grey, self.inputBoxEdad, 2)
+        self.screen.blit(self.defaultTextEdad,(self.width/2.3301, self.height/6.3636)) #515 110
         pygame.display.update() 
 
     # size_x, size_y: tamaño del botón en x y en y

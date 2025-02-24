@@ -168,7 +168,7 @@ class Game:
                 elif self.currentScreen == "seleccionPersonaje":
                     self.seleccionPersonaje.render(self.online)
                 elif self.currentScreen == "seleccionPersonaje2":
-                    self.seleccionPersonaje2.render()
+                    self.seleccionPersonaje2.render(self.online)
             if not pygame.display.get_active():
                 self.minimized = True #se ha hecho escape para ir al escritorio
 
@@ -365,7 +365,7 @@ class Game:
                             self.seleccionPersonaje.render(self.online)
                         elif(self.currentScreen == "seleccionPersonaje2"):
                             self.seleccionPersonaje2.setScreen(self.screen)
-                            self.seleccionPersonaje2.render()
+                            self.seleccionPersonaje2.render(self.online)
                         else:
                             self.screen.fill((0,0,0))
                             pygame.display.flip()
