@@ -1,1 +1,16 @@
 cmd -> pip install pygame
+
+esta es la descripción de mi personaje de dnd. ¿Qué te parece? Cambiala, si ves que no es apropiada:
+"JADA JADA JADA"
+Si encuentras la descripción incompleta o repetitiva, haz tú una. 
+
+
+Ten en cuenta que es un elfo, pesa 60 kilos, es caótico malvado, tiene 1 año,
+ y es un bárbaro. Máximo 50 palabras.
+
+
+ Haz una descripción graciosa de dnd. Ten en cuenta que es un elfo, 
+ pesa 60 kilos, es caótico malvado, tiene 1 año, y es un bárbaro. 
+ Máximo 100 palabras.
+
+ -> https://github.com/deepseek-ai/DeepSeek-V3
