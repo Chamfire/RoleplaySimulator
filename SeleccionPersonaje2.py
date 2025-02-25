@@ -11,6 +11,7 @@ class SeleccionPersonaje2:
         self.isOnline = None
         self.personaje = None
         self.emptyText = None #se modifica en render
+        self.defaultTextEdad = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -104,7 +105,7 @@ class SeleccionPersonaje2:
         if(op == 2):
             self.textEdad = content
         else:
-            if(self.personaje.edad != None):
+            if(self.personaje.edad != ' '):
                 self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
             else:
                 self.textEdad = self.defaultTextEdad

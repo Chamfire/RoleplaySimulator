@@ -439,7 +439,7 @@ class CrearTablas:
             (23, "Una persona poderosa mató a alguien a quien amaba. Alguno de estos días tendré mi venganza."),
             (24, "Estafé y arruiné a una persona que no lo merecía. He tratado de expiar mis malas acciones, pero nunca pude perdonármelo."),
             #Criminal
-            (25, "Estoy tratando de saldar una vieja deuda que le debo a un gene-roso benefactor."),
+            (25, "Estoy tratando de saldar una vieja deuda que le debo a un generoso benefactor."),
             (26, "Mis mal obtenidas ganancias son para mantener a mi familia."),
             (27, "Algo importante me fue substraído y mi objetivo es robarlo de nuevo."),
             (28, "Seré el ladrón más grande que jamás haya existido."),
@@ -454,7 +454,7 @@ class CrearTablas:
             (36, "Mi aislamiento me ha dado una gran comprensión sobre un gran mal que solo yo puedo destruir."),
             #Forastero
             (37, "Mi familia, clan o tribu es lo más importante en mi vida, incluso cuando están lejos de mí."),
-            (38, "Una agresión contra las tierras vírgenes de mi hogar es una agre-sión contra mi persona."),
+            (38, "Una agresión contra las tierras vírgenes de mi hogar es una agresión contra mi persona."),
             (39, "Arrojaré mi terrible ira sobre los criminales que destruyeron mi patria."),
             (40, "Soy el último de mi tribu y a mí me corresponde asegurar que sus nombres se conviertan en leyenda."),
             (41, "Sufro unas espantosas visiones de un desastre que se avecina y haré cualquier cosa para evitarlo."),
