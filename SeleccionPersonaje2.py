@@ -880,7 +880,7 @@ class SeleccionPersonaje2:
         elif(self.caotico_malvado.collidepoint((x,y)) and self.opened_screen == 1):
             self.select_option("Caótico Malvado")
             if(self.first_time9):
-                self.first_time8 = False
+                self.first_time9 = False
                 self.first_timeB = True
                 self.first_timeCP = True 
                 self.first_time1 = True
