@@ -2,9 +2,10 @@ import pygame
 from pygame.locals import *
 from pygame import mixer
 import numpy as np
+from llama_cpp import Llama
 
 class SeleccionPersonaje2:
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,model_path):
         #screen
         self.screen = screen
         self.opened_screen = None
@@ -12,6 +13,7 @@ class SeleccionPersonaje2:
         self.personaje = None
         self.emptyText = None #se modifica en render
         self.defaultTextEdad = None
+        self.model_path = model_path
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -390,40 +392,108 @@ class SeleccionPersonaje2:
         
         #Botón generar descripción
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start3,y_start2,x,y)):
-            self.opened_screen = None
-            self.activeI = False
-            if(self.personaje.tipo_raza == "Enano"):
-                if(self.personaje.edad == ' '):
-                    self.textEdad = self.defaultTextEdad
-                elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=350):
-                    self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
-                else:
-                    self.textEdad = self.fuente2.render('1-350', True, self.color_dark_red_sat)
-                    self.personaje.edad = ' '
-                    self.ch1.play(self.error)
-            elif(self.personaje.tipo_raza == "Elfo"):
-                if(self.personaje.edad == ' '):
-                    self.textEdad = self.defaultTextEdad
-                elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=750):
-                    self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
-                else:
-                    self.textEdad = self.fuente2.render('1-750', True, self.color_dark_red_sat)
-                    self.personaje.edad = ' '
-                    self.ch1.play(self.error)
-            self.refresh(2,self.textEdad)
-            pygame.display.update() 
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
-            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
-            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
-            self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
-            self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
-            self.ch1.play(self.pressed)
-            #TODO: Generar descripción -> en lo que tarde en generarla, es lo suficiente para que de tiempo a ver el botón activo
-            pygame.display.update() 
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
-            self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
-            pygame.display.update() 
+            if(self.personaje.edad != None and self.personaje.edad != ' '):
+                self.opened_screen = None
+                self.activeI = False
+                if(self.personaje.tipo_raza == "Enano"):
+                    if(self.personaje.edad == ' '):
+                        self.textEdad = self.defaultTextEdad
+                    elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=350):
+                        self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                    else:
+                        self.textEdad = self.fuente2.render('1-350', True, self.color_dark_red_sat)
+                        self.personaje.edad = ' '
+                        self.ch1.play(self.error)
+                elif(self.personaje.tipo_raza == "Elfo"):
+                    if(self.personaje.edad == ' '):
+                        self.textEdad = self.defaultTextEdad
+                    elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=750):
+                        self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                    else:
+                        self.textEdad = self.fuente2.render('1-750', True, self.color_dark_red_sat)
+                        self.personaje.edad = ' '
+                        self.ch1.play(self.error)
+                self.refresh(2,self.textEdad)
+                pygame.display.update() 
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+                self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+                self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+                self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
+                self.ch1.play(self.pressed)
+                
+                ## Instantiate model from downloaded file
+                llm = Llama(
+                    model_path=self.model_path,
+                    n_ctx=128,  # Context length to use
+                    n_threads=32,            # Number of CPU threads to use
+                    n_gpu_layers=0        # Number of model layers to offload to GPU
+                )
+                ## Generation kwargs
+                generation_kwargs = {
+                    "max_tokens":60,
+                    "stop":["</s>"],
+                    "echo":False, # Echo the prompt in the output
+                    "top_k":1 # This is essentially greedy decoding, since the model will always return the highest-probability token. Set this value > 1 for sampling decoding
+                }
+                if(self.personaje.tipo_raza == "Elfo"):
+                    raza = "elf"
+                elif(self.personaje.tipo_raza == "Enano"):
+                    raza = "dwarf"
+                if(self.personaje.tipo_clase == "Bárbaro"):
+                    clase = "barbarian"
+                elif(self.personaje.tipo_clase == "Explorador"):                    
+                    clase = "explorer"
+                
+                ## Run inference
+                prompt = """<|im_start|>system
+                            You are a dungeon master, of Dnd 5th generation, and you are helping me to create a character.<|im_end|>
+                        <|im_start|>user
+                            Describe the physical appearance of an"""+raza+ """ """+clase+""" ("""+self.personaje.peso+"""kg, """+self.personaje.edad+""" years old) in just one short paragraph.<|im_end|>
+                        <|im_start|>assistant"""
+                res = llm(prompt, **generation_kwargs) # Res is a dictionary
+
+                ## Unpack and the generated text from the LLM response dictionary and print it
+                print(res["choices"][0]["text"])
+                response = res["choices"][0]["text"]
+                print(response)
+
+                pygame.display.update() 
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+                self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
+                pygame.display.update() 
+            else:
+                self.opened_screen = None
+                self.activeI = False
+                if(self.personaje.tipo_raza == "Enano"):
+                    if(self.personaje.edad == ' '):
+                        self.textEdad = self.defaultTextEdad
+                    elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=350):
+                        self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                    else:
+                        self.textEdad = self.fuente2.render('1-350', True, self.color_dark_red_sat)
+                        self.personaje.edad = ' '
+                        self.ch1.play(self.error)
+                elif(self.personaje.tipo_raza == "Elfo"):
+                    if(self.personaje.edad == ' '):
+                        self.textEdad = self.defaultTextEdad
+                    elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=750):
+                        self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                    else:
+                        self.textEdad = self.fuente2.render('1-750', True, self.color_dark_red_sat)
+                        self.personaje.edad = ' '
+                        self.ch1.play(self.error)
+                self.refresh(2,self.textEdad)
+                pygame.display.update() 
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+                self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+                self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
+                self.ch1.play(self.error)
+
             return 'seleccionPersonaje2'
         
         #Botón crear personaje
@@ -455,7 +525,10 @@ class SeleccionPersonaje2:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            if(self.personaje.edad != None and self.personaje.edad != ' '):
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
             self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
             self.ch1.play(self.error)
             pygame.display.update() 
@@ -676,7 +749,10 @@ class SeleccionPersonaje2:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            if(self.personaje.edad != None and self.personaje.edad != ' '):
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
             self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
             if(self.first_timeB):
                 self.first_timeB = False
@@ -700,7 +776,10 @@ class SeleccionPersonaje2:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            if(self.personaje.edad != None and self.personaje.edad != ' '):
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
             self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
             if(self.first_timeCP):
                 self.first_timeCP = False
@@ -718,12 +797,16 @@ class SeleccionPersonaje2:
                 self.ch2.play(self.selected)     
             pygame.display.update() 
 
+        #generar descripción
         elif(self.checkIfMouseIsInButton(x_size,y_size,x_start3,y_start2,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            if(self.personaje.edad != None and self.personaje.edad != ' '):
+                self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
             self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
             if(self.first_timeRD):
                 self.first_timeRD = False
@@ -738,7 +821,10 @@ class SeleccionPersonaje2:
                 self.first_time8 = True
                 self.first_time9 = True
                 self.first_timeCP = True
-                self.ch2.play(self.selected)     
+                if(self.personaje.edad != None and self.personaje.edad != ' '):
+                    self.ch2.play(self.selected)    
+                else:
+                    pass 
             pygame.display.update() 
 
         elif(self.legal_bueno.collidepoint((x,y)) and self.opened_screen == 1):
@@ -913,7 +999,10 @@ class SeleccionPersonaje2:
             #TODO: Comprobar requisitos para crear personaje botón
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            if(self.personaje.edad != None and self.personaje.edad != ' '):
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
             self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
             if(self.opened_screen == 1):
                 self.select_option("default")

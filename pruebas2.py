@@ -1,11 +1,10 @@
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, LlamaForCausalLM, GPT2LMHeadModel, BitsAndBytesConfig
-from vllm import LLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, LlamaForCausalLM, LlamaTokenizer, BitsAndBytesConfig
 import bitsandbytes
 
 quantization_config = BitsAndBytesConfig(
-    load_in_8bit=True,
-    bnb_8bit_compute_dtype=torch.float16,
+    load_in_4bit=True,
+    bnb_4bit_compute_dtype=torch.float16,
     llm_int8_enable_fp32_cpu_offload=True
 )
 
@@ -20,17 +19,25 @@ quantization_config = BitsAndBytesConfig(
 #--output correcto
 #Hermes 3: Tarda aprox 2 min 8s con 60 tokens, y con añadido de prompt "in just 1 paragraph" y cogiendo solo un párrafo completo
 #--output correcto
+#MEJOR: Hermes 3: Tarda aprox 1 min 53s con 60 tokens, con añadido de prompt "in just 1 paragraph" y cogiendo solo un párrafo completo. 4 bits en vez de 8
+#--output correcto
+#Hermes 3: Tarda aprox 1 min 56s con 60 tokens, con añadido de prompt "in just 1 paragraph" y cogiendo solo un párrafo completo. 4 bits y prompt con introducción de rol eliminada
+#--output correcto
+#Hermes 3: Tarda aprox 2 min con 60 tokens, con añadido de prompt "in just 1 paragraph" y cogiendo solo un párrafo completo. 4 bits y double quant parameter en quantization
+#--output correcto
+# Hermes 3 GGUF: Tarda aprox  con 60 tokens, con añadido de prompt "in just 1 paragraph" y cogiendo solo un párrafo completo. 4 bits 
 
 
-#ai-forever: 9 s es bazofia
-tokenizer = AutoTokenizer.from_pretrained('NousResearch/Hermes-3-Llama-3.2-3B', trust_remote_code=True)
+
+#tokenizer = AutoTokenizer.from_pretrained('NousResearch/Hermes-3-Llama-3.2-3B', trust_remote_code=True)
+tokenizer = LlamaTokenizer.from_pretrained('', trust_remote_code=True)
 model = LlamaForCausalLM.from_pretrained(
-#model = GPT2LMHeadModel.from_pretrained(
-    "NousResearch/Hermes-3-Llama-3.2-3B",
+    "NousResearch/Hermes-3-Llama-3.2-3B-GGUF",
     torch_dtype=torch.float16,
     quantization_config = quantization_config,
     device_map= "cuda"
-)
+    )
+
 
 
 prompts = [

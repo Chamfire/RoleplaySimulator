@@ -19,7 +19,7 @@ class Personaje:
         self.edad = ' ' #lo escoge el jugador
         self.peso = None #lo escoge el jugador
         self.velocidad = None #cambiar al escoger la raza
-        self.descripcion_fisica = None #la debe proporcionar el jugador
+        self.descripcion_fisica = None #la genera la ia
         self.tipo_raza = None #la escoge el jugador
         self.tipo_clase = None #la escoge el jugador
         self.tipo_alineamiento = None #lo escoge el jugador
