@@ -33,6 +33,8 @@ prompt = """<|im_start|>system
 res = llm(prompt, **generation_kwargs) # Res is a dictionary
 
 ## Unpack and the generated text from the LLM response dictionary and print it
-print(res["choices"][0]["text"])
 response = res["choices"][0]["text"]
+if "." in response:
+    response_good = response.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
+print(response_good)
 # res is short for result
