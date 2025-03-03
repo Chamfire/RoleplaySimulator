@@ -127,9 +127,9 @@ class SeleccionPersonaje2:
         self.screen.blit(self.descripcionDefaultText1,(self.width/11.4286, self.height/2.8000)) #105 250
         self.screen.blit(self.descripcionDefaultText2,(self.width/11.4286, self.height/2.4138)) #105 290
         if(self.personaje.edad != None and self.personaje.edad != ' '):
-                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
-            else:
-                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+        else:
+            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
         self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
         pygame.display.update() 
 
