@@ -1,5 +1,6 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, LlamaForCausalLM, GPT2LMHeadModel, BitsAndBytesConfig
+from vllm import LLM
 import bitsandbytes
 
 quantization_config = BitsAndBytesConfig(
