@@ -163,11 +163,13 @@ class SeleccionPersonaje2:
             self.defaultTextEdad = self.fuente2.render('1-350', True, self.color_light_grey)
             #60-80kg para un elfo
             peso = str(np.random.randint(60, 80))
+            self.personaje.peso = peso
             self.defaultTextPeso = self.fuente2.render(str(peso+'kg'), True, self.color_white)
         elif(self.personaje.tipo_raza == "Elfo"):
             self.defaultTextEdad = self.fuente2.render('1-750', True, self.color_light_grey)
             #45-66kg para un elfo
             peso = str(np.random.randint(45, 67))
+            self.personaje.peso = peso
             self.defaultTextPeso = self.fuente2.render(str(peso+'kg'), True, self.color_white)
         self.textEdad = self.defaultTextEdad
         self.textAlineamiento = self.defaultTextAlineamiento
