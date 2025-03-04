@@ -857,7 +857,7 @@ class SeleccionPersonaje2:
                 self.first_time8 = True
                 self.first_time9 = True
                 self.first_timeCP = True
-                if(self.personaje.edad != None and self.personaje.edad != ' '):
+                if(self.personaje.edad != None and self.personaje.edad != ' ' and not self.searching):
                     self.ch2.play(self.selected)    
                 else:
                     pass 

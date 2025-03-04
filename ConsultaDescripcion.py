@@ -2,6 +2,7 @@ from llama_cpp import Llama
 from Global import Global
 import threading
 from deep_translator import GoogleTranslator
+from huggingface_hub import hf_hub_download
 
 class ConsultaDescripcion:
     def __init__(self):
@@ -10,15 +11,12 @@ class ConsultaDescripcion:
         self.llm = None
         self.GLOBAL = Global()
         self.response_good = None
-
-    def clear(self):
+    
+    def initialize(self,personaje,model_path):
         self.prompt = None
         self.generation_kwargs = None
         self.llm = None
         self.response_good = None
-        self.model_path = None
-    
-    def initialize(self,personaje,model_path):
         self.personaje = personaje
         self.model_path = model_path
 
@@ -30,6 +28,10 @@ class ConsultaDescripcion:
 
     def consultaDescripcion(self):
         ## Instantiate model from downloaded file
+        model_name = "NousResearch/Hermes-3-Llama-3.2-3B-GGUF"
+        model_file = "Hermes-3-Llama-3.2-3B.Q4_K_M.gguf" # this is the specific model file we'll use in this example. It's a 4-bit quant, but other levels of quantization are available in the model repo if preferred
+        model_path = hf_hub_download(model_name, filename=model_file)
+
         self.llm = Llama(
             model_path=self.model_path,
             n_ctx=128,  # Context length to use
@@ -43,7 +45,7 @@ class ConsultaDescripcion:
             "echo":False, # Echo the prompt in the output
             "top_k": 0,
             "top_p": 0.85, #top_p y temperatura le da aleatoriedad
-            "temperature": 1.2
+            "temperature": 0.8
         }
         if(self.personaje.tipo_raza == "Elfo"):
             raza = "elf"
