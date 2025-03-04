@@ -134,7 +134,6 @@ class SeleccionPersonaje2:
             self.screen.blit(self.descripcionSearchingText,(self.width/11.4286, self.height/2.8000)) #105 250
         else:
             if(op == 3):
-                print("updating")
                 self.responseText = self.fuente3.render(self.response,True,self.color_white)
                 self.screen.blit(self.responseText,(self.width/11.4286, self.height/2.8000)) #105 250 
             else:

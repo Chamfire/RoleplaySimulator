@@ -1,6 +1,7 @@
 from llama_cpp import Llama
 from Global import Global
 import threading
+from googletrans import Translator
 
 class ConsultaDescripcion:
     def __init__(self):
@@ -29,7 +30,6 @@ class ConsultaDescripcion:
 
     def consultaDescripcion(self):
         ## Instantiate model from downloaded file
-        print("en consulta descripcion")
         self.llm = Llama(
             model_path=self.model_path,
             n_ctx=128,  # Context length to use
@@ -64,6 +64,14 @@ class ConsultaDescripcion:
         if "." in self.response_good:
             self.response_good = self.response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
         self.response_good = self.response_good[2:] #quitamos los caracteres de espacio del pcpio
+
+        translator = Translator()
+
+        # Translate the text
+        resp = translator.translate(self.response_good, dest="es")
+        self.response_good = resp.text
+        print(self.response_good)
+
         hiloCambiaScreen = threading.Thread(target=self.cambiarScreenThread)
         hiloCambiaScreen.start()
 
