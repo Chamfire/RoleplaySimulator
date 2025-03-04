@@ -3,6 +3,10 @@ from Global import Global
 import threading
 from deep_translator import GoogleTranslator
 from huggingface_hub import hf_hub_download
+import torch
+import numpy as np
+import random
+
 
 class ConsultaDescripcion:
     def __init__(self):
@@ -26,6 +30,7 @@ class ConsultaDescripcion:
     def cambiarScreenThread(self): #tiene que ser un hilo, puesto que Lock() es de threading
         self.GLOBAL.setRefreshScreen("seleccionPersonaje2")
 
+
     def consultaDescripcion(self):
         ## Instantiate model from downloaded file
         model_name = "NousResearch/Hermes-3-Llama-3.2-3B-GGUF"
@@ -36,14 +41,14 @@ class ConsultaDescripcion:
             model_path=self.model_path,
             n_ctx=128,  # Context length to use
             n_threads=32,            # Number of CPU threads to use
-            n_gpu_layers=0        # Number of model layers to offload to GPU
+            n_gpu_layers=0,        # Number of model layers to offload to GPU
+            seed= random.randint(1,100000)
         )
         ## Generation kwargs
         self.generation_kwargs = {
             "max_tokens":100,
             "stop":["</s>"],
             "echo":False, # Echo the prompt in the output
-            "top_k": 0,
             "top_p": 0.85, #top_p y temperatura le da aleatoriedad
             "temperature": 0.8
         }
