@@ -1,7 +1,7 @@
 from llama_cpp import Llama
 from Global import Global
 import threading
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 
 class ConsultaDescripcion:
     def __init__(self):
@@ -38,10 +38,12 @@ class ConsultaDescripcion:
         )
         ## Generation kwargs
         self.generation_kwargs = {
-            "max_tokens":60,
+            "max_tokens":100,
             "stop":["</s>"],
             "echo":False, # Echo the prompt in the output
-            "top_k":1 # This is essentially greedy decoding, since the model will always return the highest-probability token. Set this value > 1 for sampling decoding
+            "top_k": 0,
+            "top_p": 0.85, #top_p y temperatura le da aleatoriedad
+            "temperature": 1.2
         }
         if(self.personaje.tipo_raza == "Elfo"):
             raza = "elf"
@@ -56,7 +58,7 @@ class ConsultaDescripcion:
         self.prompt = """<|im_start|>system
                     You are a dungeon master, of Dnd 5th generation, and you are helping me to create a character.<|im_end|>
                 <|im_start|>user
-                    Describe the physical appearance of an"""+raza+ """ """+clase+""" ("""+self.personaje.peso+"""kg, """+self.personaje.edad+""" years old) in just one short paragraph.<|im_end|>
+                    Describe the physical appearance of an"""+raza+ """ """+clase+""" ("""+self.personaje.peso+"""kg, """+self.personaje.edad+""" years old) in just one paragraph. Be creative and funny, and start saying "The """+raza+ """ """+clase+""" is <|im_end|>
                 <|im_start|>assistant"""
         res = self.llm(self.prompt, **self.generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
@@ -64,13 +66,17 @@ class ConsultaDescripcion:
         if "." in self.response_good:
             self.response_good = self.response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
         self.response_good = self.response_good[2:] #quitamos los caracteres de espacio del pcpio
-
-        translator = Translator()
-
-        # Translate the text
-        resp = translator.translate(self.response_good, dest="es")
-        self.response_good = resp.text
         print(self.response_good)
+        translator = GoogleTranslator(source='auto', target='es')
+        translated = False    
+        while(translated == False):
+            try:
+                self.response_good = translator.translate(self.response_good)
+                translated = True
+            except Exception as e:
+                print(e)
+
+        #print(self.response_good)
 
         hiloCambiaScreen = threading.Thread(target=self.cambiarScreenThread)
         hiloCambiaScreen.start()

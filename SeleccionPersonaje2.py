@@ -20,7 +20,7 @@ class SeleccionPersonaje2:
         self.searching = False
         self.consultaDescripcion = consultaDescripcion
         self.descripcionSearchingText = None
-        self.processConsultaDescripcion = None
+        self.hiloConsultaDescripcion = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -90,6 +90,42 @@ class SeleccionPersonaje2:
         #self.width,self.height= (self.screen.get_width(), self.screen.get_height())
     def getScreen(self):
         return self.screen
+    
+    def renderTextBlock(self):
+        lineSpacing = -2
+        spaceWidth, fontHeight = self.fuente3.size(" ")[0], self.fuente3.size("Tg")[1]
+
+        listOfWords = self.response.split(" ")
+        imageList = [self.fuente3.render(word, True, self.color_white) for word in listOfWords]
+
+        maxLen = self.inputBoxDescripcion[2]-20 #10 de cada lado de margen
+        lineLenList = [0]
+        lineList = [[]]
+        for image in imageList:
+            width = image.get_width()
+            lineLen = lineLenList[-1] + len(lineList[-1]) * spaceWidth + width
+            if len(lineList[-1]) == 0 or lineLen <= maxLen:
+                lineLenList[-1] += width
+                lineList[-1].append(image)
+            else:
+                lineLenList.append(width)
+                lineList.append([image])
+
+        lineBottom = self.inputBoxDescripcion[1] 
+        lastLine = 0
+        for lineLen, lineImages in zip(lineLenList, lineList):
+            lineLeft = self.inputBoxDescripcion[0] +10
+            #if len(lineImages) > 1:
+            #   spaceWidth = (self.inputBoxDescripcion[2] - lineLen -20) // (len(lineImages)-1)
+            if lineBottom + fontHeight > self.inputBoxDescripcion[1] + self.inputBoxDescripcion[3]:
+                break
+            lastLine += 1
+            for i, image in enumerate(lineImages):
+                x, y = lineLeft + i*spaceWidth, lineBottom
+                self.screen.blit(image, (round(x), y))
+                lineLeft += image.get_width() 
+            lineBottom += fontHeight + lineSpacing
+
 
     def refresh(self,op,content):
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
@@ -135,7 +171,8 @@ class SeleccionPersonaje2:
         else:
             if(op == 3):
                 self.responseText = self.fuente3.render(self.response,True,self.color_white)
-                self.screen.blit(self.responseText,(self.width/11.4286, self.height/2.8000)) #105 250 
+                self.renderTextBlock()
+                #self.screen.blit(self.responseText,(self.width/11.4286, self.height/2.8000)) #105 250 
             else:
                 self.screen.blit(self.descripcionDefaultText1,(self.width/11.4286, self.height/2.8000)) #105 250
                 self.screen.blit(self.descripcionDefaultText2,(self.width/11.4286, self.height/2.4138)) #105 290
@@ -247,7 +284,6 @@ class SeleccionPersonaje2:
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
         self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
         pygame.display.update() 
-
 
 
     # size_x, size_y: tamaño del botón en x y en y
@@ -390,7 +426,7 @@ class SeleccionPersonaje2:
         
     def closeHiloBusquedaDescripcion(self):
         #si está activo, que lo detenga
-        if self.hiloConsultaDescripcion.is_alive():
+        if self.hiloConsultaDescripcion != None and self.hiloConsultaDescripcion.is_alive():
             ctypes.pythonapi.PyThreadState_SetAsyncExc(
                 ctypes.c_long(self.hiloConsultaDescripcion.ident), ctypes.py_object(SystemExit)
             )
