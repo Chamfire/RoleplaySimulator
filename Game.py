@@ -22,6 +22,7 @@ import socket
 import threading
 from huggingface_hub import hf_hub_download
 from llama_cpp import Llama
+from ConsultaDescripcion import ConsultaDescripcion
 #import requests
 
 
@@ -31,9 +32,9 @@ class Game:
         pygame.init()
         self.font = 'agencyfb'
         #self.font = 'agencyfbnormal'
-        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
-        #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
+        self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()
         self.msg_delay = 0.2
         #print(info.current_w,info.current_h)
@@ -108,6 +109,7 @@ class Game:
         model_file = "Hermes-3-Llama-3.2-3B.Q4_K_M.gguf" # this is the specific model file we'll use in this example. It's a 4-bit quant, but other levels of quantization are available in the model repo if preferred
         model_path = hf_hub_download(model_name, filename=model_file)
 
+        self.consultaDescripcion = ConsultaDescripcion()
         self.menu = Menu(self.width, self.height,self.screen,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.logged,self.perfil.avatarPicPerfil,self.perfil.name,self.font)
         self.credits = Credits(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         self.options = Config(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.configuration.fps,self.configuration.dmVoice,self.configuration.volMusica, self.configuration.volEffects,self.font)
@@ -118,7 +120,7 @@ class Game:
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
-        self.seleccionPersonaje2 = SeleccionPersonaje2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,model_path)
+        self.seleccionPersonaje2 = SeleccionPersonaje2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,model_path,self.consultaDescripcion)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
         mixer.music.play(-1)
@@ -151,6 +153,10 @@ class Game:
                     self.screen = self.salaEspera.getScreen()
                     self.seleccionPersonaje.setScreen(self.screen)
                     self.seleccionPersonaje.render(self.online)
+                elif screenToRefresh == "seleccionPersonaje2":
+                    self.GLOBAL.setRefreshScreen(None)
+                    self.seleccionPersonaje2.setResponse(self.consultaDescripcion.getResponse())
+                    self.seleccionPersonaje2.refresh(3,None) #refrescamos la pantalla
                 else:
                     pass
 
@@ -340,6 +346,7 @@ class Game:
                                     self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
                                 except:
                                     pass 
+                                self.seleccionPersonaje2.closeHiloBusquedaDescripcion()
                              
                     #ahora toca actualizar
                     if self.changedScreen:

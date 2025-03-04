@@ -2,10 +2,13 @@ import pygame
 from pygame.locals import *
 from pygame import mixer
 import numpy as np
+import threading
 from llama_cpp import Llama
+from ConsultaDescripcion import ConsultaDescripcion
+import ctypes
 
 class SeleccionPersonaje2:
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,model_path):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,model_path,consultaDescripcion):
         #screen
         self.screen = screen
         self.opened_screen = None
@@ -14,6 +17,10 @@ class SeleccionPersonaje2:
         self.emptyText = None #se modifica en render
         self.defaultTextEdad = None
         self.model_path = model_path
+        self.searching = False
+        self.consultaDescripcion = consultaDescripcion
+        self.descripcionSearchingText = None
+        self.processConsultaDescripcion = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -83,7 +90,6 @@ class SeleccionPersonaje2:
         #self.width,self.height= (self.screen.get_width(), self.screen.get_height())
     def getScreen(self):
         return self.screen
-    
 
     def refresh(self,op,content):
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
@@ -124,15 +130,26 @@ class SeleccionPersonaje2:
         #descripción fisica
         self.screen.blit(self.descripcionText,(self.width/13.3333, self.height/3.6842)) #90 190
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxDescripcion, 2)
-        self.screen.blit(self.descripcionDefaultText1,(self.width/11.4286, self.height/2.8000)) #105 250
-        self.screen.blit(self.descripcionDefaultText2,(self.width/11.4286, self.height/2.4138)) #105 290
-        if(self.personaje.edad != None and self.personaje.edad != ' '):
+        if(self.searching):
+            self.screen.blit(self.descripcionSearchingText,(self.width/11.4286, self.height/2.8000)) #105 250
+        else:
+            if(op == 3):
+                print("updating")
+                self.responseText = self.fuente3.render(self.response,True,self.color_white)
+                self.screen.blit(self.responseText,(self.width/11.4286, self.height/2.8000)) #105 250 
+            else:
+                self.screen.blit(self.descripcionDefaultText1,(self.width/11.4286, self.height/2.8000)) #105 250
+                self.screen.blit(self.descripcionDefaultText2,(self.width/11.4286, self.height/2.4138)) #105 290
+        if(self.personaje.edad != None and self.personaje.edad != ' ' and not self.searching):
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
         else:
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
         self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
         pygame.display.update() 
 
+    def setResponse(self,r):
+        self.response = r
+        self.searching = False
 
     def setPersonaje(self,personaje):
         self.personaje = personaje
@@ -225,6 +242,7 @@ class SeleccionPersonaje2:
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxDescripcion, 2)
         self.descripcionDefaultText1 = self.fuente3.render('¡Ya casi estamos!', True, self.color_light_grey)
         self.descripcionDefaultText2 = self.fuente3.render('Pulsa el botón de Generar Descripción para darle una buena descripción a tu personaje.', True, self.color_light_grey)
+        self.descripcionSearchingText = self.fuente3.render('Generando descripción física. Este proceso puede tardar entre 10 y 15 segundos...',True,self.color_magenta)
         self.screen.blit(self.descripcionDefaultText1,(self.width/11.4286, self.height/2.8000)) #105 250
         self.screen.blit(self.descripcionDefaultText2,(self.width/11.4286, self.height/2.4138)) #105 290
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
@@ -370,6 +388,14 @@ class SeleccionPersonaje2:
             return True
         except:
             return False
+        
+    def closeHiloBusquedaDescripcion(self):
+        #si está activo, que lo detenga
+        if self.hiloConsultaDescripcion.is_alive():
+            ctypes.pythonapi.PyThreadState_SetAsyncExc(
+                ctypes.c_long(self.hiloConsultaDescripcion.ident), ctypes.py_object(SystemExit)
+            )
+
     def clickedMouse(self):
         #click del ratón
         #calculo del tamaño del botón y su posición -> Empezar Simulación
@@ -397,7 +423,7 @@ class SeleccionPersonaje2:
         
         #Botón generar descripción
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start3,y_start2,x,y)):
-            if(self.personaje.edad != None and self.personaje.edad != ' '):
+            if(self.personaje.edad != None and self.personaje.edad != ' ' and not self.searching):
                 self.opened_screen = None
                 self.activeI = False
                 if(self.personaje.tipo_raza == "Enano"):
@@ -418,6 +444,7 @@ class SeleccionPersonaje2:
                         self.textEdad = self.fuente2.render('1-750', True, self.color_dark_red_sat)
                         self.personaje.edad = ' '
                         self.ch1.play(self.error)
+                self.searching = True
                 self.refresh(2,self.textEdad)
                 pygame.display.update() 
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
@@ -427,42 +454,11 @@ class SeleccionPersonaje2:
                 self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
                 self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
                 self.ch1.play(self.pressed)
-                
-                ## Instantiate model from downloaded file
-                llm = Llama(
-                    model_path=self.model_path,
-                    n_ctx=128,  # Context length to use
-                    n_threads=32,            # Number of CPU threads to use
-                    n_gpu_layers=0        # Number of model layers to offload to GPU
-                )
-                ## Generation kwargs
-                generation_kwargs = {
-                    "max_tokens":60,
-                    "stop":["</s>"],
-                    "echo":False, # Echo the prompt in the output
-                    "top_k":1 # This is essentially greedy decoding, since the model will always return the highest-probability token. Set this value > 1 for sampling decoding
-                }
-                if(self.personaje.tipo_raza == "Elfo"):
-                    raza = "elf"
-                elif(self.personaje.tipo_raza == "Enano"):
-                    raza = "dwarf"
-                if(self.personaje.tipo_clase == "Bárbaro"):
-                    clase = "barbarian"
-                elif(self.personaje.tipo_clase == "Explorador"):                    
-                    clase = "explorer"
-                
-                ## Run inference
-                prompt = """<|im_start|>system
-                            You are a dungeon master, of Dnd 5th generation, and you are helping me to create a character.<|im_end|>
-                        <|im_start|>user
-                            Describe the physical appearance of an"""+raza+ """ """+clase+""" ("""+self.personaje.peso+"""kg, """+self.personaje.edad+""" years old) in just one short paragraph.<|im_end|>
-                        <|im_start|>assistant"""
-                res = llm(prompt, **generation_kwargs) # Res is a dictionary
 
-                ## Unpack and the generated text from the LLM response dictionary and print it
-                print(res["choices"][0]["text"])
-                response = res["choices"][0]["text"]
-                print(response)
+                self.consultaDescripcion.initialize(self.personaje,self.model_path)
+                self.hiloConsultaDescripcion = threading.Thread(target=self.consultaDescripcion.consultaDescripcion)
+                self.hiloConsultaDescripcion.start()
+                
 
                 pygame.display.update() 
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
@@ -530,7 +526,7 @@ class SeleccionPersonaje2:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            if(self.personaje.edad != None and self.personaje.edad != ' '):
+            if(self.personaje.edad != None and self.personaje.edad != ' ' and not self.searching):
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
@@ -754,7 +750,7 @@ class SeleccionPersonaje2:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            if(self.personaje.edad != None and self.personaje.edad != ' '):
+            if(self.personaje.edad != None and self.personaje.edad != ' ' and not self.searching):
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
@@ -781,7 +777,7 @@ class SeleccionPersonaje2:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            if(self.personaje.edad != None and self.personaje.edad != ' '):
+            if(self.personaje.edad != None and self.personaje.edad != ' ' and not self.searching):
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
@@ -808,7 +804,7 @@ class SeleccionPersonaje2:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            if(self.personaje.edad != None and self.personaje.edad != ' '):
+            if(self.personaje.edad != None and self.personaje.edad != ' ' and not self.searching):
                 self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
@@ -1004,7 +1000,7 @@ class SeleccionPersonaje2:
             #TODO: Comprobar requisitos para crear personaje botón
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
             self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
-            if(self.personaje.edad != None and self.personaje.edad != ' '):
+            if(self.personaje.edad != None and self.personaje.edad != ' ' and not self.searching):
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
