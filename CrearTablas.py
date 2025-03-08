@@ -259,11 +259,17 @@ class CrearTablas:
                 des integer NOT NULL,
                 sab integer NOT NULL,
                 car integer NOT NULL,
+                int integer NOT NULL,
                 coordenadas_actuales text NOT NULL,
                 vida_temp integer NOT NULL CONSTRAINT vida_temp_less_than_zero CHECK(vida_temp >=0),
                 ca integer NOT NULL CHECK(ca >=0),
                 edad integer NOT NULL CHECK(edad>0),
                 peso integer NOT NULL CHECK(peso>0),
+                pc integer NOT NULL CHECK(pc >=0),
+                pp integer NOT NULL CHECK(pp >=0),
+                pe integer NOT NULL CHECK(pe >=0),
+                po integer NOT NULL CHECK(po >=0),
+                ppt integer NOT NULL CHECK(ppt >=0),
                 velocidad integer NOT NULL CONSTRAINT negative_velocidad_or_not_mult5 CHECK(((velocidad%5) == 0) and velocidad >0),
                 descripcion_fisica text NOT NULL,
                 tipo_raza text NOT NULL REFERENCES enum_raza(tipo_raza) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -886,7 +892,8 @@ class CrearTablas:
             ["Fuerza"],
             ["Destreza"],
             ["Sabiduría"],
-            ["Carisma"]
+            ["Carisma"],
+            ["Inteligencia"]
         ]
         data_enum_habilidades = [
             ["Acrobacias"],

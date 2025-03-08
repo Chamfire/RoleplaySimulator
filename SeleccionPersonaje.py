@@ -5,6 +5,7 @@ import socket
 from Global import Global
 from Personaje import Personaje
 import sqlite3
+import random
 
 class SeleccionPersonaje:
     #sound
@@ -690,6 +691,61 @@ class SeleccionPersonaje:
                 if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
                     self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
                     self.ch1.play(self.pressed)
+                    if(self.personaje.tipo_clase == "Explorador"):
+                        self.personaje.des = 15
+                        self.personaje.sab = 14
+                        self.personaje.fu = 13
+                        self.personaje.des = 121
+                        self.personaje.ca = 11 #10 + 1(Des,12)
+                        self.personaje.int = 10
+                        self.personaje.cons = 8
+                        self.personaje.salvaciones_comp["fu"] = True
+                        self.personaje.salvaciones_comp["des"] = True
+                        #Dinero: 5d4x 10
+                        self.personaje.po = (random.randint(1,4)+random.randint(1,4)+random.randint(1,4)+random.randint(1,4)+random.randint(1,4))*10
+                        if(self.personaje.tipo_raza == "Enano"):
+                            self.personaje.cons += 2 #tiene un +2 en constitución
+                            self.personaje.idiomas_competencia["Común"] = True
+                            self.personaje.idiomas_competencia["Enano"] = True
+                            #escoger competencias de forma aleatoria
+                            posibles_competencias = ["Atletismo", "Perspicacia", "Investigación","Trato con Animales", "Naturaleza", "Percepción", "Sigilo", "Supervivencia"]
+                        else:
+                            self.personaje.idiomas_competencia["Común"] = True
+                            self.personaje.idiomas_competencia["Élfico"] = True
+                            self.personaje.habilidades_comp["Percepción"] = True
+                            posibles_competencias = ["Atletismo", "Perspicacia", "Investigación","Trato con Animales", "Naturaleza", "Sigilo", "Supervivencia"]
+
+                    elif(self.personaje.tipo_clase == "Bárbaro"):
+                        self.personaje.fu = 15
+                        self.personaje.car = 14
+                        self.personaje.cons = 13
+                        self.personaje.sab = 12
+                        self.personaje.des = 10
+                        self.personaje.ca = 10 #10 + Des (0)
+                        self.personaje.int = 8
+                        self.personaje.salvaciones_comp["fu"] = True
+                        self.personaje.salvaciones_comp["cons"] = True
+                        #Dinero: 2d4x 10
+                        self.personaje.po = (random.randint(1,4)+random.randint(1,4))*10
+                        if(self.personaje.tipo_raza == "Enano"):
+                            self.personaje.cons += 2 #tiene un +2 en constitución
+                            self.personaje.idiomas_competencia["Común"] = True
+                            self.personaje.idiomas_competencia["Enano"] = True
+                            #Escoger competencias de forma aleatoria
+                            posibles_competencias = ["Atletismo", "Intimidación", "Naturaleza", "Percepción", "Supervivencia", "Trato con Animales"]
+
+                        else:
+                            self.personaje.idiomas_competencia["Común"] = True
+                            self.personaje.idiomas_competencia["Élfico"] = True
+                            self.personaje.habilidades_comp["Percepción"] = True
+                            #Escoger competencias de forma aleatoria
+                            posibles_competencias = ["Atletismo", "Intimidación", "Naturaleza", "Supervivencia", "Trato con Animales"]
+                    escogida = random.randint(0,(len(posibles_competencias)-1))
+                    self.personaje.habilidades_comp[posibles_competencias[escogida]] = True
+                    posibles_competencias.remove(posibles_competencias[escogida])
+                    escogida = random.randint(0,(len(posibles_competencias)-1))
+                    self.personaje.habilidades_comp[posibles_competencias[escogida]] = True
+                    posibles_competencias.remove(posibles_competencias[escogida])     
                     screen = 'seleccionPersonaje2'
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
@@ -733,6 +789,8 @@ class SeleccionPersonaje:
         elif(self.checkIfMouseIsInButton(x_sizeIB,y_sizeIB,x_startIB,y_startIB,x,y) and self.opened_screen == 6):
             self.opened_screen = None
             self.personaje.tipo_raza = "Enano"
+            self.personaje.tipo_size = "Mediano"
+            self.personaje.velocidad = 25
             self.ch1.play(self.pressed)
             self.refresh(0,None)
             pygame.display.update()
@@ -742,6 +800,8 @@ class SeleccionPersonaje:
         elif(self.checkIfMouseIsInButton(x_sizeIB,y_sizeIB,x_startIE,y_startIB,x,y) and self.opened_screen == 6):
             self.opened_screen = None
             self.personaje.tipo_raza = "Elfo"
+            self.personaje.tipo_size = "Mediano"
+            self.personaje.velocidad = 30
             self.ch1.play(self.pressed)
             self.refresh(0,None)
             pygame.display.update()
@@ -768,6 +828,9 @@ class SeleccionPersonaje:
         elif(self.checkIfMouseIsInButton(x_sizeIB,x_sizeIB,x_startIB,y_startIB,x,y) and self.opened_screen == 7):
             self.opened_screen = None
             self.personaje.tipo_clase = "Bárbaro"
+            self.personaje.bpc = 2
+            self.personaje.max_vida = 12 
+            self.personaje.vida_temp = 12
             self.ch1.play(self.pressed)
             self.refresh(0,None)
             pygame.display.update()
@@ -776,6 +839,9 @@ class SeleccionPersonaje:
         elif(self.checkIfMouseIsInButton(x_sizeIB,x_sizeIB,x_startIE,y_startIB,x,y) and self.opened_screen == 7):
             self.opened_screen = None
             self.personaje.tipo_clase = "Explorador"
+            self.personaje.max_vida = 10 
+            self.personaje.vida_temp = 10
+            self.personaje.bpc = 2
             self.ch1.play(self.pressed)
             self.refresh(0,None)
             pygame.display.update()

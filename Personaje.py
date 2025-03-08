@@ -13,8 +13,16 @@ class Personaje:
         self.des = None
         self.sab = None
         self.car = None
+        self.int = None
+        #Dinero
+        self.pc = 0
+        self.pp = 0
+        self.pe = 0
+        self.po = 0
+        self.ppt = 0
         self.coordenadas_actuales = None #se calcula con el mapa
         self.vida_temp = None #cambiar al escoger la clase
+        self.max_vida = None
         self.ca = None #cambiar al escoger personaje
         self.edad = ' ' #lo escoge el jugador
         self.peso = None #lo escoge el jugador
@@ -30,6 +38,12 @@ class Personaje:
         self.ideal = None #lo escoge el jugador
         self.tipo_size = None #en función de la raza, será uno u otro
         self.partida_id = partida_id
+        self.idiomas_competencia = {"Común":False,"Enano":False,"Éflico":False,"Infernal":False,"Celestial":False,"Abisal":False,"Dracónido":False,"Habla Profunda":False,"Primordial":False,"Silvano":False,"Infracomún":False}
+        self.salvaciones_comp = {"des":False,"cons":False,"sab":False,"int":False,"car":False,"fu":False}
+        self.habilidades_comp = {"Acrobacias":False,"Atletismo":False,"Conocimiento Arcano":False,"Engaño":False,"Historia":False,"Interpretacion":False,"Intimidación":False,"Investigación":False,"Juego de Manos":False, "Medicina":False,"Naturaleza":False,"Percepción":False,"Perspicacia":False,"Persuasión":False,"Religión":False,"Sigilo":False,"Supervivencia":False,"Trato con Animales":False}
+        
+
+        #iniciativa, percepción pasiva y dados de golpe, se extraen solo con un if de la clase
         if(isNPC):
             self.id_jugador = None
             self.num_npc_partida = id_jugador_or_NPC
