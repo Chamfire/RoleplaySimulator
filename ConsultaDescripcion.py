@@ -59,7 +59,7 @@ class ConsultaDescripcion:
         if(self.personaje.tipo_clase == "Bárbaro"):
             clase = "barbarian"
         elif(self.personaje.tipo_clase == "Explorador"):                    
-            clase = "explorer"
+            clase = "ranger"
                 
         ## Run inference
         self.prompt = """<|im_start|>system
