@@ -20,3 +20,9 @@ print(resp2[0])
 
 f = '-34'
 print(int(f))
+n = 5
+objetos = {}
+for i in range(0,n):
+     #definimos los slots para cada posible objeto
+    objetos[str("slot_"+str(i))] = None # self.objetos = {"slot_0": None, "slot_1": None, etc etc}
+print(objetos)
