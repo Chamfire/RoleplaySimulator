@@ -53,13 +53,20 @@ class Arma:
         self.peso = peso
 
 class Objeto_de_Espacio:
-    def __init__(self,peso_max,tipo):
-        self.peso = peso_max
+    def __init__(self,num_objetos_max,tipo):
+        self.num_objetos_max = num_objetos_max
         tipo = tipo
+        self.peso_actual = 0
         self.objetos = {}
+        for i in range(0,self.num_objetos_max):
+            self.objetos[str("slot_"+str(i))] = None
 
     def addObject(objeto):
         pass 
+    def removeObject(self): #devolverá el objeto que se ha sacado de la mochila, y se pasará al inventario
+        pass
+    
+
 
 class Objeto:
     def __init__(self):
@@ -91,11 +98,56 @@ class Escudo:
 
 class Equipo:
     def __init__(self,fu):
-        self.peso = fu*15 #fu x 15
+        self.num_objetos_max = 9 #como objetos cuenta la mochila, y en la mochila puedes meter más objetos
+        self.num_objetos_actual = 0
+        self.peso_max = fu*15 #fu x 15
+        self.peso_actual = 0
         self.objetos = {}
+        for i in range(0,self.num_objetos_max):
+            self.objetos[str("slot_"+str(i))] = None
+        self.armadura_actual = None
+        self.objeto_equipado_mano_derecha = None
+        self.objeto_equipado_mano_izquierda = None #aquí iría un escudo en caso de tenerlo
+
+    def passArmorFromInventoryToArmorEquipment(self):
+        pass
+    def passArmorEquipmentToInventory(self):
+        pass
+    def passObjectFromInventoryToLeftHand(self):
+        pass
+    def passObjectFromInventoryToRightHand(self):
+        pass
+    def passObjectFromLeftHandToInventory(self):
+        pass
+    def passObjectFromRightHandToInventory(self):
+        pass
         
-    def addObject(objeto):
-        pass 
+    def find_free_slot(self):
+        for (elem,i) in self.objetos.keys():
+            if(elem == None):
+                return i
+
+    def addObjectToInventory(self,objeto,categoria,nombre):
+        if(self.peso_actual + objeto.peso > self.peso_max):
+            return -1 #no puede llevar tanto peso
+        elif(self.num_objetos_actual + 1 > self.num_objetos_max):
+            return -2
+        else:
+            self.peso_actual += objeto.peso
+            self.num_objetos_actual +=1
+            slot_libre = self.find_free_slot()
+            self.objetos[str("slot_"+str(slot_libre))] = (categoria,nombre,objeto) #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto)
+            return 1
+        
+    def removeObjectFromInventory(self,slot):
+        if(self.objetos[slot] != None):
+            peso_a_quitar = self.objetos[slot][2].peso
+            self.peso_actual -= peso_a_quitar
+            self.num_objetos_actual -=1
+            self.objetos[str("slot_"+str(slot))] = None
+            return 1
+        else:
+            return -1
 
 class Lista_Inventario:
     def __init__(self):
@@ -161,7 +213,7 @@ class Lista_Inventario:
         self.objeto["Iluminación"]["Antorcha"] = Objeto()
         self.objeto["Otros"]["Yesquero"] = Objeto()
         self.objeto["Comida"]["Ración"] = Objeto()
-        self.objeto["Almacenaje"]["Odre de agua"] = Objeto_de_Espacio(4.84,"liquido") #4 pintas son 4.84 libras
+        self.objeto["Bebida"]["Odre de agua"] = Objeto() #definir en el futuro: 4.84,"liquido"
         self.objeto["Otros"]["Cuerda de cáñamo"] = Objeto()
 
         self.objeto["Almacenaje"]["Mochila"] = Objeto_de_Espacio(30,"sólido")
