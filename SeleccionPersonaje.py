@@ -726,7 +726,7 @@ class SeleccionPersonaje:
         self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Yesquero"],"Otros","Yesquero")
         for i in range(0,10):
             self.personaje.equipo.addObjectToInventory(objetosList["Iluminación"]["Antorcha"],"Iluminación","Antorcha")
-            self.personaje.equipo.addObjectToInventory(objetosList["Comida"]["Ración"])
+            self.personaje.equipo.addObjectToInventory(objetosList["Comida"]["Ración"],"Comida","Ración")
         self.personaje.equipo.addObjectToInventory(objetosList["Bebida"]["Odre de agua"],"Bebida","Odre de agua")
         self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Cuerda de cáñamo"],"Otros","Cuerda de cáñamo")
         self.personaje.equipo.printEquipoConsolaDebugSuperficial()
