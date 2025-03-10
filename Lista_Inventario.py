@@ -158,6 +158,13 @@ class Equipo:
         self.objeto_equipado_mano_izquierda = None #aquí iría un escudo en caso de tenerlo
         self.listaInventario = Lista_Inventario()
 
+    def findSameObject(self,objeto,categoria,nombre): #[categoria,nombre,objeto,1]
+        for i,slot in self.objetos.items():
+            if(slot != None and slot[2] == nombre):
+                return i #devuelve el slot donde ha encontrado que está el objeto
+        return -1
+
+
     def printEquipoConsolaDebugSuperficial(self):
         print("# --------------- Equipo ------------------")
         for i in range(0,self.num_objetos_max):
