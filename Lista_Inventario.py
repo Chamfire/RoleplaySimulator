@@ -65,7 +65,7 @@ class Objeto_de_Espacio:
             self.objetos[str("slot_"+str(i))] = None
 
     def find_free_slot(self):
-        for (elem,i) in self.objetos.keys():
+        for elem,i in self.objetos.keys():
             if(elem == None):
                 return i
         else:
@@ -259,7 +259,7 @@ class Equipo:
             return -1
         
     def find_free_slot(self):
-        for (elem,i) in self.objetos.keys():
+        for elem,i in self.objetos.keys():
             if(elem == None):
                 return i
         else:
