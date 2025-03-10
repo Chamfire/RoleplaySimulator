@@ -6,7 +6,6 @@ from Global import Global
 from Personaje import Personaje
 import sqlite3
 import random
-import Lista_Inventario
 
 class SeleccionPersonaje:
     #sound
@@ -663,7 +662,7 @@ class SeleccionPersonaje:
 
         # Gran hacha o arma marcial aleatoria
         opcion = random.randint(1,2)
-        armasList = Lista_Inventario.Lista_Inventario.getArmasList()
+        armasList = self.personaje.equipo.listaInventario.getArmasList()
         if(opcion == 1):
             #Añado gran hacha
             self.personaje.equipo.addObjectToInventory(armasList["Armas c/c marciales"]["Gran hacha"],"Armas c/c marciales","Gran hacha")
@@ -720,7 +719,7 @@ class SeleccionPersonaje:
         self.personaje.equipo.addObjectToInventory(armasList["Armas c/c simples"]["Jabalina"],"Armas c/c simples","Jabalina")
         self.personaje.equipo.addObjectToInventory(armasList["Armas c/c simples"]["Jabalina"],"Armas c/c simples","Jabalina")
         # Equipo de explorador
-        objetosList = Lista_Inventario.Lista_Inventario.getObjetosList()
+        objetosList = self.personaje.equipo.listaInventario.getObjetosList()
         self.personaje.equipo.addObjectToInventory(objetosList["Almacenaje"]["Mochila"],"Almacenaje","Mochila")
         self.personaje.equipo.addObjectToInventory(objetosList["Refugio"]["Saco de dormir"],"Refugio","Saco de dormir")
         self.personaje.equipo.addObjectToInventory(objetosList["Kit"]["De cocina"],"Kit","De cocina")
@@ -730,11 +729,11 @@ class SeleccionPersonaje:
             self.personaje.equipo.addObjectToInventory(objetosList["Comida"]["Ración"])
         self.personaje.equipo.addObjectToInventory(objetosList["Bebida"]["Odre de agua"],"Bebida","Odre de agua")
         self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Cuerda de cáñamo"],"Otros","Cuerda de cáñamo")
-        
+        self.personaje.equipo.printEquipoConsolaDebugSuperficial()
         
     def initExplorerInventory(self):
-        armaduraList = Lista_Inventario.Lista_Inventario.getArmaduraList()
-        armasList = Lista_Inventario.Lista_Inventario.getArmasList()
+        armaduraList = self.personaje.equipo.listaInventario.getArmaduraList()
+        armasList = self.personaje.equipo.listaInventario.getArmasList()
         option = random.randint(1,2)
         # Una cota de escamas o una armadura de cuero
         if(option == 1):
@@ -766,7 +765,7 @@ class SeleccionPersonaje:
         option = random.randint(1,2)
         if(option == 1):
             # Equipo de dungeon
-            objetosList = Lista_Inventario.Lista_Inventario.getObjetosList()
+            objetosList = self.personaje.equipo.listaInventario.getObjetosList()
             self.personaje.equipo.addObjectToInventory(objetosList["Refugio"]["Saco de dormir"],"Refugio","Saco de dormir")
             self.personaje.equipo.addObjectToInventory(objetosList["Mecanico"]["Palanca"],"Mecanico","Palanca")
             self.personaje.equipo.addObjectToInventory(objetosList["Mecanico"]["Martillo"],"Mecanico","Martillo")
@@ -779,7 +778,7 @@ class SeleccionPersonaje:
             self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Cuerda de cáñamo"],"Otros","Cuerda de cáñamo")
         else:
             # Equipo de explorador
-            objetosList = Lista_Inventario.Lista_Inventario.getObjetosList()
+            objetosList = self.personaje.equipo.listaInventario.getObjetosList()
             self.personaje.equipo.addObjectToInventory(objetosList["Almacenaje"]["Mochila"],"Almacenaje","Mochila")
             self.personaje.equipo.addObjectToInventory(objetosList["Refugio"]["Saco de dormir"],"Refugio","Saco de dormir")
             self.personaje.equipo.addObjectToInventory(objetosList["Kit"]["De cocina"],"Kit","De cocina")
@@ -795,6 +794,7 @@ class SeleccionPersonaje:
         #20 flechas
         for i in range(0,20):
             self.personaje.equipo.addObjectToInventory(objetosList["Munición"]["Flecha"],"Munición","Flecha")
+        self.personaje.equipo.printEquipoConsolaDebugSuperficial()
 
     def clickedMouse(self):
         #click del ratón

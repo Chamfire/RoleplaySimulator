@@ -156,6 +156,13 @@ class Equipo:
         self.armadura_actual = None
         self.objeto_equipado_mano_derecha = None
         self.objeto_equipado_mano_izquierda = None #aquí iría un escudo en caso de tenerlo
+        self.listaInventario = Lista_Inventario()
+
+    def printEquipoConsolaDebugSuperficial(self):
+        print("# --------------- Equipo ------------------")
+        for i in range(0,self.num_objetos_max):
+            if(self.objetos[str("slot_"+str(i))] != None):
+                print("slot_"+str(i)+": "+self.objetos[str("slot_"+str(i))][0]+"; "+self.objetos[str("slot_"+str(i))][1]+"; "+self.objetos[str("slot_"+str(i))][3])
 
     def passArmorFromInventoryToArmorEquipment(self,categoria,nombre,armor):
         if(self.armadura_actual != None):
