@@ -53,24 +53,57 @@ class Arma:
         self.peso = peso
 
 class Objeto_de_Espacio:
-    def __init__(self,num_objetos_max,tipo):
+    def __init__(self,num_objetos_max,tipo,peso_base):
         self.num_objetos_max = num_objetos_max
+        self.actual_num_objetos = 0
         tipo = tipo
-        self.peso_actual = 0
+        self.peso_actual = peso_base
         self.objetos = {}
         for i in range(0,self.num_objetos_max):
             self.objetos[str("slot_"+str(i))] = None
 
-    def addObject(objeto):
-        pass 
-    def removeObject(self): #devolverá el objeto que se ha sacado de la mochila, y se pasará al inventario
-        pass
+    def find_free_slot(self):
+        for (elem,i) in self.objetos.keys():
+            if(elem == None):
+                return i
+        else:
+            return -1
+        
+    def addObject(self,categoria,nombre,objeto,max_capacidad):
+        slot_libre = self.find_free_slot()
+        if(slot_libre == -1):
+            return -1 #no hay slots libres para añadir a la mochila
+        else:
+            if(self.peso_actual + objeto.peso > max_capacidad):
+                return -2 #pesa demasiado
+            elif(self.actual_num_objetos +1 > self.num_objetos_max):
+                return -1 #no hay slots libres
+            else:
+                self.objetos[str("slot_"+str(slot_libre))] = (categoria,nombre,objeto)
+                self.peso_actual += objeto.peso
+                self.actual_num_objetos +=1
+                return 1
+            
+    def removeObject(self,slot): #devolverá el objeto que se ha sacado de la mochila, y se pasará al inventario
+        if(self.objetos[str("slot_"+str(slot))] != None):
+            objeto_a_quitar = self.objetos[str("slot_"+str(slot))]
+            self.objetos[str("slot_"+str(slot))] = None
+            self.peso_actual -= objeto_a_quitar.peso
+            self.actual_num_objetos -=1
+            return 1
+        else:
+            return -1
     
 
 
 class Objeto:
-    def __init__(self):
-        pass
+    def __init__(self,pc,pp,pe,po,ppt,peso):
+        self.pc = pc
+        self.pp = pp
+        self.pe = pe
+        self.po = po
+        self.ppt = ppt
+        self.peso = peso
 
 class Armadura:
     def __init__(self,pc,pp,pe,po,ppt,nueva_ca,modificador,maximo_mod,requisito_fu,desventaja_sigilo,peso):
@@ -109,35 +142,121 @@ class Equipo:
         self.objeto_equipado_mano_derecha = None
         self.objeto_equipado_mano_izquierda = None #aquí iría un escudo en caso de tenerlo
 
-    def passArmorFromInventoryToArmorEquipment(self):
-        pass
+    def passArmorFromInventoryToArmorEquipment(self,categoria,nombre,armor):
+        if(self.armadura_actual != None):
+            self.armadura_actual = (categoria,nombre,armor)
+            slot_libre = self.find_free_slot()
+            if(slot_libre == -1):
+                return -1
+            else:
+                #hay un slot libre
+                self.objetos[str("slot_"+str(slot_libre))] = (self.armadura_actual[0],self.armadura_actual[1],self.armadura_actual[2])
+        self.num_objetos_actual -=1
+        #el peso se mantiene, pues lo sigue llevando
+        self.armadura_actual = (categoria,nombre,armor)
+        return 1
+    
+
     def passArmorEquipmentToInventory(self):
-        pass
-    def passObjectFromInventoryToLeftHand(self):
-        pass
-    def passObjectFromInventoryToRightHand(self):
-        pass
+        if(self.armadura_actual != None):
+            slot_libre = self.find_free_slot()
+            if(slot_libre == -1):
+                return -1 #no hay slots libres
+            else:
+                #hay un slot libre
+                self.objetos[str("slot_"+str(slot_libre))] = (self.armadura_actual[0],self.armadura_actual[1],self.armadura_actual[2])
+                self.num_objetos_actual +=1
+                return 1
+        else:
+            return -2 #no se ha podido pasar, porque la armadura estaba vacía
+    
+    def passObjectFromInventoryToLeftHand(self,categoria,nombre,object):
+        if(self.objeto_equipado_mano_izquierda != None):
+            slot_libre = self.find_free_slot()
+            if(slot_libre == -1):
+                return -1 #no hay slots libres
+            else:
+                #hay un slot libre
+                self.objetos[str("slot_"+str(slot_libre))] = (self.objeto_equipado_mano_izquierda[0],self.objeto_equipado_mano_izquierda[1],self.objeto_equipado_mano_izquierda[2])
+        self.num_objetos_actual -=1
+        self.objeto_equipado_mano_izquierda = (categoria,nombre,object)
+        return 1
+
+    def passObjectFromInventoryToRightHand(self,categoria,nombre,object):
+        if(self.objeto_equipado_mano_derecha != None):
+            slot_libre = self.find_free_slot()
+            if(slot_libre == -1):
+                return -1 #no hay slots libres
+            else:
+                #hay un slot libre
+                self.objetos[str("slot_"+str(slot_libre))] = (self.objeto_equipado_mano_derecha[0],self.objeto_equipado_mano_derecha[1],self.objeto_equipado_mano_derecha[2])
+        self.num_objetos_actual -=1
+        self.objeto_equipado_mano_izquierda = (categoria,nombre,object)
+        return 1
+    
     def passObjectFromLeftHandToInventory(self):
-        pass
+        if(self.objeto_equipado_mano_izquierda != None):
+            slot_libre = self.find_free_slot()
+            if(slot_libre == -1):
+                return -1 #no hay slots libres
+            else:
+                #hay un slot libre
+                self.objetos[str("slot_"+str(slot_libre))] = (self.objeto_equipado_mano_izquierda[0],self.objeto_equipado_mano_izquierda[1],self.objeto_equipado_mano_izquierda[2])
+                self.objeto_equipado_mano_izquierda = None
+                self.num_objetos_actual +=1
+                return 1
+        else:
+            return -2 #no había ningún objeto en la mano izquierda
     def passObjectFromRightHandToInventory(self):
-        pass
+        if(self.objeto_equipado_mano_derecha != None):
+            slot_libre = self.find_free_slot()
+            if(slot_libre == -1):
+                return -1
+            else:
+                self.objetos[str("slot_"+str(slot_libre))] = (self.objeto_equipado_mano_derecha[0],self.objeto_equipado_mano_derecha[1],self.objeto_equipado_mano_derecha[2])
+                self.objeto_equipado_mano_derecha = None
+                self.num_objetos_actual +=1
+                return 1
+        else:
+            return -2
+
+    def passObjectFromRightHandToLeftHand(self):
+        if(self.objeto_equipado_mano_derecha != None):
+            if(self.objeto_equipado_mano_izquierda != None):
+                aux = self.objeto_equipado_mano_derecha
+                self.objeto_equipado_mano_derecha = self.objeto_equipado_mano_izquierda
+                self.objeto_equipado_mano_izquierda = aux
+                return 1
+            else:
+                self.objeto_equipado_mano_izquierda = self.objeto_equipado_mano_derecha
+                return 1
+        elif(self.objeto_equipado_mano_izquierda != None):
+            self.objeto_equipado_mano_derecha = self.objeto_equipado_mano_izquierda
+            return 1
+        else:
+            return -1
         
     def find_free_slot(self):
         for (elem,i) in self.objetos.keys():
             if(elem == None):
                 return i
+        else:
+            return -1
 
     def addObjectToInventory(self,objeto,categoria,nombre):
         if(self.peso_actual + objeto.peso > self.peso_max):
             return -1 #no puede llevar tanto peso
         elif(self.num_objetos_actual + 1 > self.num_objetos_max):
-            return -2
+            return -2 #no hay slots libres
         else:
-            self.peso_actual += objeto.peso
-            self.num_objetos_actual +=1
             slot_libre = self.find_free_slot()
-            self.objetos[str("slot_"+str(slot_libre))] = (categoria,nombre,objeto) #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto)
-            return 1
+            if(slot_libre == -1):
+                return -2 #no hay slots libres
+            else:
+                self.peso_actual += objeto.peso
+                self.num_objetos_actual +=1
+                self.objetos[str("slot_"+str(slot_libre))] = (categoria,nombre,objeto) #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto)
+                return 1 #proceso correcto
         
     def removeObjectFromInventory(self,slot):
         if(self.objetos[slot] != None):
@@ -145,9 +264,9 @@ class Equipo:
             self.peso_actual -= peso_a_quitar
             self.num_objetos_actual -=1
             self.objetos[str("slot_"+str(slot))] = None
-            return 1
+            return 1 #proceso correcto
         else:
-            return -1
+            return -1 #no había nada en ese slot
 
 class Lista_Inventario:
     def __init__(self):
@@ -207,18 +326,19 @@ class Lista_Inventario:
 
         self.objeto = {"Comida": {}, "Bebida": {}, "Mecanico": {}, "Refugio": {},"Libro": {}, "Kit": {}, "Iluminación": {}, "Otros": {}, "Almacenaje": {}}
         
-        self.objeto["Refugio"]["Saco de dormir"] = Objeto()
-        self.objeto["Mecanico"]["Palanca"] = Objeto()
-        self.objeto["Otros"]["Piton"] = Objeto() #palos de escalada
-        self.objeto["Iluminación"]["Antorcha"] = Objeto()
-        self.objeto["Otros"]["Yesquero"] = Objeto()
-        self.objeto["Comida"]["Ración"] = Objeto()
-        self.objeto["Bebida"]["Odre de agua"] = Objeto() #definir en el futuro: 4.84,"liquido"
-        self.objeto["Otros"]["Cuerda de cáñamo"] = Objeto()
+        self.objeto["Refugio"]["Saco de dormir"] = Objeto(0,0,0,1,0,7)
+        self.objeto["Mecanico"]["Palanca"] = Objeto(0,0,0,2,0,5)
+        self.objeto["Otros"]["Piton"] = Objeto(5,0,0,0,0,0.25) #palos de escalada
+        self.objeto["Iluminación"]["Antorcha"] = Objeto(1,0,0,0,0,1)
+        self.objeto["Otros"]["Yesquero"] = Objeto(0,5,0,0,0,1)
+        self.objeto["Comida"]["Ración"] = Objeto(0,5,0,0,0,2)
+        self.objeto["Bebida"]["Odre de agua"] = Objeto(0,2,0,0,0,5) #definir en el futuro: 4.84,"liquido"
+        self.objeto["Otros"]["Cuerda de cáñamo"] = Objeto(0,0,0,1,0,10)
 
-        self.objeto["Almacenaje"]["Mochila"] = Objeto_de_Espacio(30,"sólido")
-        self.objeto["Kit"]["De cocina"] = Objeto() #permitirá en sus funciones cocinar, pero se registrará como un único objeto por ahora
-        
+        self.objeto["Almacenaje"]["Mochila"] = Objeto_de_Espacio(30,"sólido",)
+        self.objeto["Kit"]["De cocina"] = Objeto(0,0,0,2,0,5) #permitirá en sus funciones cocinar, pero se registrará como un único objeto por ahora
+        self.objeto["Mecanico"]["Martillo"] = Objeto(0,0,0,1,0,3)
+
         #Armaduras
         self.armadura = {"Armaduras ligeras": {},"Armaduras medias": {},"Armaduras pesadas": {}}
         self.armadura["Armaduras ligeras"]["Acolchada"] = Armadura(0,0,0,5,0,11,modificador.Destreza,None,0,True,8)
