@@ -6,6 +6,7 @@ from Global import Global
 from Personaje import Personaje
 import sqlite3
 import random
+import Lista_Inventario
 
 class SeleccionPersonaje:
     #sound
@@ -656,6 +657,144 @@ class SeleccionPersonaje:
             return True
         else:
             return False
+        
+    def initBarbarianInventory(self):
+        # ----- INVENTARIO ENANO ------
+
+        # Gran hacha o arma marcial aleatoria
+        opcion = random.randint(1,2)
+        armasList = Lista_Inventario.Lista_Inventario.getArmasList()
+        if(opcion == 1):
+            #Añado gran hacha
+            self.personaje.equipo.addObjectToInventory(armasList["Armas c/c marciales"]["Gran hacha"],"Armas c/c marciales","Gran hacha")
+        else:
+            #añado un arma marcial c/c aleatoria entre la lista
+            num_aleatorio = random.randint(1,18) #hay 22 armas marciales c/c
+            arma_escogida = None
+            categoria_escogida = None
+            nombre_arma_escogida = None
+            #Empezaremos por el número, y decreceremos 1, hasta llegar a 1
+            for arma,arma_nombre in armasList["Armas c/c marciales"].keys():
+                if(num_aleatorio == 1):
+                    arma_escogida = arma
+                    categoria_escogida = "Armas c/c marciales"
+                    nombre_arma_escogida = arma_nombre
+                else:
+                    num_aleatorio -= 1
+            self.personaje.equipo.addObjectToInventory(arma_escogida,categoria_escogida,nombre_arma_escogida)
+
+
+        #2 hachas de mano o cualquier arma simple
+        opcion = random.randint(1,2)
+        if(opcion == 1):
+            self.personaje.equipo.addObjectToInventory(armasList["Armas c/c simples"]["Hacha de mano"],"Armas c/c simples","Hacha de mano")
+            self.personaje.equipo.addObjectToInventory(armasList["Armas c/c simples"]["Hacha de mano"],"Armas c/c simples","Hacha de mano")
+        else:
+            num_aleatorio = random.randint(1,15) #hay 15 armas simples
+            arma_escogida = None
+            categoria_escogida = None
+            nombre_arma_escogida = None
+            #Empezaremos por el número, y decreceremos 1, hasta llegar a 1
+            if (num_aleatorio <= 11): #marciales
+                for arma,arma_nombre in armasList["Armas c/c simples"].keys():
+                    if(num_aleatorio == 1):
+                        arma_escogida = arma
+                        categoria_escogida = "Armas c/c simples"  
+                        nombre_arma_escogida = arma_nombre
+                    else:
+                        num_aleatorio -= 1
+            else: #a distancia
+                num_aleatorio -=11 #de 1 a 4
+                for arma,arma_nombre in armasList["Armas a distancia simples"].keys():
+                    if(num_aleatorio == 1):
+                        arma_escogida = arma
+                        categoria_escogida = "Armas a distancia simples"
+                        nombre_arma_escogida = arma_nombre
+                    else:
+                        num_aleatorio -= 1
+            self.personaje.equipo.addObjectToInventory(arma_escogida,categoria_escogida,nombre_arma_escogida)
+
+        #4 jabalinas y un equipo de explorador
+        self.personaje.equipo.addObjectToInventory(armasList["Armas c/c simples"]["Jabalina"],"Armas c/c simples","Jabalina")
+        self.personaje.equipo.addObjectToInventory(armasList["Armas c/c simples"]["Jabalina"],"Armas c/c simples","Jabalina")
+        self.personaje.equipo.addObjectToInventory(armasList["Armas c/c simples"]["Jabalina"],"Armas c/c simples","Jabalina")
+        self.personaje.equipo.addObjectToInventory(armasList["Armas c/c simples"]["Jabalina"],"Armas c/c simples","Jabalina")
+        # Equipo de explorador
+        objetosList = Lista_Inventario.Lista_Inventario.getObjetosList()
+        self.personaje.equipo.addObjectToInventory(objetosList["Almacenaje"]["Mochila"],"Almacenaje","Mochila")
+        self.personaje.equipo.addObjectToInventory(objetosList["Refugio"]["Saco de dormir"],"Refugio","Saco de dormir")
+        self.personaje.equipo.addObjectToInventory(objetosList["Kit"]["De cocina"],"Kit","De cocina")
+        self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Yesquero"],"Otros","Yesquero")
+        for i in range(0,10):
+            self.personaje.equipo.addObjectToInventory(objetosList["Iluminación"]["Antorcha"],"Iluminación","Antorcha")
+            self.personaje.equipo.addObjectToInventory(objetosList["Comida"]["Ración"])
+        self.personaje.equipo.addObjectToInventory(objetosList["Bebida"]["Odre de agua"],"Bebida","Odre de agua")
+        self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Cuerda de cáñamo"],"Otros","Cuerda de cáñamo")
+        
+        
+    def initExplorerInventory(self):
+        armaduraList = Lista_Inventario.Lista_Inventario.getArmaduraList()
+        armasList = Lista_Inventario.Lista_Inventario.getArmasList()
+        option = random.randint(1,2)
+        # Una cota de escamas o una armadura de cuero
+        if(option == 1):
+            self.personaje.equipo.addObjectToInventory(armaduraList["Armaduras medias"]["Cota de escamas"],"Armaduras medias","Cota de escamas")
+        else:
+            self.personaje.equipo.addObjectToInventory(armaduraList["Armaduras ligeras"]["Cuero"],"Armaduras ligeras","Cuero")
+        
+        #2 espadas cortas o 2 armas simples c/c
+        option = random.randint(1,2)
+        if(option == 1):
+            self.personaje.equipo.addObjectToInventory(armasList["Armas c/c marciales"]["Espada corta"],"Armas c/c marciales","Espada corta")
+            self.personaje.equipo.addObjectToInventory(armasList["Armas c/c marciales"]["Espada corta"],"Armas c/c marciales","Espada corta")
+        else:
+            for i in range(1,2):
+                num_aleatorio = random.randint(1,11) #hay 11 armas simples c/c
+                arma_escogida = None
+                categoria_escogida = None
+                nombre_arma_escogida = None
+                #Empezaremos por el número, y decreceremos 1, hasta llegar a 1
+                for arma,arma_nombre in armasList["Armas c/c simples"].keys():
+                    if(num_aleatorio == 1):
+                        arma_escogida = arma
+                        categoria_escogida = "Armas c/c simples"
+                        nombre_arma_escogida = arma_nombre
+                    else:
+                        num_aleatorio -= 1
+                self.personaje.equipo.addObjectToInventory(arma_escogida,categoria_escogida,nombre_arma_escogida)
+        #un equipo de dungeon o un equipo de explorador
+        option = random.randint(1,2)
+        if(option == 1):
+            # Equipo de dungeon
+            objetosList = Lista_Inventario.Lista_Inventario.getObjetosList()
+            self.personaje.equipo.addObjectToInventory(objetosList["Refugio"]["Saco de dormir"],"Refugio","Saco de dormir")
+            self.personaje.equipo.addObjectToInventory(objetosList["Mecanico"]["Palanca"],"Mecanico","Palanca")
+            self.personaje.equipo.addObjectToInventory(objetosList["Mecanico"]["Martillo"],"Mecanico","Martillo")
+            for i in range(0,10):
+                self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Piton"],"Otros","Piton")
+                self.personaje.equipo.addObjectToInventory(objetosList["Iluminación"]["Antorcha"],"Iluminación","Antorcha")
+                self.personaje.equipo.addObjectToInventory(objetosList["Comida"]["Ración"])
+            self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Yesquero"],"Otros","Yesquero")
+            self.personaje.equipo.addObjectToInventory(objetosList["Bebida"]["Odre de agua"],"Bebida","Odre de agua")
+            self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Cuerda de cáñamo"],"Otros","Cuerda de cáñamo")
+        else:
+            # Equipo de explorador
+            objetosList = Lista_Inventario.Lista_Inventario.getObjetosList()
+            self.personaje.equipo.addObjectToInventory(objetosList["Almacenaje"]["Mochila"],"Almacenaje","Mochila")
+            self.personaje.equipo.addObjectToInventory(objetosList["Refugio"]["Saco de dormir"],"Refugio","Saco de dormir")
+            self.personaje.equipo.addObjectToInventory(objetosList["Kit"]["De cocina"],"Kit","De cocina")
+            self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Yesquero"],"Otros","Yesquero")
+            for i in range(0,10):
+                self.personaje.equipo.addObjectToInventory(objetosList["Iluminación"]["Antorcha"],"Iluminación","Antorcha")
+                self.personaje.equipo.addObjectToInventory(objetosList["Comida"]["Ración"])
+            self.personaje.equipo.addObjectToInventory(objetosList["Bebida"]["Odre de agua"],"Bebida","Odre de agua")
+            self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Cuerda de cáñamo"],"Otros","Cuerda de cáñamo")
+        
+        #Un arco largo y un carcaj con 20 flechas
+        self.personaje.equipo.addObjectToInventory(armasList["Armas a distancia marciales"]["Arco largo"],"Armas a distancia marciales","Arco largo")
+        #20 flechas
+        for i in range(0,20):
+            self.personaje.equipo.addObjectToInventory(objetosList["Munición"]["Flecha"],"Munición","Flecha")
 
     def clickedMouse(self):
         #click del ratón
@@ -703,18 +842,21 @@ class SeleccionPersonaje:
                         self.personaje.salvaciones_comp["des"] = True
                         #Dinero: 5d4x 10
                         self.personaje.po = (random.randint(1,4)+random.randint(1,4)+random.randint(1,4)+random.randint(1,4)+random.randint(1,4))*10
+                        self.personaje.initEquipo()
+                        self.initExplorerInventory()
                         if(self.personaje.tipo_raza == "Enano"):
                             self.personaje.cons += 2 #tiene un +2 en constitución
                             self.personaje.idiomas_competencia["Común"] = True
                             self.personaje.idiomas_competencia["Enano"] = True
                             #escoger competencias de forma aleatoria
                             posibles_competencias = ["Atletismo", "Perspicacia", "Investigación","Trato con Animales", "Naturaleza", "Percepción", "Sigilo", "Supervivencia"]
+
                         else:
                             self.personaje.idiomas_competencia["Común"] = True
                             self.personaje.idiomas_competencia["Élfico"] = True
                             self.personaje.habilidades_comp["Percepción"] = True
                             posibles_competencias = ["Atletismo", "Perspicacia", "Investigación","Trato con Animales", "Naturaleza", "Sigilo", "Supervivencia"]
-
+                        
                     elif(self.personaje.tipo_clase == "Bárbaro"):
                         self.personaje.fu = 15
                         self.personaje.car = 14
@@ -727,6 +869,8 @@ class SeleccionPersonaje:
                         self.personaje.salvaciones_comp["cons"] = True
                         #Dinero: 2d4x 10
                         self.personaje.po = (random.randint(1,4)+random.randint(1,4))*10
+                        self.personaje.initEquipo()
+                        self.initBarbarianInventory()
                         if(self.personaje.tipo_raza == "Enano"):
                             self.personaje.cons += 2 #tiene un +2 en constitución
                             self.personaje.idiomas_competencia["Común"] = True

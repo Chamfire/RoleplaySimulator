@@ -51,6 +51,7 @@ class Arma:
         self.recarga = recarga #si es True, solo podrá usarla 1 vez por turno, independientemente del número de ataques que pueda usar
         self.pesada = pesada
         self.peso = peso
+        self.stackeable = False
 
 class Objeto_de_Espacio:
     def __init__(self,num_objetos_max,tipo,peso_base):
@@ -58,6 +59,7 @@ class Objeto_de_Espacio:
         self.actual_num_objetos = 0
         tipo = tipo
         self.peso_actual = peso_base
+        self.stackeable = False
         self.objetos = {}
         for i in range(0,self.num_objetos_max):
             self.objetos[str("slot_"+str(i))] = None
@@ -70,40 +72,51 @@ class Objeto_de_Espacio:
             return -1
         
     def addObject(self,categoria,nombre,objeto,max_capacidad):
-        slot_libre = self.find_free_slot()
-        if(slot_libre == -1):
-            return -1 #no hay slots libres para añadir a la mochila
-        else:
-            if(self.peso_actual + objeto.peso > max_capacidad):
-                return -2 #pesa demasiado
-            elif(self.actual_num_objetos +1 > self.num_objetos_max):
-                return -1 #no hay slots libres
+        if(self.peso_actual + objeto.peso > max_capacidad):
+            return -2 #pesa demasiado
+        if(objeto.stackeable):
+            slot_objeto = self.findSameObject(objeto,categoria,nombre)
+            if(slot_objeto == - 1):
+                pass #que siga
             else:
-                self.objetos[str("slot_"+str(slot_libre))] = (categoria,nombre,objeto)
+                q = self.objetos[str("slot_"+str(slot_objeto))][3]
                 self.peso_actual += objeto.peso
-                self.actual_num_objetos +=1
+                self.objetos[str("slot_"+str(slot_objeto))][3] = q+1
+                #no añadimos nada a número actual de objetos, porque no estamos ocupando un slot nuevo
                 return 1
+        if(self.actual_num_objetos +1 > self.num_objetos_max):
+            return -1 #no hay slots libres
+        else:
+            slot_libre = self.find_free_slot()
+            self.objetos[str("slot_"+str(slot_libre))] = [categoria,nombre,objeto,1]
+            self.peso_actual += objeto.peso
+            self.actual_num_objetos +=1
+            return 1
             
     def removeObject(self,slot): #devolverá el objeto que se ha sacado de la mochila, y se pasará al inventario
         if(self.objetos[str("slot_"+str(slot))] != None):
-            objeto_a_quitar = self.objetos[str("slot_"+str(slot))]
+            peso_a_quitar = (self.objetos[str("slot_"+str(slot))][2].peso / self.objetos[str("slot_"+str(slot))][3])
+            self.objetos[str("slot_"+str(slot))][3] -=1
+            if(self.objetos[slot][3] == 0):
+                self.objetos[str("slot_"+str(slot))][3] = None
+                self.num_objetos_actual -=1 
+            self.peso_actual -= peso_a_quitar
             self.objetos[str("slot_"+str(slot))] = None
-            self.peso_actual -= objeto_a_quitar.peso
-            self.actual_num_objetos -=1
-            return 1
+            return 1 #proceso correcto
         else:
-            return -1
+            return -1 #no había nada en ese slot
     
 
 
 class Objeto:
-    def __init__(self,pc,pp,pe,po,ppt,peso):
+    def __init__(self,pc,pp,pe,po,ppt,peso,stackeable):
         self.pc = pc
         self.pp = pp
         self.pe = pe
         self.po = po
         self.ppt = ppt
         self.peso = peso
+        self.stackeable = stackeable
 
 class Armadura:
     def __init__(self,pc,pp,pe,po,ppt,nueva_ca,modificador,maximo_mod,requisito_fu,desventaja_sigilo,peso):
@@ -118,6 +131,7 @@ class Armadura:
         self.requisito_fu = requisito_fu
         self.desventaja_sigilo = desventaja_sigilo
         self.peso = peso
+        self.stackeable = False
 
 class Escudo:
     def __init__(self,pc,pp,pe,po,ppt,addToCA,peso):
@@ -128,6 +142,7 @@ class Escudo:
         self.ppt = ppt
         self.addToCA = addToCA
         self.peso = peso
+        self.stackeable = False
 
 class Equipo:
     def __init__(self,fu):
@@ -150,7 +165,7 @@ class Equipo:
                 return -1
             else:
                 #hay un slot libre
-                self.objetos[str("slot_"+str(slot_libre))] = (self.armadura_actual[0],self.armadura_actual[1],self.armadura_actual[2])
+                self.objetos[str("slot_"+str(slot_libre))] = [self.armadura_actual[0],self.armadura_actual[1],self.armadura_actual[2],self.armadura_actual[3]]
         self.num_objetos_actual -=1
         #el peso se mantiene, pues lo sigue llevando
         self.armadura_actual = (categoria,nombre,armor)
@@ -164,7 +179,7 @@ class Equipo:
                 return -1 #no hay slots libres
             else:
                 #hay un slot libre
-                self.objetos[str("slot_"+str(slot_libre))] = (self.armadura_actual[0],self.armadura_actual[1],self.armadura_actual[2])
+                self.objetos[str("slot_"+str(slot_libre))] = [self.armadura_actual[0],self.armadura_actual[1],self.armadura_actual[2],self.armadura_actual[3]]
                 self.num_objetos_actual +=1
                 return 1
         else:
@@ -177,7 +192,7 @@ class Equipo:
                 return -1 #no hay slots libres
             else:
                 #hay un slot libre
-                self.objetos[str("slot_"+str(slot_libre))] = (self.objeto_equipado_mano_izquierda[0],self.objeto_equipado_mano_izquierda[1],self.objeto_equipado_mano_izquierda[2])
+                self.objetos[str("slot_"+str(slot_libre))] = [self.objeto_equipado_mano_izquierda[0],self.objeto_equipado_mano_izquierda[1],self.objeto_equipado_mano_izquierda[2],self.objeto_equipado_mano_izquierda[3]]
         self.num_objetos_actual -=1
         self.objeto_equipado_mano_izquierda = (categoria,nombre,object)
         return 1
@@ -189,7 +204,7 @@ class Equipo:
                 return -1 #no hay slots libres
             else:
                 #hay un slot libre
-                self.objetos[str("slot_"+str(slot_libre))] = (self.objeto_equipado_mano_derecha[0],self.objeto_equipado_mano_derecha[1],self.objeto_equipado_mano_derecha[2])
+                self.objetos[str("slot_"+str(slot_libre))] = [self.objeto_equipado_mano_derecha[0],self.objeto_equipado_mano_derecha[1],self.objeto_equipado_mano_derecha[2],self.objeto_equipado_mano_derecha[3]]
         self.num_objetos_actual -=1
         self.objeto_equipado_mano_izquierda = (categoria,nombre,object)
         return 1
@@ -201,19 +216,19 @@ class Equipo:
                 return -1 #no hay slots libres
             else:
                 #hay un slot libre
-                self.objetos[str("slot_"+str(slot_libre))] = (self.objeto_equipado_mano_izquierda[0],self.objeto_equipado_mano_izquierda[1],self.objeto_equipado_mano_izquierda[2])
+                self.objetos[str("slot_"+str(slot_libre))] = [self.objeto_equipado_mano_izquierda[0],self.objeto_equipado_mano_izquierda[1],self.objeto_equipado_mano_izquierda[2],self.objeto_equipado_mano_izquierda[3]]
                 self.objeto_equipado_mano_izquierda = None
                 self.num_objetos_actual +=1
                 return 1
         else:
             return -2 #no había ningún objeto en la mano izquierda
-    def passObjectFromRightHandToInventory(self):
+    def passObjectFromRightHandToInventory(self): #se pasa todo el stack entero a la mano
         if(self.objeto_equipado_mano_derecha != None):
             slot_libre = self.find_free_slot()
             if(slot_libre == -1):
                 return -1
             else:
-                self.objetos[str("slot_"+str(slot_libre))] = (self.objeto_equipado_mano_derecha[0],self.objeto_equipado_mano_derecha[1],self.objeto_equipado_mano_derecha[2])
+                self.objetos[str("slot_"+str(slot_libre))] = [self.objeto_equipado_mano_derecha[0],self.objeto_equipado_mano_derecha[1],self.objeto_equipado_mano_derecha[2],self.objeto_equipado_mano_derecha[3]]
                 self.objeto_equipado_mano_derecha = None
                 self.num_objetos_actual +=1
                 return 1
@@ -246,7 +261,18 @@ class Equipo:
     def addObjectToInventory(self,objeto,categoria,nombre):
         if(self.peso_actual + objeto.peso > self.peso_max):
             return -1 #no puede llevar tanto peso
-        elif(self.num_objetos_actual + 1 > self.num_objetos_max):
+        if(objeto.stackeable):
+            slot_objeto = self.findSameObject(objeto,categoria,nombre)
+            if(slot_objeto == - 1):
+                pass #que siga
+            else:
+                q = self.objetos[str("slot_"+str(slot_objeto))][3]
+                self.peso_actual += objeto.peso
+                self.objetos[str("slot_"+str(slot_objeto))][3] = q+1
+                #no añadimos nada a número actual de objetos, porque no estamos ocupando un slot nuevo
+                return 1
+        #si estamos aquí, es que el objeto no era stackeable, o bien no teníamos ningún objeto de ese tipo
+        if(self.num_objetos_actual + 1 > self.num_objetos_max):
             return -2 #no hay slots libres
         else:
             slot_libre = self.find_free_slot()
@@ -255,14 +281,17 @@ class Equipo:
             else:
                 self.peso_actual += objeto.peso
                 self.num_objetos_actual +=1
-                self.objetos[str("slot_"+str(slot_libre))] = (categoria,nombre,objeto) #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto)
+                self.objetos[str("slot_"+str(slot_libre))] = [categoria,nombre,objeto,1] #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto,1) --> el 1 es la cantidad de ese objeto
                 return 1 #proceso correcto
         
-    def removeObjectFromInventory(self,slot):
-        if(self.objetos[slot] != None):
-            peso_a_quitar = self.objetos[slot][2].peso
+    def removeObjectFromInventory(self,slot): #solo eliminará 1 objeto de ese slot. Si es el único, lo vaciará, pero si hay más le restará 1
+        if(self.objetos[str("slot_"+str(slot))] != None):
+            peso_a_quitar = (self.objetos[str("slot_"+str(slot))][2].peso / self.objetos[str("slot_"+str(slot))][3])
+            self.objetos[str("slot_"+str(slot))][3] -=1
+            if(self.objetos[slot][3] == 0):
+                self.objetos[str("slot_"+str(slot))][3] = None
+                self.num_objetos_actual -=1 
             self.peso_actual -= peso_a_quitar
-            self.num_objetos_actual -=1
             self.objetos[str("slot_"+str(slot))] = None
             return 1 #proceso correcto
         else:
@@ -321,23 +350,23 @@ class Lista_Inventario:
         self.armas["Armas a distancia marciales"]["Arco largo"] = Arma(8,1,0,0,0,0,50,0,tipo_uso.A_2_Manos,(10,150),tipo_damage.PERFORANTE,False,None,modificador.Destreza,False,False,True,False,2)
         self.armas["Armas a distancia marciales"]["Ballesta de mano"] = Arma(6,1,0,0,0,0,75,0,tipo_uso.A_1_Mano,(10,30),tipo_damage.PERFORANTE,False,None,modificador.Destreza,True,True,False,False,3)
         self.armas["Armas a distancia marciales"]["Ballesta pesada"] = Arma(10,1,0,0,0,0,50,0,tipo_uso.A_2_Manos,(10,100),tipo_damage.PERFORANTE,False,None,modificador.Fuerza,False,True,True,False,18)
-        self.armas["Armas a distancia marciales"]["erbatana"] = Arma(0,0,1,0,0,0,10,0,tipo_uso.A_1_Mano,(10,25),tipo_damage.PERFORANTE,False,None,modificador.Fuerza,False,True,False,False,1)
+        self.armas["Armas a distancia marciales"]["Cerbatana"] = Arma(0,0,1,0,0,0,10,0,tipo_uso.A_1_Mano,(10,25),tipo_damage.PERFORANTE,False,None,modificador.Fuerza,False,True,False,False,1)
         #La red, como solo es de tipo especial, y no hace daño, no la voy a modelar por ahora
-
-        self.objeto = {"Comida": {}, "Bebida": {}, "Mecanico": {}, "Refugio": {},"Libro": {}, "Kit": {}, "Iluminación": {}, "Otros": {}, "Almacenaje": {}}
         
-        self.objeto["Refugio"]["Saco de dormir"] = Objeto(0,0,0,1,0,7)
-        self.objeto["Mecanico"]["Palanca"] = Objeto(0,0,0,2,0,5)
-        self.objeto["Otros"]["Piton"] = Objeto(5,0,0,0,0,0.25) #palos de escalada
-        self.objeto["Iluminación"]["Antorcha"] = Objeto(1,0,0,0,0,1)
-        self.objeto["Otros"]["Yesquero"] = Objeto(0,5,0,0,0,1)
-        self.objeto["Comida"]["Ración"] = Objeto(0,5,0,0,0,2)
-        self.objeto["Bebida"]["Odre de agua"] = Objeto(0,2,0,0,0,5) #definir en el futuro: 4.84,"liquido"
-        self.objeto["Otros"]["Cuerda de cáñamo"] = Objeto(0,0,0,1,0,10)
-
-        self.objeto["Almacenaje"]["Mochila"] = Objeto_de_Espacio(30,"sólido",)
-        self.objeto["Kit"]["De cocina"] = Objeto(0,0,0,2,0,5) #permitirá en sus funciones cocinar, pero se registrará como un único objeto por ahora
-        self.objeto["Mecanico"]["Martillo"] = Objeto(0,0,0,1,0,3)
+        self.objeto = {"Comida": {}, "Bebida": {}, "Mecanico": {}, "Refugio": {},"Libro": {}, "Kit": {}, "Iluminación": {}, "Otros": {}, "Almacenaje": {}, "Munición": {}}
+        
+        self.objeto["Refugio"]["Saco de dormir"] = Objeto(0,0,0,1,0,7,False)
+        self.objeto["Mecanico"]["Palanca"] = Objeto(0,0,0,2,0,5,True)
+        self.objeto["Otros"]["Piton"] = Objeto(5,0,0,0,0,0.25,True) #palos de escalada
+        self.objeto["Iluminación"]["Antorcha"] = Objeto(1,0,0,0,0,1,True)
+        self.objeto["Otros"]["Yesquero"] = Objeto(0,5,0,0,0,1,False)
+        self.objeto["Comida"]["Ración"] = Objeto(0,5,0,0,0,2,True)
+        self.objeto["Bebida"]["Odre de agua"] = Objeto(0,2,0,0,0,5,False) #definir en el futuro: 4.84,"liquido"
+        self.objeto["Otros"]["Cuerda de cáñamo"] = Objeto(0,0,0,1,0,10,False)
+        self.objeto["Munición"]["Flecha"] = Objeto(0,0,0,1,0,1,True)
+        self.objeto["Almacenaje"]["Mochila"] = Objeto_de_Espacio(30,"sólido",5)
+        self.objeto["Kit"]["De cocina"] = Objeto(0,0,0,2,0,5,False) #permitirá en sus funciones cocinar, pero se registrará como un único objeto por ahora
+        self.objeto["Mecanico"]["Martillo"] = Objeto(0,0,0,1,0,3,False)
 
         #Armaduras
         self.armadura = {"Armaduras ligeras": {},"Armaduras medias": {},"Armaduras pesadas": {}}
@@ -355,3 +384,12 @@ class Lista_Inventario:
         self.armadura["Armaduras pesadas"]["Placas"] = Armadura(0,0,0,1500,0,18,None,None,15,True,65)
         self.escudo = {"Escudo":{}}
         self.escudo["Escudo"]["Escudo básico"] = Escudo(0,0,0,10,0,2,6)
+
+    def getArmasList(self):
+        return self.armas
+    def getArmaduraList(self):
+        return self.armadura
+    def getEscudosList(self):
+        return self.escudo
+    def getObjetosList(self):
+        return self.objeto
