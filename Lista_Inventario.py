@@ -283,9 +283,9 @@ class Equipo:
                 print("no lo ha encontrado")
                 pass #que siga
             else:
-                q = self.objetos[str("slot_"+str(slot_objeto))][3]
+                q = self.objetos[slot_objeto][3]
                 self.peso_actual += objeto.peso
-                self.objetos[str("slot_"+str(slot_objeto))][3] = q+1
+                self.objetos[slot_objeto][3] = q+1
                 #no añadimos nada a número actual de objetos, porque no estamos ocupando un slot nuevo
                 print("return 1")
                 return 1
@@ -301,7 +301,7 @@ class Equipo:
             else:
                 self.peso_actual += objeto.peso
                 self.num_objetos_actual +=1
-                self.objetos[str("slot_"+str(slot_libre))] = [categoria,nombre,objeto,1] #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto,1) --> el 1 es la cantidad de ese objeto
+                self.objetos[str(slot_libre)] = [categoria,nombre,objeto,1] #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto,1) --> el 1 es la cantidad de ese objeto
                 print("return 1")
                 return 1 #proceso correcto
         
