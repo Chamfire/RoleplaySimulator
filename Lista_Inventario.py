@@ -58,7 +58,7 @@ class Objeto_de_Espacio:
         self.num_objetos_max = num_objetos_max
         self.actual_num_objetos = 0
         tipo = tipo
-        self.peso_actual = peso_base
+        self.peso = peso_base
         self.stackeable = False
         self.objetos = {}
         for i in range(0,self.num_objetos_max):
@@ -72,7 +72,7 @@ class Objeto_de_Espacio:
             return -1
         
     def addObject(self,categoria,nombre,objeto,max_capacidad):
-        if(self.peso_actual + objeto.peso > max_capacidad):
+        if(self.peso + objeto.peso > max_capacidad):
             return -2 #pesa demasiado
         if(objeto.stackeable):
             slot_objeto = self.findSameObject(objeto,categoria,nombre)
@@ -80,7 +80,7 @@ class Objeto_de_Espacio:
                 pass #que siga
             else:
                 q = self.objetos[str("slot_"+str(slot_objeto))][3]
-                self.peso_actual += objeto.peso
+                self.peso += objeto.peso
                 self.objetos[str("slot_"+str(slot_objeto))][3] = q+1
                 #no añadimos nada a número actual de objetos, porque no estamos ocupando un slot nuevo
                 return 1
@@ -89,7 +89,7 @@ class Objeto_de_Espacio:
         else:
             slot_libre = self.find_free_slot()
             self.objetos[str("slot_"+str(slot_libre))] = [categoria,nombre,objeto,1]
-            self.peso_actual += objeto.peso
+            self.peso += objeto.peso
             self.actual_num_objetos +=1
             return 1
             
@@ -100,7 +100,7 @@ class Objeto_de_Espacio:
             if(self.objetos[slot][3] == 0):
                 self.objetos[str("slot_"+str(slot))][3] = None
                 self.num_objetos_actual -=1 
-            self.peso_actual -= peso_a_quitar
+            self.peso -= peso_a_quitar
             self.objetos[str("slot_"+str(slot))] = None
             return 1 #proceso correcto
         else:
