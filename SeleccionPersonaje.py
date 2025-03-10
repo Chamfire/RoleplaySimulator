@@ -673,7 +673,7 @@ class SeleccionPersonaje:
             categoria_escogida = None
             nombre_arma_escogida = None
             #Empezaremos por el número, y decreceremos 1, hasta llegar a 1
-            for arma,arma_nombre in armasList["Armas c/c marciales"].keys():
+            for arma,arma_nombre in armasList["Armas c/c marciales"]:
                 if(num_aleatorio == 1):
                     arma_escogida = arma
                     categoria_escogida = "Armas c/c marciales"
@@ -695,7 +695,7 @@ class SeleccionPersonaje:
             nombre_arma_escogida = None
             #Empezaremos por el número, y decreceremos 1, hasta llegar a 1
             if (num_aleatorio <= 11): #marciales
-                for arma,arma_nombre in armasList["Armas c/c simples"].keys():
+                for arma,arma_nombre in armasList["Armas c/c simples"]:
                     if(num_aleatorio == 1):
                         arma_escogida = arma
                         categoria_escogida = "Armas c/c simples"  
@@ -704,7 +704,7 @@ class SeleccionPersonaje:
                         num_aleatorio -= 1
             else: #a distancia
                 num_aleatorio -=11 #de 1 a 4
-                for arma,arma_nombre in armasList["Armas a distancia simples"].keys():
+                for arma,arma_nombre in armasList["Armas a distancia simples"]:
                     if(num_aleatorio == 1):
                         arma_escogida = arma
                         categoria_escogida = "Armas a distancia simples"
@@ -753,7 +753,7 @@ class SeleccionPersonaje:
                 categoria_escogida = None
                 nombre_arma_escogida = None
                 #Empezaremos por el número, y decreceremos 1, hasta llegar a 1
-                for arma,arma_nombre in armasList["Armas c/c simples"].keys():
+                for arma,arma_nombre in armasList["Armas c/c simples"]:
                     if(num_aleatorio == 1):
                         arma_escogida = arma
                         categoria_escogida = "Armas c/c simples"
