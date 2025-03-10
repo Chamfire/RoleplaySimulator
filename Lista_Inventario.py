@@ -79,16 +79,16 @@ class Objeto_de_Espacio:
             if(slot_objeto == - 1):
                 pass #que siga
             else:
-                q = self.objetos[str("slot_"+str(slot_objeto))][3]
+                q = self.objetos[slot_objeto][3]
                 self.peso += objeto.peso
-                self.objetos[str("slot_"+str(slot_objeto))][3] = q+1
+                self.objetos[slot_objeto][3] = q+1
                 #no añadimos nada a número actual de objetos, porque no estamos ocupando un slot nuevo
                 return 1
         if(self.actual_num_objetos +1 > self.num_objetos_max):
             return -1 #no hay slots libres
         else:
             slot_libre = self.find_free_slot()
-            self.objetos[str("slot_"+str(slot_libre))] = [categoria,nombre,objeto,1]
+            self.objetos[slot_libre] = [categoria,nombre,objeto,1]
             self.peso += objeto.peso
             self.actual_num_objetos +=1
             return 1
@@ -193,7 +193,7 @@ class Equipo:
                 return -1 #no hay slots libres
             else:
                 #hay un slot libre
-                self.objetos[str("slot_"+str(slot_libre))] = [self.armadura_actual[0],self.armadura_actual[1],self.armadura_actual[2],self.armadura_actual[3]]
+                self.objetos[slot_libre] = [self.armadura_actual[0],self.armadura_actual[1],self.armadura_actual[2],self.armadura_actual[3]]
                 self.num_objetos_actual +=1
                 return 1
         else:
@@ -206,7 +206,7 @@ class Equipo:
                 return -1 #no hay slots libres
             else:
                 #hay un slot libre
-                self.objetos[str("slot_"+str(slot_libre))] = [self.objeto_equipado_mano_izquierda[0],self.objeto_equipado_mano_izquierda[1],self.objeto_equipado_mano_izquierda[2],self.objeto_equipado_mano_izquierda[3]]
+                self.objetos[slot_libre] = [self.objeto_equipado_mano_izquierda[0],self.objeto_equipado_mano_izquierda[1],self.objeto_equipado_mano_izquierda[2],self.objeto_equipado_mano_izquierda[3]]
         self.num_objetos_actual -=1
         self.objeto_equipado_mano_izquierda = (categoria,nombre,object)
         return 1
@@ -218,7 +218,7 @@ class Equipo:
                 return -1 #no hay slots libres
             else:
                 #hay un slot libre
-                self.objetos[str("slot_"+str(slot_libre))] = [self.objeto_equipado_mano_derecha[0],self.objeto_equipado_mano_derecha[1],self.objeto_equipado_mano_derecha[2],self.objeto_equipado_mano_derecha[3]]
+                self.objetos[slot_libre] = [self.objeto_equipado_mano_derecha[0],self.objeto_equipado_mano_derecha[1],self.objeto_equipado_mano_derecha[2],self.objeto_equipado_mano_derecha[3]]
         self.num_objetos_actual -=1
         self.objeto_equipado_mano_izquierda = (categoria,nombre,object)
         return 1
@@ -230,7 +230,7 @@ class Equipo:
                 return -1 #no hay slots libres
             else:
                 #hay un slot libre
-                self.objetos[str("slot_"+str(slot_libre))] = [self.objeto_equipado_mano_izquierda[0],self.objeto_equipado_mano_izquierda[1],self.objeto_equipado_mano_izquierda[2],self.objeto_equipado_mano_izquierda[3]]
+                self.objetos[slot_libre] = [self.objeto_equipado_mano_izquierda[0],self.objeto_equipado_mano_izquierda[1],self.objeto_equipado_mano_izquierda[2],self.objeto_equipado_mano_izquierda[3]]
                 self.objeto_equipado_mano_izquierda = None
                 self.num_objetos_actual +=1
                 return 1
@@ -242,7 +242,7 @@ class Equipo:
             if(slot_libre == -1):
                 return -1
             else:
-                self.objetos[str("slot_"+str(slot_libre))] = [self.objeto_equipado_mano_derecha[0],self.objeto_equipado_mano_derecha[1],self.objeto_equipado_mano_derecha[2],self.objeto_equipado_mano_derecha[3]]
+                self.objetos[slot_libre] = [self.objeto_equipado_mano_derecha[0],self.objeto_equipado_mano_derecha[1],self.objeto_equipado_mano_derecha[2],self.objeto_equipado_mano_derecha[3]]
                 self.objeto_equipado_mano_derecha = None
                 self.num_objetos_actual +=1
                 return 1
@@ -301,7 +301,7 @@ class Equipo:
             else:
                 self.peso_actual += objeto.peso
                 self.num_objetos_actual +=1
-                self.objetos[str(slot_libre)] = [categoria,nombre,objeto,1] #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto,1) --> el 1 es la cantidad de ese objeto
+                self.objetos[slot_libre] = [categoria,nombre,objeto,1] #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto,1) --> el 1 es la cantidad de ese objeto
                 print("return 1")
                 return 1 #proceso correcto
         
