@@ -318,7 +318,7 @@ class Lista_Inventario:
         
         #-------- Armas c/c simples ---------
         self.armas["Armas c/c simples"]["Bastón"] = Arma(6,1,0,0,2,0,0,0,tipo_uso.A_1_Mano,(5,5),tipo_damage.CONTUNDENTE,False,None,modificador.Fuerza,False,False,False,True,4,8,1)
-        self.armas["Armas c/c simples"]["Daga"] = Arma(4,1,0,0,0,0,2,0,tipo_uso.A_1_Mano,(5,5),tipo_damage.PERFORANTE,True,20,modificador.Destreza,True,False,1) #Arrojadiza, rango de 20 pies (no se aplica lo de desventaja para mayor rango. Se implementará en un futuro)
+        self.armas["Armas c/c simples"]["Daga"] = Arma(4,1,0,0,0,0,2,0,tipo_uso.A_1_Mano,(5,5),tipo_damage.PERFORANTE,True,20,modificador.Destreza,True,False,False,False,1) #Arrojadiza, rango de 20 pies (no se aplica lo de desventaja para mayor rango. Se implementará en un futuro)
         #Todos tendrán golpe desarmado por defecto, además de las armas que se indiquen en la ficha de personaje
         self.armas["Armas c/c simples"]["Golpe desarmado"] = Arma(0,0,1,0,0,0,0,0,tipo_uso.A_2_Manos,(5,5),tipo_damage.CONTUNDENTE,False,None,modificador.Fuerza,False,False,False,False,0)
         self.armas["Armas c/c simples"]["Gran clava"] = Arma(8,1,0,0,2,0,0,0,tipo_uso.A_2_Manos,(5,5),tipo_damage.CONTUNDENTE,False,None,modificador.Fuerza,False,False,False,False,10)
