@@ -834,7 +834,6 @@ class SeleccionPersonaje:
                         self.personaje.des = 15
                         self.personaje.sab = 14
                         self.personaje.fu = 13
-                        self.personaje.des = 121
                         self.personaje.ca = 11 #10 + 1(Des,12)
                         self.personaje.int = 10
                         self.personaje.cons = 8
