@@ -456,6 +456,8 @@ class CrearTablas:
                 id_jugador text REFERENCES jugador(id_jugador),
                 num_npc_partida integer REFERENCES npc(num_npc_partida),
                 procedencia text NOT NULL REFERENCES enum_procedencia(procedencia),
+                lista_nombre text NOT NULL,
+                slot text NOT NULL,
                 PRIMARY KEY(categoria_obj,name_obj,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
             )
         """

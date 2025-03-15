@@ -1,3 +1,5 @@
+from Lista_Inventario import Lista_Inventario
+
 s = "patata123:Chamfire:1:4c62140c-a27c-4b39-86f3-8d4d18b5b792"
 [password,nombre,pic,id] = s.split(':')
 print(password,nombre,pic,id)
@@ -26,3 +28,9 @@ for i in range(0,n):
      #definimos los slots para cada posible objeto
     objetos[str("slot_"+str(i))] = None # self.objetos = {"slot_0": None, "slot_1": None, etc etc}
 print(objetos)
+
+lista_inv = Lista_Inventario()
+armaduras = lista_inv.getArmaduraList()
+armadura_1 = armaduras["Armaduras ligeras"]["Acolchada"]
+tipo = str(type(armadura_1))
+print(tipo[25:-2])

@@ -641,20 +641,166 @@ class SalaEspera:
                                             personaje_temp.habilidades_comp[row[0]] = True
                                         
                                         #inventario
-                                        query_get_inventario_basico = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Equipo'"
+                                        query_get_inventario_basico = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia,lista_nombre,slot FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Equipo'"
                                         cursor.execute(query_get_inventario_basico)
                                         rows = cursor.fetchall()
+                                        slot_name = {}
                                         if(rows != []):
                                             for row in rows:
                                                 #cada fila es un objeto del inventario de ese jugador
-                                                
+                                                    if(row[8] == 'Arma'):
+                                                        for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                            personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmasList()[row[2]][row[1]],row[2],row[1])
+                                                    elif(row[8] == 'Objeto_de_Espacio'):
+                                                        for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                            personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                    elif(row[8] == 'Objeto'):
+                                                        for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                            personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                    elif(row[8] == 'Armadura'):
+                                                        for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                            personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmaduraList()[row[2]][row[1]],row[2],row[1])
+                                                    elif(row[8] == 'Escudo'):
+                                                        for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                            personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getEscudosList()[row[2]][row[1]],row[2],row[1])
 
                                         #coger inventario de la mochila
+                                        if(slot_name != {}): #hay mochilas en su inventario
+                                            query_get_inventario_mochila = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia,lista_nombre,slot FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Mochila'"
+                                            cursor.execute(query_get_inventario_mochila)
+                                            rows = cursor.fetchall()
+                                            if(rows != []):
+                                                for row in rows:
+                                                    #cada fila es un objeto del inventario de la mochila de ese jugador
+                                                    if(row[8] == 'Arma'):
+                                                        for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                            personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmasList()[row[2]][row[1]],row[2],row[1])
+                                                    elif(row[8] == 'Objeto_de_Espacio'):
+                                                        for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                            personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                    elif(row[8] == 'Objeto'):
+                                                        for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                            personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                    elif(row[8] == 'Armadura'):
+                                                        for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                            personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmaduraList()[row[2]][row[1]],row[2],row[1])
+                                                    elif(row[8] == 'Escudo'):
+                                                        for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                            personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getEscudosList()[row[2]][row[1]],row[2],row[1])
 
                                         self.GLOBAL.setListaPersonajeHostIndex(row[33],personaje_temp)
                                         num_personajes_to_find -=1
+                                        break #saltas el bucle, y continúas con el siguiente personaje de la lista
+                                        
                                 if(row[33] == self.id):
                                     #el host tiene personaje asociado
+                                    #ese jugador tiene un personaje vivo asociado (su id coincide con la id de jugador de ese personaje)
+                                    personaje_temp = Personaje()
+                                    personaje_temp.initEquipo()
+                                    personaje_temp.name = row[0]
+                                    personaje_temp.sm1 = row[1]
+                                    personaje_temp.sm2 = row[2]
+                                    personaje_temp.sm3 = row[3]
+                                    personaje_temp.nivel = row[4]
+                                    personaje_temp.inspiracion = row[5]
+                                    personaje_temp.esta_muerto = row[6]
+                                    personaje_temp.bpc = row[7]
+                                    personaje_temp.cons = row[8]
+                                    personaje_temp.fu = row[9]
+                                    personaje_temp.des = row[10]
+                                    personaje_temp.sab = row[11]
+                                    personaje_temp.car = row[12]
+                                    personaje_temp.int = row[13]
+                                    personaje_temp.coordenadas_actuales = row[14]
+                                    personaje_temp.vida_temp = row[15]
+                                    personaje_temp.max_vida = row[16]
+                                    personaje_temp.ca = row[17]
+                                    personaje_temp.edad = row[18]
+                                    personaje_temp.peso = row[19]
+                                    personaje_temp.pc = row[20]
+                                    personaje_temp.pp = row[21]
+                                    personaje_temp.pe = row[22]
+                                    personaje_temp.po = row[23]
+                                    personaje_temp.ppt = row[24]
+                                    personaje_temp.velocidad = row[25]
+                                    personaje_temp.descripcion_fisica = row[26]
+                                    personaje_temp.tipo_raza = row[27]
+                                    personaje_temp.tipo_clase = row[28]
+                                    personaje_temp.tipo_alineamiento = row[29]
+                                    personaje_temp.id_trasfondo = row[30]
+                                    personaje_temp.tipo_size = row[31]
+                                    personaje_temp.partida_id = row[32]
+                                    personaje_temp.id_jugador = row[33]
+                                    personaje_temp.num_npc_partida = row[34]
+
+                                    #idiomas con competencia
+                                    query_get_comp_idioma = """SELECT tipo_language,name,partida_id,id_jugador,num_npc_partida FROM comp_idioma WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                    cursor.execute(query_get_comp_idioma)
+                                    rows = cursor.fetchall()
+                                    for row in rows:
+                                        personaje_temp.idiomas_competencia[row[0]] = True
+                                        
+                                    #salvaciones de competencia
+                                    query_get_salvaciones_comp = """SELECT tipo_caracteristica,name,partida_id,id_jugador,num_npc_partida FROM salvaciones_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                    cursor.execute(query_get_salvaciones_comp)
+                                    rows = cursor.fetchall()
+                                    for row in rows:
+                                        personaje_temp.salvaciones_comp[row[0]] = True
+                                        
+                                    #habilidades de competencia
+                                    query_get_habilidades_comp = """SELECT tipo_habilidad,name,partida_id,id_jugador,num_npc_partida FROM habilides_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                    cursor.execute(query_get_habilidades_comp)
+                                    rows = cursor.fetchall()
+                                    for row in rows:
+                                        personaje_temp.habilidades_comp[row[0]] = True
+                                        
+                                    #inventario
+                                    query_get_inventario_basico = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia,lista_nombre,slot FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Equipo'"
+                                    cursor.execute(query_get_inventario_basico)
+                                    rows = cursor.fetchall()
+                                    slot_name = {}
+                                    if(rows != []):
+                                        for row in rows:
+                                            #cada fila es un objeto del inventario de ese jugador
+                                                if(row[8] == 'Arma'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmasList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Objeto_de_Espacio'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Objeto'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Armadura'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmaduraList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Escudo'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getEscudosList()[row[2]][row[1]],row[2],row[1])
+
+                                    #coger inventario de la mochila
+                                    if(slot_name != {}): #hay mochilas en su inventario
+                                        query_get_inventario_mochila = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia,lista_nombre,slot FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Mochila'"
+                                        cursor.execute(query_get_inventario_mochila)
+                                        rows = cursor.fetchall()
+                                        if(rows != []):
+                                            for row in rows:
+                                                #cada fila es un objeto del inventario de la mochila de ese jugador
+                                                if(row[8] == 'Arma'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmasList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Objeto_de_Espacio'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Objeto'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Armadura'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmaduraList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Escudo'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getEscudosList()[row[2]][row[1]],row[2],row[1])
                                     num_personajes_to_find -=1
                                     if(num_personajes_to_find >0):
                                         pantalla = 'partida_load_wait' #a alguno le falta, pero el host tiene
@@ -664,6 +810,112 @@ class SalaEspera:
                             #solo 1 jugador
                             else:
                                 if(row[33] == self.id):
+                                    personaje_temp = Personaje()
+                                    personaje_temp.initEquipo()
+                                    personaje_temp.name = row[0]
+                                    personaje_temp.sm1 = row[1]
+                                    personaje_temp.sm2 = row[2]
+                                    personaje_temp.sm3 = row[3]
+                                    personaje_temp.nivel = row[4]
+                                    personaje_temp.inspiracion = row[5]
+                                    personaje_temp.esta_muerto = row[6]
+                                    personaje_temp.bpc = row[7]
+                                    personaje_temp.cons = row[8]
+                                    personaje_temp.fu = row[9]
+                                    personaje_temp.des = row[10]
+                                    personaje_temp.sab = row[11]
+                                    personaje_temp.car = row[12]
+                                    personaje_temp.int = row[13]
+                                    personaje_temp.coordenadas_actuales = row[14]
+                                    personaje_temp.vida_temp = row[15]
+                                    personaje_temp.max_vida = row[16]
+                                    personaje_temp.ca = row[17]
+                                    personaje_temp.edad = row[18]
+                                    personaje_temp.peso = row[19]
+                                    personaje_temp.pc = row[20]
+                                    personaje_temp.pp = row[21]
+                                    personaje_temp.pe = row[22]
+                                    personaje_temp.po = row[23]
+                                    personaje_temp.ppt = row[24]
+                                    personaje_temp.velocidad = row[25]
+                                    personaje_temp.descripcion_fisica = row[26]
+                                    personaje_temp.tipo_raza = row[27]
+                                    personaje_temp.tipo_clase = row[28]
+                                    personaje_temp.tipo_alineamiento = row[29]
+                                    personaje_temp.id_trasfondo = row[30]
+                                    personaje_temp.tipo_size = row[31]
+                                    personaje_temp.partida_id = row[32]
+                                    personaje_temp.id_jugador = row[33]
+                                    personaje_temp.num_npc_partida = row[34]
+
+                                    #idiomas con competencia
+                                    query_get_comp_idioma = """SELECT tipo_language,name,partida_id,id_jugador,num_npc_partida FROM comp_idioma WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                    cursor.execute(query_get_comp_idioma)
+                                    rows = cursor.fetchall()
+                                    for row in rows:
+                                        personaje_temp.idiomas_competencia[row[0]] = True
+                                        
+                                    #salvaciones de competencia
+                                    query_get_salvaciones_comp = """SELECT tipo_caracteristica,name,partida_id,id_jugador,num_npc_partida FROM salvaciones_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                    cursor.execute(query_get_salvaciones_comp)
+                                    rows = cursor.fetchall()
+                                    for row in rows:
+                                        personaje_temp.salvaciones_comp[row[0]] = True
+                                        
+                                    #habilidades de competencia
+                                    query_get_habilidades_comp = """SELECT tipo_habilidad,name,partida_id,id_jugador,num_npc_partida FROM habilides_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                    cursor.execute(query_get_habilidades_comp)
+                                    rows = cursor.fetchall()
+                                    for row in rows:
+                                        personaje_temp.habilidades_comp[row[0]] = True
+                                        
+                                    #inventario
+                                    query_get_inventario_basico = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia,lista_nombre,slot FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Equipo'"
+                                    cursor.execute(query_get_inventario_basico)
+                                    rows = cursor.fetchall()
+                                    slot_name = {}
+                                    if(rows != []):
+                                        for row in rows:
+                                            #cada fila es un objeto del inventario de ese jugador
+                                                if(row[8] == 'Arma'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmasList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Objeto_de_Espacio'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Objeto'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Armadura'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmaduraList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Escudo'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getEscudosList()[row[2]][row[1]],row[2],row[1])
+
+                                    #coger inventario de la mochila
+                                    if(slot_name != {}): #hay mochilas en su inventario
+                                        query_get_inventario_mochila = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia,lista_nombre,slot FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Mochila'"
+                                        cursor.execute(query_get_inventario_mochila)
+                                        rows = cursor.fetchall()
+                                        if(rows != []):
+                                            for row in rows:
+                                                #cada fila es un objeto del inventario de la mochila de ese jugador
+                                                if(row[8] == 'Arma'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmasList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Objeto_de_Espacio'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Objeto'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getObjetosList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Armadura'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getArmaduraList()[row[2]][row[1]],row[2],row[1])
+                                                elif(row[8] == 'Escudo'):
+                                                    for i in range(0,row[0]): #añades tantos objetos como cantidad indique
+                                                        personaje_temp.equipo.objetos[row["Almacenaje"][row[7]]].addObjectToSpecificSlotInInventory(row[9],personaje_temp.equipo.listaInventario.getEscudosList()[row[2]][row[1]],row[2],row[1])
                                 #el host tiene personaje asociado
                                     pantalla = 'partida' #solo está el host, así que pasa directamente a partida
                                 #else: pantalla = seleccionPersonaje

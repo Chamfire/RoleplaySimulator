@@ -105,6 +105,34 @@ class Objeto_de_Espacio:
             return 1 #proceso correcto
         else:
             return -1 #no había nada en ese slot
+        
+    def addObjectToSpecificSlot(self,slot,objeto,categoria,nombre):
+        if(self.peso_actual + objeto.peso > self.peso_max):
+            #print("return -1")
+            return -1 #no puede llevar tanto peso
+        
+        if(objeto.stackeable):
+            slot_objeto = self.findSameObject(nombre)
+            if(slot_objeto == - 1):
+                #print("no lo ha encontrado")
+                pass #que siga
+            else:
+                q = self.objetos[slot_objeto][3]
+                self.peso_actual += objeto.peso
+                self.objetos[slot_objeto][3] = q+1
+                #no añadimos nada a número actual de objetos, porque no estamos ocupando un slot nuevo
+                #print("return 1")
+                return 1
+        #si estamos aquí, es que el objeto no era stackeable, o bien no teníamos ningún objeto de ese tipo
+        if(self.num_objetos_actual + 1 > self.num_objetos_max):
+            #print("return -2")
+            return -2 #no hay slots libres
+        else:
+            self.peso_actual += objeto.peso
+            self.num_objetos_actual +=1
+            self.objetos[slot] = [categoria,nombre,objeto,1] #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto,1) --> el 1 es la cantidad de ese objeto
+            #print("return 1")
+            return 1 #proceso correcto
     
 
 
@@ -271,6 +299,35 @@ class Equipo:
                 return i
         else:
             return -1
+    
+    #solo se usará al extraer datos de la bbdd
+    def addObjectToSpecificSlotInInventory(self,slot,objeto,categoria,nombre):
+        if(self.peso_actual + objeto.peso > self.peso_max):
+            #print("return -1")
+            return -1 #no puede llevar tanto peso
+        
+        if(objeto.stackeable):
+            slot_objeto = self.findSameObject(nombre)
+            if(slot_objeto == - 1):
+                #print("no lo ha encontrado")
+                pass #que siga
+            else:
+                q = self.objetos[slot_objeto][3]
+                self.peso_actual += objeto.peso
+                self.objetos[slot_objeto][3] = q+1
+                #no añadimos nada a número actual de objetos, porque no estamos ocupando un slot nuevo
+                #print("return 1")
+                return 1
+        #si estamos aquí, es que el objeto no era stackeable, o bien no teníamos ningún objeto de ese tipo
+        if(self.num_objetos_actual + 1 > self.num_objetos_max):
+            #print("return -2")
+            return -2 #no hay slots libres
+        else:
+            self.peso_actual += objeto.peso
+            self.num_objetos_actual +=1
+            self.objetos[slot] = [categoria,nombre,objeto,1] #Añado el objeto al inventario: self.objetos[slot_1] = (categoria,nombre,objeto,1) --> el 1 es la cantidad de ese objeto
+            #print("return 1")
+            return 1 #proceso correcto
 
     def addObjectToInventory(self,objeto,categoria,nombre):
         if(self.peso_actual + objeto.peso > self.peso_max):
@@ -288,7 +345,7 @@ class Equipo:
                 self.objetos[slot_objeto][3] = q+1
                 #no añadimos nada a número actual de objetos, porque no estamos ocupando un slot nuevo
                 #print("return 1")
-                return 1
+                return slot_objeto
         #si estamos aquí, es que el objeto no era stackeable, o bien no teníamos ningún objeto de ese tipo
         if(self.num_objetos_actual + 1 > self.num_objetos_max):
             #print("return -2")
