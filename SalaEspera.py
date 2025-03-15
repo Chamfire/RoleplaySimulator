@@ -8,6 +8,7 @@ from EscuchaTCP import EscuchaTCP
 from EscuchaUDP import EscuchaUDP
 from EnviarEstadoUDP import EnviarEstadoUDP
 from Global import Global
+from Personaje import Personaje
 
 class SalaEspera:
     #sound
@@ -45,7 +46,7 @@ class SalaEspera:
         self.first_timeC = True # Aún no has pulsado el botón cargar partida
         self.numJugadores = None
         self.isOnline = None
-        self.activeOtherPlayers = {} #jugadores actualmente conectados -> lo emplean host y clientes
+        #self.activeOtherPlayers = {} #jugadores actualmente conectados -> lo emplean host y clientes
         self.ip = ip
         self.puerto = None
         self.puertoUDP = None
@@ -558,7 +559,115 @@ class SalaEspera:
             if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
                 self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                 self.ch1.play(self.pressed) 
-                      
+                #TODO:
+                # Consulta para obtener todos los personajes VIVOS asociados a la partida.
+                # Si todos los jugadores tienen un personaje vivo asociado -> carga directamente la partida, y envía mensaje TCP de cambio de pantalla
+                # Si no todos los jugadores tienen un personaje vivo asociado -> envía a los jugadores sin personaje a la sala de seleccion de personaje, y al resto a la sala de espera 2
+                # Si solo juega el host, no enviará ningun mensaje TCP, y solo puede ir a la pantalla de selección de personaje, o a la de partida, sin pasar por la sala de espera 2
+                if(not self.isOnline):
+                    conn = sqlite3.connect("simuladordnd.db")
+                    cursor = conn.cursor()
+                    query_take_characters = """SELECT name, sm1, sm2, sm3, nivel, inspiracion,esta_muerto,bpc,cons,fu,des,sab,car,int,coordenadas_actuales,vida_temp,max_vida,ca,edad,peso,pc,pp,pe,po,ppt,velocidad,descripcion_fisica,tipo_raza,tipo_clase,tipo_alineamiento,id_trasfondo,tipo_size,partida_id,id_jugador,num_npc_partida FROM personaje WHERE partida_id = '"""+self.currentPartida+"' AND esta_muerto = false"
+                    cursor.execute(query_take_characters)
+                    rows = cursor.fetchall()
+                    if(self.numJugadores != 1):
+                        players_for_finding_character = self.GLOBAL.getOtherPlayers()
+                        num_personajes_to_find = len(players_for_finding_character) + 1 #+1 por el host
+                    
+                    if rows != []:
+                        for row in rows:
+                            if(self.numJugadores != 1):
+                                #varios jugadores -> conectados online
+                                for i,players in players_for_finding_character.items():
+                                    if(row[33] == players[0]):
+                                        #ese jugador tiene un personaje vivo asociado (su id coincide con la id de jugador de ese personaje)
+                                        personaje_temp = Personaje()
+                                        personaje_temp.initEquipo()
+                                        personaje_temp.name = row[0]
+                                        personaje_temp.sm1 = row[1]
+                                        personaje_temp.sm2 = row[2]
+                                        personaje_temp.sm3 = row[3]
+                                        personaje_temp.nivel = row[4]
+                                        personaje_temp.inspiracion = row[5]
+                                        personaje_temp.esta_muerto = row[6]
+                                        personaje_temp.bpc = row[7]
+                                        personaje_temp.cons = row[8]
+                                        personaje_temp.fu = row[9]
+                                        personaje_temp.des = row[10]
+                                        personaje_temp.sab = row[11]
+                                        personaje_temp.car = row[12]
+                                        personaje_temp.int = row[13]
+                                        personaje_temp.coordenadas_actuales = row[14]
+                                        personaje_temp.vida_temp = row[15]
+                                        personaje_temp.max_vida = row[16]
+                                        personaje_temp.ca = row[17]
+                                        personaje_temp.edad = row[18]
+                                        personaje_temp.peso = row[19]
+                                        personaje_temp.pc = row[20]
+                                        personaje_temp.pp = row[21]
+                                        personaje_temp.pe = row[22]
+                                        personaje_temp.po = row[23]
+                                        personaje_temp.ppt = row[24]
+                                        personaje_temp.velocidad = row[25]
+                                        personaje_temp.descripcion_fisica = row[26]
+                                        personaje_temp.tipo_raza = row[27]
+                                        personaje_temp.tipo_clase = row[28]
+                                        personaje_temp.tipo_alineamiento = row[29]
+                                        personaje_temp.id_trasfondo = row[30]
+                                        personaje_temp.tipo_size = row[31]
+                                        personaje_temp.partida_id = row[32]
+                                        personaje_temp.id_jugador = row[33]
+                                        personaje_temp.num_npc_partida = row[34]
+
+                                        #idiomas con competencia
+                                        query_get_comp_idioma = """SELECT tipo_language,name,partida_id,id_jugador,num_npc_partida FROM comp_idioma WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                        cursor.execute(query_get_comp_idioma)
+                                        rows = cursor.fetchall()
+                                        for row in rows:
+                                            personaje_temp.idiomas_competencia[row[0]] = True
+                                        
+                                        #salvaciones de competencia
+                                        query_get_salvaciones_comp = """SELECT tipo_caracteristica,name,partida_id,id_jugador,num_npc_partida FROM salvaciones_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                        cursor.execute(query_get_salvaciones_comp)
+                                        rows = cursor.fetchall()
+                                        for row in rows:
+                                            personaje_temp.salvaciones_comp[row[0]] = True
+                                        
+                                        #habilidades de competencia
+                                        query_get_habilidades_comp = """SELECT tipo_habilidad,name,partida_id,id_jugador,num_npc_partida FROM habilides_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                        cursor.execute(query_get_habilidades_comp)
+                                        rows = cursor.fetchall()
+                                        for row in rows:
+                                            personaje_temp.habilidades_comp[row[0]] = True
+                                        
+                                        #inventario
+                                        query_get_inventario_basico = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Equipo'"
+                                        cursor.execute(query_get_inventario_basico)
+                                        rows = cursor.fetchall()
+                                        if(rows != []):
+                                            for row in rows:
+                                                #cada fila es un objeto del inventario de ese jugador
+                                                
+
+                                        #coger inventario de la mochila
+
+                                        self.GLOBAL.setListaPersonajeHostIndex(row[33],personaje_temp)
+                                        num_personajes_to_find -=1
+                                if(row[33] == self.id):
+                                    #el host tiene personaje asociado
+                                    num_personajes_to_find -=1
+                                    if(num_personajes_to_find >0):
+                                        pantalla = 'partida_load_wait' #a alguno le falta, pero el host tiene
+                                    else:
+                                        pantalla = 'partida' #todos tienen personaje
+                                #else: pantalla = seleccionPersonaje
+                            #solo 1 jugador
+                            else:
+                                if(row[33] == self.id):
+                                #el host tiene personaje asociado
+                                    pantalla = 'partida' #solo está el host, así que pasa directamente a partida
+                                #else: pantalla = seleccionPersonaje
+
             else:
                 pantalla = "salaEspera"
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))

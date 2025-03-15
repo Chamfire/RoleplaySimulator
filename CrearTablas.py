@@ -441,6 +441,12 @@ class CrearTablas:
         """
         )
         cursor.execute("""
+            CREATE TABLE IF NOT EXISTS enum_procedencia (
+                procedencia text PRIMARY KEY
+            )
+        """
+        )
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS inventario (
                 cantidad integer NOT NULL CONSTRAINT cantidad_negativa CHECK(cantidad >=0),
                 name_obj text NOT NULL REFERENCES enum_objeto_inventario(name) ON UPDATE CASCADE,
@@ -449,6 +455,7 @@ class CrearTablas:
                 partida_id text NOT NULL REFERENCES partida(numPartida),
                 id_jugador text REFERENCES jugador(id_jugador),
                 num_npc_partida integer REFERENCES npc(num_npc_partida),
+                procedencia text NOT NULL REFERENCES enum_procedencia(procedencia),
                 PRIMARY KEY(categoria_obj,name_obj,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
             )
         """
@@ -482,6 +489,10 @@ class CrearTablas:
             ["inactiva"],
             ["en progreso"],
             ["completada"]
+        ]
+        data_enum_procedencia = [
+            ["Equipo"],
+            ["Mochila"]
         ]
         data_vinculos = [
             #Acólito
@@ -1089,6 +1100,13 @@ class CrearTablas:
         query_enum_habilidades = """INSERT INTO enum_habilidades
                           (tipo_habilidad) 
                           VALUES (?)"""
+        query_enum_procedencia = """INSERT INTO enum_procedencia
+                         (procedencia)
+                            values(?)"""
+        try:
+            cursor.executemany(query_enum_procedencia,data_enum_procedencia)
+        except:
+            pass
         try:
             cursor.executemany(query_enum_objeto_inventario, data_enum_objeto_inventario)
         except:

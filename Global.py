@@ -7,6 +7,7 @@ class Global:
         self.lock_to = threading.Lock() #para timeout
         self.lock_np = threading.Lock() #para gestionar las salidas de la partida
         self.lock_cs = threading.Lock() #para gestionar la currentScreen
+        self.lock_lph = threading.Lock() #para gestionar la lista de personajes en el host
 
     def initialize(self):
         global otherPlayers 
@@ -21,10 +22,34 @@ class Global:
         noEnPartida = True
         global currentScreen
         currentScreen = "menu"
+        global listaPersonajesHost
+        listaPersonajesHost = {}
 
     def setCurrentScreen(self,s):
         global currentScreen
+        self.lock_cs.acquire()
         currentScreen = s
+        self.lock_cs.release()
+
+    def setListaPersonajesHost(self,l):
+        global listaPersonajesHost
+        self.lock_lph.acquire()
+        listaPersonajesHost = l
+        self.lock_lph.release()
+
+    def getListaPersonajeHost(self):
+        global listaPersonajesHost
+        return listaPersonajesHost
+    
+    def setListaPersonajeHostIndex(self,index,personaje):
+        global listaPersonajesHost
+        self.lock_lph.acquire()
+        listaPersonajesHost[index] = personaje
+        self.lock_lph.release()
+
+    def getListaPersonajeHostIndex(self,index):
+        global listaPersonajesHost
+        return listaPersonajesHost
 
     def getCurrentScreen(self):
         global currentScreen

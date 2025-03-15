@@ -659,11 +659,11 @@ class SeleccionPersonaje2:
 
                     #inventario
                     data_inventario = []
-                    query_save_inventario = """INSERT INTO inventario (cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida)
+                    query_save_inventario = """INSERT INTO inventario (cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia)
                                                 VALUES(?,?,?,?,?,?,?)"""
                     for slot_name, objeto in self.personaje.equipo.objetos.items():
                         if(objeto != None):
-                            data_inventario += [(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,None)]
+                            data_inventario += [(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,None,'Equipo')]
                     conn.executemany(query_save_inventario,data_inventario)
                     conn.commit()
                     conn.close()
