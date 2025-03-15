@@ -43,7 +43,6 @@ class Personaje:
         self.salvaciones_comp = {"des":False,"cons":False,"sab":False,"int":False,"car":False,"fu":False}
         self.habilidades_comp = {"Acrobacias":False,"Atletismo":False,"Conocimiento Arcano":False,"Engaño":False,"Historia":False,"Interpretacion":False,"Intimidación":False,"Investigación":False,"Juego de Manos":False, "Medicina":False,"Naturaleza":False,"Percepción":False,"Perspicacia":False,"Persuasión":False,"Religión":False,"Sigilo":False,"Supervivencia":False,"Trato con Animales":False}
         self.equipo = None
-
         #iniciativa, percepción pasiva y dados de golpe, se extraen solo con un if de la clase
         if(isNPC):
             self.id_jugador = None

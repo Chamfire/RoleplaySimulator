@@ -273,26 +273,38 @@ class CrearTablas:
                 ppt integer NOT NULL CHECK(ppt >=0),
                 velocidad integer NOT NULL CONSTRAINT negative_velocidad_or_not_mult5 CHECK(((velocidad%5) == 0) and velocidad >0),
                 descripcion_fisica text NOT NULL,
-                tipo_raza text NOT NULL REFERENCES enum_raza(tipo_raza) ON UPDATE CASCADE ON DELETE CASCADE,
-                tipo_clase text NOT NULL REFERENCES enum_clase(tipo_clase) ON UPDATE CASCADE ON DELETE CASCADE,
-                tipo_alineamiento text NOT NULL REFERENCES enum_alineamiento(tipo_alineamiento) ON UPDATE CASCADE ON DELETE CASCADE,
-                id_trasfondo integer NOT NULL REFERENCES trasfondo(num_trasfondo) ON UPDATE CASCADE ON DELETE CASCADE, 
-                tipo_size text NOT NULL REFERENCES size(tipo_size) ON UPDATE CASCADE ON DELETE CASCADE,
-                partida_id text NOT NULL REFERENCES partida(numPartida) ON DELETE CASCADE,
-                id_jugador text REFERENCES jugador(id_jugador) ON DELETE CASCADE,
+                tipo_raza text NOT NULL REFERENCES enum_raza(tipo_raza) ON UPDATE CASCADE,
+                tipo_clase text NOT NULL REFERENCES enum_clase(tipo_clase) ON UPDATE CASCADE,
+                tipo_alineamiento text NOT NULL REFERENCES enum_alineamiento(tipo_alineamiento) ON UPDATE CASCADE,
+                id_trasfondo integer NOT NULL REFERENCES trasfondo(num_trasfondo) ON UPDATE CASCADE, 
+                tipo_size text NOT NULL REFERENCES size(tipo_size) ON UPDATE CASCADE,
+                partida_id text NOT NULL REFERENCES partida(numPartida),
+                id_jugador text REFERENCES jugador(id_jugador),
                 num_npc_partida integer REFERENCES npc(num_npc_partida) ON DELETE CASCADE,
                 PRIMARY KEY(partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
             )
         """)
         cursor.execute(
+        """
+            CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador
+                BEFORE UPDATE OF id_jugador ON jugador
+                WHEN EXISTS (SELECT 1 FROM personaje WHERE id_jugador = OLD.id_jugador)
+                AND EXISTS (SELECT 1 FROM personaje)
+                    BEGIN
+                        UPDATE personaje
+                        SET id_jugador = NEW.id_jugador
+                        WHERE id_jugador = OLD.id_jugador;
+                    END;
+        """
+        )
+        cursor.execute(
             """
-            CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador_personaje
-                BEFORE UPDATE ON jugador
-                BEGIN
-                    UPDATE personaje
-                    SET id_jugador = NEW.id_jugador
-                    WHERE id_jugador = OLD.id_jugador;
-                END;
+            CREATE TRIGGER IF NOT EXISTS eliminar_personaje
+                BEFORE DELETE ON partida
+                    BEGIN
+                        DELETE FROM personaje
+                        WHERE partida_id = OLD.numPartida;
+                    END;
         """
         )
 
@@ -304,11 +316,11 @@ class CrearTablas:
         )
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS comp_idioma (
-                tipo_language text NOT NULL REFERENCES enum_language(tipo_language) ON UPDATE CASCADE ON DELETE CASCADE,
-                name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE ON DELETE CASCADE,
-                partida_id text NOT NULL REFERENCES partida(numPartida) ON DELETE CASCADE,
-                id_jugador text REFERENCES jugador(id_jugador) ON DELETE CASCADE CONSTRAINT personaje_must_be_npc_or_jugador_in_id_jugador_comp CHECK(num_npc_partida is NULL),
-                num_npc_partida integer REFERENCES npc(num_npc_partida) ON DELETE CASCADE CONSTRAINT personaje_must_be_npc_or_jugador_in_num_npc_partida_comp CHECK(id_jugador is NULL),
+                tipo_language text NOT NULL REFERENCES enum_language(tipo_language) ON UPDATE CASCADE,
+                name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE,
+                partida_id text NOT NULL REFERENCES partida(numPartida),
+                id_jugador text REFERENCES jugador(id_jugador),
+                num_npc_partida integer REFERENCES npc(num_npc_partida),
                 PRIMARY KEY(tipo_language,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
             )
         """
@@ -316,14 +328,27 @@ class CrearTablas:
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador_comp_idioma
-                BEFORE UPDATE ON jugador
-                BEGIN
-                    UPDATE comp_idioma
-                    SET id_jugador = NEW.id_jugador
-                    WHERE id_jugador = OLD.id_jugador;
-                END;
+                BEFORE UPDATE OF id_jugador ON jugador
+                WHEN EXISTS (SELECT 1 FROM comp_idioma WHERE id_jugador = OLD.id_jugador)
+                AND EXISTS (SELECT 1 FROM comp_idioma)
+                    BEGIN
+                        UPDATE comp_idioma
+                        SET id_jugador = NEW.id_jugador
+                        WHERE id_jugador = OLD.id_jugador;
+                    END;
         """
         )
+        cursor.execute(
+            """
+            CREATE TRIGGER IF NOT EXISTS eliminar_comp_idioma
+                BEFORE DELETE ON partida
+                    BEGIN
+                        DELETE FROM comp_idioma
+                        WHERE partida_id = OLD.numPartida;
+                    END;
+        """
+        )
+
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS enum_caracteristicas (
                 tipo_caracteristica text PRIMARY KEY
@@ -338,11 +363,11 @@ class CrearTablas:
         )
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS salvaciones_comp (
-                tipo_caracteristica text NOT NULL REFERENCES enum_caracteristicas(tipo_caracteristica) ON UPDATE CASCADE ON DELETE CASCADE,
-                name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE ON DELETE CASCADE,
-                partida_id text NOT NULL REFERENCES partida(numPartida) ON DELETE CASCADE,
-                id_jugador text REFERENCES jugador(id_jugador) ON DELETE CASCADE CONSTRAINT personaje_must_be_npc_or_jugador_in_id_jugador_comp CHECK(num_npc_partida is NULL),
-                num_npc_partida integer REFERENCES npc(num_npc_partida) ON DELETE CASCADE CONSTRAINT personaje_must_be_npc_or_jugador_in_num_npc_partida_comp CHECK(id_jugador is NULL),
+                tipo_caracteristica text NOT NULL REFERENCES enum_caracteristicas(tipo_caracteristica) ON UPDATE CASCADE,
+                name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE,
+                partida_id text NOT NULL REFERENCES partida(numPartida),
+                id_jugador text REFERENCES jugador(id_jugador),
+                num_npc_partida integer REFERENCES npc(num_npc_partida),
                 PRIMARY KEY(tipo_caracteristica,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
             )
         """
@@ -350,21 +375,35 @@ class CrearTablas:
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador_salvaciones_comp
-                BEFORE UPDATE ON jugador
-                BEGIN
-                    UPDATE salvaciones_comp
-                    SET id_jugador = NEW.id_jugador
-                    WHERE id_jugador = OLD.id_jugador;
-                END;
+                BEFORE UPDATE OF id_jugador ON jugador
+                WHEN EXISTS (SELECT 1 FROM salvaciones_comp WHERE id_jugador = OLD.id_jugador)
+                AND EXISTS (SELECT 1 FROM salvaciones_comp)
+                    BEGIN
+                        UPDATE salvaciones_comp
+                        SET id_jugador = NEW.id_jugador
+                        WHERE id_jugador = OLD.id_jugador;
+                    END;
         """
         )
+
+        cursor.execute(
+            """
+            CREATE TRIGGER IF NOT EXISTS eliminar_salvaciones_comp
+                BEFORE DELETE ON partida
+                    BEGIN
+                        DELETE FROM salvaciones_comp
+                        WHERE partida_id = OLD.numPartida;
+                    END;
+        """
+        )
+
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS habilidades_comp (
-                tipo_habilidad text NOT NULL REFERENCES enum_habilidades(tipo_habilidad) ON UPDATE CASCADE ON DELETE CASCADE,
-                name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE ON DELETE CASCADE,
-                partida_id text NOT NULL REFERENCES partida(numPartida) ON DELETE CASCADE,
-                id_jugador text REFERENCES jugador(id_jugador) ON DELETE CASCADE CONSTRAINT personaje_must_be_npc_or_jugador_in_id_jugador_comp CHECK(num_npc_partida is NULL),
-                num_npc_partida integer REFERENCES npc(num_npc_partida) ON DELETE CASCADE CONSTRAINT personaje_must_be_npc_or_jugador_in_num_npc_partida_comp CHECK(id_jugador is NULL),
+                tipo_habilidad text NOT NULL REFERENCES enum_habilidades(tipo_habilidad) ON UPDATE CASCADE,
+                name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE,
+                partida_id text NOT NULL REFERENCES partida(numPartida),
+                id_jugador text REFERENCES jugador(id_jugador),
+                num_npc_partida integer REFERENCES npc(num_npc_partida),
                 PRIMARY KEY(tipo_habilidad,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
             )
         """
@@ -372,14 +411,27 @@ class CrearTablas:
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador_habilidades_comp
-                BEFORE UPDATE ON jugador
-                BEGIN
-                    UPDATE habilidades_comp
-                    SET id_jugador = NEW.id_jugador
-                    WHERE id_jugador = OLD.id_jugador;
-                END;
+                BEFORE UPDATE OF id_jugador ON jugador
+                WHEN EXISTS (SELECT 1 FROM habilidades_comp WHERE id_jugador = OLD.id_jugador)
+                AND EXISTS (SELECT 1 FROM habilidades_comp)
+                    BEGIN
+                        UPDATE habilidades_comp
+                        SET id_jugador = NEW.id_jugador
+                        WHERE id_jugador = OLD.id_jugador;
+                    END;
         """
         )
+        cursor.execute(
+            """
+            CREATE TRIGGER IF NOT EXISTS eliminar_habilidades_comp
+                BEFORE DELETE ON partida
+                    BEGIN
+                        DELETE FROM habilidades_comp
+                        WHERE partida_id = OLD.numPartida;
+                    END;
+        """
+        )
+
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS enum_objeto_inventario (
                 categoria text NOT NULL,
@@ -391,24 +443,37 @@ class CrearTablas:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS inventario (
                 cantidad integer NOT NULL CONSTRAINT cantidad_negativa CHECK(cantidad >=0),
-                name_obj text NOT NULL REFERENCES enum_objeto_inventario(name) ON UPDATE CASCADE ON DELETE CASCADE,
-                name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE ON DELETE CASCADE,
-                partida_id text NOT NULL REFERENCES partida(numPartida) ON DELETE CASCADE,
-                id_jugador text REFERENCES jugador(id_jugador) ON DELETE CASCADE CONSTRAINT personaje_must_be_npc_or_jugador_in_id_jugador_comp CHECK(num_npc_partida is NULL),
-                num_npc_partida integer REFERENCES npc(num_npc_partida) ON DELETE CASCADE CONSTRAINT personaje_must_be_npc_or_jugador_in_num_npc_partida_comp CHECK(id_jugador is NULL),
-                PRIMARY KEY(name_obj,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
+                name_obj text NOT NULL REFERENCES enum_objeto_inventario(name) ON UPDATE CASCADE,
+                categoria_obj text NOT NULL REFERENCES enum_objeto_inventario(categoria) ON UPDATE CASCADE,
+                name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE,
+                partida_id text NOT NULL REFERENCES partida(numPartida),
+                id_jugador text REFERENCES jugador(id_jugador),
+                num_npc_partida integer REFERENCES npc(num_npc_partida),
+                PRIMARY KEY(categoria_obj,name_obj,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
             )
         """
         )
         cursor.execute(
             """
             CREATE TRIGGER IF NOT EXISTS actualizar_id_jugador_inventario
-                BEFORE UPDATE ON jugador
-                BEGIN
-                    UPDATE inventario
-                    SET id_jugador = NEW.id_jugador
-                    WHERE id_jugador = OLD.id_jugador;
-                END;
+                BEFORE UPDATE OF id_jugador ON jugador
+                WHEN EXISTS (SELECT 1 FROM inventario WHERE id_jugador = OLD.id_jugador)
+                AND EXISTS (SELECT 1 FROM inventario)
+                    BEGIN
+                        UPDATE inventario
+                        SET id_jugador = NEW.id_jugador
+                        WHERE id_jugador = OLD.id_jugador;
+                    END;
+        """
+        )
+        cursor.execute(
+            """
+            CREATE TRIGGER IF NOT EXISTS eliminar_inventario
+                BEFORE DELETE ON partida
+                    BEGIN
+                        DELETE FROM inventario
+                        WHERE partida_id = OLD.numPartida;
+                    END;
         """
         )
         conn.commit()

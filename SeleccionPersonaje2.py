@@ -5,6 +5,7 @@ import numpy as np
 import threading
 from llama_cpp import Llama
 from ConsultaDescripcion import ConsultaDescripcion
+from Personaje import Personaje
 import ctypes
 import sqlite3
 
@@ -600,7 +601,6 @@ class SeleccionPersonaje2:
                 self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
                 self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
                 self.ch1.play(self.pressed)
-                #TODO: enviar msg con ficha de personaje al host, y si es host, guardar los datos
                 if(not self.isOnline):
                     #guardamos en la bbdd la ficha del jugador
                     conn = sqlite3.connect("simuladordnd.db")
@@ -629,9 +629,46 @@ class SeleccionPersonaje2:
                         
                     data_personaje = (self.personaje.name, self.personaje.sm1,self.personaje.sm2,self.personaje.sm3,self.personaje.nivel,self.personaje.inspiracion,self.personaje.esta_muerto,self.personaje.bpc,self.personaje.cons,self.personaje.fu,self.personaje.des,self.personaje.sab,self.personaje.car,self.personaje.int,self.personaje.coordenadas_actuales,self.personaje.vida_temp,self.personaje.max_vida,self.personaje.ca,self.personaje.edad,self.personaje.peso,self.personaje.pc,self.personaje.pp,self.personaje.pe,self.personaje.po,self.personaje.ppt,self.personaje.velocidad,self.personaje.descripcion_fisica,self.personaje.tipo_raza,self.personaje.tipo_clase,self.personaje.tipo_alineamiento[0],id_trasfondo,self.personaje.tipo_size,self.personaje.partida_id,self.id,None) 
                     conn.execute(query_save_personaje,data_personaje)
+
+                    #competencias de idioma
+                    data_idiomas_comp = []
+                    query_save_comp_idioma = """INSERT INTO comp_idioma (tipo_language,name,partida_id,id_jugador,num_npc_partida)
+                                                VALUES (?,?,?,?,?)"""
+                    for idioma,isCompetent in self.personaje.idiomas_competencia.items():
+                        if(isCompetent):
+                            data_idiomas_comp += [(idioma,self.personaje.name,self.personaje.partida_id,self.id,None)]
+                    conn.executemany(query_save_comp_idioma,data_idiomas_comp)
+                    
+                    #salvaciones de competencia
+                    data_salvaciones_comp = []
+                    query_save_salvaciones_comp = """INSERT INTO salvaciones_comp (tipo_caracteristica,name,partida_id,id_jugador,num_npc_partida)
+                                                    VALUES(?,?,?,?,?)"""
+                    for salvacion, isCompetent in self.personaje.salvaciones_comp.items():
+                        if(isCompetent):
+                            data_salvaciones_comp += [(salvacion,self.personaje.name,self.personaje.partida_id,self.id,None)]
+                    conn.executemany(query_save_salvaciones_comp,data_salvaciones_comp)
+
+                    #habilidades de competencia
+                    data_habilidades_comp = []
+                    query_save_habilidades_comp = """INSERT INTO habilidades_comp (tipo_habilidad,name,partida_id,id_jugador,num_npc_partida)
+                                                    VALUES(?,?,?,?,?)"""
+                    for habilidad, isCompetent in self.personaje.habilidades_comp.items():
+                        if(isCompetent):
+                            data_habilidades_comp += [(habilidad,self.personaje.name,self.personaje.partida_id,self.id,None)]
+                    conn.executemany(query_save_habilidades_comp,data_habilidades_comp)
+
+                    #inventario
+                    data_inventario = []
+                    query_save_inventario = """INSERT INTO inventario (cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida)
+                                                VALUES(?,?,?,?,?,?,?)"""
+                    for slot_name, objeto in self.personaje.equipo.objetos.items():
+                        if(objeto != None):
+                            data_inventario += [(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,None)]
+                    conn.executemany(query_save_inventario,data_inventario)
                     conn.commit()
                     conn.close()
                 else:
+                    #TODO: enviar msg con ficha de personaje al host, y si es host, guardar los datos
                     pass #enviar TCP
 
                 screen = 'partida_load_wait'
