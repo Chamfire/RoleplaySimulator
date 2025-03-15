@@ -6,9 +6,10 @@ import threading
 from llama_cpp import Llama
 from ConsultaDescripcion import ConsultaDescripcion
 import ctypes
+import sqlite3
 
 class SeleccionPersonaje2:
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,model_path,consultaDescripcion):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,model_path,consultaDescripcion,id):
         #screen
         self.screen = screen
         self.opened_screen = None
@@ -21,6 +22,7 @@ class SeleccionPersonaje2:
         self.consultaDescripcion = consultaDescripcion
         self.descripcionSearchingText = None
         self.hiloConsultaDescripcion = None
+        self.id = id
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -599,6 +601,39 @@ class SeleccionPersonaje2:
                 self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
                 self.ch1.play(self.pressed)
                 #TODO: enviar msg con ficha de personaje al host, y si es host, guardar los datos
+                if(not self.isOnline):
+                    #guardamos en la bbdd la ficha del jugador
+                    conn = sqlite3.connect("simuladordnd.db")
+                    cursor = conn.cursor()
+                    #trasfondo: num_trasfondo es la pk, que se autoincrementa sola
+                    query_save_trasfondo = """INSERT INTO trasfondo (tipo_trasfondo, vinculo, defecto, ideal, rasgo_personalidad, num_trasfondo) 
+                                                VALUES (?,?,?,?,?,?)"""
+                    id_t = self.personaje.id_trasfondo[1]
+                    id_trasfondo = str(self.personaje.id_trasfondo[0])+"_"+str((self.personaje.vinculo[1]+id_t*6))+"_"+str((self.personaje.defecto[1]+ id_t*6))+"_"+str((self.personaje.ideal[1]+id_t*6))+"_"+str((self.personaje.rasgo_personalidad[1]+id_t*8))
+                    data_trasfondo = (self.personaje.id_trasfondo[0],(self.personaje.vinculo[1]+id_t*6) ,(self.personaje.defecto[1]+ id_t*6),(self.personaje.ideal[1]+id_t*6),(self.personaje.rasgo_personalidad[1]+id_t*8),id_trasfondo)
+                    #print(data_trasfondo)
+                    query_check_same_trasfondo = "SELECT num_trasfondo FROM trasfondo WHERE num_trasfondo = '"+id_trasfondo+"'"
+                    cursor.execute(query_check_same_trasfondo)
+                    rows = cursor.fetchall() 
+                    #print(rows)
+                    if rows != []:
+                        #existe esa combinación en la bbdd
+                        pass
+                    else:
+                        #si no existe esa combinación aún en la bbdd
+                        cursor.execute(query_save_trasfondo, data_trasfondo)
+
+                    #personaje
+                    query_save_personaje = """INSERT INTO personaje (name, sm1, sm2, sm3, nivel, inspiracion,esta_muerto,bpc,cons,fu,des,sab,car,int,coordenadas_actuales,vida_temp,max_vida,ca,edad,peso,pc,pp,pe,po,ppt,velocidad,descripcion_fisica,tipo_raza,tipo_clase,tipo_alineamiento,id_trasfondo,tipo_size,partida_id,id_jugador,num_npc_partida) 
+                                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
+                        
+                    data_personaje = (self.personaje.name, self.personaje.sm1,self.personaje.sm2,self.personaje.sm3,self.personaje.nivel,self.personaje.inspiracion,self.personaje.esta_muerto,self.personaje.bpc,self.personaje.cons,self.personaje.fu,self.personaje.des,self.personaje.sab,self.personaje.car,self.personaje.int,self.personaje.coordenadas_actuales,self.personaje.vida_temp,self.personaje.max_vida,self.personaje.ca,self.personaje.edad,self.personaje.peso,self.personaje.pc,self.personaje.pp,self.personaje.pe,self.personaje.po,self.personaje.ppt,self.personaje.velocidad,self.personaje.descripcion_fisica,self.personaje.tipo_raza,self.personaje.tipo_clase,self.personaje.tipo_alineamiento[0],id_trasfondo,self.personaje.tipo_size,self.personaje.partida_id,self.id,None) 
+                    conn.execute(query_save_personaje,data_personaje)
+                    conn.commit()
+                    conn.close()
+                else:
+                    pass #enviar TCP
+
                 screen = 'partida_load_wait'
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p

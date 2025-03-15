@@ -828,68 +828,85 @@ class SeleccionPersonaje:
                 self.activeI = False
                 self.opened_screen = None
                 if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
-                    self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
-                    self.ch1.play(self.pressed)
-                    if(self.personaje.tipo_clase == "Explorador"):
-                        self.personaje.des = 15
-                        self.personaje.sab = 14
-                        self.personaje.fu = 13
-                        self.personaje.ca = 11 #10 + 1(Des,12)
-                        self.personaje.int = 10
-                        self.personaje.cons = 8
-                        self.personaje.salvaciones_comp["fu"] = True
-                        self.personaje.salvaciones_comp["des"] = True
-                        #Dinero: 5d4x 10
-                        self.personaje.po = (random.randint(1,4)+random.randint(1,4)+random.randint(1,4)+random.randint(1,4)+random.randint(1,4))*10
-                        self.personaje.initEquipo()
-                        self.initExplorerInventory()
-                        if(self.personaje.tipo_raza == "Enano"):
-                            self.personaje.cons += 2 #tiene un +2 en constitución
-                            self.personaje.idiomas_competencia["Común"] = True
-                            self.personaje.idiomas_competencia["Enano"] = True
-                            #escoger competencias de forma aleatoria
-                            posibles_competencias = ["Atletismo", "Perspicacia", "Investigación","Trato con Animales", "Naturaleza", "Percepción", "Sigilo", "Supervivencia"]
+                    #consulta para comprobar que el nombre del personaje no coincida con otro personaje existente para ese jugador
+                    conn = sqlite3.connect("simuladordnd.db")
+                    cursor = conn.cursor()
+                    query_check_same_name = "SELECT name FROM personaje WHERE name = '"+self.personaje.name+"' AND partida_id = '"+self.currentPartida+"' AND id_jugador = '"+self.id+"'"
+                    cursor.execute(query_check_same_name)
+                    rows = cursor.fetchall() 
+                    conn.close()
+                    #print(rows)
+                    if rows != []:
+                        #el nombre ya existe
+                        self.ch1.play(self.error)
+                        self.personaje.name = ' ' #reseteamos el nombre
+                        error_text =  self.fuente2.render('Ya murió, asúmelo.', True, self.color_light_red)
+                        self.refresh(1,error_text)
+                    else:
+                        #El nombre no existe, podemos continuar reando el personaje
+                        self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
+                        self.ch1.play(self.pressed)
+                        if(self.personaje.tipo_clase == "Explorador"):
+                            self.personaje.des = 15
+                            self.personaje.sab = 14
+                            self.personaje.fu = 13
+                            self.personaje.car = 12
+                            self.personaje.int = 10
+                            self.personaje.cons = 8
+                            self.personaje.ca = 11 #10 + 1(Des,12)
+                            self.personaje.salvaciones_comp["fu"] = True
+                            self.personaje.salvaciones_comp["des"] = True
+                            #Dinero: 5d4x 10
+                            self.personaje.po = (random.randint(1,4)+random.randint(1,4)+random.randint(1,4)+random.randint(1,4)+random.randint(1,4))*10
+                            self.personaje.initEquipo()
+                            self.initExplorerInventory()
+                            if(self.personaje.tipo_raza == "Enano"):
+                                self.personaje.cons += 2 #tiene un +2 en constitución
+                                self.personaje.idiomas_competencia["Común"] = True
+                                self.personaje.idiomas_competencia["Enano"] = True
+                                #escoger competencias de forma aleatoria
+                                posibles_competencias = ["Atletismo", "Perspicacia", "Investigación","Trato con Animales", "Naturaleza", "Percepción", "Sigilo", "Supervivencia"]
 
-                        else:
-                            self.personaje.idiomas_competencia["Común"] = True
-                            self.personaje.idiomas_competencia["Élfico"] = True
-                            self.personaje.habilidades_comp["Percepción"] = True
-                            posibles_competencias = ["Atletismo", "Perspicacia", "Investigación","Trato con Animales", "Naturaleza", "Sigilo", "Supervivencia"]
-                        
-                    elif(self.personaje.tipo_clase == "Bárbaro"):
-                        self.personaje.fu = 15
-                        self.personaje.car = 14
-                        self.personaje.cons = 13
-                        self.personaje.sab = 12
-                        self.personaje.des = 10
-                        self.personaje.ca = 10 #10 + Des (0)
-                        self.personaje.int = 8
-                        self.personaje.salvaciones_comp["fu"] = True
-                        self.personaje.salvaciones_comp["cons"] = True
-                        #Dinero: 2d4x 10
-                        self.personaje.po = (random.randint(1,4)+random.randint(1,4))*10
-                        self.personaje.initEquipo()
-                        self.initBarbarianInventory()
-                        if(self.personaje.tipo_raza == "Enano"):
-                            self.personaje.cons += 2 #tiene un +2 en constitución
-                            self.personaje.idiomas_competencia["Común"] = True
-                            self.personaje.idiomas_competencia["Enano"] = True
-                            #Escoger competencias de forma aleatoria
-                            posibles_competencias = ["Atletismo", "Intimidación", "Naturaleza", "Percepción", "Supervivencia", "Trato con Animales"]
+                            else:
+                                self.personaje.idiomas_competencia["Común"] = True
+                                self.personaje.idiomas_competencia["Élfico"] = True
+                                self.personaje.habilidades_comp["Percepción"] = True
+                                posibles_competencias = ["Atletismo", "Perspicacia", "Investigación","Trato con Animales", "Naturaleza", "Sigilo", "Supervivencia"]
+                            
+                        elif(self.personaje.tipo_clase == "Bárbaro"):
+                            self.personaje.fu = 15
+                            self.personaje.car = 14
+                            self.personaje.cons = 13
+                            self.personaje.sab = 12
+                            self.personaje.des = 10
+                            self.personaje.ca = 10 #10 + Des (0)
+                            self.personaje.int = 8
+                            self.personaje.salvaciones_comp["fu"] = True
+                            self.personaje.salvaciones_comp["cons"] = True
+                            #Dinero: 2d4x 10
+                            self.personaje.po = (random.randint(1,4)+random.randint(1,4))*10
+                            self.personaje.initEquipo()
+                            self.initBarbarianInventory()
+                            if(self.personaje.tipo_raza == "Enano"):
+                                self.personaje.cons += 2 #tiene un +2 en constitución
+                                self.personaje.idiomas_competencia["Común"] = True
+                                self.personaje.idiomas_competencia["Enano"] = True
+                                #Escoger competencias de forma aleatoria
+                                posibles_competencias = ["Atletismo", "Intimidación", "Naturaleza", "Percepción", "Supervivencia", "Trato con Animales"]
 
-                        else:
-                            self.personaje.idiomas_competencia["Común"] = True
-                            self.personaje.idiomas_competencia["Élfico"] = True
-                            self.personaje.habilidades_comp["Percepción"] = True
-                            #Escoger competencias de forma aleatoria
-                            posibles_competencias = ["Atletismo", "Intimidación", "Naturaleza", "Supervivencia", "Trato con Animales"]
-                    escogida = random.randint(0,(len(posibles_competencias)-1))
-                    self.personaje.habilidades_comp[posibles_competencias[escogida]] = True
-                    posibles_competencias.remove(posibles_competencias[escogida])
-                    escogida = random.randint(0,(len(posibles_competencias)-1))
-                    self.personaje.habilidades_comp[posibles_competencias[escogida]] = True
-                    posibles_competencias.remove(posibles_competencias[escogida])     
-                    screen = 'seleccionPersonaje2'
+                            else:
+                                self.personaje.idiomas_competencia["Común"] = True
+                                self.personaje.idiomas_competencia["Élfico"] = True
+                                self.personaje.habilidades_comp["Percepción"] = True
+                                #Escoger competencias de forma aleatoria
+                                posibles_competencias = ["Atletismo", "Intimidación", "Naturaleza", "Supervivencia", "Trato con Animales"]
+                        escogida = random.randint(0,(len(posibles_competencias)-1))
+                        self.personaje.habilidades_comp[posibles_competencias[escogida]] = True
+                        posibles_competencias.remove(posibles_competencias[escogida])
+                        escogida = random.randint(0,(len(posibles_competencias)-1))
+                        self.personaje.habilidades_comp[posibles_competencias[escogida]] = True
+                        posibles_competencias.remove(posibles_competencias[escogida])     
+                        screen = 'seleccionPersonaje2'
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
                     self.ch1.play(self.error)

@@ -181,11 +181,11 @@ class CrearTablas:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS trasfondo (
                 tipo_trasfondo text NOT NULL REFERENCES enum_trasfondo(tipo_trasfondo) ON DELETE CASCADE,
-                vinculo text NOT NULL REFERENCES vinculos(vinculo) ON UPDATE CASCADE ON DELETE CASCADE,
-                defecto text NOT NULL REFERENCES defectos(defecto) ON UPDATE CASCADE ON DELETE CASCADE,
-                ideal text NOT NULL REFERENCES ideales(ideal) ON UPDATE CASCADE ON DELETE CASCADE,
-                rasgo_personalidad text NOT NULL REFERENCES rasgos_personalidad(rasgo_personalidad) ON UPDATE CASCADE ON DELETE CASCADE,
-                num_trasfondo integer PRIMARY KEY CONSTRAINT num_trasfondo_less_or_equal_than_zero CHECK(num_trasfondo >0)
+                vinculo integer NOT NULL REFERENCES vinculos(num_id) ON UPDATE CASCADE ON DELETE CASCADE,
+                defecto integer NOT NULL REFERENCES defectos(num_id) ON UPDATE CASCADE ON DELETE CASCADE,
+                ideal integer NOT NULL REFERENCES ideales(num_id) ON UPDATE CASCADE ON DELETE CASCADE,
+                rasgo_personalidad integer NOT NULL REFERENCES rasgos_personalidad(num_id) ON UPDATE CASCADE ON DELETE CASCADE,
+                num_trasfondo text PRIMARY KEY CONSTRAINT num_trasfondo_less_or_equal_than_zero CHECK(num_trasfondo >0)
             )
         """)
         cursor.execute("""
@@ -262,6 +262,7 @@ class CrearTablas:
                 int integer NOT NULL,
                 coordenadas_actuales text NOT NULL,
                 vida_temp integer NOT NULL CONSTRAINT vida_temp_less_than_zero CHECK(vida_temp >=0),
+                max_vida integer NOT NULL CONSTRAINT max_vida_less_than_zero CHECK(max_vida >0),
                 ca integer NOT NULL CHECK(ca >=0),
                 edad integer NOT NULL CHECK(edad>0),
                 peso integer NOT NULL CHECK(peso>0),
@@ -278,8 +279,8 @@ class CrearTablas:
                 id_trasfondo integer NOT NULL REFERENCES trasfondo(num_trasfondo) ON UPDATE CASCADE ON DELETE CASCADE, 
                 tipo_size text NOT NULL REFERENCES size(tipo_size) ON UPDATE CASCADE ON DELETE CASCADE,
                 partida_id text NOT NULL REFERENCES partida(numPartida) ON DELETE CASCADE,
-                id_jugador text REFERENCES jugador(id_jugador) ON DELETE CASCADE CONSTRAINT personaje_must_be_npc_or_jugador_in_id_jugador CHECK(num_npc_partida is NULL),
-                num_npc_partida integer REFERENCES npc(num_npc_partida) ON DELETE CASCADE CONSTRAINT personaje_must_be_npc_or_jugador_in_num_npc_partida CHECK(id_jugador is NULL),
+                id_jugador text REFERENCES jugador(id_jugador) ON DELETE CASCADE,
+                num_npc_partida integer REFERENCES npc(num_npc_partida) ON DELETE CASCADE,
                 PRIMARY KEY(partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
             )
         """)
@@ -381,7 +382,9 @@ class CrearTablas:
         )
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS enum_objeto_inventario (
-                name text PRIMARY KEY
+                categoria text NOT NULL,
+                name text NOT NULL,
+                PRIMARY KEY(categoria,name)
             )
         """
         )
@@ -915,7 +918,73 @@ class CrearTablas:
             ["Supervivencia"],
             ["Trato con Animales"]
         ]
-        
+        data_enum_objeto_inventario = [
+            ("Armas c/c simples","Bastón"),
+            ("Armas c/c simples","Daga"),
+            ("Armas c/c simples","Gran clava"),
+            ("Armas c/c simples","Hacha de mano"),
+            ("Armas c/c simples","Hoz"),
+            ("Armas c/c simples","Jabalina"),
+            ("Armas c/c simples","Lanza"),
+            ("Armas c/c simples","Martillo ligero"),
+            ("Armas c/c simples","Maza"),
+            ("Armas c/c simples","Clava"),
+            ("Armas a distancia simples","Arco corto"),
+            ("Armas a distancia simples","Ballesta ligera"),
+            ("Armas a distancia simples","Dardo"),
+            ("Armas a distancia simples","Honda"),
+            ("Armas c/c marciales","Alabarda"),
+            ("Armas c/c marciales","Atarraga"),
+            ("Armas c/c marciales","Cimitarra"),
+            ("Armas c/c marciales","Espada corta"),
+            ("Armas c/c marciales","Espada larga"),
+            ("Armas c/c marciales","Espadón"),
+            ("Armas c/c marciales","Estoque"),
+            ("Armas c/c marciales","Hacha de batalla"),
+            ("Armas c/c marciales","Gran hacha"),
+            ("Armas c/c marciales","Guja"),
+            ("Armas c/c marciales","Lanza de caballería"),
+            ("Armas c/c marciales","Látigo"),
+            ("Armas c/c marciales","Lucero del alba"),
+            ("Armas c/c marciales", "Martillo de guerra"),
+            ("Armas c/c marciales","Mayal"),
+            ("Armas c/c marciales","Pica"),
+            ("Armas c/c marciales","Pica de guerra"),
+            ("Armas c/c marciales","Tridente"),
+            ("Armas a distancia marciales", "Arco largo"),
+            ("Armas a distancia marciales","Ballesta de mano"),
+            ("Armas a distancia marciales","Ballesta pesada"),
+            ("Armas a distancia marciales","Cerbatana"),
+            ("Refugio","Saco de dormir"),
+            ("Mecanico","Palanca"),
+            ("Otros","Piton"),
+            ("Iluminación","Antorcha"),
+            ("Otros","Yesquero"),
+            ("Comida","Ración"),
+            ("Bebida","Odre de agua"),
+            ("Otros","Cuerda de cáñamo"),
+            ("Munición","Flecha"),
+            ("Almacenaje","Mochila"),
+            ("Kit","De cocina"),
+            ("Mecanico","Martillo"),
+            ("Armaduras ligeras","Acolchada"),
+            ("Armaduras ligeras","Cuero"),
+            ("Armaduras ligeras","Cuero tachonado"),
+            ("Armaduras medias","Pieles"),
+            ("Armaduras medias","Camisote de mallas"),
+            ("Armaduras medias","Cota de escamas"),
+            ("Armaduras medias","Coraza"),
+            ("Armaduras medias","Semiplacas"),
+            ("Armaduras pesadas","Cota de anillas"),
+            ("Armaduras pesadas","Cota de mallas"),
+            ("Armaduras pesadas","Bandas"),
+            ("Armaduras pesadas","Placas"),
+            ("Escudo","Escudo básico")
+        ]
+        query_enum_objeto_inventario = """INSERT INTO enum_objeto_inventario
+                            (categoria,name)
+                            VALUES (?,?)"""
+
         query_enum_estado = """INSERT INTO enum_estado
                           (estado_quest) 
                           VALUES (?)"""
@@ -955,6 +1024,11 @@ class CrearTablas:
         query_enum_habilidades = """INSERT INTO enum_habilidades
                           (tipo_habilidad) 
                           VALUES (?)"""
+        try:
+            cursor.executemany(query_enum_objeto_inventario, data_enum_objeto_inventario)
+        except:
+            #no hacemos nada, los datos ya estaban en la tabla
+            pass
         try:
             cursor.executemany(query_enum_estado, data_enum_estado)
         except:

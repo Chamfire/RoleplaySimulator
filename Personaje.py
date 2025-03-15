@@ -2,9 +2,9 @@ import Lista_Inventario
 class Personaje:
     def __init__(self,isNPC,partida_id,id_jugador_or_NPC):
         self.name = ' ' #lo modifica el jugador
-        self.sm1 = True
-        self.sm2 = True
-        self.sm3 = True
+        self.sm1 = False
+        self.sm2 = False
+        self.sm3 = False
         self.nivel = 1
         self.inspiracion = 0
         self.esta_muerto = False
@@ -21,7 +21,7 @@ class Personaje:
         self.pe = 0
         self.po = 0
         self.ppt = 0
-        self.coordenadas_actuales = None #se calcula con el mapa
+        self.coordenadas_actuales = '(0,0)' #de momento serán esas
         self.vida_temp = None #cambiar al escoger la clase
         self.max_vida = None
         self.ca = None #cambiar al escoger personaje

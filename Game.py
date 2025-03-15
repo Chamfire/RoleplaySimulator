@@ -120,7 +120,7 @@ class Game:
         self.joinPartida = UnionPartida(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
-        self.seleccionPersonaje2 = SeleccionPersonaje2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,model_path,self.consultaDescripcion)
+        self.seleccionPersonaje2 = SeleccionPersonaje2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,model_path,self.consultaDescripcion,self.perfil.id)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
         mixer.music.play(-1)
