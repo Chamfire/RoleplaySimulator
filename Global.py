@@ -67,6 +67,16 @@ class Global:
         #print('despues',otherPlayers)
         self.lock_op.release()
 
+    def getOtherPlayersTotalRegistered(self):
+        global otherPlayers
+        cont = 0
+        if (otherPlayers != {}):
+            for player in otherPlayers:
+                if player != None:
+                    cont +=1
+        return cont
+
+
     def getTimeout(self):
         global timeout
         return timeout

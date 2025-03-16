@@ -704,7 +704,7 @@ class SeleccionPersonaje2:
                     datos_personaje_serialized = pickle.dumps(self.personaje)
                     msg = str(self.password)+":"+str(self.id)+":enviar_personaje:"+str(datos_personaje_serialized)
                     socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    socket_temporal.connect((self.ip_dest,self.port_dest))
+                    socket_temporal.connect((self.ip_dest,int(self.port_dest)))
                     socket_temporal.sendall(msg.encode('utf-8'))
                     respuesta = socket_temporal.recv(1024).decode('utf-8') #tiene timeout de unos segundos
                     print('Respuesta TCP a qué sala ir(podría ser el último en hacerse la ficha): ',respuesta)
