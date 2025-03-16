@@ -187,13 +187,13 @@ class EscuchaTCP:
                                                 VALUES (?,?,?,?)"""
                             cursor.execute(query_save_jugador,data_jugador_yo)  
                             conn.commit() 
-                            data_jugador_partida = (0,self.currentPartida,resp[1][3]) #nMuertes_partida,partida_id,id_jugador
-                            query_save_partida_jugador = """INSERT INTO partida_jugador
+                        data_jugador_partida = (0,self.currentPartida,resp[1][3]) #nMuertes_partida,partida_id,id_jugador
+                        query_save_partida_jugador = """INSERT INTO partida_jugador
                                                         (nMuertes_partida,partida_id,id_jugador) 
                                                         VALUES (?,?,?)"""
-                            cursor.execute(query_save_partida_jugador,data_jugador_partida)  
-                            conn.commit() 
-                            conn.close()
+                        cursor.execute(query_save_partida_jugador,data_jugador_partida)  
+                        conn.commit() 
+                        conn.close()
                     
                 else:
                     msg_no = "no"
