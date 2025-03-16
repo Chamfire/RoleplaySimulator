@@ -104,6 +104,9 @@ class SalaEspera:
     def setPassword(self,password):
         self.password = password
 
+    def getPersonaje(self):
+        return self.personaje
+
     def setPortUDPYSocketUDP(self,puertoYSocket): #solo la usará un jugador que se vaya a unir a la partida
         self.puertoUDP = puertoYSocket[0]
         self.socketUDP = puertoYSocket[1]

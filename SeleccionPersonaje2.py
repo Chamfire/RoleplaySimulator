@@ -95,6 +95,9 @@ class SeleccionPersonaje2:
     def getScreen(self):
         return self.screen
     
+    def getPersonaje(self):
+        return self.personaje
+    
     def renderTextBlock(self):
         lineSpacing = -2
         spaceWidth, fontHeight = self.fuente3.size(" ")[0], self.fuente3.size("Tg")[1]

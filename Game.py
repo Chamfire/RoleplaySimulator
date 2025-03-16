@@ -24,6 +24,7 @@ from huggingface_hub import hf_hub_download
 from llama_cpp import Llama
 from ConsultaDescripcion import ConsultaDescripcion
 from SalaEspera2 import SalaEspera2
+from PartidaScreen import PartidaScreen
 import random
 #import requests
 
@@ -128,6 +129,7 @@ class Game:
         self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id,seed_random)
         self.seleccionPersonaje2 = SeleccionPersonaje2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,model_path,self.consultaDescripcion,self.perfil.id,seed_random)
         self.salaEspera2 = SalaEspera2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
+        self.partidaScreen = PartidaScreen(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
         mixer.music.play(-1)
@@ -193,6 +195,8 @@ class Game:
                     self.seleccionPersonaje2.refresh(0,None)
                 elif self.currentScreen == "partida_load_wait":
                     self.salaEspera2.render()
+                elif self.currentScreen == "partida":
+                    self.partidaScreen.render()
 
             if not pygame.display.get_active():
                 self.minimized = True #se ha hecho escape para ir al escritorio
@@ -285,7 +289,7 @@ class Game:
                             self.changedScreen = True
                             self.currentScreen = screenToChange
                             self.GLOBAL.setCurrentScreen(screenToChange)
-                            if(screenToChange != "seleccionPersonaje"): #si no se carga una partida, y volvemos hacia atrás, cerramos el socket
+                            if(screenToChange != "seleccionPersonaje" and screenToChange != "partida_load_wait" and screenToChange != "partida"): #si no se carga una partida, y volvemos hacia atrás, cerramos el socket
                                 self.online = False
                                 self.salaEspera.escuchaTCP.closeSocketTCPServer()
                                 self.salaEspera.escuchaUDP.closeSocketUDPServer()
@@ -295,9 +299,11 @@ class Game:
                                     self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
                                 except:
                                     pass
-                            else: #si la siguiente es seleccionPersonaje le pasamos la contraseña
+                            elif(screenToChange == "seleccionPersonaje"): #si la siguiente es seleccionPersonaje le pasamos la contraseña
                                 self.seleccionPersonaje.setPassword(self.salaEspera.getPassword())
                                 self.seleccionPersonaje.setCurrentPartida(self.salaEspera.getCurrentPartida())
+                            elif(screenToChange == "partida_load_wait" or screenToChange == "partida"):
+                                self.partidaScreen.setPersonajeMio(self.salaEspera.getPersonaje()) #le pasamos el personaje ya cargado de la bbdd
                             self.screen = self.salaEspera.getScreen()
                     elif self.currentScreen == "joinPartida":
                         self.joinPartida.setNameYAvatar(self.perfil.name,self.perfil.avatarPicPerfil)
@@ -375,6 +381,8 @@ class Game:
                                 except:
                                     pass 
                                 self.seleccionPersonaje2.closeHiloBusquedaDescripcion()
+                            else:
+                                self.partidaScreen.setPersonajeMio(self.seleccionPersonaje2.getPersonaje()) #establecemos el personaje que hemos creado
                              
                     #ahora toca actualizar
                     if self.changedScreen:
