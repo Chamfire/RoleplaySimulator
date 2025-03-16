@@ -62,7 +62,7 @@ class EnviarEstadoUDP:
                                 jugador_modificado = (jugador[0],(jugador[1][0],jugador[1][1],False,jugador[1][3],jugador[1][4],jugador[1][5]))
                                 self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
                                 self.GLOBAL.setTimeoutIndex(posicion,None)
-                                if(self.GLOBAL.getCurrentScreen() == "salEspera"):
+                                if(self.GLOBAL.getCurrentScreen() == "salaEspera"):
                                     self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
                                 else:
                                     self.GLOBAL.setRefreshScreen("joinSound")
