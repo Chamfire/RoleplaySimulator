@@ -46,7 +46,7 @@ class EscuchaTCP:
                 #print("esperando TCP")
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
-                msg_client = socket_c.recv(12000).decode('utf-8')
+                msg_client = socket_c.recv(65555).decode('utf-8')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
                 msg_to_OtherPlayers = None
@@ -63,8 +63,6 @@ class EscuchaTCP:
                 #print(self.idPropia)
                 #print(self.isNotCurrentlyActive(resp[1][3]))
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
-                print(self.numJugadores)
-                print(self.GLOBAL.getOtherPlayersTotalRegistered())
                 if(resp[0] == 2):
                     #quitamos al jugador de la lista de jugadores activos
                     for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
