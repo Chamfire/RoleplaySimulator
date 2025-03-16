@@ -409,8 +409,8 @@ class SeleccionPersonaje:
                             #no tiene personaje creado, así que le mandamos a seleccionPersonaje también
                             msg = str(self.password)+";"+str(self.id)+";seleccion_personaje"
                         socket_temporal.sendall(msg.encode('utf-8'))
-                    except:
-                        pass
+                    except Exception as e:
+                        print(e)
                     finally:
                         socket_temporal.close() #se cierra el socket al terminar
         pygame.display.update() 

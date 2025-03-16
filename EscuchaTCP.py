@@ -166,6 +166,7 @@ class EscuchaTCP:
                     socket_c.sendall(msg_ok.encode('utf-8'))
                     #lo guardamos en la bbdd como jugador y lo metemos en partida-jugador
                     if(existing_player):
+                        print("ya existía")
                         #si el jugador ya existía, modificamos nombre y pic en la bbdd (pueden haber cambiado)
                         conn = sqlite3.connect("simuladordnd.db")
                         cursor = conn.cursor()
@@ -199,6 +200,7 @@ class EscuchaTCP:
                                                 VALUES (?,?,?,?)"""
                             cursor.execute(query_save_jugador,data_jugador_yo)  
                             conn.commit() 
+                        print("adding to partida-jugador")
                         data_jugador_partida = (0,self.currentPartida,resp[1][3]) #nMuertes_partida,partida_id,id_jugador
                         query_save_partida_jugador = """INSERT INTO partida_jugador
                                                         (nMuertes_partida,partida_id,id_jugador) 

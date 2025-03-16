@@ -166,7 +166,10 @@ class Game:
                     self.serverDisc.setScreen(self.screen)
                     self.salaEspera.escuchaUDP.closeSocketUDPServer()
                     self.salaEspera.enviarEstadoUDP.desconectar()
-                    self.joinPartida.escuchaTCPClient.closeSocketTCPServerSinMSG()
+                    try:
+                        self.joinPartida.escuchaTCPClient.closeSocketTCPServerSinMSG()
+                    except:
+                        pass
                     self.serverDisc.render()
                 elif screenToRefresh == "seleccionPersonaje":
                     self.currentScreen = screenToRefresh
