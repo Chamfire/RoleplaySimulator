@@ -4,6 +4,7 @@ from pygame import mixer
 from EscuchaTCPClient import EscuchaTCPClient
 import socket
 import threading
+import pickle
 
 class UnionPartida:
     #sound
@@ -20,6 +21,7 @@ class UnionPartida:
         self.ip_dest = None
         self.port_dest = None
         self.escuchaTCPClient = None
+        self.personaje = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -85,6 +87,9 @@ class UnionPartida:
     
     def getIpANDPortDest(self):
         return (self.ip_dest,self.port_dest,self.password)
+    
+    def getPersonaje(self):
+        return self.personaje
     
     def reload(self):
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
@@ -250,13 +255,42 @@ class UnionPartida:
                     for i in range(0,len(resp)-3):
                         [id_j,name,pic,isActive] = resp[i+3].split(';')
                         jugadores[i] = (id_j,(name,int(pic),isActive)) 
-                    return (True,int(resp[1]),jugadores,int(resp[2]))
+                    return (0,int(resp[1]),jugadores,int(resp[2])) #pantalla 0: sala espera
                 else:
-                    return (False,None,None)
+                    return (-1,None,None)
+            elif(resp[0] == "ok_ve_salaEspera2"):
+                if(resp[2] != None and int(resp[2])>=0 and int(resp[2])<=6 and resp[3] != None and int(resp[3])>=10000 and int(resp[3]) <=99999): # si numjugadores recibido está entre 0 y 6 y el puerto es real
+                    jugadores = {}
+                    for i in range(0,len(resp)-4):
+                        [id_j,name,pic,isActive] = resp[i+4].split(';')
+                        jugadores[i] = (id_j,(name,int(pic),isActive)) 
+                    personaje = pickle.loads(bytes(resp[1]))
+                    return (1,int(resp[2]),jugadores,int(resp[3]),personaje) #pantalla 1: salaEspera2
+                else:
+                    return (-1,None,None)
+            elif(resp[0] == "ok_ve_seleccionPersonaje"):
+                if(resp[1] != None and int(resp[1])>=0 and int(resp[1])<=6 and resp[2] != None and int(resp[2])>=10000 and int(resp[2]) <=99999): # si numjugadores recibido está entre 0 y 6 y el puerto es real
+                    jugadores = {}
+                    for i in range(0,len(resp)-3):
+                        [id_j,name,pic,isActive] = resp[i+3].split(';')
+                        jugadores[i] = (id_j,(name,int(pic),isActive)) 
+                    return (2,int(resp[1]),jugadores,int(resp[2])) #pantalla 2: seleccionPersonaje
+                else:
+                    return (-1,None,None)
+            elif(resp[0] == "ok_ve_partida"):
+                if(resp[2] != None and int(resp[2])>=0 and int(resp[2])<=6 and resp[3] != None and int(resp[3])>=10000 and int(resp[3]) <=99999): # si numjugadores recibido está entre 0 y 6 y el puerto es real
+                    jugadores = {}
+                    for i in range(0,len(resp)-4):
+                        [id_j,name,pic,isActive] = resp[i+4].split(';')
+                        jugadores[i] = (id_j,(name,int(pic),isActive)) 
+                    personaje = pickle.loads(bytes(resp[1]))
+                    return (3,int(resp[2]),jugadores,int(resp[3]),personaje) #pantalla 3: partida
+                else:
+                    return (-1,None,None)
             else:
-                return (False,None,None)
+                return (-1,None,None)
         except:
-            return (False,None,None)
+            return (-1,None,None)
         
     def getPortUDPYSocket(self):
         return (self.portUDP,self.socketUDP)
@@ -308,11 +342,11 @@ class UnionPartida:
                         msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)+":"+str(self.portUDP)+":"+str(puertoTCP)
                         #patata:pepe:3:id:56384:49234 <- ejemplo mensaje
                         socket_c.sendall(msg_client.encode('utf-8'))
-                        respuesta = socket_c.recv(1024).decode('utf-8') #tiene timeout de unos segundos
+                        respuesta = socket_c.recv(65555).decode('utf-8') #tiene timeout de unos segundos
                         print('Datos recibidos: ',respuesta)
                         resp = self.checkformat(respuesta)
                         print(resp)
-                        if(not resp[0]):
+                        if(resp[0] == -1):
                             self.code = ' ' 
                             self.refresh()
                             pygame.draw.rect(self.screen, self.color_dark_red, self.inputBox2, 2)
@@ -332,9 +366,16 @@ class UnionPartida:
                             print('jugadores: ',self.jugadores)
                             self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                             self.ch1.play(self.pressed)
-                    except Exception as e:
+                            if(resp[0] == 1):
+                                pantalla = "partida_load_wait"
+                                self.personaje = resp[4]
+                            elif(resp[0] == 2):
+                                pantalla = "seleccionPersonaje"
+                            elif(resp[0] == 3):
+                                pantalla = "partida"
+                                self.personaje = resp[4]
+                    except:
                         #mostrar en rojo el recuadro + texto de no es correcto + reseteo del valor de self.code
-                        print(e)
                         self.code = ' ' 
                         self.refresh()
                         pygame.draw.rect(self.screen, self.color_dark_red, self.inputBox2, 2)

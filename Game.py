@@ -335,6 +335,7 @@ class Game:
                             elif(screenToChange == "partida_load_wait" or screenToChange == "partida"):
                                 self.partidaScreen.setPersonajeMio(self.salaEspera.getPersonaje()) #le pasamos el personaje ya cargado de la bbdd
                             self.screen = self.salaEspera.getScreen()
+
                     elif self.currentScreen == "joinPartida":
                         self.joinPartida.setNameYAvatar(self.perfil.name,self.perfil.avatarPicPerfil)
                         screenToChange = self.joinPartida.clickedMouse()
@@ -347,6 +348,14 @@ class Game:
                                 self.salaEspera.setNumJugadoresYOtherPlayers(self.joinPartida.getNumJugadoresAndJugadoresAndPort())
                                 self.salaEspera.setPortUDPYSocketUDP(self.joinPartida.getPortUDPYSocket())
                                 self.salaEspera.setPassword(self.joinPartida.getPassword())
+                            elif(screenToChange == "partida_load_wait" or screenToChange == "partida"):
+                                self.partidaScreen.setPersonajeMio(self.joinPartida.getPersonaje())
+                            elif(self.currentScreen == "seleccionPersonaje"):
+                                self.seleccionPersonaje.setPassword(self.joinPartida.getPassword())
+                                if(not self.online):
+                                    self.seleccionPersonaje.setCurrentPartida(self.salaEspera.getCurrentPartida())
+                            else:
+                                pass
                             self.screen = self.joinPartida.getScreen()
                     elif self.currentScreen == "server_disc":
                         screenToChange = self.serverDisc.clickedMouse()

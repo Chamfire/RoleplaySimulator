@@ -119,12 +119,24 @@ class EscuchaTCP:
                 elif(resp[0] == -1):
                     pass
                 elif(resp[0] == 1 and (resp[1][0] == self.password) and (((self.GLOBAL.getCurrentPlayers() < self.numJugadores) and (self.numJugadores > self.GLOBAL.getOtherPlayersTotalRegistered()+1)) or self.existsPlayer(resp[1][3])) and self.idPropia != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
-                    msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                    currentScreen = self.GLOBAL.getCurrentScreen()
+                    if(currentScreen == "salaEspera"):
+                        msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                    elif(currentScreen == "seleccionPersonaje" or currentScreen == "seleccionPersonaje2" or "salaEspera2"):
+                        personaje_temp = self.GLOBAL.getListaPersonajeHostIndex(resp[1][3])
+                        if(personaje_temp != -1):
+                            msg_ok = "ok_ve_salaEspera2:"+str(pickle.dumps(personaje_temp))+":"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                        else:
+                            msg_ok = "ok_ve_seleccionPersonaje:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                    elif(currentScreen == "partida"):
+                        personaje_temp = self.GLOBAL.getListaPersonajeHostIndex(resp[1][3])
+                        msg_ok = "ok_ve_partida:"+str(pickle.dumps(personaje_temp))+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None): #le pasamos la lista de jugadores tanto activos como inactivos
                             #print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
                             msg_ok = msg_ok+":"+str(self.GLOBAL.getOtherPlayersIndex(i)[0])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][0]+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][1])+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][2])
                             #el mensaje tendrá este formato -> ok:4:56382:id1;pepe;1:id2;juan;4
+                
                     free_pos = -1
                     existing_player = False
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
