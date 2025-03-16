@@ -284,7 +284,9 @@ class SeleccionPersonaje:
 
         #render screen
         self.isOnline = isOnline
-        self.personaje = Personaje(False,self.currentPartida,self.id) #False porque no es NPC
+        if(not self.isOnline):
+            self.personaje = Personaje(False,self.currentPartida,self.id) #False porque no es NPC
+        self.personaje = Personaje(False,None,self.id) #None porque no es Host-> TODO: cuando el host reciba el mensaje, debe cambiarlo
         
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos

@@ -88,6 +88,7 @@ class Game:
         self.ch3 = pygame.mixer.Channel(2)
         self.ch4 = pygame.mixer.Channel(3)
         self.ch5 = pygame.mixer.Channel(4) #para el hilo de TCP
+        self.join = pygame.mixer.Sound('sounds/joinPartida.wav')
         self.minimized = False
         self.online = False #para pasarselo como parámetro a self.joinPartida y saber cuál de las 2 pantallas cargar
 
@@ -177,6 +178,9 @@ class Game:
                     self.GLOBAL.setRefreshScreen(None)
                     self.seleccionPersonaje2.setResponse(self.consultaDescripcion.getResponse())
                     self.seleccionPersonaje2.refresh(3,None) #refrescamos la pantalla
+                elif screenToRefresh == "joinSound":
+                    self.GLOBAL.setRefreshScreen(None)
+                    self.ch1.play(self.join)
                 else:
                     pass
 

@@ -58,7 +58,11 @@ class EscuchaTCPClient:
                                     jugador_modificado = (jugador[0],(jugador[1][0],jugador[1][1],False))
                                     self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
                                     break
-                            self.GLOBAL.setRefreshScreen("salaEspera")
+                            currentScreen = self.GLOBAL.getCurrentScreen()
+                            if(currentScreen == "salaEspera"):
+                                self.GLOBAL.setRefreshScreen("salaEspera")
+                            elif(currentScreen == "seleccionPersonaje" or currentScreen == "seleccionPersonaje2" or currentScreen == "salaEspera2"):
+                                self.GLOBAL.setRefreshScreen("joinSound")
                         elif(len(resp) == 1 and resp[0] == "seleccion_personaje"):
                             #que cambie de pantalla a selección de personaje
                             self.GLOBAL.setRefreshScreen("seleccionPersonaje")
