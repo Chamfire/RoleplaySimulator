@@ -46,7 +46,7 @@ class EscuchaTCP:
                 #print("esperando TCP")
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
-                msg_client = socket_c.recv(1024).decode('utf-8')
+                msg_client = socket_c.recv(12000).decode('utf-8')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
                 msg_to_OtherPlayers = None

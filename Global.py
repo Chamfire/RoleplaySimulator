@@ -71,7 +71,7 @@ class Global:
         global otherPlayers
         cont = 0
         if (otherPlayers != {}):
-            for player in otherPlayers:
+            for i,player in otherPlayers.items():
                 if player != None:
                     cont +=1
         return cont
