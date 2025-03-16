@@ -18,6 +18,7 @@ class UnionPartida:
         self.portUDP_server = None
         self.portUDP = None
         self.ip_dest = None
+        self.port_dest = None
         self.escuchaTCPClient = None
 
         #musica
@@ -81,6 +82,9 @@ class UnionPartida:
         #self.width,self.height= (self.screen.get_width(), self.screen.get_height())
     def getScreen(self):
         return self.screen
+    
+    def getIpANDPortDest(self):
+        return (self.ip_dest,self.port_dest,self.password)
     
     def reload(self):
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
@@ -299,6 +303,7 @@ class UnionPartida:
                     try:
                         #print(ip_dest,port_dest)
                         self.ip_dest = ip_dest
+                        self.port_dest = port_dest
                         socket_c.connect((ip_dest, int(port_dest)))
                         msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)+":"+str(self.portUDP)+":"+str(puertoTCP)
                         #patata:pepe:3:id:56384:49234 <- ejemplo mensaje

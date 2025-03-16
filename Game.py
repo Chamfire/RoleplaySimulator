@@ -163,6 +163,7 @@ class Game:
                     self.GLOBAL.setRefreshScreen(None)
                     self.screen = self.salaEspera.getScreen()
                     self.seleccionPersonaje.setScreen(self.screen)
+                    self.seleccionPersonaje.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
                     self.seleccionPersonaje.render(self.online)
                 elif screenToRefresh == "partida_load_wait_1":
                     #vamos a partida_load_wait desde la sala de espera

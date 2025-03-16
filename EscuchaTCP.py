@@ -3,6 +3,8 @@ from Global import Global
 import sqlite3
 import pygame
 from pygame import mixer
+
+
 class EscuchaTCP:
 
     def __init__(self,ch5,max_msg_delay):
@@ -78,8 +80,24 @@ class EscuchaTCP:
 
                     #enviamos la actualizacón que deben hacer los jugadores conectados actualmente
                     msg_to_OtherPlayers = self.password+";"+str(self.idPropia)+";usuario_desconectado:"+resp[1]
-                    
-                    #TODO: modificar cuando esté en partida (coger currentScreen)
+                elif(resp[0] == 3):
+                    #check del nombre
+                    conn = sqlite3.connect("simuladordnd.db")
+                    cursor = conn.cursor()
+                    query_check_same_name = "SELECT name FROM personaje WHERE name = '"+resp[1]+"' AND partida_id = '"+self.currentPartida+"' AND id_jugador = '"+resp[2]+"'"
+                    cursor.execute(query_check_same_name)
+                    rows = cursor.fetchall() 
+                    conn.close()
+                    if rows != []:
+                        #ese personaje ya existió, y está muerto
+                        msg_no_usar_nombre = str(self.password)+":"+self.idPropia+":no_usar"
+                        socket_c.sendall(msg_no_usar_nombre.encode('utf-8'))
+                    else:
+                        #puede usar ese nombre sin problemas
+                        msg_usar = str(self.password)+":"+self.idPropia+":usar"
+                        socket_c.sendall(msg_usar.encode('utf-8'))
+
+
                 elif(resp[0] == -1):
                     pass
                 elif(resp[0] == 1 and (resp[1][0] == self.password) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.idPropia != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
@@ -253,6 +271,19 @@ class EscuchaTCP:
                         return (-1,None)
                 else:
                     return (-1,None)
+            #MENSAJE TIPO 3 -> CHECK NOMBRE
+            elif(len(resp) == 4):
+                [pswd,id_user,contenido,nombre] = resp
+                if (pswd != None and pswd == self.password and self.existsPlayer(id_user) and not self.isNotCurrentlyActive(id_user)):
+                    if(contenido != None and contenido == "check_nombre"):
+                        if(nombre != None):
+                            return(3,nombre,id_user)
+                        else:
+                            return(-1,None)
+                    else:
+                        return (-1,None)
+                else:
+                    return (-1,None) 
             else:
                 return (0,None)
         except:

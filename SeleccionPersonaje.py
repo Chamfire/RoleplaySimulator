@@ -7,6 +7,7 @@ from Personaje import Personaje
 import sqlite3
 import random
 import pickle
+import threading
 
 class SeleccionPersonaje:
     #sound
@@ -26,6 +27,9 @@ class SeleccionPersonaje:
         self.max_length_name = 20
         self.personaje = None
         self.textTrasfondo = None
+        self.ip_dest = None
+        self.port_dest = None
+        self.password = None
         self.vinculos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
         self.defectos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
         self.rasgos_personalidad = {0:[None,None,None,None,None,None,None,None],1:[None,None,None,None,None,None,None,None],2:[None,None,None,None,None,None,None,None],3:[None,None,None,None,None,None,None,None],4:[None,None,None,None,None,None,None,None],5:[None,None,None,None,None,None,None,None],6:[None,None,None,None,None,None,None,None],7:[None,None,None,None,None,None,None,None],8:[None,None,None,None,None,None,None,None],9:[None,None,None,None,None,None,None,None],10:[None,None,None,None,None,None,None,None],11:[None,None,None,None,None,None,None,None],12:[None,None,None,None,None,None,None,None]}
@@ -139,6 +143,11 @@ class SeleccionPersonaje:
 
     def getPersonaje(self):
         return self.personaje
+    
+    def setIpANDPortDest(self,ip_y_port_y_pswd):
+        self.ip_dest = ip_y_port_y_pswd[0]
+        self.port_dest = ip_y_port_y_pswd[1]
+        self.password =ip_y_port_y_pswd[2]
 
     def refresh(self,op,content):
         if(op == 7):
@@ -813,6 +822,7 @@ class SeleccionPersonaje:
             self.personaje.equipo.addObjectToInventory(objetosList["Munición"]["Flecha"],"Munición","Flecha")
         #self.personaje.equipo.printEquipoConsolaDebugSuperficial()
 
+
     def clickedMouse(self):
         #click del ratón
         #calculo del tamaño del botón y su posición -> Empezar Simulación
@@ -844,16 +854,47 @@ class SeleccionPersonaje:
             if(self.opened_screen == None): 
                 self.activeI = False
                 self.opened_screen = None
+                
                 if(self.personaje.name != None and self.personaje.name != ' ' and self.personaje.id_trasfondo != None and self.personaje.tipo_raza != None and self.personaje.tipo_clase != None and self.personaje.vinculo != None and self.personaje.defecto != None and self.personaje.rasgo_personalidad != None and self.personaje.ideal != None):
+                    personaje_muerto = False
+                    if(not self.isOnline):
                     #consulta para comprobar que el nombre del personaje no coincida con otro personaje existente para ese jugador
-                    conn = sqlite3.connect("simuladordnd.db")
-                    cursor = conn.cursor()
-                    query_check_same_name = "SELECT name FROM personaje WHERE name = '"+self.personaje.name+"' AND partida_id = '"+self.currentPartida+"' AND id_jugador = '"+self.id+"'"
-                    cursor.execute(query_check_same_name)
-                    rows = cursor.fetchall() 
-                    conn.close()
-                    #print(rows)
-                    if rows != []:
+                        conn = sqlite3.connect("simuladordnd.db")
+                        cursor = conn.cursor()
+                        query_check_same_name = "SELECT name FROM personaje WHERE name = '"+self.personaje.name+"' AND partida_id = '"+self.currentPartida+"' AND id_jugador = '"+self.id+"'"
+                        cursor.execute(query_check_same_name)
+                        rows = cursor.fetchall() 
+                        conn.close()
+                        if rows != []:
+                            personaje_muerto = True
+                        #print(rows)
+
+                    else:
+                        #es online: -> hay que hacerle una consulta al servidor,para que nos diga si ese personaje ya está o no muerto
+                        #TCP
+                        socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                        socket_c.connect((self.ip_dest, int(self.port_dest)))
+                        msg_client = str(self.password) + ":"+self.id+":check_nombre:"+self.personaje.name
+                        #patata:pepe:3:id:56384:49234 <- ejemplo mensaje
+                        socket_c.sendall(msg_client.encode('utf-8'))
+                        respuesta = socket_c.recv(1024).decode('utf-8') #tiene timeout de unos segundos
+                        print('Respuesta TCP a check de nombre: ',respuesta)
+                        resp = respuesta.split(':')
+                        if(len(resp) == 3):
+                            #MENSAJE TIPO 2 -> DESCONEXIÓN
+                            [pswd,id_server,contenido] = resp
+                            if (pswd != None and pswd == self.password and id_server == self.GLOBAL.getOtherPlayersIndex(0)[0]):
+                                if(contenido != None and contenido == "no_usar"):
+                                    personaje_muerto = True
+                                elif(contenido != None and contenido == "usar"):
+                                    personaje_muerto = False
+                                else:
+                                    personaje_muerto = True
+                            else:
+                                personaje_muerto = True
+                                
+
+                    if personaje_muerto:
                         #el nombre ya existe
                         self.ch1.play(self.error)
                         self.personaje.name = ' ' #reseteamos el nombre
