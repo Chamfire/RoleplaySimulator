@@ -23,6 +23,7 @@ import threading
 from huggingface_hub import hf_hub_download
 from llama_cpp import Llama
 from ConsultaDescripcion import ConsultaDescripcion
+from SalaEspera2 import SalaEspera2
 import random
 #import requests
 
@@ -126,6 +127,7 @@ class Game:
         self.serverDisc = ServerDisconected(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id,seed_random)
         self.seleccionPersonaje2 = SeleccionPersonaje2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,model_path,self.consultaDescripcion,self.perfil.id,seed_random)
+        self.salaEspera2 = SalaEspera2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
         mixer.music.play(-1)
@@ -189,6 +191,9 @@ class Game:
                     self.seleccionPersonaje.refresh(7,None)
                 elif self.currentScreen == "seleccionPersonaje2":
                     self.seleccionPersonaje2.refresh(0,None)
+                elif self.currentScreen == "partida_load_wait":
+                    self.salaEspera2.render()
+
             if not pygame.display.get_active():
                 self.minimized = True #se ha hecho escape para ir al escritorio
 
@@ -315,6 +320,24 @@ class Game:
                             self.currentScreen = screenToChange
                             self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.serverDisc.getScreen()
+                    elif self.currentScreen == "partida_load_wait":
+                        screenToChange = self.salaEspera2.clickedMouse()
+                        self.online = False
+                        if(screenToChange != self.currentScreen):
+                            self.changedScreen = True
+                            self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
+                            self.screen = self.salaEspera2.getScreen()
+                            if(screenToChange != "partida"):
+                                self.online = False
+                                self.salaEspera.escuchaTCP.closeSocketTCPServer()
+                                self.salaEspera.escuchaUDP.closeSocketUDPServer()
+                                self.salaEspera.enviarEstadoUDP.desconectar()
+                                try:
+                                    #solo se podrá cerrar si eres el cliente
+                                    self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
+                                except:
+                                    pass 
                     elif self.currentScreen == "seleccionPersonaje":
                         screenToChange = self.seleccionPersonaje.clickedMouse()
                         if(screenToChange != self.currentScreen):
@@ -341,7 +364,7 @@ class Game:
                             self.currentScreen = screenToChange
                             self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.seleccionPersonaje2.getScreen()
-                            if(screenToChange != "partida"):
+                            if(screenToChange != "partida" and screenToChange != "partida_load_wait"):
                                 self.online = False
                                 self.salaEspera.escuchaTCP.closeSocketTCPServer()
                                 self.salaEspera.escuchaUDP.closeSocketUDPServer()
@@ -383,6 +406,9 @@ class Game:
                         elif(self.currentScreen == "server_disc"):
                             self.serverDisc.setScreen(self.screen)
                             self.serverDisc.render()
+                        elif(self.currentScreen == "partida_load_wait"):
+                            self.salaEspera2.setScreen(self.screen)
+                            self.salaEspera2.render()
                         elif(self.currentScreen == "seleccionPersonaje"):
                             self.seleccionPersonaje.setScreen(self.screen)
                             self.seleccionPersonaje.render(self.online)
@@ -436,6 +462,8 @@ class Game:
                         self.seleccionPersonaje.movedMouse()
                     elif self.currentScreen == "seleccionPersonaje2":
                         self.seleccionPersonaje2.movedMouse()
+                    elif self.currentScreen == "partida_load_wait":
+                        self.salaEspera2.movedMouse()
                     else:
                         pass
             #print("FPS = ",int(self.clock.get_fps()))

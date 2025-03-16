@@ -1166,6 +1166,7 @@ class SalaEspera:
                                             personaje_temp.equipo.objeto_equipado_mano_izquierda = [row[0],row[2],row[1],personaje_temp.equipo.listaInventario.getEscudosList()[row[2]][row[1]]]
 
                                     self.personaje = personaje_temp
+                                    #self.personaje.equipo.printEquipoConsolaDebugSuperficial()
                                 
                                 #el host tiene personaje asociado
                                     pantalla = 'partida' #solo está el host, así que pasa directamente a partida

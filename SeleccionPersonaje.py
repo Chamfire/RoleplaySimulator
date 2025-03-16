@@ -732,7 +732,7 @@ class SeleccionPersonaje:
             self.personaje.equipo.addObjectToInventory(objetosList["Comida"]["Ración"],"Comida","Ración")
         self.personaje.equipo.addObjectToInventory(objetosList["Bebida"]["Odre de agua"],"Bebida","Odre de agua")
         self.personaje.equipo.addObjectToInventory(objetosList["Otros"]["Cuerda de cáñamo"],"Otros","Cuerda de cáñamo")
-        self.personaje.equipo.printEquipoConsolaDebugSuperficial()
+        #self.personaje.equipo.printEquipoConsolaDebugSuperficial()
         
     def initExplorerInventory(self):
         armaduraList = self.personaje.equipo.listaInventario.getArmaduraList()
@@ -798,7 +798,7 @@ class SeleccionPersonaje:
         #20 flechas
         for i in range(0,20):
             self.personaje.equipo.addObjectToInventory(objetosList["Munición"]["Flecha"],"Munición","Flecha")
-        self.personaje.equipo.printEquipoConsolaDebugSuperficial()
+        #self.personaje.equipo.printEquipoConsolaDebugSuperficial()
 
     def clickedMouse(self):
         #click del ratón
