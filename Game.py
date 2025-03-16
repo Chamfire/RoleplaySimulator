@@ -397,6 +397,23 @@ class Game:
                                 self.seleccionPersonaje2.closeHiloBusquedaDescripcion()
                             else:
                                 self.partidaScreen.setPersonajeMio(self.seleccionPersonaje2.getPersonaje()) #establecemos el personaje que hemos creado
+                    elif self.currentScreen == "partida":
+                        screenToChange = self.partidaScreen.clickedMouse()
+                        self.online = False
+                        if(screenToChange != self.currentScreen):
+                            self.changedScreen = True
+                            self.currentScreen = screenToChange
+                            self.GLOBAL.setCurrentScreen(screenToChange)
+                            self.screen = self.partidaScreen.getScreen()
+                            self.salaEspera.escuchaTCP.closeSocketTCPServer()
+                            self.salaEspera.escuchaUDP.closeSocketUDPServer()
+                            self.salaEspera.enviarEstadoUDP.desconectar()
+                            try:
+                                #solo se podrá cerrar si eres el cliente
+                                self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
+                            except:
+                                pass 
+
 
                     #ahora toca actualizar
                     if self.changedScreen:

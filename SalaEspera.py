@@ -1172,10 +1172,10 @@ class SalaEspera:
 
                                     self.personaje = personaje_temp
                                     #self.personaje.equipo.printEquipoConsolaDebugSuperficial()
-                                
-                                #el host tiene personaje asociado
+                                    #el host tiene personaje asociado
                                     pantalla = 'partida' #solo está el host, así que pasa directamente a partida
-                                #else: pantalla = seleccionPersonaje
+                                    #else: pantalla = seleccionPersonaje
+                                    print(pantalla)
 
             else:
                 pantalla = "salaEspera"
