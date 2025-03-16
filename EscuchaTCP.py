@@ -5,7 +5,7 @@ import pygame
 from pygame import mixer
 class EscuchaTCP:
 
-    def __init__(self,ch5):
+    def __init__(self,ch5,max_msg_delay):
         self.GLOBAL = Global()
         self.server_socket = None
         self.ip = None
@@ -17,6 +17,7 @@ class EscuchaTCP:
         self.miIcono = None
         self.ch5 = ch5
         self.join = pygame.mixer.Sound('sounds/joinPartida.wav')
+        self.max_msg_delay = max_msg_delay
 
     def initialize(self,ip,puerto,password,numJugadores,idPropia,nombrePropio,miIcono,puertoUDP,socket,currentPartida):
         self.ip = ip
@@ -105,7 +106,7 @@ class EscuchaTCP:
                     msg_to_OtherPlayers = str(self.password)+";"+str(self.idPropia)+";"+"usuario_nuevo:"+str(resp[1][3])+":"+str(resp[1][1])+":"+str(resp[1][2])+":True" #patata;idPropia;usuario_nuevo:id:nombre:avatarPicPerfil:True
                     id_new_player = resp[1][3]
                     #hay que crear un nuevo index para ese jugador en cont de timeout
-                    self.GLOBAL.setTimeoutIndex(free_pos,15) #la id en cont es la misma que en otherPlayers
+                    self.GLOBAL.setTimeoutIndex(free_pos,self.max_msg_delay) #la id en cont es la misma que en otherPlayers
                     if(self.GLOBAL.getCurrentScreen() == "salaEspera"):
                         self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
                     else:

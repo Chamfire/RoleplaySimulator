@@ -3,8 +3,9 @@ from Global import Global
 import threading
 
 class EnviarEstadoUDP:
-    def __init__(self,isOnline,serverPort,ipDest,id,password,t):
+    def __init__(self,isOnline,serverPort,ipDest,id,password,t,max_msgs_udp):
         self.id = id
+        self.max_msgs_udp = max_msgs_udp
         self.GLOBAL = Global()
         self.isOnline = isOnline
         if(self.isOnline):
@@ -39,7 +40,7 @@ class EnviarEstadoUDP:
             cont = {}
             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                 if(self.GLOBAL.getOtherPlayersIndex(i) != None):
-                    cont[i] = 15 #veces sin recibir mensajes de "estoy" del jugador i
+                    cont[i] = self.max_msgs_udp #veces sin recibir mensajes de "estoy" del jugador i
                 else:
                     cont[i] = None
             self.GLOBAL.setTimeout(cont)
@@ -61,8 +62,10 @@ class EnviarEstadoUDP:
                                 jugador_modificado = (jugador[0],(jugador[1][0],jugador[1][1],False,jugador[1][3],jugador[1][4],jugador[1][5]))
                                 self.GLOBAL.setOtherPlayersIndex(posicion,jugador_modificado) #modificamos el jugador, y lo ponemos como inactivo
                                 self.GLOBAL.setTimeoutIndex(posicion,None)
-                                self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
-
+                                if(self.GLOBAL.getCurrentScreen() == "salEspera"):
+                                    self.GLOBAL.setRefreshScreen("salaEspera") #le damos un aviso a GAME para actualizar esta pantalla
+                                else:
+                                    self.GLOBAL.setRefreshScreen("joinSound")
                                 #enviamos la actualizacón que deben hacer los jugadores conectados actualmente
                                 msg_to_OtherPlayers = str(self.password)+";"+str(self.id)+";usuario_desconectado:"+str(jugador[0])
                                 socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

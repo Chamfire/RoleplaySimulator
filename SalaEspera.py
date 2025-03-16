@@ -13,11 +13,12 @@ from Personaje import Personaje
 class SalaEspera:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,font,id,t,ch5):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,icono,name,ml,ip,font,id,t,ch5,max_msg_delay):
         #screen
         self.screen = screen
         self.font = font
-        self.escuchaTCP = EscuchaTCP(ch5)
+        self.max_msg_delay = max_msg_delay
+        self.escuchaTCP = EscuchaTCP(ch5,max_msg_delay)
         self.escuchaUDP = EscuchaUDP()
         self.GLOBAL = Global() 
         self.enviarEstadoUDP = None #tenemos que esperarnos a recibir la variable isOnline para saber qué tipo de envío se hará
@@ -524,7 +525,7 @@ class SalaEspera:
         #Título
         self.screen.blit(self.labelTitle, (self.width/3.4783, self.height/17.5000)) #345 40
         #Iconos de los jugadores
-        self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest,self.id,self.password,self.t)
+        self.enviarEstadoUDP = EnviarEstadoUDP(isOnline,self.puertoUDP_server,self.ip_dest,self.id,self.password,self.t,self.max_msg_delay)
         #print(self.GLOBAL.getOtherPlayers())
         for i in range(0,6):
             x_size = self.width/8.0000 #150
