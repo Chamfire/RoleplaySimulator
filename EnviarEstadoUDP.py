@@ -68,14 +68,16 @@ class EnviarEstadoUDP:
                                     self.GLOBAL.setRefreshScreen("joinSound")
                                 #enviamos la actualizacón que deben hacer los jugadores conectados actualmente
                                 msg_to_OtherPlayers = str(self.password)+";"+str(self.id)+";usuario_desconectado:"+str(jugador[0])
-                                socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                                try:
-                                    socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(posicion)[1][4],self.GLOBAL.getOtherPlayersIndex(posicion)[1][5]))
-                                    socket_temporal.sendall(msg_to_OtherPlayers.encode('utf-8'))
-                                except:
-                                    pass
-                                finally:
-                                    socket_temporal.close() #se cierra el socket al terminar
+                                for i in range(0,len(self.GLOBAL.getOtherPlayers())):
+                                    if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]):
+                                        socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                                        try:
+                                            socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
+                                            socket_temporal.sendall(msg_to_OtherPlayers.encode('utf-8'))
+                                        except:
+                                            pass
+                                        finally:
+                                            socket_temporal.close() #se cierra el socket al terminar
                     threading.Event().wait(self.t) #0.2 segundos
                 except:
                     #print(e)
