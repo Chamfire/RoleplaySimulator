@@ -760,7 +760,7 @@ class SalaEspera:
                                             personaje_temp.salvaciones_comp[row[0]] = True
                                         
                                         #habilidades de competencia
-                                        query_get_habilidades_comp = """SELECT tipo_habilidad,name,partida_id,id_jugador,num_npc_partida FROM habilides_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                        query_get_habilidades_comp = """SELECT tipo_habilidad,name,partida_id,id_jugador,num_npc_partida FROM habilidades_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
                                         cursor.execute(query_get_habilidades_comp)
                                         rows = cursor.fetchall()
                                         for row in rows:
@@ -917,7 +917,7 @@ class SalaEspera:
                                         personaje_temp.salvaciones_comp[row[0]] = True
                                         
                                     #habilidades de competencia
-                                    query_get_habilidades_comp = """SELECT tipo_habilidad,name,partida_id,id_jugador,num_npc_partida FROM habilides_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                    query_get_habilidades_comp = """SELECT tipo_habilidad,name,partida_id,id_jugador,num_npc_partida FROM habilidades_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
                                     cursor.execute(query_get_habilidades_comp)
                                     rows = cursor.fetchall()
                                     for row in rows:

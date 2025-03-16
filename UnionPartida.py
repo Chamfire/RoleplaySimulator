@@ -8,7 +8,7 @@ import threading
 class UnionPartida:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,id,max_msg_delay):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,id):
         #screen
         self.screen = screen
         self.font = font
@@ -19,7 +19,6 @@ class UnionPartida:
         self.portUDP = None
         self.ip_dest = None
         self.escuchaTCPClient = None
-        self.max_msg_delay = max_msg_delay
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
