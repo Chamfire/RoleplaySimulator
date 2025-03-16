@@ -581,8 +581,7 @@ class SalaEspera:
                                 for i,players in players_for_finding_character.items():
                                     if(row[33] == players[0]):
                                         #ese jugador tiene un personaje vivo asociado (su id coincide con la id de jugador de ese personaje)
-                                        personaje_temp = Personaje()
-                                        personaje_temp.initEquipo()
+                                        personaje_temp = Personaje(False,self.currentPartida,row[33])
                                         personaje_temp.name = row[0]
                                         personaje_temp.sm1 = row[1]
                                         personaje_temp.sm2 = row[2]
@@ -593,6 +592,7 @@ class SalaEspera:
                                         personaje_temp.bpc = row[7]
                                         personaje_temp.cons = row[8]
                                         personaje_temp.fu = row[9]
+                                        personaje_temp.initEquipo()
                                         personaje_temp.des = row[10]
                                         personaje_temp.sab = row[11]
                                         personaje_temp.car = row[12]
@@ -695,8 +695,7 @@ class SalaEspera:
                                 if(row[33] == self.id):
                                     #el host tiene personaje asociado
                                     #ese jugador tiene un personaje vivo asociado (su id coincide con la id de jugador de ese personaje)
-                                    personaje_temp = Personaje()
-                                    personaje_temp.initEquipo()
+                                    personaje_temp = Personaje(False,self.currentPartida,row[33])
                                     personaje_temp.name = row[0]
                                     personaje_temp.sm1 = row[1]
                                     personaje_temp.sm2 = row[2]
@@ -707,6 +706,7 @@ class SalaEspera:
                                     personaje_temp.bpc = row[7]
                                     personaje_temp.cons = row[8]
                                     personaje_temp.fu = row[9]
+                                    personaje_temp.initEquipo()
                                     personaje_temp.des = row[10]
                                     personaje_temp.sab = row[11]
                                     personaje_temp.car = row[12]
@@ -810,8 +810,7 @@ class SalaEspera:
                             #solo 1 jugador
                             else:
                                 if(row[33] == self.id):
-                                    personaje_temp = Personaje()
-                                    personaje_temp.initEquipo()
+                                    personaje_temp = Personaje(False,self.currentPartida,row[33])
                                     personaje_temp.name = row[0]
                                     personaje_temp.sm1 = row[1]
                                     personaje_temp.sm2 = row[2]
@@ -822,6 +821,7 @@ class SalaEspera:
                                     personaje_temp.bpc = row[7]
                                     personaje_temp.cons = row[8]
                                     personaje_temp.fu = row[9]
+                                    personaje_temp.initEquipo()
                                     personaje_temp.des = row[10]
                                     personaje_temp.sab = row[11]
                                     personaje_temp.car = row[12]
@@ -863,7 +863,7 @@ class SalaEspera:
                                         personaje_temp.salvaciones_comp[row[0]] = True
                                         
                                     #habilidades de competencia
-                                    query_get_habilidades_comp = """SELECT tipo_habilidad,name,partida_id,id_jugador,num_npc_partida FROM habilides_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
+                                    query_get_habilidades_comp = """SELECT tipo_habilidad,name,partida_id,id_jugador,num_npc_partida FROM habilidades_comp WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
                                     cursor.execute(query_get_habilidades_comp)
                                     rows = cursor.fetchall()
                                     for row in rows:

@@ -663,7 +663,7 @@ class SeleccionPersonaje2:
                                                 VALUES(?,?,?,?,?,?,?,?,?,?)"""
                     for slot_name, objeto in self.personaje.equipo.objetos.items():
                         if(objeto != None):
-                            tipo = str(type(objeto))
+                            tipo = str(type(objeto[2]))
                             tipo_nombre = tipo[25:-2]
                             data_inventario += [(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,None,'Equipo',tipo_nombre,slot_name)]
                     conn.executemany(query_save_inventario,data_inventario)
