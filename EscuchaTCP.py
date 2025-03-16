@@ -120,7 +120,7 @@ class EscuchaTCP:
 
                 elif(resp[0] == -1):
                     pass
-                elif(resp[0] == 1 and (resp[1][0] == self.password) and (self.numJugadores > self.GLOBAL.getOtherPlayersTotalRegistered()+1) and ((self.GLOBAL.getCurrentPlayers() < self.numJugadores) or self.existsPlayer(resp[1][3])) and self.idPropia != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
+                elif(resp[0] == 1 and (resp[1][0] == self.password) and (((self.GLOBAL.getCurrentPlayers() < self.numJugadores) and (self.numJugadores > self.GLOBAL.getOtherPlayersTotalRegistered()+1)) or self.existsPlayer(resp[1][3])) and self.idPropia != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
                     msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None): #le pasamos la lista de jugadores tanto activos como inactivos
