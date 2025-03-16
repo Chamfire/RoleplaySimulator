@@ -1,6 +1,7 @@
 import socket
 from Global import Global
 import pickle
+import base64
 
 class EscuchaTCPClient:
     def __init__(self,server_socket,ip,puerto,ip_server,puerto_server,id,password):
@@ -70,7 +71,8 @@ class EscuchaTCPClient:
                             #que cambie de pantalla a selección de personaje
                             #usaremos content, porque aquí el split no tiene sentido (es un json)
                             personaje_data = content[18:] #a partir del char 18 es el objeto serializado
-                            personaje = pickle.loads(bytes(personaje_data))   #extraer los datos
+                            datos_personaje_decoded = base64.b64decode(personaje_data)
+                            personaje = pickle.loads(datos_personaje_decoded)   #extraer los datos
                             print(personaje.name)
                             print(personaje.equipo.printEquipoConsolaDebugSuperficial())
                             self.personaje_received = personaje

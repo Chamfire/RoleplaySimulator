@@ -8,6 +8,7 @@ import sqlite3
 import random
 import pickle
 import threading
+import base64
 
 class SeleccionPersonaje:
     #sound
@@ -404,7 +405,8 @@ class SeleccionPersonaje:
                             #tiene personaje ya creado, así que le mandamos a la sala de espera, porque el host aún no tiene el personaje
                             #pasamos la clase del personaje a objeto
                             datos_personaje_serialized = pickle.dumps(personaje_player)
-                            msg = str(self.password)+";"+str(self.id)+";partida_load_wait:"+str(datos_personaje_serialized)
+                            datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
+                            msg = str(self.password)+";"+str(self.id)+";partida_load_wait:"+str(datos_personaje_encoded)
                         else: 
                             #no tiene personaje creado, así que le mandamos a seleccionPersonaje también
                             msg = str(self.password)+";"+str(self.id)+";seleccion_personaje"

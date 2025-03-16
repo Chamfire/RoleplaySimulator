@@ -11,6 +11,7 @@ import sqlite3
 import pickle
 from Global import Global
 import socket
+import base64
 
 class SeleccionPersonaje2:
     def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,model_path,consultaDescripcion,id,seed_random):
@@ -702,7 +703,8 @@ class SeleccionPersonaje2:
                             screen = 'partida_load_wait'
                 else:
                     datos_personaje_serialized = pickle.dumps(self.personaje)
-                    msg = str(self.password)+":"+str(self.id)+":enviar_personaje:"+str(datos_personaje_serialized)
+                    datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
+                    msg = str(self.password)+":"+str(self.id)+":enviar_personaje:"+str(datos_personaje_encoded)
                     socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     socket_temporal.connect((self.ip_dest,int(self.port_dest)))
                     socket_temporal.sendall(msg.encode('utf-8'))

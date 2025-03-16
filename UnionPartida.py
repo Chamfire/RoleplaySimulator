@@ -5,6 +5,7 @@ from EscuchaTCPClient import EscuchaTCPClient
 import socket
 import threading
 import pickle
+import base64
 
 class UnionPartida:
     #sound
@@ -264,7 +265,8 @@ class UnionPartida:
                     for i in range(0,len(resp)-4):
                         [id_j,name,pic,isActive] = resp[i+4].split(';')
                         jugadores[i] = (id_j,(name,int(pic),isActive)) 
-                    personaje = pickle.loads(bytes(resp[1]))
+                    datos_personaje_decoded = base64.b64decode(resp[1])
+                    personaje = pickle.loads(datos_personaje_decoded)
                     return (1,int(resp[2]),jugadores,int(resp[3]),personaje) #pantalla 1: salaEspera2
                 else:
                     return (-1,None,None)
@@ -283,7 +285,8 @@ class UnionPartida:
                     for i in range(0,len(resp)-4):
                         [id_j,name,pic,isActive] = resp[i+4].split(';')
                         jugadores[i] = (id_j,(name,int(pic),isActive)) 
-                    personaje = pickle.loads(bytes(resp[1]))
+                    datos_personaje_decoded = base64.b64decode(resp[1])
+                    personaje = pickle.loads(datos_personaje_decoded)
                     return (3,int(resp[2]),jugadores,int(resp[3]),personaje) #pantalla 3: partida
                 else:
                     return (-1,None,None)

@@ -4,6 +4,7 @@ import sqlite3
 import pygame
 from pygame import mixer
 import pickle
+import base64
 
 
 class EscuchaTCP:
@@ -100,7 +101,8 @@ class EscuchaTCP:
 
                 elif(resp[0] == 4):
                     try:
-                        personaje_temp = pickle.loads(bytes(resp[1]))   #extraer los datos
+                        datos_personaje_decoded = base64.b64decode(resp[1])
+                        personaje_temp = pickle.loads(datos_personaje_decoded)   #extraer los datos
                         personaje_temp.partida_id = self.currentPartida
                         self.GLOBAL.setListaPersonajeHostIndex[resp[2]] #añadimos el personaje a la lista de usuarios activos
                         if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost()) + 1)):
@@ -125,12 +127,16 @@ class EscuchaTCP:
                     elif(currentScreen == "seleccionPersonaje" or currentScreen == "seleccionPersonaje2" or "salaEspera2"):
                         personaje_temp = self.GLOBAL.getListaPersonajeHostIndex(resp[1][3])
                         if(personaje_temp != -1):
-                            msg_ok = "ok_ve_salaEspera2:"+str(pickle.dumps(personaje_temp))+":"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                            datos_personaje_serialized = pickle.dumps(personaje_temp)
+                            datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
+                            msg_ok = "ok_ve_salaEspera2:"+str(datos_personaje_encoded)+":"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                         else:
                             msg_ok = "ok_ve_seleccionPersonaje:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     elif(currentScreen == "partida"):
                         personaje_temp = self.GLOBAL.getListaPersonajeHostIndex(resp[1][3])
-                        msg_ok = "ok_ve_partida:"+str(pickle.dumps(personaje_temp))+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                        datos_personaje_serialized = pickle.dumps(personaje_temp)
+                        datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
+                        msg_ok = "ok_ve_partida:"+str(datos_personaje_encoded)+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None): #le pasamos la lista de jugadores tanto activos como inactivos
                             #print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
