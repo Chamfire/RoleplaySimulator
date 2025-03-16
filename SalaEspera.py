@@ -31,6 +31,7 @@ class SalaEspera:
         self.pressed_exit = pygame.mixer.Sound('sounds/button_pressed_ogg.ogg')
         self.selected = pygame.mixer.Sound('sounds/selected_button.wav')
         self.join = pygame.mixer.Sound('sounds/joinPartida.wav')
+        self.error = pygame.mixer.Sound('sounds/error.wav')
 
         #widht y height
         self.width = width
@@ -1175,7 +1176,6 @@ class SalaEspera:
                                     #el host tiene personaje asociado
                                     pantalla = 'partida' #solo está el host, así que pasa directamente a partida
                                     #else: pantalla = seleccionPersonaje
-                                    print(pantalla)
 
             else:
                 pantalla = "salaEspera"

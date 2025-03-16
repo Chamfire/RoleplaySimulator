@@ -454,6 +454,9 @@ class Game:
                         elif(self.currentScreen == "seleccionPersonaje2"):
                             self.seleccionPersonaje2.setScreen(self.screen)
                             self.seleccionPersonaje2.render(self.online)
+                        elif(self.currentScreen == "partida"):
+                            self.partidaScreen.setScreen(self.screen)
+                            self.partidaScreen.render()
                         else:
                             self.screen.fill((0,0,0))
                             pygame.display.flip()
@@ -503,6 +506,8 @@ class Game:
                         self.seleccionPersonaje2.movedMouse()
                     elif self.currentScreen == "partida_load_wait":
                         self.salaEspera2.movedMouse()
+                    elif self.currentScreen == "partida":
+                        self.partidaScreen.movedMouse()
                     else:
                         pass
             #print("FPS = ",int(self.clock.get_fps()))

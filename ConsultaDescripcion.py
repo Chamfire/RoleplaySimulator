@@ -3,7 +3,6 @@ from Global import Global
 import threading
 from deep_translator import GoogleTranslator
 from huggingface_hub import hf_hub_download
-import torch
 import numpy as np
 import random
 
