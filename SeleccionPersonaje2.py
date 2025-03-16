@@ -25,6 +25,7 @@ class SeleccionPersonaje2:
         self.descripcionSearchingText = None
         self.hiloConsultaDescripcion = None
         self.id = id
+        self.numJugadores = None #esto se recibe como parámetro para el host
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -97,6 +98,9 @@ class SeleccionPersonaje2:
     
     def getPersonaje(self):
         return self.personaje
+    
+    def setNumJugadores(self,n):
+        self.numJugadores = n
     
     def renderTextBlock(self):
         lineSpacing = -2
@@ -672,14 +676,21 @@ class SeleccionPersonaje2:
                             data_inventario += [(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,None,'Equipo',tipo_nombre,slot_name)]
                     conn.executemany(query_save_inventario,data_inventario)
 
+
                     #como no tiene armadura equipada, ni objetos al empezar, no se almacenarán aquí, pero si se extraerán de la base de datos en la sala de espera
                     conn.commit()
                     conn.close()
+                    if(self.numJugadores == 1):
+                        screen = 'partida'
+                    else:
+                        #TODO: cambiar en función de los mensajes de finalización de creación de personaje recibidos
+                        screen = 'partida_load_wait'
                 else:
                     #TODO: enviar msg con ficha de personaje al host, y si es host, guardar los datos
+                    screen = 'partida_load_wait'
                     pass #enviar TCP
 
-                screen = 'partida_load_wait'
+                
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
                 self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p

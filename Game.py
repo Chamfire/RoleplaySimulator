@@ -35,9 +35,9 @@ class Game:
         pygame.init()
         self.font = 'agencyfb'
         #self.font = 'agencyfbnormal'
-        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
-        self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
+        #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()
         # --------------SEMILLA ----------------------
         #seed_random = 33
@@ -162,6 +162,17 @@ class Game:
                     self.screen = self.salaEspera.getScreen()
                     self.seleccionPersonaje.setScreen(self.screen)
                     self.seleccionPersonaje.render(self.online)
+                elif screenToRefresh == "partida_load_wait_1":
+                    #vamos a partida_load_wait desde la sala de espera
+                    self.currentScreen = "partida_load_wait"
+                    self.GLOBAL.setCurrentScreen(self.currentScreen)
+                    self.GLOBAL.setRefreshScreen(None)
+                    self.screen = self.salaEspera.getScreen()
+                    #establezco el personaje recibido por bytes
+                    self.partidaScreen.setPersonajeMio(self.joinPartida.escuchaTCPClient.getPersonajeReceived())
+                    self.joinPartida.escuchaTCPClient.setPersonajeReceived()
+                    self.salaEspera2.setScreen(self.screen)
+                    self.salaEspera2.render()
                 elif screenToRefresh == "seleccionPersonaje2":
                     self.GLOBAL.setRefreshScreen(None)
                     self.seleccionPersonaje2.setResponse(self.consultaDescripcion.getResponse())
@@ -363,6 +374,9 @@ class Game:
                                     pass 
                             else:
                                 self.seleccionPersonaje2.setPersonaje(self.seleccionPersonaje.getPersonaje())
+                                if(not self.online):
+                                    #el host recibirá el número de jugadores
+                                    self.seleccionPersonaje2.setNumJugadores(self.salaEspera.getNumJugadores())
                     elif self.currentScreen == "seleccionPersonaje2":
                         screenToChange = self.seleccionPersonaje2.clickedMouse()
                         if(screenToChange != self.currentScreen):
@@ -383,7 +397,7 @@ class Game:
                                 self.seleccionPersonaje2.closeHiloBusquedaDescripcion()
                             else:
                                 self.partidaScreen.setPersonajeMio(self.seleccionPersonaje2.getPersonaje()) #establecemos el personaje que hemos creado
-                             
+
                     #ahora toca actualizar
                     if self.changedScreen:
                         self.changedScreen = False

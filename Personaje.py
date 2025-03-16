@@ -52,6 +52,7 @@ class Personaje:
             self.num_npc_partida = None
     def initEquipo(self):
         self.equipo = Lista_Inventario.Equipo(self.fu) #creo el inventario vacío
+    
         
 
 

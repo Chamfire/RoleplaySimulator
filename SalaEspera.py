@@ -106,6 +106,8 @@ class SalaEspera:
 
     def getPersonaje(self):
         return self.personaje
+    def getNumJugadores(self):
+        return self.numJugadores
 
     def setPortUDPYSocketUDP(self,puertoYSocket): #solo la usará un jugador que se vaya a unir a la partida
         self.puertoUDP = puertoYSocket[0]

@@ -6,6 +6,7 @@ from Global import Global
 from Personaje import Personaje
 import sqlite3
 import random
+import pickle
 
 class SeleccionPersonaje:
     #sound
@@ -382,7 +383,16 @@ class SeleccionPersonaje:
                     socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     try:
                         socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
-                        msg = str(self.password)+";"+str(self.id)+";seleccion_personaje"
+                        id_player = self.GLOBAL.getOtherPlayersIndex(i)[0]
+                        personaje_player = self.GLOBAL.getListaPersonajeHostIndex(id_player)
+                        if(personaje_player != -1):
+                            #tiene personaje ya creado, así que le mandamos a la sala de espera, porque el host aún no tiene el personaje
+                            #pasamos la clase del personaje a objeto
+                            datos_personaje_serialized = pickle.dumps(personaje_player)
+                            msg = str(self.password)+";"+str(self.id)+";partida_load_wait:"+str(datos_personaje_serialized)
+                        else: 
+                            #no tiene personaje creado, así que le mandamos a seleccionPersonaje también
+                            msg = str(self.password)+";"+str(self.id)+";seleccion_personaje"
                         socket_temporal.sendall(msg.encode('utf-8'))
                     except:
                         pass

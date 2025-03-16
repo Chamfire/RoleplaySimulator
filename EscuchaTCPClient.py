@@ -1,5 +1,7 @@
 import socket
 from Global import Global
+import pickle
+
 class EscuchaTCPClient:
     def __init__(self,server_socket,ip,puerto,ip_server,puerto_server,id,password):
         self.imUser = True
@@ -10,6 +12,7 @@ class EscuchaTCPClient:
         self.puerto_server = puerto_server
         self.id = id
         self.password = password
+        self.personaje_received = None
         self.GLOBAL = Global()
         
     def escuchaTCPClient(self):
@@ -59,6 +62,15 @@ class EscuchaTCPClient:
                         elif(len(resp) == 1 and resp[0] == "seleccion_personaje"):
                             #que cambie de pantalla a selección de personaje
                             self.GLOBAL.setRefreshScreen("seleccionPersonaje")
+                        elif(resp[0] == "partida_load_wait"):
+                            #que cambie de pantalla a selección de personaje
+                            #usaremos content, porque aquí el split no tiene sentido (es un json)
+                            personaje_data = content[18:] #a partir del char 18 es el objeto serializado
+                            personaje = pickle.loads(bytes(personaje_data))   #extraer los datos
+                            print(personaje.name)
+                            print(personaje.equipo.printEquipoConsolaDebugSuperficial())
+                            self.personaje_received = personaje
+                            self.GLOBAL.setRefreshScreen("partida_load_wait_1") #cuando el usuario estaba en la sala de espera y le manda a partida_load_wait
                     #si no es el id del servidor, o la contraseña no es correcta, lo ignoramos
                 except:
                     pass #si no es el id del servidor, lo ignoramos
@@ -98,3 +110,10 @@ class EscuchaTCPClient:
         if(self.server_socket != None):
             self.server_socket.close()
             self.server_socket = None
+
+    def getPersonajeReceived(self):
+        return self.personaje_received
+    
+    def setPersonajeReceived(self):
+        self.personaje_received = None
+    

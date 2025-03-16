@@ -49,7 +49,11 @@ class Global:
 
     def getListaPersonajeHostIndex(self,index):
         global listaPersonajesHost
-        return listaPersonajesHost
+        personaje = listaPersonajesHost.get(index)
+        if(personaje != None):
+            return personaje
+        else:
+            return -1
 
     def getCurrentScreen(self):
         global currentScreen
