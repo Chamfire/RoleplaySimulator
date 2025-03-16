@@ -148,10 +148,20 @@ class Game:
                     self.GLOBAL.setRefreshScreen(None)
                     self.salaEspera.refresh() #refrescamos la pantalla
                 elif screenToRefresh == "server_disc":
+                    lastScreen = self.GLOBAL.getCurrentScreen()
                     self.currentScreen = screenToRefresh
                     self.GLOBAL.setCurrentScreen(screenToRefresh)
                     self.GLOBAL.setRefreshScreen(None)
-                    self.screen = self.salaEspera.getScreen() #es la única forma de tomar la pantalla
+                    if(lastScreen == "salaEspera"):
+                        self.screen = self.salaEspera.getScreen() #es la única forma de tomar la pantalla
+                    elif(lastScreen == "seleccionPersonaje"):
+                        self.screen = self.seleccionPersonaje.getScreen() #es la única forma de tomar la pantalla
+                    elif(lastScreen == "seleccionPersonaje2"):
+                        self.screen = self.seleccionPersonaje2.getScreen() #es la única forma de tomar la pantalla
+                    elif(lastScreen == "salaEspera2"):
+                        self.screen = self.salaEspera2.getScreen() #es la única forma de tomar la pantalla
+                    elif(lastScreen == "partida"):
+                        self.screen = self.partidaScreen.getScreen() #es la única forma de tomar la pantalla
                     self.serverDisc.setScreen(self.screen)
                     self.salaEspera.escuchaUDP.closeSocketUDPServer()
                     self.salaEspera.enviarEstadoUDP.desconectar()
