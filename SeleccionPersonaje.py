@@ -10,9 +10,10 @@ import random
 class SeleccionPersonaje:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,myId):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,myId,seed_random):
         #screen
         self.screen = screen
+        random.seed = seed_random
         self.isOnline = None
         self.GLOBAL = Global()
         self.id = myId

@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from pygame import mixer
-import numpy as np
+import random
 import threading
 from llama_cpp import Llama
 from ConsultaDescripcion import ConsultaDescripcion
@@ -10,9 +10,10 @@ import ctypes
 import sqlite3
 
 class SeleccionPersonaje2:
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,model_path,consultaDescripcion,id):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,model_path,consultaDescripcion,id,seed_random):
         #screen
         self.screen = screen
+        random.seed = seed_random
         self.opened_screen = None
         self.isOnline = None
         self.personaje = None
@@ -224,13 +225,13 @@ class SeleccionPersonaje2:
         if(self.personaje.tipo_raza == "Enano"):
             self.defaultTextEdad = self.fuente2.render('1-350', True, self.color_light_grey)
             #60-80kg para un elfo
-            peso = str(np.random.randint(60, 80))
+            peso = str(random.randint(60, 80))
             self.personaje.peso = peso
             self.defaultTextPeso = self.fuente2.render(str(peso+'kg'), True, self.color_white)
         elif(self.personaje.tipo_raza == "Elfo"):
             self.defaultTextEdad = self.fuente2.render('1-750', True, self.color_light_grey)
             #45-66kg para un elfo
-            peso = str(np.random.randint(45, 67))
+            peso = str(random.randint(45, 67))
             self.personaje.peso = peso
             self.defaultTextPeso = self.fuente2.render(str(peso+'kg'), True, self.color_white)
         self.textEdad = self.defaultTextEdad

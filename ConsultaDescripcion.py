@@ -9,12 +9,13 @@ import random
 
 
 class ConsultaDescripcion:
-    def __init__(self):
+    def __init__(self,seed_random):
         self.prompt = None
         self.generation_kwargs = None
         self.llm = None
         self.GLOBAL = Global()
         self.response_good = None
+        random.seed = seed_random #para reproducir los resultados si le pasamos una semilla fija
     
     def initialize(self,personaje,model_path):
         self.prompt = None
