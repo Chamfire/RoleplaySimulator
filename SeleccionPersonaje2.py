@@ -668,6 +668,8 @@ class SeleccionPersonaje2:
                             tipo_nombre = tipo[25:-2]
                             data_inventario += [(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,None,'Equipo',tipo_nombre,slot_name)]
                     conn.executemany(query_save_inventario,data_inventario)
+
+                    #como no tiene armadura equipada, ni objetos al empezar, no se almacenarán aquí, pero si se extraerán de la base de datos en la sala de espera
                     conn.commit()
                     conn.close()
                 else:

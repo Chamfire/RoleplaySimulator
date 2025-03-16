@@ -72,6 +72,8 @@ class Objeto_de_Espacio:
             return -1
         
     def addObject(self,categoria,nombre,objeto,max_capacidad):
+        if categoria == 'Almacenaje':
+            return -3 #no se puede almacenar dentro de un objeto de almacenaje otro de almacenaje
         if(self.peso + objeto.peso > max_capacidad):
             return -2 #pesa demasiado
         if(objeto.stackeable):
@@ -107,6 +109,8 @@ class Objeto_de_Espacio:
             return -1 #no había nada en ese slot
         
     def addObjectToSpecificSlot(self,slot,objeto,categoria,nombre):
+        if categoria == 'Almacenaje':
+            return -3 #no se puede almacenar dentro de un objeto de almacenaje otro de almacenaje
         if(self.peso_actual + objeto.peso > self.peso_max):
             #print("return -1")
             return -1 #no puede llevar tanto peso
@@ -198,10 +202,24 @@ class Equipo:
         for i in range(0,self.num_objetos_max):
             if(self.objetos[str("slot_"+str(i))] != None):
                 print("slot_"+str(i)+": "+self.objetos[str("slot_"+str(i))][0]+"; "+self.objetos[str("slot_"+str(i))][1]+"; "+str(self.objetos[str("slot_"+str(i))][3]))
+                if(self.objetos[str("slot_"+str(i))][1] == 'Almacenaje'):
+                    for j in range(0,self.objetos[str("slot_"+str(i))][2].num_objetos_max):
+                        if(self.objetos[str("slot_"+str(i))][2].objetos[str("slot_"+str(j))] != None):
+                            obj_j = self.objetos[str("slot_"+str(i))][2].objetos[str("slot_"+str(j))]
+                            print("-------------- Almacenaje interno --------------------")
+                            print("slot_"+str(i)+": "+obj_j[0]+"; "+obj_j[1]+"; "+str(obj_j[3]))
+        if(self.armadura_actual != None):
+            print("Armadura equipada: "+self.armadura_actual[0]+"; "+self.armadura_actual[1])
+        if(self.objeto_equipado_mano_derecha != None):
+            print("Objeto mano derecha: "+self.objeto_equipado_mano_derecha[0]+"; "+self.objeto_equipado_mano_derecha[1]+"; "+self.objeto_equipado_mano_derecha[3])
+        if(self.objeto_equipado_mano_izquierda != None):
+            print("Objeto mano izquierda: "+self.objeto_equipado_mano_izquierda[0]+"; "+self.objeto_equipado_mano_izquierda[1]+"; "+self.objeto_equipado_mano_izquierda[3])
+        
+
 
     def passArmorFromInventoryToArmorEquipment(self,categoria,nombre,armor):
         if(self.armadura_actual != None):
-            self.armadura_actual = (categoria,nombre,armor)
+            self.armadura_actual = [categoria,nombre,armor]
             slot_libre = self.find_free_slot()
             if(slot_libre == -1):
                 return -1
@@ -210,7 +228,7 @@ class Equipo:
                 self.objetos[str("slot_"+str(slot_libre))] = [self.armadura_actual[0],self.armadura_actual[1],self.armadura_actual[2],self.armadura_actual[3]]
         self.num_objetos_actual -=1
         #el peso se mantiene, pues lo sigue llevando
-        self.armadura_actual = (categoria,nombre,armor)
+        self.armadura_actual = [categoria,nombre,armor]
         return 1
     
 

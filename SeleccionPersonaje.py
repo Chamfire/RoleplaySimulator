@@ -737,10 +737,11 @@ class SeleccionPersonaje:
         armasList = self.personaje.equipo.listaInventario.getArmasList()
         option = random.randint(1,2)
         # Una cota de escamas o una armadura de cuero
+        #se equipa automáticamente
         if(option == 1):
-            self.personaje.equipo.addObjectToInventory(armaduraList["Armaduras medias"]["Cota de escamas"],"Armaduras medias","Cota de escamas")
+            self.personaje.equipo.armadura_actual = ["Armaduras medias","Cota de escamas",armaduraList["Armaduras medias"]["Cota de escamas"]]
         else:
-            self.personaje.equipo.addObjectToInventory(armaduraList["Armaduras ligeras"]["Cuero"],"Armaduras ligeras","Cuero")
+            self.personaje.equipo.armadura_actual = ["Armaduras ligeras","Cuero", armaduraList["Armaduras ligeras"]["Cuero"]]
         
         #2 espadas cortas o 2 armas simples c/c
         option = random.randint(1,2)
