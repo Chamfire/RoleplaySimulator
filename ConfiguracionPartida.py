@@ -126,6 +126,83 @@ class ConfiguracionPartida:
         self.partidas[self.currentPartida].numPartida = row[5]
         self.partidas[self.currentPartida].nombre = row[6]
 
+    def reload(self):
+        self.opened_screen = False #por si vuelve a abrir más tarde la pantalla
+        self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+        self.screen.blit(pygame.transform.scale(self.partidaNombreLabel, (self.width/4.0000, self.height/17.5000)), (self.width/12.0000, self.height/11.6667)) #300 40 100 60
+        self.screen.blit(pygame.transform.scale(self.line, (self.width/4.0000, self.height/100.0000)), (self.width/12.0000, self.height/7.5269)) #300 7 100 93
+        self.screen.blit(pygame.transform.scale(self.nJugadoresLabel, (self.width/4.0000, self.height/17.5000)), (self.width/12.0000, self.height/5.0000)) #300 40 100 140
+        self.screen.blit(pygame.transform.scale(self.line, (self.width/4.0000, self.height/100.0000)), (self.width/12.0000, self.height/4.0462)) #300 7 100 173
+        self.screen.blit(pygame.transform.scale(self.passwordLabel, (self.width/2.4000, self.height/17.5000)), (self.width/12.0000, self.height/3.1818)) #500 40 100 220
+        self.screen.blit(pygame.transform.scale(self.line, (self.width/2.4000, self.height/100.0000)), (self.width/12.0000, self.height/2.7668)) #500 7 100 253
+        self.screen.blit(pygame.transform.scale(self.ubicacionLabel, (self.width/3.4286, self.height/17.5000)), (self.width/12.0000, self.height/2.3333)) #350 40 100 300
+        self.screen.blit(pygame.transform.scale(self.line, (self.width/3.4286, self.height/100.0000)), (self.width/12.0000, self.height/2.1021)) #350 7 100 333
+        #self.screen.blit(pygame.transform.scale(self.serverPortIPLabel, (self.width/3.4286, self.height/17.5000)), (self.width/1.8462, self.height/2.3333))#350 40 650 300
+        #self.screen.blit(pygame.transform.scale(self.line, (self.width/3.4286, self.height/100.0000)), (self.width/1.8462, self.height/2.1021))
+        #self.screen.blit(pygame.transform.scale(self.portLabel, (self.width/4.0000, self.height/17.5000)), (self.width/1.7778, self.height/1.9444)) #300 40 675 360
+        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/2.4000, self.height/1.1667))#293 57 500 600
+        self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/2.1053, self.height/1.1570)) #150 40 570 605
+        if(self.partidas[self.currentPartida].num_jugadores == 6):
+            self.screen.blit(pygame.transform.scale(self.dice1, (self.width/24.0000, self.height/14.0000)), (self.width/2.8571, self.height/4.8276))#50 50 420 145
+            self.screen.blit(pygame.transform.scale(self.dice2, (self.width/24.0000, self.height/14.0000)), (self.width/2.5000, self.height/4.8276))#50 50 480 145
+            self.screen.blit(pygame.transform.scale(self.dice3, (self.width/24.0000, self.height/14.0000)), (self.width/2.2222, self.height/4.8276))#50 50 540 145
+            self.screen.blit(pygame.transform.scale(self.dice4, (self.width/24.0000, self.height/14.0000)), (self.width/2.0000, self.height/4.8276))#50 50 600 145
+            self.screen.blit(pygame.transform.scale(self.dice5, (self.width/24.0000, self.height/14.0000)), (self.width/1.8182, self.height/4.8276))#50 50 660 145
+            self.screen.blit(pygame.transform.scale(self.dice6_selected, (self.width/24.0000, self.height/14.0000)), (self.width/1.6667, self.height/4.8276))#50 50 720 145
+        elif(self.partidas[self.currentPartida].num_jugadores == 5):
+            self.screen.blit(pygame.transform.scale(self.dice1, (self.width/24.0000, self.height/14.0000)), (self.width/2.8571, self.height/4.8276))#50 50 420 145
+            self.screen.blit(pygame.transform.scale(self.dice2, (self.width/24.0000, self.height/14.0000)), (self.width/2.5000, self.height/4.8276))#50 50 480 145
+            self.screen.blit(pygame.transform.scale(self.dice3, (self.width/24.0000, self.height/14.0000)), (self.width/2.2222, self.height/4.8276))#50 50 540 145
+            self.screen.blit(pygame.transform.scale(self.dice4, (self.width/24.0000, self.height/14.0000)), (self.width/2.0000, self.height/4.8276))#50 50 600 145
+            self.screen.blit(pygame.transform.scale(self.dice5_selected, (self.width/24.0000, self.height/14.0000)), (self.width/1.8182, self.height/4.8276))#50 50 660 145
+            self.screen.blit(pygame.transform.scale(self.dice6, (self.width/24.0000, self.height/14.0000)), (self.width/1.6667, self.height/4.8276))#50 50 720 145
+        elif(self.partidas[self.currentPartida].num_jugadores == 4):
+            self.screen.blit(pygame.transform.scale(self.dice1, (self.width/24.0000, self.height/14.0000)), (self.width/2.8571, self.height/4.8276))#50 50 420 145
+            self.screen.blit(pygame.transform.scale(self.dice2, (self.width/24.0000, self.height/14.0000)), (self.width/2.5000, self.height/4.8276))#50 50 480 145
+            self.screen.blit(pygame.transform.scale(self.dice3, (self.width/24.0000, self.height/14.0000)), (self.width/2.2222, self.height/4.8276))#50 50 540 145
+            self.screen.blit(pygame.transform.scale(self.dice4_selected, (self.width/24.0000, self.height/14.0000)), (self.width/2.0000, self.height/4.8276))#50 50 600 145
+            self.screen.blit(pygame.transform.scale(self.dice5, (self.width/24.0000, self.height/14.0000)), (self.width/1.8182, self.height/4.8276))#50 50 660 145
+            self.screen.blit(pygame.transform.scale(self.dice6, (self.width/24.0000, self.height/14.0000)), (self.width/1.6667, self.height/4.8276))#50 50 720 145
+        elif(self.partidas[self.currentPartida].num_jugadores == 3):
+            self.screen.blit(pygame.transform.scale(self.dice1, (self.width/24.0000, self.height/14.0000)), (self.width/2.8571, self.height/4.8276))#50 50 420 145
+            self.screen.blit(pygame.transform.scale(self.dice2, (self.width/24.0000, self.height/14.0000)), (self.width/2.5000, self.height/4.8276))#50 50 480 145
+            self.screen.blit(pygame.transform.scale(self.dice3_selected, (self.width/24.0000, self.height/14.0000)), (self.width/2.2222, self.height/4.8276))#50 50 540 145
+            self.screen.blit(pygame.transform.scale(self.dice4, (self.width/24.0000, self.height/14.0000)), (self.width/2.0000, self.height/4.8276))#50 50 600 145
+            self.screen.blit(pygame.transform.scale(self.dice5, (self.width/24.0000, self.height/14.0000)), (self.width/1.8182, self.height/4.8276))#50 50 660 145
+            self.screen.blit(pygame.transform.scale(self.dice6, (self.width/24.0000, self.height/14.0000)), (self.width/1.6667, self.height/4.8276))#50 50 720 145
+        elif(self.partidas[self.currentPartida].num_jugadores == 2):
+            self.screen.blit(pygame.transform.scale(self.dice1, (self.width/24.0000, self.height/14.0000)), (self.width/2.8571, self.height/4.8276))#50 50 420 145
+            self.screen.blit(pygame.transform.scale(self.dice2_selected, (self.width/24.0000, self.height/14.0000)), (self.width/2.5000, self.height/4.8276))#50 50 480 145
+            self.screen.blit(pygame.transform.scale(self.dice3, (self.width/24.0000, self.height/14.0000)), (self.width/2.2222, self.height/4.8276))#50 50 540 145
+            self.screen.blit(pygame.transform.scale(self.dice4, (self.width/24.0000, self.height/14.0000)), (self.width/2.0000, self.height/4.8276))#50 50 600 145
+            self.screen.blit(pygame.transform.scale(self.dice5, (self.width/24.0000, self.height/14.0000)), (self.width/1.8182, self.height/4.8276))#50 50 660 145
+            self.screen.blit(pygame.transform.scale(self.dice6, (self.width/24.0000, self.height/14.0000)), (self.width/1.6667, self.height/4.8276))#50 50 720 145
+        else: #es 1
+            self.screen.blit(pygame.transform.scale(self.dice1_selected, (self.width/24.0000, self.height/14.0000)), (self.width/2.8571, self.height/4.8276))#50 50 420 145
+            self.screen.blit(pygame.transform.scale(self.dice2, (self.width/24.0000, self.height/14.0000)), (self.width/2.5000, self.height/4.8276))#50 50 480 145
+            self.screen.blit(pygame.transform.scale(self.dice3, (self.width/24.0000, self.height/14.0000)), (self.width/2.2222, self.height/4.8276))#50 50 540 145
+            self.screen.blit(pygame.transform.scale(self.dice4, (self.width/24.0000, self.height/14.0000)), (self.width/2.0000, self.height/4.8276))#50 50 600 145
+            self.screen.blit(pygame.transform.scale(self.dice5, (self.width/24.0000, self.height/14.0000)), (self.width/1.8182, self.height/4.8276))#50 50 660 145
+            self.screen.blit(pygame.transform.scale(self.dice6, (self.width/24.0000, self.height/14.0000)), (self.width/1.6667, self.height/4.8276))#50 50 720 145
+        if(self.partidas[self.currentPartida].ubicacion_historia != None):
+            self.screen.blit(pygame.transform.scale(self.ubicacion[self.partidas[self.currentPartida].ubicacion_historia], (self.width/4.8000, self.width/4.8000)), (self.width/12.0000, self.height/2.0000))
+        else:
+            self.screen.blit(pygame.transform.scale(self.default, (self.width/4.8000, self.width/4.8000)), (self.width/12.0000, self.height/2.0000)) #250w 250w 100 350 
+            self.screen.blit(pygame.transform.scale(self.select, (self.width/7.5000, self.height/21.8750)), (self.width/8.2759, self.height/1.5217)) #160 32 145 460
+        
+        
+        if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia != None) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
+            self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
+        else:
+            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
+        self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.3889, self.height/1.1570))
+        pygame.draw.rect(self.screen, self.color_grey, self.inputBox, 2)
+        self.screen.blit(self.textNombrePartida, (self.width/2.7650, self.height/10.7692)) #434 x 65
+        #password
+        pygame.draw.rect(self.screen, self.color_grey, self.inputBox2, 2)
+        self.screen.blit(self.textPassword, (self.width/1.8927, self.height/3.1818)) #634 220
+
     def refresh(self):
         self.opened_screen = False #por si vuelve a abrir más tarde la pantalla
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar

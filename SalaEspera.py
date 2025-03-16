@@ -24,6 +24,7 @@ class SalaEspera:
         self.socketTCP = None
         self.socketUDP = None
         self.t = t
+        self.personaje = None #si lo extrae de la bbdd
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -129,6 +130,122 @@ class SalaEspera:
                 #si el contador ya está a 2 para una partida de 3 jugadores, paramos
         #print('otherPlayers: ',self.GLOBAL.getOtherPlayers())
         
+    def reload(self):
+        self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+        if(self.isOnline):
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+            #el número de jugadores y la lista de otros jugadores se la pasa por parámetro en game
+        else:
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+            self.letterwidth3 = (self.width/3.4286)/18 #cálculo de la base en píxeles 
+            self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3)
+            self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
+            if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
+                self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
+            self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
+            textPwd = "Contraseña de partida: "+self.password+" <-> Código: "+self.ip+":"+str(self.puerto)
+            self.textPassword = self.fuente4.render(textPwd, True, self.color_light_pink)
+            self.screen.blit(self.textPassword,(self.width/4.0000, self.height/7.0000)) #300 100
+        #Título
+        self.screen.blit(self.labelTitle, (self.width/3.4783, self.height/17.5000)) #345 40
+        #Iconos de los jugadores
+
+        for i in range(0,6):
+            x_size = self.width/8.0000 #150
+            y_size = self.width/8.0000
+            x_start = (self.width/4.0000) +  ((self.width/5.2863)*(i%3)) #300 + 227*(i%3)
+            y_start = (self.height/5.0000) +((self.height/3.0837)*(i//3)) #140 +227*(i//3)
+            if(i//3 <1):
+                y_start2 = self.height/2.3333  #300
+            else:
+                y_start2 = self.height/1.3283  #527 (140+227+150+10)
+
+            self.letterwidth2 = (self.width/8.0000)/(self.max_lenght_name+1) #the width for 1 letter
+            self.widthText2 = self.letterwidth2*self.max_lenght_name
+    
+            if(i == 0): #tú mismo
+                spaces = self.max_lenght_name - len(self.name)
+                one_side = spaces//2
+                other_side = self.max_lenght_name - one_side - len(self.name)
+                text_to_show = ' '
+                inside = False
+                for i in range(0,one_side):
+                    if(i == 0):
+                        text_to_show = ' '
+                    text_to_show += ' '
+                    inside = True
+                if (inside):
+                    text_to_show +=self.name
+                else:
+                    text_to_show = self.name
+                    inside = False
+                for i in range(0,other_side):
+                    text_to_show += ' '
+                self.textName = self.fuente.render(text_to_show, True, self.color_white)
+                #self.screen.blit(pygame.transform.scale(self.avatarJugador[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
+                self.screen.blit(pygame.transform.scale(self.avatarJugador[self.currentIcono], (x_size, y_size)), (x_start, y_start))
+                self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
+            else:
+                #self.screen.blit(pygame.transform.scale(self.avatarJugador[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
+                if(i < self.numJugadores):
+                    if(self.GLOBAL.getOtherPlayersIndex((i-1)) != None):
+                        #i: (id,(nombre,pic))
+                        temp = self.GLOBAL.getOtherPlayersIndex((i-1))[1][0] # el nombre
+                        spaces = self.max_lenght_name - len(temp)
+                        one_side = spaces//2
+                        other_side = self.max_lenght_name - one_side - len(temp)
+                        text_to_show = ' '
+                        inside = False
+                        for j in range(0,one_side):
+                            if(j == 0):
+                                text_to_show = ' '
+                            text_to_show += ' '
+                            inside = True
+                        if (inside):
+                            text_to_show +=temp
+                        else:
+                            text_to_show = temp
+                            inside = False
+                        for j in range(0,other_side):
+                            text_to_show += ' '
+                        if(self.GLOBAL.getOtherPlayersIndex((i-1))[1][2]):
+                            self.textName = self.fuente.render(text_to_show, True, self.color_white)
+                            self.screen.blit(pygame.transform.scale(self.avatarJugador[self.GLOBAL.getOtherPlayersIndex((i-1))[1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
+                            self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
+                        else:
+                            self.textName = self.fuente.render(text_to_show, True, self.color_grey)
+                            self.screen.blit(pygame.transform.scale(self.avatarJugadorDefault[self.GLOBAL.getOtherPlayersIndex((i-1))[1][1]], (x_size, y_size)), (x_start, y_start))#imagenes
+                            self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
+                    else:
+                        temp = "<?>"
+                        spaces = self.max_lenght_name - len(temp)
+                        one_side = spaces//2
+                        other_side = self.max_lenght_name - one_side - len(temp)
+                        text_to_show = ' '
+                        inside = False
+                        for j in range(0,one_side):
+                            if(j == 0):
+                                text_to_show = ' '
+                            text_to_show += ' '
+                            inside = True
+                        if (inside):
+                            text_to_show +=temp
+                        else:
+                            text_to_show = temp
+                            inside = False
+                        for j in range(0,other_side):
+                            text_to_show += ' '
+                        self.textName = self.fuente.render(text_to_show, True, self.color_white)
+                        self.screen.blit(pygame.transform.scale(self.default, (x_size, y_size)), (x_start, y_start))#imagenes
+                        self.screen.blit(pygame.transform.scale(self.textName, (self.widthText2, self.height/17.5000)), (x_start, y_start2)) # x x 300 300
+                else:
+                    self.screen.blit(pygame.transform.scale(self.default_red, (x_size, y_size)), (x_start, y_start))#imagenes
+        pygame.display.update() 
 
     def refresh(self):
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
@@ -268,6 +385,8 @@ class SalaEspera:
         #render screen
         #abro socket TCP y UDP
         self.GLOBAL.setEnPartida()
+        self.personaje = None #reiniciamos el personaje
+        self.GLOBAL.setListaPersonajesHost({}) #se resetea la lista de personajes
         self.socketTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         (self.puerto,pudp) = self.findFreePort(isOnline) #pudp será distinto de none si no es online
         if(pudp != None):
@@ -886,7 +1005,7 @@ class SalaEspera:
                                             personaje_temp.equipo.objeto_equipado_mano_izquierda = [row[0],row[2],row[1],personaje_temp.equipo.listaInventario.getArmaduraList()[row[2]][row[1]]]
                                         elif(row[2] == 'Escudo'):
                                             personaje_temp.equipo.objeto_equipado_mano_izquierda = [row[0],row[2],row[1],personaje_temp.equipo.listaInventario.getEscudosList()[row[2]][row[1]]]
-                                          
+                                    self.personaje = personaje_temp      
                                     
                                     num_personajes_to_find -=1
                                     if(num_personajes_to_find >0):
@@ -1045,7 +1164,8 @@ class SalaEspera:
                                             personaje_temp.equipo.objeto_equipado_mano_izquierda = [row[0],row[2],row[1],personaje_temp.equipo.listaInventario.getArmaduraList()[row[2]][row[1]]]
                                         elif(row[2] == 'Escudo'):
                                             personaje_temp.equipo.objeto_equipado_mano_izquierda = [row[0],row[2],row[1],personaje_temp.equipo.listaInventario.getEscudosList()[row[2]][row[1]]]
-                                          
+
+                                    self.personaje = personaje_temp
                                 
                                 #el host tiene personaje asociado
                                     pantalla = 'partida' #solo está el host, así que pasa directamente a partida

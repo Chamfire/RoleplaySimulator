@@ -81,6 +81,26 @@ class UnionPartida:
         #self.width,self.height= (self.screen.get_width(), self.screen.get_height())
     def getScreen(self):
         return self.screen
+    
+    def reload(self):
+        self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
+        self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+        self.screen.blit(pygame.transform.scale(self.passwordT, (self.width/4.0000, self.height/17.5000)), (self.width/2.6667, self.height/12.2807)) #300 40 450 57
+        self.screen.blit(pygame.transform.scale(self.codeT, (self.width/5.3333, self.height/17.5000)), (self.width/2.4490, self.height/3.3333)) #225 40 490 210
+        if(self.password != None and self.password != ' ' and self.code != None and self.code != ' '):
+            self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
+        else:
+            self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
+        self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
+        pygame.draw.rect(self.screen, self.color_grey, self.inputBox, 2)
+        self.screen.blit(self.passwordText, (self.width/4.5455, self.height/5.6000)) #264 x 125
+        #password
+        pygame.draw.rect(self.screen, self.color_grey, self.inputBox2, 2)
+        self.screen.blit(self.codeText, (self.width/4.5455, self.height/2.5180)) #264 x 278
+
+
     def refresh(self):
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))

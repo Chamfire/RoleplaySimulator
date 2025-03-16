@@ -178,17 +178,17 @@ class Game:
                 elif self.currentScreen == "seleccionPartidas":
                     self.seleccionPartidas.render(self.perfil.avatarPicPerfil,self.perfil.name)
                 elif self.currentScreen == "configuracionPartida":
-                    self.configuracionPartida.render(self.perfil.avatarPicPerfil,self.perfil.name)
+                    self.configuracionPartida.reload()
                 elif self.currentScreen == "salaEspera":
-                    self.salaEspera.render(self.online)
+                    self.salaEspera.reload()
                 elif self.currentScreen == "joinPartida":
-                    self.joinPartida.render()
+                    self.joinPartida.reload()
                 elif self.currentScreen == "server_disc":
                     self.serverDisc.render()
                 elif self.currentScreen == "seleccionPersonaje":
-                    self.seleccionPersonaje.render(self.online)
+                    self.seleccionPersonaje.refresh(7,None)
                 elif self.currentScreen == "seleccionPersonaje2":
-                    self.seleccionPersonaje2.render(self.online)
+                    self.seleccionPersonaje2.refresh(0,None)
             if not pygame.display.get_active():
                 self.minimized = True #se ha hecho escape para ir al escritorio
 
