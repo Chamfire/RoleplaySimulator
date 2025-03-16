@@ -63,6 +63,8 @@ class EscuchaTCP:
                 #print(self.idPropia)
                 #print(self.isNotCurrentlyActive(resp[1][3]))
                 #si el que se conecta tiene tu mismo id (es tu misma cuenta), lo va a echar
+                print(self.numJugadores)
+                print(self.GLOBAL.getOtherPlayersTotalRegistered())
                 if(resp[0] == 2):
                     #quitamos al jugador de la lista de jugadores activos
                     for posicion,jugador in self.GLOBAL.getOtherPlayers().items():
@@ -105,11 +107,15 @@ class EscuchaTCP:
                         self.GLOBAL.setListaPersonajeHostIndex[resp[2]] #añadimos el personaje a la lista de usuarios activos
                         if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost()) + 1)):
                             msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
+                            socket_c.sendall(msg_ve_partida.encode('utf-8'))
                             #TODO: Mandar a todos a la partida
                         else:
                             msg_ve_sala_espera = str(self.password)+":"+self.idPropia+":ve_salaEspera2"
+                            socket_c.sendall(msg_ve_sala_espera.encode('utf-8'))
+
                     except:
                         msg_mal_personaje = str(self.password)+":"+self.idPropia+":mal_personaje"
+                        socket_c.sendall(msg_mal_personaje.encode('utf-8'))
 
 
                 elif(resp[0] == -1):
