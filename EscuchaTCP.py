@@ -129,14 +129,14 @@ class EscuchaTCP:
                         if(personaje_temp != -1):
                             datos_personaje_serialized = pickle.dumps(personaje_temp)
                             datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
-                            msg_ok = "ok_ve_salaEspera2:"+str(datos_personaje_encoded)+":"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                            msg_ok = "ok_ve_salaEspera2:"+datos_personaje_encoded+":"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                         else:
                             msg_ok = "ok_ve_seleccionPersonaje:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     elif(currentScreen == "partida"):
                         personaje_temp = self.GLOBAL.getListaPersonajeHostIndex(resp[1][3])
                         datos_personaje_serialized = pickle.dumps(personaje_temp)
                         datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
-                        msg_ok = "ok_ve_partida:"+str(datos_personaje_encoded)+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                        msg_ok = "ok_ve_partida:"+datos_personaje_encoded+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None): #le pasamos la lista de jugadores tanto activos como inactivos
                             #print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
