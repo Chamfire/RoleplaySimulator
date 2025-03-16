@@ -149,6 +149,9 @@ class SeleccionPersonaje:
         self.port_dest = ip_y_port_y_pswd[1]
         self.password =ip_y_port_y_pswd[2]
 
+    def getPassword(self):
+        return self.password
+
     def refresh(self,op,content):
         if(op == 7):
             self.opened_screen = None
@@ -878,6 +881,7 @@ class SeleccionPersonaje:
                         #patata:pepe:3:id:56384:49234 <- ejemplo mensaje
                         socket_c.sendall(msg_client.encode('utf-8'))
                         respuesta = socket_c.recv(1024).decode('utf-8') #tiene timeout de unos segundos
+                        socket_c.close()
                         print('Respuesta TCP a check de nombre: ',respuesta)
                         resp = respuesta.split(':')
                         if(len(resp) == 3):

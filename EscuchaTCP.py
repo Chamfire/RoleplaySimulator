@@ -3,6 +3,7 @@ from Global import Global
 import sqlite3
 import pygame
 from pygame import mixer
+import pickle
 
 
 class EscuchaTCP:
@@ -96,6 +97,19 @@ class EscuchaTCP:
                         #puede usar ese nombre sin problemas
                         msg_usar = str(self.password)+":"+self.idPropia+":usar"
                         socket_c.sendall(msg_usar.encode('utf-8'))
+
+                elif(resp[0] == 4):
+                    try:
+                        personaje_temp = pickle.loads(bytes(resp[1]))   #extraer los datos
+                        personaje_temp.partida_id = self.currentPartida
+                        self.GLOBAL.setListaPersonajeHostIndex[resp[2]] #añadimos el personaje a la lista de usuarios activos
+                        if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost()) + 1)):
+                            msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
+                            #TODO: Mandar a todos a la partida
+                        else:
+                            msg_ve_sala_espera = str(self.password)+":"+self.idPropia+":ve_salaEspera2"
+                    except:
+                        msg_mal_personaje = str(self.password)+":"+self.idPropia+":mal_personaje"
 
 
                 elif(resp[0] == -1):
@@ -271,16 +285,22 @@ class EscuchaTCP:
                         return (-1,None)
                 else:
                     return (-1,None)
-            #MENSAJE TIPO 3 -> CHECK NOMBRE
+            #MENSAJE TIPO 3 -> CHECK NOMBRE o personaje
             elif(len(resp) == 4):
-                [pswd,id_user,contenido,nombre] = resp
+                [pswd,id_user,contenido,objeto] = resp
                 if (pswd != None and pswd == self.password and self.existsPlayer(id_user) and not self.isNotCurrentlyActive(id_user)):
                     if(contenido != None and contenido == "check_nombre"):
-                        if(nombre != None):
-                            return(3,nombre,id_user)
+                        if(objeto != None):
+                            return(3,objeto,id_user)
                         else:
                             return(-1,None)
                     else:
+                        #toca deserializar a ver si funciona
+                        try:
+                            return(4,objeto,id_user)
+                            #TODO: Comprobar dónde está cada usuario, y mandarles un mensaje de hacia donde tienen que ir
+                        except:
+                            return(-1,None)
                         return (-1,None)
                 else:
                     return (-1,None) 

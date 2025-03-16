@@ -8,6 +8,9 @@ from ConsultaDescripcion import ConsultaDescripcion
 from Personaje import Personaje
 import ctypes
 import sqlite3
+import pickle
+from Global import Global
+import socket
 
 class SeleccionPersonaje2:
     def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,model_path,consultaDescripcion,id,seed_random):
@@ -24,8 +27,12 @@ class SeleccionPersonaje2:
         self.consultaDescripcion = consultaDescripcion
         self.descripcionSearchingText = None
         self.hiloConsultaDescripcion = None
+        self.ip_dest = None
+        self.port_dest = None
         self.id = id
         self.numJugadores = None #esto se recibe como parámetro para el host
+        self.password = None
+        self.GLOBAL = Global()
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -101,6 +108,11 @@ class SeleccionPersonaje2:
     
     def setNumJugadores(self,n):
         self.numJugadores = n
+
+    def setIpANDPort(self,ip_y_Port_psw):
+        self.ip_dest = ip_y_Port_psw[0]
+        self.port_dest = ip_y_Port_psw[1]
+        self.password = ip_y_Port_psw[2]
     
     def renderTextBlock(self):
         lineSpacing = -2
@@ -683,14 +695,35 @@ class SeleccionPersonaje2:
                     if(self.numJugadores == 1):
                         screen = 'partida'
                     else:
-                        #TODO: cambiar en función de los mensajes de finalización de creación de personaje recibidos
-                        screen = 'partida_load_wait'
+                        lista_personajes = self.GLOBAL.getListaPersonajeHost()
+                        if(lista_personajes != None and len(lista_personajes) == (self.numJugadores-1)):#sin contar al host
+                            screen = 'partida' #desde partida enviará el mensaje de que todos vayan a partida
+                        else:    
+                            screen = 'partida_load_wait'
                 else:
-                    #TODO: enviar msg con ficha de personaje al host, y si es host, guardar los datos
-                    screen = 'partida_load_wait'
-                    pass #enviar TCP
+                    datos_personaje_serialized = pickle.dumps(self.personaje)
+                    msg = str(self.password)+":"+str(self.id)+":enviar_personaje:"+str(datos_personaje_serialized)
+                    socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    socket_temporal.connect((self.ip_dest,self.port_dest))
+                    socket_temporal.sendall(msg.encode('utf-8'))
+                    respuesta = socket_temporal.recv(1024).decode('utf-8') #tiene timeout de unos segundos
+                    print('Respuesta TCP a qué sala ir(podría ser el último en hacerse la ficha): ',respuesta)
+                    socket_temporal.close()
+                    resp = respuesta.split(':')
+                    if(len(resp) == 3):
+                        [pswd,id_server,contenido] = resp
+                        if (pswd != None and pswd == self.password and id_server == self.GLOBAL.getOtherPlayersIndex(0)[0]):
+                            if(contenido != None and contenido == "ve_salaEspera2"):
+                                screen = contenido
+                            elif(contenido != None and contenido == "ve_partida"):
+                                screen = contenido
+                            else:
+                                screen = "seleccionPersonaje2"
+                                self.ch1.play(self.error)
+                        else:
+                            screen = "seleccionPersonaje2"
+                            self.ch1.play(self.error)
 
-                
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
                 self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p

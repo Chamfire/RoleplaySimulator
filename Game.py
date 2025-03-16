@@ -45,6 +45,7 @@ class Game:
 
         self.max_msgs_udp = 20 #a ver si así dura más
         self.msg_delay = 0.2
+        self.justAfterSala = False #por defecto es falso
         #print(info.current_w,info.current_h)
         rel = (info.current_w/info.current_h)
         if(1.7 <= rel <= 1.8): #aprox 16 x 9 -> 1.77
@@ -174,6 +175,7 @@ class Game:
                     self.screen = self.salaEspera.getScreen()
                     self.seleccionPersonaje.setScreen(self.screen)
                     self.seleccionPersonaje.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
+                    self.seleccionPersonaje2.setIpANDPort(self.joinPartida.getIpANDPortDest())
                     self.seleccionPersonaje.render(self.online)
                 elif screenToRefresh == "partida_load_wait_1":
                     #vamos a partida_load_wait desde la sala de espera
@@ -185,7 +187,8 @@ class Game:
                     self.partidaScreen.setPersonajeMio(self.joinPartida.escuchaTCPClient.getPersonajeReceived())
                     self.joinPartida.escuchaTCPClient.setPersonajeReceived()
                     self.salaEspera2.setScreen(self.screen)
-                    self.salaEspera2.render()
+                    self.salaEspera2.setJustAfterSala(True)
+                    self.salaEspera2.render(self.online)
                 elif screenToRefresh == "seleccionPersonaje2":
                     self.GLOBAL.setRefreshScreen(None)
                     self.seleccionPersonaje2.setResponse(self.consultaDescripcion.getResponse())
@@ -221,7 +224,7 @@ class Game:
                 elif self.currentScreen == "seleccionPersonaje2":
                     self.seleccionPersonaje2.refresh(0,None)
                 elif self.currentScreen == "partida_load_wait":
-                    self.salaEspera2.render()
+                    self.salaEspera2.render(self.online)
                 elif self.currentScreen == "partida":
                     self.partidaScreen.render()
 
@@ -463,7 +466,7 @@ class Game:
                             self.serverDisc.render()
                         elif(self.currentScreen == "partida_load_wait"):
                             self.salaEspera2.setScreen(self.screen)
-                            self.salaEspera2.render()
+                            self.salaEspera2.render(self.online)
                         elif(self.currentScreen == "seleccionPersonaje"):
                             self.seleccionPersonaje.setScreen(self.screen)
                             self.seleccionPersonaje.render(self.online)

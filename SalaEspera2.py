@@ -1,6 +1,10 @@
 import pygame
 from pygame.locals import *
 from pygame import mixer
+import socket
+import pickle
+from Global import Global
+
 
 class SalaEspera2:
     #sound
@@ -8,6 +12,8 @@ class SalaEspera2:
     def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
         #screen
         self.screen = screen
+        self.isOnline = None
+        self.GLOBAL = Global()
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -18,6 +24,8 @@ class SalaEspera2:
         #widht y height
         self.width = width
         self.height = height
+
+        self.justAfterSala = False
 
         #canales
         self.ch1 = ch1
@@ -48,15 +56,41 @@ class SalaEspera2:
     def getScreen(self):
         return self.screen
 
-    def render(self):
+    def setJustAfterSala(self,v):
+        self.justAfterSala = v
+
+    def render(self, isOnline):
         #render screen
+        self.isOnline = isOnline
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
         self.screen.blit(pygame.transform.scale(self.msg, (self.width/1.8462, self.height/8.7500)), (self.width/4.0000, self.height/4.0000)) #650 80 300 175 
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+        if(self.justAfterSala):
+            if(not isOnline):
+                for i in range(0,len(self.GLOBAL.getOtherPlayers())):
+                    if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
+                        socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                        try:
+                            socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
+                            id_player = self.GLOBAL.getOtherPlayersIndex(i)[0]
+                            personaje_player = self.GLOBAL.getListaPersonajeHostIndex(id_player)
+                            if(personaje_player != -1):
+                                #tiene personaje ya creado, así que le mandamos a la sala de espera, porque el host aún no tiene el personaje
+                                #pasamos la clase del personaje a objeto
+                                datos_personaje_serialized = pickle.dumps(personaje_player)
+                                msg = str(self.password)+";"+str(self.id)+";partida_load_wait:"+str(datos_personaje_serialized)
+                            else: 
+                                #no tiene personaje creado, así que le mandamos a seleccionPersonaje también
+                                msg = str(self.password)+";"+str(self.id)+";seleccion_personaje"
+                            socket_temporal.sendall(msg.encode('utf-8'))
+                        except:
+                            pass
+                        finally:
+                            socket_temporal.close() #se cierra el socket al terminar
+                self.justAfterSala = False #ya ha enviado los mensajes con los personajes existentes
         pygame.display.update() 
-        self.ch1.play(self.error)
 
     # size_x, size_y: tamaño del botón en x y en y
     # x_start y y_start: posición de la esquina izquierda del botón
