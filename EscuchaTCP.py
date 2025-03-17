@@ -106,7 +106,7 @@ class EscuchaTCP:
                         datos_personaje_decoded = base64.b64decode(resp[1])
                         personaje_temp = pickle.loads(datos_personaje_decoded)   #extraer los datos
                         personaje_temp.partida_id = self.currentPartida
-                        self.GLOBAL.setListaPersonajeHostIndex[resp[2]] #añadimos el personaje a la lista de usuarios activos
+                        self.GLOBAL.setListaPersonajeHostIndex(resp[2],personaje_temp) #añadimos el personaje a la lista de usuarios activos
                         if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost()) + 1)):
                             msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
                             socket_c.sendall(msg_ve_partida.encode('utf-8'))
