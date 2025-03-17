@@ -200,11 +200,11 @@ class Game:
                     self.salaEspera2.render(self.online)
                 elif screenToRefresh == "seleccionPersonaje2":
                     self.GLOBAL.setRefreshScreen(None)
-                    self.screen = self.seleccionPersonaje.getScreen()
-                    self.currentScreen = "seleccionPersonaje2"
-                    self.GLOBAL.setCurrentScreen = "seleccionPersonaje2"
+                    #self.screen = self.seleccionPersonaje.getScreen()
+                    #self.currentScreen = "seleccionPersonaje2"
+                    #self.GLOBAL.setCurrentScreen = "seleccionPersonaje2"
                     self.seleccionPersonaje2.setResponse(self.consultaDescripcion.getResponse())
-                    self.seleccionPersonaje2.setScreen(self.screen)
+                    #self.seleccionPersonaje2.setScreen(self.screen)
                     self.seleccionPersonaje2.refresh(3,None) #refrescamos la pantalla
                 elif screenToRefresh == "joinSound":
                     self.GLOBAL.setRefreshScreen(None)

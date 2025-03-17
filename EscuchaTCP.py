@@ -187,7 +187,7 @@ class EscuchaTCP:
                             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                                 if(self.GLOBAL.getOtherPlayers(i) != None and self.GLOBAL.getOtherPlayers(i)[0] != resp[2]):
                                     #enviamos un mensaje a todos para que vayan a la partida
-                                    #TODO: pass
+                                    #TODO: enviar mensaje a todos 
                                     pass
                             
                             if(self.GLOBAL.getCurrentScreen != "partida"):
