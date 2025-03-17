@@ -173,10 +173,14 @@ class Game:
                         pass
                     self.serverDisc.render()
                 elif screenToRefresh == "seleccionPersonaje":
+                    lastScreen = self.currentScreen
                     self.currentScreen = screenToRefresh
                     self.GLOBAL.setCurrentScreen(screenToRefresh)
                     self.GLOBAL.setRefreshScreen(None)
-                    self.screen = self.salaEspera.getScreen()
+                    if(lastScreen == "salaEspera"):
+                        self.screen = self.salaEspera.getScreen()
+                    elif(lastScreen == "joinPartida"):
+                        self.screen = self.joinPartida.getScreen()
                     self.seleccionPersonaje.setScreen(self.screen)
                     self.seleccionPersonaje.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
                     self.seleccionPersonaje2.setIpANDPort(self.joinPartida.getIpANDPortDest())
@@ -196,11 +200,29 @@ class Game:
                     self.salaEspera2.render(self.online)
                 elif screenToRefresh == "seleccionPersonaje2":
                     self.GLOBAL.setRefreshScreen(None)
+                    self.screen = self.seleccionPersonaje.getScreen()
+                    self.currentScreen = "seleccionPersonaje2"
+                    self.GLOBAL.setCurrentScreen = "seleccionPersonaje2"
                     self.seleccionPersonaje2.setResponse(self.consultaDescripcion.getResponse())
+                    self.seleccionPersonaje2.setScreen(self.screen)
                     self.seleccionPersonaje2.refresh(3,None) #refrescamos la pantalla
                 elif screenToRefresh == "joinSound":
                     self.GLOBAL.setRefreshScreen(None)
                     self.ch1.play(self.join)
+                elif screenToRefresh == "partida":
+                    #puede ser host o online
+                    lastScreen = self.currentScreen
+                    self.currentScreen = screenToRefresh
+                    self.GLOBAL.setRefreshScreen(None)
+                    self.GLOBAL.setCurrentScreen = "partida"
+                    if(lastScreen == "joinPartida"):
+                        self.screen = self.joinPartida.getScreen()
+                    elif(lastScreen == "seleccionPersonaje2"):
+                        self.screen = self.seleccionPersonaje2.getScreen()
+                    elif(lastScreen == "partida_load_wait"):
+                        self.screen = self.salaEspera2.getScreen()
+                    self.partidaScreen.setScreen(self.screen)
+                    self.partidaScreen.render()
                 else:
                     pass
 
