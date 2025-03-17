@@ -1,6 +1,7 @@
 import socket
 from Global import Global
 import pickle
+from Personaje import Personaje
 import base64
 
 class EscuchaTCPClient:

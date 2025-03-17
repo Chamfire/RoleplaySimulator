@@ -4,6 +4,7 @@ import sqlite3
 import pygame
 from pygame import mixer
 import pickle
+from Personaje import Personaje
 import base64
 
 
@@ -102,6 +103,7 @@ class EscuchaTCP:
                 elif(resp[0] == 4):
                     try:
                         datos_personaje_decoded = base64.b64decode(resp[1])
+                        print(datos_personaje_decoded[:100])
                         personaje_temp = pickle.loads(datos_personaje_decoded)   #extraer los datos
                         personaje_temp.partida_id = self.currentPartida
                         self.GLOBAL.setListaPersonajeHostIndex[resp[2]] #añadimos el personaje a la lista de usuarios activos

@@ -6,6 +6,7 @@ import socket
 import threading
 import pickle
 import base64
+from Personaje import Personaje
 
 class UnionPartida:
     #sound

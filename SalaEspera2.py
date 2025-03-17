@@ -3,6 +3,7 @@ from pygame.locals import *
 from pygame import mixer
 import socket
 import pickle
+from Personaje import Personaje
 import base64
 from Global import Global
 
