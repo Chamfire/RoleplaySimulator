@@ -49,7 +49,7 @@ class EscuchaTCP:
                 #print("esperando TCP")
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
-                msg_client = socket_c.recv(999999).decode('utf-8')
+                msg_client = socket_c.recv(9999999).decode('utf-8')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
                 msg_to_OtherPlayers = None
@@ -198,6 +198,7 @@ class EscuchaTCP:
                     pass
                 elif(resp[0] == 1 and (resp[1][0] == self.password) and (((self.GLOBAL.getCurrentPlayers() < self.numJugadores) and (self.numJugadores > self.GLOBAL.getOtherPlayersTotalRegistered()+1)) or self.existsPlayer(resp[1][3])) and self.idPropia != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
                     currentScreen = self.GLOBAL.getCurrentScreen()
+                    print(currentScreen)
                     if(currentScreen == "salaEspera"):
                         msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     elif(currentScreen == "seleccionPersonaje" or currentScreen == "seleccionPersonaje2" or "salaEspera2"):

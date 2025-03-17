@@ -43,8 +43,8 @@ class Game:
         #seed_random = 33
         seed_random = random.randint(0,10000) #por defecto es aleatoria, pero se puede poner la de arriba
 
-        self.max_msgs_udp = 20 #a ver si así dura más
-        self.msg_delay = 0.2
+        self.max_msgs_udp = 50 #a ver si así dura más
+        self.msg_delay = 0.1
         self.justAfterSala = False #por defecto es falso
         #print(info.current_w,info.current_h)
         rel = (info.current_w/info.current_h)

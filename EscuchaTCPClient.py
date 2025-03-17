@@ -27,7 +27,7 @@ class EscuchaTCPClient:
             try:
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
-                msg_client = socket_c.recv(999999).decode('utf-8')
+                msg_client = socket_c.recv(9999999).decode('utf-8')
                 print('msg received: ',msg_client)
                 try:
                     [password,id_server,content] = msg_client.split(";")
