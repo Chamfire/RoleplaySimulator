@@ -347,7 +347,7 @@ class UnionPartida:
                         msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)+":"+str(self.portUDP)+":"+str(puertoTCP)
                         #patata:pepe:3:id:56384:49234 <- ejemplo mensaje
                         socket_c.sendall(msg_client.encode('utf-8'))
-                        respuesta = socket_c.recv(99999).decode('utf-8') #tiene timeout de unos segundos
+                        respuesta = socket_c.recv(999999).decode('utf-8') #tiene timeout de unos segundos
                         print('Datos recibidos: ',respuesta)
                         resp = self.checkformat(respuesta)
                         print(resp)
