@@ -717,9 +717,9 @@ class SeleccionPersonaje2:
                         [pswd,id_server,contenido] = resp
                         if (pswd != None and pswd == self.password and id_server == self.GLOBAL.getOtherPlayersIndex(0)[0]):
                             if(contenido != None and contenido == "ve_salaEspera2"):
-                                screen = contenido
+                                screen = "partida_load_wait"
                             elif(contenido != None and contenido == "ve_partida"):
-                                screen = contenido
+                                screen = "partida"
                             else:
                                 screen = "seleccionPersonaje2"
                                 self.ch1.play(self.error)
