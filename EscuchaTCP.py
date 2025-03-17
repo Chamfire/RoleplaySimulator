@@ -107,6 +107,79 @@ class EscuchaTCP:
                         personaje_temp = pickle.loads(datos_personaje_decoded)   #extraer los datos
                         personaje_temp.partida_id = self.currentPartida
                         self.GLOBAL.setListaPersonajeHostIndex(resp[2],personaje_temp) #añadimos el personaje a la lista de usuarios activos
+                        
+                        #guardamos en la bbdd el personaje que se ha creado
+                        conn = sqlite3.connect("simuladordnd.db")
+                        cursor = conn.cursor()
+
+                        #trasfondo: num_trasfondo es la pk, que se autoincrementa sola
+                        query_save_trasfondo = """INSERT INTO trasfondo (tipo_trasfondo, vinculo, defecto, ideal, rasgo_personalidad, num_trasfondo) 
+                                                    VALUES (?,?,?,?,?,?)"""
+                        id_t = personaje_temp.id_trasfondo[1]
+                        id_trasfondo = str(personaje_temp.id_trasfondo[0])+"_"+str((personaje_temp.vinculo[1]+id_t*6))+"_"+str((personaje_temp.defecto[1]+ id_t*6))+"_"+str((personaje_temp.ideal[1]+id_t*6))+"_"+str((personaje_temp.rasgo_personalidad[1]+id_t*8))
+                        data_trasfondo = (personaje_temp.id_trasfondo[0],(personaje_temp.vinculo[1]+id_t*6) ,(personaje_temp.defecto[1]+ id_t*6),(personaje_temp.ideal[1]+id_t*6),(personaje_temp.rasgo_personalidad[1]+id_t*8),id_trasfondo)
+                        #print(data_trasfondo)
+                        query_check_same_trasfondo = "SELECT num_trasfondo FROM trasfondo WHERE num_trasfondo = '"+id_trasfondo+"'"
+                        cursor.execute(query_check_same_trasfondo)
+                        rows = cursor.fetchall() 
+                        #print(rows)
+                        if rows != []:
+                            #existe esa combinación en la bbdd
+                            pass
+                        else:
+                            #si no existe esa combinación aún en la bbdd
+                            cursor.execute(query_save_trasfondo, data_trasfondo)
+
+                        #personaje
+                        query_save_personaje = """INSERT INTO personaje (name, sm1, sm2, sm3, nivel, inspiracion,esta_muerto,bpc,cons,fu,des,sab,car,int,coordenadas_actuales,vida_temp,max_vida,ca,edad,peso,pc,pp,pe,po,ppt,velocidad,descripcion_fisica,tipo_raza,tipo_clase,tipo_alineamiento,id_trasfondo,tipo_size,partida_id,id_jugador,num_npc_partida) 
+                                                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
+                            
+                        data_personaje = (personaje_temp.name, personaje_temp.sm1,personaje_temp.sm2,personaje_temp.sm3,personaje_temp.nivel,personaje_temp.inspiracion,personaje_temp.esta_muerto,personaje_temp.bpc,personaje_temp.cons,personaje_temp.fu,personaje_temp.des,personaje_temp.sab,personaje_temp.car,personaje_temp.int,personaje_temp.coordenadas_actuales,personaje_temp.vida_temp,personaje_temp.max_vida,personaje_temp.ca,personaje_temp.edad,personaje_temp.peso,personaje_temp.pc,personaje_temp.pp,personaje_temp.pe,personaje_temp.po,personaje_temp.ppt,personaje_temp.velocidad,personaje_temp.descripcion_fisica,personaje_temp.tipo_raza,personaje_temp.tipo_clase,personaje_temp.tipo_alineamiento[0],id_trasfondo,personaje_temp.tipo_size,personaje_temp.partida_id,resp[2],None) 
+                        conn.execute(query_save_personaje,data_personaje)
+
+                        #competencias de idioma
+                        data_idiomas_comp = []
+                        query_save_comp_idioma = """INSERT INTO comp_idioma (tipo_language,name,partida_id,id_jugador,num_npc_partida)
+                                                    VALUES (?,?,?,?,?)"""
+                        for idioma,isCompetent in personaje_temp.idiomas_competencia.items():
+                            if(isCompetent):
+                                data_idiomas_comp += [(idioma,personaje_temp.name,personaje_temp.partida_id,resp[2],None)]
+                        conn.executemany(query_save_comp_idioma,data_idiomas_comp)
+                        
+                        #salvaciones de competencia
+                        data_salvaciones_comp = []
+                        query_save_salvaciones_comp = """INSERT INTO salvaciones_comp (tipo_caracteristica,name,partida_id,id_jugador,num_npc_partida)
+                                                        VALUES(?,?,?,?,?)"""
+                        for salvacion, isCompetent in personaje_temp.salvaciones_comp.items():
+                            if(isCompetent):
+                                data_salvaciones_comp += [(salvacion,personaje_temp.name,personaje_temp.partida_id,resp[2],None)]
+                        conn.executemany(query_save_salvaciones_comp,data_salvaciones_comp)
+
+                        #habilidades de competencia
+                        data_habilidades_comp = []
+                        query_save_habilidades_comp = """INSERT INTO habilidades_comp (tipo_habilidad,name,partida_id,id_jugador,num_npc_partida)
+                                                        VALUES(?,?,?,?,?)"""
+                        for habilidad, isCompetent in personaje_temp.habilidades_comp.items():
+                            if(isCompetent):
+                                data_habilidades_comp += [(habilidad,personaje_temp.name,personaje_temp.partida_id,resp[2],None)]
+                        conn.executemany(query_save_habilidades_comp,data_habilidades_comp)
+
+                        #inventario
+                        data_inventario = []
+                        query_save_inventario = """INSERT INTO inventario (cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia,lista_nombre,slot)
+                                                    VALUES(?,?,?,?,?,?,?,?,?,?)"""
+                        for slot_name, objeto in personaje_temp.equipo.objetos.items():
+                            if(objeto != None):
+                                tipo = str(type(objeto[2]))
+                                tipo_nombre = tipo[25:-2]
+                                data_inventario += [(objeto[3],objeto[1],objeto[0],personaje_temp.name,personaje_temp.partida_id,resp[2],None,'Equipo',tipo_nombre,slot_name)]
+                        conn.executemany(query_save_inventario,data_inventario)
+
+
+                        #como no tiene armadura equipada, ni objetos al empezar, no se almacenarán aquí, pero si se extraerán de la base de datos en la sala de espera
+                        conn.commit()
+                        conn.close()
+                        
                         if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost()) + 1)):
                             msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
                             socket_c.sendall(msg_ve_partida.encode('utf-8'))
