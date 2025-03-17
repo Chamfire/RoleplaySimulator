@@ -149,6 +149,7 @@ class SeleccionPersonaje:
         self.ip_dest = ip_y_port_y_pswd[0]
         self.port_dest = ip_y_port_y_pswd[1]
         self.password =ip_y_port_y_pswd[2]
+        self.isOnline = True
 
     def getPassword(self):
         return self.password

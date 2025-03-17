@@ -704,7 +704,7 @@ class SeleccionPersonaje2:
                 else:
                     datos_personaje_serialized = pickle.dumps(self.personaje)
                     datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
-                    msg = f"{self.password}:+{self.id}:enviar_personaje:{datos_personaje_encoded}"
+                    msg = f"{self.password}:{self.id}:enviar_personaje:{datos_personaje_encoded}"
                     socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     socket_temporal.connect((self.ip_dest,int(self.port_dest)))
                     socket_temporal.sendall(msg.encode('utf-8'))

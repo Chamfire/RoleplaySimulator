@@ -113,7 +113,8 @@ class EscuchaTCP:
                             msg_ve_sala_espera = str(self.password)+":"+self.idPropia+":ve_salaEspera2"
                             socket_c.sendall(msg_ve_sala_espera.encode('utf-8'))
 
-                    except:
+                    except Exception as e:
+                        print(e)
                         msg_mal_personaje = str(self.password)+":"+self.idPropia+":mal_personaje"
                         socket_c.sendall(msg_mal_personaje.encode('utf-8'))
 
