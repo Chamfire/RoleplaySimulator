@@ -184,8 +184,8 @@ class EscuchaTCP:
                             msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
                             socket_c.sendall(msg_ve_partida.encode('utf-8'))
                             #TODO: Mandar a todos a la partida
-                            for i in range(0,len(self.GLOBAL.getCurrentPlayers())):
-                                if(self.GLOBAL.getCurrentPlayers(i) != None and self.GLOBAL.getCurrentPlayers(i)[0] != resp[2]):
+                            for i in range(0,len(self.GLOBAL.getOtherPlayers())):
+                                if(self.GLOBAL.getOtherPlayers(i) != None and self.GLOBAL.getOtherPlayers(i)[0] != resp[2]):
                                     #enviamos un mensaje a todos para que vayan a la partida
                                     #TODO: pass
                                     pass
