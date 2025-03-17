@@ -190,7 +190,8 @@ class EscuchaTCP:
                                     #TODO: enviar mensaje a todos 
                                     pass
                             
-                            if(self.GLOBAL.getCurrentScreen != "partida"):
+                            
+                            if(self.GLOBAL.getCurrentScreen() != "partida"):
                                 self.GLOBAL.setRefreshScreen("partida") #para que vaya a partida
 
                         else:
