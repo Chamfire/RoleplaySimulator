@@ -188,6 +188,7 @@ class Game:
                     self.screen = self.salaEspera.getScreen()
                     #establezco el personaje recibido por bytes
                     self.partidaScreen.setPersonajeMio(self.joinPartida.escuchaTCPClient.getPersonajeReceived())
+                    self.salaEspera2.setPassword(self.joinPartida.getPassword())
                     self.joinPartida.escuchaTCPClient.setPersonajeReceived()
                     self.salaEspera2.setScreen(self.screen)
                     self.salaEspera2.setJustAfterSala(True)
@@ -337,6 +338,8 @@ class Game:
                                 self.seleccionPersonaje.setCurrentPartida(self.salaEspera.getCurrentPartida())
                             elif(screenToChange == "partida_load_wait" or screenToChange == "partida"):
                                 self.partidaScreen.setPersonajeMio(self.salaEspera.getPersonaje()) #le pasamos el personaje ya cargado de la bbdd
+                                if(screenToChange == "partida_load_wait"):
+                                    self.salaEspera2.setPassword(self.salaEspera.getPassword())
                             self.screen = self.salaEspera.getScreen()
 
                     elif self.currentScreen == "joinPartida":
@@ -353,6 +356,8 @@ class Game:
                                 self.salaEspera.setPassword(self.joinPartida.getPassword())
                             elif(screenToChange == "partida_load_wait" or screenToChange == "partida"):
                                 self.partidaScreen.setPersonajeMio(self.joinPartida.getPersonaje())
+                                if(screenToChange == "partida_load_wait"):
+                                    self.salaEspera2.setPassword(self.salaEspera.getPassword())
                             elif(self.currentScreen == "seleccionPersonaje"):
                                 self.seleccionPersonaje.setPassword(self.joinPartida.getPassword())
                                 if(not self.online):
@@ -428,6 +433,8 @@ class Game:
                                 self.seleccionPersonaje2.closeHiloBusquedaDescripcion()
                             else:
                                 self.partidaScreen.setPersonajeMio(self.seleccionPersonaje2.getPersonaje()) #establecemos el personaje que hemos creado
+                                if(screenToChange == "partida_load_wait"):
+                                    self.salaEspera2.setPassword(self.salaEspera.getPassword())
                     elif self.currentScreen == "partida":
                         screenToChange = self.partidaScreen.clickedMouse()
                         self.online = False

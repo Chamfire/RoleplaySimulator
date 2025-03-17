@@ -406,10 +406,10 @@ class SeleccionPersonaje:
                             #pasamos la clase del personaje a objeto
                             datos_personaje_serialized = pickle.dumps(personaje_player)
                             datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
-                            msg = str(self.password)+";"+str(self.id)+";partida_load_wait:"+datos_personaje_encoded
+                            msg = f"{self.password};{self.id};partida_load_wait:{datos_personaje_encoded}"
                         else: 
                             #no tiene personaje creado, así que le mandamos a seleccionPersonaje también
-                            msg = str(self.password)+";"+str(self.id)+";seleccion_personaje"
+                            msg = f"{self.password};{self.id};seleccion_personaje"
                         socket_temporal.sendall(msg.encode('utf-8'))
                     except Exception as e:
                         print(e)
