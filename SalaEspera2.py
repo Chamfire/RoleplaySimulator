@@ -4,6 +4,7 @@ from pygame import mixer
 import socket
 import pickle
 from Personaje import Personaje
+import Lista_Inventario
 import base64
 from Global import Global
 

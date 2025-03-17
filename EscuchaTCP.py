@@ -5,6 +5,7 @@ import pygame
 from pygame import mixer
 import pickle
 from Personaje import Personaje
+import Lista_Inventario
 import base64
 
 

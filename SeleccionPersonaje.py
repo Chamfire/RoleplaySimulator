@@ -4,6 +4,7 @@ from pygame import mixer
 import socket
 from Global import Global
 from Personaje import Personaje
+import Lista_Inventario
 import sqlite3
 import random
 import pickle

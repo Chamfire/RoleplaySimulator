@@ -9,6 +9,7 @@ from EscuchaUDP import EscuchaUDP
 from EnviarEstadoUDP import EnviarEstadoUDP
 from Global import Global
 from Personaje import Personaje
+import Lista_Inventario
 
 class SalaEspera:
     #sound

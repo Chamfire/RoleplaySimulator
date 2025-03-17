@@ -7,6 +7,7 @@ import threading
 import pickle
 import base64
 from Personaje import Personaje
+import Lista_Inventario
 
 class UnionPartida:
     #sound

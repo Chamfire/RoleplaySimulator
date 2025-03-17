@@ -6,6 +6,7 @@ import threading
 from llama_cpp import Llama
 from ConsultaDescripcion import ConsultaDescripcion
 from Personaje import Personaje
+import Lista_Inventario
 import ctypes
 import sqlite3
 import pickle
