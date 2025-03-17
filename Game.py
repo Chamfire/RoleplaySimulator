@@ -149,6 +149,7 @@ class Game:
                     self.GLOBAL.setRefreshScreen(None)
                     self.salaEspera.refresh() #refrescamos la pantalla
                 elif screenToRefresh == "server_disc":
+                    self.online = False
                     lastScreen = self.GLOBAL.getCurrentScreen()
                     self.currentScreen = screenToRefresh
                     self.GLOBAL.setCurrentScreen(screenToRefresh)
@@ -356,13 +357,16 @@ class Game:
                                 self.salaEspera.setPortUDPYSocketUDP(self.joinPartida.getPortUDPYSocket())
                                 self.salaEspera.setPassword(self.joinPartida.getPassword())
                             elif(screenToChange == "partida_load_wait" or screenToChange == "partida"):
+                                self.online = True
                                 self.partidaScreen.setPersonajeMio(self.joinPartida.getPersonaje())
                                 if(screenToChange == "partida_load_wait"):
                                     self.salaEspera2.setPassword(self.salaEspera.getPassword())
                             elif(self.currentScreen == "seleccionPersonaje"):
+                                self.online = True
                                 self.seleccionPersonaje.setPassword(self.joinPartida.getPassword())
-                                if(not self.online):
-                                    self.seleccionPersonaje.setCurrentPartida(self.salaEspera.getCurrentPartida())
+
+                                # if(not self.online):
+                                #     self.seleccionPersonaje.setCurrentPartida(self.salaEspera.getCurrentPartida())
                             else:
                                 pass
                             self.screen = self.joinPartida.getScreen()
