@@ -44,6 +44,7 @@ class Global:
     def setListaPersonajeHostIndex(self,index,personaje):
         global listaPersonajesHost
         self.lock_lph.acquire()
+        print(index)
         listaPersonajesHost[index] = personaje
         self.lock_lph.release()
 
