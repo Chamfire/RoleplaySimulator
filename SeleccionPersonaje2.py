@@ -509,6 +509,7 @@ class SeleccionPersonaje2:
                         self.textEdad = self.defaultTextEdad
                     elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=350):
                         self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                        self.searching = True
                     else:
                         self.textEdad = self.fuente2.render('1-350', True, self.color_dark_red_sat)
                         self.personaje.edad = ' '
@@ -518,11 +519,12 @@ class SeleccionPersonaje2:
                         self.textEdad = self.defaultTextEdad
                     elif(self.personaje.edad != ' ' and self.checkIfIsNumber(self.personaje.edad) and int(self.personaje.edad) >=1 and int(self.personaje.edad) <=750):
                         self.textEdad = self.fuente2.render(self.personaje.edad, True, self.color_white)
+                        self.searching = True
                     else:
                         self.textEdad = self.fuente2.render('1-750', True, self.color_dark_red_sat)
                         self.personaje.edad = ' '
                         self.ch1.play(self.error)
-                self.searching = True
+                
                 self.refresh(2,self.textEdad)
                 pygame.display.update() 
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
@@ -531,21 +533,21 @@ class SeleccionPersonaje2:
                     #tiene los campos rellenados
                     self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
                     self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
+                    self.ch1.play(self.pressed)
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p
                     self.screen.blit(pygame.transform.scale(self.crearPersonaje, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570)) #190 s 490 p
                 self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
                 self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
-                self.ch1.play(self.pressed)
-
-                self.consultaDescripcion.initialize(self.personaje,self.model_path)
-                self.hiloConsultaDescripcion = threading.Thread(target=self.consultaDescripcion.consultaDescripcion)
-                self.hiloConsultaDescripcion.start()
-                
-
-                pygame.display.update() 
-                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
-                self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
+                if(not self.searching):
+                    self.ch1.play(self.error)
+                else:
+                    self.consultaDescripcion.initialize(self.personaje,self.model_path)
+                    self.hiloConsultaDescripcion = threading.Thread(target=self.consultaDescripcion.consultaDescripcion)
+                    self.hiloConsultaDescripcion.start()
+                    pygame.display.update() 
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550
+                    self.screen.blit(pygame.transform.scale(self.gd, (self.width/5.1502, self.height/17.5000)), (self.width/1.4688, self.height/1.2613)) #233 x h x 817 x 555
                 pygame.display.update() 
             else:
                 self.opened_screen = None
