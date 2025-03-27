@@ -49,7 +49,7 @@ class EscuchaTCP:
                 #print("esperando TCP")
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
-                msg_client = socket_c.recv(9999999).decode('utf-8')
+                msg_client = socket_c.recv(16000).decode('utf-8')
                 resp = self.checkformat(msg_client)
                 print('msg received: ',msg_client)
                 msg_to_OtherPlayers = None
@@ -104,9 +104,21 @@ class EscuchaTCP:
                 elif(resp[0] == 4):
                     try:
                         #Chequeo de padding correcto
-                        padding_needed = len(resp[1]) % 4
-                        if padding_needed != 0:
-                            resp[1] += '=' * (4 - padding_needed)
+                        # padding_needed = len(resp[1]) % 4
+                        # if padding_needed != 0:
+                        #     resp[1] += '=' * (4 - padding_needed)
+                        resp_final = []
+                        resp_final.append(resp[1])
+                        total_recibido = len(resp[1])
+                        while (len(total_recibido) < resp[3]):
+                            #no hemos recibido todo el mensaje
+                            print("fragmento 1 recibido del personaje")
+                            resp_fragment = socket_c.recv(4096)
+                            if not resp_fragment:
+                                break
+                            resp_final.append(resp_fragment)
+                            total_recibido += len(resp_fragment)
+                        resp[1] = b''.join(resp_final)
                         datos_personaje_decoded = base64.b64decode(resp[1])
                         personaje_temp = pickle.loads(datos_personaje_decoded)   #extraer los datos
                         personaje_temp.partida_id = self.currentPartida
@@ -362,6 +374,13 @@ class EscuchaTCP:
             self.server_socket.close()
             self.server_socket = None
             #print("TCP closed in server")
+
+    def checkIfIsNumber(self,n):
+        try:
+            number = int(n)
+            return True
+        except:
+            return False
     
     def checkformat(self,msg):
         try:
@@ -416,9 +435,20 @@ class EscuchaTCP:
                             #TODO: Comprobar dónde está cada usuario, y mandarles un mensaje de hacia donde tienen que ir
                         except:
                             return(-1,None)
-                        return (-1,None)
                 else:
                     return (-1,None) 
+            elif(len(resp) == 5):
+                [pswd,id_user,contenido,len_contenido,objeto] = resp
+                if (pswd != None and pswd == self.password and self.existsPlayer(id_user) and not self.isNotCurrentlyActive(id_user)):
+                    if(contenido != None and contenido == "enviar_personaje"):
+                        if objeto != None and len_contenido != None and self.checkIfIsNumber(len_contenido):
+                            return(4,objeto,id_user,len_contenido) 
+                        else:
+                            return (-1,None)
+                    else:
+                        return (-1,None)
+                else:    
+                    return(-1,None)
             else:
                 return (0,None)
         except:
