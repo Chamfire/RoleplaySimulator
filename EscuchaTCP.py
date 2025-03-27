@@ -103,6 +103,10 @@ class EscuchaTCP:
 
                 elif(resp[0] == 4):
                     try:
+                        #Chequeo de padding correcto
+                        padding_needed = len(resp[1]) % 4
+                        if padding_needed != 0:
+                            resp[1] += '=' * (4 - padding_needed)
                         datos_personaje_decoded = base64.b64decode(resp[1])
                         personaje_temp = pickle.loads(datos_personaje_decoded)   #extraer los datos
                         personaje_temp.partida_id = self.currentPartida
