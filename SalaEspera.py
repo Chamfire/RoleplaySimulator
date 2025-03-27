@@ -865,7 +865,7 @@ class SalaEspera:
                                 if(row[33] == self.id):
                                     #el host tiene personaje asociado
                                     #ese jugador tiene un personaje vivo asociado (su id coincide con la id de jugador de ese personaje)
-                                    personaje_temp = Personaje(False,row[33],personaje_temp.id_jugador)
+                                    personaje_temp = Personaje(False,self.currentPartida,row[33])
                                     personaje_temp.name = row[0]
                                     personaje_temp.sm1 = row[1]
                                     personaje_temp.sm2 = row[2]
