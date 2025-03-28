@@ -112,7 +112,7 @@ class EscuchaTCP:
                         resp_final.append(bytes(resp[1], encoding='utf8'))
                         while (total_recibido < int(resp[3])):
                             #no hemos recibido todo el mensaje
-                            print("fragmento 1 recibido del personaje")
+                            #print("fragmento 1 recibido del personaje")
                             resp_fragment = socket_c.recv(4096)
                             if not resp_fragment:
                                 break
@@ -214,8 +214,7 @@ class EscuchaTCP:
                             msg_ve_sala_espera = str(self.password)+":"+self.idPropia+":ve_salaEspera2"
                             socket_c.sendall(msg_ve_sala_espera.encode('utf-8'))
 
-                    except Exception as e:
-                        print(e)
+                    except:
                         msg_mal_personaje = str(self.password)+":"+self.idPropia+":mal_personaje"
                         socket_c.sendall(msg_mal_personaje.encode('utf-8'))
 
@@ -232,14 +231,14 @@ class EscuchaTCP:
                         if(personaje_temp != -1):
                             datos_personaje_serialized = pickle.dumps(personaje_temp)
                             datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
-                            msg_ok = f"ok_ve_salaEspera2:{datos_personaje_encoded}:{self.numJugadores}:{self.puertoUDP}:{self.idPropia};{self.nombrePropio};{self.miIcono};True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                            msg_ok = f"ok_ve_salaEspera2:{len(datos_personaje_encoded)}:{datos_personaje_encoded}:{self.numJugadores}:{self.puertoUDP}:{self.idPropia};{self.nombrePropio};{self.miIcono};True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                         else:
                             msg_ok = "ok_ve_seleccionPersonaje:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     elif(currentScreen == "partida"):
                         personaje_temp = self.GLOBAL.getListaPersonajeHostIndex(resp[1][3])
                         datos_personaje_serialized = pickle.dumps(personaje_temp)
                         datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
-                        msg_ok = f"ok_ve_partida:{datos_personaje_encoded}:{self.numJugadores}:{self.puertoUDP}:{self.idPropia};{self.nombrePropio};{self.miIcono};True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                        msg_ok = f"ok_ve_partida:{len(datos_personaje_encoded)}:{datos_personaje_encoded}:{self.numJugadores}:{self.puertoUDP}:{self.idPropia};{self.nombrePropio};{self.miIcono};True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None): #le pasamos la lista de jugadores tanto activos como inactivos
                             #print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))

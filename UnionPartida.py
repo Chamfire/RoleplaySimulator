@@ -25,6 +25,7 @@ class UnionPartida:
         self.port_dest = None
         self.escuchaTCPClient = None
         self.personaje = None
+        self.socket_c = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -267,7 +268,20 @@ class UnionPartida:
                     for i in range(0,len(resp)-4):
                         [id_j,name,pic,isActive] = resp[i+4].split(';')
                         jugadores[i] = (id_j,(name,int(pic),isActive)) 
-                    datos_personaje_decoded = base64.b64decode(resp[1])
+
+                    resp_final = []
+                    total_recibido = len(resp[1])
+                    resp_final.append(bytes(resp[1], encoding='utf8'))
+                    while (total_recibido < int(resp[3])):
+                        #no hemos recibido todo el mensaje
+                        print("fragmento 1 recibido del personaje")
+                        resp_fragment = self.socket_c.recv(4096)
+                        if not resp_fragment:
+                            break
+                        resp_final.append(resp_fragment)
+                        total_recibido += len(resp_fragment)
+                    respuesta = b''.join(resp_final)
+                    datos_personaje_decoded = base64.b64decode(respuesta)
                     personaje = pickle.loads(datos_personaje_decoded)
                     return (1,int(resp[2]),jugadores,int(resp[3]),personaje) #pantalla 1: salaEspera2
                 else:
@@ -287,7 +301,19 @@ class UnionPartida:
                     for i in range(0,len(resp)-4):
                         [id_j,name,pic,isActive] = resp[i+4].split(';')
                         jugadores[i] = (id_j,(name,int(pic),isActive)) 
-                    datos_personaje_decoded = base64.b64decode(resp[1])
+                    resp_final = []
+                    total_recibido = len(resp[1])
+                    resp_final.append(bytes(resp[1], encoding='utf8'))
+                    while (total_recibido < int(resp[3])):
+                        #no hemos recibido todo el mensaje
+                        #print("fragmento 1 recibido del personaje")
+                        resp_fragment = self.socket_c.recv(4096)
+                        if not resp_fragment:
+                            break
+                        resp_final.append(resp_fragment)
+                        total_recibido += len(resp_fragment)
+                    respuesta = b''.join(resp_final)
+                    datos_personaje_decoded = base64.b64decode(respuesta)
                     personaje = pickle.loads(datos_personaje_decoded)
                     return (3,int(resp[2]),jugadores,int(resp[3]),personaje) #pantalla 3: partida
                 else:
@@ -331,7 +357,7 @@ class UnionPartida:
                     ip_dest = result[1][0]
                     port_dest = result[1][1]
                 # ----- conexión TCP  -----
-                    socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    self.socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     server_socket_tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     server_socket_tcp.bind(('', 0)) #encuentra un puerto libre
                     self.socketUDP = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
@@ -343,11 +369,11 @@ class UnionPartida:
                         #print(ip_dest,port_dest)
                         self.ip_dest = ip_dest
                         self.port_dest = port_dest
-                        socket_c.connect((ip_dest, int(port_dest)))
+                        self.socket_c.connect((ip_dest, int(port_dest)))
                         msg_client = str(self.password) + ":"+str(self.name)+":"+str(self.avatarPicPerfil)+":"+str(self.id)+":"+str(self.portUDP)+":"+str(puertoTCP)
                         #patata:pepe:3:id:56384:49234 <- ejemplo mensaje
-                        socket_c.sendall(msg_client.encode('utf-8'))
-                        respuesta = socket_c.recv(65555).decode('utf-8') #tiene timeout de unos segundos
+                        self.socket_c.sendall(msg_client.encode('utf-8'))
+                        respuesta = self.socket_c.recv(65555).decode('utf-8') #tiene timeout de unos segundos
                         print('Datos recibidos: ',respuesta)
                         resp = self.checkformat(respuesta)
                         print(resp)
@@ -394,9 +420,9 @@ class UnionPartida:
                         pantalla = "joinPartida"
                         self.ch1.play(self.error)
                     finally:
-                        ip = socket_c.getsockname()[0]
-                        port = socket_c.getsockname()[1]
-                        socket_c.close()
+                        ip = self.socket_c.getsockname()[0]
+                        port = self.socket_c.getsockname()[1]
+                        self.socket_c.close()
                         print(ip,port)
                         if(resp != None and resp[0] != -1): #solo pondremos las conexiones si nos ha dicho que sí el servidor
                             self.escuchaTCPClient = EscuchaTCPClient(server_socket_tcp,ip,puertoTCP,ip_dest,port_dest,self.id,self.password) #creamos un servidor para recibir mensajes TCP del host

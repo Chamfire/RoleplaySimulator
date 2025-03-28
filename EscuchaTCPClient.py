@@ -69,16 +69,15 @@ class EscuchaTCPClient:
                         elif(len(resp) == 1 and resp[0] == "seleccion_personaje"):
                             #que cambie de pantalla a selección de personaje
                             self.GLOBAL.setRefreshScreen("seleccionPersonaje")
-                        elif(resp[0] == "partida_load_wait"):
+                        elif(resp[0] == "ve_salaEspera2"):
                             #que cambie de pantalla a selección de personaje
                             #usaremos content, porque aquí el split no tiene sentido (es un json)
-                            resp1 = content[18:] #a partir del char 18 es el objeto serializado
                             resp_final = []
-                            total_recibido = len(resp1)
-                            resp_final.append(bytes(resp1, encoding='utf8'))
+                            total_recibido = len(resp[1])
+                            resp_final.append(bytes(resp[1], encoding='utf8'))
                             while (total_recibido < int(resp[3])):
                                 #no hemos recibido todo el mensaje
-                                print("fragmento 1 recibido del personaje")
+                                #print("fragmento 1 recibido del personaje")
                                 resp_fragment = socket_c.recv(4096)
                                 if not resp_fragment:
                                     break
@@ -91,6 +90,27 @@ class EscuchaTCPClient:
                             print(personaje.equipo.printEquipoConsolaDebugSuperficial())
                             self.personaje_received = personaje
                             self.GLOBAL.setRefreshScreen("partida_load_wait_1") #cuando el usuario estaba en la sala de espera y le manda a partida_load_wait
+                        elif(resp[0] == "ve_partida"):
+                            #que cambie de pantalla a selección de personaje
+                            #usaremos content, porque aquí el split no tiene sentido (es un json)
+                            resp_final = []
+                            total_recibido = len(resp[1])
+                            resp_final.append(bytes(resp[1], encoding='utf8'))
+                            while (total_recibido < int(resp[3])):
+                                #no hemos recibido todo el mensaje
+                                #print("fragmento 1 recibido del personaje")
+                                resp_fragment = socket_c.recv(4096)
+                                if not resp_fragment:
+                                    break
+                                resp_final.append(resp_fragment)
+                                total_recibido += len(resp_fragment)
+                            respuesta = b''.join(resp_final)
+                            datos_personaje_decoded = base64.b64decode(respuesta)
+                            personaje = pickle.loads(datos_personaje_decoded)   #extraer los datos
+                            print(personaje.name)
+                            print(personaje.equipo.printEquipoConsolaDebugSuperficial())
+                            self.personaje_received = personaje
+                            self.GLOBAL.setRefreshScreen("partida") #te manda a partida
                     #si no es el id del servidor, o la contraseña no es correcta, lo ignoramos
                 except:
                     pass #si no es el id del servidor, lo ignoramos
