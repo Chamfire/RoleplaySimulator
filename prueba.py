@@ -34,3 +34,8 @@ armaduras = lista_inv.getArmaduraList()
 armadura_1 = armaduras["Armaduras ligeras"]["Acolchada"]
 tipo = str(type(armadura_1))
 print(tipo[25:-2])
+
+a = []
+a.append('a')
+a[0]+= 'b'
+print(a)

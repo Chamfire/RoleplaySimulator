@@ -116,7 +116,7 @@ class EscuchaTCP:
                             resp_fragment = socket_c.recv(4096)
                             if not resp_fragment:
                                 break
-                            resp_final.append(resp_fragment)
+                            resp_final[0] += resp_fragment
                             total_recibido += len(resp_fragment)
                         datos_personaje_decoded = base64.b64decode(resp_final)
                         personaje_temp = pickle.loads(datos_personaje_decoded)   #extraer los datos
