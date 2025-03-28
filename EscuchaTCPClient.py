@@ -27,7 +27,7 @@ class EscuchaTCPClient:
             try:
                 socket_c, ip_port_client = self.server_socket.accept()
                 #print("msg received in server")
-                msg_client = socket_c.recv(9999999).decode('utf-8')
+                msg_client = socket_c.recv(65555).decode('utf-8')
                 print('msg received: ',msg_client)
                 try:
                     [password,id_server,content] = msg_client.split(";")
@@ -72,8 +72,20 @@ class EscuchaTCPClient:
                         elif(resp[0] == "partida_load_wait"):
                             #que cambie de pantalla a selección de personaje
                             #usaremos content, porque aquí el split no tiene sentido (es un json)
-                            personaje_data = content[18:] #a partir del char 18 es el objeto serializado
-                            datos_personaje_decoded = base64.b64decode(personaje_data)
+                            resp1 = content[18:] #a partir del char 18 es el objeto serializado
+                            resp_final = []
+                            total_recibido = len(resp1)
+                            resp_final.append(bytes(resp1, encoding='utf8'))
+                            while (total_recibido < int(resp[3])):
+                                #no hemos recibido todo el mensaje
+                                print("fragmento 1 recibido del personaje")
+                                resp_fragment = socket_c.recv(4096)
+                                if not resp_fragment:
+                                    break
+                                resp_final.append(resp_fragment)
+                                total_recibido += len(resp_fragment)
+                            respuesta = b''.join(resp_final)
+                            datos_personaje_decoded = base64.b64decode(respuesta)
                             personaje = pickle.loads(datos_personaje_decoded)   #extraer los datos
                             print(personaje.name)
                             print(personaje.equipo.printEquipoConsolaDebugSuperficial())

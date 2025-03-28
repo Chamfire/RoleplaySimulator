@@ -109,16 +109,17 @@ class EscuchaTCP:
                         #     resp[1] += '=' * (4 - padding_needed)
                         resp_final = []
                         total_recibido = len(resp[1])
-                        resp_final.append(resp[1])
+                        resp_final.append(bytes(resp[1], encoding='utf8'))
                         while (total_recibido < int(resp[3])):
                             #no hemos recibido todo el mensaje
                             print("fragmento 1 recibido del personaje")
                             resp_fragment = socket_c.recv(4096)
                             if not resp_fragment:
                                 break
-                            resp_final[0] += resp_fragment
+                            resp_final.append(resp_fragment)
                             total_recibido += len(resp_fragment)
-                        datos_personaje_decoded = base64.b64decode(resp_final)
+                        respuesta = b''.join(resp_final)
+                        datos_personaje_decoded = base64.b64decode(respuesta)
                         personaje_temp = pickle.loads(datos_personaje_decoded)   #extraer los datos
                         personaje_temp.partida_id = self.currentPartida
                         self.GLOBAL.setListaPersonajeHostIndex(resp[2],personaje_temp) #añadimos el personaje a la lista de usuarios activos
