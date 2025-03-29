@@ -258,7 +258,7 @@ class UnionPartida:
                     jugadores = {}
                     for i in range(0,len(resp)-3):
                         [id_j,name,pic,isActive] = resp[i+3].split(';')
-                        jugadores[i] = (id_j,(name,int(pic),isActive)) 
+                        jugadores[i] = (id_j,(name,int(pic),bool(isActive))) 
                     return (0,int(resp[1]),jugadores,int(resp[2])) #pantalla 0: sala espera
                 else:
                     return (-1,None,None)
@@ -267,7 +267,7 @@ class UnionPartida:
                     jugadores = {}
                     for i in range(0,len(resp)-5):
                         [id_j,name,pic,isActive] = resp[i+5].split(';')
-                        jugadores[i] = (id_j,(name,int(pic),isActive)) 
+                        jugadores[i] = (id_j,(name,int(pic),bool(isActive))) 
 
                     # resp_final = []
                     # total_recibido = len(resp[1])
@@ -291,7 +291,7 @@ class UnionPartida:
                     jugadores = {}
                     for i in range(0,len(resp)-3):
                         [id_j,name,pic,isActive] = resp[i+3].split(';')
-                        jugadores[i] = (id_j,(name,int(pic),isActive)) 
+                        jugadores[i] = (id_j,(name,int(pic),bool(isActive))) 
                     return (2,int(resp[1]),jugadores,int(resp[2])) #pantalla 2: seleccionPersonaje
                 else:
                     return (-1,None,None)
@@ -300,7 +300,7 @@ class UnionPartida:
                     jugadores = {}
                     for i in range(0,len(resp)-5):
                         [id_j,name,pic,isActive] = resp[i+5].split(';')
-                        jugadores[i] = (id_j,(name,int(pic),isActive)) 
+                        jugadores[i] = (id_j,(name,int(pic),bool(isActive))) 
                     # resp_final = []
                     # total_recibido = len(resp[1])
                     # resp_final.append(bytes(resp[2], encoding='utf8'))
