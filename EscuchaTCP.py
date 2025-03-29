@@ -195,7 +195,8 @@ class EscuchaTCP:
                         #como no tiene armadura equipada, ni objetos al empezar, no se almacenarán aquí, pero si se extraerán de la base de datos en la sala de espera
                         conn.commit()
                         conn.close()
-                        
+                        print(self.numJugadores)
+                        print(self.GLOBAL.getListaPersonajeHost())
                         if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost()) + 1)):
                             msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
                             socket_c.sendall(msg_ve_partida.encode('utf-8'))

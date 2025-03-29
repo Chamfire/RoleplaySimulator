@@ -371,6 +371,9 @@ class Game:
                                 self.salaEspera.setNumJugadoresYOtherPlayers(self.joinPartida.getNumJugadoresAndJugadoresAndPort())
                                 self.salaEspera.setPortUDPYSocketUDP(self.joinPartida.getPortUDPYSocket())
                                 self.salaEspera.setPassword(self.joinPartida.getPassword())
+                                self.seleccionPersonaje.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
+                                self.seleccionPersonaje2.setIpANDPort(self.joinPartida.getIpANDPortDest())
+                                
                             elif(screenToChange == "partida_load_wait" or screenToChange == "partida"):
                                 self.online = True
                                 self.partidaScreen.setPersonajeMio(self.joinPartida.getPersonaje())

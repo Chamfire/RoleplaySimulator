@@ -69,6 +69,7 @@ class EscuchaTCPClient:
                         elif(len(resp) == 1 and resp[0] == "seleccion_personaje"):
                             #que cambie de pantalla a selección de personaje
                             self.GLOBAL.setRefreshScreen("seleccionPersonaje")
+                            
                         elif(resp[0] == "ve_salaEspera2"):
                             #que cambie de pantalla a selección de personaje
                             #usaremos content, porque aquí el split no tiene sentido (es un json)
