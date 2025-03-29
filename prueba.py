@@ -39,4 +39,3 @@ a = []
 a.append('a')
 a[0]+= 'b'
 print(a)
-print('False'.)
