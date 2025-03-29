@@ -14,6 +14,7 @@ class PartidaScreen:
         #screen
         self.screen = screen
         self.justAfterSala = False
+        self.isOnline = False
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
