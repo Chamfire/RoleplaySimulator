@@ -357,6 +357,8 @@ class Game:
                                 if(screenToChange == "partida_load_wait"):
                                     self.salaEspera2.setPassword(self.salaEspera.getPassword())
                                     self.salaEspera2.setJustAfterSala(True)
+                                else:
+                                    self.partidaScreen.setJustAfterSala(True)
                             self.screen = self.salaEspera.getScreen()
 
                     elif self.currentScreen == "joinPartida":

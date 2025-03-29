@@ -338,8 +338,7 @@ class EscuchaTCP:
                     id_new_player = None
 
 
-            except Exception as e:
-                print(e)
+            except:
                 try:
                     socket_c.close()
                 except:
