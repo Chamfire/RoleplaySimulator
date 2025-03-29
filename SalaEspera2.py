@@ -107,7 +107,7 @@ class SalaEspera2:
                                 #pasamos la clase del personaje a objeto
                                 datos_personaje_serialized = pickle.dumps(personaje_player)
                                 datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
-                                msg = f"{self.password};{self.id};partida_load_wait:{datos_personaje_encoded}"
+                                msg = f"{self.password};{self.id};ve_salaEspera2:{len(datos_personaje_encoded)}:{datos_personaje_encoded}"
                             else: 
                                 #no tiene personaje creado, así que le mandamos a seleccionPersonaje también
                                 msg = f"{self.password};{self.id};seleccion_personaje"

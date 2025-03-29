@@ -73,8 +73,8 @@ class EscuchaTCPClient:
                             #que cambie de pantalla a selección de personaje
                             #usaremos content, porque aquí el split no tiene sentido (es un json)
                             resp_final = []
-                            total_recibido = len(resp[1])
-                            resp_final.append(bytes(resp[1], encoding='utf8'))
+                            total_recibido = len(resp[4])
+                            resp_final.append(bytes(resp[4], encoding='utf8'))
                             while (total_recibido < int(resp[3])):
                                 #no hemos recibido todo el mensaje
                                 #print("fragmento 1 recibido del personaje")
@@ -94,8 +94,8 @@ class EscuchaTCPClient:
                             #que cambie de pantalla a selección de personaje
                             #usaremos content, porque aquí el split no tiene sentido (es un json)
                             resp_final = []
-                            total_recibido = len(resp[1])
-                            resp_final.append(bytes(resp[1], encoding='utf8'))
+                            total_recibido = len(resp[4])
+                            resp_final.append(bytes(resp[4], encoding='utf8'))
                             while (total_recibido < int(resp[3])):
                                 #no hemos recibido todo el mensaje
                                 #print("fragmento 1 recibido del personaje")
