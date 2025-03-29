@@ -141,6 +141,7 @@ class SalaEspera:
         self.puertoUDP_server = no[2]
         self.ip_dest = no[3]
         cont = 0
+        self.GLOBAL.setOtherPlayers({}) #reiniciamos la lista de otherPlayers
         #print(no)
         #print('numJugadores: ',self.numJugadores)
         for i in range(0,(self.numJugadores)): #te pueden pasar a ti mismo también
@@ -425,7 +426,6 @@ class SalaEspera:
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
         if(isOnline):
-            self.GLOBAL.setOtherPlayers({}) #reiniciamos la lista de otherPlayers
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
             #el número de jugadores y la lista de otros jugadores se la pasa por parámetro en game
