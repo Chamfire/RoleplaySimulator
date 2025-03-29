@@ -225,7 +225,7 @@ class EscuchaTCP:
                     print(currentScreen)
                     if(currentScreen == "salaEspera"):
                         msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
-                    elif(currentScreen == "seleccionPersonaje" or currentScreen == "seleccionPersonaje2" or "salaEspera2"):
+                    elif(currentScreen == "seleccionPersonaje" or currentScreen == "seleccionPersonaje2" or currentScreen == "salaEspera2"):
                         personaje_temp = self.GLOBAL.getListaPersonajeHostIndex(resp[1][3])
                         if(personaje_temp != -1):
                             datos_personaje_serialized = pickle.dumps(personaje_temp)
