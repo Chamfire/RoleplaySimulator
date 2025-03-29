@@ -263,27 +263,27 @@ class UnionPartida:
                 else:
                     return (-1,None,None)
             elif(resp[0] == "ok_ve_salaEspera2"):
-                if(resp[2] != None and int(resp[2])>=0 and int(resp[2])<=6 and resp[3] != None and int(resp[3])>=10000 and int(resp[3]) <=99999): # si numjugadores recibido está entre 0 y 6 y el puerto es real
+                if(resp[3] != None and int(resp[3])>=0 and int(resp[3])<=6 and resp[4] != None and int(resp[4])>=10000 and int(resp[4]) <=99999): # si numjugadores recibido está entre 0 y 6 y el puerto es real
                     jugadores = {}
-                    for i in range(0,len(resp)-4):
-                        [id_j,name,pic,isActive] = resp[i+4].split(';')
+                    for i in range(0,len(resp)-5):
+                        [id_j,name,pic,isActive] = resp[i+5].split(';')
                         jugadores[i] = (id_j,(name,int(pic),isActive)) 
 
-                    resp_final = []
-                    total_recibido = len(resp[1])
-                    resp_final.append(bytes(resp[1], encoding='utf8'))
-                    while (total_recibido < int(resp[3])):
-                        #no hemos recibido todo el mensaje
-                        print("fragmento 1 recibido del personaje")
-                        resp_fragment = self.socket_c.recv(4096)
-                        if not resp_fragment:
-                            break
-                        resp_final.append(resp_fragment)
-                        total_recibido += len(resp_fragment)
-                    respuesta = b''.join(resp_final)
-                    datos_personaje_decoded = base64.b64decode(respuesta)
+                    # resp_final = []
+                    # total_recibido = len(resp[1])
+                    # resp_final.append(bytes(resp[1], encoding='utf8'))
+                    # while (total_recibido < int(resp[1])):
+                    #     #no hemos recibido todo el mensaje
+                    #     print("fragmento 1 recibido del personaje")
+                    #     resp_fragment = self.socket_c.recv(4096)
+                    #     if not resp_fragment:
+                    #         break
+                    #     resp_final.append(resp_fragment)
+                    #     total_recibido += len(resp_fragment)
+                    # respuesta = b''.join(resp_final)
+                    datos_personaje_decoded = base64.b64decode(resp[2])
                     personaje = pickle.loads(datos_personaje_decoded)
-                    return (1,int(resp[2]),jugadores,int(resp[3]),personaje) #pantalla 1: salaEspera2
+                    return (1,int(resp[3]),jugadores,int(resp[4]),personaje) #pantalla 1: salaEspera2
                 else:
                     return (-1,None,None)
             elif(resp[0] == "ok_ve_seleccionPersonaje"):
@@ -296,26 +296,26 @@ class UnionPartida:
                 else:
                     return (-1,None,None)
             elif(resp[0] == "ok_ve_partida"):
-                if(resp[2] != None and int(resp[2])>=0 and int(resp[2])<=6 and resp[3] != None and int(resp[3])>=10000 and int(resp[3]) <=99999): # si numjugadores recibido está entre 0 y 6 y el puerto es real
+                if(resp[3] != None and int(resp[3])>=0 and int(resp[3])<=6 and resp[4] != None and int(resp[4])>=10000 and int(resp[4]) <=99999): # si numjugadores recibido está entre 0 y 6 y el puerto es real
                     jugadores = {}
-                    for i in range(0,len(resp)-4):
-                        [id_j,name,pic,isActive] = resp[i+4].split(';')
+                    for i in range(0,len(resp)-5):
+                        [id_j,name,pic,isActive] = resp[i+5].split(';')
                         jugadores[i] = (id_j,(name,int(pic),isActive)) 
-                    resp_final = []
-                    total_recibido = len(resp[1])
-                    resp_final.append(bytes(resp[1], encoding='utf8'))
-                    while (total_recibido < int(resp[3])):
-                        #no hemos recibido todo el mensaje
-                        #print("fragmento 1 recibido del personaje")
-                        resp_fragment = self.socket_c.recv(4096)
-                        if not resp_fragment:
-                            break
-                        resp_final.append(resp_fragment)
-                        total_recibido += len(resp_fragment)
-                    respuesta = b''.join(resp_final)
-                    datos_personaje_decoded = base64.b64decode(respuesta)
+                    # resp_final = []
+                    # total_recibido = len(resp[1])
+                    # resp_final.append(bytes(resp[2], encoding='utf8'))
+                    # while (total_recibido < int(resp[3])):
+                    #     #no hemos recibido todo el mensaje
+                    #     #print("fragmento 1 recibido del personaje")
+                    #     resp_fragment = self.socket_c.recv(4096)
+                    #     if not resp_fragment:
+                    #         break
+                    #     resp_final.append(resp_fragment)
+                    #     total_recibido += len(resp_fragment)
+                    # respuesta = b''.join(resp_final)
+                    datos_personaje_decoded = base64.b64decode(resp[2])
                     personaje = pickle.loads(datos_personaje_decoded)
-                    return (3,int(resp[2]),jugadores,int(resp[3]),personaje) #pantalla 3: partida
+                    return (3,int(resp[3]),jugadores,int(resp[4]),personaje) #pantalla 3: partida
                 else:
                     return (-1,None,None)
             else:
