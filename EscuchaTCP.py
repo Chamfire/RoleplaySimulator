@@ -196,7 +196,7 @@ class EscuchaTCP:
                         conn.commit()
                         conn.close()
                         print(self.numJugadores)
-                        print(self.GLOBAL.getListaPersonajeHost())
+                        print(len(self.GLOBAL.getListaPersonajeHost()))
                         if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost()) + 1)):
                             msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
                             socket_c.sendall(msg_ve_partida.encode('utf-8'))
@@ -206,7 +206,6 @@ class EscuchaTCP:
                                     #enviamos un mensaje a todos para que vayan a la partida
                                     #TODO: enviar mensaje a todos 
                                     pass
-                            
                             
                             if(self.GLOBAL.getCurrentScreen() != "partida"):
                                 self.GLOBAL.setRefreshScreen("partida") #para que vaya a partida
@@ -292,7 +291,7 @@ class EscuchaTCP:
                         cursor = conn.cursor()
                         cursor.execute(query_find_player)
                         rows = cursor.fetchall() 
-                        if(rows != [] and rows[0] == resp[1][3]): #si existe la id 
+                        if(rows != [] and rows[0][0] == resp[1][3]): #si existe la id 
                             #actualizamos pic y name
                             query_update_pic = "UPDATE jugador SET pic = "+str(resp[1][2])+" WHERE id_jugador = '"+resp[1][3]+"';"
                             cursor.execute(query_update_pic)  
@@ -342,7 +341,7 @@ class EscuchaTCP:
 
 
             except Exception as e:
-                #print(e)
+                print(e)
                 try:
                     socket_c.close()
                 except:
