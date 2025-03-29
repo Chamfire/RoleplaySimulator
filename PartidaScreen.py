@@ -103,8 +103,11 @@ class PartidaScreen:
         self.screen.blit(pygame.transform.scale(self.msg, (self.width/1.8462, self.height/8.7500)), (self.width/4.0000, self.height/4.0000)) #650 80 300 175 
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+        print(self.justAfterSala,self.isOnline)
         if(self.justAfterSala):
             if(not self.isOnline):
+                print(self.GLOBAL.getOtherPlayers())
+                print(self.password,self.id)
                 for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                     if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
                         socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -112,7 +115,8 @@ class PartidaScreen:
                             socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
                             msg = f"{self.password};{self.id};ve_partida_fromSalaEspera"
                             socket_temporal.sendall(msg.encode('utf-8'))
-                        except:
+                        except Exception as e:
+                            print('e1: ',e)
                             pass
                         finally:
                             socket_temporal.close() #se cierra el socket al terminar
