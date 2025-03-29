@@ -712,22 +712,19 @@ class SalaEspera:
                 if(not self.isOnline):
                     conn = sqlite3.connect("simuladordnd.db")
                     cursor = conn.cursor()
-                    query_take_characters = """SELECT name, sm1, sm2, sm3, nivel, inspiracion,esta_muerto,bpc,cons,fu,des,sab,car,int,coordenadas_actuales,vida_temp,max_vida,ca,edad,peso,pc,pp,pe,po,ppt,velocidad,descripcion_fisica,tipo_raza,tipo_clase,tipo_alineamiento,id_trasfondo,tipo_size,partida_id,id_jugador,num_npc_partida FROM personaje WHERE partida_id = '"""+self.currentPartida+"' AND esta_muerto = false AND id_jugador != '"+self.id+"'"
+                    query_take_characters = """SELECT name, sm1, sm2, sm3, nivel, inspiracion,esta_muerto,bpc,cons,fu,des,sab,car,int,coordenadas_actuales,vida_temp,max_vida,ca,edad,peso,pc,pp,pe,po,ppt,velocidad,descripcion_fisica,tipo_raza,tipo_clase,tipo_alineamiento,id_trasfondo,tipo_size,partida_id,id_jugador,num_npc_partida FROM personaje WHERE partida_id = '"""+self.currentPartida+"' AND esta_muerto = false"
                     cursor.execute(query_take_characters)
                     rows = cursor.fetchall()
                     if(self.numJugadores != 1):
                         players_for_finding_character = self.GLOBAL.getOtherPlayers()
-                        num_personajes_to_find = len(players_for_finding_character) + 1 #+1 por el host
+                        num_personajes_to_find = len(players_for_finding_character) 
                     
-                    print(rows)
                     if rows != []:
                         for row in rows:
                             if(self.numJugadores != 1):
                                 #varios jugadores -> conectados online
-                                for i,players in players_for_finding_character.items():
-                                    print("inside loop")
+                                for i,players in players_for_finding_character.items():)
                                     if(row[33] == players[0]):
-                                        print("founded")
                                         #ese jugador tiene un personaje vivo asociado (su id coincide con la id de jugador de ese personaje)
                                         personaje_temp = Personaje(False,self.currentPartida,row[33])
                                         personaje_temp.name = row[0]
@@ -881,9 +878,9 @@ class SalaEspera:
 
                                         self.GLOBAL.setListaPersonajeHostIndex(personaje_temp.id_jugador,personaje_temp)
                                         num_personajes_to_find -=1
-                                        print(num_personajes_to_find)
+
                                         break #saltas el bucle, y continúas con el siguiente personaje de la lista
-                                        
+       
                                 if(row[33] == self.id):
                                     print("encontrado propio personaje")
                                     #el host tiene personaje asociado
