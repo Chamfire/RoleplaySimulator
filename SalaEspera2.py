@@ -7,6 +7,9 @@ from Personaje import Personaje
 import Lista_Inventario
 import base64
 from Global import Global
+from EscuchaUDP import EscuchaUDP
+from EnviarEstadoUDP import EnviarEstadoUDP
+import threading
 
 
 class SalaEspera2:
@@ -19,6 +22,15 @@ class SalaEspera2:
         self.GLOBAL = Global()
         self.password = None
         self.id = id
+
+        #si ya se había conectado antes (se establecen desde Game)
+        self.puertoUDP = None
+        self.ip_dest = None
+        self.port_dest = None
+        self.puertoUDP_server = None
+        self.socketUDP = None
+        self.escuchaUDP = None
+        self.enviarEstadoUDP = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -55,9 +67,6 @@ class SalaEspera2:
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
         self.msg = self.fuente.render('Esperando a que todos creen sus personajes...', True, self.color_white)
 
-    def setPassword(self,p):
-        self.password = p
-
     def setScreen(self,screen):
         self.screen = screen
         #self.width,self.height= (self.screen.get_width(), self.screen.get_height())
@@ -66,6 +75,27 @@ class SalaEspera2:
 
     def setJustAfterSala(self,v):
         self.justAfterSala = v
+
+    def setIpANDPortDest(self,ip_y_port_y_pswd):
+        self.ip_dest = ip_y_port_y_pswd[0]
+        self.port_dest = ip_y_port_y_pswd[1]
+        self.password =ip_y_port_y_pswd[2]
+        self.isOnline = True
+
+    def setPassword(self,p):
+        self.password = p
+
+    def initUDPServerAndClient(self, puertoYSocket,puertoUDPServer,t,msg_delay,ip):
+        self.puertoUDP = puertoYSocket[0]
+        self.socketUDP = puertoYSocket[1]
+        self.escuchaUDP = EscuchaUDP()
+        self.puertoUDP_server = puertoUDPServer
+        self.enviarEstadoUDP = EnviarEstadoUDP(True,self.puertoUDP_server,self.ip_dest,self.id,self.password,t,msg_delay)
+        self.escuchaUDP.initialize(ip,self.puertoUDP,self.socketUDP,True,self.password,self.id)
+        hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
+        hiloMantenerConexionUDP.start()
+        hiloEnviarEstadoUDP = threading.Thread(target = self.enviarEstadoUDP.enviarEstadoUDP)
+        hiloEnviarEstadoUDP.start()
 
     def render(self, isOnline):
         #render screen

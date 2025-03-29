@@ -1,6 +1,9 @@
 import pygame
 from pygame.locals import *
 from pygame import mixer
+from EscuchaUDP import EscuchaUDP
+from EnviarEstadoUDP import EnviarEstadoUDP
+import threading
 
 class PartidaScreen:
     #sound
@@ -18,6 +21,15 @@ class PartidaScreen:
         #widht y height
         self.width = width
         self.height = height
+
+        #si ya se había conectado antes (se establecen desde Game)
+        self.puertoUDP = None
+        self.ip_dest = None
+        self.port_dest = None
+        self.puertoUDP_server = None
+        self.socketUDP = None
+        self.escuchaUDP = None
+        self.enviarEstadoUDP = None
 
         #canales
         self.ch1 = ch1
@@ -54,6 +66,24 @@ class PartidaScreen:
 
     def getPersonajeMio(self):
         return self.personaje
+
+    def setIpANDPortDest(self,ip_y_port_y_pswd):
+        self.ip_dest = ip_y_port_y_pswd[0]
+        self.port_dest = ip_y_port_y_pswd[1]
+        self.password =ip_y_port_y_pswd[2]
+        self.isOnline = True
+
+    def initUDPServerAndClient(self, puertoYSocket,puertoUDPServer,t,msg_delay,ip):
+        self.puertoUDP = puertoYSocket[0]
+        self.socketUDP = puertoYSocket[1]
+        self.escuchaUDP = EscuchaUDP()
+        self.puertoUDP_server = puertoUDPServer
+        self.enviarEstadoUDP = EnviarEstadoUDP(True,self.puertoUDP_server,self.ip_dest,self.id,self.password,t,msg_delay)
+        self.escuchaUDP.initialize(ip,self.puertoUDP,self.socketUDP,True,self.password,self.id)
+        hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
+        hiloMantenerConexionUDP.start()
+        hiloEnviarEstadoUDP = threading.Thread(target = self.enviarEstadoUDP.enviarEstadoUDP)
+        hiloEnviarEstadoUDP.start()
 
     def render(self):
         #render screen

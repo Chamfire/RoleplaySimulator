@@ -625,7 +625,7 @@ class SalaEspera:
             hiloEscuchaTCP = threading.Thread(target=self.escuchaTCP.escuchaTCP)
             hiloEscuchaTCP.start()
             # -----------------------------
-        if(self.numJugadores >1): #se inicializa UDP en el servidor
+        if(self.numJugadores >1): #se inicializa UDP 
             self.escuchaUDP.initialize(self.ip,self.puertoUDP,self.socketUDP,self.isOnline,self.password,self.id)
             hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
             hiloMantenerConexionUDP.start()

@@ -173,17 +173,11 @@ class Game:
                         pass
                     self.serverDisc.render()
                 elif screenToRefresh == "seleccionPersonaje":
-                    lastScreen = self.currentScreen
                     self.currentScreen = screenToRefresh
                     self.GLOBAL.setCurrentScreen(screenToRefresh)
                     self.GLOBAL.setRefreshScreen(None)
-                    if(lastScreen == "salaEspera"):
-                        self.screen = self.salaEspera.getScreen()
-                    elif(lastScreen == "joinPartida"):
-                        self.screen = self.joinPartida.getScreen()
+                    self.screen = self.salaEspera.getScreen()
                     self.seleccionPersonaje.setScreen(self.screen)
-                    self.seleccionPersonaje.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
-                    self.seleccionPersonaje2.setIpANDPort(self.joinPartida.getIpANDPortDest())
                     self.seleccionPersonaje.render(self.online)
                 elif screenToRefresh == "partida_load_wait_1":
                     #vamos a partida_load_wait desde la sala de espera
@@ -382,10 +376,16 @@ class Game:
                                 self.online = True
                                 self.partidaScreen.setPersonajeMio(self.joinPartida.getPersonaje())
                                 if(screenToChange == "partida_load_wait"):
-                                    self.salaEspera2.setPassword(self.salaEspera.getPassword())
+                                    self.salaEspera2.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
+                                    self.salaEspera2.initUDPServerAndClient(self.joinPartida.getPortUDPYSocket(),self.joinPartida.getNumJugadoresAndJugadoresAndPort()[2],self.msg_delay,self.ch5,self.max_msgs_udp,self.local_ip)
+                                else:
+                                    self.partidaScreen.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
+                                    self.partidaScreen.initUDPServerAndClient(self.joinPartida.getPortUDPYSocket(),self.joinPartida.getNumJugadoresAndJugadoresAndPort()[2],self.msg_delay,self.ch5,self.max_msgs_udp,self.local_ip)
                             elif(self.currentScreen == "seleccionPersonaje"):
                                 self.online = True
-                                self.seleccionPersonaje.setPassword(self.joinPartida.getPassword())
+                                self.seleccionPersonaje.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
+                                self.seleccionPersonaje2.setIpANDPort(self.joinPartida.getIpANDPortDest())
+                                self.seleccionPersonaje.initUDPServerAndClient(self.joinPartida.getPortUDPYSocket(),self.joinPartida.getNumJugadoresAndJugadoresAndPort()[2],self.msg_delay,self.ch5,self.max_msgs_udp,self.local_ip)
 
                                 # if(not self.online):
                                 #     self.seleccionPersonaje.setCurrentPartida(self.salaEspera.getCurrentPartida())

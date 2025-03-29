@@ -116,6 +116,9 @@ class SeleccionPersonaje2:
         self.port_dest = ip_y_Port_psw[1]
         self.password = ip_y_Port_psw[2]
     
+    def setPassword(self,p):
+        self.password = p
+    
     def renderTextBlock(self):
         lineSpacing = -2
         spaceWidth, fontHeight = self.fuente3.size(" ")[0], self.fuente3.size("Tg")[1]

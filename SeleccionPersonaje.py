@@ -10,6 +10,8 @@ import random
 import pickle
 import threading
 import base64
+from EscuchaUDP import EscuchaUDP
+from EnviarEstadoUDP import EnviarEstadoUDP
 
 class SeleccionPersonaje:
     #sound
@@ -31,6 +33,12 @@ class SeleccionPersonaje:
         self.textTrasfondo = None
         self.ip_dest = None
         self.port_dest = None
+
+        #para jugadores no host, cuando ya habían entrado todos (se establecen desde game)
+        self.puertoUDP_server = None
+        self.puertoUDP = None
+        self.enviarEstadoUDP = None
+
         self.password = None
         self.vinculos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
         self.defectos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
@@ -137,11 +145,11 @@ class SeleccionPersonaje:
     def getScreen(self):
         return self.screen
 
-    def setPassword(self,pswd):
-        self.password = pswd
-
     def setCurrentPartida(self,p):
         self.currentPartida = p
+
+    def setPassword(self,p):
+        self.password = p
 
     def getPersonaje(self):
         return self.personaje
@@ -154,6 +162,19 @@ class SeleccionPersonaje:
 
     def getPassword(self):
         return self.password
+    
+    def initUDPServerAndClient(self, puertoYSocket,puertoUDPServer,t,msg_delay,ip):
+        self.puertoUDP = puertoYSocket[0]
+        self.socketUDP = puertoYSocket[1]
+        self.escuchaUDP = EscuchaUDP()
+        self.puertoUDP_server = puertoUDPServer
+        self.enviarEstadoUDP = EnviarEstadoUDP(True,self.puertoUDP_server,self.ip_dest,self.id,self.password,t,msg_delay)
+        self.escuchaUDP.initialize(ip,self.puertoUDP,self.socketUDP,True,self.password,self.id)
+        hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
+        hiloMantenerConexionUDP.start()
+        hiloEnviarEstadoUDP = threading.Thread(target = self.enviarEstadoUDP.enviarEstadoUDP)
+        hiloEnviarEstadoUDP.start()
+
 
     def refresh(self,op,content):
         if(op == 7):
