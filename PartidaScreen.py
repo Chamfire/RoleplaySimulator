@@ -13,6 +13,7 @@ class PartidaScreen:
     def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
         #screen
         self.screen = screen
+        self.justAfterSala = False
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
