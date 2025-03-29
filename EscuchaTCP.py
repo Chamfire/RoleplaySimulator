@@ -195,14 +195,12 @@ class EscuchaTCP:
                         #como no tiene armadura equipada, ni objetos al empezar, no se almacenarán aquí, pero si se extraerán de la base de datos en la sala de espera
                         conn.commit()
                         conn.close()
-                        print(self.numJugadores)
-                        print(len(self.GLOBAL.getListaPersonajeHost()))
                         if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost()) + 1)):
                             msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
                             socket_c.sendall(msg_ve_partida.encode('utf-8'))
                             #TODO: Mandar a todos a la partida
                             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
-                                if(self.GLOBAL.getOtherPlayers(i) != None and self.GLOBAL.getOtherPlayers(i)[0] != resp[2]):
+                                if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[0] != resp[2]):
                                     #enviamos un mensaje a todos para que vayan a la partida
                                     #TODO: enviar mensaje a todos 
                                     pass
@@ -214,7 +212,8 @@ class EscuchaTCP:
                             msg_ve_sala_espera = str(self.password)+":"+self.idPropia+":ve_salaEspera2"
                             socket_c.sendall(msg_ve_sala_espera.encode('utf-8'))
 
-                    except:
+                    except Exception as e:
+                        print(e)
                         msg_mal_personaje = str(self.password)+":"+self.idPropia+":mal_personaje"
                         socket_c.sendall(msg_mal_personaje.encode('utf-8'))
 
