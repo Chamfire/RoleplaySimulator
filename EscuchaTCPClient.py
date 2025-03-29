@@ -53,6 +53,7 @@ class EscuchaTCPClient:
                                     break #así nos quedamos con esa j -> si el jugador existe, actualizamos su nombre y pic
                             self.GLOBAL.setOtherPlayersIndex(free_pos, (resp[1],(resp[2],int(resp[3]),True))) #(id,(nombre,avatarPicPerfil,True) <- añado al jugador (True es porque está activo)
                             #print(self.GLOBAL.getOtherPlayers())
+                            currentScreen = self.GLOBAL.getCurrentScreen()
                             if(currentScreen == "salaEspera"):
                                 self.GLOBAL.setRefreshScreen("salaEspera")
                             elif(currentScreen == "seleccionPersonaje" or currentScreen == "seleccionPersonaje2" or currentScreen == "salaEspera2"):
