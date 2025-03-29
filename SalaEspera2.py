@@ -85,18 +85,6 @@ class SalaEspera2:
     def setPassword(self,p):
         self.password = p
 
-    def initUDPServerAndClient(self, puertoYSocket,puertoUDPServer,t,msg_delay,ip):
-        self.puertoUDP = puertoYSocket[0]
-        self.socketUDP = puertoYSocket[1]
-        self.escuchaUDP = EscuchaUDP()
-        self.puertoUDP_server = puertoUDPServer
-        self.enviarEstadoUDP = EnviarEstadoUDP(True,self.puertoUDP_server,self.ip_dest,self.id,self.password,t,msg_delay)
-        self.escuchaUDP.initialize(ip,self.puertoUDP,self.socketUDP,True,self.password,self.id)
-        hiloMantenerConexionUDP = threading.Thread(target = self.escuchaUDP.escuchaUDP)
-        hiloMantenerConexionUDP.start()
-        hiloEnviarEstadoUDP = threading.Thread(target = self.enviarEstadoUDP.enviarEstadoUDP)
-        hiloEnviarEstadoUDP.start()
-
     def render(self, isOnline):
         #render screen
         self.isOnline = isOnline
