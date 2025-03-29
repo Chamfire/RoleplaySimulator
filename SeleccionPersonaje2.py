@@ -545,6 +545,7 @@ class SeleccionPersonaje2:
                 if(not self.searching):
                     self.ch1.play(self.error)
                 else:
+                    self.ch1.play(self.pressed)
                     self.consultaDescripcion.initialize(self.personaje,self.model_path)
                     self.hiloConsultaDescripcion = threading.Thread(target=self.consultaDescripcion.consultaDescripcion)
                     self.hiloConsultaDescripcion.start()
