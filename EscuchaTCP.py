@@ -230,9 +230,10 @@ class EscuchaTCP:
                 elif(resp[0] == 1 and (resp[1][0] == self.password) and (((self.GLOBAL.getCurrentPlayers() < self.numJugadores) and (self.numJugadores > self.GLOBAL.getOtherPlayersTotalRegistered()+1)) or self.existsPlayer(resp[1][3])) and self.idPropia != resp[1][3] and self.isNotCurrentlyActive(resp[1][3])): #existsPlayer también comprueba que no esté activo actualmente
                     currentScreen = self.GLOBAL.getCurrentScreen()
                     print(currentScreen)
+                    msg_ok = None
                     if(currentScreen == "salaEspera"):
                         msg_ok = "ok:"+str(self.numJugadores)+":"+str(self.puertoUDP)+":"+str(self.idPropia)+";"+str(self.nombrePropio)+";"+str(self.miIcono)+";True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
-                    elif(currentScreen == "seleccionPersonaje" or currentScreen == "seleccionPersonaje2" or currentScreen == "salaEspera2"):
+                    elif(currentScreen == "seleccionPersonaje" or currentScreen == "seleccionPersonaje2" or currentScreen == "partida_load_wait"):
                         personaje_temp = self.GLOBAL.getListaPersonajeHostIndex(resp[1][3])
                         if(personaje_temp != -1):
                             datos_personaje_serialized = pickle.dumps(personaje_temp)
@@ -250,7 +251,7 @@ class EscuchaTCP:
                             #print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
                             msg_ok = msg_ok+":"+str(self.GLOBAL.getOtherPlayersIndex(i)[0])+";"+self.GLOBAL.getOtherPlayersIndex(i)[1][0]+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][1])+";"+str(self.GLOBAL.getOtherPlayersIndex(i)[1][2])
                             #el mensaje tendrá este formato -> ok:4:56382:id1;pepe;1:id2;juan;4
-                
+                    print(msg_ok)
                     free_pos = -1
                     existing_player = False
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
