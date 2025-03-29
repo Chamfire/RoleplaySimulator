@@ -298,7 +298,6 @@ class EscuchaTCP:
                             query_update_name = "UPDATE jugador SET name = '"+resp[1][1]+"' WHERE id_jugador = '"+resp[1][3]+"';"
                             cursor.execute(query_update_name)  
                             conn.commit() 
-                            conn.close()
                         else: #no existe el jugador -> lo añadimos
                             conn = sqlite3.connect("simuladordnd.db")
                             cursor = conn.cursor()
