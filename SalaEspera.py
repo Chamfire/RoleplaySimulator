@@ -723,7 +723,7 @@ class SalaEspera:
                         for row in rows:
                             if(self.numJugadores != 1):
                                 #varios jugadores -> conectados online
-                                for i,players in players_for_finding_character.items():)
+                                for i,players in players_for_finding_character.items():
                                     if(row[33] == players[0]):
                                         #ese jugador tiene un personaje vivo asociado (su id coincide con la id de jugador de ese personaje)
                                         personaje_temp = Personaje(False,self.currentPartida,row[33])
