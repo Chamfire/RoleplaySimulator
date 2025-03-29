@@ -16,6 +16,7 @@ class PartidaScreen:
         self.justAfterSala = False
         self.isOnline = False
         self.id = id
+        self.password = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -80,6 +81,8 @@ class PartidaScreen:
         self.port_dest = ip_y_port_y_pswd[1]
         self.password =ip_y_port_y_pswd[2]
         self.isOnline = True
+    def setPassword(self,v):
+        self.password = v
 
     def initUDPServerAndClient(self, puertoYSocket,puertoUDPServer,t,msg_delay,ip):
         self.puertoUDP = puertoYSocket[0]

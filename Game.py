@@ -352,8 +352,10 @@ class Game:
                             elif(screenToChange == "seleccionPersonaje"): #si la siguiente es seleccionPersonaje le pasamos la contraseña
                                 self.seleccionPersonaje.setPassword(self.salaEspera.getPassword())
                                 self.seleccionPersonaje.setCurrentPartida(self.salaEspera.getCurrentPartida())
+                                self.partidaScreen.setPassword(self.salaEspera.getPassword())
                             elif(screenToChange == "partida_load_wait" or screenToChange == "partida"):
                                 self.partidaScreen.setPersonajeMio(self.salaEspera.getPersonaje()) #le pasamos el personaje ya cargado de la bbdd
+                                self.partidaScreen.setPassword(self.salaEspera.getPassword())
                                 if(screenToChange == "partida_load_wait"):
                                     self.salaEspera2.setPassword(self.salaEspera.getPassword())
                                     self.salaEspera2.setJustAfterSala(True)
