@@ -207,7 +207,7 @@ class Game:
                     lastScreen = self.currentScreen
                     self.currentScreen = screenToRefresh
                     self.GLOBAL.setRefreshScreen(None)
-                    self.GLOBAL.setCurrentScreen = "partida"
+                    self.GLOBAL.setCurrentScreen("partida")
                     if(lastScreen == "joinPartida"):
                         self.screen = self.joinPartida.getScreen()
                     elif(lastScreen == "seleccionPersonaje2"):
@@ -373,7 +373,7 @@ class Game:
                                 self.salaEspera.setPassword(self.joinPartida.getPassword())
                                 self.seleccionPersonaje.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
                                 self.seleccionPersonaje2.setIpANDPort(self.joinPartida.getIpANDPortDest())
-                                
+
                             elif(screenToChange == "partida_load_wait" or screenToChange == "partida"):
                                 self.online = True
                                 self.partidaScreen.setPersonajeMio(self.joinPartida.getPersonaje())
