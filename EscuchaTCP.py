@@ -202,8 +202,15 @@ class EscuchaTCP:
                             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                                 if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[0] != resp[2]):
                                     #enviamos un mensaje a todos para que vayan a la partida
-                                    #TODO: enviar mensaje a todos 
+                                    socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                                try:
+                                    socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
+                                    msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
+                                    socket_c.sendall(msg_ve_partida.encode('utf-8'))
+                                except:
                                     pass
+                                finally:
+                                    socket_temporal.close() #se cierra el socket al terminar
                             
                             if(self.GLOBAL.getCurrentScreen() != "partida"):
                                 self.GLOBAL.setRefreshScreen("partida") #para que vaya a partida
