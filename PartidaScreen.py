@@ -10,11 +10,12 @@ from Global import Global
 class PartidaScreen:
     #sound
 
-    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font):
+    def __init__(self,width,height,screen,ch1,ch2,ch3,ch4,font,id):
         #screen
         self.screen = screen
         self.justAfterSala = False
         self.isOnline = False
+        self.id = id
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')

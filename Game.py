@@ -132,7 +132,7 @@ class Game:
         self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id,seed_random)
         self.seleccionPersonaje2 = SeleccionPersonaje2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,model_path,self.consultaDescripcion,self.perfil.id,seed_random)
         self.salaEspera2 = SalaEspera2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
-        self.partidaScreen = PartidaScreen(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
+        self.partidaScreen = PartidaScreen(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
         mixer.music.play(-1)

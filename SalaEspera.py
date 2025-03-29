@@ -882,7 +882,6 @@ class SalaEspera:
                                         break #saltas el bucle, y continúas con el siguiente personaje de la lista
        
                                 if(row[33] == self.id):
-                                    print("encontrado propio personaje")
                                     #el host tiene personaje asociado
                                     #ese jugador tiene un personaje vivo asociado (su id coincide con la id de jugador de ese personaje)
                                     personaje_temp = Personaje(False,self.currentPartida,row[33])
