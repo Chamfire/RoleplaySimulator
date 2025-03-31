@@ -33,11 +33,11 @@ class Game:
     #inits
     def __init__(self):
         pygame.init()
-        #self.font = 'agencyfb'
-        self.font = 'agencyfbnormal'
-        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        self.font = 'agencyfb'
+        #self.font = 'agencyfbnormal'
+        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
-        #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
+        self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()
         # --------------SEMILLA ----------------------
         #seed_random = 33
@@ -381,6 +381,7 @@ class Game:
                             elif(screenToChange == "partida_load_wait" or screenToChange == "partida"):
                                 self.online = True
                                 self.partidaScreen.setPersonajeMio(self.joinPartida.getPersonaje())
+                                self.salaEspera.setNumJugadoresYOtherPlayers(self.joinPartida.getNumJugadoresAndJugadoresAndPort())
                                 if(screenToChange == "partida_load_wait"):
                                     self.salaEspera2.setPassword(self.joinPartida.getPassword())
                                     self.salaEspera.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
@@ -394,7 +395,7 @@ class Game:
                                 self.seleccionPersonaje2.setIpANDPort(self.joinPartida.getIpANDPortDest())
                                 self.salaEspera.setIpANDPortDest(self.joinPartida.getIpANDPortDest())
                                 self.salaEspera.initUDPServerAndClient(self.joinPartida.getPortUDPYSocket(),self.joinPartida.getNumJugadoresAndJugadoresAndPort()[2],self.msg_delay,self.max_msgs_udp,self.local_ip)
-
+                                self.salaEspera.setNumJugadoresYOtherPlayers(self.joinPartida.getNumJugadoresAndJugadoresAndPort())
                                 # if(not self.online):
                                 #     self.seleccionPersonaje.setCurrentPartida(self.salaEspera.getCurrentPartida())
                             else:

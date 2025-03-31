@@ -155,7 +155,7 @@ class SalaEspera:
                     self.GLOBAL.setOtherPlayersIndex(cont,None)
                     cont = cont+1
                 #si el contador ya está a 2 para una partida de 3 jugadores, paramos
-        #print('otherPlayers: ',self.GLOBAL.getOtherPlayers())
+        #print('otherPlayers salaEspera: ',self.GLOBAL.getOtherPlayers())
         
     def reload(self):
         self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar

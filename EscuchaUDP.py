@@ -1,4 +1,5 @@
 import socket
+import traceback
 from Global import Global
 
 class EscuchaUDP:
@@ -50,7 +51,6 @@ class EscuchaUDP:
                         #print("mensaje con mal formato")
                         pass
                 except:
-                    #print('Exception en escuchaUDP jugador', e) 
                     break
                     
         else:
