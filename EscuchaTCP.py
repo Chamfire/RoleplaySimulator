@@ -197,7 +197,7 @@ class EscuchaTCP:
                         conn.close()
                         print(self.numJugadores)
                         print(self.GLOBAL.getListaPersonajeHost())
-                        if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost()))):
+                        if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost())+1)):
                             msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
                             socket_c.sendall(msg_ve_partida.encode('utf-8'))
                             #TODO: Mandar a todos a la partida
