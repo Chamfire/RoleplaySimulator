@@ -30,8 +30,57 @@ class ConsultaDescripcion:
     def cambiarScreenThread(self): #tiene que ser un hilo, puesto que Lock() es de threading
         self.GLOBAL.setRefreshScreen("seleccionPersonaje2")
 
-
     def consultaDescripcion(self):
+        model_name = "bartowski/Llama-3.2-3B-Instruct-GGUF"
+        model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
+        model_path = hf_hub_download(model_name, filename=model_file)
+
+        self.llm = Llama(
+            model_path=self.model_path,
+            n_ctx=200,  # Context length to use
+            n_threads=32,            # Number of CPU threads to use
+            n_gpu_layers=0,        # Number of model layers to offload to GPU
+            seed= random.randint(1,100000)
+        )
+        ## Generation kwargs
+        self.generation_kwargs = {
+            "max_tokens":100,
+            "stop":["</s>"],
+            "echo":False, # Echo the prompt in the output
+            "top_p": 0.85, #top_p y temperatura le da aleatoriedad
+            "temperature": 0.8
+        }
+        if(self.personaje.tipo_raza == "Elfo"):
+            raza = "elfo"
+            piel = "de piel verde"
+        elif(self.personaje.tipo_raza == "Enano"):
+            raza = "enano"
+            piel = "omite referencias al color de piel"
+        if(self.personaje.tipo_clase == "Bárbaro"):
+            clase = "bárbaro"
+        elif(self.personaje.tipo_clase == "Explorador"):                    
+            clase = "explorador"
+                
+        ## Run inference
+        self.prompt = """{Eres un dungeon master de Dnd 5e y me estás ayudando a hacerme la ficha de personaje.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Describe la apariencia física de un """+raza+ """que es de clase""" +clase+ """("""+self.personaje.peso+"""kg, """+self.personaje.edad+ """años de edad, """+piel+""") en únicamente un párrafo. Limítate a ser creativo y divertido, y comienza directamente tu respuesta con la frase "Es un """+raza+""" """+clase+""" que..." }
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        res = self.llm(self.prompt, **self.generation_kwargs) # Res is a dictionary
+        ## Unpack and the generated text from the LLM response dictionary and print it
+        self.response_good = res["choices"][0]["text"]
+        if "." in self.response_good:
+            self.response_good = self.response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
+        self.response_good = self.response_good[1:] #quitamos los caracteres de espacio del pcpio
+        #self.response_good.lstrip("\\n") #elimina espacios y /n al pcpio
+        print("----------------------------")
+        print(self.response_good)
+        hiloCambiaScreen = threading.Thread(target=self.cambiarScreenThread)
+        hiloCambiaScreen.start()
+
+
+
+    #usando traductor -> bastante malo. Deprecated. 
+    def consultaDescripcion2(self):
         ## Instantiate model from downloaded file
         model_name = "NousResearch/Hermes-3-Llama-3.2-3B-GGUF"
         model_file = "Hermes-3-Llama-3.2-3B.Q4_K_M.gguf" # this is the specific model file we'll use in this example. It's a 4-bit quant, but other levels of quantization are available in the model repo if preferred
