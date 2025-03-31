@@ -35,9 +35,9 @@ class Game:
         pygame.init()
         #self.font = 'agencyfb'
         self.font = 'agencyfbnormal'
-        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
-        #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
+        self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()
         # --------------SEMILLA ----------------------
         #seed_random = 33
@@ -115,8 +115,8 @@ class Game:
         self.GLOBAL.initialize() #inicializamos las variables globales
 
         #cargamos el modelo de ia en segundo plano:
-        model_name = "NousResearch/Hermes-3-Llama-3.2-3B-GGUF"
-        model_file = "Hermes-3-Llama-3.2-3B.Q4_K_M.gguf" # this is the specific model file we'll use in this example. It's a 4-bit quant, but other levels of quantization are available in the model repo if preferred
+        model_name = "bartowski/Llama-3.2-3B-Instruct-GGUF"
+        model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
         model_path = hf_hub_download(model_name, filename=model_file)
 
         self.consultaDescripcion = ConsultaDescripcion(seed_random)
