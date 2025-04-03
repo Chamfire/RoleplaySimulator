@@ -192,10 +192,28 @@ class SeleccionPersonaje2:
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxEdad, 2)
         self.screen.blit(self.textEdad,(self.width/2.3301, self.height/6.3636)) #515 110
         #peso
-        self.screen.blit(self.pesoText,(self.width/1.7143, self.height/12.7273)) #700 55
+        self.screen.blit(self.pesoText,(self.width/1.8750, self.height/12.7273)) #640 55
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxPeso, 2)
-        self.screen.blit(self.defaultTextPeso,(self.width/1.6783, self.height/6.3636)) #715 110
-        pygame.display.update() 
+        self.screen.blit(self.defaultTextPeso,(self.width/1.8321, self.height/6.3636)) #655 110
+        #género
+        self.screen.blit(self.generoText,(self.width/1.4634, self.height/12.7273)) #820 55
+        self.botonHombre = pygame.Rect(self.width/1.4634, self.height/6.6667, self.width/9.2308, self.height/11.6667) #820 105 130 60
+        if(self.personaje.genero == "hombre"):
+            pygame.draw.rect(self.screen, self.color_magenta, self.botonHombre, 0)
+        else:
+            pygame.draw.rect(self.screen, self.color_black, self.botonHombre, 0)
+        pygame.draw.rect(self.screen, self.color_grey, self.botonHombre, 2)
+        self.hombreText = self.fuente2.render('Hombre', True, self.color_white)
+        self.mujerText = self.fuente2.render('Mujer', True, self.color_white)
+        self.screen.blit(self.hombreText,(self.width/1.4286, self.height/6.3636)) #840 110
+        self.botonMujer = pygame.Rect(self.width/1.2632, self.height/6.6667, self.width/9.2308, self.height/11.6667) #950 105 130 60
+        if(self.personaje.genero == "mujer"):
+            pygame.draw.rect(self.screen, self.color_magenta, self.botonMujer, 0)
+        else:
+            pygame.draw.rect(self.screen, self.color_black, self.botonMujer, 0)
+        pygame.draw.rect(self.screen, self.color_grey, self.botonMujer, 2)
+        self.screen.blit(self.mujerText,(self.width/1.2245, self.height/6.3636)) #980 110
+
         #descripción fisica
         self.screen.blit(self.descripcionText,(self.width/13.3333, self.height/3.6842)) #90 190
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxDescripcion, 2)
@@ -227,6 +245,7 @@ class SeleccionPersonaje2:
     def render(self,isOnline):
         #render screen
         self.isOnline = isOnline
+        self.personaje.genero = "hombre"
         self.opened_screen = None #al iniciar será siempre none
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
@@ -244,6 +263,7 @@ class SeleccionPersonaje2:
         self.alineamientoText = self.fuente2.render('Alineamiento', True, self.color_white)
         self.edadText = self.fuente2.render('Edad', True, self.color_white)
         self.pesoText = self.fuente2.render('Peso', True, self.color_white)
+        self.generoText = self.fuente2.render('Apariencia', True, self.color_white)
         self.descripcionText = self.fuente2.render('Descripción Física', True, self.color_white)
         self.defaultTextAlineamiento = self.fuente2.render('-- Escoge alineamiento --', True, self.color_light_grey)
         if(self.personaje.tipo_raza == "Enano"):
@@ -306,11 +326,30 @@ class SeleccionPersonaje2:
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxEdad, 2)
         self.screen.blit(self.textEdad,(self.width/2.3301, self.height/6.3636)) #515 110
         #peso
-        self.screen.blit(self.pesoText,(self.width/1.7143, self.height/12.7273)) #700 55
-        self.inputBoxPeso = pygame.Rect(self.width/1.7143, self.height/6.6667, self.width/8.0000, self.height/11.6667) #700 105 150 60
+        self.screen.blit(self.pesoText,(self.width/1.8750, self.height/12.7273)) #640 55
+        self.inputBoxPeso = pygame.Rect(self.width/1.8750, self.height/6.6667, self.width/8.0000, self.height/11.6667) #640 105 150 60
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxPeso, 2)
-        self.screen.blit(self.defaultTextPeso,(self.width/1.6783, self.height/6.3636)) #715 110
-        pygame.display.update() 
+        self.screen.blit(self.defaultTextPeso,(self.width/1.8321, self.height/6.3636)) #655 110
+        #género
+        self.screen.blit(self.generoText,(self.width/1.4634, self.height/12.7273)) #820 55
+        self.botonHombre = pygame.Rect(self.width/1.4634, self.height/6.6667, self.width/9.2308, self.height/11.6667) #820 105 130 60
+        if(self.personaje.genero == "hombre"):
+            pygame.draw.rect(self.screen, self.color_magenta, self.botonHombre, 0)
+        else:
+            pygame.draw.rect(self.screen, self.color_black, self.botonHombre, 0)
+        pygame.draw.rect(self.screen, self.color_grey, self.botonHombre, 2)
+        self.hombreText = self.fuente2.render('Hombre', True, self.color_white)
+        self.mujerText = self.fuente2.render('Mujer', True, self.color_white)
+        self.screen.blit(self.hombreText,(self.width/1.4286, self.height/6.3636)) #840 110
+        self.botonMujer = pygame.Rect(self.width/1.2632, self.height/6.6667, self.width/9.2308, self.height/11.6667) #950 105 130 60
+        if(self.personaje.genero == "mujer"):
+            pygame.draw.rect(self.screen, self.color_magenta, self.botonMujer, 0)
+        else:
+            pygame.draw.rect(self.screen, self.color_black, self.botonMujer, 0)
+        pygame.draw.rect(self.screen, self.color_grey, self.botonMujer, 2)
+        self.screen.blit(self.mujerText,(self.width/1.2245, self.height/6.3636)) #980 110
+        pygame.display.update()
+
         #descripción fisica
         self.screen.blit(self.descripcionText,(self.width/13.3333, self.height/3.6842)) #90 190
         self.inputBoxDescripcion = pygame.Rect(self.width/13.3333, self.height/2.9167, self.width/1.2000, self.height/2.3333) #90 240 1000 300
@@ -503,7 +542,7 @@ class SeleccionPersonaje2:
             return 'menu'
         
         #Botón generar descripción
-        if(self.checkIfMouseIsInButton(x_size,y_size,x_start3,y_start2,x,y)):
+        elif(self.checkIfMouseIsInButton(x_size,y_size,x_start3,y_start2,x,y)):
             if(self.personaje.edad != None and self.personaje.edad != ' ' and not self.searching):
                 self.opened_screen = None
                 self.activeI = False
@@ -591,8 +630,28 @@ class SeleccionPersonaje2:
 
             return 'seleccionPersonaje2'
         
+        #Botón de género
+        elif(self.botonHombre.collidepoint((x,y))):
+            if(self.opened_screen == None):
+                self.ch1.play(self.pressed)
+                self.personaje.genero = "hombre"
+                self.refresh(0,None)
+            else:
+                self.ch1.play(self.error)
+            return 'seleccionPersonaje2'
+        
+        elif(self.botonMujer.collidepoint((x,y))):
+            if(self.opened_screen == None):
+                self.ch1.play(self.pressed)
+                self.personaje.genero = "mujer"
+                self.refresh(0,None)
+            else:
+                self.ch1.play(self.error)
+            return 'seleccionPersonaje2'
+        
+        
         #Botón crear personaje
-        if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
+        elif(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
             screen = 'seleccionPersonaje2'
             self.opened_screen = None
             self.activeI = False

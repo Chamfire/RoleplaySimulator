@@ -53,9 +53,19 @@ class ConsultaDescripcion:
         if(self.personaje.tipo_raza == "Elfo"):
             raza = "elfo"
             piel = "de piel verde"
+            consideracion = "En mi mundo, alguien con esos años, es como si tuviera esa edad /100. Ten en cuenta que los elfos se consideran viejos de 450 a 750 años, jóvenes de 1 a 100 años, y adultos de 101 a 449 años. A la hora de traducir, traduce tweed por tejido, no uses la palabra those, y evita anglicismos."
+            if(self.personaje.genero == "hombre"):
+                genero_text = "Es un elfo..."
+            else:
+                genero_text = "Es una elfa..."
         elif(self.personaje.tipo_raza == "Enano"):
             raza = "enano"
             piel = "omite referencias al color de piel"
+            consideracion = "En mi mundo, alguien con esos años, es como si tuviera esa edad /100. Ten en cuenta que los enanos pueden tener hasta 350 años. Maduran al mismo ritmo que los humanos, pero son considerados jóvenes hasta los 50 años. A la hora de traducir, traduce tweed por tejido, no uses la palabra those, y evita anglicismos."
+            if(self.personaje.genero == "hombre"):
+                genero_text = "Es un enano..."
+            else:
+                genero_text = "Es una enana..."
         if(self.personaje.tipo_clase == "Bárbaro"):
             clase = "bárbaro"
         elif(self.personaje.tipo_clase == "Explorador"):                    
@@ -63,16 +73,16 @@ class ConsultaDescripcion:
                 
         ## Run inference
         self.prompt = """{Eres un dungeon master de Dnd 5e y me estás ayudando a hacerme la ficha de personaje.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Describe la apariencia física de un """+raza+ """que es de clase""" +clase+ """("""+self.personaje.peso+"""kg, """+self.personaje.edad+ """años de edad, """+piel+""") en únicamente un párrafo. Limítate a ser creativo y divertido, y comienza directamente tu respuesta con la frase "Es un """+raza+""" """+clase+""" que..." }
+                        {Describe la apariencia física de un """+raza+ """que pesa """+str(self.personaje.peso)+"""kg, tiene """+str(self.personaje.edad)+ """ años de edad, y """+piel+""") en únicamente un párrafo. """+consideracion+""" Limítate a ser creativo y divertido, y comienza directamente tu respuesta con la frase \""""+genero_text+""""\" }
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         res = self.llm(self.prompt, **self.generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
         self.response_good = res["choices"][0]["text"]
         if "." in self.response_good:
             self.response_good = self.response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
-        self.response_good = self.response_good[1:] #quitamos los caracteres de espacio del pcpio
+        #self.response_good = self.response_good[1:] #quitamos los caracteres de espacio del pcpio
+        self.response_good = self.response_good.lstrip()
         #self.response_good.lstrip("\\n") #elimina espacios y /n al pcpio
-        print("----------------------------")
         print(self.response_good)
         hiloCambiaScreen = threading.Thread(target=self.cambiarScreenThread)
         hiloCambiaScreen.start()

@@ -21,6 +21,7 @@ class Personaje:
         self.pe = 0
         self.po = 0
         self.ppt = 0
+        self.genero = None
         self.coordenadas_actuales = '(0,0)' #de momento serán esas
         self.vida_temp = None #cambiar al escoger la clase
         self.max_vida = None

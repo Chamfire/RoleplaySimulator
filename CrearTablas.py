@@ -260,6 +260,7 @@ class CrearTablas:
                 sab integer NOT NULL,
                 car integer NOT NULL,
                 int integer NOT NULL,
+                genero text NOT NULL,
                 coordenadas_actuales text NOT NULL,
                 vida_temp integer NOT NULL CONSTRAINT vida_temp_less_than_zero CHECK(vida_temp >=0),
                 max_vida integer NOT NULL CONSTRAINT max_vida_less_than_zero CHECK(max_vida >0),
