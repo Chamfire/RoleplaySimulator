@@ -58,7 +58,7 @@ for raza in razas:
 for prompt in prompts:
     llm = Llama(
             model_path=model_path,
-            n_ctx=400,  # Context length to use
+            n_ctx=500,  # Context length to use
             n_threads=32,            # Number of CPU threads to use
             n_gpu_layers=0,        # Number of model layers to offload to GPU
             seed= semilla

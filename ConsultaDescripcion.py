@@ -37,14 +37,14 @@ class ConsultaDescripcion:
 
         self.llm = Llama(
             model_path=self.model_path,
-            n_ctx=200,  # Context length to use
+            n_ctx=300,  # Context length to use
             n_threads=32,            # Number of CPU threads to use
             n_gpu_layers=0,        # Number of model layers to offload to GPU
             seed= random.randint(1,100000)
         )
         ## Generation kwargs
         self.generation_kwargs = {
-            "max_tokens":100,
+            "max_tokens":300,
             "stop":["</s>"],
             "echo":False, # Echo the prompt in the output
             "top_p": 0.85, #top_p y temperatura le da aleatoriedad
