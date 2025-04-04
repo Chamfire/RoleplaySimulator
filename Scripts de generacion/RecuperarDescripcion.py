@@ -17,25 +17,29 @@ pipe.load_lora_weights("nerijs/pixel-art-xl", weight_name="pixel-art-xl.safetens
 
 negative_prompt = "3d render, realistic"
 
-for elem,i in data.items():
-    print(elem)
-    print("------------------------------------------------------------------------------")
-    print(i[0]+"\n")
-    prompt = "pixel, "+i[0]
-    #Generación de las imágenes
-    translator = GoogleTranslator(source='auto', target='es')
-    translated = False    
-    while(translated == False):
-        try:
-            prompt = translator.translate(prompt)
-            translated = True
-        except Exception as e:
-            print(e)
-    img = pipe(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        num_inference_steps=8,
-        guidance_scale=1.5,
-    ).images[0]
-    
-    img.save(f"NPC_{i}.png")
+#prompt1 = "pixel, transparent background. "+"Es un enano anciano, de cabello blanco, que cae en forma de mechón sobre su frente, y sus ojos brillan. Su rostro está lleno de arrugas y su cuerpo es delgado pero fuerte, y su mirada sigue siendo aguda y su sonrisa, cálida y acogedora. Su ropa, sencilla pero cómoda, está hecha de telas que se han vuelto transparentes con el paso del tiempo, con cinturón."
+
+#prompt2 = "pixel, transparent background. Front view. "+"Es un enano  de 103 años, con un sombrero de fieltro que le da un toque de elegancia. Solo pesa 45 kg, y su cabello es un poco canoso y se le notan las arrugas en su rostro, pero su mirada sigue siendo brillante y astuta. Viste como si fuera futurista."
+
+#prompt3 = "pixel, transparent background. Front view. "+"Es un enano musculoso y anciano con arrugas finas. Lleva vestimenta de cuero y telas oscuras, y tiene 212 años. Su cabello es canoso y ondulado, y le cae sobre su frente en una mecha larga y desordenada, y tiene una larga barba"
+prompt = "pixel, transparent background. Front view. "+" Es un enano pequeño con 321 años de edad, delgado, muy feo pero con ojos que brillan y una sonrisa."
+
+
+#Generación de las imágenes
+translator = GoogleTranslator(source='auto', target='en')
+translated = False    
+while(translated == False):
+    try:
+        prompt = translator.translate(prompt)
+        translated = True
+    except Exception as e:
+        print(e)
+
+img = pipe(
+    prompt=prompt,
+    negative_prompt=negative_prompt,
+    num_inference_steps=8,
+    guidance_scale=1.5,
+).images[0]
+        
+img.save(f"NPC_enano_vive en un barco_46_321_omite referencias al color de piel.png")
