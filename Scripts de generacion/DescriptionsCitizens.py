@@ -14,8 +14,8 @@ config_file = 'NPCs.json'
 model_name = "bartowski/Llama-3.2-3B-Instruct-GGUF"
 model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf" 
 model_path = hf_hub_download(model_name, filename=model_file)
-#semilla = random.randint(1,100000)
-semilla = 70853
+semilla = random.randint(1,100000)
+#semilla = 70853
 print(semilla)
 random.seed = semilla
 ## Instantiate model from downloaded file
