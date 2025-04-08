@@ -18,21 +18,14 @@ pipe.load_lora_weights("nerijs/pixel-art-xl", weight_name="pixel-art-xl.safetens
 negative_prompt = "3d render, realistic"
 
 
+#monstruos = {"no-muerto", "slime", "beholder","troll", "droide","fantasma","objeto animado","cyborg", "lobo wargo","vampiro","oso","hombre lobo","serpiente","cocodrilo","momia","esfinge","goblin","cultista","gnoll","sirena","tiburón","hada","elemental de fuego","elemental de aire","elemental de tierra","elemental de agua","elemental de caos","elemental de planta","kraken","dragón","sombra","fénix","ankheg","basilisco","murciélago","rata","felino salvaje"}
+monstruos = {"vampire"}
 
-
-for monster,description in data.items():
-    prompt = "pixel, transparent background. "+  "Genera una imagen del siguiente ser de fantasía: "+monster
+for monster in monstruos:
+    prompt = "pixel, transparent background. "+  "Generate a male human that likes blood and that has red eyes and black hair"
 
     #Generación de las imágenes
-    translator = GoogleTranslator(source='auto', target='en')
-    translated = False    
-    while(translated == False):
-        try:
-            prompt = translator.translate(prompt)
-            translated = True
-        except Exception as e:
-            print(e)
-    for i in range(0,8):
+    for i in range(0,16):
         img = pipe(
             prompt=prompt,
             negative_prompt=negative_prompt,
