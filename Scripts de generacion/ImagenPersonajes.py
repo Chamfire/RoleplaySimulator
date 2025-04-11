@@ -28,7 +28,7 @@ negative_prompt = "3d render, realistic"
 #prompt8 = "pixel, transparent background. Front view. "+ "Es una enana mujer anciana sabia de sonrisa pícara y cabello espeso y oscuro, y llama la atención, que tiene barba, y esta es larga y bien cuidada. Tiene arrugas."
 #prompt9 = "pixel, transparent background. Front view. "+ "Es una mujer de piel oscura, cabello negro rizado y lleva ropa de marinera."
 #prompt10 = "pixel, transparent background. Front view. "+ "Es un elfo viejo de tono de piel verde, gordo, de ojos de color verde intenso y cabello negro. Tiene una barba larga y bien cuidada"
-prompt = "pixel, transparent background. Portrait view. "+  "Es una elfa mujer de piel verde y pelo azul, con ojos azules. Lleva un sombrero de copa."
+prompt = "pixel, transparent background. Portrait view. "+  "Es un elfo con la piel de color verde y con el pelo largo de color amarillo"
 
 #Generación de las imágenes
 translator = GoogleTranslator(source='auto', target='en')
@@ -39,7 +39,7 @@ while(translated == False):
         translated = True
     except Exception as e:
         print(e)
-for i in range(0,8):
+for i in range(0,16):
     img = pipe(
         prompt=prompt,
         negative_prompt=negative_prompt,
@@ -47,4 +47,4 @@ for i in range(0,8):
         guidance_scale=1.5,
     ).images[0]
         
-    img.save(f"elfo_vive en una ciudad antigua subterránea_64_739_de piel verde_"+str(i)+".png")
+    img.save(f"elfo_vive en el desierto_61_465_de piel verde_"+str(i)+".png")
