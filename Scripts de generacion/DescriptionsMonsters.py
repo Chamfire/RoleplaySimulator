@@ -20,7 +20,7 @@ model_path = hf_hub_download(model_name, filename=model_file)
 ## Run inference
 prompts = []
 descripciones = {}
-monstruos = {"no-muerto", "slime", "beholder","troll", "droide","fantasma","objeto animado","cyborg", "lobo wargo","vampiro","oso","hombre lobo","serpiente","cocodrilo","momia","esfinge","goblin","cultista","gnoll","sirena","tiburón","hada","elemental de fuego","elemental de aire","elemental de tierra","elemental de agua","elemental de caos","elemental de planta","kraken","dragón","sombra","fénix","ankheg","basilisco","murciélago","rata","felino salvaje"}
+monstruos = {"no-muerto", "slime", "beholder","troll", "droide","fantasma","objeto animado","cyborg", "lobo wargo","vampiro","oso","hombre lobo","serpiente","cocodrilo","momia","esfinge","goblin","cultista","gnoll","sirena","tiburón","hada","elemental de tierra","kraken","dragón","sombra","fénix","ankheg","basilisco","murciélago","rata","felino salvaje"}
 #2 descripciones por cada tipo de monstruo, y luego me quedo con la mejor de las 2 descripciones. 
 for monstruo in monstruos:
     for i in range(0,2):

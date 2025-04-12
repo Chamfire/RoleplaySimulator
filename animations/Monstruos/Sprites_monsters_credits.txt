@@ -1,7 +1,11 @@
 ----------------Credits-------------
 
-shark sprite: Sevarihk, https://opengameart.org/content/shark-sprites-animated-4-directional
-Bat sprite: bagzie, https://opengameart.org/content/bat-sprite
-Wolf sprite: Stephen "Redshrike" Challener as graphic artist and William.Thompsonj as contributor, https://opengameart.org/content/lpc-wolf-animation
-cyborg sprite: Stephen Challener (Redshrike), https://opengameart.org/content/16x16-16x24-32x32-rpg-enemies-updated
+shark sprite: Created by Sevarihk, https://opengameart.org/content/shark-sprites-animated-4-directional
+Bat sprite: Created by bagzie, https://opengameart.org/content/bat-sprite
+Wolf sprite: Created by Stephen "Redshrike" Challener as graphic artist and William.Thompsonj as contributor, https://opengameart.org/content/lpc-wolf-animation
+cyborg sprite: Created by Stephen Challener (Redshrike), https://opengameart.org/content/16x16-16x24-32x32-rpg-enemies-updated
 dragon sprite: Created by ZaPaper & Jordan Irwin (AntumDeluge); Credits to http://www.buko-studios.com/ Commissioned by PlayCraft: https://www.playcraftapp.com/
+crocodile spriet: Created by bleutailfly, https://opengameart.org/content/crocodile-1
+snake sprite: Created by Jordan Irwin (AntumDeluge), https://opengameart.org/content/king-cobra
+droid sprite: Created by Stephen Challener (Redshrike), hosted by OpenGameArt.org: https://opengameart.org/content/tiny-skelly-rpg-enemies-rework
+phoenix sprite: Edited by me from parrot sprite: https://noiracide.itch.io/
