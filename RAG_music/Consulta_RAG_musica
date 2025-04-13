@@ -1,0 +1,10 @@
+
+class Consulta_RAG_musica:
+    def __init__():
+        pass
+
+    def consultar_cancion(contexto_estado):
+        #TODO: extraer prompt-pregunta en base a ese contexto
+        #TODO: llamar al llm
+        #TODO: devolver la canción recomendada
+        pass
