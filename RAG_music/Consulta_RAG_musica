@@ -6,5 +6,5 @@ class Consulta_RAG_musica:
     def consultar_cancion(contexto_estado):
         #TODO: extraer prompt-pregunta en base a ese contexto
         #TODO: llamar al llm
-        #TODO: devolver la canción recomendada
+        #TODO: devolver la canción recomendada 
         pass
