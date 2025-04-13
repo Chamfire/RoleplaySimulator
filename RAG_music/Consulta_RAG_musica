@@ -1,10 +1,88 @@
 
-class Consulta_RAG_musica:
-    def __init__():
-        pass
+from langchain.chains.retrieval_qa.base import RetrievalQA
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_text_splitters import CharacterTextSplitter
+from huggingface_hub import hf_hub_download
+from langchain_core.runnables import Runnable
+from llama_cpp import Llama
+from langchain.schema import Document
+import random
+import numpy as np
 
-    def consultar_cancion(contexto_estado):
+class LlamaRunnable(Runnable):
+    def __init__(self, model_path, **kwargs):
+        self.llm = Llama(model_path=model_path, **kwargs)
+        self.generation_kwargs = {
+            "max_tokens":300,
+            "stop":["</s>"],
+            "echo":False, # Echo the prompt in the output
+            "top_p": 0.85, #top_p y temperatura le da aleatoriedad
+            "temperature": 0.8
+        }
+
+    def invoke(self, prompt,config=None,**kwargs):
+        if hasattr(prompt, "to_string"):
+            prompt = prompt.to_string() #Llega como StringPromptValue, así que hay que convertirlo a string para poder enviarselo al llm
+
+
+        full_kwargs = {**self.generation_kwargs, **kwargs} #mezclamos los kwargs de generación con los de ejecución, para que tenga en cuenta ambos
+        res = self.llm(prompt,**full_kwargs)
+        self.response_good = res["choices"][0]["text"]
+        if "." in self.response_good:
+            self.response_good = self.response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
+        self.response_good = self.response_good.lstrip()
+        return self.response_good
+
+class Consulta_RAG_musica:
+    def __init__(self):
+        with open('RAG_music/Descripciones_canciones.txt','r',encoding='utf-8') as file:
+            text = file.read()
+            file.close()
+        chunks = text.split('\n\n')
+        self.documentos = [Document(page_content=chunk) for chunk in chunks]
+        self.consultar_cancion("no hay contexto por ahora")
+
+    def consultar_cancion(self,contexto_estado):
         #TODO: extraer prompt-pregunta en base a ese contexto
         #TODO: llamar al llm
         #TODO: devolver la canción recomendada 
-        pass
+
+        model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
+        model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
+        model_path = hf_hub_download(model_name, filename=model_file)
+        embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
+        llm = LlamaRunnable(
+            model_path=model_path,
+            n_ctx=1024, #Context length to use
+            n_threads=32,            # Number of CPU threads to use
+            n_gpu_layers=0,        # Number of model layers to offload to GPU
+            seed= random.randint(1,100000)
+        )
+
+        # Crear índice vectorial
+        vectorstore = FAISS.from_documents(self.documentos, embedding_model)
+
+        # Construir cadena RAG: Recuperador + LLM
+        qa_chain = RetrievalQA.from_chain_type(
+            llm=llm,
+            retriever=vectorstore.as_retriever(),
+            return_source_documents=True
+        )
+
+        # Consulta de ejemplo
+        # query = """{Eres un dungeon master de Dnd 5e y tienes que escoger la mejor canción para un momento específico de una aventura.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+        #                 {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: algo tenso, sigilo y tribal? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
+        #                 <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        query = """{Eres un dungeon master de Dnd 5e y tienes que escoger la mejor canción para un momento específico de una aventura.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: tribal? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        respuesta = qa_chain.invoke(query)
+
+        print("\n=== RESPUESTA ===")
+        print(respuesta["result"])
+
+
+
+consulta = Consulta_RAG_musica()
