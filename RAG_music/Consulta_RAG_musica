@@ -27,7 +27,7 @@ class Consulta_RAG_musica:
         index.add(embeddings.astype(np.float32))
         return index, self.documentos, embedding_model
 
-    def devolver_contexto(self,query, embedding_model, index, documents, k=5):
+    def devolver_contexto(self,query, embedding_model, index, documents, k=2):
         query_embedding = embedding_model.encode([query])
         distances, indices = index.search(query_embedding.astype(np.float32), k)
         return [documents[i] for i in indices[0]]
@@ -79,7 +79,7 @@ class Consulta_RAG_musica:
 
 
 consulta = Consulta_RAG_musica()
-consulta.consultar_cancion("¿What is the best or bests songs to reproduce when the players are in the forest, just exploring?")
+consulta.consultar_cancion("¿What is the best or bests songs to reproduce when the players are in combat?")
 
 
 #Ejemplos de ejecución:
