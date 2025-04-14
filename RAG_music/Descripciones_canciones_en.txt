@@ -20,8 +20,8 @@ reproduced would be "tension_corta/Executioner" or "tension_corta/Haunted_House"
 
 When the players are inside a tavern, in a medieval villag or celebrating something, the best songs to be reproduced are 
 "taberna_corta/The_Memesong", "taberna_corta/Bushwick Tarantella", "taberna_corta/Midsummer_Magic", "taberna_corta/We_Set_Up_Camp_Here"
-"taberna_corta/Fluffing a Duck", "taberna_corta/Achaidh Cheide", "taberna_corta/Banjo_Fever", "taberna_corta/Monkeys Spinning Monkeys" or 
-"taberna_corta/Scheming Weasel slower".
+"taberna_corta/Fluffing a Duck", "taberna_corta/Achaidh Cheide", "taberna_corta/Banjo_Fever", "exploracion_corta\Degenerate_Blues", 
+"taberna_corta/Monkeys Spinning Monkeys" or "taberna_corta/Scheming Weasel slower".
 
 When players are talking to some unexpected NPC in a tavern the best song to reproduce is "taberna_corta/Guess Who"
 
@@ -30,7 +30,7 @@ When the players are exploring in a cheerful environment, the best songs to repr
 "taberna_corta/Scheming Weasel slower" or "taberna_corta/We_Set_Up_Camp_Here".
 
 When the players are in a hilarious environment, the best songs to reproduce are "taberna_corta/Sneaky Snitch", "taberna_corta/Fluffing a Duck", 
-"taberna_corta/Monkeys Spinning Monkeys" or "taberna_corta/We_Set_Up_Camp_Here".
+"taberna_corta/Monkeys Spinning Monkeys", "exploracion_corta\Marty Gots a Plan" or "taberna_corta/We_Set_Up_Camp_Here".
 
 When the DM is giving the introduction for the adventure, and the players start from a desert, the best songs to reproduce are
 "intro_corta/Adventure_remaster", "intro_corta\Return of the Mummy" or "intro_corta\Ibn Al-Noor". If they start from a ship, the best songs to reproduce are "intro_corta\Land_of_Pirates" or
@@ -47,6 +47,57 @@ reproduce are "final_corta\Spirits_of_the_Greenwood", "final_corta\Echoes_of_Ete
 
 When the DM is closing the adventure, the best songs to reproduce are "final_corta\Behind_the_Sword", "final_corta\Bit_O_Fun_With_The_Crew",
 "final_corta\Megaepic", "final_corta\Valley_of_the_Sun" or "final_corta\We_Are_Victorious".
+
+When the players are exploring in the desert for a long time the best song to reproduce is "exploracion_larga\Anket the inundation of the Nyle".
+If they are exploring in a ship for a long time the best songs to reproduce are "exploracion_larga\the-sea-longer-edit-crete-2012-19744" or "exploracion_larga\gentle-ocean-waves-mix-2018-19693". 
+If they are exploring a forest for a long time then the best songs are "exploracion_larga\Fantasy_Ambience" or "exploracion_larga\nature-soundstropicaljunglebirds-108380".
+If they are exploring in a medieval village for a long time the best songs to reproduce are "exploracion_larga\Magic Escape Room" or "exploracion_larga\Crusade - Heavy Industry".
+If they are exploring a dungeon for a long time the best song to reproduce is "exploracion_larga\old-mine-ambience-200677".
+If they are exploring a modern city for a long time the best songs to reproce are "exploracion_larga\slow-cold-atmospheric-bass-ambient-sound-250706" or "exploracion_larga\Transcendence".
+
+When the players are exploring a medieval village or a forest for a long time, the best song to reproduce is "exploracion_larga\nature-ambience-323729".
+When is raining and the players are in the forest or in a medieval village for a long time the best song to reproduce is "exploracion_larga\rainy-day-in-town-with-birds-singing-194011".
+When there is wind in the forest, in the desert or in a medieval village for a long time the best song to reproduce is "exploracion_larga\sounds-of-nature-relax-in-a-cave-276297".
+
+When the players are exploring a medieval village the best songs to reproduce are "exploracion_corta\Bachs_Bouree_in_Celtic_Minor", 
+"exploracion_corta\Detective_Goofarian", "exploracion_corta\Medieval_Chateau".
+When the players are exploring a ship the best songs to reproduce are "exploracion_corta\Blue_Hour" or "exploracion_corta\Traversing_the_White_Peaks".
+When the players are exploring a dungeon the best songs to reproduce are "exploracion_corta\caves-of-dawn-10376" or "exploracion_corta\The Path of the Goblin King v2".
+When the players are exploring a modern city the best songs to reproduce are "exploracion_corta\Degenerate_Blues" or "exploracion_corta\Pre_Apocalypse".
+When the players are exploring the desert or the forest the best songs to reproduce are "exploracion_corta\fading light of the faiyum" or "exploracion_corta\Tabuk".
+When the players are exploring the forest the best songs to reproduce are "exploracion_corta\Roaming_One" or "exploracion_corta\Roaming_Two".
+When the players are exploring a medieval village, the desert or a forest the best songs to reproduce are "exploracion_corta\Celtic_Ambiance" or "exploracion_corta\Traversing_the_White_Peaks".
+
+When the players are exploring a ship or a medieval village the best song to reproduce is "exploracion_corta\Heartbeat" or "exploracion_corta\Odins_Blessing"
+When the players are exploring a modern city or a medieval village the best song to reproduce is "exploracion_corta\Happy" or "exploracion_corta\Outlaws_of_the_Iron_Horse".
+When the players are exploring the desert or a medieval village the best song to reproduce is "exploracion_corta\Lord of the Land".
+
+When the environment is beautiful and sad at the same time, the best songs to reproduce are "drama_corta\Afterlife" or "drama_corta\tears-of-yesterday-238999".
+
+When the players are in a medieval village and there is a sad moment, the best song to reproduce is "drama_corta\Carol_of_the_Bells_Celtic_Version"
+
+When the environment is tense and destructive the best song to reproduce is "drama_corta\Devastation and Revenge"
+
+When the environment is dramatic and sad the best song to reproduce is "drama_corta\Dramatic_Interlude" or "drama_corta\youx27ll-never-see-them-again-229248"
+
+When the players are in a modern city or in a medieval village in a sad but beautiful moment the best song to reproduce is "drama_corta\Dream_of_a_Dream"
+
+When the moment is dramatic and sad the best song to reproduce is "drama_corta\medieval-ambient-236809"
+
+When the moment is destructive and sad the song to reproduce is "drama_corta\Rynos Theme"
+
+When the moment is so beautiful and joyfull, uplifting, the best sons to reproduce are "belleza_corta\Dungeons_and_Dragons", "belleza_corta\Frost Waltz", 
+"belleza_corta\Legends" or "belleza_corta\The_Last_Embrace".
+
+When there is a combat in a modern city the best song to reproduce is "combate_corta\march-of-the-troopers-star-wars-style-cinematic-music-207056", "combate_corta\Fallout" or "combate_corta\Cephalopod".
+When there is a combat in the desert the best song to reproduce is "combate_corta\Sandstorm", "combate_corta\Curse of the Scarab" or "combate_corta\Mega_Boss_Fight".
+When there is a combat in a dungeon the best song to reproduce is "combate_corta\Burnt Spirit".
+When there is a combat in a ship the best song to reproduce is "combate_corta\Battlefield".
+When there is a combat in the forest the best song to reproduce is "combate_corta\battle-of-the-dragons-8037".
+When there is a combat the best songs to reproduce are "combate_corta\Volatile Reaction", "combate_corta\Near_End_Action", "combate_corta\epic-action-113888", "combate_corta/Dragonsong",
+"combate_corta/Combat_One", "combate_corta\Boss_Fight", "combate_corta\Big Drumming".
+
+
 
 
 
