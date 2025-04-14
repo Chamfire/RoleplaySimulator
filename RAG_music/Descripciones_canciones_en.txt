@@ -1,0 +1,53 @@
+When the players are in a tribe, indigenous villages or any unhappy culture, in a cheerful environment,
+the song to be reproduced is "tribal/tribal_joy". However, if the environment is tense, the best
+song is tribal/Big Mojo". When the environment is not tense, but neutral, it will be "tribal/ambient_bongos".
+
+When several monsters are being seen in an area by the players for the first time, to prepare a possible combat, the song to
+reproduce is "tension_corta/Evil March". This song can also be reproduced in a tense environment.
+
+When players are exploring a dungeon, or any dark or gloomy zone (it could for example be night), the best
+songs to reproduce are "tension_corta/Constance", "tension_corta/Countdown", "tension_corta/Serpentine Trek" or "tension_corta/Headless_Horseman". If we also know that they are
+outdoors, you can also reproduce "tension_corta/Bloodlust". These songs can also be reproduced in a tense environment.
+
+When the players are talking to an evil NPC, the best song to play is "tension_corta/Black Vortex". This song can 
+also be reproduced in a tense environment.
+
+When exploring outdoors, on the cover of a ship or in the desert, at nightfall or in the middle of the night, in
+a tense environment, the best songs to be reproduced would be "tension_corta/Daudir" or "tension_corta/samurai_flutes". 
+
+When exploring a modern city, in a tense environment, during the night or inside some building, the best songs to be 
+reproduced would be "tension_corta/Executioner" or "tension_corta/Haunted_House".
+
+When the players are inside a tavern, in a medieval villag or celebrating something, the best songs to be reproduced are 
+"taberna_corta/The_Memesong", "taberna_corta/Bushwick Tarantella", "taberna_corta/Midsummer_Magic", "taberna_corta/We_Set_Up_Camp_Here"
+"taberna_corta/Fluffing a Duck", "taberna_corta/Achaidh Cheide", "taberna_corta/Banjo_Fever", "taberna_corta/Monkeys Spinning Monkeys" or 
+"taberna_corta/Scheming Weasel slower".
+
+When players are talking to some unexpected NPC in a tavern the best song to reproduce is "taberna_corta/Guess Who"
+
+When the players are exploring in a cheerful environment, the best songs to reproduce are "taberna_corta/Achaidh Cheide", 
+"taberna_corta/Banjo_Fever", "taberna_corta/Fluffing a Duck", "taberna_corta/Midsummer_Magic", "taberna_corta/Monkeys Spinning Monkeys",
+"taberna_corta/Scheming Weasel slower" or "taberna_corta/We_Set_Up_Camp_Here".
+
+When the players are in a hilarious environment, the best songs to reproduce are "taberna_corta/Sneaky Snitch", "taberna_corta/Fluffing a Duck", 
+"taberna_corta/Monkeys Spinning Monkeys" or "taberna_corta/We_Set_Up_Camp_Here".
+
+When the DM is giving the introduction for the adventure, and the players start from a desert, the best songs to reproduce are
+"intro_corta/Adventure_remaster", "intro_corta\Return of the Mummy" or "intro_corta\Ibn Al-Noor". If they start from a ship, the best songs to reproduce are "intro_corta\Land_of_Pirates" or
+"intro_corta\Seven_Seas". If they start from a modern city, the best songs to reproduce are "intro_corta\Neverwhere_-_320bit", 
+"intro_corta\Nightclub_Two" or "intro_corta/Part_A". If they start from a medieval village, the best songs to reproduce are
+"intro_corta\Call to Adventure" or "intro_corta\William_Tell_Overture_orchestral_version". If they start from a dungeon, the 
+best songs to reproduce are "intro_corta\Our Story Begins", "intro_corta\Arcadia" or "intro_corta\Red_Barons_Theme".
+
+When the DM is giving the introduction for the adventure, and the players start from a forest, a ship or a medieval village, 
+the best songs to reproduce are "intro_corta/Adventure_remaster" or "intro_corta/Enchantment".
+
+When the DM is closing the adventure, and the players were in a forest, a desert, a ship or a medieval village the best songs to
+reproduce are "final_corta\Spirits_of_the_Greenwood", "final_corta\Echoes_of_Eternity" or "final_corta\Jolly_Good_Captain".
+
+When the DM is closing the adventure, the best songs to reproduce are "final_corta\Behind_the_Sword", "final_corta\Bit_O_Fun_With_The_Crew",
+"final_corta\Megaepic", "final_corta\Valley_of_the_Sun" or "final_corta\We_Are_Victorious".
+
+
+
+

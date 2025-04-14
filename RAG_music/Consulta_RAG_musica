@@ -1,19 +1,50 @@
 
 from langchain.chains.retrieval_qa.base import RetrievalQA
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
-from langchain_text_splitters import CharacterTextSplitter
+import faiss
+from sentence_transformers import SentenceTransformer
 from huggingface_hub import hf_hub_download
 from langchain_core.runnables import Runnable
 from llama_cpp import Llama
 from langchain.schema import Document
 import random
 import numpy as np
+from deep_translator import GoogleTranslator
 
-class LlamaRunnable(Runnable):
-    def __init__(self, model_path, **kwargs):
-        self.llm = Llama(model_path=model_path, **kwargs)
-        self.generation_kwargs = {
+class Consulta_RAG_musica:
+    def __init__(self):
+        with open('RAG_music/Descripciones_canciones_en.txt','r',encoding='utf-8') as file:
+            text = file.read()
+            file.close()
+        self.documentos = text.split('\n\n')
+        #print(self.documentos)
+
+    def crear_vectores(self):
+        embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+        embeddings = embedding_model.encode(self.documentos)
+
+        dimension = embeddings.shape[1]
+        index = faiss.IndexFlatL2(dimension)
+        index.add(embeddings.astype(np.float32))
+        return index, self.documentos, embedding_model
+
+    def devolver_contexto(self,query, embedding_model, index, documents, k=5):
+        query_embedding = embedding_model.encode([query])
+        distances, indices = index.search(query_embedding.astype(np.float32), k)
+        return [documents[i] for i in indices[0]]
+
+    def consultar_cancion(self,contexto_estado):
+        model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
+        model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
+        model_path = hf_hub_download(model_name, filename=model_file)
+        llm = Llama(
+            model_path=model_path,
+            n_ctx=1024,  # Context length to use
+            n_threads=32,            # Number of CPU threads to use
+            n_gpu_layers=0,        # Number of model layers to offload to GPU
+            seed= random.randint(1,100000)
+        )
+        ## Generation kwargs
+        generation_kwargs = {
             "max_tokens":300,
             "stop":["</s>"],
             "echo":False, # Echo the prompt in the output
@@ -21,68 +52,102 @@ class LlamaRunnable(Runnable):
             "temperature": 0.8
         }
 
-    def invoke(self, prompt,config=None,**kwargs):
-        if hasattr(prompt, "to_string"):
-            prompt = prompt.to_string() #Llega como StringPromptValue, así que hay que convertirlo a string para poder enviarselo al llm
-
-
-        full_kwargs = {**self.generation_kwargs, **kwargs} #mezclamos los kwargs de generación con los de ejecución, para que tenga en cuenta ambos
-        res = self.llm(prompt,**full_kwargs)
-        self.response_good = res["choices"][0]["text"]
-        if "." in self.response_good:
-            self.response_good = self.response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
-        self.response_good = self.response_good.lstrip()
-        return self.response_good
-
-class Consulta_RAG_musica:
-    def __init__(self):
-        with open('RAG_music/Descripciones_canciones.txt','r',encoding='utf-8') as file:
-            text = file.read()
-            file.close()
-        chunks = text.split('\n\n')
-        self.documentos = [Document(page_content=chunk) for chunk in chunks]
-        self.consultar_cancion("no hay contexto por ahora")
-
-    def consultar_cancion(self,contexto_estado):
-        #TODO: extraer prompt-pregunta en base a ese contexto
-        #TODO: llamar al llm
-        #TODO: devolver la canción recomendada 
-
-        model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
-        model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
-        model_path = hf_hub_download(model_name, filename=model_file)
-        embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-
-        llm = LlamaRunnable(
-            model_path=model_path,
-            n_ctx=1024, #Context length to use
-            n_threads=32,            # Number of CPU threads to use
-            n_gpu_layers=0,        # Number of model layers to offload to GPU
-            seed= random.randint(1,100000)
-        )
-
-        # Crear índice vectorial
-        vectorstore = FAISS.from_documents(self.documentos, embedding_model)
-
-        # Construir cadena RAG: Recuperador + LLM
-        qa_chain = RetrievalQA.from_chain_type(
-            llm=llm,
-            retriever=vectorstore.as_retriever(),
-            return_source_documents=True
-        )
+        index, document_texts, embedding_model = self.crear_vectores()
+        # Retrieve context
+        query_context = contexto_estado
+        context = self.devolver_contexto(query_context, embedding_model, index, document_texts)
+        contexto_formato = "\n".join(context)
 
         # Consulta de ejemplo
         # query = """{Eres un dungeon master de Dnd 5e y tienes que escoger la mejor canción para un momento específico de una aventura.}<|eot_id|><|start_header_id|>user<|end_header_id|>
         #                 {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: algo tenso, sigilo y tribal? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
         #                 <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        query = """{Eres un dungeon master de Dnd 5e y tienes que escoger la mejor canción para un momento específico de una aventura.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: tribal, neutral? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
-                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        respuesta = qa_chain.invoke(query)
+        query = f"Use just the following context for answering the question: \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nQuestion: {query_context} \nAnswer just with the content above, and giving just the name or names of the songs choosed, separated by an enter, and whithout giving any additional detail.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+
+        res = llm(query, **generation_kwargs) # Res is a dictionary
+        ## Unpack and the generated text from the LLM response dictionary and print it
+        response_good = res["choices"][0]["text"]
+        if "." in response_good:
+            response_good = response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
+        response_good = response_good.lstrip()
 
         print("\n=== RESPUESTA ===")
-        print(respuesta["result"])
+        print(response_good)
+        print("\n=== CONTEXTO ===")
+        print(query)
 
 
 
 consulta = Consulta_RAG_musica()
+consulta.consultar_cancion("¿What is the best or bests songs to reproduce when the players are in a tavern?")
+
+
+#Ejemplos de ejecución:
+#Resultado de lista de canciones que coinciden con la descripción: 
+
+#consulta.consultar_cancion("¿What is the best song to reproduce when the players are in a tense environment?")
+#------------------ RESPUESTA -------------------------------
+# === RESPUESTA ===
+# tension_corta/Countdown
+# tension_corta/Bloodlust
+# tension_corta/Black Vortex
+# tribal/Big Mojo
+# tension_corta/Constance
+
+# === CONTEXTO ===
+# Use just the following context for answering the question:
+# When players are exploring a dungeon, or any dark or gloomy zone (it could for example be night), the best
+# songs to reproduce are "tension_corta/Constance" or "tension_corta/Countdown". If we also know that they are
+# outdoors, you can also reproduce "tension_corta/Bloodlust". These songs can also be reproduced in a tense environment.
+# When the players are talking to an evil NPC, the best song to play is "tension_corta/Black Vortex". This song can
+# also be reproduced in a tense environment.
+# When the players are in a tribe, indigenous villages or any unhappy culture, in a cheerful environment,
+# the song to be reproduced is "tribal/tribal_joy". However, if the environment is tense, the best
+# song is tribal/Big Mojo". When the environment is not tense, but neutral, it will be "tribal/ambient_bongos".
+# <|eot_id|><|start_header_id|>user<|end_header_id|>
+# Question: ¿What is the best song to reproduce when the players are in a tense environment?
+# Answer just with the content above, and giving just the name of the song choosed, whithout giving any additional detail.
+# <|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+
+
+
+#Resultado de canción que coincide: 
+ #¿What is the best song to reproduce when the players are talking to an evil NPC?
+
+# tension_corta/Black Vortex
+
+# === CONTEXTO ===
+# Use just the following context for answering the question:
+# When the players are talking to an evil NPC, the best song to play is "tension_corta/Black Vortex".
+# When players are exploring a dungeon, or any dark or gloomy zone (it could for example be night), the best
+# songs to reproduce are "tension_corta/Constance" or "tension_corta/Countdown". If we also know that they are
+# outdoors, you can also reproduce "tension_corta/Bloodlust".
+# When several monsters are being seen in an area by the players for the first time, to prepare a possible combat, the song to
+# reproduce is "tension_corta/Evil March".
+# <|eot_id|><|start_header_id|>user<|end_header_id|>
+# Question: ¿What is the best song to reproduce when the players are talking to an evil NPC?
+# Answer just with the content above, and giving just the name of the song choosed, whithout giving any additional detail.
+# <|eot_id|><|start_header_id|>assistant<|end_header_id|>
+# ---------------------------------------------------------------------
+
+
+
+#Resultado de la canción más parecida que coincide, pues la que más coincide no es posible: 
+
+#consulta.consultar_cancion("Taking into account that tension_corta/Black Vortex cannot be the answer, ¿what is the best song to reproduce when the players are talking to an evil NPC?")
+# === RESPUESTA ===
+# tension_corta/Constance
+
+# === CONTEXTO ===
+# Use just the following context for answering the question:
+# When the players are talking to an evil NPC, the best song to play is "tension_corta/Black Vortex".
+# When players are exploring a dungeon, or any dark or gloomy zone (it could for example be night), the best
+# songs to reproduce are "tension_corta/Constance" or "tension_corta/Countdown". If we also know that they are
+# outdoors, you can also reproduce "tension_corta/Bloodlust".
+# When several monsters are being seen in an area by the players for the first time, to prepare a possible combat, the song to
+# reproduce is "tension_corta/Evil March".
+# <|eot_id|><|start_header_id|>user<|end_header_id|>
+# Question: Taking into account that tension_corta/Black Vortex cannot be the answer, ¿what is the best song to reproduce when the players are talking to an evil NPC?
+# Answer just with the content above, and giving just the name of the song choosed, whithout giving any additional detail.
+# <|eot_id|><|start_header_id|>assistant<|end_header_id|>
