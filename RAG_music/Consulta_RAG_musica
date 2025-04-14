@@ -76,7 +76,7 @@ class Consulta_RAG_musica:
         #                 {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: algo tenso, sigilo y tribal? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
         #                 <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         query = """{Eres un dungeon master de Dnd 5e y tienes que escoger la mejor canción para un momento específico de una aventura.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: tribal? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
+                        {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: tribal, neutral? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         respuesta = qa_chain.invoke(query)
 
