@@ -56,8 +56,10 @@ If they are exploring a dungeon for a long time the best song to reproduce is "e
 If they are exploring a modern city for a long time the best songs to reproce are "exploracion_larga\slow-cold-atmospheric-bass-ambient-sound-250706" or "exploracion_larga\Transcendence".
 
 When the players are exploring a medieval village or a forest for a long time, the best song to reproduce is "exploracion_larga\nature-ambience-323729".
+
 When is raining and the players are in the forest or in a medieval village for a long time the best song to reproduce is "exploracion_larga\rainy-day-in-town-with-birds-singing-194011".
-When there is wind in the forest, in the desert or in a medieval village for a long time the best song to reproduce is "exploracion_larga\sounds-of-nature-relax-in-a-cave-276297".
+
+When there is wind in the forest, in the desert or in a medieval village for a long time, during midnight, the best song to reproduce is "exploracion_larga\sounds-of-nature-relax-in-a-cave-276297".
 
 When the players are exploring a medieval village the best songs to reproduce are "exploracion_corta\Bachs_Bouree_in_Celtic_Minor", 
 "exploracion_corta\Detective_Goofarian", "exploracion_corta\Medieval_Chateau".
@@ -66,10 +68,13 @@ When the players are exploring a dungeon the best songs to reproduce are "explor
 When the players are exploring a modern city the best songs to reproduce are "exploracion_corta\Degenerate_Blues" or "exploracion_corta\Pre_Apocalypse".
 When the players are exploring the desert or the forest the best songs to reproduce are "exploracion_corta\fading light of the faiyum" or "exploracion_corta\Tabuk".
 When the players are exploring the forest the best songs to reproduce are "exploracion_corta\Roaming_One" or "exploracion_corta\Roaming_Two".
+
 When the players are exploring a medieval village, the desert or a forest the best songs to reproduce are "exploracion_corta\Celtic_Ambiance" or "exploracion_corta\Traversing_the_White_Peaks".
 
 When the players are exploring a ship or a medieval village the best song to reproduce is "exploracion_corta\Heartbeat" or "exploracion_corta\Odins_Blessing"
+
 When the players are exploring a modern city or a medieval village the best song to reproduce is "exploracion_corta\Happy" or "exploracion_corta\Outlaws_of_the_Iron_Horse".
+
 When the players are exploring the desert or a medieval village the best song to reproduce is "exploracion_corta\Lord of the Land".
 
 When the environment is beautiful and sad at the same time, the best songs to reproduce are "drama_corta\Afterlife" or "drama_corta\tears-of-yesterday-238999".
@@ -94,7 +99,8 @@ When there is a combat in the desert the best song to reproduce is "combate_cort
 When there is a combat in a dungeon the best song to reproduce is "combate_corta\Burnt Spirit".
 When there is a combat in a ship the best song to reproduce is "combate_corta\Battlefield".
 When there is a combat in the forest the best song to reproduce is "combate_corta\battle-of-the-dragons-8037".
-When there is a combat the best songs to reproduce are "combate_corta\Volatile Reaction", "combate_corta\Near_End_Action", "combate_corta\epic-action-113888", "combate_corta/Dragonsong",
+
+When there is a combat in any place the best songs to reproduce are "combate_corta\Volatile Reaction", "combate_corta\Near_End_Action", "combate_corta\epic-action-113888", "combate_corta/Dragonsong",
 "combate_corta/Combat_One", "combate_corta\Boss_Fight", "combate_corta\Big Drumming".
 
 
