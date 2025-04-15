@@ -58,7 +58,7 @@ class EstadoInicial(Estado):
         try:
             canciones_list = canciones.split("\n")
             print(canciones_list)
-            self.cancion = canciones_list[random.randint(0,len(canciones_list))] #Tomamos la primera de las canciones -> Mejor coincidencia
+            self.cancion = canciones_list[random.randint(0,(len(canciones_list)-1))] #Tomamos la primera de las canciones -> Mejor coincidencia
         except Exception as e:
             print(e)
             print(canciones)
