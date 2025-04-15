@@ -19,10 +19,10 @@ negative_prompt = "3d render, realistic"
 
 
 #monstruos = {"no-muerto", "slime", "beholder","troll", "droide","fantasma","objeto animado","cyborg", "lobo wargo","vampiro","oso","hombre lobo","serpiente","cocodrilo","momia","esfinge","goblin","cultista","gnoll","sirena","tiburón","hada","elemental de roca","kraken","dragón","sombra","fénix","ankheg","basilisco","murciélago","rata","felino salvaje"}
-monstruos = {"kraken"}
+monstruos = {"ship_background"}
 
 for monster in monstruos:
-    prompt = "pixel,  "+  " fire man monster"
+    prompt = "pixel,  "+  " a medieval ship in the middle of the ocean"
 
     #Generación de las imágenes
     for i in range(0,16):
