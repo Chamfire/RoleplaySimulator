@@ -226,7 +226,6 @@ class Game:
                         self.partidaScreen.setCurrentPartida(self.salaEspera.getCurrentPartida())
                     #Los jugadores también tienen derecho a DM
                     self.partidaScreen.setDMVoice(self.configuration.dmVoice)
-                    self.partidaScreen.setRatioSoundEffects(self.configuration.volEffects)
                     self.partidaScreen.render()
                 else:
                     pass
@@ -263,7 +262,6 @@ class Game:
                         self.partidaScreen.setNumJugadores(self.salaEspera.getNumJugadores())
                         self.partidaScreen.setCurrentPartida(self.salaEspera.getCurrentPartida())
                     self.partidaScreen.setDMVoice(self.configuration.dmVoice)
-                    self.partidaScreen.setRatioSoundEffects(self.configuration.volEffects)
                     self.partidaScreen.render()
 
             if not pygame.display.get_active():
@@ -552,7 +550,6 @@ class Game:
                                 self.partidaScreen.setNumJugadores(self.salaEspera.getNumJugadores())
                                 self.partidaScreen.setCurrentPartida(self.salaEspera.getCurrentPartida())
                             self.partidaScreen.setDMVoice(self.configuration.dmVoice)
-                            self.partidaScreen.setRatioSoundEffects(self.configuration.volEffects)
                             self.partidaScreen.render()
                         else:
                             self.screen.fill((0,0,0))

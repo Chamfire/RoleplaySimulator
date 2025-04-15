@@ -104,8 +104,6 @@ class PartidaScreen:
         self.isOnline = True
     def setPassword(self,v):
         self.password = v
-    def setRatioSoundEffects(self,vol):
-        self.volEffects = vol
 
     def setCurrentPartida(self,p):
         self.currentPartida = p
@@ -152,7 +150,7 @@ class PartidaScreen:
                     finally:
                         socket_temporal.close() #se cierra el socket al terminar
             #inicio del hilo de carga de partida
-            self.ProcesamientoPartida.initialize(self.numJugadores,self.DMVoice,self.volEffects,self.currentPartida)
+            self.ProcesamientoPartida.initialize(self.numJugadores,self.DMVoice,self.currentPartida)
             hiloProcesamientoPartida = threading.Thread(target=self.ProcesamientoPartida.prepararPartida)
             hiloProcesamientoPartida.start()
         else:

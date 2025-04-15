@@ -79,7 +79,7 @@ class Consulta_RAG_musica:
         #                 {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: algo tenso, sigilo y tribal? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
         #                 <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         #query = f"Use just the following context for answering the question: \n Taking into account that all the songs have this format: \"carpet/name\": \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nQuestion: {query_context} \nAnswer just with the content above, and giving just the carpet/name or several carpet/names of the songs choosed, separated in different lines and whithout giving any additional detail.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
-        query = f"Usa únicamente el siguiente contexto para responder a la pregunta: \n Teniendo en cuenta que todas las canciones tienen este formato: \"carpeta/nombre\": \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: {query_context} \nResponde únicamente con el contexto anterior, y dando solo la carpeta/nombre o varias carpeta/nombre de las canciones escogidas, separadas en líneas diferentes y sin dar ningún detalle adicional.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+        query = f"Usa únicamente el siguiente contexto para responder a la pregunta: \n Teniendo en cuenta que todas las canciones tienen este formato: nombre carpeta/nombre cancion: \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: {query_context} \nResponde únicamente basandote en el contexto anterior, y devolviendo únicamente la carpeta/canción o varias carpeta/canción escogidas, separadas en líneas diferentes, sin dar ningún detalle adicional.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
         res = llm(query, **generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
         response_good = res["choices"][0]["text"]
@@ -94,7 +94,7 @@ class Consulta_RAG_musica:
 
 
 #consulta = Consulta_RAG_musica()
-#consulta.consultar_cancion("¿Cuál es la mejor o mejores canciones para reproducir cuando hay un combate?")
+#consulta.consultar_cancion("¿Cuál es la mejor o mejores canciones para reproducir cuando el DM está dando la introducción para la aventura, y los jugadores empiezan desde Barco?")
 
 
 

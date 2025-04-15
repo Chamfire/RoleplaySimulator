@@ -78,19 +78,16 @@ class EstadoInicial(Estado):
 
             
 class DM:
-    def __init__(self,vozVol,enabledDMVoice):
-        self.volEffects = vozVol
+    def __init__(self,enabledDMVoice):
         self.enabledDMVoice = enabledDMVoice
         self.engine = pyttsx3.init() #inicializamos el text-to-speech por si estuviera habilitado
         rate = self.engine.getProperty('rate')
         self.engine.setProperty('rate', 150) #velocidad de lectura x1
-        self.engine.setProperty('volume',self.volEffects) #modificamos el volumen para adaptarse a la configuración del jugador
+        self.engine.setProperty('volume',1.5) #para que la ia se escuche por encima de todo
         voices = self.engine.getProperty('voices')
         self.engine.setProperty('voice', voices[0].id) #voz en español
         self.engine.setProperty('language',"es-ES")
 
-    def changeVol(self,newVol):
-        self.volEffects = newVol
     def changeEnabledDMVoice(self,enabled):
         self.enabledDMVoice = enabled
     def speak(self,text):
@@ -103,9 +100,8 @@ class DM:
             print(voice, voice.id)
 
 class Maquina_de_estados:
-    def __init__(self,enabledDMVoice,ratioEffectSounds,currentPartida):
+    def __init__(self,enabledDMVoice,currentPartida):
         self.enabledDMVoice = enabledDMVoice
-        self.volEffects = ratioEffectSounds
         self.estadoInicial = None #podríamos querer cargarlo de una bbdd
         self.DM = DM(self.volEffects,self.enabledDMVoice) #creo la voz del DM, que se pasará como parámetro al ejecutar los métodos
         self.RAG_musica = Consulta_RAG_musica()
