@@ -522,9 +522,9 @@ class ConfiguracionPartida:
                         if(self.partidas[self.currentPartida].ubicacion_historia == 0):
                             ubicacion = 'Mazmorra'
                         elif(self.partidas[self.currentPartida].ubicacion_historia == 1):
-                            ubicacion = 'Mar'
+                            ubicacion = 'Barco'
                         elif(self.partidas[self.currentPartida].ubicacion_historia == 2):
-                            ubicacion = 'Ciudad Futurista'
+                            ubicacion = 'Ciudad Moderna'
                         elif(self.partidas[self.currentPartida].ubicacion_historia == 3):
                             ubicacion = 'Desierto'
                         elif(self.partidas[self.currentPartida].ubicacion_historia == 4):

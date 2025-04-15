@@ -8,7 +8,22 @@ from llama_cpp import Llama
 from langchain.schema import Document
 import random
 import numpy as np
-from deep_translator import GoogleTranslator
+import contextlib
+import os
+import sys
+
+@contextlib.contextmanager
+def suppress_stdout_stderr():
+    with open(os.devnull, "w") as fnull:
+        old_stdout = sys.stdout
+        old_stderr = sys.stderr
+        sys.stdout = fnull
+        sys.stderr = fnull
+        try:
+            yield
+        finally:
+            sys.stdout = old_stdout
+            sys.stderr = old_stderr
 
 class Consulta_RAG_musica:
     def __init__(self):
@@ -36,13 +51,14 @@ class Consulta_RAG_musica:
         model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
         model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
         model_path = hf_hub_download(model_name, filename=model_file)
-        llm = Llama(
-            model_path=model_path,
-            n_ctx=2048,  # Context length to use
-            n_threads=32,            # Number of CPU threads to use
-            n_gpu_layers=0,        # Number of model layers to offload to GPU
-            seed= random.randint(1,100000)
-        )
+        with suppress_stdout_stderr():
+            llm = Llama(
+                model_path=model_path,
+                n_ctx=2048,  # Context length to use
+                n_threads=32,            # Number of CPU threads to use
+                n_gpu_layers=0,        # Number of model layers to offload to GPU
+                seed= random.randint(1,100000)
+            )
         ## Generation kwargs
         generation_kwargs = {
             "max_tokens":300,
@@ -70,17 +86,19 @@ class Consulta_RAG_musica:
         if "." in response_good:
             response_good = response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
         response_good = response_good.lstrip()
-
         print("\n=== RESPUESTA ===")
         print(response_good)
         print("\n=== CONTEXTO ===")
         print(query)
+        return response_good
+
+
+#consulta = Consulta_RAG_musica()
+#consulta.consultar_cancion("¿Cuál es la mejor o mejores canciones para reproducir cuando hay un combate?")
 
 
 
-consulta = Consulta_RAG_musica()
 #consulta.consultar_cancion("What is the best or bests songs to reproduce when the players are in combat?")
-consulta.consultar_cancion("¿Cuál es la mejor o mejores canciones para reproducir cuando hay un combate?")
 
 #Ejemplos de ejecución:
 #Resultado de lista de canciones que coinciden con la descripción: 

@@ -35,9 +35,9 @@ class Game:
         pygame.init()
         #self.font = 'agencyfb'
         self.font = 'agencyfbnormal'
-        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
-        #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
+        self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()
         # --------------SEMILLA ----------------------
         #seed_random = 33
@@ -132,7 +132,7 @@ class Game:
         self.seleccionPersonaje = SeleccionPersonaje(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id,seed_random)
         self.seleccionPersonaje2 = SeleccionPersonaje2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,model_path,self.consultaDescripcion,self.perfil.id,seed_random)
         self.salaEspera2 = SalaEspera2(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
-        self.partidaScreen = PartidaScreen(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id)
+        self.partidaScreen = PartidaScreen(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font,self.perfil.id,seed_random)
         #Cargamos la música, y precargamos las imágenes y textos en el bufer
         mixer.music.load('sounds/background.wav')
         mixer.music.play(-1)
@@ -142,6 +142,12 @@ class Game:
         while self.currentScreen != 'quit':
             #nombre del simulador
             screenToRefresh = self.GLOBAL.getRefreshScreen()
+
+            #Cargar animaciones
+            if(self.currentScreen == "partida"):
+                self.partidaScreen.animateText(self.configuration.fps)
+
+            #Refrescar la pantalla por sucesos asíncronos
             if screenToRefresh != None:
                 #nos ha llegado información de los hilos
                 if screenToRefresh == "salaEspera" and not self.GLOBAL.getNoEnPartida(): #como estamos ya en esa sala, no hace falta cambiar la pantalla
@@ -215,10 +221,17 @@ class Game:
                     elif(lastScreen == "partida_load_wait"):
                         self.screen = self.salaEspera2.getScreen()
                     self.partidaScreen.setScreen(self.screen)
+                    if(not self.online):
+                        self.partidaScreen.setNumJugadores(self.salaEspera.getNumJugadores())
+                        self.partidaScreen.setCurrentPartida(self.salaEspera.getCurrentPartida())
+                    #Los jugadores también tienen derecho a DM
+                    self.partidaScreen.setDMVoice(self.configuration.dmVoice)
+                    self.partidaScreen.setRatioSoundEffects(self.configuration.volEffects)
                     self.partidaScreen.render()
                 else:
                     pass
 
+            #Refresco de pantalla después de volver a poner la pantalla tras minimizarla
             if pygame.display.get_active() and self.minimized:
                 self.minimized = False #ya hemos renderizado de nuevo los objetos
                 if self.currentScreen == "menu":
@@ -246,6 +259,11 @@ class Game:
                 elif self.currentScreen == "partida_load_wait":
                     self.salaEspera2.render(self.online)
                 elif self.currentScreen == "partida":
+                    if(not self.online):
+                        self.partidaScreen.setNumJugadores(self.salaEspera.getNumJugadores())
+                        self.partidaScreen.setCurrentPartida(self.salaEspera.getCurrentPartida())
+                    self.partidaScreen.setDMVoice(self.configuration.dmVoice)
+                    self.partidaScreen.setRatioSoundEffects(self.configuration.volEffects)
                     self.partidaScreen.render()
 
             if not pygame.display.get_active():
@@ -530,6 +548,11 @@ class Game:
                             self.seleccionPersonaje2.render(self.online)
                         elif(self.currentScreen == "partida"):
                             self.partidaScreen.setScreen(self.screen)
+                            if(not self.online):
+                                self.partidaScreen.setNumJugadores(self.salaEspera.getNumJugadores())
+                                self.partidaScreen.setCurrentPartida(self.salaEspera.getCurrentPartida())
+                            self.partidaScreen.setDMVoice(self.configuration.dmVoice)
+                            self.partidaScreen.setRatioSoundEffects(self.configuration.volEffects)
                             self.partidaScreen.render()
                         else:
                             self.screen.fill((0,0,0))
