@@ -3,6 +3,7 @@ import pyttsx3
 from RAG_music.Consulta_RAG_musica import Consulta_RAG_musica
 import sqlite3
 import pygame
+import random
 from pygame import mixer
 
 class Estado:
@@ -56,7 +57,8 @@ class EstadoInicial(Estado):
         canciones = RAG_musica.consultar_cancion("¿Cuál es la mejor o mejores canciones para reproducir cuando el DM está dando la introducción para la aventura, y los jugadores empiezan desde "+ubicacion+"?")
         try:
             canciones_list = canciones.split("\n")
-            self.cancion = canciones_list[0] #Tomamos la primera de las canciones -> Mejor coincidencia
+            print(canciones_list)
+            self.cancion = canciones_list[random.randint(0,len(canciones_list))] #Tomamos la primera de las canciones -> Mejor coincidencia
         except Exception as e:
             print(e)
             print(canciones)

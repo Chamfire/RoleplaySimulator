@@ -8,6 +8,7 @@ import socket
 from Global import Global
 from ProcesamientoPartida import ProcesamientoPartida
 
+
 class PartidaScreen:
     #sound
 
@@ -222,6 +223,9 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
             self.ch1.play(self.pressed)
             pygame.display.update() 
+            mixer.music.stop()#para la música
+            mixer.music.load("sounds/background.wav") #carga de nuevo la canción normal de fondo
+            mixer.music.play(-1)
             return 'menu'
         else:
             return 'partida'
