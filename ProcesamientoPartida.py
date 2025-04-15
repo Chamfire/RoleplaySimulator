@@ -105,12 +105,13 @@ class ProcesamientoPartida:
         self.response_good = self.response_good.lstrip()
         self.response_good= self.response_good+fin
         #print(self.response_good)
-        print("Progreso: 7%")
+        print("Progreso: 4%")
 
         #Generación del primer estado de la máquina
         #TODO: Modificar para cargar máquina de estados de la bbdd
-        maquina = Maquina_de_estados(self.DMVoice,self.volEffects,self.currentPartida)
+        maquina = Maquina_de_estados(self.DMVoice,self.currentPartida)
         maquina.crearEstadoInicial(self.response_good)
+        print("Progreso: 7%")
         #procesamiento....
         maquina.initExecution()
 
