@@ -12,14 +12,14 @@ from deep_translator import GoogleTranslator
 
 class Consulta_RAG_musica:
     def __init__(self):
-        with open('RAG_music/Descripciones_canciones_en.txt','r',encoding='utf-8') as file:
+        with open('RAG_music/Descripciones_canciones.txt','r',encoding='utf-8') as file:
             text = file.read()
             file.close()
         self.documentos = text.split('\n\n')
         #print(self.documentos)
 
-    def crear_vectores(self):
-        embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+    def crear_vectores(self): #all-MiniLM-L6-v2
+        embedding_model = SentenceTransformer('all-MiniLM-L12-v2') 
         embeddings = embedding_model.encode(self.documentos)
 
         dimension = embeddings.shape[1]
@@ -62,8 +62,8 @@ class Consulta_RAG_musica:
         # query = """{Eres un dungeon master de Dnd 5e y tienes que escoger la mejor canción para un momento específico de una aventura.}<|eot_id|><|start_header_id|>user<|end_header_id|>
         #                 {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: algo tenso, sigilo y tribal? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
         #                 <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        query = f"Use just the following context for answering the question: \n Taking into account that all the songs have this format: \"carpet/name\": \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nQuestion: {query_context} \nAnswer just with the content above, and giving just the carpet/name or several carpet/names of the songs choosed, separated in different lines and whithout giving any additional detail.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
-
+        #query = f"Use just the following context for answering the question: \n Taking into account that all the songs have this format: \"carpet/name\": \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nQuestion: {query_context} \nAnswer just with the content above, and giving just the carpet/name or several carpet/names of the songs choosed, separated in different lines and whithout giving any additional detail.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+        query = f"Usa únicamente el siguiente contexto para responder a la pregunta: \n Teniendo en cuenta que todas las canciones tienen este formato: \"carpeta/nombre\": \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: {query_context} \nResponde únicamente con el contexto anterior, y dando solo la carpeta/nombre o varias carpeta/nombre de las canciones escogidas, separadas en líneas diferentes y sin dar ningún detalle adicional.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
         res = llm(query, **generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
         response_good = res["choices"][0]["text"]
@@ -79,13 +79,13 @@ class Consulta_RAG_musica:
 
 
 consulta = Consulta_RAG_musica()
-consulta.consultar_cancion("¿What is the best or bests songs to reproduce when the players are in combat?")
-
+#consulta.consultar_cancion("What is the best or bests songs to reproduce when the players are in combat?")
+consulta.consultar_cancion("¿Cuál es la mejor o mejores canciones para reproducir cuando hay un combate?")
 
 #Ejemplos de ejecución:
 #Resultado de lista de canciones que coinciden con la descripción: 
 
-#consulta.consultar_cancion("¿What is the best song to reproduce when the players are in a tense environment?")
+#consulta.consultar_cancion("What is the best song to reproduce when the players are in a tense environment?")
 #------------------ RESPUESTA -------------------------------
 # === RESPUESTA ===
 # tension_corta/Countdown
@@ -105,7 +105,7 @@ consulta.consultar_cancion("¿What is the best or bests songs to reproduce when 
 # the song to be reproduced is "tribal/tribal_joy". However, if the environment is tense, the best
 # song is tribal/Big Mojo". When the environment is not tense, but neutral, it will be "tribal/ambient_bongos".
 # <|eot_id|><|start_header_id|>user<|end_header_id|>
-# Question: ¿What is the best song to reproduce when the players are in a tense environment?
+# Question: What is the best song to reproduce when the players are in a tense environment?
 # Answer just with the content above, and giving just the name of the song choosed, whithout giving any additional detail.
 # <|eot_id|><|start_header_id|>assistant<|end_header_id|>
 
@@ -113,7 +113,7 @@ consulta.consultar_cancion("¿What is the best or bests songs to reproduce when 
 
 
 #Resultado de canción que coincide: 
- #¿What is the best song to reproduce when the players are talking to an evil NPC?
+ #What is the best song to reproduce when the players are talking to an evil NPC?
 
 # tension_corta/Black Vortex
 
@@ -126,7 +126,7 @@ consulta.consultar_cancion("¿What is the best or bests songs to reproduce when 
 # When several monsters are being seen in an area by the players for the first time, to prepare a possible combat, the song to
 # reproduce is "tension_corta/Evil March".
 # <|eot_id|><|start_header_id|>user<|end_header_id|>
-# Question: ¿What is the best song to reproduce when the players are talking to an evil NPC?
+# Question: What is the best song to reproduce when the players are talking to an evil NPC?
 # Answer just with the content above, and giving just the name of the song choosed, whithout giving any additional detail.
 # <|eot_id|><|start_header_id|>assistant<|end_header_id|>
 # ---------------------------------------------------------------------
@@ -135,7 +135,7 @@ consulta.consultar_cancion("¿What is the best or bests songs to reproduce when 
 
 #Resultado de la canción más parecida que coincide, pues la que más coincide no es posible: 
 
-#consulta.consultar_cancion("Taking into account that tension_corta/Black Vortex cannot be the answer, ¿what is the best song to reproduce when the players are talking to an evil NPC?")
+#consulta.consultar_cancion("Taking into account that tension_corta/Black Vortex cannot be the answer, what is the best song to reproduce when the players are talking to an evil NPC?")
 # === RESPUESTA ===
 # tension_corta/Constance
 
@@ -148,6 +148,6 @@ consulta.consultar_cancion("¿What is the best or bests songs to reproduce when 
 # When several monsters are being seen in an area by the players for the first time, to prepare a possible combat, the song to
 # reproduce is "tension_corta/Evil March".
 # <|eot_id|><|start_header_id|>user<|end_header_id|>
-# Question: Taking into account that tension_corta/Black Vortex cannot be the answer, ¿what is the best song to reproduce when the players are talking to an evil NPC?
+# Question: Taking into account that tension_corta/Black Vortex cannot be the answer, what is the best song to reproduce when the players are talking to an evil NPC?
 # Answer just with the content above, and giving just the name of the song choosed, whithout giving any additional detail.
 # <|eot_id|><|start_header_id|>assistant<|end_header_id|>
