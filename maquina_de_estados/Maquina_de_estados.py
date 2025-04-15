@@ -103,7 +103,7 @@ class Maquina_de_estados:
     def __init__(self,enabledDMVoice,currentPartida):
         self.enabledDMVoice = enabledDMVoice
         self.estadoInicial = None #podríamos querer cargarlo de una bbdd
-        self.DM = DM(self.volEffects,self.enabledDMVoice) #creo la voz del DM, que se pasará como parámetro al ejecutar los métodos
+        self.DM = DM(self.enabledDMVoice) #creo la voz del DM, que se pasará como parámetro al ejecutar los métodos
         self.RAG_musica = Consulta_RAG_musica()
         self.currentPartida = currentPartida
         #TODO: Cargar estados de un fichero (al terminar)
