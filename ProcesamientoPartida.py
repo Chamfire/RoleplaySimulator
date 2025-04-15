@@ -36,10 +36,9 @@ class ProcesamientoPartida:
         self.currentPartida = None
         random.seed = seed_random #para reproducir los resultados si le pasamos una semilla fija
 
-    def initialize(self,numJugadores,DMVoice, volEffects, currentPartida):
+    def initialize(self,numJugadores,DMVoice, currentPartida):
         self.numJugadores  = numJugadores
         self.DMVoice = DMVoice
-        self.volEffects = volEffects
         self.currentPartida = currentPartida
 
 
