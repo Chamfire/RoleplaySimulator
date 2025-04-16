@@ -301,7 +301,28 @@ class ProcesamientoPartida:
         self.personaje.ideal = (self.ideales[self.personaje.id_trasfondo[1]][ideal-1][1],ideal)
         self.personaje.edad = self.NPCs[2]
         self.personaje.peso = self.NPCs[1]
-        
+
+
+        alineamiento = random.randint(0,8)
+        if(alineamiento == 0):
+            self.personaje.tipo_alineamiento = ("Legal Bueno",0)
+        elif(alineamiento == 1):
+            self.personaje.tipo_alineamiento = ("Neutral Bueno",1)
+        elif(alineamiento == 2):
+            self.personaje.tipo_alineamiento = ("Caótico Bueno",2)
+        elif(alineamiento == 3):
+            self.personaje.tipo_alineamiento = ("Legal Neutral",3)
+        elif(alineamiento == 4):
+            self.personaje.tipo_alineamiento = ("Neutral",4)
+        elif(alineamiento == 5):
+            self.personaje.tipo_alineamiento = ("Caótico Neutral",5)
+        elif(alineamiento == 6):
+            self.personaje.tipo_alineamiento = ("Legal Malvado",6)
+        elif(alineamiento == 7):
+            self.personaje.tipo_alineamiento = ("Neutral Malvado",7)
+        elif(alineamiento == 8):
+            self.personaje.tipo_alineamiento = ("Caótico Malvado",8)
+
 
         #procesamiento....
         maquina.initExecution()
