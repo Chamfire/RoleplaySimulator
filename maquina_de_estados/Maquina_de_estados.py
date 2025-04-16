@@ -53,6 +53,7 @@ class EstadoInicial(Estado):
         rows = cur.fetchall() #para llegar a esta pantalla, la pantalla tiene que existir sí o sí
         if(rows[0] != None):
             ubicacion = rows[0][0]
+        conn.close()
 
         canciones = RAG_musica.consultar_cancion("¿Cuál es la mejor o mejores canciones para reproducir cuando el DM está dando la introducción para la aventura, y los jugadores empiezan desde "+ubicacion+"?")
         try:
