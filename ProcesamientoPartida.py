@@ -14,6 +14,7 @@ import json
 from maquina_de_estados.Maquina_de_estados import Maquina_de_estados
 from Personaje import Personaje
 from maquina_de_estados.RAG_historia import RAG_historia
+import time
 
 @contextlib.contextmanager
 def suppress_stdout_stderr():
@@ -76,18 +77,18 @@ class ProcesamientoPartida:
         self.DMVoice = DMVoice
         self.currentPartida = currentPartida
 
-    def consultarAlDM(self,prompt,model_path,fin):
+    def consultarAlDM(self,prompt,model_path,fin,token_context = 1024,token_gen = 300):
         with suppress_stdout_stderr():
             self.llm = Llama(
                 model_path=model_path,
-                n_ctx=1024,  # Context length to use
+                n_ctx=token_context,  # Context length to use
                 n_threads=32,            # Number of CPU threads to use
                 n_gpu_layers=0,        # Number of model layers to offload to GPU
                 seed= random.randint(1,100000)
             )
         ## Generation kwargs
         self.generation_kwargs = {
-            "max_tokens":300,
+            "max_tokens":token_gen,
             "stop":["</s>"],
             "echo":False, # Echo the prompt in the output
             "top_p": 0.85, #top_p y temperatura le da aleatoriedad
@@ -113,6 +114,7 @@ class ProcesamientoPartida:
         model_path = hf_hub_download(model_name, filename=model_file)
 
         print("Progreso: 0%")
+        inicio = time.time()
         # Generación de mensaje de bienvenida:
         hora_actual = datetime.datetime.now().time()
         if(hora_actual.hour < 15):
@@ -339,18 +341,28 @@ class ProcesamientoPartida:
         #inicializo el RAG para la historia
         self.RAG_historia = RAG_historia(self.currentPartida)
         prompt = """{Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Genera un párrafo sobre el motivo por el que un NPC que es """+self.personaje.tipo_raza+""" y que además es """+self.personaje.tipo_clase+""" podría encontrarse en la siguiente zona: """+self.ubicacion+""".}
+                        {Genera un párrafo sobre el motivo por el que un NPC (de nombre """+self.personaje.name+""", que es """+self.personaje.tipo_raza+""" y que además es """+self.personaje.tipo_clase+""") podría encontrarse en la siguiente zona: """+self.ubicacion+""".}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
-        motivoUbiaccion = self.consultarAlDM(prompt,model_path,None)
-        #infoTrasfondo = self.consultarAlDM()
-        #print(infoTrasfondo)
-        print("-----------------")
-        print(motivoUbiaccion)
-        #self.RAG_historia.escribirInfoNPC(self.personaje.name,self.personaje.descripcion_fisica,infoTrasfondo,motivoUbicacion)
+        motivoUbicacion = self.consultarAlDM(prompt,model_path,None)
+        # print("-----------------")
+        # print(motivoUbicacion)
+        # print("-----------------")
+
+        peticion = "Genera 6 párrafos de trasfondo para un NPC que se llama "+self.personaje.name+", que es """+self.personaje.tipo_raza+" y que además es "+self.personaje.tipo_clase+". Haz referencia a su familia, a si tiene o no algún romance/matrimonio y detallalo, y a rasgos que podrían ser importantes de su vida"
+        prompt = f"Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC. Usando únicamente el siguiente contexto para responder a la petición: Teniendo en cuenta el siguiente contexto: {motivoUbicacion}<|eot_id|><|start_header_id|>user<|end_header_id|>{peticion}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+
+        infoTrasfondo = self.consultarAlDM(prompt,model_path,None,2024,1024)
+        # print("-----------------")
+        # print(infoTrasfondo)
+        # print("-----------------")
+
+        self.RAG_historia.escribirInfoNPC(self.personaje.name,self.personaje.descripcion_fisica,infoTrasfondo,motivoUbicacion)
 
         print("Progreso: 11%")
         #procesamiento....
+        fin_time = time.time()
+        print('Tiempo de procesamiento: '+str(fin_time - inicio)) 
         maquina.initExecution()
 
 

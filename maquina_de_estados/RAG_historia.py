@@ -58,7 +58,7 @@ class RAG_historia:
     #Escribimos en un archivo .txt el nombre, la descripción física, el trasfondo y el motivo de 
     #que el NPC esté donde esté, para ser recuperado por el RAG
     def escribirInfoNPC(self,nombreNPC,descripcionFisica,infoTrasfondo,motivoUbicacion):
-        with open('maquina_de_estados/'+self.currentPartida+'/info_NPC.txt') as f:
+        with open('maquina_de_estados/'+self.currentPartida+'/info_NPC.txt','w',encoding='utf-8') as f:
             info_a_escribir = "El nombre del NPC es "+nombreNPC+". "+descripcionFisica+" \n"
             for info in infoTrasfondo:
                 info_a_escribir += info+"\n"

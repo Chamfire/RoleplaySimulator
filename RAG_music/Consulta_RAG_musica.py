@@ -86,10 +86,10 @@ class Consulta_RAG_musica:
         if "." in response_good:
             response_good = response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
         response_good = response_good.lstrip()
-        print("\n=== RESPUESTA ===")
-        print(response_good)
-        print("\n=== CONTEXTO ===")
-        print(query)
+        # print("\n=== RESPUESTA ===")
+        # print(response_good)
+        # print("\n=== CONTEXTO ===")
+        # print(query)
         return response_good
 
 
