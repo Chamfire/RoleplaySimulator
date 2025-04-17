@@ -520,17 +520,17 @@ class ConfiguracionPartida:
                         
                         actual_time = datetime.now()
                         if(self.partidas[self.currentPartida].ubicacion_historia == 0):
-                            ubicacion = 'Mazmorra'
+                            ubicacion = 'mazmorra'
                         elif(self.partidas[self.currentPartida].ubicacion_historia == 1):
-                            ubicacion = 'Barco'
+                            ubicacion = 'barco'
                         elif(self.partidas[self.currentPartida].ubicacion_historia == 2):
-                            ubicacion = 'Ciudad Moderna'
+                            ubicacion = 'ciudad moderna'
                         elif(self.partidas[self.currentPartida].ubicacion_historia == 3):
-                            ubicacion = 'Desierto'
+                            ubicacion = 'desierto'
                         elif(self.partidas[self.currentPartida].ubicacion_historia == 4):
-                            ubicacion = 'Aldea Medieval'
+                            ubicacion = 'aldea medieval'
                         else:
-                            ubicacion = 'Bosque'
+                            ubicacion = 'bosque'
                         data_partida = (self.partidas[self.currentPartida].server_code,self.currentPartida,actual_time, 0,ubicacion, self.partidas[self.currentPartida].num_jugadores, self.partidas[self.currentPartida].nombre)
                         
                         #comprobamos si el jugador existe ya en la bbdd (si no ha creado ninguna partida, habrá que registrarlo)

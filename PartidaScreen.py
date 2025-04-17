@@ -131,7 +131,7 @@ class PartidaScreen:
 
     def render(self):
         #render screen
-        self.ProcesamientoPartida = ProcesamientoPartida(self.seed_random)
+        self.ProcesamientoPartida = ProcesamientoPartida(self.seed_random,self.currentPartida)
         self.letterwidth = (self.width/3.4286)/6 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)

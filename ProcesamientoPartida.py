@@ -28,7 +28,7 @@ def suppress_stdout_stderr():
             sys.stderr = old_stderr
 
 class ProcesamientoPartida:
-    def __init__(self, seed_random):
+    def __init__(self, seed_random,currentPartida):
         self.generation_kwargs = None
         self.llm = None
         self.numJugadores = None
@@ -39,7 +39,7 @@ class ProcesamientoPartida:
         self.rasgos_personalidad = {0:[None,None,None,None,None,None,None,None],1:[None,None,None,None,None,None,None,None],2:[None,None,None,None,None,None,None,None],3:[None,None,None,None,None,None,None,None],4:[None,None,None,None,None,None,None,None],5:[None,None,None,None,None,None,None,None],6:[None,None,None,None,None,None,None,None],7:[None,None,None,None,None,None,None,None],8:[None,None,None,None,None,None,None,None],9:[None,None,None,None,None,None,None,None],10:[None,None,None,None,None,None,None,None],11:[None,None,None,None,None,None,None,None],12:[None,None,None,None,None,None,None,None]}
         self.ideales = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
         id = "autoincrement"
-        self.personaje = Personaje(True,self.currentPartida,id)
+        self.personaje = Personaje(True,currentPartida,id)
         self.currentPartida = None
         random.seed = seed_random #para reproducir los resultados si le pasamos una semilla fija
         self.NPCs = {"bosque,elfo,0":("elfo_vive en el bosque_75_430_de piel verde",75,430,"mujer"),
@@ -157,11 +157,11 @@ class ProcesamientoPartida:
 
         raza = random.randint(0,1) #0: elfo, 1: enano
         if(raza == 0):
-            self.personaje.tipo_raza = "elfo"
+            self.personaje.tipo_raza = "Elfo"
         else:
-            self.personaje.tipo_raza = "enano"
+            self.personaje.tipo_raza = "Enano"
         NPC_aleatorio = random.randint(0,1) #hay 2 posibles NPCs para cada raza
-        NPC_final = self.NPCs[ubicacion+","+self.personaje.tipo_raza+","+NPC_aleatorio]
+        NPC_final = self.NPCs[ubicacion+","+self.personaje.tipo_raza+","+str(NPC_aleatorio)]
         NPC_imagen_carpeta = "images/NPCs/"+NPC_final[0]+".png"
         NPC_animacion = "animations/NPCs/"+NPC_final[0]+"/walk.png"
         
@@ -175,10 +175,11 @@ class ProcesamientoPartida:
                 print(e)
         #creo los datos del NPC
         clase = random.randint(0,1) #0:explorador, 1:bárbaro
+        self.personaje.esta_muerto = False
         if(clase == 0):
-            self.personaje.tipo_clase = "explorador"
+            self.personaje.tipo_clase = "Explorador"
         else:
-            self.personaje.tipo_clase = "bárbaro"
+            self.personaje.tipo_clase = "Bárbaro"
 
         if(self.personaje.tipo_clase == "Explorador"):
             self.personaje.des = 15
