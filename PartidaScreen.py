@@ -42,8 +42,8 @@ class PartidaScreen:
         self.socketUDP = None
         self.escuchaUDP = None
         self.enviarEstadoUDP = None
+        self.ProcesamientoPartida = None
         self.GLOBAL = Global()
-        self.ProcesamientoPartida = ProcesamientoPartida(self.seed_random)
 
         #canales
         self.ch1 = ch1
@@ -121,8 +121,17 @@ class PartidaScreen:
         hiloEnviarEstadoUDP = threading.Thread(target = self.enviarEstadoUDP.enviarEstadoUDP)
         hiloEnviarEstadoUDP.start()
 
+    def reload(self):
+        self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+        self.screen.blit(self.msg3, (self.width/4.0000, self.height/4.0000)) #300 175 
+        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+        self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+        pygame.display.update() 
+
     def render(self):
         #render screen
+        self.ProcesamientoPartida = ProcesamientoPartida(self.seed_random)
         self.letterwidth = (self.width/3.4286)/6 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)

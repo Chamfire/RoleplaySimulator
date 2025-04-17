@@ -262,7 +262,7 @@ class Game:
                         self.partidaScreen.setNumJugadores(self.salaEspera.getNumJugadores())
                         self.partidaScreen.setCurrentPartida(self.salaEspera.getCurrentPartida())
                     self.partidaScreen.setDMVoice(self.configuration.dmVoice)
-                    self.partidaScreen.render()
+                    self.partidaScreen.reload()
 
             if not pygame.display.get_active():
                 self.minimized = True #se ha hecho escape para ir al escritorio
