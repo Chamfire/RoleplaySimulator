@@ -363,8 +363,11 @@ class ProcesamientoPartida:
         print("Progreso: 11%")
         #procesamiento....
         fin_time = time.time()
-        print('Tiempo de procesamiento: '+str(fin_time - inicio)) 
+        print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
         maquina.initExecution()
+        #simulamos que todos le han dado ok al botón
+        maquina.ordenEstados[0][1].ModifyVarEnter(self.numJugadores)
         maquina.runNextEstado()
+        #
 
 

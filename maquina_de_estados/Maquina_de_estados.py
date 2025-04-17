@@ -112,7 +112,8 @@ class EstadoDeMision(Estado):
         self.ordenEstados = {} #Estados internos de misión
         self.numAccepts = 0 
         #TODO: incluir la descripción del mapa
-        self.dialogoDMIntro = "¡Bien! Os encontráis en ... y frente a vosotros, os parece ver a alguien. "+descripcionFisicaNPC
+        self.dialogoDMIntro = "¡Bien! Os encontráis en ... y frente a vosotros, os parece ver a alguien. "+descripcionFisicaNPC+". Os muestro una imagen."
+        #TODO: Printear su imagen
         #TODO: Registrarlos en el mapa
         #self.NPCs = #TODO
         #self.mobs = #TODO
