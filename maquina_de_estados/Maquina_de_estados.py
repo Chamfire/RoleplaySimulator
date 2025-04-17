@@ -191,7 +191,8 @@ class Maquina_de_estados:
             for estado in linea_temporal:
                 if(not estado.checkIfCompleted() and estado.checkIfCanRun()): 
                     #Si el estado no ha sido completado, y se puede ejecutar
-                    estado.
+                    #estado.
+                    pass
         
         
     
