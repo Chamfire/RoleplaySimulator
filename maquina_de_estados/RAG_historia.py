@@ -60,8 +60,7 @@ class RAG_historia:
     def escribirInfoNPC(self,nombreNPC,descripcionFisica,infoTrasfondo,motivoUbicacion):
         with open('maquina_de_estados/'+self.currentPartida+'/info_NPC.txt','w',encoding='utf-8') as f:
             info_a_escribir = "El nombre del NPC es "+nombreNPC+". "+descripcionFisica+" \n"
-            for info in infoTrasfondo:
-                info_a_escribir += info+"\n"
+            info_a_escribir += infoTrasfondo+"\n"
             info_a_escribir += motivoUbicacion+"\n"
             f.write(info_a_escribir)
 

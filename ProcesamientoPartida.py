@@ -176,9 +176,10 @@ class ProcesamientoPartida:
         with open(self.dir+'/'+self.file) as f:
             try:
                 NPC_descripcion = json.load(f)
-                self.personaje.descripcion_fisica = NPC_descripcion[NPC_final][0]
+                self.personaje.descripcion_fisica = NPC_descripcion[NPC_final[0]][0]
             except Exception as e:
                 print(e)
+            #print(self.personaje.descripcion_fisica)
         #creo los datos del NPC
         clase = random.randint(0,1) #0:explorador, 1:bárbaro
         self.personaje.esta_muerto = False
@@ -337,7 +338,7 @@ class ProcesamientoPartida:
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         nombre = self.consultarAlDM(prompt,model_path,None)
         self.personaje.name = nombre
-
+        #print(self.personaje.name)
         #inicializo el RAG para la historia
         self.RAG_historia = RAG_historia(self.currentPartida)
         prompt = """{Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC.}<|eot_id|><|start_header_id|>user<|end_header_id|>
