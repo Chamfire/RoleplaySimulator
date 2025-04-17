@@ -7,7 +7,8 @@ import random
 from pygame import mixer
 
 class Estado:
-    def __init__(self,isInicial,content):
+    def __init__(self,isInicial,content,id):
+        self.id =  id
         if(isInicial):
             self.esInicial = True
             self.esPuntoDeRespawn = False
@@ -29,6 +30,7 @@ class Estado:
         self.GLOBAL = Global()
         self.estadoAlQuePertenezco = None
         self.estadoPredecesor = None
+        self.estadosSucesores = {}
         self.NPCs = {}
         self.jugadores = {}
         self.mobs = {}
@@ -50,8 +52,8 @@ class Estado:
         pass
 
 class EstadoInicial(Estado):
-    def __init__(self,isInicial,content,RAG_musica,currentPartida):
-        super().__init__(isInicial,content)
+    def __init__(self,isInicial,content,RAG_musica,currentPartida,id):
+        super().__init__(isInicial,content,id)
 
         #extraemos la ubicación desde la bbdd
         conn = sqlite3.connect("simuladordnd.db")
@@ -80,6 +82,8 @@ class EstadoInicial(Estado):
             return True
         else:
             return False
+    def run(self,DM):
+        self.OnEnterEstadoByAllPlayers(DM)
 
     def OnEnterEstadoByAllPlayers(self,DM):
         #self.GLOBAL.setRefreshScreen() #refrescar la pantalla con el mapa que crearé después
@@ -97,16 +101,18 @@ class EstadoInicial(Estado):
         self.variableDeCheck["progreso"] = True
 
 class EstadoDeMision(Estado):
-    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,descripcionFisicaNPC,motivoUbicacion, trasfondoNPC):
-        super().__init__(isInicial,content)
+    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,descripcionFisicaNPC,motivoUbicacion, trasfondoNPC,id):
+        super().__init__(isInicial,content,id)
         self.variableDeCheck["progreso"] = 0 #0: No se ha leído la introducción al mundo, 1: se ha leído la introducción y la descripción del NPC, 2: se ha dado ya la misión, 3:se ha desencadenado la misión, 4: se ha completado la misión
         self.esObligatorio = True
         self.numJugadores = numJugadores
         self.esPuntoDeRespawn = False
-        self.estadoPredecesor = estado_pred
+        self.estadosSucesores = estado_pred
+        self.numInt = 0
         self.ordenEstados = {} #Estados internos de misión
         self.numAccepts = 0 
-
+        #TODO: incluir la descripción del mapa
+        self.dialogoDMIntro = "¡Bien! Os encontráis en ... y frente a vosotros, os parece ver a alguien. "+descripcionFisicaNPC
         #TODO: Registrarlos en el mapa
         #self.NPCs = #TODO
         #self.mobs = #TODO
@@ -123,6 +129,19 @@ class EstadoDeMision(Estado):
             return True
         else:
             return False
+        
+    def run(self,DM):
+        #TODO: run en función del estado de la misión
+        if(self.variableDeCheck["progreso"] == 0):
+            self.OnEnterEstadoByAllPlayers(DM)
+        elif(self.variableDeCheck["progreso"] == 1):
+            pass
+        elif(self.variableDeCheck["progreso"] == 2):
+            pass
+        elif(self.variableDeCheck["progreso"] == 3):
+            pass
+        elif(self.variableDeCheck["progreso"] == 4):
+            pass
 
     def ModifyVarEnter(self,n):
         self.numAccepts = n
@@ -141,7 +160,7 @@ class EstadoDeMision(Estado):
         print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         DM.speak(self.dialogoDMIntro) 
         #DM.printVoices()
-        self.variableDeCheck["progreso"] = True
+        self.variableDeCheck["progreso"] = 1
 
             
 class DM:
@@ -170,6 +189,7 @@ class Maquina_de_estados:
     def __init__(self,enabledDMVoice,currentPartida):
         self.enabledDMVoice = enabledDMVoice
         self.ordenEstados = {}
+        self.ids = 0
         self.estadoInicial = None #podríamos querer cargarlo de una bbdd
         self.DM = DM(self.enabledDMVoice) #creo la voz del DM, que se pasará como parámetro al ejecutar los métodos
         self.RAG_musica = Consulta_RAG_musica()
@@ -177,22 +197,26 @@ class Maquina_de_estados:
         #TODO: Cargar estados de un fichero (al terminar)
 
     def crearEstadoInicial(self,mensajeInicial):
-        self.estadoInicial = EstadoInicial(True, mensajeInicial,self.RAG_musica,self.currentPartida)
+        self.estadoInicial = EstadoInicial(True, mensajeInicial,self.RAG_musica,self.currentPartida,self.ids)
+        self.ids +=1
         self.ordenEstados[0] = [self.estadoInicial]
     def initExecution(self):
-        self.estadoInicial.OnEnterEstadoByAllPlayers(self.DM)
+        self.runNextEstado(self.DM)
     def crearEstadoDeMision(self,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC):
         #TODO: Cambiar None, por la descripción del mapa donde se encuentran los jugadores, la temperatura, etc
-        self.ordenEstados[0] += EstadoDeMision(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC)
+        self.ordenEstados[0] += [EstadoDeMision(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC,self.ids)]
+        self.ids +=1
+        self.estadoInicial.estadosSucesores[0] = self.ordenEstados[0][1] #añado el estado de misión
 
-    def runNextEstado(self):
+    def runNextEstado(self,DM):
         #de momento solo hay 1 posible opción, con 1 estado
         for linea_temporal in self.ordenEstados:
             for estado in linea_temporal:
                 if(not estado.checkIfCompleted() and estado.checkIfCanRun()): 
                     #Si el estado no ha sido completado, y se puede ejecutar
                     #estado.
-                    pass
+                    estado.run(DM)
+                    return #para salirte
         
         
     

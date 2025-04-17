@@ -359,11 +359,12 @@ class ProcesamientoPartida:
         # print("-----------------")
 
         self.RAG_historia.escribirInfoNPC(self.personaje.name,self.personaje.descripcion_fisica,infoTrasfondo,motivoUbicacion)
-        #Maquina_de_estados.crearEstadoDeMision(self.numJugadores)
+        Maquina_de_estados.crearEstadoDeMision(self.numJugadores,self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo)
         print("Progreso: 11%")
         #procesamiento....
         fin_time = time.time()
         print('Tiempo de procesamiento: '+str(fin_time - inicio)) 
         maquina.initExecution()
+        maquina.runNextEstado()
 
 
