@@ -212,6 +212,9 @@ class Maquina_de_estados:
         #de momento solo hay 1 posible opción, con 1 estado
         for linea_temporal in self.ordenEstados:
             for estado in self.ordenEstados[linea_temporal]:
+                print(estado)
+                print(estado.checkIfCompleted())
+                print(estado.checkIfCanRun())
                 if(not estado.checkIfCompleted() and estado.checkIfCanRun()): 
                     #Si el estado no ha sido completado, y se puede ejecutar
                     #estado.
