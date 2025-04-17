@@ -13,6 +13,7 @@ import sqlite3
 import json
 from maquina_de_estados.Maquina_de_estados import Maquina_de_estados
 from Personaje import Personaje
+from maquina_de_estados.RAG_historia import RAG_historia
 
 @contextlib.contextmanager
 def suppress_stdout_stderr():
@@ -41,31 +42,32 @@ class ProcesamientoPartida:
         id = "autoincrement"
         self.personaje = Personaje(True,currentPartida,id)
         self.currentPartida = None
+        self.RAG_historia = None
         random.seed = seed_random #para reproducir los resultados si le pasamos una semilla fija
         self.NPCs = {"bosque,elfo,0":("elfo_vive en el bosque_75_430_de piel verde",75,430,"mujer"),
-                "bosque,elfo,1":("elfo_vive en el bosque_78_420_de piel verde",78,420,"hombre"),
-                "desierto,elfo,0":("elfo_vive en el desierto_61_465_de piel clara",61,465,"hombre"),
-                "desierto,elfo,1": ("elfo_vive en el desierto_80_80_de piel verde",80,80,"mujer"),
-                "barco,elfo,0":("elfo_vive en un barco_69_354_de piel verde",69,354,"mujer"),
-                "barco,elfo,1":("elfo_vive en un barco_79_493_de piel verde",79,493,"hombre"),
-                "aldea medieval,elfo,0":("elfo_vive en una aldea medieval_68_196_de piel clara",68,196,"mujer"),
-                "aldea medieval,elfo,1":("elfo_vive en una aldea medieval_80_303_de piel clara",80,303,"hombre"),
-                "mazmorra,elfo,0":("elfo_vive en una ciudad antigua subterránea_64_739_de piel clara",64,739,"mujer"),
-                "mazmorra,elfo,1":("elfo_vive en una ciudad antigua subterránea_80_649_de piel verde",80,649,"hombre"),
-                "ciudad moderna,elfo,0":("elfo_vive en una ciudad moderna_61_257_de piel verde",61,257,"hombre"),
-                "ciudad moderna,elfo,1":("elfo_vive en una ciudad moderna_80_326_de piel clara",80,326,"mujer"),
-                "bosque,enano,0":("enano_vive en el bosque_45_127_omite referencias al color de piel",45,127,"mujer"),
-                "bosque,enano,1":("enano_vive en el bosque_47_255_omite referencias al color de piel",47,255,"hombre"),
-                "desierto,enano,0":("enano_vive en el desierto_45_329_omite referencias al color de piel",45,329,"mujer"),
-                "desierto,enano,1":("enano_vive en el desierto_59_188_omite referencias al color de piel",59,188,"hombre"),
-                "barco,enano,0":("enano_vive en un barco_46_321_omite referencias al color de piel",46,321,"hombre"),
-                "barco,enano,1":("enano_vive en un barco_57_237_omite referencias al color de piel",57,237,"mujer"),
-                "aldea medieval,enano,0":("enano_vive en una aldea medieval_51_71_omite referencias al color de piel",51,71,"mujer"),
-                "aldea medieval,enano,1":("enano_vive en una aldea medieval_60_278_omite referencias al color de piel",60,278,"hombre"),
-                "mazmorra,enano,0":("enano_vive en una ciudad antigua subterránea_52_349_omite referencias al color de piel",52,349,"mujer"),
-                "mazmorra,enano,1":("enano_vive en una ciudad antigua subterránea_58_212_omite referencias al color de piel",58,212,"hombre"),
-                "ciudad moderna,enano,0":("enano_vive en una ciudad moderna_45_103_omite referencias al color de piel",45,103,"hombre"),
-                "ciudad moderna,enano,1":("enano_vive en una ciudad moderna_62_81_omite referencias al color de piel",62,81,"mujer")}
+                "bosque,Elfo,1":("elfo_vive en el bosque_78_420_de piel verde",78,420,"hombre"),
+                "desierto,Elfo,0":("elfo_vive en el desierto_61_465_de piel clara",61,465,"hombre"),
+                "desierto,Elfo,1": ("elfo_vive en el desierto_80_80_de piel verde",80,80,"mujer"),
+                "barco,Elfo,0":("elfo_vive en un barco_69_354_de piel verde",69,354,"mujer"),
+                "barco,Elfo,1":("elfo_vive en un barco_79_493_de piel verde",79,493,"hombre"),
+                "aldea medieval,Elfo,0":("elfo_vive en una aldea medieval_68_196_de piel clara",68,196,"mujer"),
+                "aldea medieval,Elfo,1":("elfo_vive en una aldea medieval_80_303_de piel clara",80,303,"hombre"),
+                "mazmorra,Elfo,0":("elfo_vive en una ciudad antigua subterránea_64_739_de piel clara",64,739,"mujer"),
+                "mazmorra,Elfo,1":("elfo_vive en una ciudad antigua subterránea_80_649_de piel verde",80,649,"hombre"),
+                "ciudad moderna,Elfo,0":("elfo_vive en una ciudad moderna_61_257_de piel verde",61,257,"hombre"),
+                "ciudad moderna,Elfo,1":("elfo_vive en una ciudad moderna_80_326_de piel clara",80,326,"mujer"),
+                "bosque,Enano,0":("enano_vive en el bosque_45_127_omite referencias al color de piel",45,127,"mujer"),
+                "bosque,Enano,1":("enano_vive en el bosque_47_255_omite referencias al color de piel",47,255,"hombre"),
+                "desierto,Enano,0":("enano_vive en el desierto_45_329_omite referencias al color de piel",45,329,"mujer"),
+                "desierto,Enano,1":("enano_vive en el desierto_59_188_omite referencias al color de piel",59,188,"hombre"),
+                "barco,Enano,0":("enano_vive en un barco_46_321_omite referencias al color de piel",46,321,"hombre"),
+                "barco,Enano,1":("enano_vive en un barco_57_237_omite referencias al color de piel",57,237,"mujer"),
+                "aldea medieval,Enano,0":("enano_vive en una aldea medieval_51_71_omite referencias al color de piel",51,71,"mujer"),
+                "aldea medieval,Enano,1":("enano_vive en una aldea medieval_60_278_omite referencias al color de piel",60,278,"hombre"),
+                "mazmorra,Enano,0":("enano_vive en una ciudad antigua subterránea_52_349_omite referencias al color de piel",52,349,"mujer"),
+                "mazmorra,Enano,1":("enano_vive en una ciudad antigua subterránea_58_212_omite referencias al color de piel",58,212,"hombre"),
+                "ciudad moderna,Enano,0":("enano_vive en una ciudad moderna_45_103_omite referencias al color de piel",45,103,"hombre"),
+                "ciudad moderna,Enano,1":("enano_vive en una ciudad moderna_62_81_omite referencias al color de piel",62,81,"mujer")}
 
 
     def initialize(self,numJugadores,DMVoice, currentPartida):
@@ -300,9 +302,9 @@ class ProcesamientoPartida:
         self.personaje.vinculo = (self.vinculos[self.personaje.id_trasfondo[1]][vinculo-1][1],vinculo)
         self.personaje.defecto = (self.defectos[self.personaje.id_trasfondo[1]][defecto-1][1],defecto)
         self.personaje.ideal = (self.ideales[self.personaje.id_trasfondo[1]][ideal-1][1],ideal)
-        self.personaje.edad = self.NPCs[2]
-        self.personaje.peso = self.NPCs[1]
-        self.personaje.genero = self.NPCs[3]
+        self.personaje.edad = NPC_final[2]
+        self.personaje.peso = NPC_final[1]
+        self.personaje.genero = NPC_final[3]
 
 
         alineamiento = random.randint(0,8)
@@ -331,7 +333,11 @@ class ProcesamientoPartida:
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         nombre = self.consultarAlDM(prompt,model_path,None)
         self.personaje.name = nombre
-        print(nombre)
+
+        #inicializo el RAG para la historia
+        self.RAG_historia = RAG_historia(self.currentPartida)
+        
+
         print("Progreso: 11%")
         #procesamiento....
         maquina.initExecution()
