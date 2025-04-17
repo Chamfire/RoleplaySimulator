@@ -173,7 +173,7 @@ class ProcesamientoPartida:
         #obtengo su descripción del .json
         self.dir = 'descripciones'
         self.file = 'NPCs.json'
-        with open(self.dir+'/'+self.file) as f:
+        with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
             try:
                 NPC_descripcion = json.load(f)
                 self.personaje.descripcion_fisica = NPC_descripcion[NPC_final[0]][0]
@@ -341,8 +341,8 @@ class ProcesamientoPartida:
         #print(self.personaje.name)
         #inicializo el RAG para la historia
         self.RAG_historia = RAG_historia(self.currentPartida)
-        prompt = """{Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Genera un párrafo sobre el motivo por el que un NPC (de nombre """+self.personaje.name+""", que es """+self.personaje.tipo_raza+""" y que además es """+self.personaje.tipo_clase+""") podría encontrarse en la siguiente zona: """+self.ubicacion+""".}
+        prompt = """{Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC, que es """+self.personaje.genero+"""}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Genera un párrafo sobre el motivo por el que un NPC (de nombre """+self.personaje.name+""", que es """+self.personaje.tipo_raza+""" y que además es """+self.personaje.tipo_clase+""") podría encontrarse en la siguiente zona: """+self.ubicacion+""". Ten en cuenta en la redacción, que """+self.personaje.name+""" es """+self.personaje.genero+"""}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
         motivoUbicacion = self.consultarAlDM(prompt,model_path,None)
@@ -350,8 +350,8 @@ class ProcesamientoPartida:
         # print(motivoUbicacion)
         # print("-----------------")
 
-        peticion = "Genera 6 párrafos de trasfondo para un NPC que se llama "+self.personaje.name+", que es """+self.personaje.tipo_raza+" y que además es "+self.personaje.tipo_clase+". Haz referencia a su familia, a si tiene o no algún romance/matrimonio y detallalo, y a rasgos que podrían ser importantes de su vida"
-        prompt = f"Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC. Usando únicamente el siguiente contexto para responder a la petición: Teniendo en cuenta el siguiente contexto: {motivoUbicacion}<|eot_id|><|start_header_id|>user<|end_header_id|>{peticion}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        peticion = "Genera 6 párrafos de trasfondo para un NPC que se llama "+self.personaje.name+", que es "+self.personaje.genero+", que es """+self.personaje.tipo_raza+" y que además es "+self.personaje.tipo_clase+". Haz referencia a su familia, a si tiene o no algún romance/matrimonio y detallalo, y a rasgos que podrían ser importantes de su vida"
+        prompt = f"Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC, que es {self.personaje.genero}. Usa el siguiente contexto para responder a la petición, y si te falta contexto, inventatelo, siempre que no contradiga al contexto dado: {motivoUbicacion}<|eot_id|><|start_header_id|>user<|end_header_id|>{peticion}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
         infoTrasfondo = self.consultarAlDM(prompt,model_path,None,2024,1024)
         # print("-----------------")
@@ -359,7 +359,7 @@ class ProcesamientoPartida:
         # print("-----------------")
 
         self.RAG_historia.escribirInfoNPC(self.personaje.name,self.personaje.descripcion_fisica,infoTrasfondo,motivoUbicacion)
-
+        Maquina_de_estados.crearEstado()
         print("Progreso: 11%")
         #procesamiento....
         fin_time = time.time()
