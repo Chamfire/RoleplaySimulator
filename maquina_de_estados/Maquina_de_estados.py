@@ -201,7 +201,7 @@ class Maquina_de_estados:
         self.ids +=1
         self.ordenEstados[0] = [self.estadoInicial]
     def initExecution(self):
-        self.runNextEstado(self.DM)
+        self.runNextEstado()
     def crearEstadoDeMision(self,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC):
         #TODO: Cambiar None, por la descripción del mapa donde se encuentran los jugadores, la temperatura, etc
         self.ordenEstados[0] += [EstadoDeMision(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC,self.ids)]
