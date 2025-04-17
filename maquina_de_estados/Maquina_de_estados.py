@@ -208,14 +208,14 @@ class Maquina_de_estados:
         self.ids +=1
         self.estadoInicial.estadosSucesores[0] = self.ordenEstados[0][1] #añado el estado de misión
 
-    def runNextEstado(self,DM):
+    def runNextEstado(self):
         #de momento solo hay 1 posible opción, con 1 estado
         for linea_temporal in self.ordenEstados:
-            for estado in linea_temporal:
+            for estado in self.ordenEstados[linea_temporal]:
                 if(not estado.checkIfCompleted() and estado.checkIfCanRun()): 
                     #Si el estado no ha sido completado, y se puede ejecutar
                     #estado.
-                    estado.run(DM)
+                    estado.run(self.DM)
                     return #para salirte
         
         

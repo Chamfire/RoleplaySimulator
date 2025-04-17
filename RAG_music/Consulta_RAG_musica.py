@@ -57,7 +57,7 @@ class Consulta_RAG_musica:
                 n_ctx=2048,  # Context length to use
                 n_threads=32,            # Number of CPU threads to use
                 n_gpu_layers=0,        # Number of model layers to offload to GPU
-                seed= random.randint(1,100000)
+                seed = 55555
             )
         ## Generation kwargs
         generation_kwargs = {
