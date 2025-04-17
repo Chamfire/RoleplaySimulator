@@ -59,9 +59,9 @@ class RAG_historia:
     #que el NPC esté donde esté, para ser recuperado por el RAG
     def escribirInfoNPC(self,nombreNPC,descripcionFisica,infoTrasfondo,motivoUbicacion):
         with open('maquina_de_estados/'+self.currentPartida+'/info_NPC.txt','w',encoding='utf-8') as f:
-            info_a_escribir = "El nombre del NPC es "+nombreNPC+". "+descripcionFisica+" \n"
-            info_a_escribir += infoTrasfondo+"\n"
-            info_a_escribir += motivoUbicacion+"\n"
+            info_a_escribir = "El nombre del NPC es "+nombreNPC+". "+descripcionFisica+" \n\n"
+            info_a_escribir += infoTrasfondo+"\n\n"
+            info_a_escribir += motivoUbicacion
             f.write(info_a_escribir)
 
     def consultar_NPC(self,contexto_estado):
