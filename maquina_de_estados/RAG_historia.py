@@ -26,19 +26,20 @@ def suppress_stdout_stderr():
 
 class RAG_historia:
     def __init__(self,currentPartida):
-        if os.path.exists('maquina_de_estados/'+currentPartida+'/info_NPC.txt'):
-            with open('maquina_de_estados/'+currentPartida+'/info_NPC.txt','r',encoding='utf-8') as file:
-                text = file.read()
-                file.close()
-            self.documentos = text.split('\n\n')
+        self.currentPartida = currentPartida
+        if os.path.exists('maquina_de_estados/'+currentPartida):
+            #Cargamos el trasfondo del NPC de la partida, si existe
+            if os.path.exists('maquina_de_estados/'+currentPartida+'/info_NPC.txt'):
+                with open('maquina_de_estados/'+currentPartida+'/info_NPC.txt','r',encoding='utf-8') as file:
+                    text = file.read()
+                    file.close()
+                #TODO: indexar por nombre de documento
+                self.documentos = text.split('\n\n')
+
         else:
             #no existe el path -> hay que crearlo (la carpeta p1,p2,p3)
             if not os.path.exists('maquina_de_estados/'+currentPartida):
                 os.makedirs('maquina_de_estados/'+currentPartida)
-
-            # Save the data to a JSON file
-            # with open('maquina_de_estados/'+currentPartida+'/info_NPC.txt', 'w') as f:
-            #     f.write()
 
     def crear_vectores(self): #all-MiniLM-L6-v2
         embedding_model = SentenceTransformer('all-MiniLM-L12-v2') 
@@ -49,12 +50,22 @@ class RAG_historia:
         index.add(embeddings.astype(np.float32))
         return index, self.documentos, embedding_model
 
-    def devolver_contexto(self,query, embedding_model, index, documents, k=2):
+    def devolver_contexto(self,query, embedding_model, index, documents, k=4):
         query_embedding = embedding_model.encode([query])
         distances, indices = index.search(query_embedding.astype(np.float32), k)
         return [documents[i] for i in indices[0]]
+    
+    #Escribimos en un archivo .txt el nombre, la descripción física, el trasfondo y el motivo de 
+    #que el NPC esté donde esté, para ser recuperado por el RAG
+    def escribirInfoNPC(self,nombreNPC,descripcionFisica,infoTrasfondo,motivoUbicacion):
+        with open('maquina_de_estados/'+self.currentPartida+'/info_NPC.txt') as f:
+            info_a_escribir = "El nombre del NPC es "+nombreNPC+". "+descripcionFisica+" \n"
+            for info in infoTrasfondo:
+                info_a_escribir += info+"\n"
+            info_a_escribir += motivoUbicacion+"\n"
+            f.write(info_a_escribir)
 
-    def consultar_cancion(self,contexto_estado):
+    def consultar_NPC(self,contexto_estado):
         model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
         model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
         model_path = hf_hub_download(model_name, filename=model_file)

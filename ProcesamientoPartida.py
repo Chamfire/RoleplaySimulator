@@ -35,6 +35,7 @@ class ProcesamientoPartida:
         self.numJugadores = None
         self.GLOBAL = Global()
         self.DMVoice = None
+        self.ubicacion = None
         self.vinculos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
         self.defectos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
         self.rasgos_personalidad = {0:[None,None,None,None,None,None,None,None],1:[None,None,None,None,None,None,None,None],2:[None,None,None,None,None,None,None,None],3:[None,None,None,None,None,None,None,None],4:[None,None,None,None,None,None,None,None],5:[None,None,None,None,None,None,None,None],6:[None,None,None,None,None,None,None,None],7:[None,None,None,None,None,None,None,None],8:[None,None,None,None,None,None,None,None],9:[None,None,None,None,None,None,None,None],10:[None,None,None,None,None,None,None,None],11:[None,None,None,None,None,None,None,None],12:[None,None,None,None,None,None,None,None]}
@@ -154,7 +155,7 @@ class ProcesamientoPartida:
         cur.execute("SELECT ubicacion_historia FROM partida WHERE numPartida = '"+self.currentPartida+"'")
         rows = cur.fetchall() #para llegar a esta pantalla, la pantalla tiene que existir sí o sí
         if(rows[0] != None):
-            ubicacion = rows[0][0]
+            self.ubicacion = rows[0][0]
         conn.close()
 
         raza = random.randint(0,1) #0: elfo, 1: enano
@@ -163,7 +164,7 @@ class ProcesamientoPartida:
         else:
             self.personaje.tipo_raza = "Enano"
         NPC_aleatorio = random.randint(0,1) #hay 2 posibles NPCs para cada raza
-        NPC_final = self.NPCs[ubicacion+","+self.personaje.tipo_raza+","+str(NPC_aleatorio)]
+        NPC_final = self.NPCs[self.ubicacion+","+self.personaje.tipo_raza+","+str(NPC_aleatorio)]
         NPC_imagen_carpeta = "images/NPCs/"+NPC_final[0]+".png"
         NPC_animacion = "animations/NPCs/"+NPC_final[0]+"/walk.png"
         
@@ -173,6 +174,7 @@ class ProcesamientoPartida:
         with open(self.dir+'/'+self.file) as f:
             try:
                 NPC_descripcion = json.load(f)
+                self.personaje.descripcion_fisica = NPC_descripcion
             except Exception as e:
                 print(e)
         #creo los datos del NPC
@@ -329,14 +331,23 @@ class ProcesamientoPartida:
 
         #nombre del NPC
         prompt = """{Eres un dungeon master de Dnd 5e y vas a escoger un nombre para un NPC.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Responde únicamente con el nombre escogido para ese NPC, sin dar ningún detalle adicional, y teniendo en cuenta que es """+self.personaje.genero+""">.}
+                        {Responde únicamente con el nombre escogido para ese NPC, sin dar ningún detalle adicional, y teniendo en cuenta que es """+self.personaje.genero+""".}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         nombre = self.consultarAlDM(prompt,model_path,None)
         self.personaje.name = nombre
 
         #inicializo el RAG para la historia
         self.RAG_historia = RAG_historia(self.currentPartida)
-        
+        prompt = """{Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Genera un párrafo sobre el motivo por el que un NPC que es """+self.personaje.tipo_raza+""" y que además es """+self.personaje.tipo_clase+""" podría encontrarse en la siguiente zona: """+self.ubicacion+""".}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+
+        motivoUbiaccion = self.consultarAlDM(prompt,model_path,None)
+        #infoTrasfondo = self.consultarAlDM()
+        #print(infoTrasfondo)
+        print("-----------------")
+        print(motivoUbiaccion)
+        #self.RAG_historia.escribirInfoNPC(self.personaje.name,self.personaje.descripcion_fisica,infoTrasfondo,motivoUbicacion)
 
         print("Progreso: 11%")
         #procesamiento....
