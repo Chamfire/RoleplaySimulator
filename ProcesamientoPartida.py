@@ -176,7 +176,7 @@ class ProcesamientoPartida:
         with open(self.dir+'/'+self.file) as f:
             try:
                 NPC_descripcion = json.load(f)
-                self.personaje.descripcion_fisica = NPC_descripcion
+                self.personaje.descripcion_fisica = NPC_descripcion[NPC_final][0]
             except Exception as e:
                 print(e)
         #creo los datos del NPC
