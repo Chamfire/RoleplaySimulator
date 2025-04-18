@@ -225,7 +225,7 @@ class EstadoDeSalaInicial(Estado):
     def checkIfCanEnterAgain(self,personaje):
         pass
         
-    def checkIfCompleted(self):
+    def checkIfCompleted(self,personaje):
         #print("check if completed de sala inicial: False")
         return False #Una sala nunca se puede completar. Siempre puedes entrar a ella, si el check del run se cumple
         
