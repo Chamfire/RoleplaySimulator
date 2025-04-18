@@ -105,9 +105,9 @@ class EstadoDeMision(Estado):
         super().__init__(isInicial,content,id)
         self.variableDeCheck["progreso"] = {}
         self.personajeDelHost = personajeDelHost
-        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id)] = -1
+        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = -1
         for personaje in self.GLOBAL.getListaPersonajeHost():
-            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = -1 #-1: No se ha leído la descripción del personaje, 0: se ha leído la descripción del NPC, 1: se ha dado ya la misión, 2:estado normal de búsqueda, 3:se ha desencadenado la misión, 4: se ha completado la misión
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = -1 #-1: No se ha leído la descripción del personaje, 0: se ha leído la descripción del NPC, 1: se ha dado ya la misión, 2:estado normal de búsqueda, 3:se ha desencadenado la misión, 4: se ha completado la misión
         self.esObligatorio = True
         self.numJugadores = numJugadores
         self.esPuntoDeRespawn = False
@@ -127,24 +127,24 @@ class EstadoDeMision(Estado):
         return True #no tiene ningún requisito de acceso
         
     def checkIfCompleted(self,personaje):
-        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 4):
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 4):
             return True
         else:
             return False
         
     def run(self,DM,personaje):
         #TODO: run en función del estado de la misión
-        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == -1):
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == -1):
             self.OnEnterEstadoByPlayer(DM)
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 0):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
             pass
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 1):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             pass
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 2):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
             pass
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 3):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
             pass
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 4):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 4):
             pass
 
     def ModifyState(self,personaje):
@@ -158,17 +158,17 @@ class EstadoDeMision(Estado):
         DM.speak(self.dialogoDMIntro) 
         #DM.printVoices()
         #TODO: enviar TCP
-        self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = 0
+        self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
 
 class EstadoDeSalaInicial(Estado):
     def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,id,personajeDelHost):
         super().__init__(isInicial,content,id)
         self.personajeDelHost = personajeDelHost
         self.variableDeCheck["progreso"] = {}
-        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id)] = -1
+        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = -1
         for personaje in self.GLOBAL.getListaPersonajeHost():
             personaje = personaje[1]
-            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = -1 #-1: No ha aceptado entrar aún, 0: No ha entrado ese personaje en la sala, 1: ha entrado y está por primera vez en la sala, 2: continúa en la sala normal, 3: ya no está en la sala, pero entró
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = -1 #-1: No ha aceptado entrar aún, 0: No ha entrado ese personaje en la sala, 1: ha entrado y está por primera vez en la sala, 2: continúa en la sala normal, 3: ya no está en la sala, pero entró
 
 
         self.esObligatorio = True
@@ -194,23 +194,23 @@ class EstadoDeSalaInicial(Estado):
             self.checkIfCanRunByPlayer(personaje)
 
     def checkIfCanRunFirst(self,personaje):
-        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 0):
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
             self.numAccepts +=1
         
         #Si todos han aceptado
         if self.numAccepts == self.numJugadores:
-            self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id)] = 1 
+            self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = 1 
             for personaje in self.GLOBAL.getListaPersonajeHost():
-                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = 1 #los llevo a la sala de inicio
+                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1 #los llevo a la sala de inicio
             return True
         else:
             return False
     
     def checkIfCanRunByPlayer(self,personaje):
-        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 2):
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
             return True
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 3):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
             return self.checkIfCanEnterAgain(personaje)
         
         
@@ -222,20 +222,20 @@ class EstadoDeSalaInicial(Estado):
         
     def run(self,DM,personaje):
         #TODO: run en función del estado de la misión
-        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 1):
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             self.OnEnterEstadoByPlayer(DM,personaje)
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 2):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
             self.runNextInnerEstado(DM,personaje)
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 3):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
             pass
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 4):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 4):
             pass
         else:
             pass #si están en 0 no hace nada, hay que esperar a que todos acepten
 
 
     def ModifyState(self,player,n):
-        self.variableDeCheck["progreso"][str(player.name)+","+str(player.id)] == n
+        self.variableDeCheck["progreso"][str(player.name)+","+str(player.id_jugador)] == n
 
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
@@ -249,7 +249,7 @@ class EstadoDeSalaInicial(Estado):
         DM.speak(self.dialogoDMIntro) 
         #DM.printVoices()
         #TODO: Enviar mensaje TCP
-        self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = 2 #está en la sala normal
+        self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala normal
 
             
 class DM:
@@ -294,12 +294,12 @@ class Maquina_de_estados:
         self.ids +=1
 
     def initExecution(self):
-        self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id)] = self.estadoInicial
+        self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = self.estadoInicial
         self.runNextEstado(self.personajeDelHost)
         for personaje in self.GLOBAL.getListaPersonajeHost():
             #TODO:Check si ya estaban en otro estado (partida a medias), si no:
             personaje = personaje[1]
-            self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id)] = self.estadoInicial
+            self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.estadoInicial
             #para cada jugador, ejecuta su siguiente estado
             self.runNextEstado(personaje)
 
@@ -316,15 +316,15 @@ class Maquina_de_estados:
 
     def runNextEstado(self,personaje):
         inicial = self.ordenEstados[0]
-        if(self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id)] == inicial):
+        if(self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] == inicial):
             #si hay un jugador, quiere decir que todos están en ese estado inicial
             if(not inicial.checkIfCompleted(personaje) and inicial.checkIfCanRun(personaje)):
                 inicial.run(self.DM)
                 for player in self.GLOBAL.getListaPersonajeHost():
                     player = player[1]
-                    self.currentEstadoByPlayers[str(player.name)+","+str(player.id)] == self.ordenEstados[1] #paso a todos al segundo estado
+                    self.currentEstadoByPlayers[str(player.name)+","+str(player.id_jugador)] == self.ordenEstados[1] #paso a todos al segundo estado
         else:
-            estado = self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id)]
+            estado = self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)]
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
                 estado.run(self.DM,personaje) #se hará run del estado de sala en el que esté ese jugador
 
