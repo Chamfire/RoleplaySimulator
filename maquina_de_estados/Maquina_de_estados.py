@@ -188,6 +188,9 @@ class EstadoDeSalaInicial(Estado):
         #self.objetos = #TODO
 
     def checkIfCanRun(self,personaje):
+        #print(self.numAccepts)
+        #print(self.numJugadores)
+        #print("------------------------")
         if self.numAccepts != self.numJugadores:
             self.checkIfCanRunFirst(personaje)
         else:
@@ -198,15 +201,20 @@ class EstadoDeSalaInicial(Estado):
             self.numAccepts +=1
         
         #Si todos han aceptado
+        #print("check if can run first sala inicial:")
+        #print(self.numAccepts)
+        #print(self.numJugadores)
         if self.numAccepts == self.numJugadores:
             self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = 1 
             for personaje in self.GLOBAL.getListaPersonajeHost():
                 self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1 #los llevo a la sala de inicio
+            #print("variable de check a 1")
             return True
         else:
             return False
     
     def checkIfCanRunByPlayer(self,personaje):
+        #print("en run by player")
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
             return True
@@ -218,10 +226,13 @@ class EstadoDeSalaInicial(Estado):
         pass
         
     def checkIfCompleted(self):
+        #print("check if completed de sala inicial: False")
         return False #Una sala nunca se puede completar. Siempre puedes entrar a ella, si el check del run se cumple
         
     def run(self,DM,personaje):
         #TODO: run en función del estado de la misión
+        #print("run:")
+        #print(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)])
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
@@ -236,6 +247,7 @@ class EstadoDeSalaInicial(Estado):
 
     def ModifyState(self,player,n):
         self.variableDeCheck["progreso"][str(player.name)+","+str(player.id_jugador)] == n
+        #print("modificado a 0 en sala inicial")
 
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
@@ -258,7 +270,7 @@ class DM:
         self.engine = pyttsx3.init() #inicializamos el text-to-speech por si estuviera habilitado
         rate = self.engine.getProperty('rate')
         self.engine.setProperty('rate', 150) #velocidad de lectura x1
-        self.engine.setProperty('volume',1.5) #para que la ia se escuche por encima de todo
+        self.engine.setProperty('volume',3) #para que la ia se escuche por encima de todo
         voices = self.engine.getProperty('voices')
         self.engine.setProperty('voice', voices[0].id) #voz en español
         self.engine.setProperty('language',"es-ES")
@@ -320,7 +332,7 @@ class Maquina_de_estados:
             #si hay un jugador, quiere decir que todos están en ese estado inicial
             if(not inicial.checkIfCompleted(personaje) and inicial.checkIfCanRun(personaje)):
                 inicial.run(self.DM)
-                self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] == self.ordenEstados[1]
+                self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = self.ordenEstados[1]
                 for player in self.GLOBAL.getListaPersonajeHost():
                     player = player[1]
                     self.currentEstadoByPlayers[str(player.name)+","+str(player.id_jugador)] == self.ordenEstados[1] #paso a todos al segundo estado
