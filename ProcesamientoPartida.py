@@ -146,7 +146,7 @@ class ProcesamientoPartida:
 
         #Generación del primer estado de la máquina
         #TODO: Modificar para cargar máquina de estados de la bbdd
-        maquina = Maquina_de_estados(self.DMVoice,self.currentPartida)
+        maquina = Maquina_de_estados(self.DMVoice,self.currentPartida,self.personaje)
         maquina.crearEstadoInicial(response_good)
         print("Progreso: 7%")
 
@@ -369,7 +369,7 @@ class ProcesamientoPartida:
 
         maquina.initExecution()
         #simulamos que todos le han dado ok al botón
-        maquina.ordenEstados[0][1].ModifyState(self.personaje,0)#he hecho click en 'ok'
+        maquina.ordenEstados[0].ModifyState(self.personaje,0)#he hecho click en 'ok'
         maquina.runNextEstado()
         #
 

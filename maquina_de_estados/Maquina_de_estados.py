@@ -101,9 +101,11 @@ class EstadoInicial(Estado):
         
 
 class EstadoDeMision(Estado):
-    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,descripcionFisicaNPC,motivoUbicacion, trasfondoNPC,id):
+    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,descripcionFisicaNPC,motivoUbicacion, trasfondoNPC,id,personajeDelHost):
         super().__init__(isInicial,content,id)
         self.variableDeCheck["progreso"] = {}
+        self.personajeDelHost = personajeDelHost
+        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id)] = -1
         for personaje in self.GLOBAL.getListaPersonajeHost():
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = -1 #-1: No se ha leído la descripción del personaje, 0: se ha leído la descripción del NPC, 1: se ha dado ya la misión, 2:estado normal de búsqueda, 3:se ha desencadenado la misión, 4: se ha completado la misión
         self.esObligatorio = True
@@ -159,11 +161,15 @@ class EstadoDeMision(Estado):
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = 0
 
 class EstadoDeSalaInicial(Estado):
-    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,id):
+    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,id,personajeDelHost):
         super().__init__(isInicial,content,id)
+        self.personajeDelHost = personajeDelHost
         self.variableDeCheck["progreso"] = {}
+        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id)] = -1
         for personaje in self.GLOBAL.getListaPersonajeHost():
+            personaje = personaje[1]
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = -1 #-1: No ha aceptado entrar aún, 0: No ha entrado ese personaje en la sala, 1: ha entrado y está por primera vez en la sala, 2: continúa en la sala normal, 3: ya no está en la sala, pero entró
+
 
         self.esObligatorio = True
         self.numJugadores = numJugadores
@@ -193,6 +199,7 @@ class EstadoDeSalaInicial(Estado):
         
         #Si todos han aceptado
         if self.numAccepts == self.numJugadores:
+            self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id)] = 1 
             for personaje in self.GLOBAL.getListaPersonajeHost():
                 self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = 1 #los llevo a la sala de inicio
             return True
@@ -268,10 +275,11 @@ class DM:
             print(voice, voice.id)
 
 class Maquina_de_estados:
-    def __init__(self,enabledDMVoice,currentPartida):
+    def __init__(self,enabledDMVoice,currentPartida,personaje):
         self.enabledDMVoice = enabledDMVoice
         self.ordenEstados = {}
         self.currentEstadoByPlayers = {}
+        self.personajeDelHost = personaje
         self.ids = 0
         self.GLOBAL = Global()
         self.estadoInicial = None #podríamos querer cargarlo de una bbdd
@@ -281,25 +289,28 @@ class Maquina_de_estados:
         #TODO: Cargar estados de un fichero (al terminar)
 
     def crearEstadoInicial(self,mensajeInicial):
-        self.estadoInicial = EstadoInicial(True, mensajeInicial,self.RAG_musica,self.currentPartida,self.ids)
+        self.estadoInicial = EstadoInicial(True, mensajeInicial,self.RAG_musica,self.currentPartida,self.ids,self.personajeDelHost)
         self.ordenEstados[self.ids] = self.estadoInicial
         self.ids +=1
 
     def initExecution(self):
+        self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id)] = self.estadoInicial
+        self.runNextEstado(self.personajeDelHost)
         for personaje in self.GLOBAL.getListaPersonajeHost():
             #TODO:Check si ya estaban en otro estado (partida a medias), si no:
+            personaje = personaje[1]
             self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id)] = self.estadoInicial
             #para cada jugador, ejecuta su siguiente estado
             self.runNextEstado(personaje)
 
     def crearEstadoDeMision(self,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC):
-        estado_mision = EstadoDeMision(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC,self.ids)
+        estado_mision = EstadoDeMision(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC,self.ids,self.personajeDelHost)
         for sala in range(1,len(self.ordenEstados)-1):
             self.ordenEstados[sala].ordenEstados[self.ordenEstados[sala].ids] = estado_mision #es la misma referencia de objeto para todas las salas
             self.ordenEstados[sala].ids +=1
 
     def crearEstadoSala(self,numJ):
-        self.ordenEstados[self.ids] = EstadoDeSalaInicial(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,self.ids)
+        self.ordenEstados[self.ids] = EstadoDeSalaInicial(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,self.ids,self.personajeDelHost)
         self.ids +=1
 
 
@@ -310,7 +321,8 @@ class Maquina_de_estados:
             if(not inicial.checkIfCompleted(personaje) and inicial.checkIfCanRun(personaje)):
                 inicial.run(self.DM)
                 for player in self.GLOBAL.getListaPersonajeHost():
-                    self.currentEstadoByPlayers[str(player.name)+","+str(player.id)] == self.ordenEstados[0][1] #paso a todos al segundo estado
+                    player = player[1]
+                    self.currentEstadoByPlayers[str(player.name)+","+str(player.id)] == self.ordenEstados[1] #paso a todos al segundo estado
         else:
             estado = self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id)]
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
