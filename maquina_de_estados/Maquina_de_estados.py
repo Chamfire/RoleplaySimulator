@@ -335,7 +335,7 @@ class Maquina_de_estados:
                 self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = self.ordenEstados[1]
                 for player in self.GLOBAL.getListaPersonajeHost():
                     player = player[1]
-                    self.currentEstadoByPlayers[str(player.name)+","+str(player.id_jugador)] == self.ordenEstados[1] #paso a todos al segundo estado
+                    self.currentEstadoByPlayers[str(player.name)+","+str(player.id_jugador)] = self.ordenEstados[1] #paso a todos al segundo estado
         else:
             estado = self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)]
             print(estado.checkIfCompleted(personaje))
