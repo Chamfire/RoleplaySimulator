@@ -192,9 +192,9 @@ class EstadoDeSalaInicial(Estado):
         print(self.numJugadores)
         print("------------------------")
         if self.numAccepts != self.numJugadores:
-            self.checkIfCanRunFirst(personaje)
+            return self.checkIfCanRunFirst(personaje)
         else:
-            self.checkIfCanRunByPlayer(personaje)
+            return self.checkIfCanRunByPlayer(personaje)
 
     def checkIfCanRunFirst(self,personaje):
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
@@ -226,7 +226,7 @@ class EstadoDeSalaInicial(Estado):
         pass
         
     def checkIfCompleted(self,personaje):
-        #print("check if completed de sala inicial: False")
+        print("check if completed de sala inicial: False")
         return False #Una sala nunca se puede completar. Siempre puedes entrar a ella, si el check del run se cumple
         
     def run(self,DM,personaje):
@@ -330,7 +330,7 @@ class Maquina_de_estados:
         inicial = self.ordenEstados[0]
         if(self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] == inicial):
             #si hay un jugador, quiere decir que todos están en ese estado inicial
-            if(not inicial.checkIfCompleted(personaje) and inicial.checkIfCanRun(personaje)):
+            if((not inicial.checkIfCompleted(personaje)) and inicial.checkIfCanRun(personaje)):
                 inicial.run(self.DM)
                 self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = self.ordenEstados[1]
                 for player in self.GLOBAL.getListaPersonajeHost():
@@ -338,9 +338,8 @@ class Maquina_de_estados:
                     self.currentEstadoByPlayers[str(player.name)+","+str(player.id_jugador)] = self.ordenEstados[1] #paso a todos al segundo estado
         else:
             estado = self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)]
-            print(estado.checkIfCompleted(personaje))
-            print(estado.checkIfCanRun(personaje))
-            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
+            print("antes :)")
+            if((not estado.checkIfCompleted(personaje)) and estado.checkIfCanRun(personaje)):
                 print("running estado de sala")
                 estado.run(self.DM,personaje) #se hará run del estado de sala en el que esté ese jugador
 
