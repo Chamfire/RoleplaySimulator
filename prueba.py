@@ -1,5 +1,10 @@
 from Lista_Inventario import Lista_Inventario
 
+class Patata:
+    def __init__(self,var):
+        self.var = var
+
+
 s = "patata123:Chamfire:1:4c62140c-a27c-4b39-86f3-8d4d18b5b792"
 [password,nombre,pic,id] = s.split(':')
 print(password,nombre,pic,id)
@@ -39,3 +44,14 @@ a = []
 a.append('a')
 a[0]+= 'b'
 print(a)
+
+
+p1 = Patata(1)
+p2 = Patata(2)
+
+array = [p1,p2,p1]
+
+p1.var = 4
+
+for i in array:
+    print(i.var)

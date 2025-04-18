@@ -359,14 +359,17 @@ class ProcesamientoPartida:
         # print("-----------------")
 
         self.RAG_historia.escribirInfoNPC(self.personaje.name,self.personaje.descripcion_fisica,infoTrasfondo,motivoUbicacion)
+        maquina.crearEstadoSala(self.numJugadores)
         maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo)
         print("Progreso: 11%")
         #procesamiento....
         fin_time = time.time()
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
+
+
         maquina.initExecution()
         #simulamos que todos le han dado ok al botón
-        maquina.ordenEstados[0][1].ModifyVarEnter(self.numJugadores)
+        maquina.ordenEstados[0][1].ModifyState(self.personaje,0)#he hecho click en 'ok'
         maquina.runNextEstado()
         #
 

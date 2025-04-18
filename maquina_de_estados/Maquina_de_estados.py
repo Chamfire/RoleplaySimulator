@@ -36,10 +36,10 @@ class Estado:
         self.mobs = {}
         self.objetos = {}
 
-    def checkIfCanRun(self):
+    def checkIfCanRun(self,player):
         pass
 
-    def checkIfCompleted(self):
+    def checkIfCompleted(self,player):
         pass
 
     def OnEnterEstadoByPlayer(self,player,DM):
@@ -54,7 +54,6 @@ class Estado:
 class EstadoInicial(Estado):
     def __init__(self,isInicial,content,RAG_musica,currentPartida,id):
         super().__init__(isInicial,content,id)
-
         #extraemos la ubicación desde la bbdd
         conn = sqlite3.connect("simuladordnd.db")
         cur = conn.cursor()
@@ -74,10 +73,10 @@ class EstadoInicial(Estado):
             print(e)
             print(canciones)
 
-    def checkIfCanRun(self):
+    def checkIfCanRun(self,player):
         return True
 
-    def checkIfCompleted(self):
+    def checkIfCompleted(self,player):
         if(self.variableDeCheck["progreso"] == True):
             return True
         else:
@@ -87,7 +86,7 @@ class EstadoInicial(Estado):
 
     def OnEnterEstadoByAllPlayers(self,DM):
         #self.GLOBAL.setRefreshScreen() #refrescar la pantalla con el mapa que crearé después
-        #TODO: mapa inicial e interfaz gráfica
+        #TODO: imagen inicial
         #TODO: cambiar a escribir por la pantalla de diálogo del DM
 
         #Música de inicio
@@ -99,69 +98,151 @@ class EstadoInicial(Estado):
         DM.speak(self.dialogoDMIntro) 
         #DM.printVoices()
         self.variableDeCheck["progreso"] = True
+        
 
 class EstadoDeMision(Estado):
     def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,descripcionFisicaNPC,motivoUbicacion, trasfondoNPC,id):
         super().__init__(isInicial,content,id)
-        self.variableDeCheck["progreso"] = 0 #0: No se ha leído la introducción al mundo, 1: se ha leído la introducción y la descripción del NPC, 2: se ha dado ya la misión, 3:se ha desencadenado la misión, 4: se ha completado la misión
+        self.variableDeCheck["progreso"] = {}
+        for personaje in self.GLOBAL.getListaPersonajeHost():
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = -1 #-1: No se ha leído la descripción del personaje, 0: se ha leído la descripción del NPC, 1: se ha dado ya la misión, 2:estado normal de búsqueda, 3:se ha desencadenado la misión, 4: se ha completado la misión
         self.esObligatorio = True
         self.numJugadores = numJugadores
         self.esPuntoDeRespawn = False
+        self.tipo_de_estado = "mision"
         self.estadosSucesores = estado_pred
-        self.numInt = 0
+        self.ids = 0 
         self.ordenEstados = {} #Estados internos de misión
-        self.numAccepts = 0 
         #TODO: incluir la descripción del mapa
-        self.dialogoDMIntro = "¡Bien! Os encontráis en ... y frente a vosotros, os parece ver a alguien. "+descripcionFisicaNPC+". Os muestro una imagen."
+        self.dialogoDMIntro = "En frente de ti, te parece ver a alguien. "+descripcionFisicaNPC+". Te muestro una imagen."
         #TODO: Printear su imagen
         #TODO: Registrarlos en el mapa
         #self.NPCs = #TODO
         #self.mobs = #TODO
         #self.objetos = #TODO
 
-    def checkIfCanRun(self):
-        if(self.numAccepts == self.numJugadores):
+    def checkIfCanRun(self,player):
+        return True #no tiene ningún requisito de acceso
+        
+    def checkIfCompleted(self,personaje):
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 4):
             return True
         else:
             return False
         
-    def checkIfCompleted(self):
-        if(self.variableDeCheck["progreso"] == 4):
-            return True
-        else:
-            return False
-        
-    def run(self,DM):
+    def run(self,DM,personaje):
         #TODO: run en función del estado de la misión
-        if(self.variableDeCheck["progreso"] == 0):
-            self.OnEnterEstadoByAllPlayers(DM)
-        elif(self.variableDeCheck["progreso"] == 1):
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == -1):
+            self.OnEnterEstadoByPlayer(DM)
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 0):
             pass
-        elif(self.variableDeCheck["progreso"] == 2):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 1):
             pass
-        elif(self.variableDeCheck["progreso"] == 3):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 2):
             pass
-        elif(self.variableDeCheck["progreso"] == 4):
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 3):
+            pass
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 4):
             pass
 
-    def ModifyVarEnter(self,n):
-        self.numAccepts = n
-
-    def ModifyState(self):
-        if(self.variableDeCheck == 3):
-            self.variableDeCheck = 4
-            #TODO: diálogos de fin
-            #self.OnExitEstadoByPlayers()
-        self.variableDeCheck  +=1
-
-    def runNextEstado(self):
+    def ModifyState(self,personaje):
         pass
 
-    def OnEnterEstadoByAllPlayers(self,DM):
+    def runNextInnerEstado(self):
+        pass
+
+    def OnEnterEstadoByPlayer(self,DM,personaje):
         print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         DM.speak(self.dialogoDMIntro) 
         #DM.printVoices()
-        self.variableDeCheck["progreso"] = 1
+        #TODO: enviar TCP
+        self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = 0
+
+class EstadoDeSalaInicial(Estado):
+    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,id):
+        super().__init__(isInicial,content,id)
+        self.variableDeCheck["progreso"] = {}
+        for personaje in self.GLOBAL.getListaPersonajeHost():
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = -1 #-1: No ha aceptado entrar aún, 0: No ha entrado ese personaje en la sala, 1: ha entrado y está por primera vez en la sala, 2: continúa en la sala normal, 3: ya no está en la sala, pero entró
+
+        self.esObligatorio = True
+        self.numJugadores = numJugadores
+        self.tipo_de_estado = "sala_grande"
+        self.esPuntoDeRespawn = True
+        self.estadosSucesores = estado_pred
+        self.ids = 0
+        self.ordenEstados = {} #Estados contenidos por la sala
+        self.numAccepts = 0 
+        #TODO: incluir la descripción del mapa
+        self.dialogoDMIntro = "¡Bien! Te encuentras en ..."
+        #TODO: Printear su imagen
+        #TODO: Registrarlos en el mapa
+        #self.NPCs = #TODO
+        #self.mobs = #TODO
+        #self.objetos = #TODO
+
+    def checkIfCanRun(self,personaje):
+        if self.numAccepts != self.numJugadores:
+            self.checkIfCanRunFirst(personaje)
+        else:
+            self.checkIfCanRunByPlayer(personaje)
+
+    def checkIfCanRunFirst(self,personaje):
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 0):
+            self.numAccepts +=1
+        
+        #Si todos han aceptado
+        if self.numAccepts == self.numJugadores:
+            for personaje in self.GLOBAL.getListaPersonajeHost():
+                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = 1 #los llevo a la sala de inicio
+            return True
+        else:
+            return False
+    
+    def checkIfCanRunByPlayer(self,personaje):
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 2):
+            #Si está ya en la sala, y ha ejecutado la descripción inicial
+            return True
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 3):
+            return self.checkIfCanEnterAgain(personaje)
+        
+        
+    def checkIfCanEnterAgain(self,personaje):
+        pass
+        
+    def checkIfCompleted(self):
+        return False #Una sala nunca se puede completar. Siempre puedes entrar a ella, si el check del run se cumple
+        
+    def run(self,DM,personaje):
+        #TODO: run en función del estado de la misión
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 1):
+            self.OnEnterEstadoByPlayer(DM,personaje)
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 2):
+            self.runNextInnerEstado(DM,personaje)
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 3):
+            pass
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] == 4):
+            pass
+        else:
+            pass #si están en 0 no hace nada, hay que esperar a que todos acepten
+
+
+    def ModifyState(self,player,n):
+        self.variableDeCheck["progreso"][str(player.name)+","+str(player.id)] == n
+
+    def runNextInnerEstado(self,DM,personaje):
+        for id,estado in self.ordenEstados.items():
+            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
+                estado.run(self.DM,personaje)
+                #que se ejecuten todos los que se puedan ejecutar
+
+    def OnEnterEstadoByPlayer(self,DM,personaje):
+        #El mensaje de introducción a la sala, se le reproduce a cada uno de forma individual (por si alguno muriera, y se tuviera que crear otro, que esto ya sea independiente)
+        print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        DM.speak(self.dialogoDMIntro) 
+        #DM.printVoices()
+        #TODO: Enviar mensaje TCP
+        self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id)] = 2 #está en la sala normal
 
             
 class DM:
@@ -190,7 +271,9 @@ class Maquina_de_estados:
     def __init__(self,enabledDMVoice,currentPartida):
         self.enabledDMVoice = enabledDMVoice
         self.ordenEstados = {}
+        self.currentEstadoByPlayers = {}
         self.ids = 0
+        self.GLOBAL = Global()
         self.estadoInicial = None #podríamos querer cargarlo de una bbdd
         self.DM = DM(self.enabledDMVoice) #creo la voz del DM, que se pasará como parámetro al ejecutar los métodos
         self.RAG_musica = Consulta_RAG_musica()
@@ -199,28 +282,51 @@ class Maquina_de_estados:
 
     def crearEstadoInicial(self,mensajeInicial):
         self.estadoInicial = EstadoInicial(True, mensajeInicial,self.RAG_musica,self.currentPartida,self.ids)
+        self.ordenEstados[self.ids] = self.estadoInicial
         self.ids +=1
-        self.ordenEstados[0] = [self.estadoInicial]
-    def initExecution(self):
-        self.runNextEstado()
-    def crearEstadoDeMision(self,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC):
-        #TODO: Cambiar None, por la descripción del mapa donde se encuentran los jugadores, la temperatura, etc
-        self.ordenEstados[0] += [EstadoDeMision(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC,self.ids)]
-        self.ids +=1
-        self.estadoInicial.estadosSucesores[0] = self.ordenEstados[0][1] #añado el estado de misión
 
-    def runNextEstado(self):
+    def initExecution(self):
+        for personaje in self.GLOBAL.getListaPersonajeHost():
+            #TODO:Check si ya estaban en otro estado (partida a medias), si no:
+            self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id)] = self.estadoInicial
+            #para cada jugador, ejecuta su siguiente estado
+            self.runNextEstado(personaje)
+
+    def crearEstadoDeMision(self,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC):
+        estado_mision = EstadoDeMision(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC,self.ids)
+        for sala in range(1,len(self.ordenEstados)-1):
+            self.ordenEstados[sala].ordenEstados[self.ordenEstados[sala].ids] = estado_mision #es la misma referencia de objeto para todas las salas
+            self.ordenEstados[sala].ids +=1
+
+    def crearEstadoSala(self,numJ):
+        self.ordenEstados[self.ids] = EstadoDeSalaInicial(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,self.ids)
+        self.ids +=1
+
+
+    def runNextEstado(self,personaje):
+        inicial = self.ordenEstados[0]
+        if(self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id)] == inicial):
+            #si hay un jugador, quiere decir que todos están en ese estado inicial
+            if(not inicial.checkIfCompleted(personaje) and inicial.checkIfCanRun(personaje)):
+                inicial.run(self.DM)
+                for player in self.GLOBAL.getListaPersonajeHost():
+                    self.currentEstadoByPlayers[str(player.name)+","+str(player.id)] == self.ordenEstados[0][1] #paso a todos al segundo estado
+        else:
+            estado = self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id)]
+            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
+                estado.run(self.DM,personaje) #se hará run del estado de sala en el que esté ese jugador
+
         #de momento solo hay 1 posible opción, con 1 estado
-        for linea_temporal in self.ordenEstados:
-            for estado in self.ordenEstados[linea_temporal]:
-                print(estado)
-                print(estado.checkIfCompleted())
-                print(estado.checkIfCanRun())
-                if(not estado.checkIfCompleted() and estado.checkIfCanRun()): 
-                    #Si el estado no ha sido completado, y se puede ejecutar
-                    #estado.
-                    estado.run(self.DM)
-                    return #para salirte
+        # for linea_temporal in self.ordenEstados:
+        #     for estado in self.ordenEstados[linea_temporal]:
+        #         print(estado)
+        #         print(estado.checkIfCompleted())
+        #         print(estado.checkIfCanRun())
+        #         if(not estado.checkIfCompleted() and estado.checkIfCanRun()): 
+        #             #Si el estado no ha sido completado, y se puede ejecutar
+        #             #estado.
+        #             estado.run(self.DM)
+        #             return #para salirte
         
         
     
