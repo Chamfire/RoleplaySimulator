@@ -289,7 +289,7 @@ class Maquina_de_estados:
         #TODO: Cargar estados de un fichero (al terminar)
 
     def crearEstadoInicial(self,mensajeInicial):
-        self.estadoInicial = EstadoInicial(True, mensajeInicial,self.RAG_musica,self.currentPartida,self.ids,self.personajeDelHost)
+        self.estadoInicial = EstadoInicial(True, mensajeInicial,self.RAG_musica,self.currentPartida,self.ids)
         self.ordenEstados[self.ids] = self.estadoInicial
         self.ids +=1
 

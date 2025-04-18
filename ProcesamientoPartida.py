@@ -369,7 +369,7 @@ class ProcesamientoPartida:
 
         maquina.initExecution()
         #simulamos que todos le han dado ok al botón
-        maquina.ordenEstados[0].ModifyState(self.personaje,0)#he hecho click en 'ok'
+        maquina.ordenEstados[1].ModifyState(self.personaje,0)#he hecho click en 'ok'
         maquina.runNextEstado()
         #
 
