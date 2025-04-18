@@ -362,6 +362,9 @@ class ProcesamientoPartida:
         maquina.crearEstadoSala(self.numJugadores)
         maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo)
         print("Progreso: 11%")
+        #
+
+
         #procesamiento....
         fin_time = time.time()
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
@@ -373,5 +376,6 @@ class ProcesamientoPartida:
 
         #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
         maquina.runNextEstado(self.personaje)
+
 
 
