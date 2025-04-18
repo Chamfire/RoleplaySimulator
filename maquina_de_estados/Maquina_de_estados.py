@@ -188,9 +188,9 @@ class EstadoDeSalaInicial(Estado):
         #self.objetos = #TODO
 
     def checkIfCanRun(self,personaje):
-        #print(self.numAccepts)
-        #print(self.numJugadores)
-        #print("------------------------")
+        print(self.numAccepts)
+        print(self.numJugadores)
+        print("------------------------")
         if self.numAccepts != self.numJugadores:
             self.checkIfCanRunFirst(personaje)
         else:
@@ -201,20 +201,20 @@ class EstadoDeSalaInicial(Estado):
             self.numAccepts +=1
         
         #Si todos han aceptado
-        #print("check if can run first sala inicial:")
-        #print(self.numAccepts)
-        #print(self.numJugadores)
+        print("check if can run first sala inicial:")
+        print(self.numAccepts)
+        print(self.numJugadores)
         if self.numAccepts == self.numJugadores:
             self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = 1 
             for personaje in self.GLOBAL.getListaPersonajeHost():
                 self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1 #los llevo a la sala de inicio
-            #print("variable de check a 1")
+            print("variable de check a 1")
             return True
         else:
             return False
     
     def checkIfCanRunByPlayer(self,personaje):
-        #print("en run by player")
+        print("en run by player")
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
             return True
@@ -231,8 +231,8 @@ class EstadoDeSalaInicial(Estado):
         
     def run(self,DM,personaje):
         #TODO: run en función del estado de la misión
-        #print("run:")
-        #print(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)])
+        print("run:")
+        print(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)])
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
@@ -246,8 +246,8 @@ class EstadoDeSalaInicial(Estado):
 
 
     def ModifyState(self,player,n):
-        self.variableDeCheck["progreso"][str(player.name)+","+str(player.id_jugador)] == n
-        #print("modificado a 0 en sala inicial")
+        self.variableDeCheck["progreso"][str(player.name)+","+str(player.id_jugador)] = n
+        print("modificado a 0 en sala inicial")
 
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
@@ -270,7 +270,7 @@ class DM:
         self.engine = pyttsx3.init() #inicializamos el text-to-speech por si estuviera habilitado
         rate = self.engine.getProperty('rate')
         self.engine.setProperty('rate', 150) #velocidad de lectura x1
-        self.engine.setProperty('volume',3) #para que la ia se escuche por encima de todo
+        self.engine.setProperty('volume',1) #para que la ia se escuche por encima de todo
         voices = self.engine.getProperty('voices')
         self.engine.setProperty('voice', voices[0].id) #voz en español
         self.engine.setProperty('language',"es-ES")
@@ -338,7 +338,10 @@ class Maquina_de_estados:
                     self.currentEstadoByPlayers[str(player.name)+","+str(player.id_jugador)] == self.ordenEstados[1] #paso a todos al segundo estado
         else:
             estado = self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)]
+            print(estado.checkIfCompleted(personaje))
+            print(estado.checkIfCanRun(personaje))
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
+                print("running estado de sala")
                 estado.run(self.DM,personaje) #se hará run del estado de sala en el que esté ese jugador
 
         #de momento solo hay 1 posible opción, con 1 estado
