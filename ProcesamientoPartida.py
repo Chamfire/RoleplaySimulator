@@ -373,6 +373,5 @@ class ProcesamientoPartida:
 
         #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
         maquina.runNextEstado(self.personaje)
-        #
 
 

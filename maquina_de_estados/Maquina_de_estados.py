@@ -135,7 +135,7 @@ class EstadoDeMision(Estado):
     def run(self,DM,personaje):
         #TODO: run en función del estado de la misión
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == -1):
-            self.OnEnterEstadoByPlayer(DM)
+            self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
             pass
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
@@ -252,7 +252,7 @@ class EstadoDeSalaInicial(Estado):
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
-                estado.run(self.DM,personaje)
+                estado.run(DM,personaje)
                 #que se ejecuten todos los que se puedan ejecutar
 
     def OnEnterEstadoByPlayer(self,DM,personaje):
@@ -262,6 +262,7 @@ class EstadoDeSalaInicial(Estado):
         #DM.printVoices()
         #TODO: Enviar mensaje TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala normal
+        self.run(DM,personaje)
 
             
 class DM:
@@ -317,7 +318,7 @@ class Maquina_de_estados:
 
     def crearEstadoDeMision(self,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC):
         estado_mision = EstadoDeMision(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC,self.ids,self.personajeDelHost)
-        for sala in range(1,len(self.ordenEstados)-1):
+        for sala in range(1,len(self.ordenEstados)):
             self.ordenEstados[sala].ordenEstados[self.ordenEstados[sala].ids] = estado_mision #es la misma referencia de objeto para todas las salas
             self.ordenEstados[sala].ids +=1
 
