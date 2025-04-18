@@ -370,7 +370,9 @@ class ProcesamientoPartida:
         maquina.initExecution()
         #simulamos que todos le han dado ok al botón
         maquina.ordenEstados[1].ModifyState(self.personaje,0)#he hecho click en 'ok'
-        maquina.runNextEstado()
+
+        #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
+        maquina.runNextEstado(self.personaje)
         #
 
 
