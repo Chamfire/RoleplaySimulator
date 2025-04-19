@@ -394,7 +394,8 @@ class ProcesamientoPartida:
                                   "comun":"murciélago,rata,felino salvaje"}
 
 
-        tipo_mision_num = random.randint(1,5)
+        #tipo_mision_num = random.randint(1,5)
+        tipo_mision_num = 2 #para hacer pruebas de misiones 
         if(tipo_mision_num == 1):
             tipo_mision = "combate"
             tipo_mobs = random.randint(0,100)
@@ -408,7 +409,7 @@ class ProcesamientoPartida:
             objetos = ""
             for id,objeto in lista_objetos_disponibles.items():
                 objetos += objeto
-            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de combate para D&D 5edición. Ten en cuenta que este combate se va a llevar a cabo en un entorno de """+self.ubicacion+"""}<|eot_id|><|start_header_id|>user<|end_header_id|>
+            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de combate para D&D 5edición. Ten en cuenta que este combate se va a llevar a cabo en un entorno de """+self.ubicacion+""". Únicamente responde con el número de monstruos a matar, el tipo de monstruo escogido, y el motivo por el que los jugadores tienen que matar al mosntruos/los  monstruos. Ten también en cuenta que esta misión se la da un NPC, pero omite cualquier referencia al NPC.}<|eot_id|><|start_header_id|>user<|end_header_id|>
                         {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que solo puedes escoger entre los siguientes monstruos para combatir: """+lista_mobs_disponibles[self.ubicacion]+mobs+""".}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         elif(tipo_mision_num == 2):
@@ -416,8 +417,8 @@ class ProcesamientoPartida:
             objetos = ""
             for id,objeto in lista_objetos_disponibles.items():
                 objetos += objeto
-            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo rompecabezas para D&D 5edición. Ten en cuenta que los jugadores se encuentran en el siguiente entorno: """+self.ubicación+"""}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
+            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo rompecabezas para D&D 5edición, y dime también cuál es la respuesta. Ten en cuenta que los jugadores se encuentran en el siguiente entorno: """+self.ubicacion+"""}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y se limitará a ser un enigma de texto sencillo, con una respuesta relativamente fácil de averiguar. No será necesario interactuar con ningún objeto, solo responder con la respuesta a dicho enigma.}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         elif(tipo_mision_num == 3):
             tipo_mision = "búsqueda de un objeto"
@@ -447,7 +448,7 @@ class ProcesamientoPartida:
         print(tipo_mision)
 
         #generamos misión
-        mision = self.consultarAlDM(prompt,model_path,None,1024,400)
+        mision = self.consultarAlDM(prompt,model_path,None,1024,600)
         print("Progreso: 15%")
         print(mision)
 
