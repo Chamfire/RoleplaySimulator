@@ -362,25 +362,26 @@ class ProcesamientoPartida:
         maquina.crearEstadoSala(self.numJugadores)
         maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo)
         print("Progreso: 11%")
-        #Genero la descripción de la misión:
-        lista_objetos_disponibles = {"objetos de entorno":"cofre,armario,seta,cadáver de dragón, parte de cadáver de dragón, mesita,mesa grande, mesa pequeña, puerta, roca, muro, árbol",
-                                     "armaduras ligeras":"acolchada, cuero tachonado, de cuero",
-                                     "armaduras medias":"camisote de mallas, coraza, cota de escamas, pieles",
-                                     "armaduras pesadas":"bandas, cota de anillas, cota de mallas, placas",
-                                     "escudo":"escudo básico",
-                                     "armas a distancia marciales":"arco largo, ballesta de mano, ballesta pesada, cerbatana",
-                                     "armas a distancia simples": "arco corto, ballesta ligera, dardo, honda",
-                                     "armas cc marciales":"alabarda, atarraga, cimitarra, espada corta, espada larga, espadón, estoque, gran hacha, guja, hacha de batalla, lanza de caballería, látigo, lucero del alba, martillo de guerra, mayal, pica de guerra, pica, tridente",
-                                     "armas cc simples":"bastón, clava, daga, gran clava, hacha de mano, hoz, jabalina, lanza, martillo ligero, maza",
-                                     "objetos de almacenaje":"mochila",
-                                     "bebida": "odre de agua",
-                                     "comida": "ración",
-                                     "iluminación":"antorcha",
-                                     "kit": "de cocina",
-                                     "mecánico":"martillo, palanca",
-                                     "munición": "flecha",
-                                     "otros": "cuerda de cáñamo,pitón, yesquero",
-                                     "refugio":"saco de dormir"
+
+        #listas para las misiones
+        lista_objetos_disponibles = {"objetos de entorno":"cofre,armario,seta,cadáver de dragón, parte de cadáver de dragón, mesita,mesa grande, mesa pequeña, puerta, roca, muro, árbol,",
+                                     "armaduras ligeras":"acolchada, cuero tachonado, de cuero,",
+                                     "armaduras medias":"camisote de mallas, coraza, cota de escamas, pieles,",
+                                     "armaduras pesadas":"bandas, cota de anillas, cota de mallas, placas,",
+                                     "escudo":"escudo básico,",
+                                     "armas a distancia marciales":"arco largo, ballesta de mano, ballesta pesada, cerbatana,",
+                                     "armas a distancia simples": "arco corto, ballesta ligera, dardo, honda,",
+                                     "armas cc marciales":"alabarda, atarraga, cimitarra, espada corta, espada larga, espadón, estoque, gran hacha, guja, hacha de batalla, lanza de caballería, látigo, lucero del alba, martillo de guerra, mayal, pica de guerra, pica, tridente,",
+                                     "armas cc simples":"bastón, clava, daga, gran clava, hacha de mano, hoz, jabalina, lanza, martillo ligero, maza,",
+                                     "objetos de almacenaje":"mochila,",
+                                     "bebida": "odre de agua,",
+                                     "comida": "ración,",
+                                     "iluminación":"antorcha,",
+                                     "kit": "de cocina,",
+                                     "mecánico":"martillo, palanca,",
+                                     "munición": "flecha,",
+                                     "otros": "cuerda de cáñamo,pitón, yesquero,",
+                                     "refugio":"saco de dormir,"
                                      }
         lista_mobs_disponibles = {"mazmorra":"esqueleto,zombie,slime,beholder,troll",
                                   "ciudad moderna":"droide,fantasma,objeto animado de silla, mimic de cofre, muñeca animada,cyborg",
@@ -391,11 +392,87 @@ class ProcesamientoPartida:
                                   "raros": "dragón,sombras,fénix",
                                   "medio": "ankheg,basilísco",
                                   "comun":"murciélago,rata,felino salvaje"}
-        lista_tipo_mision = "combate, rompecabezas, búsqueda de un objeto, búsqueda de un lugar, recolección de objetos"
+        lista_tipo_mision = "opción 1: combate, opción 2: rompecabezas, opción 3: búsqueda de un objeto, opción 4: búsqueda de un lugar, opción 5: recolección de objetos"
 
-        prompt = ""
+        prompt = """{Vas a escoger entre 5 opciones, codificadas así: opción 1: 1, opción 2: 2, opción 3: 3, opción 4: 4, opción 5: 5}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Elige entre los siguientes tipos de misión para un videojuego, únicamente respondiendo con el número que lo codifica: """+lista_tipo_mision+"""}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
-        self.consultarAlDM(prompt,model_path,None,2024,500)
+
+        tipo_mision_num = self.consultarAlDM(prompt,model_path,None)
+        if(tipo_mision_num == "1"):
+            tipo_mision = "combate"
+            tipo_mobs = random.randint(0,100)
+            if(tipo_mobs <= 60):
+                mobs = ","+lista_mobs_disponibles["comun"]
+            elif(tipo_mobs <= 80):
+                mobs = ","+lista_mobs_disponibles["comun"]+","+lista_mobs_disponibles["medio"]
+            else:
+                mobs = ","+lista_mobs_disponibles["comun"]+","+lista_mobs_disponibles["medio"]+","+lista_mobs_disponibles["raros"]
+
+            objetos = ""
+            for id,objeto in lista_objetos_disponibles.items():
+                objetos += objeto
+            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de combate para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que solo puedes escoger entre los siguientes monstruos para combatir: """+lista_mobs_disponibles[self.ubicacion]+mobs+""". Además, si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        elif(tipo_mision_num == "2"):
+            tipo_mision = "rompecabezas"
+            objetos = ""
+            for id,objeto in lista_objetos_disponibles.items():
+                objetos += objeto
+            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo rompecabezas para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        elif(tipo_mision_num == "3"):
+            tipo_mision = "búsqueda de un objeto"
+            objetos = ""
+            for id,objeto in lista_objetos_disponibles.items():
+                objetos += objeto
+            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo búsqueda de un objeto para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que tanto el objeto a buscar o si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+""". Al encontrar el objeto, la misión habrá terminado.}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        elif(tipo_mision_num == "4"):
+            tipo_mision = "búsqueda de un lugar"
+            objetos = ""
+            for id,objeto in lista_objetos_disponibles.items():
+                objetos += objeto
+            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo búsqueda de un lugar para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        elif(tipo_mision_num == "5"):
+            tipo_mision = "recolección de objetos"
+            objetos = ""
+            for id,objeto in lista_objetos_disponibles.items():
+                objetos += objeto
+            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo recolección de objetos para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que tanto los objetos a recolectar o si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+""". Al terminal la recolección, el jugador deberá regresar a hablar con un NPC llamado """+self.personaje.name+"""}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        else:
+            tipo_mision = "combate"
+            tipo_mobs = random.randint(0,100)
+            if(tipo_mobs <= 60):
+                mobs = ","+lista_mobs_disponibles["comun"]
+            elif(tipo_mobs <= 80):
+                mobs = ","+lista_mobs_disponibles["comun"]+","+lista_mobs_disponibles["medio"]
+            else:
+                mobs = ","+lista_mobs_disponibles["comun"]+","+lista_mobs_disponibles["medio"]+","+lista_mobs_disponibles["raros"]
+            objetos = ""
+            for id,objeto in lista_objetos_disponibles.items():
+                objetos += objeto
+            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de combate para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que solo puedes escoger entre los siguientes monstruos para combatir: """+lista_mobs_disponibles[self.ubicacion]+mobs+""". Además, si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+            print("Se va a escoger por defecto combate, pero no lo hizo bien")
+        print("Progreso: 12%")
+        print(tipo_mision)
+
+        #generamos misión
+        mision = self.consultarAlDM(prompt,model_path,None,2024,1024)
+        print("Progreso: 15%")
+        print(mision)
+
+        
 
 
 
@@ -404,12 +481,12 @@ class ProcesamientoPartida:
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
 
 
-        maquina.initExecution()
-        #simulamos que todos le han dado ok al botón
-        maquina.ordenEstados[1].ModifyState(self.personaje,0)#he hecho click en 'ok'
+        # maquina.initExecution()
+        # #simulamos que todos le han dado ok al botón
+        # maquina.ordenEstados[1].ModifyState(self.personaje,0)#he hecho click en 'ok'
 
-        #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
-        maquina.runNextEstado(self.personaje)
+        # #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
+        # maquina.runNextEstado(self.personaje)
 
 
 
