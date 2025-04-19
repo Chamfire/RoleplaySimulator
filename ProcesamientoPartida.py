@@ -394,7 +394,7 @@ class ProcesamientoPartida:
                                   "comun":"murciélago,rata,felino salvaje"}
         lista_tipo_mision = "opción 1: combate, opción 2: rompecabezas, opción 3: búsqueda de un objeto, opción 4: búsqueda de un lugar, opción 5: recolección de objetos"
 
-        prompt = """{Vas a escoger entre 5 opciones, codificadas así: opción 1: 1, opción 2: 2, opción 3: 3, opción 4: 4, opción 5: 5}<|eot_id|><|start_header_id|>user<|end_header_id|>
+        prompt = """{Vas a escoger de forma aleatoria entre 5 opciones, codificadas así: opción 1: 1, opción 2: 2, opción 3: 3, opción 4: 4, opción 5: 5}<|eot_id|><|start_header_id|>user<|end_header_id|>
                         {Elige entre los siguientes tipos de misión para un videojuego, únicamente respondiendo con el número que lo codifica: """+lista_tipo_mision+"""}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
@@ -414,7 +414,7 @@ class ProcesamientoPartida:
             for id,objeto in lista_objetos_disponibles.items():
                 objetos += objeto
             prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de combate para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que solo puedes escoger entre los siguientes monstruos para combatir: """+lista_mobs_disponibles[self.ubicacion]+mobs+""". Además, si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
+                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que solo puedes escoger entre los siguientes monstruos para combatir: """+lista_mobs_disponibles[self.ubicacion]+mobs+""". Además, si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         elif(tipo_mision_num == "2"):
             tipo_mision = "rompecabezas"
@@ -422,7 +422,7 @@ class ProcesamientoPartida:
             for id,objeto in lista_objetos_disponibles.items():
                 objetos += objeto
             prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo rompecabezas para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
+                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         elif(tipo_mision_num == "3"):
             tipo_mision = "búsqueda de un objeto"
@@ -430,7 +430,7 @@ class ProcesamientoPartida:
             for id,objeto in lista_objetos_disponibles.items():
                 objetos += objeto
             prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo búsqueda de un objeto para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que tanto el objeto a buscar o si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+""". Al encontrar el objeto, la misión habrá terminado.}
+                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que tanto el objeto a buscar o si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+""". Al encontrar el objeto, la misión habrá terminado.}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         elif(tipo_mision_num == "4"):
             tipo_mision = "búsqueda de un lugar"
@@ -438,7 +438,7 @@ class ProcesamientoPartida:
             for id,objeto in lista_objetos_disponibles.items():
                 objetos += objeto
             prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo búsqueda de un lugar para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
+                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         elif(tipo_mision_num == "5"):
             tipo_mision = "recolección de objetos"
@@ -446,7 +446,7 @@ class ProcesamientoPartida:
             for id,objeto in lista_objetos_disponibles.items():
                 objetos += objeto
             prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo recolección de objetos para D&D 5edición. Especifica las salas o escenarios necesarios, y los objetos necesarios, así como si se requiere de alguna tirada de algún tipo.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+self.numJugadores+""" jugadores, y que tanto los objetos a recolectar o si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+""". Al terminal la recolección, el jugador deberá regresar a hablar con un NPC llamado """+self.personaje.name+"""}
+                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que tanto los objetos a recolectar o si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+""". Al terminal la recolección, el jugador deberá regresar a hablar con un NPC llamado """+self.personaje.name+"""}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         else:
             tipo_mision = "combate"
