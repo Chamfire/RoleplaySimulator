@@ -364,92 +364,94 @@ class ProcesamientoPartida:
         print("Progreso: 11%")
 
         #listas para las misiones
-        lista_objetos_disponibles = {"objetos de entorno":"cofre,armario,seta,cadáver de dragón, parte de cadáver de dragón, mesita,mesa grande, mesa pequeña, puerta, roca, muro, árbol,",
-                                     "armaduras ligeras":"acolchada, cuero tachonado, de cuero,",
-                                     "armaduras medias":"camisote de mallas, coraza, cota de escamas, pieles,",
-                                     "armaduras pesadas":"bandas, cota de anillas, cota de mallas, placas,",
-                                     "escudo":"escudo básico,",
-                                     "armas a distancia marciales":"arco largo, ballesta de mano, ballesta pesada, cerbatana,",
-                                     "armas a distancia simples": "arco corto, ballesta ligera, dardo, honda,",
-                                     "armas cc marciales":"alabarda, atarraga, cimitarra, espada corta, espada larga, espadón, estoque, gran hacha, guja, hacha de batalla, lanza de caballería, látigo, lucero del alba, martillo de guerra, mayal, pica de guerra, pica, tridente,",
-                                     "armas cc simples":"bastón, clava, daga, gran clava, hacha de mano, hoz, jabalina, lanza, martillo ligero, maza,",
-                                     "objetos de almacenaje":"mochila,",
-                                     "bebida": "odre de agua,",
-                                     "comida": "ración,",
-                                     "iluminación":"antorcha,",
-                                     "kit": "de cocina,",
-                                     "mecánico":"martillo, palanca,",
-                                     "munición": "flecha,",
-                                     "otros": "cuerda de cáñamo,pitón, yesquero,",
-                                     "refugio":"saco de dormir,"
+        lista_objetos_disponibles = {"Armaduras ligeras":["Acolchada", "Cuero tachonado", "De cuero"],
+                                     "Armaduras medias": ["Camisote de mallas", "Coraza", "Cota de escamas", "Pieles"],
+                                     "Armaduras pesadas": ["Bandas", "Cota de anillas", "Cota de mallas", "Placas"],
+                                     "Escudo": ["Escudo básico"],
+                                     "Armas a distancia marciales": ["Arco largo", "Ballesta de mano", "Ballesta pesada", "Cerbatana"],
+                                     "Armas a distancia simples": ["Arco corto", "Ballesta ligera", "Dardo", "Honda"],
+                                     "Armas cc marciales": ["Alabarda", "Atarraga", "Cimitarra", "Espada corta","Espada larga", "Espadón", "Estoque", "Gran hacha", "Guja", "Hacha de batalla", "Lanza de caballería", "Látigo", "Lucero del alba", "Martillo de guerra", "Mayal", "Pica de guerra", "Pica", "Tridente"],
+                                     "Armas cc simples": ["Bastón", "Clava", "Daga", "Gran clava", "Hacha de mano", "Hoz", "Jabalina", "Lanza", "Martillo ligero", "Maza"],
+                                     "Objetos de almacenaje": ["Mochila"],
+                                     "Bebida": ["Odre de agua"],
+                                     "Comida": ["Ración"],
+                                     "Iluminación": ["Antorcha"],
+                                     "Kit": ["De cocina"],
+                                     "Mecánico": ["Martillo", "Palanca"],
+                                     "Munición": ["Flecha"],
+                                     "Otros": ["Cuerda de cáñamo","Pitón", "Yesquero"],
+                                     "Refugio": ["Saco de dormir"]
                                      }
-        lista_mobs_disponibles = {"mazmorra":"esqueleto,zombie,slime,beholder,troll",
-                                  "ciudad moderna":"droide,fantasma,objeto animado de silla, mimic de cofre, muñeca animada,cyborg",
-                                  "bosque":"lobo wargo, vampiro, oso, hombre lobo",
-                                  "desierto":"serpiente,cocodrilo,momia,esfinge",
-                                  "aldea medieval":"goblin,cultista,gnoll,elemental de roca",
-                                  "barco":"sirena,tiburón,hada,kraken",
-                                  "raros": "dragón,sombras,fénix",
-                                  "medio": "ankheg,basilísco",
-                                  "comun":"murciélago,rata,felino salvaje"}
+        lista_mobs_disponibles = {"mazmorra": ["esqueleto","zombie","slime","beholder","troll"],
+                                  "ciudad moderna": ["droide","fantasma","objeto animado de silla", "mimic de cofre", "muñeca animada", "cyborg"],
+                                  "bosque": ["lobo wargo", "vampiro", "oso", "hombre lobo"],
+                                  "desierto": ["serpiente","cocodrilo", "momia", "esfinge"],
+                                  "aldea medieval": ["goblin","cultista","gnoll","elemental de roca"],
+                                  "barco": ["sirena","tiburón","hada","kraken"],
+                                  "raros": ["dragón","sombras","fénix"],
+                                  "medio": ["ankheg","basilísco"],
+                                  "comun": ["murciélago","rata","felino salvaje"]}
 
 
-        #tipo_mision_num = random.randint(1,4)
-        tipo_mision_num = 4 #para buscar un lugar
+        #tipo_mision_num = random.randint(1,3)
+        tipo_mision_num = 1 #para buscar un lugar
         if(tipo_mision_num == 1):
             tipo_mision = "combate"
             tipo_mobs = random.randint(0,100)
-            if(tipo_mobs <= 60):
-                mobs = ","+lista_mobs_disponibles["comun"]
+            mobs = {}
+            num_mobs = random.randint(self.numJugadores,self.numJugadores*2)
+            n = len(lista_mobs_disponibles[self.ubicacion])-1
+            for i in range(0,num_mobs-1):
+                if mobs.get(lista_mobs_disponibles[self.ubicacion][random.randint(0,n)]) != None:
+                    mobs[lista_mobs_disponibles[self.ubicacion][random.randint(0,n)]] +=1
+                else:
+                    mobs[lista_mobs_disponibles[self.ubicacion][random.randint(0,n)]] = 1
+            if(tipo_mobs <=60):
+                for i in range(0,3):
+                    if mobs.get(lista_mobs_disponibles["comun"][random.randint(0,2)]) != None:
+                        mobs[lista_mobs_disponibles["comun"][random.randint(0,2)]] +=1
+                    else:
+                        mobs[lista_mobs_disponibles["comun"][random.randint(0,2)]] = 1
             elif(tipo_mobs <= 80):
-                mobs = ","+lista_mobs_disponibles["comun"]+","+lista_mobs_disponibles["medio"]
+                if(mobs[lista_mobs_disponibles["medio"][random.randint(0,1)]] != None):
+                    mobs[lista_mobs_disponibles["medio"][random.randint(0,1)]] +=1
+                else:
+                    mobs[lista_mobs_disponibles["medio"][random.randint(0,1)]] = 1
             else:
-                mobs = ","+lista_mobs_disponibles["comun"]+","+lista_mobs_disponibles["medio"]+","+lista_mobs_disponibles["raros"]
-
-            objetos = ""
-            for id,objeto in lista_objetos_disponibles.items():
-                objetos += objeto
-            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de combate para D&D 5edición. Ten en cuenta que este combate se va a llevar a cabo en un entorno de """+self.ubicacion+""". Únicamente responde con el número de monstruos a matar, el tipo de monstruo escogido, y el motivo por el que los jugadores tienen que matar al mosntruos/los  monstruos. Ten también en cuenta que esta misión se la da un NPC, pero omite cualquier referencia al NPC.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que solo puedes escoger entre los siguientes monstruos para combatir: """+lista_mobs_disponibles[self.ubicacion]+mobs+""".}
-                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+                if(mobs[lista_mobs_disponibles["raros"][random.randint(0,2)]] != None):
+                    mobs[lista_mobs_disponibles["raros"][random.randint(0,2)]] = 1
+            mision = "Hay que matar "
+            for mob_name,num in mobs.items():
+                mision += str(num)+" "+mob_name+","
+            
+            
         elif(tipo_mision_num == 2):
-            tipo_mision = "búsqueda de un objeto"
-            objetos = ""
-            for id,objeto in lista_objetos_disponibles.items():
-                objetos += objeto
-            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo búsqueda de un objeto para D&D 5edición. Ten en cuenta que los jugadores se encuentran en el siguiente entorno: """+self.ubicacion+"""}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que el objeto a buscar sólo puede ser uno de esta lista: """+objetos+""". Al encontrar el objeto, la misión habrá terminado.}
-                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        elif(tipo_mision_num == 3):
             tipo_mision = "búsqueda de un lugar"
-            objetos = ""
-            for id,objeto in lista_objetos_disponibles.items():
-                objetos += objeto
-            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo búsqueda de un lugar para D&D 5edición, y que todo debe suceder en el siguiente entorno: """+self.ubicacion+"""}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
-                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        elif(tipo_mision_num == 4):
+            lugar_posible = ["sala aleatoria con prueba","Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"]
+            n = len(lugar_posible)-1
+            lugar = random.randint(0,n)
+            mision = "Hay que encontrar lo siguiente: "+lugar
+            
+        elif(tipo_mision_num == 3):
             tipo_mision = "recolección de objetos"
-            objetos = ""
-            for id,objeto in lista_objetos_disponibles.items():
-                objetos += objeto
-            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo recolección de objetos para D&D 5edición. Ten en cuenta que todo sucede en el siguiente entorno: """+self.ubicacion+"""}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que tanto los objetos a recolectar o si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+""". Al terminal la recolección, el jugador deberá regresar a hablar con un NPC llamado """+self.personaje.name+"""}
-                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+            coleccion = random.randint(0,len(lista_objetos_disponibles)-1)
+            i = 0
+            for col in lista_objetos_disponibles:
+                if(i == coleccion):
+                    objeto = lista_objetos_disponibles[col][random.randint(0,len(lista_objetos_disponibles[col])-1)]
+                    break
+                else:
+                    i +=1
+            mision = "Hay que encontrar el siguiente objeto: "+objeto
+
         print("Progreso: 12%")
         print(tipo_mision)
 
         #generamos misión
-        mision = self.consultarAlDM(prompt,model_path,None,1024,600)
+        #dialogo_NPC_mision = self.consultarAlDM(prompt,model_path,None,1024,600)
         print("Progreso: 15%")
         print(mision)
 
-        #Extracción de características
-        #Lista de mobs necesarios
-        #TODO
-
-        #Lista de objetos necesarios y tiradas para encontrarlos
-        #TODO
 
         #Lista de salas necesarias y tiradas para entrar y salir
         #TODO
