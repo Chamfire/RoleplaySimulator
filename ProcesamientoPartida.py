@@ -401,7 +401,7 @@ class ProcesamientoPartida:
             mobs = {}
             num_mobs = random.randint(self.numJugadores,self.numJugadores*2)
             n = len(lista_mobs_disponibles[self.ubicacion])-1
-            for i in range(0,num_mobs-1):
+            for i in range(0,num_mobs):
                 if mobs.get(lista_mobs_disponibles[self.ubicacion][random.randint(0,n)]) != None:
                     mobs[lista_mobs_disponibles[self.ubicacion][random.randint(0,n)]] +=1
                 else:
