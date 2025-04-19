@@ -394,8 +394,8 @@ class ProcesamientoPartida:
                                   "comun":"murciélago,rata,felino salvaje"}
 
 
-        #tipo_mision_num = random.randint(1,5)
-        tipo_mision_num = 2 #para hacer pruebas de misiones 
+        #tipo_mision_num = random.randint(1,4)
+        tipo_mision_num = 4 #para buscar un lugar
         if(tipo_mision_num == 1):
             tipo_mision = "combate"
             tipo_mobs = random.randint(0,100)
@@ -413,14 +413,6 @@ class ProcesamientoPartida:
                         {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que solo puedes escoger entre los siguientes monstruos para combatir: """+lista_mobs_disponibles[self.ubicacion]+mobs+""".}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         elif(tipo_mision_num == 2):
-            tipo_mision = "rompecabezas"
-            objetos = ""
-            for id,objeto in lista_objetos_disponibles.items():
-                objetos += objeto
-            prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo rompecabezas para D&D 5edición, y dime también cuál es la respuesta. Ten en cuenta que los jugadores se encuentran en el siguiente entorno: """+self.ubicacion+"""}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y se limitará a ser un enigma de texto sencillo, con una respuesta relativamente fácil de averiguar. No será necesario interactuar con ningún objeto, solo responder con la respuesta a dicho enigma.}
-                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        elif(tipo_mision_num == 3):
             tipo_mision = "búsqueda de un objeto"
             objetos = ""
             for id,objeto in lista_objetos_disponibles.items():
@@ -428,7 +420,7 @@ class ProcesamientoPartida:
             prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo búsqueda de un objeto para D&D 5edición. Ten en cuenta que los jugadores se encuentran en el siguiente entorno: """+self.ubicacion+"""}<|eot_id|><|start_header_id|>user<|end_header_id|>
                         {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que el objeto a buscar sólo puede ser uno de esta lista: """+objetos+""". Al encontrar el objeto, la misión habrá terminado.}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        elif(tipo_mision_num == 4):
+        elif(tipo_mision_num == 3):
             tipo_mision = "búsqueda de un lugar"
             objetos = ""
             for id,objeto in lista_objetos_disponibles.items():
@@ -436,7 +428,7 @@ class ProcesamientoPartida:
             prompt = """{Eres un Dungeon Master y vas a generar una descripción de una misión de tipo búsqueda de un lugar para D&D 5edición, y que todo debe suceder en el siguiente entorno: """+self.ubicacion+"""}<|eot_id|><|start_header_id|>user<|end_header_id|>
                         {Ten en cuenta que tienes """+str(self.numJugadores)+""" jugadores, y que si se necesita interactuar con algún tipo de objetos, solo podrás usar estos: """+objetos+"""}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        elif(tipo_mision_num == 5):
+        elif(tipo_mision_num == 4):
             tipo_mision = "recolección de objetos"
             objetos = ""
             for id,objeto in lista_objetos_disponibles.items():
@@ -451,6 +443,15 @@ class ProcesamientoPartida:
         mision = self.consultarAlDM(prompt,model_path,None,1024,600)
         print("Progreso: 15%")
         print(mision)
+
+        #Extracción de características
+        #Lista de mobs necesarios
+        #TODO
+        #Lista de objetos necesarios y tiradas para encontrarlos
+        #TODO
+        #Lista de salas necesarias y tiradas para entrar y salir
+        #TODO
+
 
         
 
