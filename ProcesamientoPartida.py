@@ -447,11 +447,14 @@ class ProcesamientoPartida:
         #Extracción de características
         #Lista de mobs necesarios
         #TODO
+
         #Lista de objetos necesarios y tiradas para encontrarlos
         #TODO
+
         #Lista de salas necesarias y tiradas para entrar y salir
         #TODO
 
+        
 
         
 
