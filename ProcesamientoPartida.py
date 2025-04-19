@@ -362,7 +362,41 @@ class ProcesamientoPartida:
         maquina.crearEstadoSala(self.numJugadores)
         maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo)
         print("Progreso: 11%")
-        #
+        #Genero la descripción de la misión:
+        lista_objetos_disponibles = {"objetos de entorno":"cofre,armario,seta,cadáver de dragón, parte de cadáver de dragón, mesita,mesa grande, mesa pequeña, puerta, roca, muro, árbol",
+                                     "armaduras ligeras":"acolchada, cuero tachonado, de cuero",
+                                     "armaduras medias":"camisote de mallas, coraza, cota de escamas, pieles",
+                                     "armaduras pesadas":"bandas, cota de anillas, cota de mallas, placas",
+                                     "escudo":"escudo básico",
+                                     "armas a distancia marciales":"arco largo, ballesta de mano, ballesta pesada, cerbatana",
+                                     "armas a distancia simples": "arco corto, ballesta ligera, dardo, honda",
+                                     "armas cc marciales":"alabarda, atarraga, cimitarra, espada corta, espada larga, espadón, estoque, gran hacha, guja, hacha de batalla, lanza de caballería, látigo, lucero del alba, martillo de guerra, mayal, pica de guerra, pica, tridente",
+                                     "armas cc simples":"bastón, clava, daga, gran clava, hacha de mano, hoz, jabalina, lanza, martillo ligero, maza",
+                                     "objetos de almacenaje":"mochila",
+                                     "bebida": "odre de agua",
+                                     "comida": "ración",
+                                     "iluminación":"antorcha",
+                                     "kit": "de cocina",
+                                     "mecánico":"martillo, palanca",
+                                     "munición": "flecha",
+                                     "otros": "cuerda de cáñamo,pitón, yesquero",
+                                     "refugio":"saco de dormir"
+                                     }
+        lista_mobs_disponibles = {"mazmorra":"esqueleto,zombie,slime,beholder,troll",
+                                  "ciudad moderna":"droide,fantasma,objeto animado de silla, mimic de cofre, muñeca animada,cyborg",
+                                  "bosque":"lobo wargo, vampiro, oso, hombre lobo",
+                                  "desierto":"serpiente,cocodrilo,momia,esfinge",
+                                  "aldea medieval":"goblin,cultista,gnoll,elemental de roca",
+                                  "barco":"sirena,tiburón,hada,kraken",
+                                  "raros": "dragón,sombras,fénix",
+                                  "medio": "ankheg,basilísco",
+                                  "comun":"murciélago,rata,felino salvaje"}
+        lista_tipo_mision = "combate, rompecabezas, búsqueda de un objeto, búsqueda de un lugar, recolección de objetos"
+
+        prompt = ""
+
+        self.consultarAlDM(prompt,model_path,None,2024,500)
+
 
 
         #procesamiento....
