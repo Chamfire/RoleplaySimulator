@@ -452,7 +452,8 @@ class ProcesamientoPartida:
         prompt =  f"""Eres un dungeon master de Dnd 5e y tienes un NPC que va a proponerle una misión a un jugador, al que el NPC se refiere como "aventurero"<|eot_id|><|start_header_id|>user<|end_header_id|>
                         Primero, genera un párrafo con el motivo de que el NPC vaya a proponerles esa misión, y ten en cuenta que la misión a proponer es la siguiente {mision}, y que el NPC tiene el siguiente traasfondo:
                         {infoTrasfondo}\n. También tiene este motivo para estar en {self.ubicacion}, que es: {motivoUbicacion}. 
-                        Después, genera un párrafo con el diálogo que emplearía el NPC para proponer dicha misión a un jugador durante la partida. 
+                        Después, genera un párrafo con el diálogo que emplearía el NPC para proponer dicha misión a un jugador durante la partida, y redáctalo refiriéndote al jugador de "ti" o "tú". 
+                        Ambos párrafos se mostrarán tal cual, sin indicar cosas como **diálogo de propuesta de misión** o **párrafo motivacional**.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,700)
         print("Progreso: 15%")
