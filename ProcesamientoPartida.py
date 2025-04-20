@@ -430,7 +430,7 @@ class ProcesamientoPartida:
             lugar_posible = ["sala aleatoria con prueba","Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"]
             n = len(lugar_posible)-1
             lugar = random.randint(0,n)
-            mision = "Hay que encontrar lo siguiente: "+lugar
+            mision = "Hay que encontrar lo siguiente: "+lugar_posible[lugar]
             
         elif(tipo_mision_num == 3):
             tipo_mision = "recolección de objetos"
