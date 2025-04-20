@@ -69,6 +69,11 @@ class RAG_historia:
             info_a_escribir = dialogos
             f.write(info_a_escribir)
 
+    def escribirDialogosNPC(self,dialogos):
+        with open('maquina_de_estados/'+self.currentPartida+'/dialogos_NPC.txt','w',encoding='utf-8') as f:
+            info_a_escribir = dialogos
+            f.write(info_a_escribir)
+
     def consultar_NPC(self,contexto_estado):
         model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
         model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
