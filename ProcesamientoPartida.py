@@ -464,7 +464,7 @@ class ProcesamientoPartida:
                         Genera únicamente 3 párrafos con diálogos que diría el NPC a el jugador, refiriéndose a este jugador como "aventurero". Ten en cuenta que el NPC se llama {self.personaje.name}, y que tiene este trasfondo:
                         {infoTrasfondo}, y este motivo para estar en este lugar: {self.ubicacion}, que es este: {motivoUbicacion}.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        dialogos_presentacion = self.consultarAlDM(prompt,model_path,None,2048,700)
+        dialogos_presentacion = self.consultarAlDM(presentacion_NPC,model_path,None,2048,700)
         print("Progreso: 19%")
         print(dialogos_presentacion)
         self.RAG_historia.escribirDialogosNPC(dialogos_presentacion)
