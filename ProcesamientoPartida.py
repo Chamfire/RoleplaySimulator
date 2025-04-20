@@ -397,7 +397,7 @@ class ProcesamientoPartida:
         tipo_mision_num = 1 #para buscar un lugar
         if(tipo_mision_num == 1):
             tipo_mision = "combate"
-            tipo_mobs = random.randint(0,100)
+            # tipo_mobs = random.randint(0,100)
             mobs = {}
             num_mobs = random.randint(self.numJugadores,self.numJugadores*2)
             n = len(lista_mobs_disponibles[self.ubicacion])-1
@@ -406,20 +406,20 @@ class ProcesamientoPartida:
                     mobs[lista_mobs_disponibles[self.ubicacion][random.randint(0,n)]] +=1
                 else:
                     mobs[lista_mobs_disponibles[self.ubicacion][random.randint(0,n)]] = 1
-            if(tipo_mobs <=60):
-                for i in range(0,3):
-                    if mobs.get(lista_mobs_disponibles["comun"][random.randint(0,2)]) != None:
-                        mobs[lista_mobs_disponibles["comun"][random.randint(0,2)]] +=1
-                    else:
-                        mobs[lista_mobs_disponibles["comun"][random.randint(0,2)]] = 1
-            elif(tipo_mobs <= 80):
-                if(mobs.get(lista_mobs_disponibles["medio"][random.randint(0,1)]) != None):
-                    mobs[lista_mobs_disponibles["medio"][random.randint(0,1)]] +=1
-                else:
-                    mobs[lista_mobs_disponibles["medio"][random.randint(0,1)]] = 1
-            else:
-                if(mobs.get(lista_mobs_disponibles["raros"][random.randint(0,2)]) != None):
-                    mobs[lista_mobs_disponibles["raros"][random.randint(0,2)]] = 1
+            # if(tipo_mobs <=60):
+            #     for i in range(0,3):
+            #         if mobs.get(lista_mobs_disponibles["comun"][random.randint(0,2)]) != None:
+            #             mobs[lista_mobs_disponibles["comun"][random.randint(0,2)]] +=1
+            #         else:
+            #             mobs[lista_mobs_disponibles["comun"][random.randint(0,2)]] = 1
+            # elif(tipo_mobs <= 80):
+            #     if(mobs.get(lista_mobs_disponibles["medio"][random.randint(0,1)]) != None):
+            #         mobs[lista_mobs_disponibles["medio"][random.randint(0,1)]] +=1
+            #     else:
+            #         mobs[lista_mobs_disponibles["medio"][random.randint(0,1)]] = 1
+            # else:
+            #     if(mobs.get(lista_mobs_disponibles["raros"][random.randint(0,2)]) != None):
+            #         mobs[lista_mobs_disponibles["raros"][random.randint(0,2)]] = 1
             mision = "Hay que matar "
             for mob_name,num in mobs.items():
                 mision += str(num)+" "+mob_name+","
@@ -454,7 +454,7 @@ class ProcesamientoPartida:
                         {infoTrasfondo}\n. También tiene este motivo para estar en {self.ubicacion}, que es: {motivoUbicacion}. 
                         Después, genera un párrafo con el diálogo que emplearía el NPC para proponer dicha misión a un jugador durante la partida. 
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        dialogos_posibles = self.consultarAlDM(prompt,model_path,None,1024,600)
+        dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,700)
         print("Progreso: 15%")
         print(dialogos_posibles)
         self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
