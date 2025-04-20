@@ -393,8 +393,8 @@ class ProcesamientoPartida:
                                   "comun": ["murciélago","rata","felino salvaje"]}
 
 
-        #tipo_mision_num = random.randint(1,3)
-        tipo_mision_num = 1 #para buscar un lugar
+        tipo_mision_num = random.randint(1,3)
+        #tipo_mision_num = 1 #para buscar un lugar
         if(tipo_mision_num == 1):
             tipo_mision = "combate"
             # tipo_mobs = random.randint(0,100)
@@ -442,27 +442,29 @@ class ProcesamientoPartida:
                     break
                 else:
                     i +=1
-            mision = "Hay que encontrar el siguiente objeto: "+objeto
+            mision = "Hay que encontrar el siguiente objeto/arma: "+objeto
 
         print("Progreso: 12%")
         print(tipo_mision)
         print(mision)
         #generamos misión
 
-        prompt =  f"""Eres un dungeon master de Dnd 5e y tienes un NPC que va a proponerle una misión a un jugador, al que el NPC se refiere como "aventurero"<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        Primero, genera un párrafo con el motivo de que el NPC vaya a proponerles esa misión, y ten en cuenta que la misión a proponer es la siguiente {mision}, y que el NPC tiene el siguiente traasfondo:
+        prompt =  f"""Eres un dungeon master de Dnd 5e y tienes un NPC que va a proponerle una misión a un jugador, al que el NPC se refiere como "aventurero". La misión es esta: {mision} <|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Primero, genera un párrafo con el motivo de que el NPC vaya a proponerles esa misión, y que el NPC tiene el siguiente trasfondo:
                         {infoTrasfondo}\n. También tiene este motivo para estar en {self.ubicacion}, que es: {motivoUbicacion}. 
-                        Después, genera un párrafo con el diálogo que emplearía el NPC para proponer dicha misión a un jugador durante la partida, y redáctalo refiriéndote al jugador de "ti" o "tú". 
+                        Después, genera otro párrafo distinto, separado por un enter, con el diálogo que emplearía el NPC para proponer dicha misión a un jugador durante la partida, y redáctalo refiriéndote al jugador de "ti" o "tú". 
                         Ambos párrafos se mostrarán tal cual, sin indicar cosas como **diálogo de propuesta de misión** o **párrafo motivacional**.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,700)
+        dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,800)
         print("Progreso: 15%")
         print(dialogos_posibles)
         self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
 
-        presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y tienes 1 jugador que va a hablar con un NPC por primera vez, y quieres que este NPC se presente.<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        Genera únicamente 3 párrafos con diálogos que diría el NPC a el jugador, refiriéndose a este jugador como "aventurero". Ten en cuenta que el NPC se llama {self.personaje.name}, y que tiene este trasfondo:
-                        {infoTrasfondo}, y este motivo para estar en este lugar: {self.ubicacion}, que es este: {motivoUbicacion}.
+        presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y tienes 1 jugador que va a hablar con un NPC por primera vez, y quieres que este NPC se presente, indicando su nombre y el nombre del lugar donde están.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Genera un único párrafo del diálogo que diría ese NPC al jugador, refiriéndose a este jugador como "aventurero". Ten en cuenta que el NPC se llama {self.personaje.name}, y que tiene este trasfondo:
+                        {infoTrasfondo}, y este motivo para estar en este lugar: {self.ubicacion}, que es este: {motivoUbicacion}. La descripción física de este NPC es esta {self.personaje.descripcion_fisica}. No hagas referencia al motivo
+                        por el que el NPC está ahí, ni cuál es su objetivo, solo limítate a presentarle, sin dar muchos detalles. 
+                        Omite cualquier frase del tipo "Claro, aquí tienes los párrafos" o cosas de por el estilo.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         dialogos_presentacion = self.consultarAlDM(presentacion_NPC,model_path,None,2048,700)
         print("Progreso: 19%")
