@@ -63,6 +63,11 @@ class RAG_historia:
             info_a_escribir += infoTrasfondo+"\n\n"
             info_a_escribir += motivoUbicacion
             f.write(info_a_escribir)
+    def escribirInfoMision(self,mision_basica,dialogos):
+        with open('maquina_de_estados/'+self.currentPartida+'/info_mision.txt','w',encoding='utf-8') as f:
+            info_a_escribir = mision_basica+"\n\n"
+            info_a_escribir = dialogos
+            f.write(info_a_escribir)
 
     def consultar_NPC(self,contexto_estado):
         model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"

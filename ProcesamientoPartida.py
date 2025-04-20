@@ -413,12 +413,12 @@ class ProcesamientoPartida:
                     else:
                         mobs[lista_mobs_disponibles["comun"][random.randint(0,2)]] = 1
             elif(tipo_mobs <= 80):
-                if(mobs[lista_mobs_disponibles["medio"][random.randint(0,1)]] != None):
+                if(mobs.get(lista_mobs_disponibles["medio"][random.randint(0,1)]) != None):
                     mobs[lista_mobs_disponibles["medio"][random.randint(0,1)]] +=1
                 else:
                     mobs[lista_mobs_disponibles["medio"][random.randint(0,1)]] = 1
             else:
-                if(mobs[lista_mobs_disponibles["raros"][random.randint(0,2)]] != None):
+                if(mobs.get(lista_mobs_disponibles["raros"][random.randint(0,2)]) != None):
                     mobs[lista_mobs_disponibles["raros"][random.randint(0,2)]] = 1
             mision = "Hay que matar "
             for mob_name,num in mobs.items():
@@ -446,11 +446,18 @@ class ProcesamientoPartida:
 
         print("Progreso: 12%")
         print(tipo_mision)
-
-        #generamos misión
-        #dialogo_NPC_mision = self.consultarAlDM(prompt,model_path,None,1024,600)
-        print("Progreso: 15%")
         print(mision)
+        #generamos misión
+
+        prompt =  f"""Eres un dungeon master de Dnd 5e y tienes un NPC que va a proponerle una misión a un jugador, al que el NPC se refiere como "aventurero"<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Primero, genera un párrafo con el motivo de que el NPC vaya a proponerles esa misión, y ten en cuenta que la misión a proponer es la siguiente {mision}, y que el NPC tiene el siguiente traasfondo:
+                        {infoTrasfondo}\n. También tiene este motivo para estar en {self.ubicacion}, que es: {motivoUbicacion}. 
+                        Después, genera un párrafo con el diálogo que emplearía el NPC para proponer dicha misión a un jugador durante la partida. 
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        dialogos_posibles = self.consultarAlDM(prompt,model_path,None,1024,600)
+        print("Progreso: 15%")
+        print(dialogos_posibles)
+        self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
 
 
         #Lista de salas necesarias y tiradas para entrar y salir
