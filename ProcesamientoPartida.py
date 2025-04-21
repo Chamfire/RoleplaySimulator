@@ -435,6 +435,7 @@ class ProcesamientoPartida:
             n = len(lugar_posible)-1
             lugar = random.randint(0,n)
             mision = "Hay que encontrar lo siguiente: "+lugar_posible[lugar]
+            variableDeCheck[lugar_posible[lugar]] = False #ninguno de los jugadores lo ha encontrado
         
 
         print("Progreso: 12%")
