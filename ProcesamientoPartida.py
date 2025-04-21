@@ -475,7 +475,6 @@ class ProcesamientoPartida:
         fin_time = time.time()
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
 
-
         maquina.initExecution()
         # #simulamos que todos le han dado ok al botón
         maquina.ordenEstados[1].ModifyState(self.jugadorHost,0)#he hecho click en 'ok'

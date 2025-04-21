@@ -252,6 +252,7 @@ class EstadoDeHablaNPC(Estado):
         #DM.printVoices()
         #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
+        self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
 
 
 class EstadoDeSalaInicial(Estado):
