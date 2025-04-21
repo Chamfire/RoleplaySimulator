@@ -425,7 +425,7 @@ class ProcesamientoPartida:
             for mob_name,num in mobs.items():
                 mision += str(num)+" "+mob_name+","
                 variableDeCheck[mob_name] = [num,0] #5,0 -> 5 de ese tipo a matar, 0 matados
-
+            
             
 
             
@@ -476,12 +476,12 @@ class ProcesamientoPartida:
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
 
 
-        maquina.initExecution()
+        #maquina.initExecution()
         # #simulamos que todos le han dado ok al botón
-        maquina.ordenEstados[1].ModifyState(self.personaje,0)#he hecho click en 'ok'
+        #maquina.ordenEstados[1].ModifyState(self.personaje,0)#he hecho click en 'ok'
 
         # #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
-        maquina.runNextEstado(self.personaje)
+        #maquina.runNextEstado(self.personaje)
 
 
 
