@@ -36,6 +36,7 @@ class ProcesamientoPartida:
         self.numJugadores = None
         self.GLOBAL = Global()
         self.DMVoice = None
+        self.jugadorHost = None
         self.ubicacion = None
         self.vinculos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
         self.defectos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
@@ -72,10 +73,11 @@ class ProcesamientoPartida:
                 "ciudad moderna,Enano,1":("enano_vive en una ciudad moderna_62_81_omite referencias al color de piel",62,81,"mujer")}
 
 
-    def initialize(self,numJugadores,DMVoice, currentPartida):
+    def initialize(self,numJugadores,DMVoice, currentPartida,jugadorHost):
         self.numJugadores  = numJugadores
         self.DMVoice = DMVoice
         self.currentPartida = currentPartida
+        self.jugadorHost = jugadorHost
 
     def consultarAlDM(self,prompt,model_path,fin,token_context = 1024,token_gen = 300):
         with suppress_stdout_stderr():
@@ -402,10 +404,11 @@ class ProcesamientoPartida:
             num_mobs = random.randint(self.numJugadores,self.numJugadores*2)
             n = len(lista_mobs_disponibles[self.ubicacion])-1
             for i in range(0,num_mobs):
-                if mobs.get(lista_mobs_disponibles[self.ubicacion][random.randint(0,n)]) != None:
-                    mobs[lista_mobs_disponibles[self.ubicacion][random.randint(0,n)]] +=1
+                seleccion = random.randint(0,n)
+                if mobs.get(lista_mobs_disponibles[self.ubicacion][seleccion]) != None:
+                    mobs[lista_mobs_disponibles[self.ubicacion][seleccion]] +=1
                 else:
-                    mobs[lista_mobs_disponibles[self.ubicacion][random.randint(0,n)]] = 1
+                    mobs[lista_mobs_disponibles[self.ubicacion][seleccion]] = 1
             # if(tipo_mobs <=60):
             #     for i in range(0,3):
             #         if mobs.get(lista_mobs_disponibles["comun"][random.randint(0,2)]) != None:
@@ -442,12 +445,13 @@ class ProcesamientoPartida:
         prompt =  f"""Eres un dungeon master de Dnd 5e y tienes un NPC que va a proponerle una misión a un jugador, al que el NPC se refiere como "aventurero".<|eot_id|><|start_header_id|>user<|end_header_id|>
                         Vas a generar 2 párrafos: Uno con el motivo por el cual el NPC vaya a proponerles esa misión, teniendo en cuenta que esta es la misión: {mision} y que el NPC tiene el siguiente trasfondo:
                         {infoTrasfondo}\n. También tiene este motivo para estar en {self.ubicacion}, que es: {motivoUbicacion}. 
-                        El segundo párrafo será el diálogo que emplearía el NPC para proponer dicha misión a un jugador durante la partida, y redáctalo refiriéndote al jugador de "ti" o "tú". 
+                        El segundo párrafo será el diálogo que emplearía el NPC para proponer dicha misión a un jugador durante la partida, y redáctalo refiriéndote al jugador de "ti" o "tú", y ten en cuenta que el NPC ya ha hablado antes con el jugador, así que empieza la frase con "Por cierto, ..." o "Además, quería comentarte una cosa ..." o frases similares.
                         Ambos párrafos se mostrarán tal cual, sin indicar cosas como **diálogo de propuesta de misión** o **párrafo motivacional**.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,300)
         print("Progreso: 15%")
         print(dialogos_posibles)
+        mision_dialogo = dialogos_posibles.split('\n\n')
         self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
 
         presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y tienes 1 jugador que va a hablar con un NPC por primera vez, y quieres que este NPC se presente, indicando su nombre y el nombre del lugar donde están.<|eot_id|><|start_header_id|>user<|end_header_id|>
@@ -463,7 +467,7 @@ class ProcesamientoPartida:
         
         if(tipo_mision_num == 1):
             #De combate
-            maquina.crearEstadoDeMisionDeCombate(variableDeCheck)
+            maquina.crearEstadoDeMisionDeCombate(variableDeCheck,0,dialogos_presentacion,mision_dialogo[1],self.numJugadores,self.personaje)
         elif(tipo_mision_num == 2):
             #De búsqueda
             pass
@@ -476,12 +480,14 @@ class ProcesamientoPartida:
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
 
 
-        #maquina.initExecution()
+        maquina.initExecution()
         # #simulamos que todos le han dado ok al botón
-        #maquina.ordenEstados[1].ModifyState(self.personaje,0)#he hecho click en 'ok'
+        maquina.ordenEstados[1].ModifyState(self.jugadorHost,0)#he hecho click en 'ok'
 
         # #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
-        #maquina.runNextEstado(self.personaje)
+        maquina.runNextEstado(self.personaje)
+        #simulamos que el jugador le da click al NPC estando a 5 pies de distancia
+        maquina.ordenEstados[1].ordenEstados[0].ModifyToTrueHablaNPC(self.jugadorHost)
 
 
 

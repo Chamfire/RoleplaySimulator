@@ -151,7 +151,10 @@ class EstadoDeMision(Estado):
         pass
 
     def runNextInnerEstado(self,personaje):
-        pass
+        for id,estado in self.ordenEstados.items():
+            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
+                estado.run(DM,personaje)
+                break
 
     def OnEnterEstadoByPlayer(self,DM,personaje):
         print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
@@ -161,8 +164,8 @@ class EstadoDeMision(Estado):
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
 
 class EstadoDeHablaNPC(Estado):
-    def __init__(self,isInicial,content,id,personajeDelHost,numJugadores,estado_pred,NPC):
-        super().__init__(isInicial,content,id)
+    def __init__(self,isInicial,DMintro,DMMision,id,personajeDelHost,numJugadores,estado_pred,NPC):
+        super().__init__(isInicial,DMintro,id)
         self.variableDeCheck["progreso"] = {}
         self.personajeDelHost = personajeDelHost
         self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = -1
@@ -181,6 +184,8 @@ class EstadoDeHablaNPC(Estado):
             self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False 
         self.esObligatorio = True
         self.NPC = NPC
+        self.dialogoDMIntro = DMintro
+        self.dialogoDMMision = DMMision
 
     def checkIfCanRun(self,personaje):
         if(self.click[str(personaje.name)+","+str(personaje.id_jugador)]):
@@ -199,15 +204,11 @@ class EstadoDeHablaNPC(Estado):
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == -1):
             self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
-            self.runNextInnerEstado(DM,personaje)
+            self.giveMissionNPC(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
-            pass
+            self.talkToNPC(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
-            pass
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
-            pass
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 4):
-            pass
+            self.finishNPCMision(DM,personaje)
 
     def ModifyState(self,player,n):
         self.variableDeCheck["progreso"][str(player.name)+","+str(player.id_jugador)] = n
@@ -215,15 +216,40 @@ class EstadoDeHablaNPC(Estado):
     def ModifyToTrueHablaNPC(self,personaje):
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = True
 
-    def runNextInnerEstado(self,personaje):
-        pass
-
     def OnEnterEstadoByPlayer(self,DM,personaje):
-        print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        if(self.NPC.tipo_raza == "Enano"):
+            if(self.NPC.genero == "hombre"):
+                msg= "al enano, "
+            else:
+                msg = "a la enana,"
+        else:
+            if(self.NPC.genero == "mujer"):
+                msg = "a la elfa, "
+            else:
+                msg = "al elfo, "
+        print("<DM>: Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         DM.speak(self.dialogoDMIntro) 
         #DM.printVoices()
         #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
+
+    def talkToNPC(self,DM,personaje):
+        #TODO: RAG
+        pass
+
+    def finishNPCMision(self,DM,personaje):
+        pass
+
+    def giveMissionNPC(self,DM,personaje):
+        if(self.NPC.genero == "mujer"):
+            pensando = "pensativa"
+        else:
+            pensando = "pensativo"
+        print("<DM>: Tras decirte lo anterior, ves que "+personaje.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        DM.speak(self.dialogoDMIntro) 
+        #DM.printVoices()
+        #TODO: enviar TCP
+        self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
 
 
 class EstadoDeSalaInicial(Estado):
@@ -235,8 +261,6 @@ class EstadoDeSalaInicial(Estado):
         for personaje in self.GLOBAL.getListaPersonajeHost():
             personaje = personaje[1]
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = -1 #-1: No ha aceptado entrar aún, 0: No ha entrado ese personaje en la sala, 1: ha entrado y está por primera vez en la sala, 2: continúa en la sala normal, 3: ya no está en la sala, pero entró
-
-
         self.esObligatorio = True
         self.numJugadores = numJugadores
         self.tipo_de_estado = "sala_grande"
@@ -319,7 +343,7 @@ class EstadoDeSalaInicial(Estado):
         for id,estado in self.ordenEstados.items():
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
                 estado.run(DM,personaje)
-                #que se ejecuten todos los que se puedan ejecutar
+                break
 
     def OnEnterEstadoByPlayer(self,DM,personaje):
         #El mensaje de introducción a la sala, se le reproduce a cada uno de forma individual (por si alguno muriera, y se tuviera que crear otro, que esto ya sea independiente)
@@ -395,9 +419,14 @@ class Maquina_de_estados:
         self.ordenEstados[self.ids] = EstadoDeSalaInicial(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,self.ids,self.personajeDelHost)
         self.ids +=1
 
-    def crearEstadoDeCombateDeMision(self,variableDeCheck,num_mision):
-        pass
-        #self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = 
+    def crearEstadoDeMisionDeCombate(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC):
+        #Misión 0, Estado 0: Diálogo con NPC
+        self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeHablaNPC(False,dialogo_bienvenida,propuesta_mision,self.estadosDeMision[num_mision].ids,self.personajeDelHost,numJ,self.estadosDeMision[num_mision],NPC)
+        self.estadosDeMision[num_mision].ids +=1
+
+        #Mision 0, Estado 1: Misión específica
+
+
 
 
     def runNextEstado(self,personaje):

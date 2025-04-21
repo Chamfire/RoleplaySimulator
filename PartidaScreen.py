@@ -160,7 +160,7 @@ class PartidaScreen:
                     finally:
                         socket_temporal.close() #se cierra el socket al terminar
             #inicio del hilo de carga de partida
-            self.ProcesamientoPartida.initialize(self.numJugadores,self.DMVoice,self.currentPartida)
+            self.ProcesamientoPartida.initialize(self.numJugadores,self.DMVoice,self.currentPartida,self.personaje)
             hiloProcesamientoPartida = threading.Thread(target=self.ProcesamientoPartida.prepararPartida)
             hiloProcesamientoPartida.start()
         else:
