@@ -254,6 +254,9 @@ class EstadoDeHablaNPC(Estado):
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
 
+class EstadoDeMisionConcreta(Estado):
+    pass    
+
 
 class EstadoDeSalaInicial(Estado):
     def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,id,personajeDelHost):
