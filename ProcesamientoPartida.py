@@ -148,7 +148,7 @@ class ProcesamientoPartida:
 
         #Generación del primer estado de la máquina
         #TODO: Modificar para cargar máquina de estados de la bbdd
-        maquina = Maquina_de_estados(self.DMVoice,self.currentPartida,self.personaje)
+        maquina = Maquina_de_estados(self.DMVoice,self.currentPartida,self.jugadorHost)
         maquina.crearEstadoInicial(response_good)
         print("Progreso: 7%")
 
@@ -485,9 +485,10 @@ class ProcesamientoPartida:
         maquina.ordenEstados[1].ModifyState(self.jugadorHost,0)#he hecho click en 'ok'
 
         # #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
-        maquina.runNextEstado(self.personaje)
+        maquina.runNextEstado(self.jugadorHost)
         #simulamos que el jugador le da click al NPC estando a 5 pies de distancia
-        maquina.ordenEstados[1].ordenEstados[0].ModifyToTrueHablaNPC(self.jugadorHost)
+        #Sala 0 -> Mision 0 -> Habla NPC
+        maquina.ordenEstados[1].ordenEstados[0].ordenEstados[0].ModifyToTrueHablaNPC(self.jugadorHost)
 
 
 
