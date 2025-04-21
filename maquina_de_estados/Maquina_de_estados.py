@@ -150,7 +150,7 @@ class EstadoDeMision(Estado):
     def ModifyState(self,personaje):
         pass
 
-    def runNextInnerEstado(self,personaje):
+    def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
                 estado.run(DM,personaje)
