@@ -443,15 +443,13 @@ class ProcesamientoPartida:
         #generamos misión
 
         prompt =  f"""Eres un dungeon master de Dnd 5e y tienes un NPC que va a proponerme una misión, y se va a referir a mí como "aventurero".<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        Vas a generar 2 párrafos: Uno con el motivo por el cual el NPC vaya a proponerme esa misión, teniendo en cuenta que esta es la misión: {mision} y que el NPC tiene el siguiente trasfondo:
+                       Vas a generar un único párrafo del diálogo que usaría el NPC para proponerme esta misión: {mision}. Ten en cuenta que el NPC tiene el siguiente trasfondo:
                         {infoTrasfondo}\n. También tiene este motivo para estar en {self.ubicacion}, que es: {motivoUbicacion}. 
-                        El segundo párrafo será el diálogo que emplearía el NPC para proponerme dicha misión durante la partida, y ten en cuenta que el NPC ya ha hablado antes conmigo, así que empieza este párrafo con "Por cierto, ..." o "Además, quería comentarte una cosa ..." o frases similares.
-                        Los 2 párrafos se mostrarán tal cual, sin indicar cosas como **diálogo de propuesta de misión** o **párrafo motivacional**. 
+                       No indiques cosas como **diálogo de propuesta de misión** o **párrafo motivacional**. 
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,500)
+        dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,300)
         print("Progreso: 15%")
         print(dialogos_posibles)
-        mision_dialogo = dialogos_posibles.split('\n\n')
         self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
 
         presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y yo voy a hablar con un NPC por primera vez, y quieres que este NPC se presente, indicando su nombre y el nombre del lugar donde están.<|eot_id|><|start_header_id|>user<|end_header_id|>
@@ -467,13 +465,10 @@ class ProcesamientoPartida:
         
         if(tipo_mision_num == 1):
             #De combate
-            maquina.crearEstadoDeMisionDeCombate(variableDeCheck,0,dialogos_presentacion,mision_dialogo[1],self.numJugadores,self.personaje)
+            maquina.crearEstadoDeMisionDeCombate(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje)
         elif(tipo_mision_num == 2):
             #De búsqueda
-            pass
-        
-
-
+            maquina.crearEstadoDeMisionDeBusqueda(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje)
 
         #procesamiento....
         fin_time = time.time()
@@ -489,6 +484,7 @@ class ProcesamientoPartida:
         #simulamos que el jugador le da click al NPC estando a 5 pies de distancia
         #Sala 0 -> Mision 0 -> Habla NPC
         maquina.ordenEstados[1].ordenEstados[0].ordenEstados[0].ModifyToTrueHablaNPC(self.jugadorHost)
+        maquina.runNextEstado(self.jugadorHost)
 
 
 

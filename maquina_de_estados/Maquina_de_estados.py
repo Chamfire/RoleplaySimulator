@@ -425,7 +425,9 @@ class Maquina_de_estados:
         self.estadosDeMision[num_mision].ids +=1
 
         #Mision 0, Estado 1: Misión específica
-
+    def crearEstadoDeMisionDeBusqueda(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC):
+        self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeHablaNPC(False,dialogo_bienvenida,propuesta_mision,self.estadosDeMision[num_mision].ids,self.personajeDelHost,numJ,self.estadosDeMision[num_mision],NPC)
+        self.estadosDeMision[num_mision].ids +=1
 
 
 
