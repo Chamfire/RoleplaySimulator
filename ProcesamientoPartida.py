@@ -421,8 +421,14 @@ class ProcesamientoPartida:
             #     if(mobs.get(lista_mobs_disponibles["raros"][random.randint(0,2)]) != None):
             #         mobs[lista_mobs_disponibles["raros"][random.randint(0,2)]] = 1
             mision = "Hay que matar "
+            variableDeCheck = {}
             for mob_name,num in mobs.items():
                 mision += str(num)+" "+mob_name+","
+                variableDeCheck[mob_name] = [num,0] #5,0 -> 5 de ese tipo a matar, 0 matados
+
+            
+
+            
             
             
         elif(tipo_mision_num == 2):
@@ -439,12 +445,12 @@ class ProcesamientoPartida:
         #generamos misión
 
         prompt =  f"""Eres un dungeon master de Dnd 5e y tienes un NPC que va a proponerle una misión a un jugador, al que el NPC se refiere como "aventurero".<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        Primero, genera un párrafo con el motivo de que el NPC vaya a proponerles esa misión, teniendo en cuenta que esta es la misión {mision} y que el NPC tiene el siguiente trasfondo:
+                        Vas a generar 2 párrafos: Uno con el motivo por el cual el NPC vaya a proponerles esa misión, teniendo en cuenta que esta es la misión: {mision} y que el NPC tiene el siguiente trasfondo:
                         {infoTrasfondo}\n. También tiene este motivo para estar en {self.ubicacion}, que es: {motivoUbicacion}. 
-                        Después, genera otro párrafo distinto, separado por un enter, con el diálogo que emplearía el NPC para proponer dicha misión a un jugador durante la partida, y redáctalo refiriéndote al jugador de "ti" o "tú". 
+                        El segundo párrafo será el diálogo que emplearía el NPC para proponer dicha misión a un jugador durante la partida, y redáctalo refiriéndote al jugador de "ti" o "tú". 
                         Ambos párrafos se mostrarán tal cual, sin indicar cosas como **diálogo de propuesta de misión** o **párrafo motivacional**.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,700)
+        dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,300)
         print("Progreso: 15%")
         print(dialogos_posibles)
         self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
@@ -470,12 +476,12 @@ class ProcesamientoPartida:
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
 
 
-        # maquina.initExecution()
+        maquina.initExecution()
         # #simulamos que todos le han dado ok al botón
-        # maquina.ordenEstados[1].ModifyState(self.personaje,0)#he hecho click en 'ok'
+        maquina.ordenEstados[1].ModifyState(self.personaje,0)#he hecho click en 'ok'
 
         # #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
-        # maquina.runNextEstado(self.personaje)
+        maquina.runNextEstado(self.personaje)
 
 
 
