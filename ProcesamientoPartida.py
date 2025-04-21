@@ -426,11 +426,6 @@ class ProcesamientoPartida:
                 mision += str(num)+" "+mob_name+","
                 variableDeCheck[mob_name] = [num,0] #5,0 -> 5 de ese tipo a matar, 0 matados
             
-            
-
-            
-            
-            
         elif(tipo_mision_num == 2):
             tipo_mision = "búsqueda de un lugar"
             lugar_posible = ["Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"]
@@ -466,7 +461,12 @@ class ProcesamientoPartida:
         print(dialogos_presentacion)
         self.RAG_historia.escribirDialogosNPC(dialogos_presentacion)
         
-
+        if(tipo_mision_num == 1):
+            #De combate
+            maquina.crearEstadoDeMisionDeCombate(variableDeCheck)
+        elif(tipo_mision_num == 2):
+            #De búsqueda
+            pass
         
 
 
