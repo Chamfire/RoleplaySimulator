@@ -487,4 +487,3 @@ class ProcesamientoPartida:
         maquina.runNextEstado(self.jugadorHost)
 
 
-

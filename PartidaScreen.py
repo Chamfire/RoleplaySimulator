@@ -5,6 +5,7 @@ from EscuchaUDP import EscuchaUDP
 from EnviarEstadoUDP import EnviarEstadoUDP
 import threading
 import socket
+import ctypes
 from Global import Global
 from ProcesamientoPartida import ProcesamientoPartida
 
@@ -22,6 +23,7 @@ class PartidaScreen:
         self.font = font
         self.currentFrame = 0
         self.seed_random = seed
+        self.hiloProcesamientoPartida = None
         self.currentPartida = None
 
         #musica
@@ -129,6 +131,14 @@ class PartidaScreen:
         self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         pygame.display.update() 
 
+    def cerrarHilo(self):
+        #si está activo, que lo detenga
+        if self.hiloProcesamientoPartida != None and self.hiloProcesamientoPartida.is_alive():
+            ctypes.pythonapi.PyThreadState_SetAsyncExc(
+                ctypes.c_long(self.hiloProcesamientoPartida.ident), ctypes.py_object(SystemExit)
+            )
+
+
     def render(self):
         #render screen
         self.ProcesamientoPartida = ProcesamientoPartida(self.seed_random,self.currentPartida)
@@ -161,8 +171,8 @@ class PartidaScreen:
                         socket_temporal.close() #se cierra el socket al terminar
             #inicio del hilo de carga de partida
             self.ProcesamientoPartida.initialize(self.numJugadores,self.DMVoice,self.currentPartida,self.personaje)
-            hiloProcesamientoPartida = threading.Thread(target=self.ProcesamientoPartida.prepararPartida)
-            hiloProcesamientoPartida.start()
+            self.hiloProcesamientoPartida = threading.Thread(target=self.ProcesamientoPartida.prepararPartida)
+            self.hiloProcesamientoPartida.start()
         else:
             #TODO: esperar a recibir maquina de estados para la partida, y crearla con la configuración de voz y efectos
             pass
@@ -235,6 +245,10 @@ class PartidaScreen:
             mixer.music.stop()#para la música
             mixer.music.load("sounds/background.wav") #carga de nuevo la canción normal de fondo
             mixer.music.play(-1)
+            try:
+                self.cerrarHilo()
+            except:
+                pass
             return 'menu'
         else:
             return 'partida'

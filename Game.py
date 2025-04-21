@@ -498,6 +498,7 @@ class Game:
                             self.salaEspera.escuchaTCP.closeSocketTCPServer()
                             self.salaEspera.escuchaUDP.closeSocketUDPServer()
                             self.salaEspera.enviarEstadoUDP.desconectar()
+                            self.partidaScreen.ProcesamientoPartida.cerrar()
                             try:
                                 #solo se podrá cerrar si eres el cliente
                                 self.joinPartida.escuchaTCPClient.closeSocketTCPServer()
