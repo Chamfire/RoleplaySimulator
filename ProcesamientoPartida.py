@@ -444,7 +444,7 @@ class ProcesamientoPartida:
         print(mision)
         #generamos misión
 
-        prompt =  f"""Eres un dungeon master de Dnd 5e y tienes un NPC que va a proponerme una misión, y se va a referir a mí como "aventurero".<|eot_id|><|start_header_id|>user<|end_header_id|>
+        prompt =  f"""Eres un dungeon master de Dnd 5e y tienes un NPC que va a proponerme una misión, y se va a referir a mí como "{self.jugadorHost.name}, y soy {self.jugadorHost.genero}".<|eot_id|><|start_header_id|>user<|end_header_id|>
                        Vas a generar un único párrafo del diálogo que usaría el NPC para proponerme esta misión: {mision}. Ten en cuenta que el NPC tiene el siguiente trasfondo:
                         {infoTrasfondo}\n. También tiene este motivo para estar en {self.ubicacion}, que es: {motivoUbicacion}. Puedes empezar con frases como "Por cierto, me gustaría proponerte algo..." o
                         "Um. Quizás puedas ayudarme con una cosa...".
@@ -455,7 +455,7 @@ class ProcesamientoPartida:
         print(dialogos_posibles)
         self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
         presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y yo voy a hablar con un NPC por primera vez, y quieres que este NPC se presente, indicando su nombre y el nombre del lugar donde están.<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        Genera un único párrafo del diálogo que me diría ese NPC, refiriéndote a mí como "aventurero". Ten en cuenta que el NPC se llama {self.personaje.name}, y que tiene este trasfondo:
+                        Genera un único párrafo del diálogo que me diría ese NPC, refiriéndote a mí como "{self.jugadorHost.name}, y soy {self.jugadorHost.genero}". Ten en cuenta que el NPC se llama {self.personaje.name}, y que tiene este trasfondo:
                         {infoTrasfondo}, y este motivo para estar en este lugar: {self.ubicacion}, que es este: {motivoUbicacion}. La descripción física de este NPC es esta {self.personaje.descripcion_fisica}. No hagas referencia al motivo
                         por el que el NPC está ahí, ni cuál es su objetivo, solo limítate a presentarle, sin dar muchos detalles. Omite cualquier frase del tipo "Claro, aquí tienes los párrafos" o cosas de por el estilo.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
