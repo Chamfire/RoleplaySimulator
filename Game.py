@@ -105,7 +105,6 @@ class Game:
         #self.local_ip,self.public_ip = self.getLocalAndPublicIP()
         self.local_ip = self.getLocalIP()
         #(self.freePortTCP, self.freePortUDP) = self.findFreePort()
-        
 
         self.max_length_name = 13
         pygame.display.set_caption('DND_Simulator') #nombre de la ventana

@@ -446,7 +446,8 @@ class ProcesamientoPartida:
 
         prompt =  f"""Eres un dungeon master de Dnd 5e y tienes un NPC que va a proponerme una misión, y se va a referir a mí como "aventurero".<|eot_id|><|start_header_id|>user<|end_header_id|>
                        Vas a generar un único párrafo del diálogo que usaría el NPC para proponerme esta misión: {mision}. Ten en cuenta que el NPC tiene el siguiente trasfondo:
-                        {infoTrasfondo}\n. También tiene este motivo para estar en {self.ubicacion}, que es: {motivoUbicacion}. 
+                        {infoTrasfondo}\n. También tiene este motivo para estar en {self.ubicacion}, que es: {motivoUbicacion}. Puedes empezar con frases como "Por cierto, me gustaría proponerte algo..." o
+                        "Um. Quizás puedas ayudarme con una cosa...".
                        No indiques cosas como **diálogo de propuesta de misión** o **párrafo motivacional**. 
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,300)
