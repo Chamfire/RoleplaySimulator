@@ -247,8 +247,8 @@ class EstadoDeHablaNPC(Estado):
             pensando = "pensativa"
         else:
             pensando = "pensativo"
-        print("<DM>: Tras decirte lo anterior, ves que "+personaje.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
-        DM.speak(self.dialogoDMIntro) 
+        print("<DM>: Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        DM.speak("Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision) 
         #DM.printVoices()
         #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1

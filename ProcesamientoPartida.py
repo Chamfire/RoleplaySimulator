@@ -453,12 +453,10 @@ class ProcesamientoPartida:
         print("Progreso: 15%")
         print(dialogos_posibles)
         self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
-
         presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y yo voy a hablar con un NPC por primera vez, y quieres que este NPC se presente, indicando su nombre y el nombre del lugar donde están.<|eot_id|><|start_header_id|>user<|end_header_id|>
                         Genera un único párrafo del diálogo que me diría ese NPC, refiriéndote a mí como "aventurero". Ten en cuenta que el NPC se llama {self.personaje.name}, y que tiene este trasfondo:
                         {infoTrasfondo}, y este motivo para estar en este lugar: {self.ubicacion}, que es este: {motivoUbicacion}. La descripción física de este NPC es esta {self.personaje.descripcion_fisica}. No hagas referencia al motivo
-                        por el que el NPC está ahí, ni cuál es su objetivo, solo limítate a presentarle, sin dar muchos detalles. Si vas a referirte a aspectos físicos del NPC, no lo incluyas en el diálogo, si no como frases del tipo "Ves que {self.personaje.name} tiene x aspecto".
-                        Omite cualquier frase del tipo "Claro, aquí tienes los párrafos" o cosas de por el estilo.
+                        por el que el NPC está ahí, ni cuál es su objetivo, solo limítate a presentarle, sin dar muchos detalles. Omite cualquier frase del tipo "Claro, aquí tienes los párrafos" o cosas de por el estilo.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         dialogos_presentacion = self.consultarAlDM(presentacion_NPC,model_path,None,2048,700)
         print("Progreso: 19%")
