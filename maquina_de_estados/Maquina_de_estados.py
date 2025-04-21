@@ -228,10 +228,12 @@ class EstadoDeHablaNPC(Estado):
             else:
                 msg = "al elfo, "
         print("<DM>: Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
-        DM.speak(self.dialogoDMIntro) 
+        string_to_speech = "Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro
+        DM.speak(string_to_speech) 
         #DM.printVoices()
         #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
+        self.run(DM,personaje)
 
     def talkToNPC(self,DM,personaje):
         #TODO: RAG
