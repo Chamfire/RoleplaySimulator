@@ -255,7 +255,7 @@ class EstadoDeHablaNPC(Estado):
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
 
 class EstadoDeMisionConcreta(Estado):
-    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,id,personajeDelHost,tipo_mision,variableDeCheck,mision):
+    def __init__(self,isInicial,content,estado_pred,numJugadores,id,tipo_mision,variableDeCheck):
         super().__init__(isInicial,content,id)
         self.variableDeCheck["progreso"] = variableDeCheck
         self.esObligatorio = True
@@ -264,6 +264,7 @@ class EstadoDeMisionConcreta(Estado):
         self.tipo_de_estado = tipo_mision
         self.estadosSucesores = estado_pred
         self.ids = 0 
+        self.currentState = 0 #0 no la tiene aún, 1: la tiene, 2: la ha completado
         self.event_trigged = False
         self.ordenEstados = {} #Estados internos de misión
         self.given = False
@@ -272,7 +273,7 @@ class EstadoDeMisionConcreta(Estado):
         #self.objetos = #TODO
 
     def checkIfCanRun(self,player):
-        if(self.given and self.event_trigged):
+        if(self.given):
             return True
         else:
             return False
@@ -282,20 +283,31 @@ class EstadoDeMisionConcreta(Estado):
             if(mob[0] != mob[1]):
                 return False
         return True
+    
+    def giveMision(self):
+        self.given = True
         
     def run(self,DM,personaje):
         #TODO: run en función del estado de la misión
-        self.OnEnterEstadoByAllPlayers(DM,personaje)
+        if(self.currentState == 0):
+            self.OnEnterEstadoByAllPlayers(DM,personaje)
+        elif(self.currentState == 1):
+            pass
+        elif(self.currentState == 2):
+            pass
 
     def ModifyState(self,personaje,mob_o_lugar = None):
         if(self.tipo_de_estado == "combate"):
             self.variableDeCheck[mob_o_lugar][1] +=1 
-        else:
+        elif(self.tipo_de_estado == "búsqueda"):
             self.variableDeCheck[mob_o_lugar] = True
+
+    def CompleteMision(self):
+        self.currentState = 2
 
     def OnEnterEstadoByPlayer(self,DM,personaje):
         print("Misión a realizar: "+self.mision)
-
+        self.currentState = 1
 
 class EstadoDeSalaInicial(Estado):
     def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,id,personajeDelHost):
@@ -464,16 +476,14 @@ class Maquina_de_estados:
         self.ordenEstados[self.ids] = EstadoDeSalaInicial(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,self.ids,self.personajeDelHost)
         self.ids +=1
 
-    def crearEstadoDeMisionDeCombate(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC):
-        #Misión 0, Estado 0: Diálogo con NPC
-        self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeHablaNPC(False,dialogo_bienvenida,propuesta_mision,self.estadosDeMision[num_mision].ids,self.personajeDelHost,numJ,self.estadosDeMision[num_mision],NPC)
-        self.estadosDeMision[num_mision].ids +=1
-
         #Mision 0, Estado 1: Misión específica
-    def crearEstadoDeMisionDeBusqueda(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC):
+    def crearEstadoDeMisionConcreta(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC,tipo_mision):
         self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeHablaNPC(False,dialogo_bienvenida,propuesta_mision,self.estadosDeMision[num_mision].ids,self.personajeDelHost,numJ,self.estadosDeMision[num_mision],NPC)
         self.estadosDeMision[num_mision].ids +=1
 
+        #Misión concreta
+        self.estadosDeMision[num_mision].ordenEstaods[self.estadosDeMision[num_mision].ids] = EstadoDeMisionConcreta(False,None,self.estadosDeMision[num_mision],numJ,self.estadosDeMision[num_mision].ids,tipo_mision,variableDeCheck)
+        self.estadosDeMision[num_mision].ids +=1
 
 
     def runNextEstado(self,personaje):

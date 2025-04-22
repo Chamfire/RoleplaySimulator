@@ -430,7 +430,7 @@ class ProcesamientoPartida:
                 variableDeCheck[mob_name] = [num,0] #5,0 -> 5 de ese tipo a matar, 0 matados
             
         elif(tipo_mision_num == 2):
-            tipo_mision = "búsqueda de un lugar"
+            tipo_mision = "búsqueda"
             lugar_posible = ["Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"]
             n = len(lugar_posible)-1
             lugar = random.randint(0,n)
@@ -464,12 +464,7 @@ class ProcesamientoPartida:
         print(dialogos_presentacion)
         self.RAG_historia.escribirDialogosNPC(dialogos_presentacion)
         
-        if(tipo_mision_num == 1):
-            #De combate
-            maquina.crearEstadoDeMisionDeCombate(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje)
-        elif(tipo_mision_num == 2):
-            #De búsqueda
-            maquina.crearEstadoDeMisionDeBusqueda(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje)
+        maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision)
 
         #procesamiento....
         fin_time = time.time()
