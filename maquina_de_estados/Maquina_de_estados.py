@@ -255,7 +255,46 @@ class EstadoDeHablaNPC(Estado):
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
 
 class EstadoDeMisionConcreta(Estado):
-    pass    
+    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,id,personajeDelHost,tipo_mision,variableDeCheck,mision):
+        super().__init__(isInicial,content,id)
+        self.variableDeCheck["progreso"] = variableDeCheck
+        self.esObligatorio = True
+        self.numJugadores = numJugadores
+        self.esPuntoDeRespawn = False
+        self.tipo_de_estado = tipo_mision
+        self.estadosSucesores = estado_pred
+        self.ids = 0 
+        self.event_trigged = False
+        self.ordenEstados = {} #Estados internos de misión
+        self.given = False
+        #self.NPCs = #TODO
+        #self.mobs = #TODO
+        #self.objetos = #TODO
+
+    def checkIfCanRun(self,player):
+        if(self.given and self.event_trigged):
+            return True
+        else:
+            return False
+        
+    def checkIfCompleted(self,personaje):
+        for mob in self.variableDeCheck:
+            if(mob[0] != mob[1]):
+                return False
+        return True
+        
+    def run(self,DM,personaje):
+        #TODO: run en función del estado de la misión
+        self.OnEnterEstadoByAllPlayers(DM,personaje)
+
+    def ModifyState(self,personaje,mob_o_lugar = None):
+        if(self.tipo_de_estado == "combate"):
+            self.variableDeCheck[mob_o_lugar][1] +=1 
+        else:
+            self.variableDeCheck[mob_o_lugar] = True
+
+    def OnEnterEstadoByPlayer(self,DM,personaje):
+        print("Misión a realizar: "+self.mision)
 
 
 class EstadoDeSalaInicial(Estado):
