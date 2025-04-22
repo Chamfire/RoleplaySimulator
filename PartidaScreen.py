@@ -105,6 +105,7 @@ class PartidaScreen:
         self.port_dest = ip_y_port_y_pswd[1]
         self.password =ip_y_port_y_pswd[2]
         self.isOnline = True
+        
     def setPassword(self,v):
         self.password = v
 

@@ -713,7 +713,7 @@ class SalaEspera:
                 if(not self.isOnline):
                     conn = sqlite3.connect("simuladordnd.db")
                     cursor = conn.cursor()
-                    query_take_characters = """SELECT name, sm1, sm2, sm3, nivel, inspiracion,esta_muerto,bpc,cons,fu,des,sab,car,int,coordenadas_actuales,vida_temp,max_vida,ca,edad,peso,pc,pp,pe,po,ppt,velocidad,descripcion_fisica,tipo_raza,tipo_clase,tipo_alineamiento,id_trasfondo,tipo_size,partida_id,id_jugador,num_npc_partida FROM personaje WHERE partida_id = '"""+self.currentPartida+"' AND esta_muerto = false"
+                    query_take_characters = """SELECT name, sm1, sm2, sm3, nivel, inspiracion,esta_muerto,bpc,cons,fu,des,sab,car,int,coordenadas_actuales,vida_temp,max_vida,ca,edad,peso,pc,pp,pe,po,ppt,velocidad,descripcion_fisica,tipo_raza,tipo_clase,tipo_alineamiento,id_trasfondo,tipo_size,partida_id,id_jugador,num_npc_partida,genero FROM personaje WHERE partida_id = '"""+self.currentPartida+"' AND esta_muerto = false"
                     cursor.execute(query_take_characters)
                     rows = cursor.fetchall()
                     if(self.numJugadores != 1):
@@ -764,6 +764,7 @@ class SalaEspera:
                                         personaje_temp.partida_id = row[32]
                                         personaje_temp.id_jugador = row[33]
                                         personaje_temp.num_npc_partida = row[34]
+                                        personaje_temp.genero = row[35]
 
                                         #idiomas con competencia
                                         query_get_comp_idioma = """SELECT tipo_language,name,partida_id,id_jugador,num_npc_partida FROM comp_idioma WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
@@ -922,6 +923,7 @@ class SalaEspera:
                                     personaje_temp.partida_id = row[32]
                                     personaje_temp.id_jugador = row[33]
                                     personaje_temp.num_npc_partida = row[34]
+                                    personaje_temp.genero = row[35]
 
                                     #idiomas con competencia
                                     query_get_comp_idioma = """SELECT tipo_language,name,partida_id,id_jugador,num_npc_partida FROM comp_idioma WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
@@ -1081,6 +1083,7 @@ class SalaEspera:
                                     personaje_temp.partida_id = row[32]
                                     personaje_temp.id_jugador = row[33]
                                     personaje_temp.num_npc_partida = row[34]
+                                    personaje_temp.genero = row[35]
 
                                     #idiomas con competencia
                                     query_get_comp_idioma = """SELECT tipo_language,name,partida_id,id_jugador,num_npc_partida FROM comp_idioma WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"'"
