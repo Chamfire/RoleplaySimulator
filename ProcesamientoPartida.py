@@ -443,7 +443,7 @@ class ProcesamientoPartida:
         print(tipo_mision)
         print(mision)
         #generamos misión
-        if(self.personaje.genero == "hombre"):
+        if(self.jugadorHost.genero == "hombre"):
             ref = "aventurero"
         else:
             ref = "aventurera"
