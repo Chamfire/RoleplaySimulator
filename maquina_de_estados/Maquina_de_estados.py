@@ -255,12 +255,13 @@ class EstadoDeHablaNPC(Estado):
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
 
 class EstadoDeMisionConcreta(Estado):
-    def __init__(self,isInicial,content,estado_pred,numJugadores,id,tipo_mision,variableDeCheck):
+    def __init__(self,isInicial,content,estado_pred,numJugadores,id,tipo_mision,variableDeCheck,mision):
         super().__init__(isInicial,content,id)
         self.variableDeCheck["progreso"] = variableDeCheck
         self.esObligatorio = True
         self.numJugadores = numJugadores
         self.esPuntoDeRespawn = False
+        self.mision = mision
         self.tipo_de_estado = tipo_mision
         self.estadosSucesores = estado_pred
         self.ids = 0 
@@ -477,12 +478,12 @@ class Maquina_de_estados:
         self.ids +=1
 
         #Mision 0, Estado 1: Misión específica
-    def crearEstadoDeMisionConcreta(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC,tipo_mision):
+    def crearEstadoDeMisionConcreta(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC,tipo_mision,mision):
         self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeHablaNPC(False,dialogo_bienvenida,propuesta_mision,self.estadosDeMision[num_mision].ids,self.personajeDelHost,numJ,self.estadosDeMision[num_mision],NPC)
         self.estadosDeMision[num_mision].ids +=1
 
         #Misión concreta
-        self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeMisionConcreta(False,None,self.estadosDeMision[num_mision],numJ,self.estadosDeMision[num_mision].ids,tipo_mision,variableDeCheck)
+        self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeMisionConcreta(False,None,self.estadosDeMision[num_mision],numJ,self.estadosDeMision[num_mision].ids,tipo_mision,variableDeCheck,mision)
         self.estadosDeMision[num_mision].ids +=1
 
 
