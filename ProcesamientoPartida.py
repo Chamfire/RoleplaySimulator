@@ -480,5 +480,8 @@ class ProcesamientoPartida:
         #Sala 0 -> Mision 0 -> Habla NPC
         maquina.ordenEstados[1].ordenEstados[0].ordenEstados[0].ModifyToTrueHablaNPC(self.jugadorHost)
         maquina.runNextEstado(self.jugadorHost)
+        #simulamos que dice ok a ayudar
+        maquina.ordenEstados[1].ordenEstados[0].ordenEstados[1].giveMision()
+        maquina.runNextEstado(self.jugadorHost)
 
 
