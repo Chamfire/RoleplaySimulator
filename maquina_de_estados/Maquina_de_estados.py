@@ -482,7 +482,7 @@ class Maquina_de_estados:
         self.estadosDeMision[num_mision].ids +=1
 
         #Misión concreta
-        self.estadosDeMision[num_mision].ordenEstaods[self.estadosDeMision[num_mision].ids] = EstadoDeMisionConcreta(False,None,self.estadosDeMision[num_mision],numJ,self.estadosDeMision[num_mision].ids,tipo_mision,variableDeCheck)
+        self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeMisionConcreta(False,None,self.estadosDeMision[num_mision],numJ,self.estadosDeMision[num_mision].ids,tipo_mision,variableDeCheck)
         self.estadosDeMision[num_mision].ids +=1
 
 
