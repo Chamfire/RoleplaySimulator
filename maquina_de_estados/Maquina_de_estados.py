@@ -290,7 +290,7 @@ class EstadoDeMisionConcreta(Estado):
     def run(self,DM,personaje):
         #TODO: run en función del estado de la misión
         if(self.currentState == 0):
-            self.OnEnterEstadoByAllPlayers(DM,personaje)
+            self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.currentState == 1):
             pass
         elif(self.currentState == 2):
