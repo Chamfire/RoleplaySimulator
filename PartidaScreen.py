@@ -242,6 +242,7 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5000, self.height/1.1667)) #313 57 800 605
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.3953, self.height/1.1570)) #x x 860 x
                 self.first_timeScreen = False
+                pygame.display.update()
             else:
                 pass
     # size_x, size_y: tamaño del botón en x y en y
