@@ -68,6 +68,7 @@ class PartidaScreen:
         self.buttonPic = pygame.image.load("images/button.png")
         self.buttonSelectedPic = pygame.image.load("images/button_selected.png")
         self.buttonPressedPic = pygame.image.load("images/button_pressed.png")
+        self.backgroundPartidaPic = pygame.image.load("images/background_partida.png")
 
         #fuentes y colores
         self.fuente = pygame.font.SysFont(font, 70)
@@ -136,7 +137,7 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
-            pass
+            self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
         pygame.display.update() 
 
 
@@ -151,7 +152,6 @@ class PartidaScreen:
     def render(self):
         #render screen
         if(self.GLOBAL.getActualPartidaState() == "loading"):
-            self.po
             self.ProcesamientoPartida = ProcesamientoPartida(self.seed_random,self.currentPartida)
             self.letterwidth = (self.width/3.4286)/6 #cálculo de la base en píxeles 
             self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
@@ -188,7 +188,7 @@ class PartidaScreen:
                 #TODO: esperar a recibir maquina de estados para la partida, y crearla con la configuración de voz y efectos
                 pass
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
-            pass
+            self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
         pygame.display.update() 
 
     def animateScreen(self,maxFPS):
