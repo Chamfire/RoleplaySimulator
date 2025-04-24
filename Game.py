@@ -144,7 +144,7 @@ class Game:
 
             #Cargar animaciones
             if(self.currentScreen == "partida"):
-                self.partidaScreen.animateText(self.configuration.fps)
+                self.partidaScreen.animateScreen(self.configuration.fps)
 
             #Refrescar la pantalla por sucesos asíncronos
             if screenToRefresh != None:
@@ -168,6 +168,7 @@ class Game:
                         self.screen = self.salaEspera2.getScreen() #es la única forma de tomar la pantalla
                     elif(lastScreen == "partida"):
                         self.screen = self.partidaScreen.getScreen() #es la única forma de tomar la pantalla
+                        self.partidaScreen.changeScreen("loading") #reseteamos las variables
                     self.serverDisc.setScreen(self.screen)
                     self.salaEspera.escuchaUDP.closeSocketUDPServer()
                     self.salaEspera.enviarEstadoUDP.desconectar()
@@ -492,6 +493,7 @@ class Game:
                         if(screenToChange != self.currentScreen):
                             self.changedScreen = True
                             self.currentScreen = screenToChange
+                            self.partidaScreen.changeScreen("loading") #reseteamos la variable
                             self.GLOBAL.setCurrentScreen(screenToChange)
                             self.screen = self.partidaScreen.getScreen()
                             self.salaEspera.escuchaTCP.closeSocketTCPServer()

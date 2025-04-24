@@ -36,6 +36,7 @@ class ProcesamientoPartida:
         self.numJugadores = None
         self.GLOBAL = Global()
         self.DMVoice = None
+        self.PartidaObjeto = None
         self.jugadorHost = None
         self.ubicacion = None
         self.vinculos = {0:[None,None,None,None,None,None],1:[None,None,None,None,None,None],2:[None,None,None,None,None,None],3:[None,None,None,None,None,None],4:[None,None,None,None,None,None],5:[None,None,None,None,None,None],6:[None,None,None,None,None,None],7:[None,None,None,None,None,None],8:[None,None,None,None,None,None],9:[None,None,None,None,None,None],10:[None,None,None,None,None,None],11:[None,None,None,None,None,None],12:[None,None,None,None,None,None]}
@@ -73,11 +74,12 @@ class ProcesamientoPartida:
                 "ciudad moderna,Enano,1":("enano_vive en una ciudad moderna_62_81_omite referencias al color de piel",62,81,"mujer")}
 
 
-    def initialize(self,numJugadores,DMVoice, currentPartida,jugadorHost):
+    def initialize(self,numJugadores,DMVoice, currentPartida,jugadorHost,partida):
         self.numJugadores  = numJugadores
         self.DMVoice = DMVoice
         self.currentPartida = currentPartida
         self.jugadorHost = jugadorHost
+        self.PartidaObjeto = partida
 
     def consultarAlDM(self,prompt,model_path,fin,token_context = 1024,token_gen = 300):
         with suppress_stdout_stderr():
@@ -105,6 +107,9 @@ class ProcesamientoPartida:
         if(fin != None):
             response_good= response_good+fin
         return response_good
+    
+    def loadPartidaScreen(self):
+        self.PartidaObjeto.changeScreen("partida")
 
     #Hilo de carga de partida
     def prepararPartida(self):
@@ -475,6 +480,7 @@ class ProcesamientoPartida:
         fin_time = time.time()
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
 
+        
         maquina.initExecution()
         # #simulamos que todos le han dado ok al botón
         maquina.ordenEstados[1].ModifyState(self.jugadorHost,0)#he hecho click en 'ok'

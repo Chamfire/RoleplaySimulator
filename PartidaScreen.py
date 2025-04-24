@@ -25,6 +25,7 @@ class PartidaScreen:
         self.seed_random = seed
         self.hiloProcesamientoPartida = None
         self.currentPartida = None
+        self.currentScreen = "loading"
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -105,6 +106,9 @@ class PartidaScreen:
         self.port_dest = ip_y_port_y_pswd[1]
         self.password =ip_y_port_y_pswd[2]
         self.isOnline = True
+
+    def changeScreen(self,pantalla):
+        self.currentPartida = pantalla #puede ser "loading" o "partida"
         
     def setPassword(self,v):
         self.password = v
@@ -125,12 +129,16 @@ class PartidaScreen:
         hiloEnviarEstadoUDP.start()
 
     def reload(self):
-        self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
-        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
-        self.screen.blit(self.msg3, (self.width/4.0000, self.height/4.0000)) #300 175 
-        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-        self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+        if(self.currentPartida == "loading"):
+            self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+            self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+            self.screen.blit(self.msg3, (self.width/4.0000, self.height/4.0000)) #300 175 
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+        elif(self.currentPartida == "partida"):
+            pass
         pygame.display.update() 
+
 
     def cerrarHilo(self):
         #si está activo, que lo detenga
@@ -142,82 +150,88 @@ class PartidaScreen:
 
     def render(self):
         #render screen
-        self.ProcesamientoPartida = ProcesamientoPartida(self.seed_random,self.currentPartida)
-        self.letterwidth = (self.width/3.4286)/6 #cálculo de la base en píxeles 
-        self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
-        self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
-        self.msg = self.fuente2.render('Preparando Partida', True, self.color_white)
-        self.msg1 = self.fuente2.render('Preparando Partida.', True, self.color_white)
-        self.msg2 = self.fuente2.render('Preparando Partida..', True, self.color_white)
-        self.msg3 = self.fuente2.render('Preparando Partida...', True, self.color_white)
-        self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
-        self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
-        self.screen.blit(self.msg3, (self.width/4.0000, self.height/4.0000)) #300 175 
-        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-        self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
-        if(not self.isOnline):
-            print(self.GLOBAL.getOtherPlayers())
-            print(self.password,self.id)
-            for i in range(0,len(self.GLOBAL.getOtherPlayers())):
-                if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
-                    socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    try:
-                        socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
-                        msg = f"{self.password};{self.id};ve_partida_fromSalaEspera"
-                        socket_temporal.sendall(msg.encode('utf-8'))
-                    except Exception as e:
-                        print('e1: ',e)
-                        pass
-                    finally:
-                        socket_temporal.close() #se cierra el socket al terminar
-            #inicio del hilo de carga de partida
-            self.ProcesamientoPartida.initialize(self.numJugadores,self.DMVoice,self.currentPartida,self.personaje)
-            self.hiloProcesamientoPartida = threading.Thread(target=self.ProcesamientoPartida.prepararPartida)
-            self.hiloProcesamientoPartida.start()
-        else:
-            #TODO: esperar a recibir maquina de estados para la partida, y crearla con la configuración de voz y efectos
+        if(self.currentPartida == "loading"):
+            self.ProcesamientoPartida = ProcesamientoPartida(self.seed_random,self.currentPartida)
+            self.letterwidth = (self.width/3.4286)/6 #cálculo de la base en píxeles 
+            self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+            self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
+            self.msg = self.fuente2.render('Preparando Partida', True, self.color_white)
+            self.msg1 = self.fuente2.render('Preparando Partida.', True, self.color_white)
+            self.msg2 = self.fuente2.render('Preparando Partida..', True, self.color_white)
+            self.msg3 = self.fuente2.render('Preparando Partida...', True, self.color_white)
+            self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+            self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+            self.screen.blit(self.msg3, (self.width/4.0000, self.height/4.0000)) #300 175 
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+            if(not self.isOnline):
+                print(self.GLOBAL.getOtherPlayers())
+                print(self.password,self.id)
+                for i in range(0,len(self.GLOBAL.getOtherPlayers())):
+                    if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[1][2]): 
+                        socket_temporal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                        try:
+                            socket_temporal.connect((self.GLOBAL.getOtherPlayersIndex(i)[1][4],self.GLOBAL.getOtherPlayersIndex(i)[1][5]))
+                            msg = f"{self.password};{self.id};ve_partida_fromSalaEspera"
+                            socket_temporal.sendall(msg.encode('utf-8'))
+                        except Exception as e:
+                            print('e1: ',e)
+                            pass
+                        finally:
+                            socket_temporal.close() #se cierra el socket al terminar
+                #inicio del hilo de carga de partida
+                self.ProcesamientoPartida.initialize(self.numJugadores,self.DMVoice,self.currentPartida,self.personaje,self)
+                self.hiloProcesamientoPartida = threading.Thread(target=self.ProcesamientoPartida.prepararPartida)
+                self.hiloProcesamientoPartida.start()
+            else:
+                #TODO: esperar a recibir maquina de estados para la partida, y crearla con la configuración de voz y efectos
+                pass
+        elif(self.currentPartida == "partida"):
             pass
         pygame.display.update() 
 
-    def animateText(self,maxFPS):
-        x_size = self.width/3.8339
-        y_size = self.height/12.2807
-        x_start = self.width/2.7907
-        y_start = self.height/1.1667
-        (x,y) = pygame.mouse.get_pos()
+    def animateScreen(self,maxFPS):
+        if(self.currentPartida == "loading"):
+            x_size = self.width/3.8339
+            y_size = self.height/12.2807
+            x_start = self.width/2.7907
+            y_start = self.height/1.1667
+            (x,y) = pygame.mouse.get_pos()
 
-        #frames del contador para cambiar la animación -> por si hubiera cambiado los FPS máximos
-        change_frame = maxFPS // 4 
-        #Calculamos el frame actual
-        self.currentFrame +=1 
+            #frames del contador para cambiar la animación -> por si hubiera cambiado los FPS máximos
+            change_frame = maxFPS // 4 
+            #Calculamos el frame actual
+            self.currentFrame +=1 
 
-        #Cargamos la animación
-        if(self.currentFrame >= change_frame):
-            #Reseteamos a 0 el contador para esperar a la siguiente animación
-            #Cargamos la base de la pantalla
-            self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
-            self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+            #Cargamos la animación
+            if(self.currentFrame >= change_frame):
+                #Reseteamos a 0 el contador para esperar a la siguiente animación
+                #Cargamos la base de la pantalla
+                self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+                self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
 
-            if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
-                self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-            else:
-                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
-        
-            self.currentFrame = 0
-            if(self.contMsg == 0):
-                self.screen.blit(self.msg, (self.width/4.0000, self.height/4.0000)) #300 175 
-                self.contMsg +=1
-            elif(self.contMsg == 1):
-                self.screen.blit(self.msg1, (self.width/4.0000, self.height/4.0000)) #300 175 
-                self.contMsg +=1
-            elif(self.contMsg == 2):
-                self.screen.blit(self.msg2, (self.width/4.0000, self.height/4.0000)) #300 175 
-                self.contMsg +=1
-            elif(self.contMsg == 3):
-                self.screen.blit(self.msg3, (self.width/4.0000, self.height/4.0000)) #300 175 
-                self.contMsg = 0
-            pygame.display.update()
+                if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
+                    self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+                else:
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+            
+                self.currentFrame = 0
+                if(self.contMsg == 0):
+                    self.screen.blit(self.msg, (self.width/4.0000, self.height/4.0000)) #300 175 
+                    self.contMsg +=1
+                elif(self.contMsg == 1):
+                    self.screen.blit(self.msg1, (self.width/4.0000, self.height/4.0000)) #300 175 
+                    self.contMsg +=1
+                elif(self.contMsg == 2):
+                    self.screen.blit(self.msg2, (self.width/4.0000, self.height/4.0000)) #300 175 
+                    self.contMsg +=1
+                elif(self.contMsg == 3):
+                    self.screen.blit(self.msg3, (self.width/4.0000, self.height/4.0000)) #300 175 
+                    self.contMsg = 0
+                pygame.display.update()
+        elif(self.currentPartida == "partida"):
+            pass
 
     # size_x, size_y: tamaño del botón en x y en y
     # x_start y y_start: posición de la esquina izquierda del botón
@@ -231,48 +245,54 @@ class PartidaScreen:
     def clickedMouse(self):
         #click del ratón
         #calculo del tamaño del botón y su posición -> Empezar Simulación
-        x_size = self.width/3.8339
-        y_size = self.height/12.2807
-        x_start = self.width/2.7907
-        y_start = self.height/1.1667
-        (x,y) = pygame.mouse.get_pos()
+        if(self.currentPartida == "loading"):
+            x_size = self.width/3.8339
+            y_size = self.height/12.2807
+            x_start = self.width/2.7907
+            y_start = self.height/1.1667
+            (x,y) = pygame.mouse.get_pos()
 
-        #Botón volver al menú
-        if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
-            self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
-            self.ch1.play(self.pressed)
-            pygame.display.update() 
-            mixer.music.stop()#para la música
-            mixer.music.load("sounds/background.wav") #carga de nuevo la canción normal de fondo
-            mixer.music.play(-1)
-            try:
-                self.cerrarHilo()
-            except:
-                pass
-            return 'menu'
-        else:
-            return 'partida'
+            #Botón volver al menú
+            if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
+                self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+                self.ch1.play(self.pressed)
+                pygame.display.update() 
+                mixer.music.stop()#para la música
+                mixer.music.load("sounds/background.wav") #carga de nuevo la canción normal de fondo
+                mixer.music.play(-1)
+                try:
+                    self.cerrarHilo()
+                except:
+                    pass
+                return 'menu'
+            else:
+                return 'partida'
+        elif(self.currentPartida == "partida"):
+            pass
         
 
     def movedMouse(self):
-        x_size = self.width/3.8339
-        y_size = self.height/12.2807
-        x_start = self.width/2.7907
-        y_start = self.height/1.1667
-        (x,y) = pygame.mouse.get_pos()
+        if(self.currentPartida == "loading"):
+            x_size = self.width/3.8339
+            y_size = self.height/12.2807
+            x_start = self.width/2.7907
+            y_start = self.height/1.1667
+            (x,y) = pygame.mouse.get_pos()
 
-        #Botón volver al menú
-        if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
-            self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
-            if(self.first_timeB):
-                self.first_timeB = False
-                self.ch2.play(self.selected)     
-            pygame.display.update() 
+            #Botón volver al menú
+            if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
+                self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+                if(self.first_timeB):
+                    self.first_timeB = False
+                    self.ch2.play(self.selected)     
+                pygame.display.update() 
 
-        else:
-            self.first_timeB = True
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
-            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
-            pygame.display.update() 
+            else:
+                self.first_timeB = True
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+                pygame.display.update() 
+        elif(self.currentPartida == "partida"):
+            pass
