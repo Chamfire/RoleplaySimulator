@@ -78,7 +78,7 @@ class PartidaScreen:
         self.color_white = (255,255,255)
         self.color_black = (0,0,0)
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
-        self.enviar_msg = self.fuente.render('Comunicar mensaje', True, self.color_white)
+        self.enviar_msg = self.fuente.render('Enviar mensaje', True, self.color_white)
         self.pedir_turno_palabra = self.fuente.render('Pedir la palabra', True, self.color_white)
         self.liberar_turno_palabra = self.fuente.render('Ceder la palabra', True, self.color_white)
         self.msg = None
