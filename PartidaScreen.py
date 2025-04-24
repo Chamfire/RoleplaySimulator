@@ -147,10 +147,10 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/12658)) #313 57 865 553
-            self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2774)) #x x 925 548
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+            self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-            self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4553)) #x x 925 481
+            self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
         pygame.display.update() 
 
 

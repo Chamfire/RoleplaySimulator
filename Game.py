@@ -628,6 +628,10 @@ class Game:
             pass
         self.configuration.saveConfigurationToFile()
         try:
+            self.partidaScreen.cerrarHilo()
+        except:
+            pass
+        try:
             self.s.close()
         except:
             pass
