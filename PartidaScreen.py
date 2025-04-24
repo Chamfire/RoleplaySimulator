@@ -141,8 +141,8 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5000, self.height/1.1667)) #313 57 800 605
-            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.3953, self.height/1.1570)) #x x 860 x
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3333, self.height/1.1290)) #313 57 900 620
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2500, self.height/1.1200)) #x x 960 625
         pygame.display.update() 
 
 
@@ -194,6 +194,8 @@ class PartidaScreen:
                 pass
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3333, self.height/1.1290)) #313 57 900 620
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2500, self.height/1.1200)) #x x 960 625
         pygame.display.update() 
 
     def animateScreen(self,maxFPS):
@@ -239,8 +241,8 @@ class PartidaScreen:
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             if(self.first_timeScreen == True):
                 self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
-                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5000, self.height/1.1667)) #313 57 800 605
-                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.3953, self.height/1.1570)) #x x 860 x
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3333, self.height/1.1290)) #313 57 900 620
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2500, self.height/1.1200)) #x x 960 625
                 self.first_timeScreen = False
                 pygame.display.update()
             else:
