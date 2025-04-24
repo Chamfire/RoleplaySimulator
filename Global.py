@@ -26,6 +26,16 @@ class Global:
         listaPersonajesHost = {}
         global actualPartidaState 
         actualPartidaState = None #por defecto es none
+        global tokenDePalabra 
+        tokenDePalabra = None
+
+    def setTokenDePalabra(self,id_usuario):
+        global tokenDePalabra
+        tokenDePalabra = id_usuario
+
+    def getTokenDePalabra(self):
+        global tokenDePalabra
+        return tokenDePalabra
 
     def setActualPartidaState(self,state):
         global actualPartidaState
