@@ -24,6 +24,16 @@ class Global:
         currentScreen = "menu"
         global listaPersonajesHost
         listaPersonajesHost = {}
+        global actualPartidaState 
+        actualPartidaState = None #por defecto es none
+
+    def setActualPartidaState(self,state):
+        global actualPartidaState
+        actualPartidaState = state
+
+    def getActualPartidaState(self):
+        global actualPartidaState
+        return actualPartidaState
 
     def setCurrentScreen(self,s):
         global currentScreen
