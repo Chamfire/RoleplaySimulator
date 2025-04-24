@@ -480,6 +480,8 @@ class ProcesamientoPartida:
         fin_time = time.time()
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
 
+
+        #TODO: Mensaje TCP a todos los jugadores para que cambien sus variables globales de actualPartidaScreen a "partida"
         
         maquina.initExecution()
         # #simulamos que todos le han dado ok al botón
