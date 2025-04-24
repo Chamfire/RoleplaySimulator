@@ -47,6 +47,7 @@ class PartidaScreen:
         self.ProcesamientoPartida = None
         self.GLOBAL = Global()
         self.GLOBAL.setActualPartidaState("loading") #por defecto será loading
+        self.first_timeScreen = True
 
         #canales
         self.ch1 = ch1
@@ -110,6 +111,8 @@ class PartidaScreen:
 
     def changeScreen(self,pantalla):
         self.GLOBAL.setActualPartidaState(pantalla)
+        if(pantalla == "loading"):
+            self.first_timeScreen = True
         
     def setPassword(self,v):
         self.password = v
@@ -138,6 +141,8 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5000, self.height/1.1667)) #313 57 800 605
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.3953, self.height/1.1570)) #x x 860 x
         pygame.display.update() 
 
 
@@ -232,8 +237,13 @@ class PartidaScreen:
                     self.contMsg = 0
                 pygame.display.update()
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
-            pass
-
+            if(self.first_timeScreen == True):
+                self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5000, self.height/1.1667)) #313 57 800 605
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.3953, self.height/1.1570)) #x x 860 x
+                self.first_timeScreen = False
+            else:
+                pass
     # size_x, size_y: tamaño del botón en x y en y
     # x_start y y_start: posición de la esquina izquierda del botón
     # pos_x y pos_y: posición actual del ratón
@@ -271,6 +281,7 @@ class PartidaScreen:
                 return 'partida'
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             pass
+            #TODO: self.first_timeScreen = True  #para resetear al salir al menú
         
 
     def movedMouse(self):
