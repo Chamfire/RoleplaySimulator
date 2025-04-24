@@ -116,6 +116,28 @@ class EscuchaTCPClient:
                             print(personaje.equipo.printEquipoConsolaDebugSuperficial())
                             self.personaje_received = personaje
                             self.GLOBAL.setRefreshScreen("partida") #te manda a partida
+                        elif(resp[0] == "ve_partidaLoaded"):
+                            #que cambie de pantalla a selección de personaje
+                            #usaremos content, porque aquí el split no tiene sentido (es un json)
+                            resp_final = []
+                            total_recibido = len(resp[2])
+                            resp_final.append(bytes(resp[2], encoding='utf8'))
+                            while (total_recibido < int(resp[1])):
+                                #no hemos recibido todo el mensaje
+                                #print("fragmento 1 recibido del personaje")
+                                resp_fragment = socket_c.recv(4096)
+                                if not resp_fragment:
+                                    break
+                                resp_final.append(resp_fragment)
+                                total_recibido += len(resp_fragment)
+                            respuesta = b''.join(resp_final)
+                            datos_personaje_decoded = base64.b64decode(respuesta)
+                            personaje = pickle.loads(datos_personaje_decoded)   #extraer los datos
+                            print(personaje.name)
+                            print(personaje.equipo.printEquipoConsolaDebugSuperficial())
+                            self.personaje_received = personaje
+                            self.GLOBAL.setActualPartidaState("partida") #le decimos que cargue directamente la partida
+                            self.GLOBAL.setRefreshScreen("partida") #te manda a partida
                         elif(resp[0] == "ve_partida_fromSalaEspera"):
                             self.GLOBAL.setRefreshScreen("partida") #te manda a partida
                     #si no es el id del servidor, o la contraseña no es correcta, lo ignoramos

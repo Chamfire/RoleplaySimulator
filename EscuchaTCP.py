@@ -247,7 +247,10 @@ class EscuchaTCP:
                         personaje_temp = self.GLOBAL.getListaPersonajeHostIndex(resp[1][3])
                         datos_personaje_serialized = pickle.dumps(personaje_temp)
                         datos_personaje_encoded = base64.b64encode(datos_personaje_serialized).decode('utf-8')
-                        msg_ok = f"ok_ve_partida:{len(datos_personaje_encoded)}:{datos_personaje_encoded}:{self.numJugadores}:{self.puertoUDP}:{self.idPropia};{self.nombrePropio};{self.miIcono};True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                        if(self.GLOBAL.getActualPartidaState() == "loading"):
+                            msg_ok = f"ok_ve_partida:{len(datos_personaje_encoded)}:{datos_personaje_encoded}:{self.numJugadores}:{self.puertoUDP}:{self.idPropia};{self.nombrePropio};{self.miIcono};True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
+                        elif(self.GLOBAL.getActualPartidaState() == "partida"):
+                            msg_ok = f"ok_ve_partidaLoaded:{len(datos_personaje_encoded)}:{datos_personaje_encoded}:{self.numJugadores}:{self.puertoUDP}:{self.idPropia};{self.nombrePropio};{self.miIcono};True"#te pasas a ti mismo como jugador, para que te añada -> True porque estás activo
                     for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                         if(self.GLOBAL.getOtherPlayersIndex(i) != None): #le pasamos la lista de jugadores tanto activos como inactivos
                             #print('aquí' ,self.GLOBAL.getOtherPlayersIndex(i))
