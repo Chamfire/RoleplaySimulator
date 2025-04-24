@@ -407,7 +407,7 @@ class PartidaScreen:
                 pygame.display.update() 
             
             #Botón enviar mensaje
-            if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start2,x,y)):
+            elif(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start2,x,y)):
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -422,7 +422,7 @@ class PartidaScreen:
                 pygame.display.update() 
             
             #Botón pedir turno
-            if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
+            elif(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
