@@ -349,7 +349,7 @@ class PartidaScreen:
                 except:
                     self.currentTextToShow = ""
             
-                if(self.currentTextToShow[0] != "" and (len(self.currentTextToShow[2])+5) >= (self.currentTextToShow[1])):
+                if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (len(self.currentTextToShow[2])+5) >= (self.currentTextToShow[1])):
                     #hay que printear animado el texto
                     self.currentFrame +=1 
                     #Cargamos la animación
