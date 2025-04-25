@@ -359,7 +359,7 @@ class PartidaScreen:
                     #Cargamos la animación
                     if(self.currentFrame >= change_frame):
                         print("inside 3")
-                        if((self.currentTextToShow[2]+5) < self.currentTextToShow[1]):
+                        if((self.currentTextToShow[2]+5) > self.currentTextToShow[1]):
                             print("inside 4")
                             #printar texto con una letra más
                             self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
