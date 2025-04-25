@@ -174,8 +174,8 @@ class PartidaScreen:
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
             self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
-            self.inputBoxDescripcion = pygame.Rect(self.width/30.0000, self.height/1.5695, self.width/1.5000, self.height/5.6452) #40 446 800 124
-            pygame.draw.rect(self.screen, self.color_black, self.inputBoxDescripcion, 2)
+            self.inputBoxDescripcion = pygame.Rect(self.width/48.0000, self.height/1.4894, self.width/1.4815, self.height/5.6452) #25 470 810 124
+            pygame.draw.rect(self.screen, self.color_white, self.inputBoxDescripcion, 2)
         pygame.display.update() 
 
 
@@ -239,9 +239,49 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
             self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
 
-            self.inputBoxDescripcion = pygame.Rect(self.width/30.0000, self.height/1.5695, self.width/1.5000, self.height/5.6452) #40 446 800 124
-            pygame.draw.rect(self.screen, self.color_black, self.inputBoxDescripcion, 2)
+            self.inputBoxDescripcion = pygame.Rect(self.width/48.0000, self.height/1.4894, self.width/1.4815, self.height/5.6452) #25 470 810 124
+            pygame.draw.rect(self.screen, self.color_white, self.inputBoxDescripcion, 2)
         pygame.display.update() 
+
+    def renderTextBlock(self,text,position):
+        currentWordsPrinted = 0
+        lineSpacing = -2
+        spaceWidth, fontHeight = self.fuente4.size(" ")[0], self.fuente4.size("Tg")[1]
+
+        listOfWords = text.split(" ")
+        imageList = [self.fuente4.render(word, True, self.color_white) for word in listOfWords]
+
+        maxLen = self.inputBoxDescripcion[2]-20 #10 de cada lado de margen
+        lineLenList = [0]
+        lineList = [[]]
+        for image in imageList:
+            width = image.get_width()
+            lineLen = lineLenList[-1] + len(lineList[-1]) * spaceWidth + width
+            if len(lineList[-1]) == 0 or lineLen <= maxLen:
+                lineLenList[-1] += width
+                lineList[-1].append(image)
+            else:
+                lineLenList.append(width)
+                lineList.append([image])
+
+        lineBottom = self.inputBoxDescripcion[1] 
+        lastLine = 0
+        for lineLen, lineImages in zip(lineLenList, lineList):
+            lineLeft = self.inputBoxDescripcion[0] +10
+            #if len(lineImages) > 1:
+            #   spaceWidth = (self.inputBoxDescripcion[2] - lineLen -20) // (len(lineImages)-1)
+            if lineBottom + fontHeight > self.inputBoxDescripcion[1] + self.inputBoxDescripcion[3]:
+                break
+            lastLine += 1
+            for i, image in enumerate(lineImages):
+                x, y = lineLeft + i*spaceWidth, lineBottom
+                if(position >= currentWordsPrinted):
+                    self.screen.blit(image, (round(x), y))
+                    lineLeft += image.get_width() 
+                    currentWordsPrinted += 1
+                else:
+                    return #así termina el método
+            lineBottom += fontHeight + lineSpacing
 
     def animateScreen(self,maxFPS):
         if(self.GLOBAL.getActualPartidaState() == "loading"):
@@ -304,20 +344,21 @@ class PartidaScreen:
 
                 try:
                     if(self.currentTextToShow == ""):
-                        self.currentTextToShow = [self.textoDM.get(block = False),0]
+                        self.currentTextToShow = [self.textoDM.get(block = False),0,None]
+                        self.currentTextToShow = [self.currentTextToShow[0],0,len(self.currentTextToShow.split(" "))] #texto,palabras_printeadas,total_palabras_a_printear
                 except:
                     self.currentTextToShow = ""
-
-                if(self.currentTextToShow[0] != "" and len(self.currentTextToShow[0]) >= (self.currentTextToShow[1]+8)):
+            
+                if(self.currentTextToShow[0] != "" and (len(self.currentTextToShow[2])+5) >= (self.currentTextToShow[1])):
                     #hay que printear animado el texto
                     self.currentFrame +=1 
                     #Cargamos la animación
                     if(self.currentFrame >= change_frame):
                         if(len(self.currentTextToShow[0]) < self.currentTextToShow[1]):
                             #printar texto con una letra más
-
-                            pass
-                        elif(len(self.currentTextToShow[0]) == (self.currentTextToShow[1] +8)):
+                            self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
+                            self.currentTextToShow[1] +=1
+                        elif((len(self.currentTextToShow[2])+5) == (self.currentTextToShow[1])):
                             self.reload() #refresco la pantalla, reseteando el texto a blanco
                         else:
                             pass #dejar la pantalla con el texto que se puso
