@@ -358,12 +358,13 @@ class PartidaScreen:
                         if((self.currentTextToShow[2]+5) < self.currentTextToShow[1]):
                             #printar texto con una letra más
                             self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
+
                             self.currentTextToShow[1] +=1
                         elif((self.currentTextToShow[2]+5) == (self.currentTextToShow[1])):
                             self.reload() #refresco la pantalla, reseteando el texto a blanco
                         else:
                             pass #dejar la pantalla con el texto que se puso
-
+            pygame.display.update()
                     
     # size_x, size_y: tamaño del botón en x y en y
     # x_start y y_start: posición de la esquina izquierda del botón
