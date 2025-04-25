@@ -345,8 +345,9 @@ class PartidaScreen:
                 try:
                     if(self.currentTextToShow == ""):
                         self.currentTextToShow = [self.textoDM.get(block = False),0,None]
-                        self.currentTextToShow = [self.currentTextToShow[0],0,len(self.currentTextToShow.split(" "))] #texto,palabras_printeadas,total_palabras_a_printear
-                except:
+                        self.currentTextToShow = [self.currentTextToShow[0],0,len(self.currentTextToShow[0].split(" "))] #texto,palabras_printeadas,total_palabras_a_printear
+                except Exception as e:
+                    print(e)
                     self.currentTextToShow = ""
             
                 if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (len(self.currentTextToShow[2])+5) >= (self.currentTextToShow[1])):
