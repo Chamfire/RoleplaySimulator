@@ -340,27 +340,33 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 aux = self.GLOBAL.extractAndRemoveTextoDM()
                 if(aux != ""):
+                    print(self.textoDM)
                     self.textoDM.put(aux)
 
                 try:
                     if(self.currentTextToShow == ""):
+                        print("inside")
                         self.currentTextToShow = [self.textoDM.get(block = False),0,None]
                         self.currentTextToShow = [self.currentTextToShow[0],0,len(self.currentTextToShow[0].split(" "))] #texto,palabras_printeadas,total_palabras_a_printear
                 except Exception as e:
                     print(e)
                     self.currentTextToShow = ""
-            
+                print(self.currentTextToShow)
                 if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (self.currentTextToShow[2]+5) >= (self.currentTextToShow[1])):
                     #hay que printear animado el texto
                     self.currentFrame +=1 
+                    print("inside 2")
                     #Cargamos la animación
                     if(self.currentFrame >= change_frame):
+                        print("inside 3")
                         if((self.currentTextToShow[2]+5) < self.currentTextToShow[1]):
+                            print("inside 4")
                             #printar texto con una letra más
                             self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
 
                             self.currentTextToShow[1] +=1
                         elif((self.currentTextToShow[2]+5) == (self.currentTextToShow[1])):
+                            print("inside 5")
                             self.reload() #refresco la pantalla, reseteando el texto a blanco
                         else:
                             pass #dejar la pantalla con el texto que se puso
