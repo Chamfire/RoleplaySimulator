@@ -350,16 +350,16 @@ class PartidaScreen:
                     print(e)
                     self.currentTextToShow = ""
             
-                if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (len(self.currentTextToShow[2])+5) >= (self.currentTextToShow[1])):
+                if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (self.currentTextToShow[2]+5) >= (self.currentTextToShow[1])):
                     #hay que printear animado el texto
                     self.currentFrame +=1 
                     #Cargamos la animación
                     if(self.currentFrame >= change_frame):
-                        if(len(self.currentTextToShow[0]) < self.currentTextToShow[1]):
+                        if((self.currentTextToShow[2]+5) < self.currentTextToShow[1]):
                             #printar texto con una letra más
                             self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
                             self.currentTextToShow[1] +=1
-                        elif((len(self.currentTextToShow[2])+5) == (self.currentTextToShow[1])):
+                        elif((self.currentTextToShow[2]+5) == (self.currentTextToShow[1])):
                             self.reload() #refresco la pantalla, reseteando el texto a blanco
                         else:
                             pass #dejar la pantalla con el texto que se puso
