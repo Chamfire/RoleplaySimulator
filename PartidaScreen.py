@@ -342,7 +342,7 @@ class PartidaScreen:
                     pass
                 
             else:
-                change_frame = maxFPS // 2 
+                change_frame = maxFPS//2
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
@@ -366,7 +366,6 @@ class PartidaScreen:
 
                 aux = self.GLOBAL.extractAndRemoveTextoDM()
                 if(aux != ""):
-                    print(self.textoDM)
                     self.textoDM.put(aux)
 
                 try:
@@ -382,12 +381,10 @@ class PartidaScreen:
                     if(self.currentFrame >= change_frame):
                         if((self.currentTextToShow[2]+10) > self.currentTextToShow[1]):
                             #printar texto con una letra más
-                            print("rendering")
                             self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
                             self.currentTextToShow[1] +=1
-                        elif((self.currentTextToShow[2]+10) == (self.currentTextToShow[1])):
-                            print("reload")
-                            self.reload() #refresco la pantalla, reseteando el texto a blanco
+                            self.currentFrame = 0
+                        elif((self.currentTextToShow[2]+10) < (self.currentTextToShow[1])):
                             self.currentTextToShow = ""
                         else:
                             pass #dejar la pantalla con el texto que se puso
