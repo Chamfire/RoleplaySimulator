@@ -87,7 +87,7 @@ class PartidaScreen:
         self.msg2 = None
         self.msg3 = None
         self.textoDM = queue.Queue()
-        self.currentTextToShow = None
+        self.currentTextToShow = ""
 
         #estado variable
         self.contMsg = 0 #por defecto empieza en 0
@@ -174,6 +174,8 @@ class PartidaScreen:
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
             self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+            self.inputBoxDescripcion = pygame.Rect(self.width/30.0000, self.height/1.5695, self.width/1.5000, self.height/5.6452) #40 446 800 124
+            pygame.draw.rect(self.screen, self.color_black, self.inputBoxDescripcion, 2)
         pygame.display.update() 
 
 
@@ -236,9 +238,9 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
             self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
-            #TODO: Cambiar medidas
-            self.inputBoxDescripcion = pygame.Rect(self.width/13.3333, self.height/2.9167, self.width/1.2000, self.height/2.3333) #90 240 1000 300
-            pygame.draw.rect(self.screen, self.color_white, self.inputBoxDescripcion, 2)
+
+            self.inputBoxDescripcion = pygame.Rect(self.width/30.0000, self.height/1.5695, self.width/1.5000, self.height/5.6452) #40 446 800 124
+            pygame.draw.rect(self.screen, self.color_black, self.inputBoxDescripcion, 2)
         pygame.display.update() 
 
     def animateScreen(self,maxFPS):
@@ -301,21 +303,21 @@ class PartidaScreen:
                     self.textoDM.put(aux)
 
                 try:
-                    if(self.currentTextToShow == None):
+                    if(self.currentTextToShow == ""):
                         self.currentTextToShow = [self.textoDM.get(block = False),0]
                 except:
-                    self.currentTextToShow = None
+                    self.currentTextToShow = ""
 
-                if(self.currentTextToShow[0] != None and len(self.currentTextToShow[0] >= (self.currentTextToShow[1]+8))):
+                if(self.currentTextToShow[0] != "" and len(self.currentTextToShow[0]) >= (self.currentTextToShow[1]+8)):
                     #hay que printear animado el texto
                     self.currentFrame +=1 
                     #Cargamos la animación
                     if(self.currentFrame >= change_frame):
-                        if(len(self.currentTextToShow[0] < self.currentTextToShow[1])):
+                        if(len(self.currentTextToShow[0]) < self.currentTextToShow[1]):
                             #printar texto con una letra más
 
                             pass
-                        elif(len(self.currentTextToShow[0] == (self.currentTextToShow[1] +8))):
+                        elif(len(self.currentTextToShow[0]) == (self.currentTextToShow[1] +8)):
                             self.reload() #refresco la pantalla, reseteando el texto a blanco
                         else:
                             pass #dejar la pantalla con el texto que se puso
