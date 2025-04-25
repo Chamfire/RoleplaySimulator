@@ -249,7 +249,7 @@ class PartidaScreen:
         spaceWidth, fontHeight = self.fuente4.size(" ")[0], self.fuente4.size("Tg")[1]
 
         listOfWords = text.split(" ")
-        imageList = [self.fuente4.render(word, True, self.color_white) for word in listOfWords]
+        imageList = [self.fuente4.render(word, True, self.color_black) for word in listOfWords]
 
         maxLen = self.inputBoxDescripcion[2]-20 #10 de cada lado de margen
         lineLenList = [0]
@@ -276,6 +276,7 @@ class PartidaScreen:
             for i, image in enumerate(lineImages):
                 x, y = lineLeft + i*spaceWidth, lineBottom
                 if(position >= currentWordsPrinted):
+                    print(f"printing text: {x}, {y}, image")
                     self.screen.blit(image, (round(x), y))
                     lineLeft += image.get_width() 
                     currentWordsPrinted += 1
@@ -335,7 +336,7 @@ class PartidaScreen:
                     pass
                 
             else:
-                change_frame = maxFPS // 4 
+                change_frame = maxFPS // 2 
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 aux = self.GLOBAL.extractAndRemoveTextoDM()
@@ -345,31 +346,25 @@ class PartidaScreen:
 
                 try:
                     if(self.currentTextToShow == ""):
-                        print("inside")
                         self.currentTextToShow = [self.textoDM.get(block = False),0,None]
                         self.currentTextToShow = [self.currentTextToShow[0],0,len(self.currentTextToShow[0].split(" "))] #texto,palabras_printeadas,total_palabras_a_printear
-                except Exception as e:
-                    print(e)
+                except:
                     self.currentTextToShow = ""
-                print(self.currentTextToShow)
                 if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (self.currentTextToShow[2]+5) >= (self.currentTextToShow[1])):
                     #hay que printear animado el texto
                     self.currentFrame +=1 
-                    print("inside 2")
                     #Cargamos la animación
                     if(self.currentFrame >= change_frame):
-                        print("inside 3")
-                        if((self.currentTextToShow[2]+5) > self.currentTextToShow[1]):
-                            print("inside 4")
+                        if((self.currentTextToShow[2]+10) > self.currentTextToShow[1]):
                             #printar texto con una letra más
                             self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
-
                             self.currentTextToShow[1] +=1
-                        elif((self.currentTextToShow[2]+5) == (self.currentTextToShow[1])):
-                            print("inside 5")
+                        elif((self.currentTextToShow[2]+10) == (self.currentTextToShow[1])):
                             self.reload() #refresco la pantalla, reseteando el texto a blanco
+                            self.currentTextToShow = ""
                         else:
                             pass #dejar la pantalla con el texto que se puso
+            print("updating")
             pygame.display.update()
                     
     # size_x, size_y: tamaño del botón en x y en y
