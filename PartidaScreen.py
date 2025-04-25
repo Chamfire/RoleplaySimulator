@@ -7,6 +7,7 @@ import threading
 import socket
 import ctypes
 from Global import Global
+import queue
 from ProcesamientoPartida import ProcesamientoPartida
 
 
@@ -85,6 +86,8 @@ class PartidaScreen:
         self.msg1 = None
         self.msg2 = None
         self.msg3 = None
+        self.textoDM = queue.Queue()
+        self.currentTextToShow = None
 
         #estado variable
         self.contMsg = 0 #por defecto empieza en 0
@@ -139,6 +142,14 @@ class PartidaScreen:
         hiloEnviarEstadoUDP.start()
 
     def reload(self):
+        x_size = self.width/3.8339
+        y_size = self.height/12.2807
+        x_start = self.width/1.3873
+        y_start = self.height/1.1290
+        y_start2 = self.height/1.2658
+        y_start3 = self.height/1.4403
+        (x,y) = pygame.mouse.get_pos()
+
         if(self.GLOBAL.getActualPartidaState() == "loading"):
             self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
             self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
@@ -147,11 +158,21 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
+            if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
+                self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+            
+            if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start2,x,y)):
+                self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
             self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+            if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
+                self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+            else:
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
             self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
         pygame.display.update() 
 
@@ -166,11 +187,16 @@ class PartidaScreen:
 
     def render(self):
         #render screen
+        self.letterwidth = (self.width/3.4286)/6 #cálculo de la base en píxeles 
+        self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
+
+        self.letterwidth3 = (self.width/3.4286)/22 #cálculo de la base en píxeles 
+        self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
+
         if(self.GLOBAL.getActualPartidaState() == "loading"):
             self.ProcesamientoPartida = ProcesamientoPartida(self.seed_random,self.currentPartida)
-            self.letterwidth = (self.width/3.4286)/6 #cálculo de la base en píxeles 
-            self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
-            self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
             self.msg = self.fuente2.render('Preparando Partida', True, self.color_white)
             self.msg1 = self.fuente2.render('Preparando Partida.', True, self.color_white)
             self.msg2 = self.fuente2.render('Preparando Partida..', True, self.color_white)
@@ -210,6 +236,9 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
             self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+            #TODO: Cambiar medidas
+            self.inputBoxDescripcion = pygame.Rect(self.width/13.3333, self.height/2.9167, self.width/1.2000, self.height/2.3333) #90 240 1000 300
+            pygame.draw.rect(self.screen, self.color_white, self.inputBoxDescripcion, 2)
         pygame.display.update() 
 
     def animateScreen(self,maxFPS):
@@ -258,14 +287,40 @@ class PartidaScreen:
                     self.GLOBAL.setTokenDePalabra(None)
                     self.reload()
                     self.first_timeScreen = False
+                    self.currentFrame = 0
                 else:
                     #TODO: establecer turno de palabra en función de lo que te haya dicho el mensaje UDP
                     pass
                 
             else:
+                change_frame = maxFPS // 4 
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
-                
+                aux = self.GLOBAL.extractAndRemoveTextoDM()
+                if(aux != ""):
+                    self.textoDM.put(aux)
+
+                try:
+                    if(self.currentTextToShow == None):
+                        self.currentTextToShow = [self.textoDM.get(block = False),0]
+                except:
+                    self.currentTextToShow = None
+
+                if(self.currentTextToShow[0] != None and len(self.currentTextToShow[0] >= (self.currentTextToShow[1]+8))):
+                    #hay que printear animado el texto
+                    self.currentFrame +=1 
+                    #Cargamos la animación
+                    if(self.currentFrame >= change_frame):
+                        if(len(self.currentTextToShow[0] < self.currentTextToShow[1])):
+                            #printar texto con una letra más
+
+                            pass
+                        elif(len(self.currentTextToShow[0] == (self.currentTextToShow[1] +8))):
+                            self.reload() #refresco la pantalla, reseteando el texto a blanco
+                        else:
+                            pass #dejar la pantalla con el texto que se puso
+
+                    
     # size_x, size_y: tamaño del botón en x y en y
     # x_start y y_start: posición de la esquina izquierda del botón
     # pos_x y pos_y: posición actual del ratón

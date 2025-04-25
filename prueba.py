@@ -55,3 +55,6 @@ p1.var = 4
 
 for i in array:
     print(i.var)
+
+patata = "patata"
+print(len(patata))

@@ -423,10 +423,13 @@ class DM:
         voices = self.engine.getProperty('voices')
         self.engine.setProperty('voice', voices[0].id) #voz en español
         self.engine.setProperty('language',"es-ES")
+        self.GLOBAL = Global()
 
     def changeEnabledDMVoice(self,enabled):
         self.enabledDMVoice = enabled
     def speak(self,text):
+        #cambio de la variable de texto a mostrar en la interfaz
+        self.GLOBAL.setTextoDM(text)
         if(self.enabledDMVoice):
             self.engine.say(text)
             self.engine.runAndWait()

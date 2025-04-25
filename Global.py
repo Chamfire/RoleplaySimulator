@@ -8,6 +8,7 @@ class Global:
         self.lock_np = threading.Lock() #para gestionar las salidas de la partida
         self.lock_cs = threading.Lock() #para gestionar la currentScreen
         self.lock_lph = threading.Lock() #para gestionar la lista de personajes en el host
+        self.lock_text = threading.Lock() #para gestionar el texto que va a mostrar el DM
 
     def initialize(self):
         global otherPlayers 
@@ -28,6 +29,22 @@ class Global:
         actualPartidaState = None #por defecto es none
         global tokenDePalabra 
         tokenDePalabra = None
+        global texto_DM 
+        texto_DM = ""
+
+    def setTextoDM(self,texto):
+        global texto_DM
+        self.lock_text.acquire()
+        texto_DM = texto
+        self.lock_text.release()
+    
+    def extractAndRemoveTextoDM(self):
+        global texto_DM
+        self.lock_text.acquire()
+        aux = texto_DM
+        texto_DM = "" 
+        self.lock_text.release()
+        return aux
 
     def setTokenDePalabra(self,id_usuario):
         global tokenDePalabra
