@@ -418,7 +418,7 @@ class DM:
         self.enabledDMVoice = enabledDMVoice
         self.engine = pyttsx3.init() #inicializamos el text-to-speech por si estuviera habilitado
         rate = self.engine.getProperty('rate')
-        self.engine.setProperty('rate', 150) #velocidad de lectura x1
+        self.engine.setProperty('rate', 150) #velocidad de lectura 
         self.engine.setProperty('volume',1) #para que la ia se escuche por encima de todo
         voices = self.engine.getProperty('voices')
         self.engine.setProperty('voice', voices[0].id) #voz en español
@@ -430,6 +430,7 @@ class DM:
     def speak(self,text):
         #cambio de la variable de texto a mostrar en la interfaz
         self.GLOBAL.setTextoDM(text)
+        print("establecido texto global DM")
         if(self.enabledDMVoice):
             self.engine.say(text)
             self.engine.runAndWait()

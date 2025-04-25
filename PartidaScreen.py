@@ -193,7 +193,7 @@ class PartidaScreen:
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
 
-        self.letterwidth3 = (self.width/3.4286)/26 #cálculo de la base en píxeles 
+        self.letterwidth3 = (self.width/3.4286)/32 #cálculo de la base en píxeles 
         self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
 
@@ -368,7 +368,7 @@ class PartidaScreen:
                     pass
                 
             else:
-                change_frame = maxFPS//4
+                change_frame = maxFPS//8
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
@@ -393,7 +393,6 @@ class PartidaScreen:
                 aux = self.GLOBAL.extractAndRemoveTextoDM()
                 if(aux != ""):
                     self.textoDM.put(aux)
-
                 try:
                     if(self.currentTextToShow == ""):
                         self.currentTextToShow = [self.textoDM.get(block = False),0,None]
@@ -401,19 +400,20 @@ class PartidaScreen:
                 except:
                     self.currentTextToShow = ""
                 if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (self.currentTextToShow[2]+5) >= (self.currentTextToShow[1])):
-                    #hay que printear animado el texto
-                    self.currentFrame +=1 
+                    #hay que printear animado el texto    
                     #Cargamos la animación
+                    self.currentFrame +=1 
                     if(self.currentFrame >= change_frame):
-                        if((self.currentTextToShow[2]+10) > self.currentTextToShow[1]):
+                        if(self.currentTextToShow[2] > self.currentTextToShow[1]):
                             #printar texto con una letra más
                             self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
                             self.currentTextToShow[1] +=1
                             self.currentFrame = 0
-                        elif((self.currentTextToShow[2]+10) < (self.currentTextToShow[1])):
+                        elif(self.currentTextToShow[2] == self.currentTextToShow[1]):
                             self.currentTextToShow = ""
                         else:
-                            pass #dejar la pantalla con el texto que se puso
+                            self.currentTextToShow = ""
+                        
                 pygame.display.update()
                     
     # size_x, size_y: tamaño del botón en x y en y
