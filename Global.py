@@ -34,6 +34,16 @@ class Global:
         texto_DM = ""
         global imagenPartida
         imagenPartida = ""
+        global canStart
+        canStart = False
+
+    def setCanStart(self,v):
+        global canStart
+        canStart = v
+
+    def getCanStart(self):
+        global canStart
+        return canStart
 
     def setImagePartida(self,path):
         global imagenPartida

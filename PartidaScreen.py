@@ -51,6 +51,8 @@ class PartidaScreen:
         self.first_timeScreen = True
         self.startBoton = True
         self.availableStart = False
+        self.textWriten = False
+        self.canCheck = True
 
         #canales
         self.ch1 = ch1
@@ -432,7 +434,10 @@ class PartidaScreen:
                 change_frame = maxFPS//8
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
-
+                
+                if(self.canCheck and self.textWriten and self.GLOBAL.getCanStart()):
+                    self.availableStart = True
+                    self.canCheck = False
                 if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
                     self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 else:
@@ -493,7 +498,8 @@ class PartidaScreen:
                             self.currentTextToShow[1] +=1
                             self.currentFrame = 0
                         elif(self.currentTextToShow[2] == self.currentTextToShow[1]):
-                            if(self.currentTextToShow[0][22:] == "Te muestro una imagen."):
+                            self.textWriten = True
+                            if((len(self.currentTextToShow[0]) >= 22) and (self.currentTextToShow[0][22:] == "Te muestro una imagen.")):
                                 self.changePhoto = True
                             self.currentTextToShow = ""
                             
