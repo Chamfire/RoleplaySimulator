@@ -489,7 +489,7 @@ class PartidaScreen:
                         self.currentTextToShow = [self.currentTextToShow[0],0,len(self.currentTextToShow[0].split(" "))] #texto,palabras_printeadas,total_palabras_a_printear
                 except:
                     self.currentTextToShow = ""
-                if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (self.currentTextToShow[2]+5) >= (self.currentTextToShow[1])):
+                if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (self.currentTextToShow[2]) >= (self.currentTextToShow[1])):
                     #hay que printear animado el texto    
                     #Cargamos la animación
                     self.currentFrame +=1 
@@ -506,13 +506,13 @@ class PartidaScreen:
                                 self.changePhoto = True
                                 self.GLOBAL.setShowImage(False)
                             self.currentTextToShow = ""
-                            
                         else:
-                            yes = self.GLOBAL.getShowImage()
-                            if(yes):
-                                self.changePhoto = True
-                                self.GLOBAL.setShowImage(False)
                             self.currentTextToShow = ""
+
+                yes = self.GLOBAL.getShowImage()
+                if(yes):
+                    self.changePhoto = True
+                    self.GLOBAL.setShowImage(False)
                         
                 pygame.display.update()
                     
