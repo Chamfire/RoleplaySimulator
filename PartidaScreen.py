@@ -578,15 +578,13 @@ class PartidaScreen:
                     self.ch1.play(self.error)
                 if(self.startBoton):
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                
-                if(self.availableStart and self.startBoton):
-                    self.startBoton = False
-                    self.ProcesamientoPartida.clickBotonPreparado()
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
-                    
+                if(self.availableStart and self.startBoton):
+                    self.startBoton = False
+                    self.ProcesamientoPartida.clickBotonPreparado()
                 pygame.display.update() 
                 return 'partida'
             
