@@ -98,6 +98,7 @@ class EstadoInicial(Estado):
         DM.speak(self.dialogoDMIntro) 
         #DM.printVoices()
         self.variableDeCheck["progreso"] = True
+        self.GLOBAL.setCanStart(True)
         
 
 class EstadoDeMision(Estado):
