@@ -31,6 +31,16 @@ class Global:
         tokenDePalabra = None
         global texto_DM 
         texto_DM = ""
+        global imagenPartida
+        imagenPartida = ""
+
+    def setImagePartida(self,path):
+        global imagenPartida
+        imagenPartida = path
+
+    def getImagePartida(self):
+        global imagenPartida
+        return imagenPartida
 
     def setTextoDM(self,texto):
         global texto_DM

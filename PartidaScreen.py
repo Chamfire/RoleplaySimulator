@@ -73,6 +73,7 @@ class PartidaScreen:
         self.buttonSelectedPic = pygame.image.load("images/button_selected.png")
         self.buttonPressedPic = pygame.image.load("images/button_pressed.png")
         self.backgroundPartidaPic = pygame.image.load("images/background_partida.png")
+        self.image = None
 
         #fuentes y colores
         self.fuente = pygame.font.SysFont(font, 70)
@@ -176,6 +177,11 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
             self.inputBoxDescripcion = pygame.Rect(self.width/48.0000, self.height/1.4894, self.width/1.4815, self.height/5.6452) #25 470 810 124
             pygame.draw.rect(self.screen, self.color_white, self.inputBoxDescripcion, 2)
+            img = self.GLOBAL.getImagePartida() 
+            if(img != ""):
+                self.image = pygame.image.load(img)
+                self.screen.blit(pygame.transform.scale(self.image, (self.width/4.7244, self.height/2.7559)), (self.width/1.3378, self.height/14.2857)) #254 254 897 49
+
         pygame.display.update() 
 
 
@@ -389,6 +395,10 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                 self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
 
+                img = self.GLOBAL.getImagePartida() 
+                if(img != ""):
+                    self.image = pygame.image.load(img)
+                    self.screen.blit(pygame.transform.scale(self.image, (self.width/4.7244, self.height/2.7559)), (self.width/1.3378, self.height/14.2857)) #254 254 897 49
 
                 aux = self.GLOBAL.extractAndRemoveTextoDM()
                 if(aux != ""):

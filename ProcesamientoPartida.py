@@ -367,7 +367,7 @@ class ProcesamientoPartida:
 
         self.RAG_historia.escribirInfoNPC(self.personaje.name,self.personaje.descripcion_fisica,infoTrasfondo,motivoUbicacion)
         maquina.crearEstadoSala(self.numJugadores)
-        maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo)
+        maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo,NPC_imagen_carpeta)
         print("Progreso: 11%")
 
         #listas para las misiones

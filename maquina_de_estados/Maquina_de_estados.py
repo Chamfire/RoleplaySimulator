@@ -101,9 +101,10 @@ class EstadoInicial(Estado):
         
 
 class EstadoDeMision(Estado):
-    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,descripcionFisicaNPC,motivoUbicacion, trasfondoNPC,id,personajeDelHost):
+    def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,descripcionFisicaNPC,motivoUbicacion, trasfondoNPC,id,personajeDelHost,pathImageNPC):
         super().__init__(isInicial,content,id)
         self.variableDeCheck["progreso"] = {}
+        self.pathImageNPC = pathImageNPC
         self.personajeDelHost = personajeDelHost
         self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = -1
         for personaje in self.GLOBAL.getListaPersonajeHost():
@@ -158,6 +159,7 @@ class EstadoDeMision(Estado):
 
     def OnEnterEstadoByPlayer(self,DM,personaje):
         print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        self.GLOBAL.setImagePartida(self.pathImageNPC)
         DM.speak(self.dialogoDMIntro) 
         #DM.printVoices()
         #TODO: enviar TCP
@@ -470,8 +472,8 @@ class Maquina_de_estados:
             #para cada jugador, ejecuta su siguiente estado
             self.runNextEstado(personaje)
 
-    def crearEstadoDeMision(self,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC):
-        self.estadosDeMision[self.numMisionID] = EstadoDeMision(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC,self.ids,self.personajeDelHost)
+    def crearEstadoDeMision(self,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC,pathImageNPC):
+        self.estadosDeMision[self.numMisionID] = EstadoDeMision(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,descripcion_fisicaNPC,motivoUbicacion,trasfondoNPC,self.ids,self.personajeDelHost,pathImageNPC)
         for sala in range(1,len(self.ordenEstados)):
             self.ordenEstados[sala].ordenEstados[self.ordenEstados[sala].ids] = self.estadosDeMision[self.numMisionID] #es la misma referencia de objeto para todas las salas
             self.ordenEstados[sala].ids +=1
