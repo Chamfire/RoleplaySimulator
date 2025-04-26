@@ -34,6 +34,7 @@ class ProcesamientoPartida:
         self.generation_kwargs = None
         self.llm = None
         self.numJugadores = None
+        self.maquina = None
         self.GLOBAL = Global()
         self.DMVoice = None
         self.PartidaObjeto = None
@@ -153,8 +154,8 @@ class ProcesamientoPartida:
 
         #Generación del primer estado de la máquina
         #TODO: Modificar para cargar máquina de estados de la bbdd
-        maquina = Maquina_de_estados(self.DMVoice,self.currentPartida,self.jugadorHost)
-        maquina.crearEstadoInicial(response_good)
+        self.maquina = Maquina_de_estados(self.DMVoice,self.currentPartida,self.jugadorHost)
+        self.maquina.crearEstadoInicial(response_good)
         print("Progreso: 7%")
 
         #Escojo NPC
@@ -366,8 +367,8 @@ class ProcesamientoPartida:
         # print("-----------------")
 
         self.RAG_historia.escribirInfoNPC(self.personaje.name,self.personaje.descripcion_fisica,infoTrasfondo,motivoUbicacion)
-        maquina.crearEstadoSala(self.numJugadores)
-        maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo,NPC_imagen_carpeta)
+        self.maquina.crearEstadoSala(self.numJugadores)
+        self.maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo,NPC_imagen_carpeta)
         print("Progreso: 11%")
 
         #listas para las misiones
@@ -474,7 +475,7 @@ class ProcesamientoPartida:
         print(dialogos_presentacion)
         self.RAG_historia.escribirDialogosNPC(dialogos_presentacion)
         
-        maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision)
+        self.maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision)
 
         #procesamiento....
         fin_time = time.time()
@@ -483,18 +484,20 @@ class ProcesamientoPartida:
         self.GLOBAL.setActualPartidaState("partida")
         #TODO: Mensaje TCP a todos los jugadores para que cambien sus variables globales de actualPartidaScreen a "partida"
         
-        maquina.initExecution()
+        self.maquina.initExecution()
         # #simulamos que todos le han dado ok al botón
-        maquina.ordenEstados[1].ModifyState(self.jugadorHost,0)#he hecho click en 'ok'
+
+    def clickBotonPreparado(self):
+        self.maquina.ordenEstados[1].ModifyState(self.jugadorHost,0)#he hecho click en 'ok'
 
         # #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
-        maquina.runNextEstado(self.jugadorHost)
+        self.maquina.runNextEstado(self.jugadorHost)
         #simulamos que el jugador le da click al NPC estando a 5 pies de distancia
         #Sala 0 -> Mision 0 -> Habla NPC
-        maquina.ordenEstados[1].ordenEstados[0].ordenEstados[0].ModifyToTrueHablaNPC(self.jugadorHost)
-        maquina.runNextEstado(self.jugadorHost)
+        self.maquina.ordenEstados[1].ordenEstados[0].ordenEstados[0].ModifyToTrueHablaNPC(self.jugadorHost)
+        self.maquina.runNextEstado(self.jugadorHost)
         #simulamos que dice ok a ayudar
-        maquina.ordenEstados[1].ordenEstados[0].ordenEstados[1].giveMision()
-        maquina.runNextEstado(self.jugadorHost)
+        self.maquina.ordenEstados[1].ordenEstados[0].ordenEstados[1].giveMision()
+        self.maquina.runNextEstado(self.jugadorHost)
 
 
