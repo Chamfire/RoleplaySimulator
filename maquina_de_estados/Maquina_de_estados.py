@@ -159,8 +159,8 @@ class EstadoDeMision(Estado):
 
     def OnEnterEstadoByPlayer(self,DM,personaje):
         print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
-        self.GLOBAL.setImagePartida(self.pathImageNPC)
         DM.speak(self.dialogoDMIntro) 
+        self.GLOBAL.setImagePartida(self.pathImageNPC)
         #DM.printVoices()
         #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0

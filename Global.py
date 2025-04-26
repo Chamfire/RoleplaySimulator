@@ -9,6 +9,7 @@ class Global:
         self.lock_cs = threading.Lock() #para gestionar la currentScreen
         self.lock_lph = threading.Lock() #para gestionar la lista de personajes en el host
         self.lock_text = threading.Lock() #para gestionar el texto que va a mostrar el DM
+        self.lock_image = threading.Lock() #para gestionar la imagen que va a mostrar el DM
 
     def initialize(self):
         global otherPlayers 
@@ -36,11 +37,17 @@ class Global:
 
     def setImagePartida(self,path):
         global imagenPartida
+        self.lock_image.acquire()
         imagenPartida = path
+        self.lock_image.release()
 
     def getImagePartida(self):
         global imagenPartida
-        return imagenPartida
+        self.lock_image.acquire()
+        img = imagenPartida
+        imagenPartida = ""
+        self.lock_image.release()
+        return img
 
     def setTextoDM(self,texto):
         global texto_DM
