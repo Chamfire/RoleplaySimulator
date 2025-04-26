@@ -488,6 +488,8 @@ class ProcesamientoPartida:
         finished = False
         while(not finished):
             self.maquina.runNextEstado(self.jugadorHost)
+    def getNPC(self):
+        return self.personaje
 
     def clickBotonPreparado(self):
         # #simulamos que todos le han dado ok al botón

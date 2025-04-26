@@ -512,7 +512,7 @@ class PartidaScreen:
                 if(yes):
                     self.changePhoto = True
                     self.GLOBAL.setShowImage(False)
-                        
+                    
                 pygame.display.update()
                     
     # size_x, size_y: tamaño del botón en x y en y
