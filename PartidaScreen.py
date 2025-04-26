@@ -494,7 +494,6 @@ class PartidaScreen:
                             self.currentFrame = 0
                         elif(self.currentTextToShow[2] == self.currentTextToShow[1]):
                             self.currentTextToShow = ""
-                            self.currentTextToShow[1] +=1
                             self.changePhoto = True #le obligamos a cambiar de foto
                         else:
                             self.currentTextToShow = ""
