@@ -579,6 +579,8 @@ class PartidaScreen:
                     self.ch1.play(self.error)
                 if(self.startBoton):
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
+                
+                if(self.availableStart and self.startBoton):
                     self.startBoton = False
                     self.ProcesamientoPartida.clickBotonPreparado()
                 else:
