@@ -201,7 +201,7 @@ class PartidaScreen:
                     if(self.changePhoto):
                         self.currentImageToShow = self.image.get()
                         self.changePhoto = False
-                        self.imagePhoto = pygame.image.load(img)
+                        self.imagePhoto = pygame.image.load(self.currentImageToShow)
                 except:
                     self.currentImageToShow = ""
 
@@ -324,7 +324,7 @@ class PartidaScreen:
             if(self.changePhoto):
                 self.currentImageToShow = self.image.get()
                 self.changePhoto = False
-                self.imagePhoto = pygame.image.load(img)
+                self.imagePhoto = pygame.image.load(self.currentImageToShow)
         except:
             self.currentImageToShow = ""
 
@@ -471,7 +471,7 @@ class PartidaScreen:
                         print("changing photo")
                         self.currentImageToShow = self.image.get()
                         self.changePhoto = False
-                        self.imagePhoto = pygame.image.load(img)
+                        self.imagePhoto = pygame.image.load(self.currentImageToShow)
                 except Exception as e:
                     print(e)
                     self.currentImageToShow = ""
