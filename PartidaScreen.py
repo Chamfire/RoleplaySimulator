@@ -468,10 +468,12 @@ class PartidaScreen:
 
                 try:
                     if(self.changePhoto):
+                        print("changing photo")
                         self.currentImageToShow = self.image.get()
                         self.changePhoto = False
                         self.imagePhoto = pygame.image.load(img)
-                except:
+                except Exception as e:
+                    print(e)
                     self.currentImageToShow = ""
 
                 if(self.currentImageToShow != ""):
@@ -499,12 +501,17 @@ class PartidaScreen:
                             self.currentFrame = 0
                         elif(self.currentTextToShow[2] == self.currentTextToShow[1]):
                             self.textWriten = True
-                            if(self.GLOBAL.getShowImage()):
+                            yes = self.GLOBAL.getShowImage()
+                            if(yes):
                                 self.changePhoto = True
                                 self.GLOBAL.setShowImage(False)
                             self.currentTextToShow = ""
                             
                         else:
+                            yes = self.GLOBAL.getShowImage()
+                            if(yes):
+                                self.changePhoto = True
+                                self.GLOBAL.setShowImage(False)
                             self.currentTextToShow = ""
                         
                 pygame.display.update()
