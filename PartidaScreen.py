@@ -468,7 +468,6 @@ class PartidaScreen:
 
                 try:
                     if(self.changePhoto):
-                        print("changing photo")
                         self.currentImageToShow = self.image.get()
                         self.changePhoto = False
                         self.imagePhoto = pygame.image.load(self.currentImageToShow)

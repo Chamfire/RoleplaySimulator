@@ -162,7 +162,6 @@ class EstadoDeMision(Estado):
         print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         DM.speak(self.dialogoDMIntro) 
         self.GLOBAL.setImagePartida(self.pathImageNPC)
-        print("setting to True image")
         self.GLOBAL.setShowImage(True)
         #DM.printVoices()
         #TODO: enviar TCP
