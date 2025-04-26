@@ -485,19 +485,22 @@ class ProcesamientoPartida:
         #TODO: Mensaje TCP a todos los jugadores para que cambien sus variables globales de actualPartidaScreen a "partida"
         
         self.maquina.initExecution()
+        finished = False
+        while(not finished):
+            self.maquina.runNextEstado(self.jugadorHost)
 
     def clickBotonPreparado(self):
         # #simulamos que todos le han dado ok al botón
         self.maquina.ordenEstados[1].ModifyState(self.jugadorHost,0)#he hecho click en 'ok'
 
-        # #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
-        self.maquina.runNextEstado(self.jugadorHost)
-        #simulamos que el jugador le da click al NPC estando a 5 pies de distancia
-        #Sala 0 -> Mision 0 -> Habla NPC
-        self.maquina.ordenEstados[1].ordenEstados[0].ordenEstados[0].ModifyToTrueHablaNPC(self.jugadorHost)
-        self.maquina.runNextEstado(self.jugadorHost)
-        #simulamos que dice ok a ayudar
-        self.maquina.ordenEstados[1].ordenEstados[0].ordenEstados[1].giveMision()
-        self.maquina.runNextEstado(self.jugadorHost)
+        # # #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
+        # self.maquina.runNextEstado(self.jugadorHost)
+        # #simulamos que el jugador le da click al NPC estando a 5 pies de distancia
+        # #Sala 0 -> Mision 0 -> Habla NPC
+        # self.maquina.ordenEstados[1].ordenEstados[0].ordenEstados[0].ModifyToTrueHablaNPC(self.jugadorHost)
+        # self.maquina.runNextEstado(self.jugadorHost)
+        # #simulamos que dice ok a ayudar
+        # self.maquina.ordenEstados[1].ordenEstados[0].ordenEstados[1].giveMision()
+        # self.maquina.runNextEstado(self.jugadorHost)
 
 
