@@ -485,9 +485,9 @@ class ProcesamientoPartida:
         #TODO: Mensaje TCP a todos los jugadores para que cambien sus variables globales de actualPartidaScreen a "partida"
         
         self.maquina.initExecution()
-        # #simulamos que todos le han dado ok al botón
 
     def clickBotonPreparado(self):
+        # #simulamos que todos le han dado ok al botón
         self.maquina.ordenEstados[1].ModifyState(self.jugadorHost,0)#he hecho click en 'ok'
 
         # #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción

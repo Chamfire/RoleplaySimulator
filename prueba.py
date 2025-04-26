@@ -58,3 +58,4 @@ for i in array:
 
 patata = "patata"
 print(len(patata))
+print(patata[3:])
