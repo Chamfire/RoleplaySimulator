@@ -36,6 +36,16 @@ class Global:
         imagenPartida = ""
         global canStart
         canStart = False
+        global showImage 
+        showImage = False
+
+    def setShowImage(self,v):
+        global showImage
+        showImage = v
+
+    def getShowImage(self):
+        global showImage
+        return showImage
 
     def setCanStart(self,v):
         global canStart

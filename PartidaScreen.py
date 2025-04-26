@@ -499,8 +499,9 @@ class PartidaScreen:
                             self.currentFrame = 0
                         elif(self.currentTextToShow[2] == self.currentTextToShow[1]):
                             self.textWriten = True
-                            if((len(self.currentTextToShow[0]) >= 22) and (self.currentTextToShow[0][22:] == "Te muestro una imagen.")):
+                            if(self.GLOBAL.getShowImage()):
                                 self.changePhoto = True
+                                self.GLOBAL.setShowImage(False)
                             self.currentTextToShow = ""
                             
                         else:
