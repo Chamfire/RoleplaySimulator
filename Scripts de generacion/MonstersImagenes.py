@@ -22,7 +22,7 @@ negative_prompt = "3d render, realistic"
 monstruos = {"ship_background"}
 
 for monster in monstruos:
-    prompt = "pixel,  "+  " a medieval ship in the middle of the ocean"
+    prompt = "pixel,  "+  "forest full of trees, and a river across it"
 
     #Generación de las imágenes
     for i in range(0,16):
@@ -33,4 +33,4 @@ for monster in monstruos:
             guidance_scale=1.5,
         ).images[0]
             
-        img.save(f""+monster+"_"+str(i)+".png")
+        img.save(f"bosque_"+str(i)+".png")
