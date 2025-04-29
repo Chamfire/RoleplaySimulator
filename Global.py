@@ -38,6 +38,16 @@ class Global:
         canStart = False
         global showImage 
         showImage = False
+        global imagenPartidaBkg
+        imagenPartidaBkg = ""
+
+    def getImagePartidaBkg(self):
+        global imagenPartidaBkg
+        return imagenPartidaBkg
+    
+    def setImagePartidaBkg(self,v):
+        global imagenPartidaBkg 
+        imagenPartidaBkg = v
 
     def setShowImage(self,v):
         global showImage

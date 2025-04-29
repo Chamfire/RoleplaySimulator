@@ -9,6 +9,7 @@ import ctypes
 from Global import Global
 import queue
 from ProcesamientoPartida import ProcesamientoPartida
+import sqlite3
 
 
 class PartidaScreen:
@@ -81,6 +82,7 @@ class PartidaScreen:
         self.changePhoto = False
         self.currentImageToShow = ""
         self.imagePhoto = ""
+        self.currentImageBkgToShow = ""
 
         #fuentes y colores
         self.fuente = pygame.font.SysFont(font, 70)
@@ -168,6 +170,7 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
+            self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
             if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
                 self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             else:
@@ -228,6 +231,16 @@ class PartidaScreen:
         self.letterwidth3 = (self.width/3.4286)/32 #cálculo de la base en píxeles 
         self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
+        #para extraer qué ubicación se escogió
+        conn = sqlite3.connect("simuladordnd.db")
+        cur = conn.cursor()
+        #cargamos la partida 1, si existe: el orden de las columnas será ese
+        cur.execute("SELECT ubicacion_historia FROM partida WHERE numPartida = '"+self.currentPartida+"'")
+        rows = cur.fetchall() #para llegar a esta pantalla, la pantalla tiene que existir sí o sí
+        if(rows[0] != None):
+            ubicacion = rows[0][0]
+        conn.close()
+        self.currentImageBkgToShow = pygame.image.load("images/background/"+ubicacion+".png")
 
         if(self.GLOBAL.getActualPartidaState() == "loading"):
             self.startBoton = True
@@ -265,6 +278,7 @@ class PartidaScreen:
                 pass
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
+            self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
             if(self.availableStart):
@@ -292,6 +306,7 @@ class PartidaScreen:
         y_start3 = self.height/1.4403
         (x,y) = pygame.mouse.get_pos()
         self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
+        self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
         else:
