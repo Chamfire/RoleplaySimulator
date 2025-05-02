@@ -1,4 +1,5 @@
 from Lista_Inventario import Lista_Inventario
+import numpy as np
 
 class Patata:
     def __init__(self,var):
@@ -59,3 +60,10 @@ for i in array:
 patata = "patata"
 print(len(patata))
 print(patata[3:])
+matrix = np.zeros((5,5))
+matrix[0][0] = 1
+matrix[1][2] = 2
+print(matrix)
+aux_matrix = matrix.copy()
+aux_matrix[1][2] = 3
+print(matrix)
