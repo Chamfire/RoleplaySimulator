@@ -9,6 +9,15 @@ import heapq
 # 0: Casilla sin determinar
 # 1: 
 
+class Sala:
+    def __init__(self,i):
+        self.id = i
+        self.es_obligatoria = False
+        self.esInicial = False
+        self.daASalas = []
+        self.tienePortales = []
+        self.requiereLlave = False
+
 
 class Map_generation:
     def __init__(self,eleccion,currentPartida):
@@ -22,6 +31,7 @@ class Map_generation:
         self.grafos = {}
         self.adyacencias = None
         self.matrix = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 500 x 500 -> es el mapa
+        self.objetos = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 500 x 500 -> es el mapa
         if(self.eleccion == "mazmorra"):
             self.createMazmorra() 
         elif(self.eleccion == "barco"):
@@ -61,8 +71,10 @@ class Map_generation:
         for i in range(0,num_aleatorio_salas):
             room_sizes[i] = [random.randint(length_min_one_side,length_max_one_side),random.randint(length_min_one_side,length_max_one_side)]
             self.adyacencias = np.zeros((num_aleatorio_salas,num_aleatorio_salas), dtype=int)
+            self.salas[i] = Sala(i)
 
-        self.salas[0] = ["inicial","obligatoria"]
+        self.salas[0].esInicial = True
+        self.salas[0].esObligatoria = True
         print("Número total de salas: ", num_aleatorio_salas)
         print("Tamaños de las salas: ")
         print(room_sizes)
@@ -140,6 +152,78 @@ class Map_generation:
             self.matrix[pos][self.map_size-1] = -1
 
         self.createPasillosMazmorra(room_start_points,room_sizes)
+        subarboles = []
+        for sala in self.salas:
+            subArbol = [self.getSubArbol(room_start_points,sala)]
+            subarboles += subArbol
+            if(len(subArbol[0]) == (len(self.salas)-1)):
+                #todos están conectados
+                break
+            else:
+                pass
+        ##Conecto los subárboles que se hayan quedado aislados mediante portales
+        exit_val = False
+        while(len(subarboles) != 1):
+            for subArbol in subarboles:
+                for subArbol2 in subarboles:
+                    if(subArbol != subArbol2):
+                        for sala in subArbol:
+                            for sala2 in subArbol2:
+                                if(sala not in subArbol2 and sala2 not in subArbol2):
+                                    [posx,posy] = room_start_points[sala]
+                                    for currentx in range(posx,posx+room_sizes[sala]):
+                                        for currenty in range(posy,posy+room_sizes[sala]):
+                                            if(self.matrix[currenty][currentx] == 1 and self.matrix[currenty+1][currentx] != 13 and self.matrix[currenty-1][currentx] != 12 and self.matrix[currenty][currentx+1] != 11 and self.matrix[currenty][currentx-1] != 10):
+                                                self.salas[sala].tienePortales += [currentx,currenty]
+                                                self.objetos[currentx][currenty] = 32
+                                                self.adyacencias[sala][sala2] = -1
+
+                                    [posx,posy] = room_start_points[sala2]
+                                    for currentx in range(posx,posx+room_sizes[sala2]):
+                                        for currenty in range(posy,posy+room_sizes[sala2]):
+                                            if(self.matrix[currenty][currentx] == 1 and self.matrix[currenty+1][currentx] != 13 and self.matrix[currenty-1][currentx] != 12 and self.matrix[currenty][currentx+1] != 11 and self.matrix[currenty][currentx-1] != 10):
+                                                self.salas[sala2].tienePortales += [currentx,currenty]
+                                                self.objetos[currentx][currenty] = 32
+                                                self.adyacencias[sala2][sala] = -1
+                                    newSubArbol = subArbol | subArbol2
+                                    subarboles.remove(subArbol)
+                                    subarboles.remove(subArbol2)
+                                    subarboles +=newSubArbol
+                                    exit_val = True
+                                    break
+                            if(exit_val):
+                                break
+                        if(exit_val):
+                            break
+                if(exit_val):
+                    break
+            if(exit_val):
+                exit_val = False
+                break
+
+        #Una vez que están todas las salas conectadas, establezco los enlaces directos entre salas
+        for sala in self.salas:
+            self.setSalasLinked(sala)
+            print("Sala "+str(sala)+" acceso directo a:")
+            print(self.salas[sala].daASalas)
+
+    def setSalasLinked(self,room_from):
+        num_sala = -1
+        for conn in self.adyacencias[room_from]:
+            num_sala +=1
+            if(num_sala != room_from):
+                if(conn == 1 or conn == 2 or conn == -1):
+                    #existe un túnel entre num_sala y room_from
+                    self.salas[room_from].daASalas += [num_sala]
+            
+    def getSubArbol(self,room_start_points,num_sala):
+        #cogemos, por ejemplo, la sala 0
+        arbol = set()
+        for i in room_start_points:
+            if(i != num_sala):
+                if(self.existeConexion(num_sala,i,[])):
+                    arbol.add(i)
+        return arbol
 
     def getRoomAtPoint(self,x,y,room_sizes,room_start_points):
         for i,size in room_sizes.items():
@@ -156,7 +240,7 @@ class Map_generation:
         for conn in self.adyacencias[room_from]:
             num_sala +=1
             if(num_sala not in checked and num_sala != room_from):
-                if(conn == 1 or conn == 2):
+                if(conn == 1 or conn == 2 or conn == -1):
                     #existe un túnel entre num_sala y room_from
                     if(num_sala == room_to):
                         #es la sala que buscábamos
@@ -169,9 +253,8 @@ class Map_generation:
         return False
 
 
-    def todasLasSalasAlcanzables(self,room_start_points):
+    def todasLasSalasAlcanzables(self,room_start_points,num_sala = 0):
         #cogemos, por ejemplo, la sala 0
-        num_sala = 0
         cont1 = 0
         cont2 = 0
         for i in room_start_points:
@@ -338,7 +421,6 @@ class Map_generation:
                                 current_y = door_from[1]
                                 camino += ["izquierda"]
                             #proceso de crear camino
-                            print(current_x,current_y,door_from,door_to,camino,i,num_sala)
                             camino_final = self.caminoPosible(current_x,current_y,door_from,door_to,camino,i,num_sala,set())
                             
                             if(camino_final[0] == True):
@@ -396,28 +478,24 @@ class Map_generation:
         
         open_set = []
         heapq.heappush(open_set, (0, start, camino))
-        closed_set = set()  # Conjunto de nodos ya procesados
+        closed_set = set() 
 
-        # Diccionario para almacenar el coste g de cada nodo (distancia desde el inicio)
+
         g_score = {start: 0}
         
         while open_set:
             f_score, (x, y), path = heapq.heappop(open_set)
-
-            #print(f"Procesando nodo: {(x, y)} con camino actual: {path}")
-
-            # Si llegamos al objetivo, devolvemos el camino
             if (x, y) == goal:
                 self.adyacencias[s1][s2] = 2
                 self.adyacencias[s2][s1] = 2
                 return [True, path]
 
-            # Si el nodo ya fue procesado, lo saltamos
+
             if (x, y) in closed_set:
                 continue
             closed_set.add((x, y))
 
-            # Exploramos las direcciones posibles (arriba, abajo, izquierda, derecha)
+
             direcciones = {
                 "arriba": (0, -1),
                 "abajo": (0, 1),
@@ -445,15 +523,6 @@ class Map_generation:
                     h_score = np.sqrt((goal[0] - nx) ** 2 + (goal[1] - ny) ** 2)  # Heurística: distancia euclidiana
                     f_score = tentative_g_score + h_score
                     heapq.heappush(open_set, (f_score, new_pos, path + [direccion]))
-
-                    #print(f"Añadido a open_set: {(new_pos, path + [direccion])}")
-
-            # Imprimir estado de open_set y closed_set para depuración
-            #print(f"Estado de open_set: {open_set}")
-            #print(f"Estado de closed_set: {closed_set}")
-
-        # Si no se encuentra el camino, devolvemos False
-        print("No se encontró camino")
         return [False, None]
 
     def calculateHeuristics(self):
@@ -562,8 +631,13 @@ class Map_generation:
                 try:
                     tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
                     self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
-                except Exception as e:
-                    print(e)
+                except:
+                    pass
+                try:
+                    object = pygame.image.load("tiles/dungeon/"+str(self.objetos[j][i])+".png")
+                    self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+                except:
+                    pass
         current_tiles = [0,0]
 
         # self.screen.blit(pygame.transform.scale(self.map, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
@@ -581,12 +655,16 @@ class Map_generation:
                             for i in range(current_tiles[0],current_tiles[0]+26):
                                 cont_x = 0
                                 for j in range(current_tiles[1],current_tiles[1]+10):
-                                    print(self.matrix[j][i])
                                     try:
                                         tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
-                                    except Exception as e:
-                                        print(e)
+                                    except:
+                                        pass
+                                    try:
+                                        object = pygame.image.load("tiles/dungeon/"+str(self.objetos[j][i])+".png")
+                                        self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except:
+                                        pass
                                     cont_x +=1
                                 cont_y +=1
                             pygame.display.update()
@@ -599,12 +677,16 @@ class Map_generation:
                             for i in range(current_tiles[0],current_tiles[0]+26):
                                 cont_x = 0
                                 for j in range(current_tiles[1],current_tiles[1]+10):
-                                    print(self.matrix[j][i])
                                     try:
                                         tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
-                                    except Exception as e:
-                                        print(e)
+                                    except:
+                                        pass
+                                    try:
+                                        object = pygame.image.load("tiles/dungeon/"+str(self.objetos[j][i])+".png")
+                                        self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except:
+                                        pass
                                     cont_x +=1
                                 cont_y +=1
                             pygame.display.update()
@@ -617,12 +699,16 @@ class Map_generation:
                             for i in range(current_tiles[0],current_tiles[0]+26):
                                 cont_x = 0
                                 for j in range(current_tiles[1],current_tiles[1]+10):
-                                    print(self.matrix[j][i])
                                     try:
                                         tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
-                                    except Exception as e:
-                                        print(e)
+                                    except:
+                                        pass
+                                    try:
+                                        object = pygame.image.load("tiles/dungeon/"+str(self.objetos[j][i])+".png")
+                                        self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except:
+                                        pass
                                     cont_x +=1
                                 cont_y +=1
                             pygame.display.update()
@@ -635,12 +721,16 @@ class Map_generation:
                             for i in range(current_tiles[0],current_tiles[0]+26):
                                 cont_x = 0
                                 for j in range(current_tiles[1],current_tiles[1]+10):
-                                    print(self.matrix[j][i])
                                     try:
                                         tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
-                                    except Exception as e:
-                                        print(e)
+                                    except:
+                                        pass
+                                    try:
+                                        object = pygame.image.load("tiles/dungeon/"+str(self.objetos[j][i])+".png")
+                                        self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except:
+                                        pass
                                     cont_x +=1
                                 cont_y +=1
                             pygame.display.update()
