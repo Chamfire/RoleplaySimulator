@@ -2,6 +2,9 @@ import pygame
 import os
 import random
 import numpy as np
+import sys
+import heapq
+
 
 # 0: Casilla sin determinar
 # 1: 
@@ -9,12 +12,15 @@ import numpy as np
 
 class Map_generation:
     def __init__(self,eleccion,currentPartida):
-        config_dir = 'mapas'
+        sys.setrecursionlimit(5000)  
+        config_dir = 'mapas/'+currentPartida
         config_file = 'mapa_'+currentPartida+".txt"
         self.eleccion = eleccion
         self.map_size = 100
         self.centroides = {}
         self.salas = {}
+        self.grafos = {}
+        self.adyacencias = None
         self.matrix = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 500 x 500 -> es el mapa
         if(self.eleccion == "mazmorra"):
             self.createMazmorra() 
@@ -54,6 +60,8 @@ class Map_generation:
         #De forma aleatoria determinamos el tamaño de las salas de la mazmorra, teniendo en cuenta las limitaciones de espacio
         for i in range(0,num_aleatorio_salas):
             room_sizes[i] = [random.randint(length_min_one_side,length_max_one_side),random.randint(length_min_one_side,length_max_one_side)]
+            self.adyacencias = np.zeros((num_aleatorio_salas,num_aleatorio_salas), dtype=int)
+
         self.salas[0] = ["inicial","obligatoria"]
         print("Número total de salas: ", num_aleatorio_salas)
         print("Tamaños de las salas: ")
@@ -132,7 +140,52 @@ class Map_generation:
             self.matrix[pos][self.map_size-1] = -1
 
         self.createPasillosMazmorra(room_start_points,room_sizes)
-    
+
+    def getRoomAtPoint(self,x,y,room_sizes,room_start_points):
+        for i,size in room_sizes.items():
+            start_x = room_start_points[i][0]
+            start_y = room_start_points[i][1]
+            dif = x - start_x
+            dif2 = y - start_y
+            if(dif >= 0 and dif <size[0] and dif2 >= 0 and dif2 < size[1]):
+                return i
+        return -1
+
+    def existeConexion(self,room_from,room_to,checked):
+        num_sala = -1
+        for conn in self.adyacencias[room_from]:
+            num_sala +=1
+            if(num_sala not in checked and num_sala != room_from):
+                if(conn == 1 or conn == 2):
+                    #existe un túnel entre num_sala y room_from
+                    if(num_sala == room_to):
+                        #es la sala que buscábamos
+                        return True
+                    else:
+                        checked += [room_from]
+                        resp = self.existeConexion(num_sala,room_to,checked)
+                    if(resp):
+                        return True
+        return False
+
+
+    def todasLasSalasAlcanzables(self,room_start_points):
+        #cogemos, por ejemplo, la sala 0
+        num_sala = 0
+        cont1 = 0
+        cont2 = 0
+        for i in room_start_points:
+            cont1 +=1
+            if(i != num_sala):
+                if(self.existeConexion(num_sala,i,[])):
+                    cont2 +=1
+        print(str(cont1)+" respecto a "+str(cont2))
+        if((cont1-1) == cont2):
+            return True
+        else:
+            return False
+
+
     def createPasillosMazmorra(self,room_start_points,room_sizes):
         room_end_points = {}
         for i in room_start_points:
@@ -150,87 +203,265 @@ class Map_generation:
                 if(self.matrix[pos_y-1][pos_x] == 0 or self.matrix[pos_y-1][pos_x] == 8):
                     if(self.matrix[pos_y-1][pos_x-1] == 0 or self.matrix[pos_y-1][pos_x-1] == 8 or self.matrix[pos_y-1][pos_x-1] == 5):
                         if(self.matrix[pos_y-1][pos_x+1] == 0 or self.matrix[pos_y-1][pos_x+1] == 8 or self.matrix[pos_y-1][pos_x+1] == 4):                        
-                            if(posibles_puertas_por_sala[i].get("arriba") != None):
-                                posibles_puertas_por_sala[i]["arriba"] += [[pos_y,pos_x]]
+                            room_to = self.getRoomAtPoint(pos_x,pos_y-1,room_sizes,room_start_points)
+                            existe_conn = self.existeConexion(i,room_to,[])
+                            #print("existe conn entre "+str(i)+" y "+str(room_to)+" = "+str(existe_conn))
+                            if(room_to != -1 and not existe_conn):
+                                if(self.matrix[pos_y-1][pos_x] == 8):
+                                    #print("cambio en == 8")
+                                    self.adyacencias[i][room_to] = 1
+                                    self.adyacencias[room_to][i] = 1
+                                    self.matrix[pos_y][pos_x] = 12
+                                    self.matrix[pos_y-1][pos_x] = 13
                             else:
-                                posibles_puertas_por_sala[i]["arriba"] = [[pos_y,pos_x]]
+                                if(posibles_puertas_por_sala[i].get("arriba") != None):
+                                    posibles_puertas_por_sala[i]["arriba"] += [[pos_x,pos_y]]
+                                else:
+                                    posibles_puertas_por_sala[i]["arriba"] = [[pos_x,pos_y]]
 
             pos_x = room_end_points[i][0]
             for pos_y in range(room_start_points[i][1]+1,room_end_points[i][1]):
                 #como es muro dcho, compruebo si lo que tiene a su derecha es un bloque de posible puerta(0 o 9)
-                if(self.matrix[pos_y][pos_x+1] == 0 or self.matrix[pos_y][pos_x+1] == 8):
-                    if(self.matrix[pos_y-1][pos_x+1] == 0 or self.matrix[pos_y-1][pos_x+1] == 8 or self.matrix[pos_y-1][pos_x+1] == 2):
-                        if(self.matrix[pos_y+1][pos_x+1] == 0 or self.matrix[pos_y+1][pos_x+1] == 8 or self.matrix[pos_y+1][pos_x+1] == 5):                        
-                            if(posibles_puertas_por_sala[i].get("derecha") != None):
-                                posibles_puertas_por_sala[i]["derecha"] += [[pos_y,pos_x]]
+                if(self.matrix[pos_y][pos_x+1] == 0 or self.matrix[pos_y][pos_x+1] == 9):
+                    if(self.matrix[pos_y-1][pos_x+1] == 0 or self.matrix[pos_y-1][pos_x+1] == 9 or self.matrix[pos_y-1][pos_x+1] == 2):
+                        if(self.matrix[pos_y+1][pos_x+1] == 0 or self.matrix[pos_y+1][pos_x+1] == 9 or self.matrix[pos_y+1][pos_x+1] == 5):                        
+                            room_to = self.getRoomAtPoint(pos_x+1,pos_y,room_sizes,room_start_points)
+                            existe_conn = self.existeConexion(i,room_to,[])
+                            #print("existe conn entre "+str(i)+" y "+str(room_to)+" = "+str(existe_conn))
+                            if(room_to != -1 and not existe_conn):
+                                #print("cambio en == 9")
+                                if(self.matrix[pos_y][pos_x+1] == 9):
+                                    self.adyacencias[i][room_to] = 1
+                                    self.adyacencias[room_to][i] = 1
+                                    self.matrix[pos_y][pos_x] = 11
+                                    self.matrix[pos_y][pos_x+1] = 10
                             else:
-                                posibles_puertas_por_sala[i]["derecha"] = [[pos_y,pos_x]]
+                                if(posibles_puertas_por_sala[i].get("derecha") != None):
+                                    posibles_puertas_por_sala[i]["derecha"] += [[pos_x,pos_y]]
+                                else:
+                                    posibles_puertas_por_sala[i]["derecha"] = [[pos_x,pos_y]]
                 
             pos_y = room_end_points[i][1]
             for pos_x in range(room_start_points[i][0]+1,room_end_points[i][0]):  
                 #como es muro inferior, compruebo si lo que tiene justo debajo es un bloque de posible puerta(0 o 6)
-                if(self.matrix[pos_y+1][pos_x] == 0 or self.matrix[pos_y+1][pos_x] == 8):
-                    if(self.matrix[pos_y+1][pos_x+1] == 0 or self.matrix[pos_y+1][pos_x+1] == 8 or self.matrix[pos_y+1][pos_x+1] == 3):
-                        if(self.matrix[pos_y+1][pos_x-1] == 0 or self.matrix[pos_y+1][pos_x-1] == 8 or self.matrix[pos_y+1][pos_x-1] == 2):                        
-                            if(posibles_puertas_por_sala[i].get("abajo") != None):
-                                posibles_puertas_por_sala[i]["abajo"] += [[pos_y,pos_x]]
+                if(self.matrix[pos_y+1][pos_x] == 0 or self.matrix[pos_y+1][pos_x] == 6):
+                    if(self.matrix[pos_y+1][pos_x+1] == 0 or self.matrix[pos_y+1][pos_x+1] == 6 or self.matrix[pos_y+1][pos_x+1] == 3):
+                        if(self.matrix[pos_y+1][pos_x-1] == 0 or self.matrix[pos_y+1][pos_x-1] == 6 or self.matrix[pos_y+1][pos_x-1] == 2):                        
+                            room_to = self.getRoomAtPoint(pos_x,pos_y+1,room_sizes,room_start_points)
+                            existe_conn = self.existeConexion(i,room_to,[])
+                            #print("existe conn entre "+str(i)+" y "+str(room_to)+" = "+str(existe_conn))
+                            if(room_to != -1 and not existe_conn):
+                                if(self.matrix[pos_y+1][pos_x] == 6):
+                                    #print("cambion en == 6")
+                                    self.adyacencias[i][room_to] = 1
+                                    self.adyacencias[room_to][i] = 1
+                                    self.matrix[pos_y][pos_x] = 13
+                                    self.matrix[pos_y+1][pos_x] = 12
                             else:
-                                posibles_puertas_por_sala[i]["abajo"] = [[pos_y,pos_x]]
+                                if(posibles_puertas_por_sala[i].get("abajo") != None):
+                                    posibles_puertas_por_sala[i]["abajo"] += [[pos_x,pos_y]]
+                                else:
+                                    posibles_puertas_por_sala[i]["abajo"] = [[pos_x,pos_y]]
 
             pos_x = room_start_points[i][0]
             for pos_y in range(room_start_points[i][1]+1,room_end_points[i][1]):
                 #como es muro izqdo, compruebo si lo que tiene a su izquierda es un bloque de posible puerta(0 o 7)
-                if(self.matrix[pos_y][pos_x-1] == 0 or self.matrix[pos_y][pos_x-1] == 8):
-                    if(self.matrix[pos_y+1][pos_x-1] == 0 or self.matrix[pos_y+1][pos_x-1] == 8 or self.matrix[pos_y+1][pos_x-1] == 4):
-                        if(self.matrix[pos_y-1][pos_x-1] == 0 or self.matrix[pos_y-1][pos_x-1] == 8 or self.matrix[pos_y-1][pos_x-1] == 3):                        
-                            if(posibles_puertas_por_sala[i].get("izquierda") != None):
-                                posibles_puertas_por_sala[i]["izquierda"] += [[pos_y,pos_x]]
+                if(self.matrix[pos_y][pos_x-1] == 0 or self.matrix[pos_y][pos_x-1] == 7):
+                    if(self.matrix[pos_y+1][pos_x-1] == 0 or self.matrix[pos_y+1][pos_x-1] == 7 or self.matrix[pos_y+1][pos_x-1] == 4):
+                        if(self.matrix[pos_y-1][pos_x-1] == 0 or self.matrix[pos_y-1][pos_x-1] == 7 or self.matrix[pos_y-1][pos_x-1] == 3):                        
+                            room_to = self.getRoomAtPoint(pos_x-1,pos_y,room_sizes,room_start_points)
+                            existe_conn = self.existeConexion(i,room_to,[])
+                            #print("existe conn entre "+str(i)+" y "+str(room_to)+" = "+str(existe_conn))
+                            if(room_to != -1 and not existe_conn):
+                                if(self.matrix[pos_y][pos_x-1] == 7):
+                                    #print("cambio en == 7")
+                                    self.adyacencias[i][room_to] = 1
+                                    self.adyacencias[room_to][i] = 1
+                                    self.matrix[pos_y][pos_x] = 10
+                                    self.matrix[pos_y][pos_x-1] = 11
                             else:
-                                posibles_puertas_por_sala[i]["izquierda"] = [[pos_y,pos_x]]
-        #self.printPosiblesPuertas(posibles_puertas_por_sala)  
+                                if(posibles_puertas_por_sala[i].get("izquierda") != None):
+                                    posibles_puertas_por_sala[i]["izquierda"] += [[pos_x,pos_y]]
+                                else:
+                                    posibles_puertas_por_sala[i]["izquierda"] = [[pos_x,pos_y]]
+
+        
+        self.printPosiblesPuertas(posibles_puertas_por_sala)  
         #el orden será en el sentido de las agujas del reloj
         heuristicas_por_sala = self.calculateHeuristics()
-        print(heuristicas_por_sala)
+        #print(heuristicas_por_sala)
+        print("-------------------")
+        print(self.adyacencias)
 
-        for i in room_start_points:
-            salas_no_conectables = {}
-            for sala in heuristicas_por_sala[i]:
-                nearest_sala = sala
-                num_sala = nearest_sala[0]
-                orden = nearest_sala[2]
-                #TODO: Arreglar orden2
-                orden2 = heuristicas_por_sala[num_sala][2]
-                for direccion in orden:
-                    for direccion2 in orden2:
-                        #calculamos cuál es la mejor puerta y puerta2 para las 2 direcciones dadas
-                        heuristicas_por_puerta = {}
-                        if(posibles_puertas_por_sala[i][direccion] != None):
-                            for puerta in posibles_puertas_por_sala[i][direccion]:
-                                if(posibles_puertas_por_sala[num_sala][direccion2] != None):
-                                    for puerta2 in posibles_puertas_por_sala[num_sala][direccion2]:
-                                        distancia_x =  puerta[0]-puerta2[0]
-                                        distancia_y = puerta[1]-puerta2[1]
-                                        d = np.sqrt(distancia_x**2 + distancia_y**2)
-                                        heuristicas_por_puerta[str(puerta)+"_"+str(puerta2)] = [d,puerta,puerta2]
-                        heuristicas_por_puerta = dict(sorted(heuristicas_por_puerta.items(), key=lambda x: x[1][0]))
-                        for pair_of_doors in heuristicas_por_puerta.items():
-                            print(pair_of_doors)
-                                         
+        for salas in heuristicas_por_sala:
+            i = heuristicas_por_sala[salas][2]
+            num_sala = heuristicas_por_sala[salas][3]
+            orden = heuristicas_por_sala[salas][1]
+            orden2 = heuristicas_por_sala[str(num_sala)+"_"+str(i)][1]
+            for direccion in orden:
+                for direccion2 in orden2:
+                    #calculamos cuál es la mejor puerta y puerta2 para las 2 direcciones dadas
+                    heuristicas_por_puerta = {}
+                    if(posibles_puertas_por_sala[i][direccion] != None):
+                        for puerta in posibles_puertas_por_sala[i][direccion]:
+                            if(posibles_puertas_por_sala[num_sala][direccion2] != None):
+                                for puerta2 in posibles_puertas_por_sala[num_sala][direccion2]:
+                                    distancia_x =  puerta[0]-puerta2[0]
+                                    distancia_y = puerta[1]-puerta2[1]
+                                    d = np.sqrt(distancia_x**2 + distancia_y**2)
+                                    heuristicas_por_puerta[str(puerta)+"_"+str(puerta2)] = [d,puerta,puerta2]
+                    heuristicas_por_puerta = dict(sorted(heuristicas_por_puerta.items(), key=lambda x: x[1][0]))
+                    for pair_of_doors in heuristicas_por_puerta.items():
+                        #intentamos unir las 2 puertas con mejor heurística, y si no, se prueba con las siguientes.
+                        #Si encuentra camino, marcamos las 2 salas como conectadas. 
+                        door_from = pair_of_doors[1][1]
+                        door_to = pair_of_doors[1][2]
+                        camino = []
+                        conn = self.existeConexion(i,num_sala,[])
+                        if(not conn):
+                            #print("No existe camino entre la sala "+str(i)+" y "+str(num_sala))
+                            #sabemos que el +1 en la dirección indicada cumple los requisitos. Ahora hay que trazar el camino desde ese +1
+                            if(direccion == "arriba"):
+                                current_x = door_from[0] 
+                                current_y = door_from[1]-1
+                                camino += ["arriba"]
+                            elif(direccion == "derecha"):
+                                current_x = door_from[0]+1 
+                                current_y = door_from[1]
+                                camino += ["derecha"]
+                            elif(direccion == "abajo"):
+                                current_x = door_from[0] 
+                                current_y = door_from[1]+1
+                                camino += ["abajo"]
+                            elif(direccion == "izquierda"):
+                                current_x = door_from[0]-1 
+                                current_y = door_from[1]
+                                camino += ["izquierda"]
+                            #proceso de crear camino
+                            print(current_x,current_y,door_from,door_to,camino,i,num_sala)
+                            camino_final = self.caminoPosible(current_x,current_y,door_from,door_to,camino,i,num_sala,set())
+                            
+                            if(camino_final[0] == True):
+                                #cambiar las casillas en la matriz
+                                print("Camino creado entre salas "+str(i)+" y "+str(num_sala)+" y puertas "+str(door_from)+" - "+str(door_to))
+                                self.modifyMapWithCamino(door_from,door_to,camino_final)
+                            else:
+                                #no existe un camino entre esas 2 puertas, pasamos a la siguiente combinación de puertas por si hubiera más suerte
+                                continue
+                            #al terminar:
+                            if(self.todasLasSalasAlcanzables(room_start_points)):
+                                return 
+                            
+    def modifyMapWithCamino(self,door_from,door_to,camino):
+        current_x = door_from[0]
+        current_y = door_from[1]
+        print(camino)
+        if(camino[1][0] == "arriba"):
+            self.matrix[current_y][current_x] = 12
+        elif(camino[1][0] == "abajo"):
+            self.matrix[current_y][current_x] = 13
+        elif(camino[1][0] == "derecha"):
+            self.matrix[current_y][current_x] = 11
+        elif(camino[1][0] == "izquierda"):
+            self.matrix[current_y][current_x] = 10
+        for next_direccion in camino[1][0:]:
+            if(next_direccion == "arriba"):
+                current_y -=1
+                if(current_x == door_to[0] and current_y == door_to[1]):
+                    self.matrix[current_y][current_x] = 13
+                else:
+                    self.matrix[current_y][current_x] = 22
+            elif(next_direccion == "abajo"):
+                current_y +=1
+                if(current_x == door_to[0] and current_y == door_to[1]):
+                    self.matrix[current_y][current_x] = 12
+                else:
+                    self.matrix[current_y][current_x] = 22
+            elif(next_direccion == "izquierda"):
+                current_x -=1
+                if(current_x == door_to[0] and current_y == door_to[1]):
+                    self.matrix[current_y][current_x] = 11
+                else:
+                    self.matrix[current_y][current_x] = 22
+            elif(next_direccion == "derecha"):
+                current_x +=1
+                if(current_x == door_to[0] and current_y == door_to[1]):
+                    self.matrix[current_y][current_x] = 10
+                else:
+                    self.matrix[current_y][current_x] = 22
+                            
+    def caminoPosible(self,current_x,current_y,door_from,door_to,camino,s1,s2,currentCasillasPasadas):
+        start = (current_x, current_y)
+        goal = (door_to[0], door_to[1])
+        
+        open_set = []
+        heapq.heappush(open_set, (0, start, camino))
+        closed_set = set()  # Conjunto de nodos ya procesados
 
-                                        
+        # Diccionario para almacenar el coste g de cada nodo (distancia desde el inicio)
+        g_score = {start: 0}
+        
+        while open_set:
+            f_score, (x, y), path = heapq.heappop(open_set)
 
+            #print(f"Procesando nodo: {(x, y)} con camino actual: {path}")
 
-                
-                
+            # Si llegamos al objetivo, devolvemos el camino
+            if (x, y) == goal:
+                self.adyacencias[s1][s2] = 2
+                self.adyacencias[s2][s1] = 2
+                return [True, path]
 
+            # Si el nodo ya fue procesado, lo saltamos
+            if (x, y) in closed_set:
+                continue
+            closed_set.add((x, y))
 
+            # Exploramos las direcciones posibles (arriba, abajo, izquierda, derecha)
+            direcciones = {
+                "arriba": (0, -1),
+                "abajo": (0, 1),
+                "izquierda": (-1, 0),
+                "derecha": (1, 0)
+            }
+            for direccion, (dx, dy) in direcciones.items():
+                nx, ny = x + dx, y + dy
+                new_pos = (nx, ny)
+
+                # Verificamos si la nueva posición está dentro de los límites
+                if not (0 <= ny < len(self.matrix) and 0 <= nx < len(self.matrix[0])):
+                    continue
+
+                tile = self.matrix[ny][nx]
+
+                # Condición de validez: el tile no debe ser un obstáculo (0 o valores fuera de rango)
+                if not(tile == 0 or 14 <= tile <= 22 or (nx == door_to[0] and ny == door_to[1])):
+                    continue
+
+                # Calculamos el coste g y f del nuevo nodo
+                tentative_g_score = g_score[(x, y)] + 1
+                if new_pos not in g_score or tentative_g_score < g_score[new_pos]:
+                    g_score[new_pos] = tentative_g_score
+                    h_score = np.sqrt((goal[0] - nx) ** 2 + (goal[1] - ny) ** 2)  # Heurística: distancia euclidiana
+                    f_score = tentative_g_score + h_score
+                    heapq.heappush(open_set, (f_score, new_pos, path + [direccion]))
+
+                    #print(f"Añadido a open_set: {(new_pos, path + [direccion])}")
+
+            # Imprimir estado de open_set y closed_set para depuración
+            #print(f"Estado de open_set: {open_set}")
+            #print(f"Estado de closed_set: {closed_set}")
+
+        # Si no se encuentra el camino, devolvemos False
+        print("No se encontró camino")
+        return [False, None]
 
     def calculateHeuristics(self):
         heuristicas_por_sala = {}
         for sala,centroide in self.centroides.items():
-            heuristicas_por_sala[sala] = {} 
             for sala_2,centroide2 in self.centroides.items():
                 if(sala_2 != sala):
+                    heuristicas_por_sala[str(sala)+"_"+str(sala_2)] = {} 
                     distance_x = centroide[0]-centroide2[0]
                     distance_y = centroide[1]-centroide2[1]
                     if(abs(distance_x) >= abs(distance_y)):
@@ -262,12 +493,9 @@ class Map_generation:
 
 
                     d = np.sqrt(distance_x**2 + distance_y**2)
-                    if(heuristicas_por_sala[sala] == {}):
-                        heuristicas_por_sala[sala] = [[sala_2, int(d),orden]] # sala 0: [sala 1, 58], donde 58 es la distancia entre los centroides
-                    else:
-                        heuristicas_por_sala[sala] += [[sala_2, int(d),orden]]
-            #las ordeno de menor a mayor valor de heurística
-            heuristicas_por_sala[sala] = sorted(heuristicas_por_sala[sala], key=lambda x: x[1])
+                    heuristicas_por_sala[str(sala)+"_"+str(sala_2)] = [int(d),orden,sala,sala_2] # sala 0: [sala 1, 58], donde 58 es la distancia entre los centroides
+        #las ordeno de menor a mayor valor de heurística
+        heuristicas_por_sala = dict(sorted(heuristicas_por_sala.items(), key=lambda item: item[1][0]))
         return heuristicas_por_sala
                     
     def printPosiblesPuertas(self,posibles_puertas_por_sala):
@@ -292,12 +520,11 @@ class Map_generation:
         print(submatriz)
 
     def paintMap(self):
-        #printeo de casillas
-        #self.screen.blit(pygame.transform.scale(self.map, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
+        #printeo de casillas        
         pygame.init()
-        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
-        #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
+        self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()
         # --------------SEMILLA ----------------------
         #seed_random = 33
@@ -329,7 +556,95 @@ class Map_generation:
 
 
         os.environ['SDL_VIDEODRIVER'] = 'dummy'
+        self.screen.fill((0,0,0))
+        for i in range(0,26):
+            for j in range(0,10):
+                try:
+                    tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
+                    self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+                except Exception as e:
+                    print(e)
+        current_tiles = [0,0]
+
+        # self.screen.blit(pygame.transform.scale(self.map, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
         pygame.display.update() 
+
+        while(True):
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if(event.key == pygame.K_UP):
+                        if(current_tiles[1] > 0):
+                            current_tiles[1] -=1
+                            cont_x = 0
+                            cont_y = 0
+                            self.screen.fill((0,0,0))
+                            for i in range(current_tiles[0],current_tiles[0]+26):
+                                cont_x = 0
+                                for j in range(current_tiles[1],current_tiles[1]+10):
+                                    print(self.matrix[j][i])
+                                    try:
+                                        tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
+                                        self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except Exception as e:
+                                        print(e)
+                                    cont_x +=1
+                                cont_y +=1
+                            pygame.display.update()
+                    elif(event.key == pygame.K_DOWN):
+                        if(current_tiles[1] < self.map_size):
+                            current_tiles[1] +=1
+                            cont_x = 0
+                            cont_y = 0
+                            self.screen.fill((0,0,0))
+                            for i in range(current_tiles[0],current_tiles[0]+26):
+                                cont_x = 0
+                                for j in range(current_tiles[1],current_tiles[1]+10):
+                                    print(self.matrix[j][i])
+                                    try:
+                                        tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
+                                        self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except Exception as e:
+                                        print(e)
+                                    cont_x +=1
+                                cont_y +=1
+                            pygame.display.update()
+                    elif(event.key == pygame.K_LEFT):
+                        if(current_tiles[0] > 0):
+                            current_tiles[0] -=1
+                            cont_x = 0
+                            cont_y = 0
+                            self.screen.fill((0,0,0))
+                            for i in range(current_tiles[0],current_tiles[0]+26):
+                                cont_x = 0
+                                for j in range(current_tiles[1],current_tiles[1]+10):
+                                    print(self.matrix[j][i])
+                                    try:
+                                        tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
+                                        self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except Exception as e:
+                                        print(e)
+                                    cont_x +=1
+                                cont_y +=1
+                            pygame.display.update()
+                    elif(event.key == pygame.K_RIGHT):
+                        if(current_tiles[0] < self.map_size):
+                            current_tiles[0] +=1
+                            cont_x = 0
+                            cont_y = 0
+                            self.screen.fill((0,0,0))
+                            for i in range(current_tiles[0],current_tiles[0]+26):
+                                cont_x = 0
+                                for j in range(current_tiles[1],current_tiles[1]+10):
+                                    print(self.matrix[j][i])
+                                    try:
+                                        tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
+                                        self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except Exception as e:
+                                        print(e)
+                                    cont_x +=1
+                                cont_y +=1
+                            pygame.display.update()
+
 
 
     
@@ -338,4 +653,4 @@ class Map_generation:
 tipo_mapa = ["mazmorra","barco","desierto","bosque","aldea medieval","ciudad moderna"]
 currentPartida = "p1"
 Mapa = Map_generation(tipo_mapa[0],currentPartida) #que genere el mapa de una mazmorra
-#Mapa.paintMap()
+Mapa.paintMap()

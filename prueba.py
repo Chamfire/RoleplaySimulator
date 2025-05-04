@@ -67,3 +67,17 @@ print(matrix)
 aux_matrix = matrix.copy()
 aux_matrix[1][2] = 3
 print(matrix)
+for n in matrix[1]:
+    print(n)
+
+a = [1,4,5,6]
+print(a[1:])
+print(2<=-1<=4)
+r = {}
+for i in r:
+    print(i)
+f = set()
+f.add((3,4))
+f.add((3,4))
+print(f)
+print((3,4) in f)

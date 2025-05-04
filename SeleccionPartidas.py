@@ -281,6 +281,10 @@ class SeleccionPartidas:
                     ruta_directorio = 'maquina_de_estados\p1'
                     if os.path.exists(ruta_directorio):
                         shutil.rmtree(ruta_directorio)
+                    #eliminamos, si existen, las carpetas asociadas a los mapas
+                    ruta_directorio = 'mapas\p1'
+                    if os.path.exists(ruta_directorio):
+                        shutil.rmtree(ruta_directorio)
                     self.movedMouse() #para refrescar la pantalla -> actualizar el slot a vacío
                 else:
                     self.screen.blit(pygame.transform.scale(self.filled_pressed, (self.width/2.1818, self.height/7.7778)), (self.width/8.8889, self.height/4.5161)) #550 90 135 155
@@ -345,6 +349,10 @@ class SeleccionPartidas:
                     ruta_directorio = 'maquina_de_estados\p2'
                     if os.path.exists(ruta_directorio):
                         shutil.rmtree(ruta_directorio)
+                    #eliminamos, si existen, las carpetas asociadas a los mapas
+                    ruta_directorio = 'mapas\p2'
+                    if os.path.exists(ruta_directorio):
+                        shutil.rmtree(ruta_directorio)
                     self.ch3.play(self.partida_deleted)
                     self.movedMouse()
                 else:
@@ -407,6 +415,10 @@ class SeleccionPartidas:
                     #------------------------------------
                     deleted = True
                     ruta_directorio = 'maquina_de_estados\p3'
+                    if os.path.exists(ruta_directorio):
+                        shutil.rmtree(ruta_directorio)
+                    #eliminamos, si existen, las carpetas asociadas a los mapas
+                    ruta_directorio = 'mapas\p3'
                     if os.path.exists(ruta_directorio):
                         shutil.rmtree(ruta_directorio)
                     self.ch3.play(self.partida_deleted)
