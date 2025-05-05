@@ -244,6 +244,7 @@ class Map_generation:
                 for i in range(0,variableDeCheck[mob][0]):
                     #numero de mobs a matar de ese tipo -> hay que ubicarlos en esa sala
                     #4x4 = 16. Como mucho 12 mobs, caben de sobra. Se quitan los bordes de la sala
+                    ubicado = False
                     for pos_x in range(self.salas[longest_path[1].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]]-1):
                         for pos_y in range(self.salas[longest_path[1].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]]-1):
                             if(self.objetos[pos_x][pos_y] == 0):
@@ -257,9 +258,30 @@ class Map_generation:
                                     self.objetos[pos_x][pos_y] = 36
                                 elif(mob == "troll"):
                                     self.objetos[pos_x][pos_y] = 37
+                                ubicado = True
+                            if(ubicado):
+                                break
+                        if(ubicado):
+                            break
+                    ubicado = False
 
         elif(tipo_mision == "búsqueda"):
-            pass
+            for objeto in variableDeCheck: #solo hay 1, pero así lo sacamos
+                if(objeto == "Árbol"):  #"Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"
+                    for pos_x in range(self.salas[longest_path[1].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]]-1):
+                        for pos_y in range(self.salas[longest_path[1].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]]-1):
+                            if(self.objetos[pos_x][pos_y] == 0):
+                    self.objetos[pos_x][pos_y] = 68
+                elif(objeto == "Cadáver de dragón"):
+                    self.objetos[pos_x][pos_y] = 69
+                elif(objeto == "Parte de cadáver de Dragón"):
+                    self.objetos[pos_x][pos_y] = 70
+                elif(objeto == "Cofre"):
+                    self.objetos[pos_x][pos_y] = 71
+                elif(objeto == "Armario"):
+                    self.objetos[pos_x][pos_y] = 72
+                elif(objeto == "Ruina"):
+                    self.objetos[pos_x][pos_y] = 73
 
     def getLongestPath(self):
         current_inicial = None
