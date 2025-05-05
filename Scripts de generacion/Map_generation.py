@@ -10,17 +10,24 @@ import heapq
 # 1: 
 
 class Sala:
-    def __init__(self,i):
+    def __init__(self,i,size):
         self.id = i
         self.es_obligatoria = False
         self.esInicial = False
         self.daASalas = []
         self.tienePortales = []
         self.requiereLlave = False
+        self.esFinal = False
+        self.orden = None
+        self.variableDeCheck = None
+        self.tipo_mision = None
+        self.size = size
+        self.pos_x = None
+        self.pos_y = None
 
 
 class Map_generation:
-    def __init__(self,eleccion,currentPartida):
+    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck):
         sys.setrecursionlimit(5000)  
         config_dir = 'mapas/'+currentPartida
         config_file = 'mapa_'+currentPartida+".txt"
@@ -34,6 +41,7 @@ class Map_generation:
         self.objetos = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 500 x 500 -> es el mapa
         if(self.eleccion == "mazmorra"):
             self.createMazmorra() 
+            self.fillWithObjects(tipo_mision,variableDeCheck)
         elif(self.eleccion == "barco"):
             pass
         elif(self.eleccion == "aldea medieval"):
@@ -64,17 +72,15 @@ class Map_generation:
         max_size_room = aprox_room_tiles//num_max_salas #tamaño máximo por sala (si queremos que haya como mucho 10)
         min_size_room = 25 # tamaño mínimo para ser considerado habitación
         length_max_one_side = int(np.sqrt(max_size_room))
-        length_min_one_side = 5 #lo mínimo sería 5 x 5
+        length_min_one_side = 6 #lo mínimo sería 6 x 6 -> puede haber como mucho 12 mobs a matar, que deberían estar en la última sala (6x6 = 36 - bordes = 16)
         room_sizes = {}
         room_start_points = {}
         #De forma aleatoria determinamos el tamaño de las salas de la mazmorra, teniendo en cuenta las limitaciones de espacio
         for i in range(0,num_aleatorio_salas):
             room_sizes[i] = [random.randint(length_min_one_side,length_max_one_side),random.randint(length_min_one_side,length_max_one_side)]
             self.adyacencias = np.zeros((num_aleatorio_salas,num_aleatorio_salas), dtype=int)
-            self.salas[i] = Sala(i)
+            self.salas[i] = Sala(i,room_sizes[i])
 
-        self.salas[0].esInicial = True
-        self.salas[0].esObligatoria = True
         print("Número total de salas: ", num_aleatorio_salas)
         print("Tamaños de las salas: ")
         print(room_sizes)
@@ -139,6 +145,8 @@ class Map_generation:
             #Si llegamos aquí, quiere decir que hemos encontrado un lugar libre completo donde printear esa sala:
             self.matrix = matrix_aux
             self.printSubMap(room_size,x_start,y_start,i)
+            self.salas[i].pos_x = x_start
+            self.salas[i].pos_y = y_start
             #calculamos el centro de la sala
             half_size_x = room_sizes[i][0]//2
             half_size_y = room_sizes[i][1]//2
@@ -150,6 +158,8 @@ class Map_generation:
             self.matrix[self.map_size-1][pos] = -1 #fila de abajo a -1
             self.matrix[pos][0] = -1
             self.matrix[pos][self.map_size-1] = -1
+
+
 
         self.createPasillosMazmorra(room_start_points,room_sizes)
         subarboles = []
@@ -206,6 +216,92 @@ class Map_generation:
             self.setSalasLinked(sala)
             print("Sala "+str(sala)+" acceso directo a:")
             print(self.salas[sala].daASalas)
+
+    def fillWithObjects(self,tipo_mision,variableDeCheck):
+        longest_path = self.getLongestPath()
+        print("Longest path:")
+        print(longest_path[0])
+        print(longest_path[1])
+        print(longest_path[2])
+        print(longest_path[3])
+        self.salas[longest_path[0]].esInicial = True
+        self.salas[longest_path[0]].orden = 0
+        self.salas[longest_path[0]].esObligatoria = True
+        self.salas[longest_path[1]].esFinal = True
+        cont = 0
+        for sala in longest_path[3]:
+            cont+=1
+            self.salas[sala].esObligatoria = True
+            self.salas[sala].orden = cont
+
+        self.salas[longest_path[1]].tipo_mision = tipo_mision
+        self.salas[longest_path[1]].variableDeCheck = variableDeCheck
+
+        if(tipo_mision == "combate"):
+            mobsMision = []
+            for mob in variableDeCheck:
+                mobsMision += [mob]
+                for i in range(0,variableDeCheck[mob][0]):
+                    #numero de mobs a matar de ese tipo -> hay que ubicarlos en esa sala
+                    #4x4 = 16. Como mucho 12 mobs, caben de sobra. Se quitan los bordes de la sala
+                    for pos_x in range(self.salas[longest_path[1].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]]-1):
+                        for pos_y in range(self.salas[longest_path[1].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]]-1):
+                            if(self.objetos[pos_x][pos_y] == 0):
+                                if(mob == "esqueleto"):
+                                    self.objetos[pos_x][pos_y] = 33 #trampa de mob -> al dirigirte a esa casilla, antes de poder pasar, el DM introduce al mob, y aparece en la casilla. 
+                                elif(mob == "zombie"):
+                                    self.objetos[pos_x][pos_y] = 34
+                                elif(mob == "slime"):
+                                    self.objetos[pos_x][pos_y] = 35
+                                elif(mob == "beholder"):
+                                    self.objetos[pos_x][pos_y] = 36
+                                elif(mob == "troll"):
+                                    self.objetos[pos_x][pos_y] = 37
+
+        elif(tipo_mision == "búsqueda"):
+            pass
+
+    def getLongestPath(self):
+        current_inicial = None
+        max_inicial = None
+        max_final = None
+        max_length = 0
+        current_length = 0
+        current_final = None
+        longest_path = []
+        for sala in self.salas:
+            for sala2 in self.salas:
+                current_inicial = sala
+                current_final = sala2
+                current_length = self.devolverLongitudCamino(current_inicial,current_final,[],0,[])
+                if(max_length == None or current_length[1] > max_length):
+                    max_length = current_length[1]
+                    max_inicial = current_inicial
+                    max_final = current_final
+                    longest_path = current_length[2]
+        return (max_inicial,max_final,max_length,longest_path)
+                
+    def devolverLongitudCamino(self,room_from,room_to,checked,long,path):
+        num_sala = -1
+        aux_path = path.copy()
+        aux_path += [room_from]
+        for conn in self.adyacencias[room_from]:
+            num_sala +=1
+            if(num_sala not in checked and num_sala != room_from):
+                if(conn == 1 or conn == 2 or conn == -1):
+                    #existe un túnel entre num_sala y room_from
+                    if(num_sala == room_to):
+                        #es la sala que buscábamos
+                        aux_path += [num_sala]
+                        return (True,long+1,aux_path)
+                    else:
+                        checked += [room_from]
+                        resp = self.devolverLongitudCamino(num_sala,room_to,checked,long+1,aux_path)
+                    if(resp[0]):
+                        return (True,resp[1], resp[2])
+        return (False,long,aux_path)
+
+
 
     def setSalasLinked(self,room_from):
         num_sala = -1
@@ -742,5 +838,44 @@ class Map_generation:
 #zona de pruebas
 tipo_mapa = ["mazmorra","barco","desierto","bosque","aldea medieval","ciudad moderna"]
 currentPartida = "p1"
-Mapa = Map_generation(tipo_mapa[0],currentPartida) #que genere el mapa de una mazmorra
+lista_mobs_disponibles = {"mazmorra": ["esqueleto","zombie","slime","beholder","troll"],# 33, 34, 35, 36, 37
+                                  "ciudad moderna": ["droide","fantasma","objeto animado de silla", "mimic de cofre", "muñeca animada", "cyborg"], #38,39,40,41,42,43
+                                  "bosque": ["lobo wargo", "vampiro", "oso", "hombre lobo"], #44,45,46,47
+                                  "desierto": ["serpiente","cocodrilo", "momia", "esfinge"], #48,49,50,51
+                                  "aldea medieval": ["goblin","cultista","gnoll","elemental de roca"], #52,53,54,55
+                                  "barco": ["sirena","tiburón","hada","kraken"], #56,57,58,59
+                                  "raros": ["dragón","sombras","fénix"], #60,61,62
+                                  "medio": ["ankheg","basilísco"], #63,64
+                                  "comun": ["murciélago","rata","felino salvaje"]} #65,66,67
+
+ubicacion = tipo_mapa[0]
+tipo_mision_num = random.randint(1,2)
+if(tipo_mision_num == 1):
+    tipo_mision = "combate"
+     # tipo_mobs = random.randint(0,100)
+    mobs = {}
+    num_mobs = random.randint(1,2)
+    n = len(lista_mobs_disponibles[ubicacion])-1
+    for i in range(0,num_mobs):
+        seleccion = random.randint(0,n)
+        if mobs.get(lista_mobs_disponibles[ubicacion][seleccion]) != None:
+            mobs[lista_mobs_disponibles[ubicacion][seleccion]] +=1
+        else:
+            mobs[lista_mobs_disponibles[ubicacion][seleccion]] = 1
+            
+    mision = "Hay que matar "
+    variableDeCheck = {}
+    for mob_name,num in mobs.items():
+        mision += str(num)+" "+mob_name+","
+        variableDeCheck[mob_name] = [num,0] #5,0 -> 5 de ese tipo a matar, 0 matados
+            
+elif(tipo_mision_num == 2):
+    tipo_mision = "búsqueda"
+    lugar_posible = ["Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"] #68,69,70,71,72,73
+    n = len(lugar_posible)-1
+    lugar = random.randint(0,n)
+    mision = "Hay que encontrar lo siguiente: "+lugar_posible[lugar]
+    variableDeCheck = {}
+    variableDeCheck[lugar_posible[lugar]] = False #ninguno de los jugadores lo ha encontrado
+Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck) #que genere el mapa de una mazmorra
 Mapa.paintMap()
