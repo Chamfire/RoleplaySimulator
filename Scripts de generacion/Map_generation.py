@@ -14,7 +14,7 @@ class Sala:
         self.id = i
         self.es_obligatoria = False
         self.esInicial = False
-        self.daASalas = []
+        self.daASalas = {}
         self.tienePortales = []
         self.requiereLlave = False
         self.esFinal = False
@@ -185,6 +185,7 @@ class Map_generation:
                                         for currenty in range(posy,posy+room_sizes[sala]):
                                             if(self.matrix[currenty][currentx] == 1 and self.matrix[currenty+1][currentx] != 13 and self.matrix[currenty-1][currentx] != 12 and self.matrix[currenty][currentx+1] != 11 and self.matrix[currenty][currentx-1] != 10):
                                                 self.salas[sala].tienePortales += [currentx,currenty]
+                                                self.salas[sala].daASalas[sala2] = [[currentx,currenty],None]
                                                 self.objetos[currenty][currentx] = 32
                                                 self.adyacencias[sala][sala2] = -1
 
@@ -193,6 +194,7 @@ class Map_generation:
                                         for currenty in range(posy,posy+room_sizes[sala2]):
                                             if(self.matrix[currenty][currentx] == 1 and self.matrix[currenty+1][currentx] != 13 and self.matrix[currenty-1][currentx] != 12 and self.matrix[currenty][currentx+1] != 11 and self.matrix[currenty][currentx-1] != 10):
                                                 self.salas[sala2].tienePortales += [currentx,currenty]
+                                                self.salas[sala2].daASalas[sala] = [[currentx,currenty],None]
                                                 self.objetos[currenty][currentx] = 32
                                                 self.adyacencias[sala2][sala] = -1
                                     newSubArbol = subArbol | subArbol2
@@ -210,12 +212,6 @@ class Map_generation:
             if(exit_val):
                 exit_val = False
                 break
-
-        #Una vez que están todas las salas conectadas, establezco los enlaces directos entre salas
-        for sala in self.salas:
-            self.setSalasLinked(sala)
-            print("Sala "+str(sala)+" acceso directo a:")
-            print(self.salas[sala].daASalas)
 
     def fillWithObjects(self,tipo_mision,variableDeCheck):
         longest_path = self.getLongestPath()
@@ -252,6 +248,8 @@ class Map_generation:
 
         self.salas[longest_path[1]].tipo_mision = tipo_mision
         self.salas[longest_path[1]].variableDeCheck = variableDeCheck
+
+        self.closeSomePaths(longest_path[3])
 
         if(tipo_mision == "combate"):
             mobsMision = []
@@ -405,6 +403,15 @@ class Map_generation:
                         else:
                             posiciones -= [pos]
 
+        
+
+    def closeSomePaths(self,path):
+        #Una vez que están todas las salas conectadas, establezco los enlaces directos entre salas
+        for sala in self.salas:
+            self.setSalasLinked(sala,path)
+            print("Sala "+str(sala)+" acceso directo a:")
+            print(self.salas[sala].daASalas)
+
                                 
 
     def getLongestPath(self):
@@ -447,16 +454,27 @@ class Map_generation:
                         return (True,resp[1], resp[2])
         return (False,long,aux_path)
 
+    def sucesor(self,sala,sala2,path):
+        for sala3 in range(0,len(path)-1):
+            for sala4 in range(1,len(path)):
+                if (path[sala3] == sala and sala2 == path[sala4]):
+                    return True
+        return False
 
 
-    def setSalasLinked(self,room_from):
+    def setSalasLinked(self,room_from,path):
         num_sala = -1
         for conn in self.adyacencias[room_from]:
             num_sala +=1
             if(num_sala != room_from):
                 if(conn == 1 or conn == 2 or conn == -1):
                     #existe un túnel entre num_sala y room_from
-                    self.salas[room_from].daASalas += [num_sala]
+                    if(self.sucesor(room_from,num_sala,path)):
+                        self.salas[room_from].daASalas[num_sala][1] = "abierto" #en la posición 0 está la puerta
+                        self.salas[num_sala].daASalas[room_from][1] = "abierto"
+                    else:
+                        self.salas[room_from].daASalas[num_sala][1] = "cerrado" #en la posición 0 está la puerta. TODO: Modificar con nodos opcionales 
+                        self.salas[num_sala].daASalas[room_from][1] = "cerrado"
             
     def getSubArbol(self,room_start_points,num_sala):
         #cogemos, por ejemplo, la sala 0
@@ -535,7 +553,9 @@ class Map_generation:
                                 if(self.matrix[pos_y-1][pos_x] == 8):
                                     #print("cambio en == 8")
                                     self.adyacencias[i][room_to] = 1
+                                    self.salas[i].daASalas[room_to] = [[pos_x,pos_y],None]
                                     self.adyacencias[room_to][i] = 1
+                                    self.salas[room_to].daASalas[i] = [[pos_x,pos_y-1],None]
                                     self.matrix[pos_y][pos_x] = 12
                                     self.matrix[pos_y-1][pos_x] = 13
                             else:
@@ -557,7 +577,9 @@ class Map_generation:
                                 #print("cambio en == 9")
                                 if(self.matrix[pos_y][pos_x+1] == 9):
                                     self.adyacencias[i][room_to] = 1
+                                    self.salas[i].daASalas[room_to] = [[pos_x,pos_y],None]
                                     self.adyacencias[room_to][i] = 1
+                                    self.salas[room_to].daASalas[i] = [[pos_x+1,pos_y],None]
                                     self.matrix[pos_y][pos_x] = 11
                                     self.matrix[pos_y][pos_x+1] = 10
                             else:
@@ -579,7 +601,9 @@ class Map_generation:
                                 if(self.matrix[pos_y+1][pos_x] == 6):
                                     #print("cambion en == 6")
                                     self.adyacencias[i][room_to] = 1
+                                    self.salas[i].daASalas[room_to] = [[pos_x,pos_y],None]
                                     self.adyacencias[room_to][i] = 1
+                                    self.salas[room_to].daASalas[i] = [[pos_x,pos_y+1],None]
                                     self.matrix[pos_y][pos_x] = 13
                                     self.matrix[pos_y+1][pos_x] = 12
                             else:
@@ -601,7 +625,9 @@ class Map_generation:
                                 if(self.matrix[pos_y][pos_x-1] == 7):
                                     #print("cambio en == 7")
                                     self.adyacencias[i][room_to] = 1
+                                    self.salas[i].daASalas[room_to] = [[pos_x,pos_y],None]
                                     self.adyacencias[room_to][i] = 1
+                                    self.salas[room_to].daASalas[i] = [[pos_x-1,pos_y],None]
                                     self.matrix[pos_y][pos_x] = 10
                                     self.matrix[pos_y][pos_x-1] = 11
                             else:
@@ -669,6 +695,8 @@ class Map_generation:
                                 #cambiar las casillas en la matriz
                                 print("Camino creado entre salas "+str(i)+" y "+str(num_sala)+" y puertas "+str(door_from)+" - "+str(door_to))
                                 self.modifyMapWithCamino(door_from,door_to,camino_final)
+                                self.salas[i].daASalas[num_sala] = [[door_from[0],door_from[1]],None]
+                                self.salas[num_sala].daASalas[i] = [[door_to[0],door_to[1]],None]
                             else:
                                 #no existe un camino entre esas 2 puertas, pasamos a la siguiente combinación de puertas por si hubiera más suerte
                                 continue
