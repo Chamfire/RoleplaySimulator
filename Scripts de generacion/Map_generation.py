@@ -473,7 +473,7 @@ class Map_generation:
                         self.salas[room_from].daASalas[num_sala][1] = "abierto" #en la posición 0 está la puerta
                         self.salas[num_sala].daASalas[room_from][1] = "abierto"
                     else:
-                        self.salas[room_from].daASalas[num_sala][1] = "cerrado" #en la posición 0 está la puerta. TODO: Modificar con nodos opcionales 
+                        self.salas[room_from].daASalas[num_sala][1] = "cerrado" #en la posición 0 está la puerta. TODO: Modificar con nodos opcionales -> permitir los que vayan a otros nodos distintos del camino principal. Permitir a los que vayan a nodos anteriores al camino principal. Bloquear los que van al último, y permitir del final a todos. 
                         self.salas[num_sala].daASalas[room_from][1] = "cerrado"
             
     def getSubArbol(self,room_start_points,num_sala):
