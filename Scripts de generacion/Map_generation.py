@@ -233,12 +233,14 @@ class Map_generation:
         for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
             for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
                 posiciones += [[pos_x,pos_y]]
+        found = False
         while(not found):
             l = len(posiciones)
             pos = random.randint(0,l-1)
             [pos_x,pos_y] = posiciones[pos]
             if(self.objetos[pos_y][pos_x] == 0):
                 self.objetos[pos_y][pos_x] = 80
+                found = True
 
 
         self.salas[longest_path[1]].esFinal = True
