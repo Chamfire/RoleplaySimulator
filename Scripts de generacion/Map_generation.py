@@ -271,11 +271,17 @@ class Map_generation:
                     for pos_x in range(self.salas[longest_path[1].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]]-1):
                         for pos_y in range(self.salas[longest_path[1].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]]-1):
                             if(self.objetos[pos_x][pos_y] == 0):
-                    self.objetos[pos_x][pos_y] = 68
+                                self.objetos[pos_x][pos_y] = 68
                 elif(objeto == "Cadáver de dragón"):
-                    self.objetos[pos_x][pos_y] = 69
+                    for pos_x in range(self.salas[longest_path[1].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]]-1):
+                        for pos_y in range(self.salas[longest_path[1].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]]-1):
+                            if(self.objetos[pos_x][pos_y] == 0):
+                                self.objetos[pos_x][pos_y] = 69
                 elif(objeto == "Parte de cadáver de Dragón"):
-                    self.objetos[pos_x][pos_y] = 70
+                    for pos_x in range(self.salas[longest_path[1].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]]-1):
+                        for pos_y in range(self.salas[longest_path[1].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]]-1):
+                            if(self.objetos[pos_x][pos_y] == 0):
+                                self.objetos[pos_x][pos_y] = 70
                 elif(objeto == "Cofre"):
                     self.objetos[pos_x][pos_y] = 71
                 elif(objeto == "Armario"):
@@ -893,7 +899,7 @@ if(tipo_mision_num == 1):
             
 elif(tipo_mision_num == 2):
     tipo_mision = "búsqueda"
-    lugar_posible = ["Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"] #68,69,70,71,72,73
+    lugar_posible = ["Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"] #68,69,70,71-74,75-78,79
     n = len(lugar_posible)-1
     lugar = random.randint(0,n)
     mision = "Hay que encontrar lo siguiente: "+lugar_posible[lugar]
