@@ -185,7 +185,7 @@ class Map_generation:
                                         for currenty in range(posy,posy+room_sizes[sala]):
                                             if(self.matrix[currenty][currentx] == 1 and self.matrix[currenty+1][currentx] != 13 and self.matrix[currenty-1][currentx] != 12 and self.matrix[currenty][currentx+1] != 11 and self.matrix[currenty][currentx-1] != 10):
                                                 self.salas[sala].tienePortales += [currentx,currenty]
-                                                self.objetos[currentx][currenty] = 32
+                                                self.objetos[currenty][currentx] = 32
                                                 self.adyacencias[sala][sala2] = -1
 
                                     [posx,posy] = room_start_points[sala2]
@@ -193,7 +193,7 @@ class Map_generation:
                                         for currenty in range(posy,posy+room_sizes[sala2]):
                                             if(self.matrix[currenty][currentx] == 1 and self.matrix[currenty+1][currentx] != 13 and self.matrix[currenty-1][currentx] != 12 and self.matrix[currenty][currentx+1] != 11 and self.matrix[currenty][currentx-1] != 10):
                                                 self.salas[sala2].tienePortales += [currentx,currenty]
-                                                self.objetos[currentx][currenty] = 32
+                                                self.objetos[currenty][currentx] = 32
                                                 self.adyacencias[sala2][sala] = -1
                                     newSubArbol = subArbol | subArbol2
                                     subarboles.remove(subArbol)
@@ -224,9 +224,23 @@ class Map_generation:
         print(longest_path[1])
         print(longest_path[2])
         print(longest_path[3])
+        print("pos last room: "+str(self.salas[longest_path[1]].pos_x)+","+str(self.salas[longest_path[1]].pos_y))
         self.salas[longest_path[0]].esInicial = True
         self.salas[longest_path[0]].orden = 0
         self.salas[longest_path[0]].esObligatoria = True
+        #determinamos el punto de spawnpoint
+        posiciones = []
+        for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
+            for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+                posiciones += [[pos_x,pos_y]]
+        while(not found):
+            l = len(posiciones)
+            pos = random.randint(0,l-1)
+            [pos_x,pos_y] = posiciones[pos]
+            if(self.objetos[pos_y][pos_x] == 0):
+                self.objetos[pos_y][pos_x] = 80
+
+
         self.salas[longest_path[1]].esFinal = True
         cont = 0
         for sala in longest_path[3]:
@@ -239,55 +253,157 @@ class Map_generation:
 
         if(tipo_mision == "combate"):
             mobsMision = []
+            posiciones = []
+            for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
+                        for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+                            posiciones += [[pos_x,pos_y]]
             for mob in variableDeCheck:
                 mobsMision += [mob]
                 for i in range(0,variableDeCheck[mob][0]):
                     #numero de mobs a matar de ese tipo -> hay que ubicarlos en esa sala
                     #4x4 = 16. Como mucho 12 mobs, caben de sobra. Se quitan los bordes de la sala
                     ubicado = False
-                    for pos_x in range(self.salas[longest_path[1].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]]-1):
-                        for pos_y in range(self.salas[longest_path[1].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]]-1):
-                            if(self.objetos[pos_x][pos_y] == 0):
-                                if(mob == "esqueleto"):
-                                    self.objetos[pos_x][pos_y] = 33 #trampa de mob -> al dirigirte a esa casilla, antes de poder pasar, el DM introduce al mob, y aparece en la casilla. 
-                                elif(mob == "zombie"):
-                                    self.objetos[pos_x][pos_y] = 34
-                                elif(mob == "slime"):
-                                    self.objetos[pos_x][pos_y] = 35
-                                elif(mob == "beholder"):
-                                    self.objetos[pos_x][pos_y] = 36
-                                elif(mob == "troll"):
-                                    self.objetos[pos_x][pos_y] = 37
+                    while(not ubicado):
+                        l = len(posiciones)
+                        pos = random.randint(0,l-1)
+                        [pos_x,pos_y] = posiciones[pos]
+                        if(self.objetos[pos_y][pos_x] == 0):
+                            posiciones -= [pos]
+                            if(mob == "esqueleto"):
+                                self.objetos[pos_y][pos_x] = 33 #trampa de mob -> al dirigirte a esa casilla, antes de poder pasar, el DM introduce al mob, y aparece en la casilla. 
                                 ubicado = True
-                            if(ubicado):
-                                break
-                        if(ubicado):
-                            break
-                    ubicado = False
+                            elif(mob == "zombie"):
+                                self.objetos[pos_y][pos_x] = 34
+                                ubicado = True
+                            elif(mob == "slime"):
+                                self.objetos[pos_y][pos_x] = 35
+                                ubicado = True
+                            elif(mob == "beholder"):
+                                self.objetos[pos_y][pos_x] = 36
+                                ubicado = True
+                            elif(mob == "troll"):
+                                self.objetos[pos_y][pos_x] = 37
+                                ubicado = True
+                        else:
+                            posiciones -= [pos]
+                               
 
         elif(tipo_mision == "búsqueda"):
             for objeto in variableDeCheck: #solo hay 1, pero así lo sacamos
+                print(objeto)
+                found = False
                 if(objeto == "Árbol"):  #"Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"
-                    for pos_x in range(self.salas[longest_path[1].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]]-1):
-                        for pos_y in range(self.salas[longest_path[1].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]]-1):
-                            if(self.objetos[pos_x][pos_y] == 0):
-                                self.objetos[pos_x][pos_y] = 68
+                    posiciones = []
+                    for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
+                        for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+                            posiciones += [[pos_x,pos_y]]
+                    while(not found):
+                        l = len(posiciones)
+                        pos = random.randint(0,l-1)
+                        [pos_x,pos_y] = posiciones[pos]
+                        if(self.objetos[pos_y][pos_x] == 0):
+                            self.objetos[pos_y][pos_x] = 68
+                            found = True
+                        else:
+                            posiciones -= [pos]
+                                    
                 elif(objeto == "Cadáver de dragón"):
-                    for pos_x in range(self.salas[longest_path[1].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]]-1):
-                        for pos_y in range(self.salas[longest_path[1].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]]-1):
-                            if(self.objetos[pos_x][pos_y] == 0):
-                                self.objetos[pos_x][pos_y] = 69
+                    posiciones = []
+                    for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
+                        for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+                            posiciones += [pos_x,pos_y]
+                    while(not found):
+                        l = len(posiciones)
+                        pos = random.randint(0,l-1)
+                        [pos_x,pos_y] = posiciones[pos]
+                        if(self.objetos[pos_y][pos_x] == 0):
+                            self.objetos[pos_y][pos_x] = 69
+                            found = True
+                        else:
+                            posiciones -= [pos]
+                                
                 elif(objeto == "Parte de cadáver de Dragón"):
-                    for pos_x in range(self.salas[longest_path[1].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]]-1):
-                        for pos_y in range(self.salas[longest_path[1].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]]-1):
-                            if(self.objetos[pos_x][pos_y] == 0):
-                                self.objetos[pos_x][pos_y] = 70
+                    posiciones = []
+                    for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
+                        for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+                            posiciones += [[pos_x,pos_y]]
+                    while(not found):
+                        l = len(posiciones)
+                        pos = random.randint(0,l-1)
+                        [pos_x,pos_y] = posiciones[pos]
+                        if(self.objetos[pos_y][pos_x] == 0):
+                            self.objetos[pos_y][pos_x] = 70
+                            found = True
+                        else:
+                            posiciones -= [pos]
+                               
                 elif(objeto == "Cofre"):
-                    self.objetos[pos_x][pos_y] = 71
+                    posiciones = []
+                    for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
+                        for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+                            if((pos_x == self.salas[longest_path[1]].pos_x + 1) or (pos_x == (self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0])) or (pos_y == self.salas[longest_path[1]].pos_y+1 or (pos_y == self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1))):
+                                posiciones += [[pos_x,pos_y]]
+                    while(not found):
+                        l = len(posiciones)
+                        pos = random.randint(0,l-1)
+                        [pos_x,pos_y] = posiciones[pos]   
+                        if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6 and self.matrix[pos_y-1][pos_x] != 12)):
+                            self.objetos[pos_y][pos_x] = 71
+                            found = True
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
+                            self.objetos[pos_y][pos_x] = 73
+                            found = True
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 11)):
+                            self.objetos[pos_x][pos_y] = 74
+                            found = True
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 10)):
+                            self.objetos[pos_y][pos_x] = 72
+                            found = True
+                        else:
+                            posiciones -= [pos]
+                            
+
                 elif(objeto == "Armario"):
-                    self.objetos[pos_x][pos_y] = 72
+                    posiciones = []
+                    for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
+                        for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+                            if((pos_x == self.salas[longest_path[1]].pos_x + 1) or (pos_x == (self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0])) or (pos_y == self.salas[longest_path[1]].pos_y+1 or (pos_y == self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1))):
+                                posiciones += [[pos_x,pos_y]]
+                    while(not found):
+                        l = len(posiciones)
+                        pos = random.randint(0,l-1)
+                        [pos_x,pos_y] = posiciones[pos]
+                        if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6 and self.matrix[pos_y-1][pos_x] != 12)):
+                            self.objetos[pos_y][pos_x] = 75
+                            found = True
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
+                            self.objetos[pos_y][pos_x] = 76
+                            found = True
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 11)):
+                            self.objetos[pos_y][pos_x] = 77
+                            found = True
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 10)):
+                            self.objetos[pos_y][pos_x] = 78
+                            found = True
+                        else:
+                            posiciones -= [pos]
+                            
                 elif(objeto == "Ruina"):
-                    self.objetos[pos_x][pos_y] = 73
+                    posiciones = []
+                    for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
+                        for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+                            posiciones += [[pos_x,pos_y]]
+                    while(not found):
+                        l = len(posiciones)
+                        pos = random.randint(0,l-1)
+                        [pos_x,pos_y] = posiciones[pos]
+                        if(self.objetos[pos_y][pos_x] == 0):
+                            self.objetos[pos_y][pos_x] = 79
+                            found = True
+                        else:
+                            posiciones -= [pos]
+
+                                
 
     def getLongestPath(self):
         current_inicial = None
@@ -877,7 +993,7 @@ lista_mobs_disponibles = {"mazmorra": ["esqueleto","zombie","slime","beholder","
                                   "comun": ["murciélago","rata","felino salvaje"]} #65,66,67
 
 ubicacion = tipo_mapa[0]
-tipo_mision_num = random.randint(1,2)
+tipo_mision_num =2 #random.randint(1,2)
 if(tipo_mision_num == 1):
     tipo_mision = "combate"
      # tipo_mobs = random.randint(0,100)
