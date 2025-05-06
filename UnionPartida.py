@@ -575,11 +575,13 @@ class UnionPartida:
                     self.password = ' '
             else:
                 if(len(self.password)<self.max_lenght_name2):
-                    if(self.password == ' '):
-                        self.password = unicode
+                    if(unicode != ':' and unicode != ';'):
+                        if(self.password == ' '):
+                            self.password = unicode
+                        else:
+                            self.password += unicode
                     else:
-                        self.password += unicode
-                    #self.widthText = self.letterwidth*len(self.name)
+                        self.ch2.play(self.error)
                 else:
                     self.ch2.play(self.error)
             self.refresh()
@@ -599,6 +601,7 @@ class UnionPartida:
             pass
 
     def movedMouse(self):
+        # Calculo las dimensiones y el tamaño del botón de volver al menú
         x_size = self.width/4.0956
         y_size = self.height/12.2807
         x_start = self.width/4.1379
@@ -606,19 +609,24 @@ class UnionPartida:
         x_startC = self.width/1.9355
         (x,y) = pygame.mouse.get_pos()
 
-        #Botón volver al menú
+        # Botón volver al menú
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/4.0956, self.height/12.2807)), (self.width/4.1379, self.height/1.1667))#293 57 290 600
             self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/3.3333, self.height/1.1570)) #150 40 360 605
+            # Si se cumplen todas las condiciones, el botón estará disponible y tendrá un color morado
             if(self.password != None and self.password != ' ' and self.code != None and self.code != ' '):
                 self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
             else:
+                # Si no se cumplen las condiciones, el botón no estará disponible y se verá en gris
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667))
             self.screen.blit(pygame.transform.scale(self.crearT, (self.width/6.3158, self.height/17.5000)), (self.width/1.7884, self.height/1.1570)) #190 40 671 605 
+            # Si el cursor acaba de acceder al botón, se establecerá a False su variable, y a True la de los demás botones
+            # Esto es debido a que queremos que el sonido solo se reproduzca la primera vez que se entra, no constantemente
             if(self.first_timeB):
                 self.first_timeB = False
                 self.first_timeC = True
-                self.ch2.play(self.selected)     
+                self.ch2.play(self.selected)   
+            # Refrescamos la pantalla  
             pygame.display.update() 
 
         #Boton unirse a partida

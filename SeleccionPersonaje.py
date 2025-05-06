@@ -1674,11 +1674,13 @@ class SeleccionPersonaje:
                     self.personaje.name = ' '
             else:
                 if(len(self.personaje.name)<self.max_length_name):
-                    if(self.personaje.name == ' '):
-                        self.personaje.name = unicode
+                    if(unicode != ':' and unicode != ';'):
+                        if(self.personaje.name == ' '):
+                            self.personaje.name = unicode
+                        else:
+                            self.personaje.name += unicode
                     else:
-                        self.personaje.name += unicode
-                    #self.widthText = self.letterwidth*len(self.name)
+                        self.ch2.play(self.error)
                 else:
                     self.ch2.play(self.error)
             content = self.fuente2.render(self.personaje.name, True, self.color_light_pink)

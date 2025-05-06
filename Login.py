@@ -275,21 +275,24 @@ class Login:
             return 'login'
         
     def manageInputBox(self, key, unicode):
+        # Si se ha hecho click sobre el cuadro de texto, se puede escribir. Si no, no.
         if(self.activeI):
+            # Si la tecla pulsada es un 
             if key == pygame.K_RETURN:
                 self.name = ' '
             elif key == pygame.K_BACKSPACE:
                 self.name = self.name[:-1]
                 if(len(self.name) == 0):
                     self.name = ' '
-                #self.widthText = self.letterwidth*len(self.name)
             else:
                 if(len(self.name)<self.max_lenght_name):
-                    if(self.name == ' '):
-                        self.name = unicode
+                    if(unicode != ':' and unicode != ';'):
+                        if(self.name == ' '):
+                            self.name = unicode
+                        else:
+                            self.name += unicode
                     else:
-                        self.name += unicode
-                    #self.widthText = self.letterwidth*len(self.name)
+                        self.ch2.play(self.error)
                 else:
                     self.ch2.play(self.error)
             if(self.name != ' '):

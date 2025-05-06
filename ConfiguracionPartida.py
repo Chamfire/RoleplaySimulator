@@ -802,11 +802,13 @@ class ConfiguracionPartida:
                     self.partidas[self.currentPartida].nombre = ' '
             else:
                 if(len(self.partidas[self.currentPartida].nombre)<self.max_lenght_name):
-                    if(self.partidas[self.currentPartida].nombre == ' '):
-                        self.partidas[self.currentPartida].nombre = unicode
+                    if(unicode != ':' and unicode != ';'):
+                        if(self.partidas[self.currentPartida].nombre == ' '):
+                            self.partidas[self.currentPartida].nombre = unicode
+                        else:
+                            self.partidas[self.currentPartida].nombre += unicode
                     else:
-                        self.partidas[self.currentPartida].nombre += unicode
-                    #self.widthText = self.letterwidth*len(self.name)
+                        self.ch2.play(self.error)
                 else:
                     self.ch2.play(self.error)
             self.refresh()
