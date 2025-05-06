@@ -143,8 +143,6 @@ class SeleccionPersonaje2:
         lastLine = 0
         for lineLen, lineImages in zip(lineLenList, lineList):
             lineLeft = self.inputBoxDescripcion[0] +10
-            #if len(lineImages) > 1:
-            #   spaceWidth = (self.inputBoxDescripcion[2] - lineLen -20) // (len(lineImages)-1)
             if lineBottom + fontHeight > self.inputBoxDescripcion[1] + self.inputBoxDescripcion[3]:
                 break
             lastLine += 1

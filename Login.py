@@ -277,35 +277,45 @@ class Login:
     def manageInputBox(self, key, unicode):
         # Si se ha hecho click sobre el cuadro de texto, se puede escribir. Si no, no.
         if(self.activeI):
-            # Si la tecla pulsada es un 
+            # Si la tecla pulsada es return, se resetea el nombre
             if key == pygame.K_RETURN:
                 self.name = ' '
-            elif key == pygame.K_BACKSPACE:
+            
+            # Si la tecla pulsada es la de borrar caracteres, se borra el último caracter escrito.
+            # Si al borrarlo, la longitud de la cadena es 0, automáticamente vuelve a poner una String vacía
+            elif key == pygame.K_BACKSPACE: 
                 self.name = self.name[:-1]
                 if(len(self.name) == 0):
                     self.name = ' '
             else:
+                # Siempre que no se exceda la longitud máxima posible de caracteres, se podrá escribir
                 if(len(self.name)<self.max_lenght_name):
+                    # En ningún texto se permitirá el uso de ':' ni de ';', pues son los símbolos empleados para el paso de mensajes
                     if(unicode != ':' and unicode != ';'):
+                        # Añadimos los caracteres correspondientes que vamos introduciendo
                         if(self.name == ' '):
                             self.name = unicode
                         else:
                             self.name += unicode
                     else:
+                        # Se ejecutará un sonido de error, que actuará como feedback para el usuario
                         self.ch2.play(self.error)
                 else:
                     self.ch2.play(self.error)
+
+            # Si el nombre final no es vacío, entonces el usuario habrá iniciado sesión parcialmente, a falta de determinar su icono de perfil.
             if(self.name != ' '):
                 self.logged = True
             else:
                 self.logged = False
+            # Se refresca la pantalla con el nuevo texto en color rosa para distinguir con respecto al texto blanco normal
+            # También se marcará el borde del cuadro de texto en rosa, para indicar que se puede continuar escribiendo
             self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
             self.screen.blit(pygame.transform.scale(self.capa, (self.width,self.height)), (0, 0))
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
             pygame.draw.rect(self.screen, self.color_light_pink, self.inputBox, 2)
             self.textName = self.fuenteText.render(self.name, True, self.color_light_pink)
-            #self.screen.blit(pygame.transform.scale(self.textName, (self.widthText, self.height/14.0000)), (self.width/1.5894, self.height/6.6667))
             self.screen.blit(self.textName, (self.width/1.57, self.height/6.6667))
             if(self.picture is not None):
                 self.screen.blit(pygame.transform.scale(self.avatarJugador[self.picture], (self.width/3.4286, self.width/3.4286)), (self.width/1.6000, self.height/3.5000))
