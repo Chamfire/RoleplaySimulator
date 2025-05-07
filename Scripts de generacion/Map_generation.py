@@ -37,8 +37,8 @@ class Map_generation:
         self.salas = {}
         self.grafos = {}
         self.adyacencias = None
-        self.matrix = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 500 x 500 -> es el mapa
-        self.objetos = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 500 x 500 -> es el mapa
+        self.matrix = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
+        self.objetos = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
         if(self.eleccion == "mazmorra"):
             self.createMazmorra() 
             self.fillWithObjects(tipo_mision,variableDeCheck)
