@@ -70,7 +70,7 @@ class Map_generation:
         aprox_wall_tiles = total_tiles*walls_percentage #número de casillas que preferiblemente serán muros
         aprox_room_tiles = total_tiles-aprox_wall_tiles #número de casillas que conformarán las salas
         max_size_room = aprox_room_tiles//num_max_salas #tamaño máximo por sala (si queremos que haya como mucho 10)
-        min_size_room = 25 # tamaño mínimo para ser considerado habitación
+        min_size_room = 36 # tamaño mínimo para ser considerado habitación
         length_max_one_side = int(np.sqrt(max_size_room))
         length_min_one_side = 6 #lo mínimo sería 6 x 6 -> puede haber como mucho 12 mobs a matar, que deberían estar en la última sala (6x6 = 36 - bordes = 16)
         room_sizes = {}
