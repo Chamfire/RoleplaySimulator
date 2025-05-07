@@ -81,3 +81,6 @@ f.add((3,4))
 f.add((3,4))
 print(f)
 print((3,4) in f)
+a2 = [[1,2],[4,1],[4,6]]
+a2.remove(a2[2])
+print(a2)

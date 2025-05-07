@@ -268,7 +268,7 @@ class Map_generation:
                         pos = random.randint(0,l-1)
                         [pos_x,pos_y] = posiciones[pos]
                         if(self.objetos[pos_y][pos_x] == 0):
-                            posiciones -= [pos]
+                            posiciones.remove(posiciones[pos])
                             if(mob == "esqueleto"):
                                 self.objetos[pos_y][pos_x] = 33 #trampa de mob -> al dirigirte a esa casilla, antes de poder pasar, el DM introduce al mob, y aparece en la casilla. 
                                 ubicado = True
@@ -285,7 +285,7 @@ class Map_generation:
                                 self.objetos[pos_y][pos_x] = 37
                                 ubicado = True
                         else:
-                            posiciones -= [pos]
+                            posiciones.remove(posiciones[pos])
                                
 
         elif(tipo_mision == "búsqueda"):
@@ -305,7 +305,7 @@ class Map_generation:
                             self.objetos[pos_y][pos_x] = 68
                             found = True
                         else:
-                            posiciones -= [pos]
+                            posiciones.remove(posiciones[pos])
                                     
                 elif(objeto == "Cadáver de dragón"):
                     posiciones = []
@@ -320,7 +320,7 @@ class Map_generation:
                             self.objetos[pos_y][pos_x] = 69
                             found = True
                         else:
-                            posiciones -= [pos]
+                            posiciones.remove(posiciones[pos])
                                 
                 elif(objeto == "Parte de cadáver de Dragón"):
                     posiciones = []
@@ -335,7 +335,7 @@ class Map_generation:
                             self.objetos[pos_y][pos_x] = 70
                             found = True
                         else:
-                            posiciones -= [pos]
+                            posiciones.remove(posiciones[pos])
                                
                 elif(objeto == "Cofre"):
                     posiciones = []
@@ -360,7 +360,7 @@ class Map_generation:
                             self.objetos[pos_y][pos_x] = 72
                             found = True
                         else:
-                            posiciones -= [pos]
+                            posiciones.remove(posiciones[pos])
                             
 
                 elif(objeto == "Armario"):
@@ -386,7 +386,7 @@ class Map_generation:
                             self.objetos[pos_y][pos_x] = 78
                             found = True
                         else:
-                            posiciones -= [pos]
+                            posiciones.remove(posiciones[pos])
                             
                 elif(objeto == "Ruina"):
                     posiciones = []
@@ -401,7 +401,7 @@ class Map_generation:
                             self.objetos[pos_y][pos_x] = 79
                             found = True
                         else:
-                            posiciones -= [pos]
+                            posiciones.remove(posiciones[pos])
 
         
 
@@ -472,9 +472,12 @@ class Map_generation:
                     if(self.sucesor(room_from,num_sala,path)):
                         self.salas[room_from].daASalas[num_sala][1] = "abierto" #en la posición 0 está la puerta
                         self.salas[num_sala].daASalas[room_from][1] = "abierto"
+                    elif(num_sala not in path):
+                        # Si el nodo de destino no se encuentra en el camino principal, el camino hacia ese nodo estará abierto
+                        self.salas[room_from].daASalas[num_sala][1] = "abierto"
                     else:
                         self.salas[room_from].daASalas[num_sala][1] = "cerrado" #en la posición 0 está la puerta. TODO: Modificar con nodos opcionales -> permitir los que vayan a otros nodos distintos del camino principal. Permitir a los que vayan a nodos anteriores al camino principal. Bloquear los que van al último, y permitir del final a todos. 
-                        self.salas[num_sala].daASalas[room_from][1] = "cerrado"
+                        #self.salas[num_sala].daASalas[room_from][1] = "cerrado"
             
     def getSubArbol(self,room_start_points,num_sala):
         #cogemos, por ejemplo, la sala 0
