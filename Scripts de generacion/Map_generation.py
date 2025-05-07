@@ -16,7 +16,7 @@ class Sala:
         self.esInicial = False
         self.daASalas = {}
         self.tienePortales = []
-        self.requiereLlave = False
+        self.contieneLlaves = [] #Lista de posiciones de las puertas que abre cada llave de aquí
         self.esFinal = False
         self.orden = None
         self.variableDeCheck = None
@@ -37,11 +37,18 @@ class Map_generation:
         self.salas = {}
         self.grafos = {}
         self.adyacencias = None
+        self.main_path = None
         self.matrix = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
         self.objetos = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
         if(self.eleccion == "mazmorra"):
             self.createMazmorra() 
             self.fillWithObjects(tipo_mision,variableDeCheck)
+            self.createRandomThings(tipo_mision,variableDeCheck, eleccion)
+            for sala in self.salas: 
+                print("Sala "+str(sala)+" acceso directo a:")
+                print(self.salas[sala].daASalas)
+                print("Llaves: ")
+                print(self.salas[sala].contieneLlaves)
         elif(self.eleccion == "barco"):
             pass
         elif(self.eleccion == "aldea medieval"):
@@ -213,8 +220,143 @@ class Map_generation:
                 exit_val = False
                 break
 
+    def createRandomThings(self,tipo_mision,variableDeCheck, ubicacion):
+        # Si la misión es de combate, recapitulamos los mobs que NO podemos incluir en encuentros aleatorios
+
+        mobs_a_excluir = []
+        if(tipo_mision == "combate"):
+            for mob in variableDeCheck:
+                mobs_a_excluir += [mob]
+
+        # Ahora vamos a extraer la lista de mobs que podemos poner como encuentro aleatorio
+        mobs_que_pueden_incluirse = []
+        lista_mobs_disponibles = {"mazmorra": ["esqueleto","zombie","slime","beholder","troll"],# 33, 34, 35, 36, 37
+                                  "ciudad moderna": ["droide","fantasma","objeto animado de silla", "mimic de cofre", "muñeca animada", "cyborg"], #38,39,40,41,42,43
+                                  "bosque": ["lobo wargo", "vampiro", "oso", "hombre lobo"], #44,45,46,47
+                                  "desierto": ["serpiente","cocodrilo", "momia", "esfinge"], #48,49,50,51
+                                  "aldea medieval": ["goblin","cultista","gnoll","elemental de roca"], #52,53,54,55
+                                  "barco": ["sirena","tiburón","hada","kraken"], #56,57,58,59
+                                  "raros": ["dragón","sombras","fénix"], #60,61,62
+                                  "medio": ["ankheg","basilísco"], #63,64
+                                  "comun": ["murciélago","rata","felino salvaje"]} #65,66,67
+        for mob in lista_mobs_disponibles[ubicacion]:
+            if(mob not in mobs_a_excluir):
+                mobs_que_pueden_incluirse += [mob]
+        # Lista de opciones aleatorias: 
+        # 1. puertas cerradas con llave del camino pcpal
+        num_salas = len(self.main_path) #número de salas del camino pcpal
+        cerradas = random.randint(1,2) #1 o 2 puertas estarán cerradas con llave
+        sala_elegida = self.main_path[random.randint(0,num_salas-1)]
+        # Bloqueamos la puerta predecesora en el camino
+        if(sala_elegida != self.main_path[0]):
+            pred = self.getPredecesorInmediatoEnMainPath(sala_elegida)
+            self.salas[sala_elegida].daASalas[pred][1] = "cerrado" #cerramos esa puerta
+            resp = self.devolverLongitudCamino(self.main_path[0],sala_elegida,[],0,[])
+            # Como está en el camino pcpal, sabemos que va a ser True
+            length = resp[1]
+            camino = resp[2]
+            sala_con_llave = camino[random.randint(0,length-1)]
+            coordenadas_puerta = self.salas[sala_elegida].daASalas[pred][0]
+            self.salas[sala_con_llave].contieneLlaves += [coordenadas_puerta]
+            s = sala_con_llave
+        else:
+            # Si es la primera sala, se queda todo en la primera sala
+            self.salas[sala_elegida].daASalas[self.main_path[1]] = "cerrado" #cerramos esa puerta
+            coordenadas_puerta = self.salas[sala_elegida].daASalas[self.main_path[1]][0]
+            self.salas[sala_elegida].contieneLlaves += [coordenadas_puerta]
+            s = sala_elegida
+        
+        # Ubico un baúl en en la sala con llave 's', que es donde irá la llave
+        posiciones = []
+        for pos_x in range(self.salas[s].pos_x+1,self.salas[s].pos_x+self.salas[s].size[0]-1):
+            for pos_y in range(self.salas[s].pos_y+1,self.salas[s].pos_y+self.salas[s].size[1]-1):
+                if((pos_x == self.salas[s].pos_x + 1) or (pos_x == (self.salas[s].pos_x+self.salas[s].size[0])) or (pos_y == self.salas[s].pos_y+1 or (pos_y == self.salas[s].pos_y+self.salas[s].size[1]-1))):
+                    posiciones += [[pos_x,pos_y]]
+        found = False
+        while(not found):
+            l = len(posiciones)
+            pos = random.randint(0,l-1)
+            [pos_x,pos_y] = posiciones[pos]   
+            if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6 and self.matrix[pos_y-1][pos_x] != 12)):
+                self.objetos[pos_y][pos_x] = 91
+                found = True
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
+                self.objetos[pos_y][pos_x] = 93
+                found = True
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
+                self.objetos[pos_y][pos_x] = 94
+                found = True
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
+                self.objetos[pos_y][pos_x] = 92
+                found = True
+            else:
+                posiciones.remove(posiciones[pos])
+
+        if(cerradas == 2):
+            sala2 = sala_elegida
+            while(sala2 == sala_elegida):
+                sala2 = self.main_path[random.randint(0,num_salas-1)]
+            # Tenemos 2 salas distintas aleatorias del camino pcpal
+            # Recuperamos el camino pcpal desde el prinipio hasta esta sala
+            if(sala2 != self.main_path[0]):
+                pred = self.getPredecesorInmediatoEnMainPath(sala2)
+                self.salas[sala2].daASalas[pred][1] = "cerrado" #cerramos esa puerta
+                resp = self.devolverLongitudCamino(self.main_path[0],sala2,[],0,[])
+                # Como está en el camino pcpal, sabemos que va a ser True
+                length = resp[1]
+                camino = resp[2]
+                sala_con_llave = camino[random.randint(0,length-1)]
+                coordenadas_puerta = self.salas[sala2].daASalas[pred][0]
+                self.salas[sala_con_llave].contieneLlaves += [coordenadas_puerta]
+                s = sala_con_llave
+            else:
+                # Si es la primera sala, se queda todo en la primera sala
+                self.salas[sala2].daASalas[self.main_path[1]] = "cerrado" #cerramos esa puerta
+                coordenadas_puerta = self.salas[sala2].daASalas[self.main_path[1]][0]
+                self.salas[sala2].contieneLlaves += [coordenadas_puerta]
+                s = sala2
+
+            # Ubico un baúl en en la sala con llave 's', que es donde irá la llave
+            posiciones = []
+            for pos_x in range(self.salas[s].pos_x+1,self.salas[s].pos_x+self.salas[s].size[0]-1):
+                for pos_y in range(self.salas[s].pos_y+1,self.salas[s].pos_y+self.salas[s].size[1]-1):
+                    if((pos_x == self.salas[s].pos_x + 1) or (pos_x == (self.salas[s].pos_x+self.salas[s].size[0])) or (pos_y == self.salas[s].pos_y+1 or (pos_y == self.salas[s].pos_y+self.salas[s].size[1]-1))):
+                        posiciones += [[pos_x,pos_y]]
+            found = False
+            while(not found):
+                l = len(posiciones)
+                pos = random.randint(0,l-1)
+                [pos_x,pos_y] = posiciones[pos]   
+                if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6 and self.matrix[pos_y-1][pos_x] != 12)):
+                    self.objetos[pos_y][pos_x] = 91
+                    found = True
+                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
+                    self.objetos[pos_y][pos_x] = 93
+                    found = True
+                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
+                    self.objetos[pos_y][pos_x] = 94
+                    found = True
+                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
+                    self.objetos[pos_y][pos_x] = 92
+                    found = True
+                else:
+                    posiciones.remove(posiciones[pos])
+            
+
+
+
+    def getPredecesorInmediatoEnMainPath(self,room):
+        print(room)
+        for sala in range(1,len(self.main_path)):
+            if(room == self.main_path[sala]):
+                return self.main_path[sala-1]
+        return self.main_path[0] #es la primera sala la que debe estar cerrada y con la llave                  
+
+
+
     def fillWithObjects(self,tipo_mision,variableDeCheck):
         longest_path = self.getLongestPath()
+        self.main_path = longest_path[3]
         print("Longest path:")
         print(longest_path[0])
         print(longest_path[1])
@@ -237,6 +379,34 @@ class Map_generation:
             if(self.objetos[pos_y][pos_x] == 0):
                 self.objetos[pos_y][pos_x] = 80
                 found = True
+                posiciones.remove(posiciones[pos])
+            
+        # Ubicamos al NPC, mirando en la dirección correcta
+        posiciones = []
+        for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
+            for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+                if((pos_x == self.salas[longest_path[1]].pos_x + 1) or (pos_x == (self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0])) or (pos_y == self.salas[longest_path[1]].pos_y+1 or (pos_y == self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1))):
+                    posiciones += [[pos_x,pos_y]]
+        found = False
+        while(not found):
+            l = len(posiciones)
+            pos = random.randint(0,l-1)
+            [pos_x,pos_y] = posiciones[pos]
+            # Es una posición libre, y no tiene ninguna puerta adyacente
+            if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6 and self.matrix[pos_y-1][pos_x] != 12)):
+                self.objetos[pos_y][pos_x] = 90 # NPC mirando hacia abajo
+                found = True
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
+                self.objetos[pos_y][pos_x] = 89 # NPC mirando hacia arriba
+                found = True
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
+                self.objetos[pos_y][pos_x] = 87 # NPC mirando hacia la izqda
+                found = True
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
+                self.objetos[pos_y][pos_x] = 88 # NPC mirando hacia la derecha
+                found = True
+            else:
+                posiciones.remove(posiciones[pos])
 
 
         self.salas[longest_path[1]].esFinal = True
@@ -353,10 +523,10 @@ class Map_generation:
                         elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
                             self.objetos[pos_y][pos_x] = 73
                             found = True
-                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 11)):
-                            self.objetos[pos_x][pos_y] = 74
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
+                            self.objetos[pos_y][pos_x] = 74
                             found = True
-                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 10)):
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
                             self.objetos[pos_y][pos_x] = 72
                             found = True
                         else:
@@ -379,10 +549,10 @@ class Map_generation:
                         elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
                             self.objetos[pos_y][pos_x] = 76
                             found = True
-                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 11)):
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
                             self.objetos[pos_y][pos_x] = 77
                             found = True
-                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 10)):
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
                             self.objetos[pos_y][pos_x] = 78
                             found = True
                         else:
@@ -409,10 +579,6 @@ class Map_generation:
         #Una vez que están todas las salas conectadas, establezco los enlaces directos entre salas
         for sala in self.salas:
             self.setSalasLinked(sala,path)
-
-        for sala in self.salas: 
-            print("Sala "+str(sala)+" acceso directo a:")
-            print(self.salas[sala].daASalas)
 
                                 
 
@@ -458,14 +624,14 @@ class Map_generation:
 
     def sucesor(self,sala,sala2,path):
         for sala3 in range(0,len(path)-1):
-            for sala4 in range(1,len(path)):
+            for sala4 in range(0,len(path)):
                 if (path[sala3] == sala and sala2 == path[sala4]):
                     return True
         return False
     
     def predecesor(self,sala,sala2,path):
         for sala3 in range(0,len(path)-1):
-            for sala4 in range(1,len(path)):
+            for sala4 in range(0,len(path)):
                 if (path[sala3] == sala2 and sala == path[sala4]):
                     return True
         return False
