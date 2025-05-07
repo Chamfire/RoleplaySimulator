@@ -284,10 +284,10 @@ class Map_generation:
                 self.objetos[pos_y][pos_x] = 93
                 found = True
             elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
-                self.objetos[pos_y][pos_x] = 94
+                self.objetos[pos_y][pos_x] = 92
                 found = True
             elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
-                self.objetos[pos_y][pos_x] = 92
+                self.objetos[pos_y][pos_x] = 94
                 found = True
             else:
                 posiciones.remove(posiciones[pos])
@@ -334,10 +334,10 @@ class Map_generation:
                     self.objetos[pos_y][pos_x] = 93
                     found = True
                 elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
-                    self.objetos[pos_y][pos_x] = 94
+                    self.objetos[pos_y][pos_x] = 92
                     found = True
                 elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
-                    self.objetos[pos_y][pos_x] = 92
+                    self.objetos[pos_y][pos_x] = 94
                     found = True
                 else:
                     posiciones.remove(posiciones[pos])
