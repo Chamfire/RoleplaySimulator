@@ -493,13 +493,15 @@ class Config:
             sliderXEnd = sliderXStart + sliderXsize
             #x, y es la posición actual del ratón
             if(x <= sliderXStart):
+                # Cursor a la izquierda de la barra: volumen = 0
                 self.s1x = sliderXStart
                 self.volumeMusic = 0
             elif(x>= sliderXEnd - x_sizeS1):
+                # Cursor a la derecha de la barra: volumen = 1
                 self.s1x = sliderXEnd - x_sizeS1
                 self.volumeMusic = 1
             else:
-                #está dentro de los rangos
+                # Cursor dentro de la barra. volumen proporcional
                 self.s1x = x
                 self.volumeMusic = (self.s1x - sliderXStart) /(sliderXEnd - x_sizeS1 - sliderXStart)
             #actualizamos esta parte de la pantalla
