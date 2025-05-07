@@ -311,7 +311,7 @@ class Map_generation:
                     posiciones = []
                     for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
                         for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
-                            posiciones += [pos_x,pos_y]
+                            posiciones += [[pos_x,pos_y]]
                     while(not found):
                         l = len(posiciones)
                         pos = random.randint(0,l-1)
