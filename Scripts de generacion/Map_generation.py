@@ -12,7 +12,7 @@ import heapq
 class Sala:
     def __init__(self,i,size):
         self.id = i
-        self.es_obligatoria = False
+        self.es_obligatoria = False #por defecto se marcan como opcionales. Luego, las obligatorias se marcarán como obligatorias
         self.esInicial = False
         self.daASalas = {}
         self.tienePortales = []
@@ -409,6 +409,8 @@ class Map_generation:
         #Una vez que están todas las salas conectadas, establezco los enlaces directos entre salas
         for sala in self.salas:
             self.setSalasLinked(sala,path)
+
+        for sala in self.salas: 
             print("Sala "+str(sala)+" acceso directo a:")
             print(self.salas[sala].daASalas)
 
@@ -460,6 +462,29 @@ class Map_generation:
                 if (path[sala3] == sala and sala2 == path[sala4]):
                     return True
         return False
+    
+    def predecesor(self,sala,sala2,path):
+        for sala3 in range(0,len(path)-1):
+            for sala4 in range(1,len(path)):
+                if (path[sala3] == sala2 and sala == path[sala4]):
+                    return True
+        return False
+    
+    def checkIfConnectsWithMainPath(self,sala,path,checked):
+        for sala3,state in self.salas[sala].daASalas.items():
+            estado = state[1] #abierto o cerrado
+            checked_aux = checked.copy()
+            checked_aux+= [sala3]
+            if(estado == "abierto" and sala3 not in path and sala3 not in checked_aux): #no conecta con el path, seguimos buscando
+                resp =  self.checkIfConnectsWithMainPath(sala3,path)
+                if(resp):
+                    return resp
+            elif(estado == "abierto" and sala3 in path):
+                return True #conecta con el camino pcpal
+            else: 
+                return False
+        return False
+
 
 
     def setSalasLinked(self,room_from,path):
@@ -468,15 +493,23 @@ class Map_generation:
             num_sala +=1
             if(num_sala != room_from):
                 if(conn == 1 or conn == 2 or conn == -1):
+                    #print(str(answ)+" con "+str(num_sala))
                     #existe un túnel entre num_sala y room_from
                     if(self.sucesor(room_from,num_sala,path)):
+                        #print(str(room_from)+" sucesor de "+str(num_sala))
                         self.salas[room_from].daASalas[num_sala][1] = "abierto" #en la posición 0 está la puerta
-                        self.salas[num_sala].daASalas[room_from][1] = "abierto"
-                    elif(num_sala not in path):
+                    elif(self.predecesor(room_from,num_sala,path)):
+                        #print(str(room_from)+" predecesor de "+str(num_sala))
+                        self.salas[room_from].daASalas[num_sala][1] = "abierto"
+                    elif(num_sala not in path and not self.checkIfConnectsWithMainPath(num_sala,path,[])):
+                        #print(str(num_sala)+" no está en el path. Poniendo ese y  "+str(room_from)+" a abierto")
                         # Si el nodo de destino no se encuentra en el camino principal, el camino hacia ese nodo estará abierto
                         self.salas[room_from].daASalas[num_sala][1] = "abierto"
+                        self.salas[num_sala].daASalas[room_from][1] = "abierto"
                     else:
-                        self.salas[room_from].daASalas[num_sala][1] = "cerrado" #en la posición 0 está la puerta. TODO: Modificar con nodos opcionales -> permitir los que vayan a otros nodos distintos del camino principal. Permitir a los que vayan a nodos anteriores al camino principal. Bloquear los que van al último, y permitir del final a todos. 
+                        if(self.salas[room_from].daASalas[num_sala][1] == None):
+                            #print(str(room_from)+" a "+ str(num_sala)+" era None. Cerrando camino")
+                            self.salas[room_from].daASalas[num_sala][1] = "cerrado" #en la posición 0 está la puerta. TODO: Modificar con nodos opcionales -> permitir los que vayan a otros nodos distintos del camino principal. Permitir a los que vayan a nodos anteriores al camino principal. Bloquear los que van al último, y permitir del final a todos. 
                         #self.salas[num_sala].daASalas[room_from][1] = "cerrado"
             
     def getSubArbol(self,room_start_points,num_sala):
