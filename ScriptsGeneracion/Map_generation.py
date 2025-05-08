@@ -544,8 +544,8 @@ class Map_generation:
         self.salas[longest_path[0]].esObligatoria = True
         #determinamos el punto de spawnpoint
         posiciones = []
-        for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
-            for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+        for pos_x in range(self.salas[longest_path[0]].pos_x+1,self.salas[longest_path[0]].pos_x+self.salas[longest_path[0]].size[0]-1):
+            for pos_y in range(self.salas[longest_path[0]].pos_y+1,self.salas[longest_path[0]].pos_y+self.salas[longest_path[0]].size[1]-1):
                 posiciones += [[pos_x,pos_y]]
         found = False
         while(not found):
@@ -1460,25 +1460,25 @@ class Map_generation:
 
     def drawMapInGame(self,ubicacion,width,height,screen):
         currentTilePlayer = self.spawn
-        if(currentTilePlayer[0] >=13 and currentTilePlayer[0] < 88):
+        if(currentTilePlayer[0] >=13 and currentTilePlayer[0] < 87):
             #se puede printear normal
             i_start = currentTilePlayer[0]-13
-        elif(currentTilePlayer[0] >=13 and currentTilePlayer[0] >= 88):
-            i_start = currentTilePlayer[0]-25
+        elif(currentTilePlayer[0] >=13 and currentTilePlayer[0] >= 87):
+            i_start = currentTilePlayer[0]-26
         else:
             i_start = 0
-        if(currentTilePlayer[1] < 96 and currentTilePlayer[1] >=5):
-            j_start = currentTilePlayer[1]-5
-        elif(currentTilePlayer[1] <96 and currentTilePlayer[1] <5):
+        if(currentTilePlayer[1] < 94 and currentTilePlayer[1] >=6):
+            j_start = currentTilePlayer[1]-6
+        elif(currentTilePlayer[1] <94 and currentTilePlayer[1] <6):
             j_start = 0
         else:
-            j_start = currentTilePlayer[1]-25
+            j_start = currentTilePlayer[1]-26
         cont_x = 0
         cont_y = 0
         #el tamaño de la pantalla es de 26 x 10, y la casilla actual del jugador debe ser la del medio
-        for i in range(i_start,i_start+26):
+        for i in range(i_start,i_start+27):
             cont_x = 0
-            for j in range(j_start,j_start+10):
+            for j in range(j_start,j_start+13):
                 try:
                     tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
                     screen.blit(pygame.transform.scale(tile, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
@@ -1488,7 +1488,7 @@ class Map_generation:
                     id = self.objetos[j][i]
                     if(not (87 <= id <= 90)):
                         object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
-                        screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                        screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
                     else:
                         if(id == 87):
                             screen.blit(pygame.transform.scale(self.frames[1][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
