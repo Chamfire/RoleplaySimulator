@@ -27,7 +27,31 @@ class Sala:
 
 
 class Map_generation:
-    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck, numJugadores):
+    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck, numJugadores,NPC_imagen):
+        self.NPC_imagen = NPC_imagen
+        imagen = pygame.image.load(self.NPC_imagen)
+
+        # Define el tamaño de cada frame
+        ancho_frame = 64
+        alto_frame = 64
+
+        # Calcula el número de frames en cada fila y columna
+        num_frames_x = imagen.get_width() // ancho_frame
+        num_frames_y = imagen.get_height() // alto_frame
+
+        # Lista para almacenar los frames
+        self.frames = {}
+
+        # Recorre la imagen y extrae cada frame
+        for y in range(num_frames_y):
+            self.frames[y] = []
+            for x in range(num_frames_x):
+                # Extrae el frame actual
+                frame = imagen.subsurface(pygame.Rect(x * ancho_frame, y * alto_frame, ancho_frame, alto_frame))
+                # Añade el frame a la lista
+                self.frames[y] += [frame]
+
+
         sys.setrecursionlimit(5000)  
         config_dir = 'mapas/'+currentPartida
         config_file = 'mapa_'+currentPartida+".txt"
@@ -536,9 +560,9 @@ class Map_generation:
             
         # Ubicamos al NPC, mirando en la dirección correcta
         posiciones = []
-        for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
-            for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
-                if((pos_x == self.salas[longest_path[1]].pos_x + 1) or (pos_x == (self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0])) or (pos_y == self.salas[longest_path[1]].pos_y+1 or (pos_y == self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1))):
+        for pos_x in range(self.salas[longest_path[0]].pos_x+1,self.salas[longest_path[0]].pos_x+self.salas[longest_path[0]].size[0]-1):
+            for pos_y in range(self.salas[longest_path[0]].pos_y+1,self.salas[longest_path[0]].pos_y+self.salas[longest_path[0]].size[1]-1):
+                if((pos_x == self.salas[longest_path[0]].pos_x + 1) or (pos_x == (self.salas[longest_path[0]].pos_x+self.salas[longest_path[0]].size[0])) or (pos_y == self.salas[longest_path[0]].pos_y+1 or (pos_y == self.salas[longest_path[0]].pos_y+self.salas[longest_path[0]].size[1]-1))):
                     if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
                         posiciones += [[pos_x,pos_y]]
         found = False
@@ -549,16 +573,20 @@ class Map_generation:
             # Es una posición libre, y no tiene ninguna puerta adyacente
             if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6)):
                 self.objetos[pos_y][pos_x] = 90 # NPC mirando hacia abajo
+                print(pos_y,pos_x)
                 found = True
             elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8)):
                 self.objetos[pos_y][pos_x] = 89 # NPC mirando hacia arriba
                 found = True
+                print(pos_y,pos_x)
             elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9)):
+                self.objetos[pos_y][pos_x] = 88 # NPC mirando hacia la dcha
+                found = True
+                print(pos_y,pos_x)
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
                 self.objetos[pos_y][pos_x] = 87 # NPC mirando hacia la izqda
                 found = True
-            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
-                self.objetos[pos_y][pos_x] = 88 # NPC mirando hacia la derecha
-                found = True
+                print(pos_y,pos_x)
             else:
                 posiciones.remove(posiciones[pos])
 
@@ -1226,9 +1254,9 @@ class Map_generation:
     def paintMap(self,ubicacion):
         #printeo de casillas        
         pygame.init()
-        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
-        #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
+        self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()
         # --------------SEMILLA ----------------------
         #seed_random = 33
@@ -1269,8 +1297,19 @@ class Map_generation:
                 except:
                     pass
                 try:
-                    object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
-                    self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+                    id = self.objetos[j][i]
+                    if(not (87 <= id <= 90)):
+                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
+                        self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+                    else:
+                        if(id == 87):
+                            self.screen.blit(pygame.transform.scale(self.frames[1][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+                        elif(id== 88):
+                            self.screen.blit(pygame.transform.scale(self.frames[3][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+                        elif(id==89):
+                            self.screen.blit(pygame.transform.scale(self.frames[0][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+                        elif(id==90):
+                            self.screen.blit(pygame.transform.scale(self.frames[2][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
                 except:
                     pass
         current_tiles = [0,0]
@@ -1296,9 +1335,21 @@ class Map_generation:
                                     except:
                                         pass
                                     try:
-                                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
-                                        self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
-                                    except:
+                                        id = self.objetos[j][i]
+                                        if(not (87 <= id <= 90)):
+                                            object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
+                                            self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                        else:
+                                            if(id == 87):
+                                                self.screen.blit(pygame.transform.scale(self.frames[1][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id== 88):
+                                                self.screen.blit(pygame.transform.scale(self.frames[3][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id==89):
+                                                self.screen.blit(pygame.transform.scale(self.frames[0][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id==90):
+                                                self.screen.blit(pygame.transform.scale(self.frames[2][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except Exception as e:
+                                        print(e)
                                         pass
                                     cont_x +=1
                                 cont_y +=1
@@ -1318,9 +1369,21 @@ class Map_generation:
                                     except:
                                         pass
                                     try:
-                                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
-                                        self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
-                                    except:
+                                        id = self.objetos[j][i]
+                                        if(not (87 <= id <= 90)):
+                                            object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
+                                            self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                        else:
+                                            if(id == 87):
+                                                self.screen.blit(pygame.transform.scale(self.frames[1][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id== 88):
+                                                self.screen.blit(pygame.transform.scale(self.frames[3][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id==89):
+                                                self.screen.blit(pygame.transform.scale(self.frames[0][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id==90):
+                                                self.screen.blit(pygame.transform.scale(self.frames[2][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except Exception as e:
+                                        print(e)
                                         pass
                                     cont_x +=1
                                 cont_y +=1
@@ -1340,9 +1403,21 @@ class Map_generation:
                                     except:
                                         pass
                                     try:
-                                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
-                                        self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
-                                    except:
+                                        id = self.objetos[j][i]
+                                        if(not (87 <= id <= 90)):
+                                            object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
+                                            self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                        else:
+                                            if(id == 87):
+                                                self.screen.blit(pygame.transform.scale(self.frames[1][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id== 88):
+                                                self.screen.blit(pygame.transform.scale(self.frames[3][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id==89):
+                                                self.screen.blit(pygame.transform.scale(self.frames[0][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id==90):
+                                                self.screen.blit(pygame.transform.scale(self.frames[2][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except Exception as e:
+                                        print(e)
                                         pass
                                     cont_x +=1
                                 cont_y +=1
@@ -1362,9 +1437,21 @@ class Map_generation:
                                     except:
                                         pass
                                     try:
-                                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
-                                        self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
-                                    except:
+                                        id = self.objetos[j][i]
+                                        if(not (87 <= id <= 90)):
+                                            object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
+                                            self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                        else:
+                                            if(id == 87):
+                                                self.screen.blit(pygame.transform.scale(self.frames[1][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id== 88):
+                                                self.screen.blit(pygame.transform.scale(self.frames[3][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id==89):
+                                                self.screen.blit(pygame.transform.scale(self.frames[0][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                            elif(id==90):
+                                                self.screen.blit(pygame.transform.scale(self.frames[2][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
+                                    except Exception as e:
+                                        print(e)
                                         pass
                                     cont_x +=1
                                 cont_y +=1
@@ -1375,17 +1462,17 @@ class Map_generation:
         currentTilePlayer = self.spawn
         if(currentTilePlayer[0] >=13 and currentTilePlayer[0] < 88):
             #se puede printear normal
-            i_start = currentTilePlayer-13
+            i_start = currentTilePlayer[0]-13
         elif(currentTilePlayer[0] >=13 and currentTilePlayer[0] >= 88):
-            i_start = currentTilePlayer-25
+            i_start = currentTilePlayer[0]-25
         else:
             i_start = 0
         if(currentTilePlayer[1] < 96 and currentTilePlayer[1] >=5):
-            j_start = currentTilePlayer-5
+            j_start = currentTilePlayer[1]-5
         elif(currentTilePlayer[1] <96 and currentTilePlayer[1] <5):
             j_start = 0
         else:
-            j_start = currentTilePlayer-25
+            j_start = currentTilePlayer[1]-25
 
         #el tamaño de la pantalla es de 26 x 10, y la casilla actual del jugador debe ser la del medio
         for i in range(i_start,i_start+26):
@@ -1396,13 +1483,77 @@ class Map_generation:
                 except:
                     pass
                 try:
-                    object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
-                    screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                    id = self.objetos[j][i]
+                    if(not (87 <= id <= 90)):
+                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
+                        screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                    else:
+                        if(id == 87):
+                            screen.blit(pygame.transform.scale(self.frames[1][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                        elif(id== 88):
+                            screen.blit(pygame.transform.scale(self.frames[3][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                        elif(id==89):
+                            screen.blit(pygame.transform.scale(self.frames[0][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                        elif(id==90):
+                            screen.blit(pygame.transform.scale(self.frames[2][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
                 except:
                     pass
-        
-    
+        pygame.display.update()
 
+        
+    def drawNPC(self,id,i,j):
+        #printeo de casillas        
+        pygame.init()
+        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
+        self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
+        info = pygame.display.Info()
+        # --------------SEMILLA ----------------------
+        #seed_random = 33
+        seed_random = random.randint(0,10000) #por defecto es aleatoria, pero se puede poner la de arriba
+        rel = (info.current_w/info.current_h)
+        if(1.7 <= rel <= 1.8): #aprox 16 x 9 -> 1.77
+            self.width,self.height= (self.screen.get_width(), self.screen.get_height())
+            #se queda Fullscreen
+            pass
+        elif(rel < 1.7):
+            temp_width,temp_height= (self.screen.get_width(), self.screen.get_height())
+            for i in reversed(range(0,temp_height)):
+                n_rel = temp_width/i
+                if(1.7 <= n_rel <= 1.8):
+                    self.width,self.height= (temp_width,i)
+                    break
+                else:
+                    pass
+
+        else: #mayor de 1.8
+            temp_width,temp_height= (self.screen.get_width(), self.screen.get_height())
+            for i in reversed(range(0,temp_width)):
+                n_rel = i/temp_height
+                if(1.7 <= n_rel <= 1.8):
+                    self.width,self.height= (i,temp_height)
+                    break
+                else:
+                    pass
+
+
+        os.environ['SDL_VIDEODRIVER'] = 'dummy'
+        self.screen.fill((0,0,0))
+        try:
+            if(id == 87):
+                self.screen.blit(pygame.transform.scale(self.frames[1][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+            elif(id== 88):
+                self.screen.blit(pygame.transform.scale(self.frames[3][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+            elif(id==89):
+                self.screen.blit(pygame.transform.scale(self.frames[0][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+            elif(id==90):
+                self.screen.blit(pygame.transform.scale(self.frames[2][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+        except Exception as e:
+            print(e)
+        pygame.display.update()
+        while(True):
+            pass
+        
 #zona de pruebas
 tipo_mapa = ["mazmorra","barco","desierto","bosque","aldea medieval","ciudad moderna"]
 currentPartida = "p1"
@@ -1445,5 +1596,7 @@ elif(tipo_mision_num == 2):
     mision = "Hay que encontrar lo siguiente: "+lugar_posible[lugar]
     variableDeCheck = {}
     variableDeCheck[lugar_posible[lugar]] = False #ninguno de los jugadores lo ha encontrado
-#Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck,1) #que genere el mapa de una mazmorra
+carpeta = "animations/NPCs/elfo_vive en el bosque_75_430_de piel verde/walk.png"
+#Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck,1,carpeta) #que genere el mapa de una mazmorra
 #Mapa.paintMap(ubicacion)
+#Mapa.drawNPC(87,3,3)
