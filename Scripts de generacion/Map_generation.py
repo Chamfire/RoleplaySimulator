@@ -27,7 +27,7 @@ class Sala:
 
 
 class Map_generation:
-    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck):
+    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck, numJugadores):
         sys.setrecursionlimit(5000)  
         config_dir = 'mapas/'+currentPartida
         config_file = 'mapa_'+currentPartida+".txt"
@@ -40,10 +40,11 @@ class Map_generation:
         self.main_path = None
         self.matrix = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
         self.objetos = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
+        self.mobs = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
         if(self.eleccion == "mazmorra"):
             self.createMazmorra() 
             self.fillWithObjects(tipo_mision,variableDeCheck)
-            self.createRandomThings(tipo_mision,variableDeCheck, eleccion)
+            self.createRandomThings(tipo_mision,variableDeCheck, eleccion,numJugadores)
             for sala in self.salas: 
                 print("Sala "+str(sala)+" acceso directo a:")
                 print(self.salas[sala].daASalas)
@@ -220,7 +221,7 @@ class Map_generation:
                 exit_val = False
                 break
 
-    def createRandomThings(self,tipo_mision,variableDeCheck, ubicacion):
+    def createRandomThings(self,tipo_mision,variableDeCheck, ubicacion,numJugadores):
         # Si la misión es de combate, recapitulamos los mobs que NO podemos incluir en encuentros aleatorios
 
         mobs_a_excluir = []
@@ -230,18 +231,132 @@ class Map_generation:
 
         # Ahora vamos a extraer la lista de mobs que podemos poner como encuentro aleatorio
         mobs_que_pueden_incluirse = []
-        lista_mobs_disponibles = {"mazmorra": ["esqueleto","zombie","slime","beholder","troll"],# 33, 34, 35, 36, 37
+        mobs_a_incluir = {}
+        rooms_with_monsters = 0
+        lista_mobs_disponibles = {"mazmorra": ["esqueleto","zombie","slime","beholder","troll"],# 33-38, 39, 40, 41, 42
                                   "ciudad moderna": ["droide","fantasma","objeto animado de silla", "mimic de cofre", "muñeca animada", "cyborg"], #38,39,40,41,42,43
-                                  "bosque": ["lobo wargo", "vampiro", "oso", "hombre lobo"], #44,45,46,47
-                                  "desierto": ["serpiente","cocodrilo", "momia", "esfinge"], #48,49,50,51
-                                  "aldea medieval": ["goblin","cultista","gnoll","elemental de roca"], #52,53,54,55
-                                  "barco": ["sirena","tiburón","hada","kraken"], #56,57,58,59
-                                  "raros": ["dragón","sombras","fénix"], #60,61,62
-                                  "medio": ["ankheg","basilísco"], #63,64
-                                  "comun": ["murciélago","rata","felino salvaje"]} #65,66,67
+                                  "bosque": ["lobo wargo", "vampiro", "oso", "hombre lobo"], 
+                                  "desierto": ["serpiente","cocodrilo", "momia", "esfinge"], 
+                                  "aldea medieval": ["goblin","cultista","gnoll","elemental de roca"],
+                                  "barco": ["sirena","tiburón","hada","kraken"], 
+                                  "raros": ["dragón","sombras","fénix"], #43-46,47,48
+                                  "medio": ["ankheg","basilísco"], #49,50-56
+                                  "comun": ["murciélago","rata","felino salvaje"]} #57,58,59-66
         for mob in lista_mobs_disponibles[ubicacion]:
             if(mob not in mobs_a_excluir):
                 mobs_que_pueden_incluirse += [mob]
+        for mob in lista_mobs_disponibles["comun"]:
+            mobs_que_pueden_incluirse += [mob]
+        prob = random.randint(0,100)
+        print(prob)
+        if(70 < prob < 90):
+            mobs_a_incluir[rooms_with_monsters] = [lista_mobs_disponibles["medio"][random.randint(0,1)]]
+            rooms_with_monsters +=1
+        elif(prob >= 90):
+            mobs_a_incluir[rooms_with_monsters] = [lista_mobs_disponibles["raros"][random.randint(0,2)]]
+            rooms_with_monsters +=1
+        else:
+            pass
+        num_total_salas = len(self.salas)
+        monsters_rooms = num_total_salas//3 #Un tercio tendrán monstruos
+
+        while(rooms_with_monsters != monsters_rooms):
+            n = random.randint(1,int(numJugadores*1.5))
+            mobs_a_incluir[rooms_with_monsters] = []
+            mob = random.randint(0,len(mobs_que_pueden_incluirse)-1)
+            for i in range(0,n):
+                mobs_a_incluir[rooms_with_monsters] += [mobs_que_pueden_incluirse[mob]]
+            rooms_with_monsters +=1
+
+
+        # Ya tenemos establecido el número de salas con monstruos, y los monstruos
+        # De posibles salas, son todas menos la primera
+        posibles_salas = []
+        for i in range(0,len(self.salas)):
+            posibles_salas += [i]
+        posibles_salas.remove(self.main_path[0])
+
+
+        print(mobs_a_incluir)
+        for i in range(0,rooms_with_monsters):
+            l = random.randint(0,len(posibles_salas)-1)
+            posiciones = []
+            for pos_x in range(self.salas[posibles_salas[l]].pos_x+1,self.salas[posibles_salas[l]].pos_x+self.salas[posibles_salas[l]].size[0]-1):
+                for pos_y in range(self.salas[posibles_salas[l]].pos_y+1,self.salas[posibles_salas[l]].pos_y+self.salas[posibles_salas[l]].size[1]-1):
+                    if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                        posiciones += [[pos_x,pos_y]]
+            mobs_selected = mobs_a_incluir[i] #el mob/mobs elegido para esa sala
+            for mob in mobs_selected:
+                found = False
+                print(mob)
+                if(mob == "esqueleto"):
+                    weapon = random.randint(0,5)
+                    id = 33+weapon
+                elif(mob == "zombie"):
+                    id = 39
+                elif(mob == "slime"):
+                    id = 40
+                elif(mob == "beholder"):
+                    id = 41
+                elif(mob == "troll"):
+                    id = 42
+                elif(mob == "dragón"):
+                    tipo = random.randint(0,3)
+                    id = 43+tipo
+                elif(mob == "sombras"):
+                    id = 47
+                elif(mob == "fénix"):
+                    id = 48
+                elif(mob == "ankheg"):
+                    id = 49
+                elif(mob == "basilísco"):
+                    tipo = random.randint(0,6)
+                    id = 50+tipo
+                elif(mob == "murciélago"):
+                    id = 57
+                elif(mob == "rata"):
+                    id = 58
+                elif(mob == "felino salvaje"):
+                    tipo = random.randint(0,7)
+                    id = 59+tipo
+                while(not found and len(posiciones) >=1):
+                    l2 = len(posiciones)
+                    pos = random.randint(0,l2-1)
+                    [pos_x,pos_y] = posiciones[pos]  
+                    if(self.objetos[pos_y][pos_x] == 0):
+                        self.objetos[pos_y][pos_x] = id
+                        self.mobs[pos_y][pos_x] = id
+                        print("Mob: "+mob+" en posición "+str(pos_x)+","+str(pos_y))
+                        found = True
+            # Ahora ubico un cofre de botín en esa sala
+            s = posibles_salas[l]
+            posiciones = []
+            for pos_x in range(self.salas[s].pos_x+1,self.salas[s].pos_x+self.salas[s].size[0]-1):
+                for pos_y in range(self.salas[s].pos_y+1,self.salas[s].pos_y+self.salas[s].size[1]-1):
+                    if((pos_x == self.salas[s].pos_x + 1) or (pos_x == (self.salas[s].pos_x+self.salas[s].size[0])) or (pos_y == self.salas[s].pos_y+1 or (pos_y == self.salas[s].pos_y+self.salas[s].size[1]-1))):
+                        if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                            posiciones += [[pos_x,pos_y]]
+            found = False
+            while(not found):
+                l2 = len(posiciones)
+                pos = random.randint(0,l2-1)
+                [pos_x,pos_y] = posiciones[pos]   
+                if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6)):
+                    self.objetos[pos_y][pos_x] = 91
+                    found = True
+                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8)):
+                    self.objetos[pos_y][pos_x] = 93
+                    found = True
+                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9)):
+                    self.objetos[pos_y][pos_x] = 92
+                    found = True
+                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
+                    self.objetos[pos_y][pos_x] = 94
+                    found = True
+                else:
+                    posiciones.remove(posiciones[pos])
+            posibles_salas.remove(posibles_salas[l])
+
         # Lista de opciones aleatorias: 
         # 1. puertas cerradas con llave del camino pcpal
         num_salas = len(self.main_path) #número de salas del camino pcpal
@@ -271,22 +386,23 @@ class Map_generation:
         for pos_x in range(self.salas[s].pos_x+1,self.salas[s].pos_x+self.salas[s].size[0]-1):
             for pos_y in range(self.salas[s].pos_y+1,self.salas[s].pos_y+self.salas[s].size[1]-1):
                 if((pos_x == self.salas[s].pos_x + 1) or (pos_x == (self.salas[s].pos_x+self.salas[s].size[0])) or (pos_y == self.salas[s].pos_y+1 or (pos_y == self.salas[s].pos_y+self.salas[s].size[1]-1))):
-                    posiciones += [[pos_x,pos_y]]
+                    if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                        posiciones += [[pos_x,pos_y]]
         found = False
         while(not found):
             l = len(posiciones)
             pos = random.randint(0,l-1)
             [pos_x,pos_y] = posiciones[pos]   
-            if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6 and self.matrix[pos_y-1][pos_x] != 12)):
+            if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6)):
                 self.objetos[pos_y][pos_x] = 91
                 found = True
-            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8)):
                 self.objetos[pos_y][pos_x] = 93
                 found = True
-            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9)):
                 self.objetos[pos_y][pos_x] = 92
                 found = True
-            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
                 self.objetos[pos_y][pos_x] = 94
                 found = True
             else:
@@ -321,27 +437,57 @@ class Map_generation:
             for pos_x in range(self.salas[s].pos_x+1,self.salas[s].pos_x+self.salas[s].size[0]-1):
                 for pos_y in range(self.salas[s].pos_y+1,self.salas[s].pos_y+self.salas[s].size[1]-1):
                     if((pos_x == self.salas[s].pos_x + 1) or (pos_x == (self.salas[s].pos_x+self.salas[s].size[0])) or (pos_y == self.salas[s].pos_y+1 or (pos_y == self.salas[s].pos_y+self.salas[s].size[1]-1))):
-                        posiciones += [[pos_x,pos_y]]
+                        if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                            posiciones += [[pos_x,pos_y]]
             found = False
             while(not found):
                 l = len(posiciones)
                 pos = random.randint(0,l-1)
                 [pos_x,pos_y] = posiciones[pos]   
-                if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6 and self.matrix[pos_y-1][pos_x] != 12)):
+                if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6)):
                     self.objetos[pos_y][pos_x] = 91
                     found = True
-                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
+                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8)):
                     self.objetos[pos_y][pos_x] = 93
                     found = True
-                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
+                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9)):
                     self.objetos[pos_y][pos_x] = 92
                     found = True
-                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
+                elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
                     self.objetos[pos_y][pos_x] = 94
                     found = True
                 else:
                     posiciones.remove(posiciones[pos])
-            
+        # Ahora creo elementos de decoración
+        for sala in self.salas:
+            size = self.salas[sala].size
+            num_tiles = (size[0]-1)*(size[1]-1)
+            num_a_rellenar = int(num_tiles*0.05)
+
+            posiciones = []
+            for pos_x in range(self.salas[sala].pos_x+1,self.salas[sala].pos_x+self.salas[sala].size[0]-1):
+                for pos_y in range(self.salas[sala].pos_y+1,self.salas[sala].pos_y+self.salas[sala].size[1]-1):
+                    if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                        posiciones += [[pos_x,pos_y]]
+            for i in range(0,num_a_rellenar):
+                found = False
+                while(not found and len(posiciones) >=1):
+                    l = len(posiciones)
+                    pos = random.randint(0,l-1)
+                    [pos_x,pos_y] = posiciones[pos]   
+                    if(self.objetos[pos_y][pos_x] == 0):
+                        tipo = random.randint(0,100)
+                        if(tipo < 80):
+                            rand_obj = random.randint(107,110)
+                        elif(80 < tipo <= 95):
+                            rand_obj = random.randint(111,117)
+                        else:
+                            rand_obj = random.randint(95,106)
+                        self.objetos[pos_y][pos_x] = rand_obj
+                        posiciones.remove(posiciones[pos])
+                        found = True
+
+
 
 
 
@@ -386,23 +532,24 @@ class Map_generation:
         for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
             for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
                 if((pos_x == self.salas[longest_path[1]].pos_x + 1) or (pos_x == (self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0])) or (pos_y == self.salas[longest_path[1]].pos_y+1 or (pos_y == self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1))):
-                    posiciones += [[pos_x,pos_y]]
+                    if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                        posiciones += [[pos_x,pos_y]]
         found = False
         while(not found):
             l = len(posiciones)
             pos = random.randint(0,l-1)
             [pos_x,pos_y] = posiciones[pos]
             # Es una posición libre, y no tiene ninguna puerta adyacente
-            if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6 and self.matrix[pos_y-1][pos_x] != 12)):
+            if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6)):
                 self.objetos[pos_y][pos_x] = 90 # NPC mirando hacia abajo
                 found = True
-            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8)):
                 self.objetos[pos_y][pos_x] = 89 # NPC mirando hacia arriba
                 found = True
-            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9)):
                 self.objetos[pos_y][pos_x] = 87 # NPC mirando hacia la izqda
                 found = True
-            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
+            elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
                 self.objetos[pos_y][pos_x] = 88 # NPC mirando hacia la derecha
                 found = True
             else:
@@ -425,8 +572,9 @@ class Map_generation:
             mobsMision = []
             posiciones = []
             for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
-                        for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
-                            posiciones += [[pos_x,pos_y]]
+                for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
+                    if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                        posiciones += [[pos_x,pos_y]]
             for mob in variableDeCheck:
                 mobsMision += [mob]
                 for i in range(0,variableDeCheck[mob][0]):
@@ -440,19 +588,21 @@ class Map_generation:
                         if(self.objetos[pos_y][pos_x] == 0):
                             posiciones.remove(posiciones[pos])
                             if(mob == "esqueleto"):
-                                self.objetos[pos_y][pos_x] = 33 #trampa de mob -> al dirigirte a esa casilla, antes de poder pasar, el DM introduce al mob, y aparece en la casilla. 
+                                weapon = random.randint(0,5)
+                                id = 33+weapon
+                                self.objetos[pos_y][pos_x] = id #trampa de mob -> al dirigirte a esa casilla, antes de poder pasar, el DM introduce al mob, y aparece en la casilla. 
                                 ubicado = True
                             elif(mob == "zombie"):
-                                self.objetos[pos_y][pos_x] = 34
+                                self.objetos[pos_y][pos_x] = 39
                                 ubicado = True
                             elif(mob == "slime"):
-                                self.objetos[pos_y][pos_x] = 35
+                                self.objetos[pos_y][pos_x] = 40
                                 ubicado = True
                             elif(mob == "beholder"):
-                                self.objetos[pos_y][pos_x] = 36
+                                self.objetos[pos_y][pos_x] = 41
                                 ubicado = True
                             elif(mob == "troll"):
-                                self.objetos[pos_y][pos_x] = 37
+                                self.objetos[pos_y][pos_x] = 42
                                 ubicado = True
                         else:
                             posiciones.remove(posiciones[pos])
@@ -466,7 +616,8 @@ class Map_generation:
                     posiciones = []
                     for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
                         for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
-                            posiciones += [[pos_x,pos_y]]
+                            if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                                posiciones += [[pos_x,pos_y]]
                     while(not found):
                         l = len(posiciones)
                         pos = random.randint(0,l-1)
@@ -481,7 +632,8 @@ class Map_generation:
                     posiciones = []
                     for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
                         for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
-                            posiciones += [[pos_x,pos_y]]
+                            if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                                posiciones += [[pos_x,pos_y]]
                     while(not found):
                         l = len(posiciones)
                         pos = random.randint(0,l-1)
@@ -496,7 +648,8 @@ class Map_generation:
                     posiciones = []
                     for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
                         for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
-                            posiciones += [[pos_x,pos_y]]
+                            if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                                posiciones += [[pos_x,pos_y]]
                     while(not found):
                         l = len(posiciones)
                         pos = random.randint(0,l-1)
@@ -512,21 +665,22 @@ class Map_generation:
                     for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
                         for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
                             if((pos_x == self.salas[longest_path[1]].pos_x + 1) or (pos_x == (self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0])) or (pos_y == self.salas[longest_path[1]].pos_y+1 or (pos_y == self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1))):
-                                posiciones += [[pos_x,pos_y]]
+                                if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                                    posiciones += [[pos_x,pos_y]]
                     while(not found):
                         l = len(posiciones)
                         pos = random.randint(0,l-1)
                         [pos_x,pos_y] = posiciones[pos]   
-                        if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6 and self.matrix[pos_y-1][pos_x] != 12)):
+                        if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6)):
                             self.objetos[pos_y][pos_x] = 71
                             found = True
-                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8)):
                             self.objetos[pos_y][pos_x] = 73
                             found = True
-                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9)):
                             self.objetos[pos_y][pos_x] = 74
                             found = True
-                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
                             self.objetos[pos_y][pos_x] = 72
                             found = True
                         else:
@@ -538,21 +692,22 @@ class Map_generation:
                     for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
                         for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
                             if((pos_x == self.salas[longest_path[1]].pos_x + 1) or (pos_x == (self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0])) or (pos_y == self.salas[longest_path[1]].pos_y+1 or (pos_y == self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1))):
-                                posiciones += [[pos_x,pos_y]]
+                                if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                                    posiciones += [[pos_x,pos_y]]
                     while(not found):
                         l = len(posiciones)
                         pos = random.randint(0,l-1)
                         [pos_x,pos_y] = posiciones[pos]
-                        if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6 and self.matrix[pos_y-1][pos_x] != 12)):
+                        if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6)):
                             self.objetos[pos_y][pos_x] = 75
                             found = True
-                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8 and self.matrix[pos_y+1][pos_x] != 13)):
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8)):
                             self.objetos[pos_y][pos_x] = 76
                             found = True
-                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9 and self.matrix[pos_y][pos_x-1] != 10)):
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9)):
                             self.objetos[pos_y][pos_x] = 77
                             found = True
-                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7 and self.matrix[pos_y][pos_x+1] != 11)):
+                        elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
                             self.objetos[pos_y][pos_x] = 78
                             found = True
                         else:
@@ -562,7 +717,8 @@ class Map_generation:
                     posiciones = []
                     for pos_x in range(self.salas[longest_path[1]].pos_x+1,self.salas[longest_path[1]].pos_x+self.salas[longest_path[1]].size[0]-1):
                         for pos_y in range(self.salas[longest_path[1]].pos_y+1,self.salas[longest_path[1]].pos_y+self.salas[longest_path[1]].size[1]-1):
-                            posiciones += [[pos_x,pos_y]]
+                            if(self.matrix[pos_y-1][pos_x] != 12 and self.matrix[pos_y+1][pos_x] != 13 and self.matrix[pos_y][pos_x-1] != 10 and self.matrix[pos_y][pos_x+1] != 11):
+                                posiciones += [[pos_x,pos_y]]
                     while(not found):
                         l = len(posiciones)
                         pos = random.randint(0,l-1)
@@ -1253,5 +1409,5 @@ elif(tipo_mision_num == 2):
     mision = "Hay que encontrar lo siguiente: "+lugar_posible[lugar]
     variableDeCheck = {}
     variableDeCheck[lugar_posible[lugar]] = False #ninguno de los jugadores lo ha encontrado
-Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck) #que genere el mapa de una mazmorra
+Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck,1) #que genere el mapa de una mazmorra
 Mapa.paintMap()

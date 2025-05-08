@@ -71,6 +71,7 @@ for n in matrix[1]:
     print(n)
 
 a = [1,4,5,6]
+print(a[-1])
 print(a[1:])
 print(2<=-1<=4)
 r = {}
@@ -84,3 +85,7 @@ print((3,4) in f)
 a2 = [[1,2],[4,1],[4,6]]
 a2.remove(a2[2])
 print(a2)
+e = ['aasdf']
+for i in e:
+    print(i)
+
