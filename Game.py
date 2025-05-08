@@ -252,6 +252,8 @@ class Game:
                     self.joinPartida.reload()
                 elif self.currentScreen == "server_disc":
                     self.serverDisc.render()
+                    self.GLOBAL.setViewMap(False)
+                    self.GLOBAL.setMAPA(None)
                 elif self.currentScreen == "seleccionPersonaje":
                     self.seleccionPersonaje.refresh(7,None)
                 elif self.currentScreen == "seleccionPersonaje2":
@@ -500,6 +502,8 @@ class Game:
                             self.salaEspera.escuchaTCP.closeSocketTCPServer()
                             self.salaEspera.escuchaUDP.closeSocketUDPServer()
                             self.salaEspera.enviarEstadoUDP.desconectar()
+                            self.GLOBAL.setViewMap(False)
+                            self.GLOBAL.setMAPA(None)
                             try:
                                 #solo se podrá cerrar si eres el cliente
                                 self.joinPartida.escuchaTCPClient.closeSocketTCPServer()

@@ -410,6 +410,7 @@ class EstadoDeSalaInicial(Estado):
     def OnEnterEstadoByPlayer(self,DM,personaje):
         #El mensaje de introducción a la sala, se le reproduce a cada uno de forma individual (por si alguno muriera, y se tuviera que crear otro, que esto ya sea independiente)
         print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        self.GLOBAL.setViewMap(True)
         DM.speak(self.dialogoDMIntro) 
         #DM.printVoices()
         #TODO: Enviar mensaje TCP

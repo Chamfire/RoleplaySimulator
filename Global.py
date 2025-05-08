@@ -40,6 +40,26 @@ class Global:
         showImage = False
         global imagenPartidaBkg
         imagenPartidaBkg = ""
+        global viewMap
+        viewMap = False
+        global m
+        m = None
+
+    def getViewMap(self):
+        global viewMap
+        return viewMap
+    
+    def setMAPA(self, m):
+        global mapa
+        mapa = m
+        
+    def getMapa(self):
+        global mapa
+        return mapa
+    
+    def setViewMap(self,v):
+        global viewMap
+        viewMap = v
 
     def getImagePartidaBkg(self):
         global imagenPartidaBkg

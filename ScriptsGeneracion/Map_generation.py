@@ -33,6 +33,7 @@ class Map_generation:
         config_file = 'mapa_'+currentPartida+".txt"
         self.eleccion = eleccion
         self.map_size = 100
+        self.spawn = None
         self.centroides = {}
         self.salas = {}
         self.grafos = {}
@@ -529,6 +530,7 @@ class Map_generation:
             [pos_x,pos_y] = posiciones[pos]
             if(self.objetos[pos_y][pos_x] == 0):
                 self.objetos[pos_y][pos_x] = 80
+                self.spawn = [pos_x,pos_y]
                 found = True
                 posiciones.remove(posiciones[pos])
             
@@ -1369,7 +1371,36 @@ class Map_generation:
                             pygame.display.update()
 
 
+    def drawMapInGame(self,ubicacion,width,height,screen):
+        currentTilePlayer = self.spawn
+        if(currentTilePlayer[0] >=13 and currentTilePlayer[0] < 88):
+            #se puede printear normal
+            i_start = currentTilePlayer-13
+        elif(currentTilePlayer[0] >=13 and currentTilePlayer[0] >= 88):
+            i_start = currentTilePlayer-25
+        else:
+            i_start = 0
+        if(currentTilePlayer[1] < 96 and currentTilePlayer[1] >=5):
+            j_start = currentTilePlayer-5
+        elif(currentTilePlayer[1] <96 and currentTilePlayer[1] <5):
+            j_start = 0
+        else:
+            j_start = currentTilePlayer-25
 
+        #el tamaño de la pantalla es de 26 x 10, y la casilla actual del jugador debe ser la del medio
+        for i in range(i_start,i_start+26):
+            for j in range(j_start,j_start+10):
+                try:
+                    tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
+                    screen.blit(pygame.transform.scale(tile, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                except:
+                    pass
+                try:
+                    object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
+                    screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                except:
+                    pass
+        
     
 
 #zona de pruebas
