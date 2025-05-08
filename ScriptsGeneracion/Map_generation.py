@@ -508,7 +508,7 @@ class Map_generation:
 
     def fillWithObjects(self,tipo_mision,variableDeCheck):
         longest_path = self.getLongestPath()
-        # self.main_path = longest_path[3]
+        self.main_path = longest_path[3]
         # print("Longest path:")
         # print(longest_path[0])
         # print(longest_path[1])
