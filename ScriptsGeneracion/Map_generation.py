@@ -45,12 +45,12 @@ class Map_generation:
             self.createMazmorra() 
             self.fillWithObjects(tipo_mision,variableDeCheck)
             self.createRandomThings(tipo_mision,variableDeCheck, eleccion,numJugadores)
-            for sala in self.salas: 
-                print("Sala "+str(sala)+" acceso directo a:")
-                print(self.salas[sala].daASalas)
-                print("Llaves: ")
-                print(self.salas[sala].contieneLlaves)
-        elif(self.eleccion == "barco"):
+            # for sala in self.salas: 
+            #     print("Sala "+str(sala)+" acceso directo a:")
+            #     print(self.salas[sala].daASalas)
+            #     print("Llaves: ")
+            #     print(self.salas[sala].contieneLlaves)
+        elif(self.eleccion == "desierto"):
             pass
         elif(self.eleccion == "aldea medieval"):
             pass
@@ -58,7 +58,7 @@ class Map_generation:
             pass
         elif(self.eleccion == "bosque"):
             pass
-        elif(self.eleccion == "desierto"):
+        elif(self.eleccion == "barco"):
             pass
         
         if not os.path.exists(config_dir):
@@ -68,6 +68,7 @@ class Map_generation:
             for fila in self.matrix:
                 f.write(' '.join(map(str, fila)) + '\n')
 
+    
     def createMazmorra(self):
         num_max_salas = 20
         num_min_salas = 15
@@ -89,17 +90,17 @@ class Map_generation:
             self.adyacencias = np.zeros((num_aleatorio_salas,num_aleatorio_salas), dtype=int)
             self.salas[i] = Sala(i,room_sizes[i])
 
-        print("Número total de salas: ", num_aleatorio_salas)
-        print("Tamaños de las salas: ")
-        print(room_sizes)
-        print("---------------------------")
+        # print("Número total de salas: ", num_aleatorio_salas)
+        # print("Tamaños de las salas: ")
+        # print(room_sizes)
+        # print("---------------------------")
         for i,room_size in room_sizes.items():
             #Determino cuál podría ser una posible posición para esa sala, teniendo en cuenta que debe printearse dentro del cuadro del mapa
             found_place_to_print = False
             count = 0
             while(not found_place_to_print):
                 count +=1
-                print("intento "+str(count)+" en sala "+str(i))
+                #print("intento "+str(count)+" en sala "+str(i))
                 found_place_to_print = True
                 x_start = random.randint(1,self.available_map_size-room_size[0]+1)
                 y_start = random.randint(1,self.available_map_size-room_size[1]+1)
@@ -152,7 +153,7 @@ class Map_generation:
                 
             #Si llegamos aquí, quiere decir que hemos encontrado un lugar libre completo donde printear esa sala:
             self.matrix = matrix_aux
-            self.printSubMap(room_size,x_start,y_start,i)
+            #self.printSubMap(room_size,x_start,y_start,i)
             self.salas[i].pos_x = x_start
             self.salas[i].pos_y = y_start
             #calculamos el centro de la sala
@@ -248,7 +249,7 @@ class Map_generation:
         for mob in lista_mobs_disponibles["comun"]:
             mobs_que_pueden_incluirse += [mob]
         prob = random.randint(0,100)
-        print(prob)
+        #print(prob)
         if(70 < prob < 90):
             mobs_a_incluir[rooms_with_monsters] = [lista_mobs_disponibles["medio"][random.randint(0,1)]]
             rooms_with_monsters +=1
@@ -277,7 +278,7 @@ class Map_generation:
         posibles_salas.remove(self.main_path[0])
 
 
-        print(mobs_a_incluir)
+        #print(mobs_a_incluir)
         for i in range(0,rooms_with_monsters):
             l = random.randint(0,len(posibles_salas)-1)
             posiciones = []
@@ -288,7 +289,7 @@ class Map_generation:
             mobs_selected = mobs_a_incluir[i] #el mob/mobs elegido para esa sala
             for mob in mobs_selected:
                 found = False
-                print(mob)
+                #print(mob)
                 if(mob == "esqueleto"):
                     weapon = random.randint(0,5)
                     id = 33+weapon
@@ -326,7 +327,7 @@ class Map_generation:
                     if(self.objetos[pos_y][pos_x] == 0):
                         self.objetos[pos_y][pos_x] = id
                         self.mobs[pos_y][pos_x] = id
-                        print("Mob: "+mob+" en posición "+str(pos_x)+","+str(pos_y))
+                        #print("Mob: "+mob+" en posición "+str(pos_x)+","+str(pos_y))
                         found = True
             # Ahora ubico un cofre de botín en esa sala
             s = posibles_salas[l]
@@ -462,7 +463,7 @@ class Map_generation:
         for sala in self.salas:
             size = self.salas[sala].size
             num_tiles = (size[0]-1)*(size[1]-1)
-            num_a_rellenar = int(num_tiles*0.05)
+            num_a_rellenar = int(num_tiles*0.2)
 
             posiciones = []
             for pos_x in range(self.salas[sala].pos_x+1,self.salas[sala].pos_x+self.salas[sala].size[0]-1):
@@ -478,7 +479,11 @@ class Map_generation:
                     if(self.objetos[pos_y][pos_x] == 0):
                         tipo = random.randint(0,100)
                         if(tipo < 80):
-                            rand_obj = random.randint(107,110)
+                            tipo2 = random.randint(1,100)
+                            if(tipo2 >= 80):
+                                rand_obj = random.randint(107,110)
+                            else:
+                                rand_obj = random.randint(118,121)
                         elif(80 < tipo <= 95):
                             rand_obj = random.randint(111,117)
                         else:
@@ -492,7 +497,7 @@ class Map_generation:
 
 
     def getPredecesorInmediatoEnMainPath(self,room):
-        print(room)
+        #print(room)
         for sala in range(1,len(self.main_path)):
             if(room == self.main_path[sala]):
                 return self.main_path[sala-1]
@@ -502,13 +507,13 @@ class Map_generation:
 
     def fillWithObjects(self,tipo_mision,variableDeCheck):
         longest_path = self.getLongestPath()
-        self.main_path = longest_path[3]
-        print("Longest path:")
-        print(longest_path[0])
-        print(longest_path[1])
-        print(longest_path[2])
-        print(longest_path[3])
-        print("pos last room: "+str(self.salas[longest_path[1]].pos_x)+","+str(self.salas[longest_path[1]].pos_y))
+        # self.main_path = longest_path[3]
+        # print("Longest path:")
+        # print(longest_path[0])
+        # print(longest_path[1])
+        # print(longest_path[2])
+        # print(longest_path[3])
+        # print("pos last room: "+str(self.salas[longest_path[1]].pos_x)+","+str(self.salas[longest_path[1]].pos_y))
         self.salas[longest_path[0]].esInicial = True
         self.salas[longest_path[0]].orden = 0
         self.salas[longest_path[0]].esObligatoria = True
@@ -610,7 +615,7 @@ class Map_generation:
 
         elif(tipo_mision == "búsqueda"):
             for objeto in variableDeCheck: #solo hay 1, pero así lo sacamos
-                print(objeto)
+                #print(objeto)
                 found = False
                 if(objeto == "Árbol"):  #"Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"
                     posiciones = []
@@ -880,7 +885,7 @@ class Map_generation:
             if(i != num_sala):
                 if(self.existeConexion(num_sala,i,[])):
                     cont2 +=1
-        print(str(cont1)+" respecto a "+str(cont2))
+        #print(str(cont1)+" respecto a "+str(cont2))
         if((cont1-1) == cont2):
             return True
         else:
@@ -995,12 +1000,12 @@ class Map_generation:
                                     posibles_puertas_por_sala[i]["izquierda"] = [[pos_x,pos_y]]
 
         
-        self.printPosiblesPuertas(posibles_puertas_por_sala)  
+        #self.printPosiblesPuertas(posibles_puertas_por_sala)  
         #el orden será en el sentido de las agujas del reloj
         heuristicas_por_sala = self.calculateHeuristics()
         #print(heuristicas_por_sala)
-        print("-------------------")
-        print(self.adyacencias)
+        # print("-------------------")
+        # print(self.adyacencias)
 
         for salas in heuristicas_por_sala:
             i = heuristicas_por_sala[salas][2]
@@ -1051,7 +1056,7 @@ class Map_generation:
                             
                             if(camino_final[0] == True):
                                 #cambiar las casillas en la matriz
-                                print("Camino creado entre salas "+str(i)+" y "+str(num_sala)+" y puertas "+str(door_from)+" - "+str(door_to))
+                                #print("Camino creado entre salas "+str(i)+" y "+str(num_sala)+" y puertas "+str(door_from)+" - "+str(door_to))
                                 self.modifyMapWithCamino(door_from,door_to,camino_final)
                                 self.salas[i].daASalas[num_sala] = [[door_from[0],door_from[1]],None]
                                 self.salas[num_sala].daASalas[i] = [[door_to[0],door_to[1]],None]
@@ -1065,7 +1070,7 @@ class Map_generation:
     def modifyMapWithCamino(self,door_from,door_to,camino):
         current_x = door_from[0]
         current_y = door_from[1]
-        print(camino)
+        #print(camino)
         if(camino[1][0] == "arriba"):
             self.matrix[current_y][current_x] = 12
         elif(camino[1][0] == "abajo"):
@@ -1216,12 +1221,12 @@ class Map_generation:
         submatriz = self.matrix[y_start:end_subm_y,x_start:end_subm_x]
         print(submatriz)
 
-    def paintMap(self):
+    def paintMap(self,ubicacion):
         #printeo de casillas        
         pygame.init()
-        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
-        self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
+        #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()
         # --------------SEMILLA ----------------------
         #seed_random = 33
@@ -1257,12 +1262,12 @@ class Map_generation:
         for i in range(0,26):
             for j in range(0,10):
                 try:
-                    tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
+                    tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
                     self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
                 except:
                     pass
                 try:
-                    object = pygame.image.load("tiles/dungeon/"+str(self.objetos[j][i])+".png")
+                    object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
                     self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
                 except:
                     pass
@@ -1284,12 +1289,12 @@ class Map_generation:
                                 cont_x = 0
                                 for j in range(current_tiles[1],current_tiles[1]+10):
                                     try:
-                                        tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
+                                        tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
                                     except:
                                         pass
                                     try:
-                                        object = pygame.image.load("tiles/dungeon/"+str(self.objetos[j][i])+".png")
+                                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
                                     except:
                                         pass
@@ -1306,12 +1311,12 @@ class Map_generation:
                                 cont_x = 0
                                 for j in range(current_tiles[1],current_tiles[1]+10):
                                     try:
-                                        tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
+                                        tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
                                     except:
                                         pass
                                     try:
-                                        object = pygame.image.load("tiles/dungeon/"+str(self.objetos[j][i])+".png")
+                                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
                                     except:
                                         pass
@@ -1328,12 +1333,12 @@ class Map_generation:
                                 cont_x = 0
                                 for j in range(current_tiles[1],current_tiles[1]+10):
                                     try:
-                                        tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
+                                        tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
                                     except:
                                         pass
                                     try:
-                                        object = pygame.image.load("tiles/dungeon/"+str(self.objetos[j][i])+".png")
+                                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
                                     except:
                                         pass
@@ -1350,12 +1355,12 @@ class Map_generation:
                                 cont_x = 0
                                 for j in range(current_tiles[1],current_tiles[1]+10):
                                     try:
-                                        tile = pygame.image.load("tiles/dungeon/"+str(self.matrix[j][i])+".png")
+                                        tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(tile, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
                                     except:
                                         pass
                                     try:
-                                        object = pygame.image.load("tiles/dungeon/"+str(self.objetos[j][i])+".png")
+                                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(self.objetos[j][i])+".png")
                                         self.screen.blit(pygame.transform.scale(object, ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*cont_y, (self.height/87.5000)+(self.height/21.8750)*cont_x)) #32 32 8 8
                                     except:
                                         pass
@@ -1410,4 +1415,4 @@ elif(tipo_mision_num == 2):
     variableDeCheck = {}
     variableDeCheck[lugar_posible[lugar]] = False #ninguno de los jugadores lo ha encontrado
 Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck,1) #que genere el mapa de una mazmorra
-Mapa.paintMap()
+Mapa.paintMap(ubicacion)

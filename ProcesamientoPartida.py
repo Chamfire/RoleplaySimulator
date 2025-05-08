@@ -15,6 +15,7 @@ from maquina_de_estados.Maquina_de_estados import Maquina_de_estados
 from Personaje import Personaje
 from maquina_de_estados.RAG_historia import RAG_historia
 import time
+from ScriptsGeneracion import Map_generation
 
 @contextlib.contextmanager
 def suppress_stdout_stderr():
@@ -462,7 +463,6 @@ class ProcesamientoPartida:
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,300)
         print("Progreso: 15%")
-        print(dialogos_posibles)
         self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
         presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y yo voy a hablar con un NPC por primera vez, y quieres que este NPC se presente, indicando su nombre y el nombre del lugar donde están.<|eot_id|><|start_header_id|>user<|end_header_id|>
                         Genera un único párrafo del diálogo que me diría ese NPC, refiriéndote a mí como "aventurero". Ten en cuenta que el NPC se llama {self.personaje.name}, y que tiene este trasfondo:
@@ -472,10 +472,14 @@ class ProcesamientoPartida:
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         dialogos_presentacion = self.consultarAlDM(presentacion_NPC,model_path,None,2048,700)
         print("Progreso: 19%")
-        print(dialogos_presentacion)
         self.RAG_historia.escribirDialogosNPC(dialogos_presentacion)
         
         self.maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision)
+
+        #Creo el mapa 
+        Mapa = Map_generation(self.ubicacion,self.currentPartida,tipo_mision,variableDeCheck,self.numJugadores) #que genere el mapa de una mazmorra
+        print("Progreso: 90%")
+        #creo los estados correspondientes para la máquina de estados
 
         #procesamiento....
         fin_time = time.time()
