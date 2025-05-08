@@ -1445,5 +1445,5 @@ elif(tipo_mision_num == 2):
     mision = "Hay que encontrar lo siguiente: "+lugar_posible[lugar]
     variableDeCheck = {}
     variableDeCheck[lugar_posible[lugar]] = False #ninguno de los jugadores lo ha encontrado
-Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck,1) #que genere el mapa de una mazmorra
-Mapa.paintMap(ubicacion)
+#Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck,1) #que genere el mapa de una mazmorra
+#Mapa.paintMap(ubicacion)
