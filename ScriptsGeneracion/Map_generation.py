@@ -1467,16 +1467,16 @@ class Map_generation:
             i_start = currentTilePlayer[0]-26
         else:
             i_start = 0
-        if(currentTilePlayer[1] < 94 and currentTilePlayer[1] >=6):
+        if(currentTilePlayer[1] < 93 and currentTilePlayer[1] >=6):
             j_start = currentTilePlayer[1]-6
-        elif(currentTilePlayer[1] <94 and currentTilePlayer[1] <6):
+        elif(currentTilePlayer[1] <93 and currentTilePlayer[1] <6):
             j_start = 0
         else:
-            j_start = currentTilePlayer[1]-26
+            j_start = currentTilePlayer[1]-13
         cont_x = 0
         cont_y = 0
         #el tamaño de la pantalla es de 26 x 10, y la casilla actual del jugador debe ser la del medio
-        for i in range(i_start,i_start+27):
+        for i in range(i_start,i_start+26):
             cont_x = 0
             for j in range(j_start,j_start+13):
                 try:
