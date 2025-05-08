@@ -1473,32 +1473,35 @@ class Map_generation:
             j_start = 0
         else:
             j_start = currentTilePlayer[1]-25
-
+        cont_x = 0
+        cont_y = 0
         #el tamaño de la pantalla es de 26 x 10, y la casilla actual del jugador debe ser la del medio
         for i in range(i_start,i_start+26):
+            cont_x = 0
             for j in range(j_start,j_start+10):
                 try:
                     tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
-                    screen.blit(pygame.transform.scale(tile, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                    screen.blit(pygame.transform.scale(tile, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
                 except:
                     pass
                 try:
                     id = self.objetos[j][i]
                     if(not (87 <= id <= 90)):
                         object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
-                        screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                        screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
                     else:
                         if(id == 87):
-                            screen.blit(pygame.transform.scale(self.frames[1][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                            screen.blit(pygame.transform.scale(self.frames[1][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
                         elif(id== 88):
-                            screen.blit(pygame.transform.scale(self.frames[3][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                            screen.blit(pygame.transform.scale(self.frames[3][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
                         elif(id==89):
-                            screen.blit(pygame.transform.scale(self.frames[0][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                            screen.blit(pygame.transform.scale(self.frames[0][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
                         elif(id==90):
-                            screen.blit(pygame.transform.scale(self.frames[2][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*i, (height/87.5000)+(height/21.8750)*j)) #32 32 8 8
+                            screen.blit(pygame.transform.scale(self.frames[2][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
                 except:
                     pass
-        pygame.display.update()
+                cont_x +=1
+            cont_y +=1
 
         
     def drawNPC(self,id,i,j):
