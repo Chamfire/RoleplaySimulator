@@ -564,12 +564,16 @@ class PartidaScreen:
         if(self.GLOBAL.getViewMap()):
             # Si se puede ver el mapa, podemos movernos
             if(key == pygame.K_DOWN):
+                print("down")
                 self.personaje.setDown(True)
             elif(key == pygame.K_UP):
+                print("up")
                 self.personaje.setUp(True)
             elif(key == pygame.K_LEFT):
+                print("left")
                 self.personaje.setLeft(True)
             elif(key == pygame.K_RIGHT):
+                print("right")
                 self.personaje.setRight(True)
 
     def hasUpKey(self,key,unicode):

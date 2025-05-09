@@ -579,13 +579,13 @@ class Game:
                         self.seleccionPersonaje.manageInputBox(event.key,event.unicode)
                     elif self.currentScreen == "seleccionPersonaje2":
                         self.seleccionPersonaje2.manageInputBox(event.key,event.unicode)
-                    elif self.currentScreen == "partidaScreen":
+                    elif self.currentScreen == "partida":
                         self.partidaScreen.hasPressedAKey(event.key,event.unicode)
                     else:
                         pass
 
                 elif event.type == pygame.KEYUP:
-                    if self.currentScreen == "partidaScreen":
+                    if self.currentScreen == "partida":
                         self.partidaScreen.hasUpKey(event.key,event.unicode)
 
                 elif event.type == pygame.MOUSEMOTION:
