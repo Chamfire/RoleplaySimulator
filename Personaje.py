@@ -129,8 +129,8 @@ class Personaje:
         
         calc_x = currentTilePlayer[0] - i_start #número de casillas de diferencia
         calc_y = currentTilePlayer[1] - j_start 
-        self.difX = self.tileSize[0]*calc_x #Los píxeles que nos estamos comiendo de mapa, que no aparecen. Para el cálculo después de las tiles
-        self.difY = self.tileSize[1]*calc_y
+        self.difX = self.tileSize[0]*i_start #Los píxeles que nos estamos comiendo de mapa, que no aparecen. Para el cálculo después de las tiles
+        self.difY = self.tileSize[1]*j_start
 
         self.x = calc_x*tileSize[0]
         self.y = calc_y*tileSize[1]
@@ -222,25 +222,25 @@ class Personaje:
         self.move = self.actualMovement[4] #NOTHING
         if(self.left and not self.right):
             if(self.x-self.speed >=0 and self.isLegalAction(self.x-self.speed,self.y)):
+                print(self.coordenadas_actuales)
                 self.x -= self.speed
                 self.move = self.actualMovement[2] #left
                 self.moving = True
         elif(self.right and not self.left):
-            print("stats")
-            print(self.x+self.speed)
-            print(self.maxX)
-            print("------")
+            print(self.coordenadas_actuales)
             if((self.x + self.speed) <=(self.maxX) and self.isLegalAction(self.x+self.speed,self.y)):
                 self.x+=self.speed
                 self.move = self.actualMovement[3] #RIGHT
                 self.moving = True
         if(self.up and not self.down):
             if((self.y-self.speed >=0) and self.isLegalAction(self.x,self.y-self.speed)):
+                print(self.coordenadas_actuales)
                 self.y -= self.speed
                 self.move = self.actualMovement[1] #UP
                 self.moving = True
         elif(self.down and not self.up):
             if((self.y+self.speed <=self.maxY) and self.isLegalAction(self.x,self.y+self.speed)):
+                print(self.coordenadas_actuales)
                 self.y +=self.speed
                 self.move = self.actualMovement[0] #DOWN
                 self.moving = True
@@ -276,11 +276,10 @@ class Personaje:
         
         calc_x = currentTilePlayer[0] - i_start #número de casillas de diferencia
         calc_y = currentTilePlayer[1] - j_start 
-        self.difX = self.tileSize[0]*calc_x #Los píxeles que nos estamos comiendo de mapa, que no aparecen. Para el cálculo después de las tiles
-        self.difY = self.tileSize[1]*calc_y
+        self.difX = self.tileSize[0]*i_start #Los píxeles que nos estamos comiendo de mapa, que no aparecen. Para el cálculo después de las tiles
+        self.difY = self.tileSize[1]*j_start
 
         self.coordenadas_actuales = "("+str(self.coordenadas_actuales_r[0])+","+str(self.coordenadas_actuales_r[1])+")"
-        print(self.coordenadas_actuales)
         self.mapa.fillCasillasVistas(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1])
 
     def getSpriteAmount(self):

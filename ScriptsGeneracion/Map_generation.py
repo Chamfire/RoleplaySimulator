@@ -627,6 +627,8 @@ class Map_generation:
                 self.objetos[pos_y][pos_x] = 80
                 self.playersCurrentPos[self.id_host] = [pos_x,pos_y]
                 self.fillCasillasVistas(pos_x,pos_y)
+                print("spawn:")
+                print(pos_x,pos_y)
                 self.spawn = [pos_x,pos_y]
                 #El jugador siempre empieza mirando hacia abajo
                 found = True
