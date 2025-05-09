@@ -187,6 +187,7 @@ class Personaje:
     def updateTile(self):
         self.coordenadas_actuales[0] = self.x // self.tileSize
         self.coordenadas_actuales[1] = self.y // self.tileSize
+        self.mapa.fillCasillasVistas(self.coordenadas_actuales[0],self.coordenadas_actuales[1])
 
     def getSpriteAmount(self):
         if(self.playerAction == "WALK_DOWN" or self.playerAction == "WALK_UP" or self.playerAction == "WALK_LEFT" or self.playerAction == "WALK_RIGHT"):
