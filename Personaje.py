@@ -132,10 +132,19 @@ class Personaje:
         self.difX = self.tileSize[0]*i_start #Los píxeles que nos estamos comiendo de mapa, que no aparecen. Para el cálculo después de las tiles
         self.difY = self.tileSize[1]*j_start
 
-        self.x = calc_x*tileSize[0]
-        self.y = calc_y*tileSize[1]
-        self.maxX = (width/150.0000)+(self.tileSize[0])*25
-        self.maxY = (height/87.5000)+(self.tileSize[1])*12
+        print(self.tileSize)
+        self.x = calc_x*tileSize[0]+0.1
+        self.y = calc_y*tileSize[1]+0.1
+        print(self.x,self.y,self.difX,self.difY)
+        real_p_x = self.x+self.difX
+        real_p_y = self.y+self.difY
+        self.coordenadas_actuales_r[0] = int(real_p_x // self.tileSize[0])
+        self.coordenadas_actuales_r[1] = int(real_p_y // self.tileSize[1])
+        print(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1])
+        self.maxX = (self.tileSize[0])*25
+        self.maxY = (self.tileSize[1])*12
+
+
         self.coordenadas_actuales = "("+str(self.coordenadas_actuales_r[0])+","+str(self.coordenadas_actuales_r[1])+")"
 
 
