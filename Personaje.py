@@ -75,6 +75,8 @@ class Personaje:
         self.animations = {}
         self.aniTick = 0
         self.aniIndex = 0
+        self.difX = None
+        self.difY = None
         self.maxX = None
         self.maxY = None
         self.mapa = None
@@ -101,7 +103,7 @@ class Personaje:
         elif(fps == 120):
             self.speed = 2.5
         elif(fps == 90):
-            self.spped = 3.75
+            self.speed = 3.75
         elif(fps == 144):
             self.speed = 2.08
 
@@ -109,8 +111,28 @@ class Personaje:
     def setCurrentPos(self,pos,tileSize,width,height):
         self.coordenadas_actuales_r[0] = pos[0] #xTile
         self.coordenadas_actuales_r[1] = pos[1] #yTile
-        self.x = self.coordenadas_actuales_r[0]*tileSize[0]
-        self.y = self.coordenadas_actuales_r[1]*tileSize[1]
+        currentTilePlayer = self.coordenadas_actuales_r
+        if(currentTilePlayer[0] >=13 and currentTilePlayer[0] < 87):
+            #se puede printear normal
+            i_start = currentTilePlayer[0]-13
+        elif(currentTilePlayer[0] >=13 and currentTilePlayer[0] >= 87):
+            i_start = currentTilePlayer[0]-26+(99-currentTilePlayer[0])
+        else:
+            i_start = 0
+        if(currentTilePlayer[1] < 93 and currentTilePlayer[1] >=6):
+            j_start = currentTilePlayer[1]-6
+        elif(currentTilePlayer[1] <93 and currentTilePlayer[1] <6):
+            j_start = 0
+        else:
+            j_start = currentTilePlayer[1]-13+(99-currentTilePlayer[1])
+        
+        calc_x = currentTilePlayer[0] - i_start #número de casillas de diferencia
+        calc_y = currentTilePlayer[1] - j_start 
+        self.difX = self.tileSize[0]*calc_x #Los píxeles que nos estamos comiendo de mapa, que no aparecen. Para el cálculo después de las tiles
+        self.difY = self.tileSize[1]*calc_y
+
+        self.x = calc_x*tileSize[0]
+        self.y = calc_y*tileSize[1]
         self.tileSize = tileSize
         self.maxX = (width/150.0000)+(self.tileSize[0])*25
         self.maxY = (height/87.5000)+(self.tileSize[1])*12
@@ -179,14 +201,19 @@ class Personaje:
 
     
     def isLegalAction(self,x,y):
-        XinGrid = int(x//self.tileSize[0])
-        YinGrid = int(y//self.tileSize[1])
-        tile_id = self.mapa.matrix[XinGrid][YinGrid]
+        real_p_x = x+self.difX
+        real_p_y = y+self.difY
+        XinGrid = int(real_p_x//self.tileSize[0])
+        YinGrid = int(real_p_y//self.tileSize[1])
+        tile_id = self.mapa.matrix[YinGrid][XinGrid]
+        print(tile_id)
         if(tile_id == 1 or tile_id == 22):
             # Es una casilla andable
             #TODO: es una puerta
             #El objeto/NPC/monstruo no impide su paso
-            if(self.mapa.objetos[XinGrid][YinGrid] != 32 and not(33 <= self.mapa.objetos[XinGrid][YinGrid] <=106) and (not 111 <= self.mapa.objetos[XinGrid][YinGrid] <=117)):
+            
+            if(self.mapa.objetos[YinGrid][XinGrid] != 32 and not(33 <= self.mapa.objetos[YinGrid][XinGrid] <=106) and (not (111 <= self.mapa.objetos[YinGrid][XinGrid] <=117))):
+                print("True")
                 return True
         return False
 
@@ -199,17 +226,21 @@ class Personaje:
                 self.move = self.actualMovement[2] #left
                 self.moving = True
         elif(self.right and not self.left):
-            if(self.x + self.speed <=(self.maxX) and self.isLegalAction(self.x+self.speed,self.y)):
+            print("stats")
+            print(self.x+self.speed)
+            print(self.maxX)
+            print("------")
+            if((self.x + self.speed) <=(self.maxX) and self.isLegalAction(self.x+self.speed,self.y)):
                 self.x+=self.speed
                 self.move = self.actualMovement[3] #RIGHT
                 self.moving = True
         if(self.up and not self.down):
-            if(self.y-self.speed >=0 and self.isLegalAction(self.x,self.y-self.speed)):
+            if((self.y-self.speed >=0) and self.isLegalAction(self.x,self.y-self.speed)):
                 self.y -= self.speed
                 self.move = self.actualMovement[1] #UP
                 self.moving = True
         elif(self.down and not self.up):
-            if(self.y+self.speed <=self.maxY and self.isLegalAction(self.x,self.y+self.speed)):
+            if((self.y+self.speed <=self.maxY) and self.isLegalAction(self.x,self.y+self.speed)):
                 self.y +=self.speed
                 self.move = self.actualMovement[0] #DOWN
                 self.moving = True
@@ -223,9 +254,33 @@ class Personaje:
         self.updateTile()
 
     def updateTile(self):
-        self.coordenadas_actuales_r[0] = int(self.x // self.tileSize[0])
-        self.coordenadas_actuales_r[1] = int(self.y // self.tileSize[1])
+        real_p_x = self.x+self.difX
+        real_p_y = self.y+self.difY
+        self.coordenadas_actuales_r[0] = int(real_p_x // self.tileSize[0])
+        self.coordenadas_actuales_r[1] = int(real_p_y // self.tileSize[1])
+        
+        currentTilePlayer = self.coordenadas_actuales_r
+        if(currentTilePlayer[0] >=13 and currentTilePlayer[0] < 87):
+            #se puede printear normal
+            i_start = currentTilePlayer[0]-13
+        elif(currentTilePlayer[0] >=13 and currentTilePlayer[0] >= 87):
+            i_start = currentTilePlayer[0]-26+(99-currentTilePlayer[0])
+        else:
+            i_start = 0
+        if(currentTilePlayer[1] < 93 and currentTilePlayer[1] >=6):
+            j_start = currentTilePlayer[1]-6
+        elif(currentTilePlayer[1] <93 and currentTilePlayer[1] <6):
+            j_start = 0
+        else:
+            j_start = currentTilePlayer[1]-13+(99-currentTilePlayer[1])
+        
+        calc_x = currentTilePlayer[0] - i_start #número de casillas de diferencia
+        calc_y = currentTilePlayer[1] - j_start 
+        self.difX = self.tileSize[0]*calc_x #Los píxeles que nos estamos comiendo de mapa, que no aparecen. Para el cálculo después de las tiles
+        self.difY = self.tileSize[1]*calc_y
+
         self.coordenadas_actuales = "("+str(self.coordenadas_actuales_r[0])+","+str(self.coordenadas_actuales_r[1])+")"
+        print(self.coordenadas_actuales)
         self.mapa.fillCasillasVistas(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1])
 
     def getSpriteAmount(self):
