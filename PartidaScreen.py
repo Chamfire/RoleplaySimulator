@@ -320,6 +320,7 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
         else:
             self.map.drawMapInGame(self.ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales_r)
+            self.screen = self.personaje.renderLast(self.map, self.ubicacion, self.width, self.height, self.screen)
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
         else:

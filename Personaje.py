@@ -292,7 +292,13 @@ class Personaje:
         #print(self.getCurrentFrame(),self.aniIndex,self.tileSize[0],self.tileSize[1])
         screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.tileSize[0],self.tileSize[1]))), (self.x, self.y))
         return screen
-        
+    
+    def renderLast(self,mapa,ubicacion,width,height,screen):
+    
+        self.mapa = mapa
+        #print(self.getCurrentFrame(),self.aniIndex,self.tileSize[0],self.tileSize[1])
+        screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.tileSize[0],self.tileSize[1]))), (self.x, self.y))
+        return screen
 
 
 
