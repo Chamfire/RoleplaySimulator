@@ -1577,6 +1577,7 @@ class Map_generation:
                         pass
                 cont_x +=1
             cont_y +=1
+        return screen
 
     def drawMapOutGame(self,ubicacion):
         #printeo de casillas        
