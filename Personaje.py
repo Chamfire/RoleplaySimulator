@@ -291,7 +291,7 @@ class Personaje:
         self.mapa.drawMapInGame(ubicacion,width,height,screen,self.coordenadas_actuales_r)
         #print(self.getCurrentFrame(),self.aniIndex,self.tileSize[0],self.tileSize[1])
         screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.tileSize[0],self.tileSize[1]))), (self.x, self.y))
-
+        return screen
         
 
 

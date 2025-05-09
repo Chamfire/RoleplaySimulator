@@ -548,7 +548,7 @@ class PartidaScreen:
 
                 # Renderizamos al jugador si se ve el mapa
                 if(self.GLOBAL.getViewMap()):
-                    self.personaje.render(maxFPS,self.map, self.ubicacion, self.width, self.height, self.screen)
+                    self.screen = self.personaje.render(maxFPS,self.map, self.ubicacion, self.width, self.height, self.screen)
                 pygame.display.update()
                     
     # size_x, size_y: tamaño del botón en x y en y
