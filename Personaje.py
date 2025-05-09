@@ -77,6 +77,7 @@ class Personaje:
         self.aniIndex = 0
         self.maxX = None
         self.maxY = None
+        self.mapa = None
         self.tileSize = None
 
     def setUp(self,up):
@@ -162,8 +163,8 @@ class Personaje:
         alto_frame = 64
 
         # Calcula el número de frames en cada fila y columna
-        num_frames_x = imagen.get_width() // ancho_frame
-        num_frames_y = imagen.get_height() // alto_frame
+        num_frames_x = int(imagen.get_width() // ancho_frame)
+        num_frames_y = int(imagen.get_height() // alto_frame)
 
         # Lista para almacenar los frames
 
@@ -178,8 +179,8 @@ class Personaje:
 
     
     def isLegalAction(self,x,y):
-        XinGrid = x//self.tileSize
-        YinGrid = y//self.tileSize
+        XinGrid = int(x//self.tileSize[0])
+        YinGrid = int(y//self.tileSize[1])
         tile_id = self.mapa.matrix[XinGrid][YinGrid]
         if(tile_id == 1 or tile_id == 22):
             # Es una casilla andable
@@ -222,8 +223,8 @@ class Personaje:
         self.updateTile()
 
     def updateTile(self):
-        self.coordenadas_actuales_r[0] = self.x // self.tileSize
-        self.coordenadas_actuales_r[1] = self.y // self.tileSize
+        self.coordenadas_actuales_r[0] = int(self.x // self.tileSize[0])
+        self.coordenadas_actuales_r[1] = int(self.y // self.tileSize[1])
         self.coordenadas_actuales = "("+str(self.coordenadas_actuales_r[0])+","+str(self.coordenadas_actuales_r[1])+")"
         self.mapa.fillCasillasVistas(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1])
 
@@ -288,7 +289,7 @@ class Personaje:
         # cont_x = cont[1]
         self.mapa = mapa
         self.mapa.drawMapInGame(ubicacion,width,height,screen,self.coordenadas_actuales_r)
-        screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.map_tileSize[0],self.map_tileSize[1]))), (self.x, self.y))
+        screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.tileSize[0],self.tileSize[1]))), (self.x, self.y))
 
         
 

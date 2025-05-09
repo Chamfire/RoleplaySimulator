@@ -175,7 +175,7 @@ class PartidaScreen:
             if(not self.GLOBAL.getViewMap()):
                 self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
             else:
-                self.map.drawMapInGame(self.ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales)
+                self.map.drawMapInGame(self.ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales_r)
             if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
                 self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             else:
@@ -288,7 +288,7 @@ class PartidaScreen:
             if(not self.GLOBAL.getViewMap()):
                 self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
             else:
-                self.map.drawMapInGame(ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales)
+                self.map.drawMapInGame(ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales_r)
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
             if(self.availableStart):
@@ -319,7 +319,7 @@ class PartidaScreen:
         if(not self.GLOBAL.getViewMap()):
             self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
         else:
-            self.map.drawMapInGame(self.ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales)
+            self.map.drawMapInGame(self.ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales_r)
         if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
             self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
         else:
@@ -459,6 +459,7 @@ class PartidaScreen:
                     pass
                 #Establezco la posición del personaje
                 self.map = self.GLOBAL.getMapa()
+                self.personaje.mapa = self.map
                 self.personaje.setCurrentPos(self.map.playersCurrentPos[self.id],self.map.map_tileSize,self.width,self.height)
                 self.personaje.setFPS(maxFPS)
                 
