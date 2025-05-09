@@ -551,6 +551,10 @@ class Map_generation:
             self.casillasVistas[pos_x][pos_y+1] = 1
             self.casillasVistas[pos_x][pos_y-1] = 1
             self.casillasVistas[pos_x+1][pos_y] = 1
+            self.casillasVistas[pos_x-1][pos_y] = 1
+            self.casillasVistas[pos_x+1][pos_y+1] = 1
+            self.casillasVistas[pos_x-1][pos_y-1] = 1
+            self.casillasVistas[pos_x+1][pos_y-1] = 1
             self.casillasVistas[pos_x-1][pos_y+1] = 1
             if(not (2 <=self.matrix[pos_y][pos_x+1]<=13)):
                 self.casillasVistas[pos_x+2][pos_y] = 1

@@ -477,7 +477,7 @@ class ProcesamientoPartida:
         self.maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision)
 
         #Creo el mapa 
-        Mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,tipo_mision,variableDeCheck,self.numJugadores,NPC_animacion,self.jugadorHost.id) #que genere el mapa de una mazmorra
+        Mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,tipo_mision,variableDeCheck,self.numJugadores,NPC_animacion,self.jugadorHost.id_jugador) #que genere el mapa de una mazmorra
         self.GLOBAL.setMAPA(Mapa)
         print("Progreso: 90%")
         #creo los estados correspondientes para la máquina de estados
