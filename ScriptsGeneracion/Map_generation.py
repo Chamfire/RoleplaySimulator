@@ -1550,6 +1550,9 @@ class Map_generation:
         cont_x = 0
         cont_y = 0
         #el tamaño de la pantalla es de 26 x 10, y la casilla actual del jugador debe ser la del medio
+        self.blackScreen = pygame.Rect(self.width/150.0000, self.height/87.5000, self.width/1.4252, self.height/1.5837) #25 470 810 124
+        pygame.draw.rect(self.screen, pygame.Color(0,0,0), self.blackScreen, 0)
+        
         for i in range(i_start,i_start+26):
             cont_x = 0
             for j in range(j_start,j_start+13):

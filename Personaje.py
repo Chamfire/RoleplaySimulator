@@ -111,6 +111,7 @@ class Personaje:
     def setCurrentPos(self,pos,tileSize,width,height):
         self.coordenadas_actuales_r[0] = pos[0] #xTile
         self.coordenadas_actuales_r[1] = pos[1] #yTile
+        self.tileSize = tileSize
         currentTilePlayer = self.coordenadas_actuales_r
         if(currentTilePlayer[0] >=13 and currentTilePlayer[0] < 87):
             #se puede printear normal
@@ -133,7 +134,6 @@ class Personaje:
 
         self.x = calc_x*tileSize[0]
         self.y = calc_y*tileSize[1]
-        self.tileSize = tileSize
         self.maxX = (width/150.0000)+(self.tileSize[0])*25
         self.maxY = (height/87.5000)+(self.tileSize[1])*12
         self.coordenadas_actuales = "("+str(self.coordenadas_actuales_r[0])+","+str(self.coordenadas_actuales_r[1])+")"
@@ -258,7 +258,7 @@ class Personaje:
         real_p_y = self.y+self.difY
         self.coordenadas_actuales_r[0] = int(real_p_x // self.tileSize[0])
         self.coordenadas_actuales_r[1] = int(real_p_y // self.tileSize[1])
-        
+
         currentTilePlayer = self.coordenadas_actuales_r
         if(currentTilePlayer[0] >=13 and currentTilePlayer[0] < 87):
             #se puede printear normal
