@@ -24,7 +24,8 @@ class Personaje:
         self.po = 0
         self.ppt = 0
         self.genero = None
-        self.coordenadas_actuales = [None,None] #de momento serán esas
+        self.coordenadas_actuales = '(0,0)' #de momento serán esas
+        self.coordenadas_actuales_r = [None,None]
         self.vida_temp = None #cambiar al escoger la clase
         self.max_vida = None
         self.ca = None #cambiar al escoger personaje
@@ -105,13 +106,14 @@ class Personaje:
 
 
     def setCurrentPos(self,pos,tileSize,width,height):
-        self.coordenadas_actuales[0] = pos[0] #xTile
-        self.coordenadas_actuales[1] = pos[1] #yTile
-        self.x = self.coordenadas_actuales[0]*tileSize[0]
-        self.y = self.coordenadas_actuales[1]*tileSize[1]
+        self.coordenadas_actuales_r[0] = pos[0] #xTile
+        self.coordenadas_actuales_r[1] = pos[1] #yTile
+        self.x = self.coordenadas_actuales_r[0]*tileSize[0]
+        self.y = self.coordenadas_actuales_r[1]*tileSize[1]
         self.tileSize = tileSize
         self.maxX = (width/150.0000)+(self.tileSize[0])*25
         self.maxY = (height/87.5000)+(self.tileSize[1])*12
+        self.coordenadas_actuales = "("+str(self.coordenadas_actuales_r[0])+","+str(self.coordenadas_actuales_r[1])+")"
 
 
     def setPlayerAction(self,a):
@@ -220,9 +222,10 @@ class Personaje:
         self.updateTile()
 
     def updateTile(self):
-        self.coordenadas_actuales[0] = self.x // self.tileSize
-        self.coordenadas_actuales[1] = self.y // self.tileSize
-        self.mapa.fillCasillasVistas(self.coordenadas_actuales[0],self.coordenadas_actuales[1])
+        self.coordenadas_actuales_r[0] = self.x // self.tileSize
+        self.coordenadas_actuales_r[1] = self.y // self.tileSize
+        self.coordenadas_actuales = "("+str(self.coordenadas_actuales_r[0])+","+str(self.coordenadas_actuales_r[1])+")"
+        self.mapa.fillCasillasVistas(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1])
 
     def getSpriteAmount(self):
         if(self.playerAction == "WALK_DOWN" or self.playerAction == "WALK_UP" or self.playerAction == "WALK_LEFT" or self.playerAction == "WALK_RIGHT"):
@@ -284,7 +287,7 @@ class Personaje:
         # cont_y = cont[0]
         # cont_x = cont[1]
         self.mapa = mapa
-        self.mapa.drawMapInGame(ubicacion,width,height,screen,self.coordenadas_actuales)
+        self.mapa.drawMapInGame(ubicacion,width,height,screen,self.coordenadas_actuales_r)
         screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.map_tileSize[0],self.map_tileSize[1]))), (self.x, self.y))
 
         
