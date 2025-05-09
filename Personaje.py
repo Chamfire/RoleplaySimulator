@@ -147,8 +147,8 @@ class Personaje:
             tipo = "mazmorra,"+self.tipo_raza
             for i in range(0,2):
                 if(images[tipo+","+str(i)][3] == self.genero):
-                    string = r"animations\NPCs\\"
-                    return string+images[tipo+","+str(i)][0]
+                    string = "animations\\NPCs\\"
+                    return string+images[tipo+","+str(i)][0]+"\\walk.png"
         else:
             pass
 
