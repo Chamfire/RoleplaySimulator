@@ -117,8 +117,42 @@ class Personaje:
     def setPlayerAction(self,a):
         self.playerAction = a
 
-    def loadAnimations(self):
-        imagen = pygame.image.load(self.NPC_imagen)
+    def getImage(self,ubicacion):
+        images = {"bosque,elfo,0":("elfo_vive en el bosque_75_430_de piel verde",75,430,"mujer"),
+                "bosque,Elfo,1":("elfo_vive en el bosque_78_420_de piel verde",78,420,"hombre"),
+                "desierto,Elfo,0":("elfo_vive en el desierto_61_465_de piel clara",61,465,"hombre"),
+                "desierto,Elfo,1": ("elfo_vive en el desierto_80_80_de piel verde",80,80,"mujer"),
+                "barco,Elfo,0":("elfo_vive en un barco_69_354_de piel verde",69,354,"mujer"),
+                "barco,Elfo,1":("elfo_vive en un barco_79_493_de piel verde",79,493,"hombre"),
+                "aldea medieval,Elfo,0":("elfo_vive en una aldea medieval_68_196_de piel clara",68,196,"mujer"),
+                "aldea medieval,Elfo,1":("elfo_vive en una aldea medieval_80_303_de piel clara",80,303,"hombre"),
+                "mazmorra,Elfo,0":("elfo_vive en una ciudad antigua subterránea_64_739_de piel clara",64,739,"mujer"),
+                "mazmorra,Elfo,1":("elfo_vive en una ciudad antigua subterránea_80_649_de piel verde",80,649,"hombre"),
+                "ciudad moderna,Elfo,0":("elfo_vive en una ciudad moderna_61_257_de piel verde",61,257,"hombre"),
+                "ciudad moderna,Elfo,1":("elfo_vive en una ciudad moderna_80_326_de piel clara",80,326,"mujer"),
+                "bosque,Enano,0":("enano_vive en el bosque_45_127_omite referencias al color de piel",45,127,"mujer"),
+                "bosque,Enano,1":("enano_vive en el bosque_47_255_omite referencias al color de piel",47,255,"hombre"),
+                "desierto,Enano,0":("enano_vive en el desierto_45_329_omite referencias al color de piel",45,329,"mujer"),
+                "desierto,Enano,1":("enano_vive en el desierto_59_188_omite referencias al color de piel",59,188,"hombre"),
+                "barco,Enano,0":("enano_vive en un barco_46_321_omite referencias al color de piel",46,321,"hombre"),
+                "barco,Enano,1":("enano_vive en un barco_57_237_omite referencias al color de piel",57,237,"mujer"),
+                "aldea medieval,Enano,0":("enano_vive en una aldea medieval_51_71_omite referencias al color de piel",51,71,"mujer"),
+                "aldea medieval,Enano,1":("enano_vive en una aldea medieval_60_278_omite referencias al color de piel",60,278,"hombre"),
+                "mazmorra,Enano,0":("enano_vive en una ciudad antigua subterránea_52_349_omite referencias al color de piel",52,349,"mujer"),
+                "mazmorra,Enano,1":("enano_vive en una ciudad antigua subterránea_58_212_omite referencias al color de piel",58,212,"hombre"),
+                "ciudad moderna,Enano,0":("enano_vive en una ciudad moderna_45_103_omite referencias al color de piel",45,103,"hombre"),
+                "ciudad moderna,Enano,1":("enano_vive en una ciudad moderna_62_81_omite referencias al color de piel",62,81,"mujer")}
+        if(ubicacion == "mazmorra"):
+            #Solo tenemos definida la mazmorra
+            tipo = "mazmorra,"+self.tipo_raza
+            for i in range(0,2):
+                if(images[tipo+","+str(i)][3] == self.genero):
+                    return "animations\NPCs\\"+images[tipo+","+str(i)][3]
+        else:
+            pass
+
+    def loadAnimations(self,ubicacion):
+        imagen = pygame.image.load(self.getImage(ubicacion))
 
         # Define el tamaño de cada frame
         ancho_frame = 64

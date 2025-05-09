@@ -248,7 +248,7 @@ class PartidaScreen:
         conn.close()
         self.currentImageBkgToShow = pygame.image.load("images/background/"+ubicacion+".png")
         self.ubicacion = ubicacion
-        self.personaje.loadAnimations()
+        self.personaje.loadAnimations(ubicacion)
 
         if(self.GLOBAL.getActualPartidaState() == "loading"):
             self.startBoton = True
