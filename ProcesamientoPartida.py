@@ -38,6 +38,8 @@ class ProcesamientoPartida:
         self.maquina = None
         self.GLOBAL = Global()
         self.DMVoice = None
+        self.width = None
+        self.height = None
         self.PartidaObjeto = None
         self.jugadorHost = None
         self.ubicacion = None
@@ -76,7 +78,9 @@ class ProcesamientoPartida:
                 "ciudad moderna,Enano,1":("enano_vive en una ciudad moderna_62_81_omite referencias al color de piel",62,81,"mujer")}
 
 
-    def initialize(self,numJugadores,DMVoice, currentPartida,jugadorHost,partida):
+    def initialize(self,numJugadores,DMVoice, currentPartida,jugadorHost,partida,width,height):
+        self.width = width
+        self.height = height
         self.numJugadores  = numJugadores
         self.DMVoice = DMVoice
         self.currentPartida = currentPartida
@@ -477,7 +481,7 @@ class ProcesamientoPartida:
         self.maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision)
 
         #Creo el mapa 
-        Mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,tipo_mision,variableDeCheck,self.numJugadores,NPC_animacion,self.jugadorHost.id_jugador) #que genere el mapa de una mazmorra
+        Mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,tipo_mision,variableDeCheck,self.numJugadores,NPC_animacion,self.jugadorHost.id_jugador,self.width,self.height) #que genere el mapa de una mazmorra
         self.GLOBAL.setMAPA(Mapa)
         print("Progreso: 90%")
         #creo los estados correspondientes para la máquina de estados

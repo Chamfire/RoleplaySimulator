@@ -27,7 +27,7 @@ class Sala:
 
 
 class Map_generation:
-    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck, numJugadores, NPC_imagen,id_host):
+    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck, numJugadores, NPC_imagen,id_host,width,height):
         self.NPC_imagen = NPC_imagen
         self.id_host = id_host
         imagen = pygame.image.load(self.NPC_imagen)
@@ -61,7 +61,7 @@ class Map_generation:
         self.spawn = None
         self.centroides = {}
         self.salas = {}
-        self.map_tileSize = [self.width/37.5000, self.height/21.8750]
+        self.map_tileSize = [width/37.5000,height/21.8750]
         self.casillasVistas = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
         self.playersCurrentPos = {}
 
