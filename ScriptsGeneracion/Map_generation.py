@@ -27,8 +27,9 @@ class Sala:
 
 
 class Map_generation:
-    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck, numJugadores,NPC_imagen):
+    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck, numJugadores, NPC_imagen,id_host):
         self.NPC_imagen = NPC_imagen
+        self.id_host = id_host
         imagen = pygame.image.load(self.NPC_imagen)
 
         # Define el tamaño de cada frame
@@ -60,6 +61,9 @@ class Map_generation:
         self.spawn = None
         self.centroides = {}
         self.salas = {}
+        self.casillasVistas = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
+        self.playersCurrentPos = {}
+
         self.grafos = {}
         self.adyacencias = None
         self.main_path = None
@@ -528,7 +532,69 @@ class Map_generation:
                 return self.main_path[sala-1]
         return self.main_path[0] #es la primera sala la que debe estar cerrada y con la llave                  
 
+    def fillCasillasVistas(self,pos_x,pos_y):
+        # Marcamos esa casilla como vista
+        self.casillasVistas[pos_x][pos_y] = 1
 
+        # Calculamos qué casillas podría ver:
+        # Esfera de 10 pies: 
+        # - - v - -
+        # - v v v -
+        # v v P v v
+        # - v v v -
+        # - - v - -
+
+        # Condiciones: 
+        # Si está dentro de una sala (1):
+        # Si el adyacente es un muro/puerta[0;2-13], no puede ver más allá. (-1 no cuenta porque ya es borde de mapa)
+        if(self.matrix[pos_y][pos_x] == 1):
+            self.casillasVistas[pos_x][pos_y+1] = 1
+            self.casillasVistas[pos_x][pos_y-1] = 1
+            self.casillasVistas[pos_x+1][pos_y] = 1
+            self.casillasVistas[pos_x-1][pos_y+1] = 1
+            if(not (2 <=self.matrix[pos_y][pos_x+1]<=13)):
+                self.casillasVistas[pos_x+2][pos_y] = 1
+            if(not (2 <=self.matrix[pos_y][pos_x-1]<=13)):
+                self.casillasVistas[pos_x-2][pos_y] = 1
+            if(not (2 <=self.matrix[pos_y+1][pos_x]<=13)):
+                self.casillasVistas[pos_x][pos_y+2] = 1
+            if(not (2 <=self.matrix[pos_y-1][pos_x]<=13)):
+                self.casillasVistas[pos_x][pos_y-2] = 1
+
+        # Si está en un pasillo
+        elif(self.matrix[pos_y][pos_x] == 22):
+            if(self.matrix[pos_y-1][pos_x] == 22):
+                self.casillasVistas[pos_x][pos_y-1] = 1
+                if(pos_y-2 >= 0 and self.matrix[pos_y-2][pos_x] == 22):
+                    self.casillasVistas[pos_x][pos_y-2] = 1
+            
+            elif(self.matrix[pos_y-1][pos_x] == 13):
+                self.casillasVistas[pos_x][pos_y-1] = 1
+
+            if(self.matrix[pos_y+1][pos_x] == 22):
+                self.casillasVistas[pos_x][pos_y+1] = 1
+                if(pos_y+2 <=99 and self.matrix[pos_y+2][pos_x] == 22):
+                    self.casillasVistas[pos_x][pos_y+2] = 1
+            
+            elif(self.matrix[pos_y+1][pos_x] == 12):
+                self.casillasVistas[pos_x][pos_y+1] = 1
+            
+            if(self.matrix[pos_y][pos_x-1] == 22):
+                self.casillasVistas[pos_x-1][pos_y] = 1
+                if(pos_x-2 >=0 and self.matrix[pos_y][pos_x-2] == 22):
+                    self.casillasVistas[pos_x-2][pos_y] = 1
+            
+            elif(self.matrix[pos_y][pos_x-1] == 12):
+                self.casillasVistas[pos_x-1][pos_y] = 1
+
+            if(self.matrix[pos_y][pos_x+1] == 22):
+                self.casillasVistas[pos_x+1][pos_y] = 1
+                if(pos_x+2 <=99 and self.matrix[pos_y][pos_x+2] == 22):
+                    self.casillasVistas[pos_x+2][pos_y] = 1
+            
+            elif(self.matrix[pos_y][pos_x+1] == 12):
+                self.casillasVistas[pos_x+1][pos_y] = 1
+           
 
     def fillWithObjects(self,tipo_mision,variableDeCheck):
         longest_path = self.getLongestPath()
@@ -554,6 +620,8 @@ class Map_generation:
             [pos_x,pos_y] = posiciones[pos]
             if(self.objetos[pos_y][pos_x] == 0):
                 self.objetos[pos_y][pos_x] = 80
+                self.playersCurrentPos[self.id_host] = [pos_x,pos_y]
+                self.fillCasillasVistas(pos_x,pos_y)
                 self.spawn = [pos_x,pos_y]
                 found = True
                 posiciones.remove(posiciones[pos])
@@ -1479,27 +1547,28 @@ class Map_generation:
         for i in range(i_start,i_start+26):
             cont_x = 0
             for j in range(j_start,j_start+13):
-                try:
-                    tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
-                    screen.blit(pygame.transform.scale(tile, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
-                except:
-                    pass
-                try:
-                    id = self.objetos[j][i]
-                    if(not (87 <= id <= 90)):
-                        object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
-                        screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
-                    else:
-                        if(id == 87):
-                            screen.blit(pygame.transform.scale(self.frames[1][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
-                        elif(id== 88):
-                            screen.blit(pygame.transform.scale(self.frames[3][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
-                        elif(id==89):
-                            screen.blit(pygame.transform.scale(self.frames[0][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
-                        elif(id==90):
-                            screen.blit(pygame.transform.scale(self.frames[2][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
-                except:
-                    pass
+                if(self.casillasVistas[i][j] == 1):
+                    try:
+                        tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
+                        screen.blit(pygame.transform.scale(tile, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                    except:
+                        pass
+                    try:
+                        id = self.objetos[j][i]
+                        if(not (87 <= id <= 90)):
+                            object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
+                            screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                        else:
+                            if(id == 87):
+                                screen.blit(pygame.transform.scale(self.frames[1][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                            elif(id== 88):
+                                screen.blit(pygame.transform.scale(self.frames[3][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                            elif(id==89):
+                                screen.blit(pygame.transform.scale(self.frames[0][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                            elif(id==90):
+                                screen.blit(pygame.transform.scale(self.frames[2][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                    except:
+                        pass
                 cont_x +=1
             cont_y +=1
 
