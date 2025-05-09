@@ -139,12 +139,6 @@ class Personaje:
                 # Añade el frame a la lista
                 self.animations[y] += [frame]
 
-    def getCurrFrame(self):
-        if(self.playerAction == 1):
-            return self.animations[self.getLookingPos()][self.aniIndex] #Imagen estática de la dirección a la que está mirando
-        elif(self.playerAction == 2): 
-            #Está andando
-            pass
     
     def isLegalAction(self,x,y):
         XinGrid = x//self.tileSize
@@ -174,12 +168,12 @@ class Personaje:
         if(self.up and not self.down):
             if(self.y-self.speed >=0 and self.isLegalAction(self.x,self.y-self.speed)):
                 self.y -= self.speed
-                self.move = self.actualMovement[1]
+                self.move = self.actualMovement[1] #UP
                 self.moving = True
         elif(self.down and not self.up):
             if(self.y+self.speed <=self.maxY and self.isLegalAction(self.x,self.y+self.speed)):
                 self.y +=self.speed
-                self.move = self.actualMovement[0]
+                self.move = self.actualMovement[0] #DOWN
                 self.moving = True
         if(self.move != self.lastMove and (self.move != self.actualMovement[4])):
             self.lastMove = self.move
@@ -195,10 +189,10 @@ class Personaje:
         self.coordenadas_actuales[1] = self.y // self.tileSize
 
     def getSpriteAmount(self):
-        if(self.playerAction == 1):
-            return 1
-        elif(self.playerAction == 2):
+        if(self.playerAction == "WALK_DOWN" or self.playerAction == "WALK_UP" or self.playerAction == "WALK_LEFT" or self.playerAction == "WALK_RIGHT"):
             return 4
+        else:
+            return 1
         
     def updateAnimationTick(self,fps):
         self.aniTick+=1
@@ -207,14 +201,35 @@ class Personaje:
             self.aniIndex +=1
             if(self.aniIndex >= self.getSpriteAmount()):
                 self.aniIndex=0
+
+    def getCurrentFrame(self):
+        if(self.playerAction == "WALK_DOWN" or self.playerAction == "IDLE_DOWN"):
+            return 2
+        elif(self.playerAction == "WALK_UP" or self.playerAction == "IDLE_UP"):
+            return 0
+        elif(self.playerAction == "WALK_LEFT" or self.playerAction == "IDLE_LEFT"):
+            return 1
+        else:
+            return 2 #RIGHT
                 
     def setAnimation(self):
         startAni = self.playerAction
-
-        if(self.moving):
-            self.playerAction = 2
+        if(self.moving and self.move == self.actualMovement[0]):
+            self.playerAction = "WALK_DOWN"
+        elif(self.moving and self.move == self.actualMovement[1]):
+            self.playerAction = "WALK_UP"
+        elif(self.moving and self.move == self.actualMovement[2]):
+            self.playerAction = "WALK_LEFT"
+        elif(self.moving and self.move == self.actualMovement[3]):
+            self.playerAction = "WALK_RIGHT"
+        elif(self.move == self.actualMovement[4] and self.lastMove == self.actualMovement[1]):
+            self.playerAction = "IDLE_UP"
+        elif(self.move == self.actualMovement[4] and self.lastMove == self.actualMovement[2]):
+            self.playerAction = "IDLE_LEFT"
+        elif(self.move == self.actualMovement[4] and self.lastMove == self.actualMovement[3]):
+            self.playerAction = "IDLE_RIGHT"
         else:
-            self.playerAction = 1
+            self.playerAction = "IDLE_DOWN"
         
         if(startAni != self.playerAction):
             self.resetAniTick(); #to reset the index if the animation has not finished and we change to another
@@ -234,7 +249,7 @@ class Personaje:
         # cont_x = cont[1]
         self.mapa = mapa
         self.mapa.drawMapInGame(ubicacion,width,height,screen,self.coordenadas_actuales)
-        screen.blit(pygame.transform.scale(self.getCurrFrame(), ((self.map_tileSize[0],self.map_tileSize[1]))), (self.x, self.y))
+        screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.map_tileSize[0],self.map_tileSize[1]))), (self.x, self.y))
 
         
 
