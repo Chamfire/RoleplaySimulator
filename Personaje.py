@@ -1,4 +1,6 @@
 import Lista_Inventario
+import pygame 
+
 class Personaje:
     def __init__(self,isNPC,partida_id,id_jugador_or_NPC):
         self.name = ' ' #lo modifica el jugador
@@ -51,8 +53,120 @@ class Personaje:
         else:
             self.id_jugador = id_jugador_or_NPC
             self.num_npc_partida = None
+
+
+        # Esto es a efectos de movimiento
+        self.right = False
+        self.up = False
+        self.down = False
+        self.left = False
+        self.playerSpeed = 2.0
+        self.moving = False
+        self.actions = {"IDLE": 1, "WALK":2}
+        self.playerAction = 1 #Idle
+        self.animations = {}
+        self.aniTick = 0
+        self.aniIndex = 0
+
+
+    # def getLookingPos(self):
+    #     if(self.lookingDir == "DOWN"):
+    #         return 2
+    #     elif(self.lookingDir == "UP"):
+    #         return 0
+    #     elif(self.lookingDir == "LEFT"):
+    #         return 1
+    #     elif(self.lookingDir == "RIGHT"):
+    #         return 3
+
+    def setUp(self,up):
+        self.up = up
+
+    def setRight(self,r):
+        self.right = r
+
+    def setDown(self,down):
+        self.down = down
+
+    def setLeft(self,left):
+        self.left = left
+
     def initEquipo(self):
         self.equipo = Lista_Inventario.Equipo(self.fu) #creo el inventario vacío
+
+    def loadAnimations(self):
+        imagen = pygame.image.load(self.NPC_imagen)
+
+        # Define el tamaño de cada frame
+        ancho_frame = 64
+        alto_frame = 64
+
+        # Calcula el número de frames en cada fila y columna
+        num_frames_x = imagen.get_width() // ancho_frame
+        num_frames_y = imagen.get_height() // alto_frame
+
+        # Lista para almacenar los frames
+
+        # Recorre la imagen y extrae cada frame
+        for y in range(num_frames_y):
+            self.animations[y] = []
+            for x in range(num_frames_x):
+                # Extrae el frame actual
+                frame = imagen.subsurface(pygame.Rect(x * ancho_frame, y * alto_frame, ancho_frame, alto_frame))
+                # Añade el frame a la lista
+                self.animations[y] += [frame]
+    
+    def updatePos(self):
+        self.moving = False
+        if(self.left and not self.right):
+            x-= self.playerSpeed
+            self.moving = True
+        elif(self.right and not self.left):
+            x+=self.playerSpeed
+            self.moving = True
+        if(self.up and not self.down):
+            y-= self.playerSpeed
+            self.moving = True
+        elif(self.down and not self.up):
+            y+=self.playerSpeed
+            self.moving = True
+
+    def getSpriteAmount(self):
+        if(self.playerAction == 1):
+            return 1
+        elif(self.playerAction == 2):
+            return 4
+        
+    def updateAnimationTick(self,fps):
+        self.aniTick+=1
+        if(self.aniTick >= (fps*0.2)):
+            self.aniTick=0
+            self.aniIndex +=1
+            if(self.aniIndex >= self.getSpriteAmount()):
+                self.aniIndex=0
+                
+    def setAnimation(self):
+        startAni = self.playerAction
+
+        if(self.moving):
+            self.playerAction= 2
+        else:
+            self.playerAction = 1
+        
+        if(startAni != self.playerAction):
+            self.resetAniTick(); #to reset the index if the animation has not finished and we change to another
+    
+    def resetAniTick(self):
+        self.aniTick=0
+        self.aniIndex=0
+
+
+    def render(self,tile_w,tile_h,screen,width,heigth,fps):
+        #primero actualizo la situación del personaje y veo si puedo renderizar otra cosa
+        self.updatePos()
+        self.updateAnimationTick(fps)
+        self.setAnimation()
+        screen.blit(pygame.transform.scale(, (tile_w,tile_h)), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x))
     
         
 

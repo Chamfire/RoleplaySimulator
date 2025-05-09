@@ -248,6 +248,7 @@ class PartidaScreen:
         conn.close()
         self.currentImageBkgToShow = pygame.image.load("images/background/"+ubicacion+".png")
         self.ubicacion = ubicacion
+        self.personaje.loadAnimations()
 
         if(self.GLOBAL.getActualPartidaState() == "loading"):
             self.startBoton = True
@@ -542,7 +543,12 @@ class PartidaScreen:
                 if(yes):
                     self.changePhoto = True
                     self.GLOBAL.setShowImage(False)
-                    
+
+                # Renderizamos al jugador si se ve el mapa
+                if(self.GLOBAL.getViewMap()):
+                    tile_width = self.map.map_tileSize[0]
+                    tile_height = self.map.map_tileSize[1]
+                    self.personaje.render(tile_width,tile_height,self.screen,self.width,self.height,maxFPS)
                 pygame.display.update()
                     
     # size_x, size_y: tamaño del botón en x y en y
@@ -553,6 +559,30 @@ class PartidaScreen:
             return True
         else:
             return False
+        
+    def hasPressedAKey(self,key,unicode):
+        if(self.GLOBAL.getViewMap()):
+            # Si se puede ver el mapa, podemos movernos
+            if(key == pygame.K_DOWN):
+                self.personaje.setDown(True)
+            elif(key == pygame.K_UP):
+                self.personaje.setUp(True)
+            elif(key == pygame.K_LEFT):
+                self.personaje.setLeft(True)
+            elif(key == pygame.K_RIGHT):
+                self.personaje.setRight(True)
+
+    def hasUpKey(self,key,unicode):
+        if(self.GLOBAL.getViewMap()):
+            # Si se puede ver el mapa, podemos movernos
+            if(key == pygame.K_DOWN):
+                self.personaje.setDown(False)
+            elif(key == pygame.K_UP):
+                self.personaje.setUp(False)
+            elif(key == pygame.K_LEFT):
+                self.personaje.setLeft(False)
+            elif(key == pygame.K_RIGHT):
+                self.personaje.setRight(False)
 
     def clickedMouse(self):
         #click del ratón

@@ -61,6 +61,7 @@ class Map_generation:
         self.spawn = None
         self.centroides = {}
         self.salas = {}
+        self.map_tileSize = [self.width/37.5000, self.height/21.8750]
         self.casillasVistas = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
         self.playersCurrentPos = {}
 
@@ -627,6 +628,7 @@ class Map_generation:
                 self.playersCurrentPos[self.id_host] = [pos_x,pos_y]
                 self.fillCasillasVistas(pos_x,pos_y)
                 self.spawn = [pos_x,pos_y]
+                #El jugador siempre empieza mirando hacia abajo
                 found = True
                 posiciones.remove(posiciones[pos])
             
@@ -1554,23 +1556,23 @@ class Map_generation:
                 if(self.casillasVistas[i][j] == 1):
                     try:
                         tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
-                        screen.blit(pygame.transform.scale(tile, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                        screen.blit(pygame.transform.scale(tile, (self.map_tileSize[0],self.map_tileSize[1])), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                     except:
                         pass
                     try:
                         id = self.objetos[j][i]
                         if(not (87 <= id <= 90)):
                             object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
-                            screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                            screen.blit(pygame.transform.scale(object, (self.map_tileSize[0],self.map_tileSize[1])), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                         else:
                             if(id == 87):
-                                screen.blit(pygame.transform.scale(self.frames[1][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                                screen.blit(pygame.transform.scale(self.frames[1][0], ((self.map_tileSize[0],self.map_tileSize[1]))), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                             elif(id== 88):
-                                screen.blit(pygame.transform.scale(self.frames[3][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                                screen.blit(pygame.transform.scale(self.frames[3][0], ((self.map_tileSize[0],self.map_tileSize[1]))), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                             elif(id==89):
-                                screen.blit(pygame.transform.scale(self.frames[0][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                                screen.blit(pygame.transform.scale(self.frames[0][0], ((self.map_tileSize[0],self.map_tileSize[1]))), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                             elif(id==90):
-                                screen.blit(pygame.transform.scale(self.frames[2][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                                screen.blit(pygame.transform.scale(self.frames[2][0], ((self.map_tileSize[0],self.map_tileSize[1]))), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                     except:
                         pass
                 cont_x +=1
@@ -1642,23 +1644,23 @@ class Map_generation:
                 if(self.casillasVistas[i][j] == 1):
                     try:
                         tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
-                        screen.blit(pygame.transform.scale(tile, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                        screen.blit(pygame.transform.scale(tile, (self.map_tileSize)), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                     except:
                         pass
                     try:
                         id = self.objetos[j][i]
                         if(not (87 <= id <= 90)):
                             object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
-                            screen.blit(pygame.transform.scale(object, ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                            screen.blit(pygame.transform.scale(object, (self.map_tileSize)), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                         else:
                             if(id == 87):
-                                screen.blit(pygame.transform.scale(self.frames[1][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                                screen.blit(pygame.transform.scale(self.frames[1][0], (self.map_tileSize)), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                             elif(id== 88):
-                                screen.blit(pygame.transform.scale(self.frames[3][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                                screen.blit(pygame.transform.scale(self.frames[3][0], (self.map_tileSize)), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                             elif(id==89):
-                                screen.blit(pygame.transform.scale(self.frames[0][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                                screen.blit(pygame.transform.scale(self.frames[0][0], (self.map_tileSize)), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                             elif(id==90):
-                                screen.blit(pygame.transform.scale(self.frames[2][0], ((width/37.5000, height/21.8750))), ((width/150.0000)+(width/37.5000)*cont_y, (height/87.5000)+(height/21.8750)*cont_x)) #32 32 8 8
+                                screen.blit(pygame.transform.scale(self.frames[2][0], (self.map_tileSize)), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                     except:
                         pass
                 cont_x +=1
@@ -1721,50 +1723,50 @@ class Map_generation:
         while(True):
             pass
         
-#zona de pruebas
-tipo_mapa = ["mazmorra","barco","desierto","bosque","aldea medieval","ciudad moderna"]
-currentPartida = "p1"
-lista_mobs_disponibles = {"mazmorra": ["esqueleto","zombie","slime","beholder","troll"],# 33, 34, 35, 36, 37
-                                  "ciudad moderna": ["droide","fantasma","objeto animado de silla", "mimic de cofre", "muñeca animada", "cyborg"], #38,39,40,41,42,43
-                                  "bosque": ["lobo wargo", "vampiro", "oso", "hombre lobo"], #44,45,46,47
-                                  "desierto": ["serpiente","cocodrilo", "momia", "esfinge"], #48,49,50,51
-                                  "aldea medieval": ["goblin","cultista","gnoll","elemental de roca"], #52,53,54,55
-                                  "barco": ["sirena","tiburón","hada","kraken"], #56,57,58,59
-                                  "raros": ["dragón","sombras","fénix"], #60,61,62
-                                  "medio": ["ankheg","basilísco"], #63,64
-                                  "comun": ["murciélago","rata","felino salvaje"]} #65,66,67
+# #zona de pruebas
+# tipo_mapa = ["mazmorra","barco","desierto","bosque","aldea medieval","ciudad moderna"]
+# currentPartida = "p1"
+# lista_mobs_disponibles = {"mazmorra": ["esqueleto","zombie","slime","beholder","troll"],# 33, 34, 35, 36, 37
+#                                   "ciudad moderna": ["droide","fantasma","objeto animado de silla", "mimic de cofre", "muñeca animada", "cyborg"], #38,39,40,41,42,43
+#                                   "bosque": ["lobo wargo", "vampiro", "oso", "hombre lobo"], #44,45,46,47
+#                                   "desierto": ["serpiente","cocodrilo", "momia", "esfinge"], #48,49,50,51
+#                                   "aldea medieval": ["goblin","cultista","gnoll","elemental de roca"], #52,53,54,55
+#                                   "barco": ["sirena","tiburón","hada","kraken"], #56,57,58,59
+#                                   "raros": ["dragón","sombras","fénix"], #60,61,62
+#                                   "medio": ["ankheg","basilísco"], #63,64
+#                                   "comun": ["murciélago","rata","felino salvaje"]} #65,66,67
 
-ubicacion = tipo_mapa[0]
-tipo_mision_num =2 #random.randint(1,2)
-if(tipo_mision_num == 1):
-    tipo_mision = "combate"
-     # tipo_mobs = random.randint(0,100)
-    mobs = {}
-    num_mobs = random.randint(1,2)
-    n = len(lista_mobs_disponibles[ubicacion])-1
-    for i in range(0,num_mobs):
-        seleccion = random.randint(0,n)
-        if mobs.get(lista_mobs_disponibles[ubicacion][seleccion]) != None:
-            mobs[lista_mobs_disponibles[ubicacion][seleccion]] +=1
-        else:
-            mobs[lista_mobs_disponibles[ubicacion][seleccion]] = 1
+# ubicacion = tipo_mapa[0]
+# tipo_mision_num =2 #random.randint(1,2)
+# if(tipo_mision_num == 1):
+#     tipo_mision = "combate"
+#      # tipo_mobs = random.randint(0,100)
+#     mobs = {}
+#     num_mobs = random.randint(1,2)
+#     n = len(lista_mobs_disponibles[ubicacion])-1
+#     for i in range(0,num_mobs):
+#         seleccion = random.randint(0,n)
+#         if mobs.get(lista_mobs_disponibles[ubicacion][seleccion]) != None:
+#             mobs[lista_mobs_disponibles[ubicacion][seleccion]] +=1
+#         else:
+#             mobs[lista_mobs_disponibles[ubicacion][seleccion]] = 1
             
-    mision = "Hay que matar "
-    variableDeCheck = {}
-    for mob_name,num in mobs.items():
-        mision += str(num)+" "+mob_name+","
-        variableDeCheck[mob_name] = [num,0] #5,0 -> 5 de ese tipo a matar, 0 matados
+#     mision = "Hay que matar "
+#     variableDeCheck = {}
+#     for mob_name,num in mobs.items():
+#         mision += str(num)+" "+mob_name+","
+#         variableDeCheck[mob_name] = [num,0] #5,0 -> 5 de ese tipo a matar, 0 matados
             
-elif(tipo_mision_num == 2):
-    tipo_mision = "búsqueda"
-    lugar_posible = ["Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"] #68,69,70,71-74,75-78,79
-    n = len(lugar_posible)-1
-    lugar = random.randint(0,n)
-    mision = "Hay que encontrar lo siguiente: "+lugar_posible[lugar]
-    variableDeCheck = {}
-    variableDeCheck[lugar_posible[lugar]] = False #ninguno de los jugadores lo ha encontrado
-carpeta = "animations/NPCs/elfo_vive en el bosque_75_430_de piel verde/walk.png"
-Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck,1,carpeta,1234) #que genere el mapa de una mazmorra
+# elif(tipo_mision_num == 2):
+#     tipo_mision = "búsqueda"
+#     lugar_posible = ["Árbol","Cadáver de dragón","Parte de cadáver de Dragón","Cofre","Armario","Ruina"] #68,69,70,71-74,75-78,79
+#     n = len(lugar_posible)-1
+#     lugar = random.randint(0,n)
+#     mision = "Hay que encontrar lo siguiente: "+lugar_posible[lugar]
+#     variableDeCheck = {}
+#     variableDeCheck[lugar_posible[lugar]] = False #ninguno de los jugadores lo ha encontrado
+# carpeta = "animations/NPCs/elfo_vive en el bosque_75_430_de piel verde/walk.png"
+#Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck,1,carpeta,1234) #que genere el mapa de una mazmorra
 #Mapa.paintMap(ubicacion)
-Mapa.drawMapOutGame("mazmorra")
+#Mapa.drawMapOutGame("mazmorra")
 #Mapa.drawNPC(87,3,3)
