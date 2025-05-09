@@ -24,7 +24,7 @@ class Personaje:
         self.po = 0
         self.ppt = 0
         self.genero = None
-        self.coordenadas_actuales = '(0,0)' #de momento serán esas
+        self.coordenadas_actuales = [None,None] #de momento serán esas
         self.vida_temp = None #cambiar al escoger la clase
         self.max_vida = None
         self.ca = None #cambiar al escoger personaje
@@ -60,24 +60,23 @@ class Personaje:
         self.up = False
         self.down = False
         self.left = False
-        self.playerSpeed = 2.0
         self.moving = False
+        self.lastMoving = False
+        self.needsToChange = False
+        self.actualMovement = {"DOWN","UP","LEFT","RIGHT", "NOTHING"}
+        self.move = self.actualMovement[4]
+        self.lastMove = self.actualMovement[4]
+        self.x = None
+        self.y = None
+        self.speed = None
         self.actions = {"IDLE": 1, "WALK":2}
         self.playerAction = 1 #Idle
         self.animations = {}
         self.aniTick = 0
         self.aniIndex = 0
-
-
-    # def getLookingPos(self):
-    #     if(self.lookingDir == "DOWN"):
-    #         return 2
-    #     elif(self.lookingDir == "UP"):
-    #         return 0
-    #     elif(self.lookingDir == "LEFT"):
-    #         return 1
-    #     elif(self.lookingDir == "RIGHT"):
-    #         return 3
+        self.maxX = None
+        self.maxY = None
+        self.tileSize = None
 
     def setUp(self,up):
         self.up = up
@@ -93,6 +92,30 @@ class Personaje:
 
     def initEquipo(self):
         self.equipo = Lista_Inventario.Equipo(self.fu) #creo el inventario vacío
+
+    def setFPS(self,fps):
+        if(fps == 60):
+            self.speed = 5
+        elif(fps == 120):
+            self.speed = 2.5
+        elif(fps == 90):
+            self.spped = 3.75
+        elif(fps == 144):
+            self.speed = 2.08
+
+
+    def setCurrentPos(self,pos,tileSize,width,height):
+        self.coordenadas_actuales[0] = pos[0] #xTile
+        self.coordenadas_actuales[1] = pos[1] #yTile
+        self.x = self.coordenadas_actuales[0]*tileSize[0]
+        self.y = self.coordenadas_actuales[1]*tileSize[1]
+        self.tileSize = tileSize
+        self.maxX = (width/150.0000)+(self.tileSize[0])*25
+        self.maxY = (height/87.5000)+(self.tileSize[1])*12
+
+
+    def setPlayerAction(self,a):
+        self.playerAction = a
 
     def loadAnimations(self):
         imagen = pygame.image.load(self.NPC_imagen)
@@ -115,21 +138,61 @@ class Personaje:
                 frame = imagen.subsurface(pygame.Rect(x * ancho_frame, y * alto_frame, ancho_frame, alto_frame))
                 # Añade el frame a la lista
                 self.animations[y] += [frame]
+
+    def getCurrFrame(self):
+        if(self.playerAction == 1):
+            return self.animations[self.getLookingPos()][self.aniIndex] #Imagen estática de la dirección a la que está mirando
+        elif(self.playerAction == 2): 
+            #Está andando
+            pass
     
+    def isLegalAction(self,x,y):
+        XinGrid = x//self.tileSize
+        YinGrid = y//self.tileSize
+        tile_id = self.mapa.matrix[XinGrid][YinGrid]
+        if(tile_id == 1 or tile_id == 22):
+            # Es una casilla andable
+            #TODO: es una puerta
+            #El objeto/NPC/monstruo no impide su paso
+            if(self.mapa.objetos[XinGrid][YinGrid] != 32 and not(33 <= self.mapa.objetos[XinGrid][YinGrid] <=106) and (not 111 <= self.mapa.objetos[XinGrid][YinGrid] <=117)):
+                return True
+        return False
+
     def updatePos(self):
         self.moving = False
+        self.move = self.actualMovement[4] #NOTHING
         if(self.left and not self.right):
-            x-= self.playerSpeed
-            self.moving = True
+            if(self.x-self.speed >=0 and self.isLegalAction(self.x-self.speed,self.y)):
+                self.x -= self.speed
+                self.move = self.actualMovement[2] #left
+                self.moving = True
         elif(self.right and not self.left):
-            x+=self.playerSpeed
-            self.moving = True
+            if(self.x + self.speed <=(self.maxX) and self.isLegalAction(self.x+self.speed,self.y)):
+                self.x+=self.speed
+                self.move = self.actualMovement[3] #RIGHT
+                self.moving = True
         if(self.up and not self.down):
-            y-= self.playerSpeed
-            self.moving = True
+            if(self.y-self.speed >=0 and self.isLegalAction(self.x,self.y-self.speed)):
+                self.y -= self.speed
+                self.move = self.actualMovement[1]
+                self.moving = True
         elif(self.down and not self.up):
-            y+=self.playerSpeed
-            self.moving = True
+            if(self.y+self.speed <=self.maxY and self.isLegalAction(self.x,self.y+self.speed)):
+                self.y +=self.speed
+                self.move = self.actualMovement[0]
+                self.moving = True
+        if(self.move != self.lastMove and (self.move != self.actualMovement[4])):
+            self.lastMove = self.move
+        if(self.lastMoving != self.moving):
+            self.lastMoving = self.moving
+            self.needsToChange = True
+        if(self.needsToChange and self.moving):
+            self.needsToChange = False
+        self.updateTile()
+
+    def updateTile(self):
+        self.coordenadas_actuales[0] = self.x // self.tileSize
+        self.coordenadas_actuales[1] = self.y // self.tileSize
 
     def getSpriteAmount(self):
         if(self.playerAction == 1):
@@ -139,7 +202,7 @@ class Personaje:
         
     def updateAnimationTick(self,fps):
         self.aniTick+=1
-        if(self.aniTick >= (fps*0.2)):
+        if(self.aniTick >= (fps*0.1)):
             self.aniTick=0
             self.aniIndex +=1
             if(self.aniIndex >= self.getSpriteAmount()):
@@ -149,7 +212,7 @@ class Personaje:
         startAni = self.playerAction
 
         if(self.moving):
-            self.playerAction= 2
+            self.playerAction = 2
         else:
             self.playerAction = 1
         
@@ -161,13 +224,18 @@ class Personaje:
         self.aniIndex=0
 
 
-    def render(self,tile_w,tile_h,screen,width,heigth,fps):
+    def render(self,fps,mapa,ubicacion,width,height,screen):
         #primero actualizo la situación del personaje y veo si puedo renderizar otra cosa
         self.updatePos()
         self.updateAnimationTick(fps)
         self.setAnimation()
-        screen.blit(pygame.transform.scale(, (tile_w,tile_h)), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x))
-    
+        # cont = self.getCurrentYX()
+        # cont_y = cont[0]
+        # cont_x = cont[1]
+        self.mapa = mapa
+        self.mapa.drawMapInGame(ubicacion,width,height,screen,self.coordenadas_actuales)
+        screen.blit(pygame.transform.scale(self.getCurrFrame(), ((self.map_tileSize[0],self.map_tileSize[1]))), (self.x, self.y))
+
         
 
 

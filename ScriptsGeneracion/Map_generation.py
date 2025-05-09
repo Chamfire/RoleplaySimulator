@@ -1532,8 +1532,8 @@ class Map_generation:
                             pygame.display.update()
 
 
-    def drawMapInGame(self,ubicacion,width,height,screen):
-        currentTilePlayer = self.spawn
+    def drawMapInGame(self,ubicacion,width,height,screen,player_pos):
+        currentTilePlayer = player_pos
         if(currentTilePlayer[0] >=13 and currentTilePlayer[0] < 87):
             #se puede printear normal
             i_start = currentTilePlayer[0]-13
