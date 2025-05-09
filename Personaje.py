@@ -99,13 +99,13 @@ class Personaje:
 
     def setFPS(self,fps):
         if(fps == 60):
-            self.speed = 5
+            self.speed = 2
         elif(fps == 120):
-            self.speed = 2.5
+            self.speed = 1
         elif(fps == 90):
-            self.speed = 3.75
+            self.speed = 1.5
         elif(fps == 144):
-            self.speed = 2.08
+            self.speed = 0.93
 
 
     def setCurrentPos(self,pos,tileSize,width,height):
@@ -207,12 +207,13 @@ class Personaje:
         YinGrid = int(real_p_y//self.tileSize[1])
         tile_id = self.mapa.matrix[YinGrid][XinGrid]
         print(tile_id)
+        print("next casilla: "+str(XinGrid)+","+str(YinGrid))
         if(tile_id == 1 or tile_id == 22):
             # Es una casilla andable
             #TODO: es una puerta
             #El objeto/NPC/monstruo no impide su paso
-            
-            if(self.mapa.objetos[YinGrid][XinGrid] != 32 and not(33 <= self.mapa.objetos[YinGrid][XinGrid] <=106) and (not (111 <= self.mapa.objetos[YinGrid][XinGrid] <=117))):
+            print(self.mapa.objetos[YinGrid][XinGrid])
+            if(self.mapa.objetos[YinGrid][XinGrid] != 32 and (not(33 <= self.mapa.objetos[YinGrid][XinGrid] <=106) or self.mapa.objetos[YinGrid][XinGrid] == 80)and (not (111 <= self.mapa.objetos[YinGrid][XinGrid] <=117))):
                 print("True")
                 return True
         return False
@@ -221,24 +222,28 @@ class Personaje:
         self.moving = False
         self.move = self.actualMovement[4] #NOTHING
         if(self.left and not self.right):
+            print(self.x-self.speed)
             if(self.x-self.speed >=0 and self.isLegalAction(self.x-self.speed,self.y)):
                 print(self.coordenadas_actuales)
                 self.x -= self.speed
                 self.move = self.actualMovement[2] #left
                 self.moving = True
         elif(self.right and not self.left):
-            print(self.coordenadas_actuales)
+            print(self.x+self.speed)
             if((self.x + self.speed) <=(self.maxX) and self.isLegalAction(self.x+self.speed,self.y)):
+                print(self.coordenadas_actuales)
                 self.x+=self.speed
                 self.move = self.actualMovement[3] #RIGHT
                 self.moving = True
         if(self.up and not self.down):
+            print(self.y-self.speed)
             if((self.y-self.speed >=0) and self.isLegalAction(self.x,self.y-self.speed)):
                 print(self.coordenadas_actuales)
                 self.y -= self.speed
                 self.move = self.actualMovement[1] #UP
                 self.moving = True
         elif(self.down and not self.up):
+            print(self.y+self.speed)
             if((self.y+self.speed <=self.maxY) and self.isLegalAction(self.x,self.y+self.speed)):
                 print(self.coordenadas_actuales)
                 self.y +=self.speed
@@ -278,6 +283,8 @@ class Personaje:
         calc_y = currentTilePlayer[1] - j_start 
         self.difX = self.tileSize[0]*i_start #Los píxeles que nos estamos comiendo de mapa, que no aparecen. Para el cálculo después de las tiles
         self.difY = self.tileSize[1]*j_start
+        self.x = calc_x*self.tileSize[0]
+        self.y = calc_y*self.tileSize[1]
 
         self.coordenadas_actuales = "("+str(self.coordenadas_actuales_r[0])+","+str(self.coordenadas_actuales_r[1])+")"
         self.mapa.fillCasillasVistas(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1])
@@ -344,14 +351,14 @@ class Personaje:
         self.mapa = mapa
         self.mapa.drawMapInGame(ubicacion,width,height,screen,self.coordenadas_actuales_r)
         #print(self.getCurrentFrame(),self.aniIndex,self.tileSize[0],self.tileSize[1])
-        screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.tileSize[0],self.tileSize[1]))), (self.x, self.y))
+        screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.tileSize[0],self.tileSize[1]))), ((width/150.0000)+self.x, (height/87.5000)+self.y))
         return screen
     
     def renderLast(self,mapa,ubicacion,width,height,screen):
     
         self.mapa = mapa
         #print(self.getCurrentFrame(),self.aniIndex,self.tileSize[0],self.tileSize[1])
-        screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.tileSize[0],self.tileSize[1]))), (self.x, self.y))
+        screen.blit(pygame.transform.scale(self.animations[self.getCurrentFrame()][self.aniIndex], ((self.tileSize[0],self.tileSize[1]))), ((width/150.0000)+self.x, (height/87.5000)+self.y))
         return screen
 
 
