@@ -63,7 +63,7 @@ class Personaje:
         self.moving = False
         self.lastMoving = False
         self.needsToChange = False
-        self.actualMovement = {"DOWN","UP","LEFT","RIGHT", "NOTHING"}
+        self.actualMovement = ["DOWN","UP","LEFT","RIGHT", "NOTHING"]
         self.move = self.actualMovement[4]
         self.lastMove = self.actualMovement[4]
         self.x = None
