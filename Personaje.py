@@ -1,6 +1,7 @@
 import Lista_Inventario
 import pygame 
 from Global import Global
+import time
 
 class Personaje:
     def __init__(self,isNPC,partida_id,id_jugador_or_NPC):
@@ -208,12 +209,11 @@ class Personaje:
         # getActionDoor: variable global que determina si una puerta puede o no abrirse. Se gestiona en la 
         # Máquina de estados. 
         self.checkDoor = self.GLOBAL.getActionDoor()
-        if(tile_id == 1 or tile_id == 22 or self.checkDoor):
+        print("checkDoor: "+str(self.checkDoor))
+        if(tile_id == 1 or tile_id == 22 or self.checkDoor == 1 or self.checkDoor == 2):
             # Es una casilla andable
             #El objeto/NPC/monstruo no impide su paso
-            print(self.mapa.objetos[y][x])
-            if(self.mapa.objetos[y][x] != 32 and (not(33 <= self.mapa.objetos[y][x] <=106) or self.mapa.objetos[y][x] == 80)and (not (111 <= self.mapa.objetos[y][x] <=117))):
-                print("True")
+            if((self.mapa.objetos[y][x] != 32) and (not(33 <= self.mapa.objetos[y][x] <=106) or (self.mapa.objetos[y][x] == 80))and (not (111 <= self.mapa.objetos[y][x] <=117))):
                 return True
         return False
 
@@ -223,11 +223,13 @@ class Personaje:
         if(self.left and not self.right):
             print("LEFT")
             if(self.coordenadas_actuales_r[0]-1 >=0 and self.isLegalAction(self.coordenadas_actuales_r[0]-1,self.coordenadas_actuales_r[1])):
-                print(self.coordenadas_actuales)
                 if(self.checkDoor == 1):
-                    self.coordenadas_actuales_r[0]-=2 #atraviesa la puerta, y llega al camino
-                    self.checkDoor = False
+                    print("action door a 0")
+                    self.GLOBAL.setActionDoor(0)
                     self.GLOBAL.setCrossedDoor(True)
+                    self.checkDoor = False
+                    self.coordenadas_actuales_r[0]-=2 #atraviesa la puerta, y llega al camino
+                    #Para evitar que se mueva 20 bloques, se bloquea el acceso
                 elif(self.checkDoor == 2):
                     #es un portal
                     pass
@@ -239,11 +241,11 @@ class Personaje:
         elif(self.right and not self.left):
             print("RIGHT")
             if((self.coordenadas_actuales_r[0]+1 <100) and self.isLegalAction(self.coordenadas_actuales_r[0]+1,self.coordenadas_actuales_r[1])):
-                print(self.coordenadas_actuales)
                 if(self.checkDoor == 1):
-                    self.coordenadas_actuales_r[0]+=2
-                    self.checkDoor = False
+                    self.GLOBAL.setActionDoor(0)
                     self.GLOBAL.setCrossedDoor(True)
+                    self.checkDoor = False
+                    self.coordenadas_actuales_r[0]+=2
                 elif(self.checkDoor == 2):
                     #es un portal
                     pass
@@ -254,11 +256,11 @@ class Personaje:
         if(self.up and not self.down):
             print("UP")
             if((self.coordenadas_actuales_r[1]-1 >=0) and self.isLegalAction(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1]-1)):
-                print(self.coordenadas_actuales)
                 if(self.checkDoor == 1):
-                    self.coordenadas_actuales_r[1]-=2
-                    self.checkDoor = False
+                    self.GLOBAL.setActionDoor(0)
                     self.GLOBAL.setCrossedDoor(True)
+                    self.checkDoor = False
+                    self.coordenadas_actuales_r[1]-=2
                 elif(self.checkDoor == 2):
                     #es un portal
                     pass
@@ -269,11 +271,11 @@ class Personaje:
         elif(self.down and not self.up):
             print("DOWN")
             if((self.coordenadas_actuales_r[1]+1 <100) and self.isLegalAction(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1]+1)):
-                print(self.coordenadas_actuales)
                 if(self.checkDoor == 1):
-                    self.coordenadas_actuales_r[1]+=2
-                    self.checkDoor = False
+                    self.GLOBAL.setActionDoor(0)
                     self.GLOBAL.setCrossedDoor(True)
+                    self.checkDoor = False
+                    self.coordenadas_actuales_r[1]+=2
                 elif(self.checkDoor == 2):
                     #es un portal
                     pass

@@ -597,7 +597,7 @@ class Map_generation:
                 if(pos_x-2 >=0 and self.matrix[pos_y][pos_x-2] == 22):
                     self.casillasVistas[pos_x-2][pos_y] = 1
             
-            elif(self.matrix[pos_y][pos_x-1] == 12):
+            elif(self.matrix[pos_y][pos_x-1] == 11):
                 self.casillasVistas[pos_x-1][pos_y] = 1
 
             if(self.matrix[pos_y][pos_x+1] == 22):
@@ -605,7 +605,7 @@ class Map_generation:
                 if(pos_x+2 <=99 and self.matrix[pos_y][pos_x+2] == 22):
                     self.casillasVistas[pos_x+2][pos_y] = 1
             
-            elif(self.matrix[pos_y][pos_x+1] == 12):
+            elif(self.matrix[pos_y][pos_x+1] == 10):
                 self.casillasVistas[pos_x+1][pos_y] = 1
            
 

@@ -5,6 +5,7 @@ import pygame
 import random
 from pygame import mixer
 from Global import Global
+import time
 
 class Estado:
     def __init__(self,isInicial,content,id):
@@ -589,6 +590,8 @@ class EstadoDeSalaInicial(Estado):
             return False
         
     def checkIfCanExit(self,personaje):
+        print("player action")
+        print(personaje.playerAction)
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 13) or (self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 23))):  
             pos_x = personaje.coordenadas_actuales_r[0]
             pos_y = personaje.coordenadas_actuales_r[1]+1
@@ -604,26 +607,33 @@ class EstadoDeSalaInicial(Estado):
         else:
             pos_x = None
             pos_y = None
+        print(pos_x,pos_y)
         if(pos_x != None and pos_y != None):
             for sala in self.daASalas:
                 if(self.daASalas[sala][0] == [pos_x,pos_y] and self.daASalas[sala][1] == "abierto"):
                     #La puerta existe y da a la sala "sala", y está abierta para pasar
+                    print("puerta")
                     if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
                         self.GLOBAL.setActionDoor(2)
                     else:
+                        print("action door a 1")
                         self.GLOBAL.setActionDoor(1) #podría abrirla
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
+                    time.sleep(0.5)
                     if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
                         #Ha decidido cruzarla
+                        self.GLOBAL.setActionDoor(0)
+                        print("ha pasado")
                         pygame.mixer.Channel(1).play(self.soundDoor)
                         #reseteo las variables
-                        self.GLOBAL.setActionDoor(False)
-                        self.GLOBAL.setCrossedDoor(False)
                         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
                         self.pasilloFromPuerta = [[pos_x,pos_y],sala] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
                         # Si trata de entrar después a otra puerta de otro camino que se haya anexado, le dirá que una magia oscura impide que la abra jeje
                         return True
-        self.GLOBAL.setActionDoor(False)
+                else:
+                    print("está cerrada")
+                    pass
+        self.GLOBAL.setActionDoor(0)
         return False
 
 
@@ -649,7 +659,7 @@ class EstadoDeSalaInicial(Estado):
     def run(self,DM,personaje):
         #TODO: run en función del estado de la misión
         # print("run:")
-        # print(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)])
+        print(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)])
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
