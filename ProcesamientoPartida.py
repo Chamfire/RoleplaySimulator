@@ -373,8 +373,7 @@ class ProcesamientoPartida:
         # print("-----------------")
 
         self.RAG_historia.escribirInfoNPC(self.personaje.name,self.personaje.descripcion_fisica,infoTrasfondo,motivoUbicacion)
-        self.maquina.crearEstadoSala(self.numJugadores)
-        self.maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo,NPC_imagen_carpeta)
+
         print("Progreso: 11%")
 
         #listas para las misiones
@@ -478,12 +477,20 @@ class ProcesamientoPartida:
         dialogos_presentacion = "Buenos días"#self.consultarAlDM(presentacion_NPC,model_path,None,2048,700)
         print("Progreso: 19%")
         self.RAG_historia.escribirDialogosNPC(dialogos_presentacion)
-        
-        self.maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision)
 
         #Creo el mapa 
         Mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,tipo_mision,variableDeCheck,self.numJugadores,NPC_animacion,self.jugadorHost.id_jugador,self.width,self.height) #que genere el mapa de una mazmorra
         self.GLOBAL.setMAPA(Mapa)
+
+        #Creo el resto de estados de la máquina de estado
+        for i in Mapa.salas:
+            # Paso toda la información que se ha creado en la generación del mapa a la máquina de estados
+            self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa)
+        self.maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo,NPC_imagen_carpeta)
+        self.maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision)
+        print("Progreso: 24%")
+
+
         print("Progreso: 90%")
         #creo los estados correspondientes para la máquina de estados
 
@@ -493,7 +500,7 @@ class ProcesamientoPartida:
 
         self.GLOBAL.setActualPartidaState("partida")
         #TODO: Mensaje TCP a todos los jugadores para que cambien sus variables globales de actualPartidaScreen a "partida"
-        
+    
         self.maquina.initExecution()
         finished = False
         while(not finished):
@@ -505,7 +512,7 @@ class ProcesamientoPartida:
 
     def clickBotonPreparado(self):
         # #simulamos que todos le han dado ok al botón
-        self.maquina.ordenEstados[1].ModifyState(self.jugadorHost,0)#he hecho click en 'ok'
+        self.maquina.ordenEstados[self.maquina.salaInicialID].ModifyState(self.jugadorHost,0)#he hecho click en 'ok'
 
         # # #aquí se ejecutaría en función del personaje del TCP que llegó, o del host si hizo una acción
         # self.maquina.runNextEstado(self.jugadorHost)

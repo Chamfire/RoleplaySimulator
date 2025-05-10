@@ -1,5 +1,6 @@
 import Lista_Inventario
 import pygame 
+from Global import Global
 
 class Personaje:
     def __init__(self,isNPC,partida_id,id_jugador_or_NPC):
@@ -81,6 +82,8 @@ class Personaje:
         self.maxY = None
         self.mapa = None
         self.tileSize = None
+        self.GLOBAL = Global()
+        self.checkDoor = False
 
     def setUp(self,up):
         self.up = up
@@ -202,9 +205,11 @@ class Personaje:
         tile_id = self.mapa.matrix[y][x]
         print(tile_id)
         print("next casilla: "+str(y)+","+str(x))
-        if(tile_id == 1 or tile_id == 22):
+        # getActionDoor: variable global que determina si una puerta puede o no abrirse. Se gestiona en la 
+        # Máquina de estados. 
+        self.checkDoor = self.GLOBAL.getActionDoor()
+        if(tile_id == 1 or tile_id == 22 or self.checkDoor):
             # Es una casilla andable
-            #TODO: es una puerta
             #El objeto/NPC/monstruo no impide su paso
             print(self.mapa.objetos[y][x])
             if(self.mapa.objetos[y][x] != 32 and (not(33 <= self.mapa.objetos[y][x] <=106) or self.mapa.objetos[y][x] == 80)and (not (111 <= self.mapa.objetos[y][x] <=117))):
@@ -219,7 +224,15 @@ class Personaje:
             print("LEFT")
             if(self.coordenadas_actuales_r[0]-1 >=0 and self.isLegalAction(self.coordenadas_actuales_r[0]-1,self.coordenadas_actuales_r[1])):
                 print(self.coordenadas_actuales)
-                self.coordenadas_actuales_r[0]-=1
+                if(self.checkDoor == 1):
+                    self.coordenadas_actuales_r[0]-=2 #atraviesa la puerta, y llega al camino
+                    self.checkDoor = False
+                    self.GLOBAL.setCrossedDoor(True)
+                elif(self.checkDoor == 2):
+                    #es un portal
+                    pass
+                else:
+                    self.coordenadas_actuales_r[0]-=1
             self.move = self.actualMovement[2] #left
             self.moving = True
             
@@ -227,21 +240,45 @@ class Personaje:
             print("RIGHT")
             if((self.coordenadas_actuales_r[0]+1 <100) and self.isLegalAction(self.coordenadas_actuales_r[0]+1,self.coordenadas_actuales_r[1])):
                 print(self.coordenadas_actuales)
-                self.coordenadas_actuales_r[0]+=1
+                if(self.checkDoor == 1):
+                    self.coordenadas_actuales_r[0]+=2
+                    self.checkDoor = False
+                    self.GLOBAL.setCrossedDoor(True)
+                elif(self.checkDoor == 2):
+                    #es un portal
+                    pass
+                else:
+                    self.coordenadas_actuales_r[0]+=1
             self.move = self.actualMovement[3] #RIGHT
             self.moving = True
         if(self.up and not self.down):
             print("UP")
             if((self.coordenadas_actuales_r[1]-1 >=0) and self.isLegalAction(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1]-1)):
                 print(self.coordenadas_actuales)
-                self.coordenadas_actuales_r[1]-=1 
+                if(self.checkDoor == 1):
+                    self.coordenadas_actuales_r[1]-=2
+                    self.checkDoor = False
+                    self.GLOBAL.setCrossedDoor(True)
+                elif(self.checkDoor == 2):
+                    #es un portal
+                    pass
+                else:
+                    self.coordenadas_actuales_r[1]-=1 
             self.move = self.actualMovement[1] #UP
             self.moving = True
         elif(self.down and not self.up):
             print("DOWN")
             if((self.coordenadas_actuales_r[1]+1 <100) and self.isLegalAction(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1]+1)):
                 print(self.coordenadas_actuales)
-                self.coordenadas_actuales_r[1]+=1
+                if(self.checkDoor == 1):
+                    self.coordenadas_actuales_r[1]+=2
+                    self.checkDoor = False
+                    self.GLOBAL.setCrossedDoor(True)
+                elif(self.checkDoor == 2):
+                    #es un portal
+                    pass
+                else:
+                    self.coordenadas_actuales_r[1]+=1
             self.move = self.actualMovement[0] #DOWN
             self.moving = True
         if(self.move != self.lastMove and (self.move != self.actualMovement[4])):

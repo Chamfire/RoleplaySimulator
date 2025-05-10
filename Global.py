@@ -44,6 +44,36 @@ class Global:
         viewMap = False
         global m
         m = None
+        global actionDoor
+        actionDoor = False
+        global crossedDoor
+        crossedDoor = False
+        global canGoOutFirst 
+        canGoOutFirst = 0 #cambiar cuando se haga la parte de diálogo con el NPC
+    
+    def canGoOutFirst(self):
+        global canGoOutFirst
+        return canGoOutFirst
+    
+    def setCanGoOutFirst(self,v):
+        global canGoOutFirst
+        canGoOutFirst = v
+
+    def getCrossedDoor(self):
+        global crossedDoor
+        return crossedDoor
+    
+    def setCrossedDoor(self,v):
+        global crossedDoor
+        crossedDoor = v
+    
+    def getActionDoor(self):
+        global actionDoor
+        return actionDoor
+    
+    def setActionDoor(self,v):
+        global actionDoor
+        actionDoor = v
 
     def getViewMap(self):
         global viewMap
