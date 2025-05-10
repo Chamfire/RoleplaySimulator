@@ -168,13 +168,15 @@ class Personaje:
             tipo = "mazmorra,"+self.tipo_raza
             for i in range(0,2):
                 if(images[tipo+","+str(i)][3] == self.genero):
-                    string = "animations\\NPCs\\"
-                    return string+images[tipo+","+str(i)][0]+"\\walk.png"
+                    string = "animations/NPCs/"
+                    return string+images[tipo+","+str(i)][0]+"/walk.png"
         else:
             pass
 
     def loadAnimations(self,ubicacion):
-        imagen = pygame.image.load(self.getImage(ubicacion))
+        path = self.getImage(ubicacion)
+        print(path)
+        imagen = pygame.image.load(path)
 
         # Define el tamaño de cada frame
         ancho_frame = 64
@@ -218,29 +220,30 @@ class Personaje:
             if(self.coordenadas_actuales_r[0]-1 >=0 and self.isLegalAction(self.coordenadas_actuales_r[0]-1,self.coordenadas_actuales_r[1])):
                 print(self.coordenadas_actuales)
                 self.coordenadas_actuales_r[0]-=1
-                self.move = self.actualMovement[2] #left
-                self.moving = True
+            self.move = self.actualMovement[2] #left
+            self.moving = True
+            
         elif(self.right and not self.left):
             print("RIGHT")
             if((self.coordenadas_actuales_r[0]+1 <100) and self.isLegalAction(self.coordenadas_actuales_r[0]+1,self.coordenadas_actuales_r[1])):
                 print(self.coordenadas_actuales)
                 self.coordenadas_actuales_r[0]+=1
-                self.move = self.actualMovement[3] #RIGHT
-                self.moving = True
+            self.move = self.actualMovement[3] #RIGHT
+            self.moving = True
         if(self.up and not self.down):
             print("UP")
             if((self.coordenadas_actuales_r[1]-1 >=0) and self.isLegalAction(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1]-1)):
                 print(self.coordenadas_actuales)
                 self.coordenadas_actuales_r[1]-=1 
-                self.move = self.actualMovement[1] #UP
-                self.moving = True
+            self.move = self.actualMovement[1] #UP
+            self.moving = True
         elif(self.down and not self.up):
             print("DOWN")
             if((self.coordenadas_actuales_r[1]+1 <100) and self.isLegalAction(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1]+1)):
                 print(self.coordenadas_actuales)
                 self.coordenadas_actuales_r[1]+=1
-                self.move = self.actualMovement[0] #DOWN
-                self.moving = True
+            self.move = self.actualMovement[0] #DOWN
+            self.moving = True
         if(self.move != self.lastMove and (self.move != self.actualMovement[4])):
             self.lastMove = self.move
         if(self.lastMoving != self.moving):
@@ -277,13 +280,13 @@ class Personaje:
 
     def getSpriteAmount(self):
         if(self.playerAction == "WALK_DOWN" or self.playerAction == "WALK_UP" or self.playerAction == "WALK_LEFT" or self.playerAction == "WALK_RIGHT"):
-            return 4
+            return 9
         else:
             return 1
         
     def updateAnimationTick(self,fps):
         self.aniTick+=1
-        if(self.aniTick >= (fps*0.1)):
+        if(self.aniTick >= (fps*0.05)):
             self.aniTick=0
             self.aniIndex +=1
             if(self.aniIndex >= self.getSpriteAmount()):

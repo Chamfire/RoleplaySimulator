@@ -1724,14 +1724,16 @@ class Map_generation:
         os.environ['SDL_VIDEODRIVER'] = 'dummy'
         self.screen.fill((0,0,0))
         try:
-            if(id == 87):
-                self.screen.blit(pygame.transform.scale(self.frames[1][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
-            elif(id== 88):
-                self.screen.blit(pygame.transform.scale(self.frames[3][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
-            elif(id==89):
-                self.screen.blit(pygame.transform.scale(self.frames[0][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
-            elif(id==90):
-                self.screen.blit(pygame.transform.scale(self.frames[2][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+            for i in range(0,9):
+                self.screen.blit(pygame.transform.scale(self.frames[0][i], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+            # if(id == 87):
+            #     self.screen.blit(pygame.transform.scale(self.frames[1][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+            # elif(id== 88):
+            #     self.screen.blit(pygame.transform.scale(self.frames[3][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+            # elif(id==89):
+            #     self.screen.blit(pygame.transform.scale(self.frames[0][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
+            # elif(id==90):
+            #     self.screen.blit(pygame.transform.scale(self.frames[2][0], ((self.width/37.5000, self.height/21.8750))), ((self.width/150.0000)+(self.width/37.5000)*i, (self.height/87.5000)+(self.height/21.8750)*j)) #32 32 8 8
         except Exception as e:
             print(e)
         pygame.display.update()
@@ -1781,7 +1783,7 @@ class Map_generation:
 #     variableDeCheck = {}
 #     variableDeCheck[lugar_posible[lugar]] = False #ninguno de los jugadores lo ha encontrado
 # carpeta = "animations/NPCs/elfo_vive en el bosque_75_430_de piel verde/walk.png"
-#Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck,1,carpeta,1234) #que genere el mapa de una mazmorra
-#Mapa.paintMap(ubicacion)
-#Mapa.drawMapOutGame("mazmorra")
-#Mapa.drawNPC(87,3,3)
+# Mapa = Map_generation(ubicacion,currentPartida,tipo_mision,variableDeCheck,1,carpeta,1234,1200,700) #que genere el mapa de una mazmorra
+# #Mapa.paintMap(ubicacion)
+# #Mapa.drawMapOutGame("mazmorra")
+# Mapa.drawNPC(87,3,3)
