@@ -30,6 +30,7 @@ class Map_generation:
     def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck, numJugadores, NPC_imagen,id_host,width,height):
         self.NPC_imagen = NPC_imagen
         self.id_host = id_host
+        self.tile_cache = {}
         imagen = pygame.image.load(self.NPC_imagen)
 
         # Define el tamaño de cada frame
@@ -72,6 +73,13 @@ class Map_generation:
         self.objetos = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
         self.mobs = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
         if(self.eleccion == "mazmorra"):
+            NUM_TILES = 121
+            for i in range(NUM_TILES):  # el número total de IDs posibles
+                path = f"tiles/{self.eleccion}/{i}.png"
+                try:
+                    self.tile_cache[i] = pygame.image.load(path)
+                except:
+                    self.tile_cache[i] = None
             self.createMazmorra() 
             self.fillWithObjects(tipo_mision,variableDeCheck)
             self.createRandomThings(tipo_mision,variableDeCheck, eleccion,numJugadores)
@@ -1554,21 +1562,22 @@ class Map_generation:
         #el tamaño de la pantalla es de 26 x 10, y la casilla actual del jugador debe ser la del medio
         blackScreen = pygame.Rect(width/150.0000, height/87.5000, width/1.4252, height/1.5837) #25 470 810 124
         pygame.draw.rect(screen, pygame.Color(0,0,0), blackScreen, 0)
-        
         for i in range(i_start,i_start+26):
             cont_x = 0
             for j in range(j_start,j_start+13):
                 if(self.casillasVistas[i][j] == 1):
                     try:
-                        tile = pygame.image.load("tiles/"+ubicacion+"/"+str(self.matrix[j][i])+".png")
-                        screen.blit(pygame.transform.scale(tile, (self.map_tileSize[0],self.map_tileSize[1])), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
+                        tile = self.tile_cache[self.matrix[j][i]]
+                        if tile is not None:
+                            screen.blit(pygame.transform.scale(tile, (self.map_tileSize[0],self.map_tileSize[1])), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                     except:
                         pass
                     try:
                         id = self.objetos[j][i]
                         if(not (87 <= id <= 90)):
-                            object = pygame.image.load("tiles/"+ubicacion+"/"+str(id)+".png")
-                            screen.blit(pygame.transform.scale(object, (self.map_tileSize[0],self.map_tileSize[1])), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
+                            object = self.tile_cache[id]
+                            if object is not None:
+                                screen.blit(pygame.transform.scale(object, (self.map_tileSize[0],self.map_tileSize[1])), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
                         else:
                             if(id == 87):
                                 screen.blit(pygame.transform.scale(self.frames[1][0], ((self.map_tileSize[0],self.map_tileSize[1]))), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8

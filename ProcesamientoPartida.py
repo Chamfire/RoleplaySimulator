@@ -16,6 +16,7 @@ from Personaje import Personaje
 from maquina_de_estados.RAG_historia import RAG_historia
 import time
 from ScriptsGeneracion import Map_generation
+import time
 
 @contextlib.contextmanager
 def suppress_stdout_stderr():
@@ -153,7 +154,7 @@ class ProcesamientoPartida:
         prompt = """{Eres un dungeon master de Dnd 5e y quieres presentarte"""+c1+""".}<|eot_id|><|start_header_id|>user<|end_header_id|>
                         {Completa la siguiente frase, en un mismo párrafo: "¡"""+momento+""", y """+bienvenida+"""! """+intro+""", soy Leia, la Dungeon Master. <Genera un texto de presentación general de d&d aquí, sin dar detalles sobre nada de la partida brevemente. """+consideracion+""">.}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        response_good = self.consultarAlDM(prompt,model_path,fin)
+        response_good = "Bienvenido"#self.consultarAlDM(prompt,model_path,fin)
 
         print("Progreso: 4%")
 
@@ -349,7 +350,7 @@ class ProcesamientoPartida:
         prompt = """{Eres un dungeon master de Dnd 5e y vas a escoger un nombre para un NPC.}<|eot_id|><|start_header_id|>user<|end_header_id|>
                         {Responde únicamente con el nombre escogido para ese NPC, sin dar ningún detalle adicional, y teniendo en cuenta que es """+self.personaje.genero+""".}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        nombre = self.consultarAlDM(prompt,model_path,None)
+        nombre = "Ramón"#self.consultarAlDM(prompt,model_path,None)
         self.personaje.name = nombre
         #print(self.personaje.name)
         #inicializo el RAG para la historia
@@ -358,7 +359,7 @@ class ProcesamientoPartida:
                         {Genera un párrafo sobre el motivo por el que un NPC (de nombre """+self.personaje.name+""", que es """+self.personaje.tipo_raza+""" y que además es """+self.personaje.tipo_clase+""") podría encontrarse en la siguiente zona: """+self.ubicacion+""". Ten en cuenta en la redacción, que """+self.personaje.name+""" es """+self.personaje.genero+"""}
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
-        motivoUbicacion = self.consultarAlDM(prompt,model_path,None)
+        motivoUbicacion = "Qué guapo que es este NPC"#self.consultarAlDM(prompt,model_path,None)
         # print("-----------------")
         # print(motivoUbicacion)
         # print("-----------------")
@@ -366,7 +367,7 @@ class ProcesamientoPartida:
         peticion = "Genera 6 párrafos de trasfondo para un NPC que se llama "+self.personaje.name+", que es "+self.personaje.genero+", que es """+self.personaje.tipo_raza+" y que además es "+self.personaje.tipo_clase+". Haz referencia a su familia, a si tiene o no algún romance/matrimonio y detallalo, y a rasgos que podrían ser importantes de su vida"
         prompt = f"Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC, que es {self.personaje.genero}. Usa el siguiente contexto para responder a la petición, y si te falta contexto, inventatelo, siempre que no contradiga al contexto dado: {motivoUbicacion}<|eot_id|><|start_header_id|>user<|end_header_id|>{peticion}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
-        infoTrasfondo = self.consultarAlDM(prompt,model_path,None,2024,1024)
+        infoTrasfondo = "Bontio"#self.consultarAlDM(prompt,model_path,None,2024,1024)
         # print("-----------------")
         # print(infoTrasfondo)
         # print("-----------------")
@@ -465,7 +466,7 @@ class ProcesamientoPartida:
                         "Um. Quizás puedas ayudarme con una cosa...".
                        No indiques cosas como **diálogo de propuesta de misión** o **párrafo motivacional**. 
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,300)
+        dialogos_posibles = "Dame patatas"#self.consultarAlDM(prompt,model_path,None,2048,300)
         print("Progreso: 15%")
         self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
         presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y yo voy a hablar con un NPC por primera vez, y quieres que este NPC se presente, indicando su nombre y el nombre del lugar donde están.<|eot_id|><|start_header_id|>user<|end_header_id|>
@@ -474,7 +475,7 @@ class ProcesamientoPartida:
                         por el que el NPC está ahí, ni cuál es su objetivo, solo limítate a presentarle, sin dar muchos detalles. Omite cualquier frase del tipo "Claro, aquí tienes los párrafos" o cosas de por el estilo. Puedes empezar con frases como
                         "¡Hola aventurero! Soy..." o "¡Buenos días! Mi nombre es ... " o frases similares.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        dialogos_presentacion = self.consultarAlDM(presentacion_NPC,model_path,None,2048,700)
+        dialogos_presentacion = "Buenos días"#self.consultarAlDM(presentacion_NPC,model_path,None,2048,700)
         print("Progreso: 19%")
         self.RAG_historia.escribirDialogosNPC(dialogos_presentacion)
         
@@ -497,6 +498,8 @@ class ProcesamientoPartida:
         finished = False
         while(not finished):
             self.maquina.runNextEstado(self.jugadorHost)
+            time.sleep(0.2)
+            #Así evitamos la sobrecarga del portátil. Cada 0.2 segundos, se comprueba la máquina de estados
     def getNPC(self):
         return self.personaje
 

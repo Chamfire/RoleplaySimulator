@@ -102,6 +102,7 @@ class PartidaScreen:
         self.textoDM = queue.Queue()
         self.image = queue.Queue()
         self.currentTextToShow = ""
+        self.cont = 0
 
         #estado variable
         self.contMsg = 0 #por defecto empieza en 0
@@ -163,7 +164,6 @@ class PartidaScreen:
         y_start2 = self.height/1.2658
         y_start3 = self.height/1.4403
         (x,y) = pygame.mouse.get_pos()
-
         if(self.GLOBAL.getActualPartidaState() == "loading"):
             self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
             self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
@@ -310,57 +310,25 @@ class PartidaScreen:
         pygame.display.update() 
 
     def renderTextBlock(self,text,position):
-        x_size = self.width/3.8339
-        y_size = self.height/12.2807
-        x_start = self.width/1.3873
-        y_start = self.height/1.1290
-        y_start2 = self.height/1.2658
-        y_start3 = self.height/1.4403
-        (x,y) = pygame.mouse.get_pos()
-        # self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
-        # if(not self.GLOBAL.getViewMap()):
-        #     self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
-        # else:
-        #     self.screen = self.map.drawMapInGame(self.ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales_r)
-        #     self.screen = self.personaje.renderLast(self.map, self.ubicacion, self.width, self.height, self.screen)
-        # if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
-        #     self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
-        # else:
-        #     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
-        # self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
-        # if(self.availableStart):
-        #     if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start2,x,y)):
-        #         self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
-        #     else:
-        #         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
-        # else:
-        #     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
 
-        # if(self.startBoton):
-        #     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-        # else:   
-        #     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-        #     if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
-        #         self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-        #     else:
-        #         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-        #     self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+        (x,y) = pygame.mouse.get_pos()
+
         self.inputBoxDescripcion = pygame.Rect(self.width/48.0000, self.height/1.4894, self.width/1.4815, self.height/5.6452) #25 470 810 124
         pygame.draw.rect(self.screen, self.color_white, self.inputBoxDescripcion, 0)
-        img = self.GLOBAL.getImagePartida() 
-        if(img != ""):
-            self.image.put(img)
+        # img = self.GLOBAL.getImagePartida() 
+        # if(img != ""):
+        #     self.image.put(img)
 
-        try:
-            if(self.changePhoto):
-                self.currentImageToShow = self.image.get()
-                self.changePhoto = False
-                self.imagePhoto = pygame.image.load(self.currentImageToShow)
-        except:
-            self.currentImageToShow = ""
+        # try:
+        #     if(self.changePhoto):
+        #         self.currentImageToShow = self.image.get()
+        #         self.changePhoto = False
+        #         self.imagePhoto = pygame.image.load(self.currentImageToShow)
+        # except:
+        #     self.currentImageToShow = ""
 
-        if(self.currentImageToShow != ""):
-            self.screen.blit(pygame.transform.scale(self.imagePhoto, (self.width/4.7059, self.height/2.6415)), (self.width/1.3378, self.height/14.0000)) #255 265 897 50
+        # if(self.currentImageToShow != ""):
+        #     self.screen.blit(pygame.transform.scale(self.imagePhoto, (self.width/4.7059, self.height/2.6415)), (self.width/1.3378, self.height/14.0000)) #255 265 897 50
 
 
 
@@ -524,33 +492,35 @@ class PartidaScreen:
                         self.currentTextToShow = [self.currentTextToShow[0],0,len(self.currentTextToShow[0].split(" "))] #texto,palabras_printeadas,total_palabras_a_printear
                 except:
                     self.currentTextToShow = ""
-                if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (self.currentTextToShow[2]) >= (self.currentTextToShow[1])):
-                    #hay que printear animado el texto    
-                    #Cargamos la animación
-                    self.currentFrame +=1 
-                    if(self.currentFrame >= change_frame):
-                        if(self.currentTextToShow[2] > self.currentTextToShow[1]):
-                            #printar texto con una letra más
-                            self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
-                            self.currentTextToShow[1] +=1
-                            self.currentFrame = 0
-                        elif(self.currentTextToShow[2] == self.currentTextToShow[1]):
-                            self.textWriten = True
-                            yes = self.GLOBAL.getShowImage()
-                            if(yes):
-                                self.changePhoto = True
-                                self.GLOBAL.setShowImage(False)
-                            self.currentTextToShow = ""
-                        else:
-                            self.currentTextToShow = ""
+                self.currentFrame +=1 
+                #print(self.currentFrame)
+                if(self.currentFrame >= change_frame):
+                    self.currentFrame = 0
+                    if(self.currentTextToShow != "" and self.currentTextToShow[0] != "" and (self.currentTextToShow[2]) >= (self.currentTextToShow[1])):
+                        #hay que printear animado el texto    
+                        #Cargamos la animación
+                            if(self.currentTextToShow[2] > self.currentTextToShow[1]):
+                                #printar texto con una letra más
+                                self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
+                                self.currentTextToShow[1] +=1
+                            elif(self.currentTextToShow[2] == self.currentTextToShow[1]):
+                                self.textWriten = True
+                                yes = self.GLOBAL.getShowImage()
+                                if(yes):
+                                    self.changePhoto = True
+                                    self.GLOBAL.setShowImage(False)
+                                self.currentTextToShow = ""
+                            else:
+                                self.currentTextToShow = ""
+                    yes = self.GLOBAL.getShowImage()
+                    if(yes):
+                        self.changePhoto = True
+                        self.GLOBAL.setShowImage(False)
 
-                yes = self.GLOBAL.getShowImage()
-                if(yes):
-                    self.changePhoto = True
-                    self.GLOBAL.setShowImage(False)
-
-                # Renderizamos al jugador si se ve el mapa
-                if(self.GLOBAL.getViewMap()):
+                    # Renderizamos al jugador si se ve el mapa
+                ma = self.GLOBAL.getViewMap()
+                if(ma):
+                    #print(ma)
                     self.screen = self.personaje.render(maxFPS,self.map, self.ubicacion, self.width, self.height, self.screen)
                 pygame.display.update()
                     
@@ -583,12 +553,16 @@ class PartidaScreen:
         if(self.GLOBAL.getViewMap()):
             # Si se puede ver el mapa, podemos movernos
             if(key == pygame.K_DOWN):
+                print("down levantado")
                 self.personaje.setDown(False)
             elif(key == pygame.K_UP):
+                print("up levantado")
                 self.personaje.setUp(False)
             elif(key == pygame.K_LEFT):
+                print("left levantado")
                 self.personaje.setLeft(False)
             elif(key == pygame.K_RIGHT):
+                print("right levantado")
                 self.personaje.setRight(False)
 
     def clickedMouse(self):

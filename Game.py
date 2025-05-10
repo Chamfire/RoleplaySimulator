@@ -230,7 +230,6 @@ class Game:
                     self.partidaScreen.render()
                 else:
                     pass
-
             #Refresco de pantalla después de volver a poner la pantalla tras minimizarla
             if pygame.display.get_active() and self.minimized:
                 self.minimized = False #ya hemos renderizado de nuevo los objetos
@@ -266,10 +265,8 @@ class Game:
                         self.partidaScreen.setCurrentPartida(self.salaEspera.getCurrentPartida())
                     self.partidaScreen.setDMVoice(self.configuration.dmVoice)
                     self.partidaScreen.reload()
-
             if not pygame.display.get_active():
                 self.minimized = True #se ha hecho escape para ir al escritorio
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.currentScreen = 'quit'
@@ -290,6 +287,7 @@ class Game:
                 #    elif self.currentScreen == "seleccionPartidas":
                 #        self.seleccionPartidas.resize(self.width,self.height,size)
                 #click del mouse
+
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if self.currentScreen == "menu":
                         screenToChange = self.menu.clickedMouse()
