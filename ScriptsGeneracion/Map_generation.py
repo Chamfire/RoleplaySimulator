@@ -1544,16 +1544,16 @@ class Map_generation:
 
     def drawMapInGame(self,ubicacion,width,height,screen,player_pos):
         currentTilePlayer = player_pos
-        if(currentTilePlayer[0] >=13 and currentTilePlayer[0] < 87):
+        if((currentTilePlayer[0] >=13) and (currentTilePlayer[0] < 87)):
             #se puede printear normal
             i_start = currentTilePlayer[0]-13
-        elif(currentTilePlayer[0] >=13 and currentTilePlayer[0] >= 87):
+        elif((currentTilePlayer[0] >=13) and (currentTilePlayer[0] >= 87)):
             i_start = currentTilePlayer[0]-26+(99-currentTilePlayer[0])
         else:
             i_start = 0
-        if(currentTilePlayer[1] < 93 and currentTilePlayer[1] >=6):
+        if((currentTilePlayer[1] < 93) and (currentTilePlayer[1] >=6)):
             j_start = currentTilePlayer[1]-6
-        elif(currentTilePlayer[1] <93 and currentTilePlayer[1] <6):
+        elif((currentTilePlayer[1] <93) and (currentTilePlayer[1] <6)):
             j_start = 0
         else:
             j_start = currentTilePlayer[1]-13+(99-currentTilePlayer[1])
