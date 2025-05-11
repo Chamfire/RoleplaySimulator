@@ -407,7 +407,7 @@ class EstadoDeSalaFinal(Estado):
             self.GLOBAL.setActionDoor(0)
             self.GLOBAL.setCrossedDoor(False)
             pygame.mixer.Channel(1).play(self.soundDoor)
-            text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta][1]
+            text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
@@ -675,7 +675,7 @@ class EstadoDeSalaIntermedia(Estado):
             self.GLOBAL.setActionDoor(0)
             self.GLOBAL.setCrossedDoor(False)
             pygame.mixer.Channel(1).play(self.soundDoor)
-            text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta][1]
+            text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
