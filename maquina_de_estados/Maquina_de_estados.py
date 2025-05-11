@@ -364,7 +364,7 @@ class EstadoDeSalaFinal(Estado):
     
     def checkIfCanRunByPlayer(self,DM,personaje):
         #print("en run by player")
-        if(2 <= self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] <= 3):
+        if(1 <= self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] <= 3):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
             return True
         
@@ -643,7 +643,7 @@ class EstadoDeSalaIntermedia(Estado):
     
     def checkIfCanRunByPlayer(self,DM,personaje):
         #print("en run by player")
-        if(2 <= self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] <= 3):
+        if(1 <= self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] <= 3):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
             return True
     
@@ -865,11 +865,11 @@ class EstadoDeSalaIntermedia(Estado):
 
     def OnEnterEstadoByPlayer(self,DM,personaje,currentEstadoByPlayers):
         #El mensaje de introducción a la sala, se le reproduce a cada uno de forma individual (por si alguno muriera, y se tuviera que crear otro, que esto ya sea independiente)
-        # print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
-        # DM.speak(self.dialogoDMIntro) 
+        print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        DM.speak(self.dialogoDMIntro) 
         print("Sala "+str(self.id))
         #DM.printVoices()
-        #TODO: Enviar mensaje TCP
+
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala normal
         self.run(DM,personaje,currentEstadoByPlayers)
 
