@@ -476,9 +476,9 @@ class EstadoDeSalaFinal(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.pasilloFromPuerta = None
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
+            self.pasilloFromPuerta = None
             DM.speak(text_open_door) 
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala de nuevo
@@ -751,9 +751,9 @@ class EstadoDeSalaIntermedia(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.pasilloFromPuerta = None
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
+            self.pasilloFromPuerta = None
             DM.speak(text_open_door) 
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala de nuevo
@@ -1050,9 +1050,9 @@ class EstadoDeSalaInicial(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.pasilloFromPuerta = None
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
+            self.pasilloFromPuerta = None
             DM.speak(text_open_door) 
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala de nuevo
