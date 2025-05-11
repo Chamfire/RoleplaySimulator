@@ -350,7 +350,7 @@ class EstadoDeSalaFinal(Estado):
         self.idSala_idOrder = idSala_idOrder
 
 
-    def checkIfCanRun(self,personaje):
+    def checkIfCanRun(self,DM,personaje):
         #print(self.numAccepts)
         #print(self.numJugadores)
         #print("------------------------")
@@ -360,22 +360,18 @@ class EstadoDeSalaFinal(Estado):
         dif2 = personaje.coordenadas_actuales_r[0] - start_y
         if(dif >= 0 and dif <self.size[0] and dif2 >= 0 and dif2 < self.size[1]):
             #Está en algún punto de esa sala
-            return True
+            return self.checkIfCanRunByPlayer(DM,personaje)
         return False
     
-    def checkIfCanRunByPlayer(self,personaje):
+    def checkIfCanRunByPlayer(self,DM,personaje):
         #print("en run by player")
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
             return True
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
-            return self.checkIfCanEnter(personaje)
+            return self.checkIfCanEnterAgain(DM,personaje)
         
-        
-    def checkIfCanEnter(self,personaje):
-        # if(personaje.playerAction == "WALK_DOWN" or personaje.playerAction == "IDLE_DOWN" and self.daASalas)
-        #     pass
-        pass
+
     def checkIfCanExit(self,DM,personaje):
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 13) or (self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 23))):  
             pos_x = personaje.coordenadas_actuales_r[0]
@@ -573,7 +569,7 @@ class EstadoDeSalaFinal(Estado):
 
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
-            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
+            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
                 break
 
@@ -621,7 +617,7 @@ class EstadoDeSalaIntermedia(Estado):
         self.idSala_idOrder = idSala_idOrder
 
 
-    def checkIfCanRun(self,personaje):
+    def checkIfCanRun(self,DM,personaje):
         #print(self.numAccepts)
         #print(self.numJugadores)
         #print("------------------------")
@@ -631,22 +627,18 @@ class EstadoDeSalaIntermedia(Estado):
         dif2 = personaje.coordenadas_actuales_r[0] - start_y
         if(dif >= 0 and dif <self.size[0] and dif2 >= 0 and dif2 < self.size[1]):
             #Está en algún punto de esa sala
-            return True
+            return self.checkIfCanRunByPlayer(DM,personaje)
         return False
     
-    def checkIfCanRunByPlayer(self,personaje):
+    def checkIfCanRunByPlayer(self,DM,personaje):
         #print("en run by player")
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
-            return True
+            return True #ya se comprobó al salir de la sala anterior
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
-            return self.checkIfCanEnter(personaje)
-        
-        
-    def checkIfCanEnter(self,personaje):
-        # if(personaje.playerAction == "WALK_DOWN" or personaje.playerAction == "IDLE_DOWN" and self.daASalas)
-        #     pass
-        pass
+            return self.checkIfCanEnterAgain(DM,personaje)
+    
+    
     def checkIfCanExit(self,DM,personaje):
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 13) or (self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 23))):  
             pos_x = personaje.coordenadas_actuales_r[0]
@@ -844,7 +836,7 @@ class EstadoDeSalaIntermedia(Estado):
 
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
-            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
+            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
                 break
 
@@ -895,14 +887,14 @@ class EstadoDeSalaInicial(Estado):
         self.frases_puerta = frase_puerta
         self.idSala_idOrder = idSala_idOrder
 
-    def checkIfCanRun(self,personaje):
+    def checkIfCanRun(self,DM,personaje):
         # print(self.numAccepts)
         # print(self.numJugadores)
         # print("------------------------")
         if self.numAccepts != self.numJugadores:
             return self.checkIfCanRunFirst(personaje)
         else:
-            return self.checkIfCanRunByPlayer(personaje)
+            return self.checkIfCanRunByPlayer(DM,personaje)
 
     def checkIfCanRunFirst(self,personaje):
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
@@ -985,13 +977,13 @@ class EstadoDeSalaInicial(Estado):
             self.pasilloFromPuerta = None
             return False
                     
-    def checkIfCanRunByPlayer(self,personaje):
+    def checkIfCanRunByPlayer(self,DM,personaje):
         #print("en run by player")
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
             return True
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
-            return self.checkIfCanEnterAgain(personaje)
+            return self.checkIfCanEnterAgain(DM,personaje)
         
         
     def checkIfCanEnterAgain(self,DM,personaje):
@@ -1132,7 +1124,7 @@ class EstadoDeSalaInicial(Estado):
 
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
-            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
+            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
                 break
 
@@ -1252,7 +1244,7 @@ class Maquina_de_estados:
         else:
             estado = self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)]
             #print("antes :)")
-            if((not estado.checkIfCompleted(personaje)) and estado.checkIfCanRun(personaje)):
+            if((not estado.checkIfCompleted(personaje)) and estado.checkIfCanRun(DM,personaje)):
                 #print("running estado de sala")
                 estado.run(self.DM,personaje,self.currentEstadoByPlayers) #se hará run del estado de sala en el que esté ese jugador
 
