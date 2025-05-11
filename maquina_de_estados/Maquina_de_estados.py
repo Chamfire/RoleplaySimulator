@@ -349,7 +349,6 @@ class EstadoDeSalaFinal(Estado):
         self.frases_puerta = frase_puerta
         self.idSala_idOrder = idSala_idOrder
 
-
     def checkIfCanRun(self,DM,personaje):
         #print(self.numAccepts)
         #print(self.numJugadores)
@@ -370,7 +369,7 @@ class EstadoDeSalaFinal(Estado):
             return True
         
 
-    def checkIfCanExit(self,DM,personaje,currentEstado):
+    def checkIfCanExit(self,DM,personaje):
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 13) or (self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 23))):  
             pos_x = personaje.coordenadas_actuales_r[0]
             pos_y = personaje.coordenadas_actuales_r[1]+1
@@ -427,10 +426,7 @@ class EstadoDeSalaFinal(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
-            if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
-                currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.ordenEstados[self.idSala_idOrder[self.pasilloFromPuerta[1]]]
-            else:
-                self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
@@ -544,7 +540,10 @@ class EstadoDeSalaFinal(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto" #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
-            currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.ordenEstados[self.idSala_idOrder[self.pasilloFromPuerta[1]]]
+            if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
+                currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
+            else:
+                self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             self.pasilloFromPuerta = None
             
             return True
@@ -707,7 +706,7 @@ class EstadoDeSalaIntermedia(Estado):
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
             if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
-                currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.ordenEstados[self.idSala_idOrder[self.pasilloFromPuerta[1]]]
+                currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
             else:
                 self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
@@ -823,7 +822,7 @@ class EstadoDeSalaIntermedia(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto" #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
-            currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.ordenEstados[self.idSala_idOrder[self.pasilloFromPuerta[1]]]
+            currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
             self.pasilloFromPuerta = None
             
             return True
@@ -910,6 +909,7 @@ class EstadoDeSalaInicial(Estado):
         self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.frases_puerta = frase_puerta
         self.idSala_idOrder = idSala_idOrder
+
 
     def checkIfCanRun(self,DM,personaje):
         # print(self.numAccepts)
@@ -1002,7 +1002,10 @@ class EstadoDeSalaInicial(Estado):
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
             if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
-                currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.ordenEstados[self.idSala_idOrder[self.pasilloFromPuerta[1]]]
+                print(self.pasilloFromPuerta[1])
+                print(self.idSala_idOrder)
+                print(self.ordenEstados)
+                currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
             else:
                 self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
@@ -1130,7 +1133,7 @@ class EstadoDeSalaInicial(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto" #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
-            currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.ordenEstados[self.idSala_idOrder[self.pasilloFromPuerta[1]]]
+            currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
             self.pasilloFromPuerta = None
             
             return True
@@ -1269,7 +1272,6 @@ class Maquina_de_estados:
             self.ordenEstados[self.ids] = EstadoDeSalaIntermedia(False,None,self.RAG_musica,self.currentPartida,self.estadoInicial,numJ,self.ids,self.personajeDelHost,id_sala,es_obligatoria,esInicial,daASalas,tienePortales,contieneLlaves,esFinal,orden,tipo_mision, size, pos_x, pos_y,Mapa,frase_puerta,descripcion_sala,self.idSala_idOrder)
             self.idSala_idOrder[id_sala] = self.ids
             self.ids +=1
-
 
         #Mision 0, Estado 1: Misión específica
     def crearEstadoDeMisionConcreta(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC,tipo_mision,mision):
