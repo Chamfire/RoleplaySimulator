@@ -420,6 +420,7 @@ class EstadoDeSalaFinal(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setCrossedDoor(False)
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta][1]
             DM.speak(text_open_door) 
@@ -476,6 +477,7 @@ class EstadoDeSalaFinal(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setCrossedDoor(False)
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
             self.pasilloFromPuerta = None
@@ -533,6 +535,7 @@ class EstadoDeSalaFinal(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setCrossedDoor(False)
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
             #reseteo las variables
@@ -695,6 +698,7 @@ class EstadoDeSalaIntermedia(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setCrossedDoor(False)
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta][1]
             DM.speak(text_open_door) 
@@ -751,6 +755,7 @@ class EstadoDeSalaIntermedia(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setCrossedDoor(False)
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
             self.pasilloFromPuerta = None
@@ -808,6 +813,7 @@ class EstadoDeSalaIntermedia(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setCrossedDoor(False)
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
             #reseteo las variables
@@ -983,6 +989,7 @@ class EstadoDeSalaInicial(Estado):
             print("aquí")
             self.GLOBAL.setActionDoor(0)
             pygame.mixer.Channel(1).play(self.soundDoor)
+            self.GLOBAL.setCrossedDoor(False)
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
             #reseteo las variables
@@ -1050,6 +1057,7 @@ class EstadoDeSalaInicial(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setCrossedDoor(False)
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
             self.pasilloFromPuerta = None
@@ -1107,6 +1115,7 @@ class EstadoDeSalaInicial(Estado):
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setCrossedDoor(False)
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
             #reseteo las variables
