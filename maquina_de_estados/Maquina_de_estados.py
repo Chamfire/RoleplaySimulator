@@ -370,7 +370,7 @@ class EstadoDeSalaFinal(Estado):
             return True
         
 
-    def checkIfCanExit(self,DM,personaje):
+    def checkIfCanExit(self,DM,personaje,currentEstado):
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 13) or (self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 23))):  
             pos_x = personaje.coordenadas_actuales_r[0]
             pos_y = personaje.coordenadas_actuales_r[1]+1
@@ -427,7 +427,10 @@ class EstadoDeSalaFinal(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
-            self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
+                currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.ordenEstados[self.idSala_idOrder[self.pasilloFromPuerta[1]]]
+            else:
+                self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
@@ -561,7 +564,7 @@ class EstadoDeSalaFinal(Estado):
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             self.OnEnterEstadoByPlayer(DM,personaje,currentEstadoByPlayers)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
-            if(self.checkIfCanExit(DM,personaje)):
+            if(self.checkIfCanExit(DM,personaje,currentEstadoByPlayers)):
                 pass
             else:
                 self.runNextInnerEstado(DM,personaje)
@@ -646,7 +649,7 @@ class EstadoDeSalaIntermedia(Estado):
             return True
     
     
-    def checkIfCanExit(self,DM,personaje):
+    def checkIfCanExit(self,DM,personaje,currentEstado):
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 13) or (self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 23))):  
             pos_x = personaje.coordenadas_actuales_r[0]
             pos_y = personaje.coordenadas_actuales_r[1]+1
@@ -703,7 +706,10 @@ class EstadoDeSalaIntermedia(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
-            self.pasilloFromPuerta[1] = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
+                currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.ordenEstados[self.idSala_idOrder[self.pasilloFromPuerta[1]]]
+            else:
+                self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
@@ -837,7 +843,7 @@ class EstadoDeSalaIntermedia(Estado):
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             self.OnEnterEstadoByPlayer(DM,personaje,currentEstadoByPlayers)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
-            if(self.checkIfCanExit(DM,personaje)):
+            if(self.checkIfCanExit(DM,personaje,currentEstadoByPlayers)):
                 pass
             else:
                 self.runNextInnerEstado(DM,personaje)
@@ -931,7 +937,7 @@ class EstadoDeSalaInicial(Estado):
         else:
             return False
         
-    def checkIfCanExit(self,DM,personaje):
+    def checkIfCanExit(self,DM,personaje,currentEstado):
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 13) or (self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 23))):  
             pos_x = personaje.coordenadas_actuales_r[0]
             pos_y = personaje.coordenadas_actuales_r[1]+1
@@ -996,7 +1002,7 @@ class EstadoDeSalaInicial(Estado):
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
             if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
-                #TODO: pasar a sala siguiente
+                currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.ordenEstados[self.idSala_idOrder[self.pasilloFromPuerta[1]]]
             else:
                 self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
@@ -1144,7 +1150,7 @@ class EstadoDeSalaInicial(Estado):
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             self.OnEnterEstadoByPlayer(DM,personaje,currentEstadoByPlayers)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
-            if(self.checkIfCanExit(DM,personaje)):
+            if(self.checkIfCanExit(DM,personaje,currentEstadoByPlayers)):
                 pass
             else:
                 self.runNextInnerEstado(DM,personaje)
