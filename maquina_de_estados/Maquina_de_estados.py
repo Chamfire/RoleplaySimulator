@@ -952,6 +952,8 @@ class EstadoDeSalaInicial(Estado):
         print(pos_x,pos_y)
         if(pos_x != None and pos_y != None):
             for sala in self.daASalas:
+                print(self.daASalas[sala][0])
+                
                 if(self.daASalas[sala][0] == [pos_x,pos_y]):
                     if(self.daASalas[sala][1] == "abierto"):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
@@ -978,8 +980,11 @@ class EstadoDeSalaInicial(Estado):
                 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
+        print(self.GLOBAL.canGoOutFirst())
+        print(self.GLOBAL.getCrossedDoor())
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
             #Ha decidido cruzarla
+            print("aquí")
             self.GLOBAL.setActionDoor(0)
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta][1]
