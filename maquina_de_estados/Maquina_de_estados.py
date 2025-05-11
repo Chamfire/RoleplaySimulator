@@ -640,7 +640,7 @@ class EstadoDeSalaInicial(Estado):
             DM.speak(text_open_door) 
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
-            self.pasilloFromPuerta = [[pos_x,pos_y],sala] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            self.pasilloFromPuerta = [[pos_x,pos_y],self.pasilloFromPuerta] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             # Si trata de entrar después a otra puerta de otro camino que se haya anexado, le dirá que una magia oscura impide que la abra jeje
             return True
         else:
