@@ -1285,7 +1285,7 @@ class Maquina_de_estados:
 
     def runNextEstado(self,personaje):
         inicial = self.ordenEstados[0]
-        if(self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] == inicial):
+        if(self.ordenEstados[self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)]] == inicial):
             #si hay un jugador, quiere decir que todos están en ese estado inicial
             if((not inicial.checkIfCompleted(personaje)) and inicial.checkIfCanRun(personaje)):
                 inicial.run(self.DM)
