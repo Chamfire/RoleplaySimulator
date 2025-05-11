@@ -1289,7 +1289,7 @@ class Maquina_de_estados:
             #si hay un jugador, quiere decir que todos están en ese estado inicial
             if((not inicial.checkIfCompleted(personaje)) and inicial.checkIfCanRun(personaje)):
                 inicial.run(self.DM)
-                self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = self.ordenEstados[self.salaInicialID]
+                self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = self.salaInicialID
                 for player in self.GLOBAL.getListaPersonajeHost():
                     player = player[1]
                     self.currentEstadoByPlayers[str(player.name)+","+str(player.id_jugador)] = 1 #paso a todos al segundo estado
