@@ -228,6 +228,8 @@ class Personaje:
                     self.GLOBAL.setActionDoor(0)
                     self.GLOBAL.setCrossedDoor(True)
                     self.checkDoor = False
+                    #TODO: Comprobar adyacencias y sumar uno mas
+                    #if(self.mapa.adyacencias[][])
                     self.coordenadas_actuales_r[0]-=2 #atraviesa la puerta, y llega al camino
                     #Para evitar que se mueva 20 bloques, se bloquea el acceso
                 elif(self.checkDoor == 2):
