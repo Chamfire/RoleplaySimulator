@@ -357,16 +357,13 @@ class EstadoDeSalaFinal(Estado):
         start_y = self.pos_y
         dif = personaje.coordenadas_actuales_r[0] - start_x
         dif2 = personaje.coordenadas_actuales_r[0] - start_y
-        if(dif >= 0 and dif <self.size[0] and dif2 >= 0 and dif2 < self.size[1]):
+        if((dif >= 0) and (dif <self.size[0]) and (dif2 >= 0) and (dif2 < self.size[1])):
             #Está en algún punto de esa sala
             return self.checkIfCanRunByPlayer(DM,personaje)
         return False
     
     def checkIfCanRunByPlayer(self,DM,personaje):
-        #print("en run by player")
-        if(1 <= self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] <= 3):
-            #Si está ya en la sala, y ha ejecutado la descripción inicial
-            return True
+        return True
         
 
     def checkIfCanExit(self,DM,personaje):
@@ -439,7 +436,7 @@ class EstadoDeSalaFinal(Estado):
         start_y = self.pos_y
         dif = pos_x - start_x
         dif2 = pos_y - start_y
-        if(dif >= 0 and dif <self.size[0] and dif2 >= 0 and dif2 < self.size[1]):
+        if((dif >= 0) and (dif <self.size[0]) and (dif2 >= 0) and (dif2 < self.size[1])):
             #Está en algún punto de esa sala
             return True
         return False
@@ -636,16 +633,16 @@ class EstadoDeSalaIntermedia(Estado):
         start_y = self.pos_y
         dif = personaje.coordenadas_actuales_r[0] - start_x
         dif2 = personaje.coordenadas_actuales_r[0] - start_y
-        if(dif >= 0 and dif <self.size[0] and dif2 >= 0 and dif2 < self.size[1]):
+        print(start_x,start_y,dif,dif2)
+        if((dif >= 0) and (dif <self.size[0]) and (dif2 >= 0) and (dif2 < self.size[1])):
             #Está en algún punto de esa sala
+            print("checkIfapsdjpaosdj")
             return self.checkIfCanRunByPlayer(DM,personaje)
+        print("False")
         return False
     
     def checkIfCanRunByPlayer(self,DM,personaje):
-        #print("en run by player")
-        if(1 <= self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] <= 3):
-            #Si está ya en la sala, y ha ejecutado la descripción inicial
-            return True
+        return True
     
     
     def checkIfCanExit(self,DM,personaje,currentEstado):
@@ -721,7 +718,7 @@ class EstadoDeSalaIntermedia(Estado):
         start_y = self.pos_y
         dif = pos_x - start_x
         dif2 = pos_y - start_y
-        if(dif >= 0 and dif <self.size[0] and dif2 >= 0 and dif2 < self.size[1]):
+        if((dif >= 0) and (dif <self.size[0]) and (dif2 >= 0) and (dif2 < self.size[1])):
             #Está en algún punto de esa sala
             return True
         return False
@@ -1027,7 +1024,7 @@ class EstadoDeSalaInicial(Estado):
         start_y = self.pos_y
         dif = pos_x - start_x
         dif2 = pos_y - start_y
-        if(dif >= 0 and dif <self.size[0] and dif2 >= 0 and dif2 < self.size[1]):
+        if((dif >= 0) and (dif <self.size[0]) and (dif2 >= 0) and (dif2 < self.size[1])):
             #Está en algún punto de esa sala
             return True
         return False
