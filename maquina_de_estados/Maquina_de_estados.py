@@ -995,7 +995,10 @@ class EstadoDeSalaInicial(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
-            self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
+                #TODO: pasar a sala siguiente
+            else:
+                self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
