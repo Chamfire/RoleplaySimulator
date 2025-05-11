@@ -487,7 +487,6 @@ class EstadoDeSalaFinal(Estado):
             return True
         else:
             self.GLOBAL.setActionDoor(0)
-            self.pasilloFromPuerta = None
             return False
                     
 
@@ -547,7 +546,6 @@ class EstadoDeSalaFinal(Estado):
             return True
         else:
             self.GLOBAL.setActionDoor(0)
-            self.pasilloFromPuerta = None
             return False
         
         
@@ -764,7 +762,6 @@ class EstadoDeSalaIntermedia(Estado):
             return True
         else:
             self.GLOBAL.setActionDoor(0)
-            self.pasilloFromPuerta = None
             return False
                     
 
@@ -824,7 +821,6 @@ class EstadoDeSalaIntermedia(Estado):
             return True
         else:
             self.GLOBAL.setActionDoor(0)
-            self.pasilloFromPuerta = None
             return False
         
         
@@ -1062,7 +1058,6 @@ class EstadoDeSalaInicial(Estado):
             return True
         else:
             self.GLOBAL.setActionDoor(0)
-            self.pasilloFromPuerta = None
             return False
                     
 
