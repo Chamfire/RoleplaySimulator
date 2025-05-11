@@ -469,7 +469,7 @@ class EstadoDeSalaFinal(Estado):
                     self.GLOBAL.setActionDoor(3) #podría abrirla
                 else:
                     self.GLOBAL.setActionDoor(1) #podría abrirla
-                return False
+                return True
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
@@ -745,7 +745,7 @@ class EstadoDeSalaIntermedia(Estado):
                     self.GLOBAL.setActionDoor(3) #podría abrirla
                 else:
                     self.GLOBAL.setActionDoor(1) #podría abrirla
-                return False
+                return True
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
@@ -962,8 +962,10 @@ class EstadoDeSalaInicial(Estado):
                         else:
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                                 #Es adyacente
+                                print("sala adyacente")
                                 self.GLOBAL.setActionDoor(3) #podría abrirla
                             else:
+                                print("sala normal")
                                 self.GLOBAL.setActionDoor(1) #podría abrirla
                             self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         return False
@@ -1044,8 +1046,7 @@ class EstadoDeSalaInicial(Estado):
                     self.GLOBAL.setActionDoor(3) #podría abrirla
                 else:
                     self.GLOBAL.setActionDoor(1) #podría abrirla
-                print("Fallse")
-                return False
+                return True
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         print("aquí 1")
