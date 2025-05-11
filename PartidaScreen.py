@@ -383,6 +383,7 @@ class PartidaScreen:
             change_frame = maxFPS // 4 
             #Calculamos el frame actual
             self.currentFrame +=1 
+            self.GLOBAL.setShowImage(False)
 
             #Cargamos la animación
             if(self.currentFrame >= change_frame):

@@ -482,13 +482,95 @@ class ProcesamientoPartida:
         Mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,tipo_mision,variableDeCheck,self.numJugadores,NPC_animacion,self.jugadorHost.id_jugador,self.width,self.height) #que genere el mapa de una mazmorra
         self.GLOBAL.setMAPA(Mapa)
 
+        prompt_puerta_abierta = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de atravesar un portón de madera.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Genear una frase muy corta para decir que ha podido abrir la puerta sin problemas, y que se encuentra ahora en un pasillo oscuro con un suelo de baldosas moradas.
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        prompt_puerta_cerrada = f"""Eres un dungeon master de Dnd 5e, y un jugador ha intentado abrir un portón de madera y no ha podido.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Genear una frase muy corta para decir que no ha podido abrir la puerta porque está cerrada, y que seguramente necesite una llave.
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        prompt_puerta_abierta_ady = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de atravesar un portón de madera.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Genear una frase muy corta para decir que ha podido abrir la puerta sin problemas, y que se encuentra ahora en una galería amplia bastante oscura.
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         #Creo el resto de estados de la máquina de estado
+        frase_puerta = {}
         for i in Mapa.salas:
             # Paso toda la información que se ha creado en la generación del mapa a la máquina de estados
-            self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa)
+            frase_puerta[i] = {}
+            for j in Mapa.salas[i].daASalas:
+                if(Mapa.salas[i].daASalas[j][1] == "abierto"):
+                    if(Mapa.adyacencias[i][j] != 1):
+                        frase_puerta[i][j] = self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200)
+                    else:
+                        frase_puerta[i][j] = self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200)
+                else:
+                    frase_puerta[i][j] = self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200)
+            objetos = ""
+            for i_start in range(Mapa.salas[i].pos_x, Mapa.salas[i].size[0]):
+                for j_start in range(Mapa.salas[i].pos_y, Mapa.salas[j].size[j]):
+                    if(33 <=Mapa.objetos[j_start][i_start] <=38):
+                        objetos += "1 esqueleto, "
+                    elif(Mapa.objetos[j_start][i_start] == 39):
+                        objetos += "1 zombie, "
+                    elif(Mapa.objetos[j_start][i_start] == 40):
+                        objetos += "1 slime de color azul, "
+                    elif(Mapa.objetos[j_start][i_start] == 41):
+                        objetos += "1 beholder, "
+                    elif(Mapa.objetos[j_start][i_start] == 42):
+                        objetos += "1 troll, "
+                    elif(43 <= Mapa.objetos[j_start][i_start] <= 46):
+                        objetos += "1 dragón, "
+                    elif(Mapa.objetos[j_start][i_start] == 47):
+                        objetos += "1 extraña sombra humanoide, "
+                    elif(Mapa.objetos[j_start][i_start] == 48):
+                        objetos += "1 fénix, "
+                    elif(Mapa.objetos[j_start][i_start] == 49):
+                        objetos += "1 monstruo con forma de mantis religiosa gigante (un Ankheg), "
+                    elif(50 <= Mapa.objetos[j_start][i_start] <= 56):
+                        objetos += "1 basilisco, "
+                    elif(Mapa.objetos[j_start][i_start] == 57):
+                        objetos += "1 murciélago, "
+                    elif(Mapa.objetos[j_start][i_start] == 58):
+                        objetos += "1 rata, "
+                    elif(59 <= Mapa.objetos[j_start][i_start] <= 66):
+                        objetos += "1 gato, "
+                    elif(Mapa.objetos[j_start][i_start] == 68):
+                        objetos += "1 cerezo, "
+                    elif(60 <= Mapa.objetos[j_start][i_start] <= 70):
+                        objetos += "1 fragmento del cadáver de un dinosaurio, "
+                    elif(71 <= Mapa.objetos[j_start][i_start] <= 74):
+                        objetos += "1 cofre de gran tamaño, "
+                    elif(75 <= Mapa.objetos[j_start][i_start] <= 78):
+                        objetos += "1 armario, "
+                    elif(Mapa.objetos[j_start][i_start] == 79):
+                        objetos += "1 conjunto de ruinas arqueológicas, "
+                    elif(91 <= Mapa.objetos[j_start][i_start] <= 94):
+                        objetos += "1 tumba de piedra con una runa sobre ella, "
+                    elif((95 <= Mapa.objetos[j_start][i_start] <= 97) or (Mapa.objetos[j_start][i_start] == 104)):
+                        objetos += "1 canasto de madera con rubíes, "
+                    elif((98 <= Mapa.objetos[j_start][i_start] <= 100) or (Mapa.objetos[j_start][i_start] == 105)):
+                        objetos += "1 canasto de madera con esmeraldas, "
+                    elif((Mapa.objetos[j_start][i_start] == 101) or (Mapa.objetos[j_start][i_start] == 106)):
+                        objetos += "1 canasto de madera con algún mineral extraño de color amarillento, "
+                    elif(101 <= Mapa.objetos[j_start][i_start] <= 103):
+                        objetos += "1 saco de gran tamaño, "
+                    elif(107 <= Mapa.objetos[j_start][i_start] <= 110):
+                        objetos += "restos de roca por el suelo, "
+                    elif(111 <= Mapa.objetos[j_start][i_start] <= 112):
+                        objetos += "1 extraño hongo alargado de color azul oscuro",
+                    elif(113 <= Mapa.objetos[j_start][i_start] <= 114):
+                        objetos += "setas de color naranja, "
+                    elif(115 <= Mapa.objetos[j_start][i_start] <= 117):
+                        objetos += "1 roca puntiaguda que sobresale del suelo, "
+                    elif(118 <= Mapa.objetos[j_start][i_start] <= 121):
+                        objetos += "marcas en el suelo de desgaste, "
+            prompt_sala = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Genea un párrafo breve para describir la galería. Ten encuenta que tiene las siguientes cosas en ella: """+objetos+""". Comienza con la frase "En esta galería puedes ver..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+            descripcion_sala = self.consultarAlDM(prompt_sala,model_path,None,2048,700)
+            self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa,frase_puerta,descripcion_sala)
+        print("Progreso: 30%")
         self.maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo,NPC_imagen_carpeta)
         self.maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision)
-        print("Progreso: 24%")
+        print("Progreso: 35%")
 
 
         print("Progreso: 90%")

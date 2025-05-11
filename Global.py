@@ -45,11 +45,11 @@ class Global:
         global m
         m = None
         global actionDoor
-        actionDoor = False
+        actionDoor = 0
         global crossedDoor
         crossedDoor = False
         global canGoOutFirst 
-        canGoOutFirst = 0 #cambiar cuando se haga la parte de diálogo con el NPC
+        canGoOutFirst = True #cambiar cuando se haga la parte de diálogo con el NPC
     
     def canGoOutFirst(self):
         global canGoOutFirst
