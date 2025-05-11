@@ -321,10 +321,10 @@ class EstadoDeSalaFinal(Estado):
         super().__init__(isInicial,content,id)
         self.personajeDelHost = personajeDelHost
         self.variableDeCheck["progreso"] = {}
-        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = -1
+        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = 1
         for personaje in self.GLOBAL.getListaPersonajeHost():
             personaje = personaje[1]
-            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = -1 #-1: No ha aceptado entrar aún, 0: No ha entrado ese personaje en la sala, 1: ha entrado y está por primera vez en la sala, 2: continúa en la sala normal, 3: Está en uno de los pasillos de la sala, el de la variable self.pasillo_from_puerta, 4: ya no está en la sala, pero entró
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1 #1: ha entrado y está por primera vez en la sala, 2: continúa en la sala normal, 3: Está en uno de los pasillos de la sala, el de la variable self.pasillo_from_puerta, 4: ya no está en la sala, pero entró
         self.numJugadores = numJugadores
         self.tipo_de_estado = "sala_grande"
         self.estadosSucesores = estado_pred
@@ -596,10 +596,10 @@ class EstadoDeSalaIntermedia(Estado):
         super().__init__(isInicial,content,id)
         self.personajeDelHost = personajeDelHost
         self.variableDeCheck["progreso"] = {}
-        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = -1
+        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = 1
         for personaje in self.GLOBAL.getListaPersonajeHost():
             personaje = personaje[1]
-            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = -1 #-1: No ha aceptado entrar aún, 0: No ha entrado ese personaje en la sala, 1: ha entrado y está por primera vez en la sala, 2: continúa en la sala normal, 3: Está en uno de los pasillos de la sala, el de la variable self.pasillo_from_puerta, 4: ya no está en la sala, pero entró
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1 #1: ha entrado y está por primera vez en la sala, 2: continúa en la sala normal, 3: Está en uno de los pasillos de la sala, el de la variable self.pasillo_from_puerta, 4: ya no está en la sala, pero entró
         self.numJugadores = numJugadores
         self.tipo_de_estado = "sala_grande"
         self.estadosSucesores = estado_pred
