@@ -126,7 +126,7 @@ class EstadoDeMision(Estado):
         #self.mobs = #TODO
         #self.objetos = #TODO
 
-    def checkIfCanRun(self,player):
+    def checkIfCanRun(self,DM,player):
         return True #no tiene ningún requisito de acceso
         
     def checkIfCompleted(self,personaje):
@@ -155,7 +155,7 @@ class EstadoDeMision(Estado):
 
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
-            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(personaje)):
+            if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
                 break
 
@@ -192,7 +192,7 @@ class EstadoDeHablaNPC(Estado):
         self.dialogoDMIntro = DMintro
         self.dialogoDMMision = DMMision
 
-    def checkIfCanRun(self,personaje):
+    def checkIfCanRun(self,DM,personaje):
         if(self.click[str(personaje.name)+","+str(personaje.id_jugador)]):
             return True
         else:
@@ -278,7 +278,7 @@ class EstadoDeMisionConcreta(Estado):
         #self.mobs = #TODO
         #self.objetos = #TODO
 
-    def checkIfCanRun(self,player):
+    def checkIfCanRun(self,DM,player):
         if(self.given):
             return True
         else:
