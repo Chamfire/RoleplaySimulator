@@ -1242,12 +1242,12 @@ class Maquina_de_estados:
         self.ids +=1
 
     def initExecution(self):
-        self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = self.estadoInicial
+        self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = 0
         self.runNextEstado(self.personajeDelHost)
         for personaje in self.GLOBAL.getListaPersonajeHost():
             #TODO:Check si ya estaban en otro estado (partida a medias), si no:
             personaje = personaje[1]
-            self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.estadoInicial
+            self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = 0
             #para cada jugador, ejecuta su siguiente estado
             self.runNextEstado(personaje)
 
