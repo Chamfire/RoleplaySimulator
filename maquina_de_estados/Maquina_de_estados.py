@@ -331,7 +331,7 @@ class EstadoDeSalaFinal(Estado):
         self.ids = 0
         self.ordenEstados = {} #Estados contenidos por la sala # contiene todos los estados de "self.daASalas = {}"
         self.numAccepts = 0 
-        self.dialogoDMIntro = descripcion_sala
+        self.dialogoDMIntro = "Tras abrir la puerta, ves que te encuentras en otra galería, también oscura y amplia. "+descripcion_sala
         self.id = id_sala
         self.es_obligatorio = es_obligatoria #por defecto se marcan como opcionales. Luego, las obligatorias se marcarán como obligatorias
         self.esInicial = esInicial
@@ -596,7 +596,7 @@ class EstadoDeSalaIntermedia(Estado):
         self.ids = 0
         self.ordenEstados = {} #Estados contenidos por la sala # contiene todos los estados de "self.daASalas = {}"
         self.numAccepts = 0 
-        self.dialogoDMIntro = descripcion_sala
+        self.dialogoDMIntro = "Tras abrir la puerta, ves que te encuentras en otra galería, también oscura y amplia. "+descripcion_sala
         self.id = id_sala
         self.es_obligatorio = es_obligatoria #por defecto se marcan como opcionales. Luego, las obligatorias se marcarán como obligatorias
         self.esInicial = esInicial
