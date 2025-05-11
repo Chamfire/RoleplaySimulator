@@ -350,17 +350,7 @@ class EstadoDeSalaFinal(Estado):
         self.idSala_idOrder = idSala_idOrder
 
     def checkIfCanRun(self,DM,personaje):
-        #print(self.numAccepts)
-        #print(self.numJugadores)
-        #print("------------------------")
-        start_x = self.pos_x
-        start_y = self.pos_y
-        dif = personaje.coordenadas_actuales_r[0] - start_x
-        dif2 = personaje.coordenadas_actuales_r[1] - start_y
-        if((dif >= 0) and (dif <self.size[0]) and (dif2 >= 0) and (dif2 < self.size[1])):
-            #Está en algún punto de esa sala
-            return self.checkIfCanRunByPlayer(DM,personaje)
-        return False
+        return self.checkIfCanRunByPlayer(DM,personaje)
     
     def checkIfCanRunByPlayer(self,DM,personaje):
         return True
@@ -626,20 +616,8 @@ class EstadoDeSalaIntermedia(Estado):
 
 
     def checkIfCanRun(self,DM,personaje):
-        #print(self.numAccepts)
-        #print(self.numJugadores)
-        #print("------------------------")
-        start_x = self.pos_x
-        start_y = self.pos_y
-        dif = personaje.coordenadas_actuales_r[0] - start_x
-        dif2 = personaje.coordenadas_actuales_r[1] - start_y
-        print(start_x,start_y,dif,dif2)
-        if((dif >= 0) and (dif <self.size[0]) and (dif2 >= 0) and (dif2 < self.size[1])):
-            #Está en algún punto de esa sala
-            print("checkIfapsdjpaosdj")
-            return self.checkIfCanRunByPlayer(DM,personaje)
-        print("False")
-        return False
+        return self.checkIfCanRunByPlayer(DM,personaje)
+
     
     def checkIfCanRunByPlayer(self,DM,personaje):
         return True
