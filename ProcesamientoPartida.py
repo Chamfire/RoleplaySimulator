@@ -190,7 +190,7 @@ class ProcesamientoPartida:
         with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
             try:
                 NPC_descripcion = json.load(f)
-                self.personaje.descripcion_fisica = NPC_descripcion[NPC_final[0]][0]
+                self.personaje.descripcion_fisica = "es un personaje bonito y bello. Gracioso."#NPC_descripcion[NPC_final[0]][0]
             except Exception as e:
                 print(e)
             #print(self.personaje.descripcion_fisica)

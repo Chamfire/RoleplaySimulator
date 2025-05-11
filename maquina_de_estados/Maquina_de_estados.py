@@ -1126,7 +1126,6 @@ class EstadoDeSalaInicial(Estado):
             return True
         else:
             self.GLOBAL.setActionDoor(0)
-            self.pasilloFromPuerta = None
             return False
         
         
