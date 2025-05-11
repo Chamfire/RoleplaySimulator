@@ -1277,7 +1277,7 @@ class Maquina_de_estados:
         else:
             estado = self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)]
             #print("antes :)")
-            if((not estado.checkIfCompleted(personaje)) and estado.checkIfCanRun(DM,personaje)):
+            if((not estado.checkIfCompleted(personaje)) and estado.checkIfCanRun(self.DM,personaje)):
                 #print("running estado de sala")
                 estado.run(self.DM,personaje,self.currentEstadoByPlayers) #se hará run del estado de sala en el que esté ese jugador
 
