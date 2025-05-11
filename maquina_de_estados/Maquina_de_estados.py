@@ -356,7 +356,7 @@ class EstadoDeSalaFinal(Estado):
         start_x = self.pos_x
         start_y = self.pos_y
         dif = personaje.coordenadas_actuales_r[0] - start_x
-        dif2 = personaje.coordenadas_actuales_r[0] - start_y
+        dif2 = personaje.coordenadas_actuales_r[1] - start_y
         if((dif >= 0) and (dif <self.size[0]) and (dif2 >= 0) and (dif2 < self.size[1])):
             #Está en algún punto de esa sala
             return self.checkIfCanRunByPlayer(DM,personaje)
@@ -632,7 +632,7 @@ class EstadoDeSalaIntermedia(Estado):
         start_x = self.pos_x
         start_y = self.pos_y
         dif = personaje.coordenadas_actuales_r[0] - start_x
-        dif2 = personaje.coordenadas_actuales_r[0] - start_y
+        dif2 = personaje.coordenadas_actuales_r[1] - start_y
         print(start_x,start_y,dif,dif2)
         if((dif >= 0) and (dif <self.size[0]) and (dif2 >= 0) and (dif2 < self.size[1])):
             #Está en algún punto de esa sala
