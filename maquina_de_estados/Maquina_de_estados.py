@@ -346,6 +346,7 @@ class EstadoDeSalaFinal(Estado):
         self.pos_y = pos_y
         self.pasilloFromPuerta = None
         self.Mapa = Mapa
+        self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.frases_puerta = frase_puerta
         self.idSala_idOrder = idSala_idOrder
 
@@ -611,6 +612,7 @@ class EstadoDeSalaIntermedia(Estado):
         self.pos_y = pos_y
         self.pasilloFromPuerta = None
         self.Mapa = Mapa
+        self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.frases_puerta = frase_puerta
         self.idSala_idOrder = idSala_idOrder
 
