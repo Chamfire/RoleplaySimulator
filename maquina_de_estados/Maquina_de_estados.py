@@ -435,6 +435,16 @@ class EstadoDeSalaFinal(Estado):
             self.GLOBAL.setActionDoor(0)
             self.pasilloFromPuerta = None
             return False
+        
+    def checkIfItIsInCurrentRoom(self,pos_x,pos_y):
+        start_x = self.pos_x
+        start_y = self.pos_y
+        dif = pos_x - start_x
+        dif2 = pos_y - start_y
+        if(dif >= 0 and dif <self.size[0] and dif2 >= 0 and dif2 < self.size[1]):
+            #Está en algún punto de esa sala
+            return True
+        return False
 
     def checkIfCanEnterAgain(self,DM,personaje):
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 12))):  
@@ -463,7 +473,7 @@ class EstadoDeSalaFinal(Estado):
                 return False
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
+        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
             self.pasilloFromPuerta = None
@@ -702,6 +712,16 @@ class EstadoDeSalaIntermedia(Estado):
             self.GLOBAL.setActionDoor(0)
             self.pasilloFromPuerta = None
             return False
+        
+    def checkIfItIsInCurrentRoom(self,pos_x,pos_y):
+        start_x = self.pos_x
+        start_y = self.pos_y
+        dif = pos_x - start_x
+        dif2 = pos_y - start_y
+        if(dif >= 0 and dif <self.size[0] and dif2 >= 0 and dif2 < self.size[1]):
+            #Está en algún punto de esa sala
+            return True
+        return False
 
     def checkIfCanEnterAgain(self,DM,personaje):
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 12))):  
@@ -730,7 +750,7 @@ class EstadoDeSalaIntermedia(Estado):
                 return False
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
+        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
             self.pasilloFromPuerta = None
@@ -985,6 +1005,16 @@ class EstadoDeSalaInicial(Estado):
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
             return self.checkIfCanEnterAgain(DM,personaje)
         
+
+    def checkIfItIsInCurrentRoom(self,pos_x,pos_y):
+        start_x = self.pos_x
+        start_y = self.pos_y
+        dif = pos_x - start_x
+        dif2 = pos_y - start_y
+        if(dif >= 0 and dif <self.size[0] and dif2 >= 0 and dif2 < self.size[1]):
+            #Está en algún punto de esa sala
+            return True
+        return False
         
     def checkIfCanEnterAgain(self,DM,personaje):
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 12))):  
@@ -1013,7 +1043,7 @@ class EstadoDeSalaInicial(Estado):
                 return False
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
+        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
             self.pasilloFromPuerta = None
