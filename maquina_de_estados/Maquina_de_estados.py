@@ -510,8 +510,8 @@ class EstadoDeSalaFinal(Estado):
         print(pos_x,pos_y)
         if(pos_x != None and pos_y != None):
             for sala in self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas:
-                if(self.daASalas[sala][0] == [pos_x,pos_y]):
-                    if(self.daASalas[sala][1] == "abierto"):
+                if(self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[sala][0] == [pos_x,pos_y]):
+                    if(self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[sala][1] == "abierto"):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
@@ -786,8 +786,8 @@ class EstadoDeSalaIntermedia(Estado):
         print(pos_x,pos_y)
         if(pos_x != None and pos_y != None):
             for sala in self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas:
-                if(self.daASalas[sala][0] == [pos_x,pos_y]):
-                    if(self.daASalas[sala][1] == "abierto"):
+                if(self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[sala][0] == [pos_x,pos_y]):
+                    if(self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[sala][1] == "abierto"):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
@@ -1089,8 +1089,8 @@ class EstadoDeSalaInicial(Estado):
         print(pos_x,pos_y)
         if(pos_x != None and pos_y != None):
             for sala in self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas:
-                if(self.daASalas[sala][0] == [pos_x,pos_y]):
-                    if(self.daASalas[sala][1] == "abierto"):
+                if(self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[sala][0] == [pos_x,pos_y]):
+                    if(self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[sala][1] == "abierto"):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
