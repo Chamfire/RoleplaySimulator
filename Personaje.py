@@ -228,10 +228,16 @@ class Personaje:
                     self.GLOBAL.setActionDoor(0)
                     self.GLOBAL.setCrossedDoor(True)
                     self.checkDoor = False
-                    #TODO: Comprobar adyacencias y sumar uno mas
                     #if(self.mapa.adyacencias[][])
                     self.coordenadas_actuales_r[0]-=2 #atraviesa la puerta, y llega al camino
                     #Para evitar que se mueva 20 bloques, se bloquea el acceso
+                elif(self.checkDoor == 3):
+                    #es adyacente
+                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setCrossedDoor(True)
+                    self.checkDoor = False
+                    #if(self.mapa.adyacencias[][])
+                    self.coordenadas_actuales_r[0]-=3 #atraviesa la puerta, y llega al camino
                 elif(self.checkDoor == 2):
                     #es un portal
                     pass
@@ -248,6 +254,13 @@ class Personaje:
                     self.GLOBAL.setCrossedDoor(True)
                     self.checkDoor = False
                     self.coordenadas_actuales_r[0]+=2
+                elif(self.checkDoor == 3):
+                    #es adyacente
+                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setCrossedDoor(True)
+                    self.checkDoor = False
+                    #if(self.mapa.adyacencias[][])
+                    self.coordenadas_actuales_r[0]+=3 #atraviesa la puerta, y llega al camino
                 elif(self.checkDoor == 2):
                     #es un portal
                     pass
@@ -263,6 +276,13 @@ class Personaje:
                     self.GLOBAL.setCrossedDoor(True)
                     self.checkDoor = False
                     self.coordenadas_actuales_r[1]-=2
+                elif(self.checkDoor == 3):
+                    #es adyacente
+                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setCrossedDoor(True)
+                    self.checkDoor = False
+                    #if(self.mapa.adyacencias[][])
+                    self.coordenadas_actuales_r[1]-=3 #atraviesa la puerta, y llega al camino
                 elif(self.checkDoor == 2):
                     #es un portal
                     pass
@@ -278,6 +298,13 @@ class Personaje:
                     self.GLOBAL.setCrossedDoor(True)
                     self.checkDoor = False
                     self.coordenadas_actuales_r[1]+=2
+                elif(self.checkDoor == 3):
+                    #es adyacente
+                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setCrossedDoor(True)
+                    self.checkDoor = False
+                    #if(self.mapa.adyacencias[][])
+                    self.coordenadas_actuales_r[1]+=3 #atraviesa la puerta, y llega al camino
                 elif(self.checkDoor == 2):
                     #es un portal
                     pass

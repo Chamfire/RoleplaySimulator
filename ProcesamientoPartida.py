@@ -486,10 +486,13 @@ class ProcesamientoPartida:
                         Genear una frase muy corta para decir que ha podido abrir la puerta sin problemas, y que se encuentra ahora en un pasillo oscuro con un suelo de baldosas moradas.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         prompt_puerta_cerrada = f"""Eres un dungeon master de Dnd 5e, y un jugador ha intentado abrir un portón de madera y no ha podido.<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        Genear una frase muy corta para decir que no ha podido abrir la puerta porque está cerrada, y que seguramente necesite una llave.
+                        Genear una frase muy corta para decir que no ha podido abrir la puerta porque está cerrada.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         prompt_puerta_abierta_ady = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de atravesar un portón de madera.<|eot_id|><|start_header_id|>user<|end_header_id|>
                         Genear una frase muy corta para decir que ha podido abrir la puerta sin problemas, y que se encuentra ahora en una galería amplia bastante oscura.
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        regreso_a_sala = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de atravesar un portón de madera para regresar a una galería en la que había estado antes.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Genear una frase muy corta para decir que ha podido abrir la puerta sin problemas, y que se encuentra ahora en dicha galería, oscura.
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         #Creo el resto de estados de la máquina de estado
         frase_puerta = {}
@@ -499,11 +502,14 @@ class ProcesamientoPartida:
             for j in Mapa.salas[i].daASalas:
                 if(Mapa.salas[i].daASalas[j][1] == "abierto"):
                     if(Mapa.adyacencias[i][j] != 1):
-                        frase_puerta[i][j] = self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200)
+                        frase_puerta[i][j] = [None,self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200),self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)]
                     else:
-                        frase_puerta[i][j] = self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200)
+                        frase_puerta[i][j] = [None,self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200),self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)]
                 else:
-                    frase_puerta[i][j] = self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200)
+                    if(Mapa.adyacencias[i][j] != 1):
+                        frase_puerta[i][j] = [self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200),self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200),self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)]
+                    else:
+                        frase_puerta[i][j] = [self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200),self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200),self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)]
             objetos = ""
             for i_start in range(Mapa.salas[i].pos_x, Mapa.salas[i].size[0]):
                 for j_start in range(Mapa.salas[i].pos_y, Mapa.salas[j].size[1]):

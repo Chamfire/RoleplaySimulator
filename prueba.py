@@ -82,10 +82,9 @@ f.add((3,4))
 f.add((3,4))
 print(f)
 print((3,4) in f)
-a2 = [[1,2],[4,1],[4,6]]
-a2.remove(a2[2])
+a2 = {1: [23,"abcd"],2: [24,"lkj"]}
+a3 = a2
+a3[2] = [25,"lkj"]
 print(a2)
-e = ['aasdf']
-for i in e:
-    print(i)
+
 
