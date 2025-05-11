@@ -365,11 +365,9 @@ class EstadoDeSalaFinal(Estado):
     
     def checkIfCanRunByPlayer(self,DM,personaje):
         #print("en run by player")
-        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
+        if(2 <= self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] <= 3):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
             return True
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
-            return self.checkIfCanEnterAgain(DM,personaje)
         
 
     def checkIfCanExit(self,DM,personaje):
@@ -643,11 +641,9 @@ class EstadoDeSalaIntermedia(Estado):
     
     def checkIfCanRunByPlayer(self,DM,personaje):
         #print("en run by player")
-        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
+        if(2 <= self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] <= 3):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
-            return True #ya se comprobó al salir de la sala anterior
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
-            return self.checkIfCanEnterAgain(DM,personaje)
+            return True
     
     
     def checkIfCanExit(self,DM,personaje):
@@ -1007,11 +1003,9 @@ class EstadoDeSalaInicial(Estado):
                     
     def checkIfCanRunByPlayer(self,DM,personaje):
         #print("en run by player")
-        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
+        if(2 <= self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] <= 3):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
             return True
-        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
-            return self.checkIfCanEnterAgain(DM,personaje)
         
 
     def checkIfItIsInCurrentRoom(self,pos_x,pos_y):
