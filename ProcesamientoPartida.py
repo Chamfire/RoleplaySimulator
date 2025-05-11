@@ -556,7 +556,7 @@ class ProcesamientoPartida:
                     elif(107 <= Mapa.objetos[j_start][i_start] <= 110):
                         objetos += "restos de roca por el suelo, "
                     elif(111 <= Mapa.objetos[j_start][i_start] <= 112):
-                        objetos += "1 extraño hongo alargado de color azul oscuro",
+                        objetos += "1 extraño hongo alargado de color azul oscuro, "
                     elif(113 <= Mapa.objetos[j_start][i_start] <= 114):
                         objetos += "setas de color naranja, "
                     elif(115 <= Mapa.objetos[j_start][i_start] <= 117):
