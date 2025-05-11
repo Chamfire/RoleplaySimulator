@@ -524,13 +524,14 @@ class EstadoDeSalaFinal(Estado):
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
             #reseteo las variables
-            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto" #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
+                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2
                 currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
             else:
+                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
                 self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             self.pasilloFromPuerta = None
             
@@ -678,13 +679,14 @@ class EstadoDeSalaIntermedia(Estado):
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
             #reseteo las variables
-            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
             if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
+                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2
                 currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
             else:
+                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
                 self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
@@ -795,7 +797,7 @@ class EstadoDeSalaIntermedia(Estado):
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
             #reseteo las variables
-            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto" #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
@@ -974,7 +976,6 @@ class EstadoDeSalaInicial(Estado):
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
             #reseteo las variables
-            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
@@ -982,8 +983,10 @@ class EstadoDeSalaInicial(Estado):
                 print(self.pasilloFromPuerta[1])
                 print(self.idSala_idOrder)
                 print(self.ordenEstados)
+                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 
                 currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
             else:
+                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
                 self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
@@ -1026,8 +1029,7 @@ class EstadoDeSalaInicial(Estado):
             pos_x = None
             pos_y = None
         print(pos_x,pos_y)
-        print(self.pasilloFromPuerta[0])
-        print(self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1])
+        print(self.pasilloFromPuerta)
         if(pos_x != None and pos_y != None):
             if((self.pasilloFromPuerta[0] == [pos_x,pos_y]) and (self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] == "abierto")):
                 #La puerta existe y da a la sala "sala", y está abierta para pasar
@@ -1106,7 +1108,7 @@ class EstadoDeSalaInicial(Estado):
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
             #reseteo las variables
-            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en un pasillo
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto" #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
