@@ -415,7 +415,7 @@ class Map_generation:
             s = sala_con_llave
         else:
             # Si es la primera sala, se queda todo en la primera sala
-            self.salas[sala_elegida].daASalas[self.main_path[1]] = "cerrado" #cerramos esa puerta
+            self.salas[sala_elegida].daASalas[self.main_path[1]][1] = "cerrado" #cerramos esa puerta
             coordenadas_puerta = self.salas[sala_elegida].daASalas[self.main_path[1]][0]
             self.salas[sala_elegida].contieneLlaves += [coordenadas_puerta]
             s = sala_elegida
@@ -466,7 +466,7 @@ class Map_generation:
                 s = sala_con_llave
             else:
                 # Si es la primera sala, se queda todo en la primera sala
-                self.salas[sala2].daASalas[self.main_path[1]] = "cerrado" #cerramos esa puerta
+                self.salas[sala2].daASalas[self.main_path[1]][1] = "cerrado" #cerramos esa puerta
                 coordenadas_puerta = self.salas[sala2].daASalas[self.main_path[1]][0]
                 self.salas[sala2].contieneLlaves += [coordenadas_puerta]
                 s = sala2

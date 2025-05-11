@@ -1050,10 +1050,11 @@ class EstadoDeSalaInicial(Estado):
                     self.GLOBAL.setActionDoor(3) #podría abrirla
                 else:
                     self.GLOBAL.setActionDoor(1) #podría abrirla
+                print("Fallse")
                 return False
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-
+        print("aquí 1")
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
@@ -1066,9 +1067,11 @@ class EstadoDeSalaInicial(Estado):
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala de nuevo
              #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             # Si trata de entrar después a otra puerta de otro camino que se haya anexado, le dirá que una magia oscura impide que la abra jeje
+            print("True")
             return True
         else:
             self.GLOBAL.setActionDoor(0)
+            print("False")
             return False
                     
 
@@ -1151,9 +1154,11 @@ class EstadoDeSalaInicial(Estado):
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
             print("en el pasillo")
             if(self.checkIfCanEnterAgain(DM,personaje)):
-                pass
+                print("no debería printearse esto")
             else:
+                print("otra sala?")
                 self.checkIfCanPassToAnotherRoom(DM,personaje,currentEstadoByPlayers)
+            print("fuera")
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 4):
             pass
         else:
