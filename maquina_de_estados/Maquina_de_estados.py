@@ -428,7 +428,7 @@ class EstadoDeSalaFinal(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
-            self.pasilloFromPuerta = [[pos_x,pos_y],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
@@ -703,7 +703,7 @@ class EstadoDeSalaIntermedia(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
-            self.pasilloFromPuerta[1] = [[pos_x,pos_y],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            self.pasilloFromPuerta[1] = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
@@ -990,7 +990,7 @@ class EstadoDeSalaInicial(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
-            self.pasilloFromPuerta = [[pos_x,pos_y],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
