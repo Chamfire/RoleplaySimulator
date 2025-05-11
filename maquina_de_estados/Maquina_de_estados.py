@@ -397,14 +397,14 @@ class EstadoDeSalaFinal(Estado):
                         print("puerta")
                         if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
                             self.GLOBAL.setActionDoor(2)
-                            self.pasilloFromPuerta = sala
+                            self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         else:
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                                 #Es adyacente
                                 self.GLOBAL.setActionDoor(3) #podría abrirla
                             else:
                                 self.GLOBAL.setActionDoor(1) #podría abrirla
-                            self.pasilloFromPuerta = sala
+                            self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         return False
                     else:
                         #La puerta está  cerrada
@@ -427,8 +427,8 @@ class EstadoDeSalaFinal(Estado):
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
-            self.Mapa.salas[self.pasilloFromPuerta].daASalas[self.id][1] = "abierto"
-            self.pasilloFromPuerta = [[pos_x,pos_y],self.pasilloFromPuerta] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
+            self.pasilloFromPuerta = [[pos_x,pos_y],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
@@ -478,7 +478,7 @@ class EstadoDeSalaFinal(Estado):
             self.GLOBAL.setActionDoor(0)
             self.pasilloFromPuerta = None
             pygame.mixer.Channel(1).play(self.soundDoor)
-            text_open_door = self.frases_puerta[self.pasilloFromPuerta][self.id][2]
+            text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
             DM.speak(text_open_door) 
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala de nuevo
@@ -672,14 +672,14 @@ class EstadoDeSalaIntermedia(Estado):
                         print("puerta")
                         if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
                             self.GLOBAL.setActionDoor(2)
-                            self.pasilloFromPuerta = sala
+                            self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         else:
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                                 #Es adyacente
                                 self.GLOBAL.setActionDoor(3) #podría abrirla
                             else:
                                 self.GLOBAL.setActionDoor(1) #podría abrirla
-                            self.pasilloFromPuerta = sala
+                            self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         return False
                     else:
                         #La puerta está  cerrada
@@ -702,8 +702,8 @@ class EstadoDeSalaIntermedia(Estado):
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
-            self.Mapa.salas[self.pasilloFromPuerta].daASalas[self.id][1] = "abierto"
-            self.pasilloFromPuerta = [[pos_x,pos_y],self.pasilloFromPuerta] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
+            self.pasilloFromPuerta[1] = [[pos_x,pos_y],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
@@ -753,7 +753,7 @@ class EstadoDeSalaIntermedia(Estado):
             self.GLOBAL.setActionDoor(0)
             self.pasilloFromPuerta = None
             pygame.mixer.Channel(1).play(self.soundDoor)
-            text_open_door = self.frases_puerta[self.pasilloFromPuerta][self.id][2]
+            text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
             DM.speak(text_open_door) 
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala de nuevo
@@ -956,14 +956,14 @@ class EstadoDeSalaInicial(Estado):
                         print("puerta")
                         if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
                             self.GLOBAL.setActionDoor(2)
-                            self.pasilloFromPuerta = sala
+                            self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         else:
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                                 #Es adyacente
                                 self.GLOBAL.setActionDoor(3) #podría abrirla
                             else:
                                 self.GLOBAL.setActionDoor(1) #podría abrirla
-                            self.pasilloFromPuerta = sala
+                            self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         return False
                     else:
                         #La puerta está  cerrada
@@ -983,14 +983,14 @@ class EstadoDeSalaInicial(Estado):
             print("aquí")
             self.GLOBAL.setActionDoor(0)
             pygame.mixer.Channel(1).play(self.soundDoor)
-            text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta][1]
+            text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
-            self.Mapa.salas[self.pasilloFromPuerta].daASalas[self.id][1] = "abierto"
-            self.pasilloFromPuerta = [[pos_x,pos_y],self.pasilloFromPuerta] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
+            self.pasilloFromPuerta = [[pos_x,pos_y],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
@@ -1034,6 +1034,8 @@ class EstadoDeSalaInicial(Estado):
             pos_x = None
             pos_y = None
         print(pos_x,pos_y)
+        print(self.pasilloFromPuerta[0])
+        print(self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1])
         if(pos_x != None and pos_y != None):
             if((self.pasilloFromPuerta[0] == [pos_x,pos_y]) and (self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] == "abierto")):
                 #La puerta existe y da a la sala "sala", y está abierta para pasar
@@ -1044,12 +1046,13 @@ class EstadoDeSalaInicial(Estado):
                 return False
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
+
         if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
             self.pasilloFromPuerta = None
             pygame.mixer.Channel(1).play(self.soundDoor)
-            text_open_door = self.frases_puerta[self.pasilloFromPuerta][self.id][2]
+            text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
             DM.speak(text_open_door) 
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala de nuevo
