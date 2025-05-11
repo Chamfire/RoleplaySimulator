@@ -506,7 +506,7 @@ class ProcesamientoPartida:
                     frase_puerta[i][j] = self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200)
             objetos = ""
             for i_start in range(Mapa.salas[i].pos_x, Mapa.salas[i].size[0]):
-                for j_start in range(Mapa.salas[i].pos_y, Mapa.salas[j].size[j]):
+                for j_start in range(Mapa.salas[i].pos_y, Mapa.salas[j].size[1]):
                     if(33 <=Mapa.objetos[j_start][i_start] <=38):
                         objetos += "1 esqueleto, "
                     elif(Mapa.objetos[j_start][i_start] == 39):
@@ -565,7 +565,7 @@ class ProcesamientoPartida:
                         objetos += "marcas en el suelo de desgaste, "
             prompt_sala = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
                         Genea un párrafo breve para describir la galería. Ten encuenta que tiene las siguientes cosas en ella: """+objetos+""". Comienza con la frase "En esta galería puedes ver..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            descripcion_sala = self.consultarAlDM(prompt_sala,model_path,None,2048,700)
+            descripcion_sala = "En esta galería puedes ver cosas muy bonitas."#self.consultarAlDM(prompt_sala,model_path,None,2048,700)
             self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa,frase_puerta,descripcion_sala)
         print("Progreso: 30%")
         self.maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo,NPC_imagen_carpeta)
