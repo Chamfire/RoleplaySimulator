@@ -514,12 +514,12 @@ class ProcesamientoPartida:
                         puertace = "la puerta esta cerrada" #self.consultarAlDM(prompt_puerta_cerrada,model_path
                         descripcionpa = "has abierto una puerta" #self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200)
                         regresosa = "regresas a la sala" #self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
-                        frase_puerta[i][j] = [puertace,descripcionpsa,regresosa]
+                        frase_puerta[i][j] = [puertace,descripcionpa,regresosa]
                     else:
                         puertace = "la puerta esta cerrada" #self.consultarAlDM(prompt_puerta_cerrada,model_path
                         regresosa = "regresas a la sala" #self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
                         descripcionpsa = "has abierto una puerta adyacente" #self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200)
-                        frase_puerta[i][j] = [puertace,descripcionpa,regresosa]
+                        frase_puerta[i][j] = [puertace,descripcionpsa,regresosa]
             objetos = ""
             for i_start in range(Mapa.salas[i].pos_x, Mapa.salas[i].size[0]):
                 for j_start in range(Mapa.salas[i].pos_y, Mapa.salas[j].size[1]):

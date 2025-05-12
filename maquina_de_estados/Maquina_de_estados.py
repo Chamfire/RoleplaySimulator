@@ -346,6 +346,7 @@ class EstadoDeSalaFinal(Estado):
         self.pos_y = pos_y
         self.pasilloFromPuerta = None
         self.Mapa = Mapa
+        self.pasilloToPuerta = None
         self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.frases_puerta = frase_puerta
         self.idSala_idOrder = idSala_idOrder
@@ -402,10 +403,10 @@ class EstadoDeSalaFinal(Estado):
                 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
+        if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.GLOBAL.setCrossedDoor(False)
+            self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
@@ -459,10 +460,10 @@ class EstadoDeSalaFinal(Estado):
                 return True
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
+        if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0]) and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.GLOBAL.setCrossedDoor(False)
+            self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
             self.pasilloFromPuerta = None
@@ -503,8 +504,10 @@ class EstadoDeSalaFinal(Estado):
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
                             self.GLOBAL.setActionDoor(3) #podría abrirla
+                            self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         else:
                             self.GLOBAL.setActionDoor(1) #podría abrirla
+                            self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         return False
                     else:
                         #La puerta está cerrada
@@ -517,10 +520,10 @@ class EstadoDeSalaFinal(Estado):
                 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
+        if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.GLOBAL.setCrossedDoor(False)
+            self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
             #reseteo las variables
@@ -534,6 +537,7 @@ class EstadoDeSalaFinal(Estado):
                 self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
                 self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             self.pasilloFromPuerta = None
+            self.pasilloToPuerta = None
             
             return True
         else:
@@ -611,6 +615,7 @@ class EstadoDeSalaIntermedia(Estado):
         self.daASalas = daASalas
         self.pos_x = pos_x
         self.pos_y = pos_y
+        self.pasilloToPuerta = None
         self.pasilloFromPuerta = None
         self.Mapa = Mapa
         self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
@@ -671,10 +676,10 @@ class EstadoDeSalaIntermedia(Estado):
                 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
+        if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.GLOBAL.setCrossedDoor(False)
+            self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
@@ -732,10 +737,10 @@ class EstadoDeSalaIntermedia(Estado):
                 return True
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
+        if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0]) and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.GLOBAL.setCrossedDoor(False)
+            self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
             self.pasilloFromPuerta = None
@@ -776,8 +781,10 @@ class EstadoDeSalaIntermedia(Estado):
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
                             self.GLOBAL.setActionDoor(3) #podría abrirla
+                            self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         else:
                             self.GLOBAL.setActionDoor(1) #podría abrirla
+                            self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         return False
                     else:
                         #La puerta está cerrada
@@ -790,10 +797,10 @@ class EstadoDeSalaIntermedia(Estado):
                 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
+        if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.GLOBAL.setCrossedDoor(False)
+            self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
             #reseteo las variables
@@ -803,6 +810,7 @@ class EstadoDeSalaIntermedia(Estado):
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto" #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
             self.pasilloFromPuerta = None
+            self.pasilloToPuerta = None
             
             return True
         else:
@@ -887,6 +895,7 @@ class EstadoDeSalaInicial(Estado):
         self.Mapa = Mapa
         self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.frases_puerta = frase_puerta
+        self.pasilloToPuerta = None
         self.idSala_idOrder = idSala_idOrder
 
 
@@ -967,12 +976,12 @@ class EstadoDeSalaInicial(Estado):
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         print(self.GLOBAL.canGoOutFirst())
         print(self.GLOBAL.getCrossedDoor())
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
+        if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and(self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0])):
             #Ha decidido cruzarla
             print("aquí")
             self.GLOBAL.setActionDoor(0)
             pygame.mixer.Channel(1).play(self.soundDoor)
-            self.GLOBAL.setCrossedDoor(False)
+            self.GLOBAL.setCrossedDoor([[False],[None,None]])
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
             #reseteo las variables
@@ -1041,10 +1050,10 @@ class EstadoDeSalaInicial(Estado):
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         print("aquí 1")
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor() and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
+        if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and(self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0]) and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.GLOBAL.setCrossedDoor(False)
+            self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
             self.pasilloFromPuerta = None
@@ -1087,8 +1096,10 @@ class EstadoDeSalaInicial(Estado):
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
                             self.GLOBAL.setActionDoor(3) #podría abrirla
+                            self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         else:
                             self.GLOBAL.setActionDoor(1) #podría abrirla
+                            self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         return False
                     else:
                         #La puerta está cerrada
@@ -1101,10 +1112,10 @@ class EstadoDeSalaInicial(Estado):
                 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
-        if(self.GLOBAL.canGoOutFirst() and self.GLOBAL.getCrossedDoor()):
+        if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and(self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
-            self.GLOBAL.setCrossedDoor(False)
+            self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
             #reseteo las variables
@@ -1114,6 +1125,7 @@ class EstadoDeSalaInicial(Estado):
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto" #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
             self.pasilloFromPuerta = None
+            self.pasilloToPuerta = None
             
             return True
         else:

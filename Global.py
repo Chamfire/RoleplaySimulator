@@ -47,7 +47,7 @@ class Global:
         global actionDoor
         actionDoor = 0
         global crossedDoor
-        crossedDoor = False
+        crossedDoor = [[False],[None,None]]
         global canGoOutFirst 
         canGoOutFirst = True #cambiar cuando se haga la parte de diálogo con el NPC
     
