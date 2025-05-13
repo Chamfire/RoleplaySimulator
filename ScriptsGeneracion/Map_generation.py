@@ -57,6 +57,7 @@ class Map_generation:
         sys.setrecursionlimit(5000)  
         config_dir = 'mapas/'+currentPartida
         config_file = 'mapa_'+currentPartida+".txt"
+        config_file2 = 'objetos_'+currentPartida+".txt"
         self.eleccion = eleccion
         self.map_size = 100
         self.spawn = None
@@ -103,6 +104,10 @@ class Map_generation:
             os.makedirs(config_dir)
                     
         with open(config_dir+'/'+config_file, 'w',encoding='utf8') as f:
+            for fila in self.matrix:
+                f.write(' '.join(map(str, fila)) + '\n')
+
+        with open(config_dir+'/'+config_file2, 'w',encoding='utf8') as f:
             for fila in self.matrix:
                 f.write(' '.join(map(str, fila)) + '\n')
 
