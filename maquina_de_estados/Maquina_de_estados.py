@@ -37,6 +37,8 @@ class Estado:
         self.mobs = {}
         self.objetos = {}
         self.Mapa = None
+        self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
+        self.personajeDelHost = None
 
 
     def checkIfCanRun(self,player):
@@ -56,9 +58,14 @@ class Estado:
     def resetForPickle(self):
         self.GLOBAL = None
         self.Mapa = None
-    def setForLoad(self,mapa):
+        self.personajeDelHost = None
+        self.soundDoor = None
+
+    def setForLoad(self,mapa,jugador):
         self.GLOBAL = Global()
         self.Mapa = mapa
+        self.personajeDelHost = jugador
+        self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
 
 class EstadoInicial(Estado):
     def __init__(self,isInicial,content,RAG_musica,currentPartida,id):
@@ -355,7 +362,6 @@ class EstadoDeSalaFinal(Estado):
         self.pasilloFromPuerta = None
         self.Mapa = Mapa
         self.pasilloToPuerta = None
-        self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.frases_puerta = frase_puerta
         self.idSala_idOrder = idSala_idOrder
 
@@ -626,7 +632,6 @@ class EstadoDeSalaIntermedia(Estado):
         self.pasilloToPuerta = None
         self.pasilloFromPuerta = None
         self.Mapa = Mapa
-        self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.frases_puerta = frase_puerta
         self.idSala_idOrder = idSala_idOrder
 
@@ -901,16 +906,15 @@ class EstadoDeSalaInicial(Estado):
         self.pos_y = pos_y
         self.pasilloFromPuerta = None
         self.Mapa = Mapa
-        self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.frases_puerta = frase_puerta
         self.pasilloToPuerta = None
         self.idSala_idOrder = idSala_idOrder
 
 
     def checkIfCanRun(self,DM,personaje):
-        # print(self.numAccepts)
-        # print(self.numJugadores)
-        # print("------------------------")
+        print(self.numAccepts)
+        print(self.numJugadores)
+        print("------------------------")
         if self.numAccepts != self.numJugadores:
             return self.checkIfCanRunFirst(personaje)
         else:
@@ -1148,7 +1152,7 @@ class EstadoDeSalaInicial(Estado):
     def run(self,DM,personaje,currentEstadoByPlayers):
         #TODO: run en función del estado de la misión
         # print("run:")
-        print(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)])
+        #print(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)])
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             self.OnEnterEstadoByPlayer(DM,personaje,currentEstadoByPlayers)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
@@ -1216,6 +1220,18 @@ class DM:
         voices = self.engine.getProperty('voices')
         for voice in voices:
             print(voice, voice.id)
+    def reset(self):
+        self.engine = None
+    def load(self):
+        self.engine = pyttsx3.init()
+        rate = self.engine.getProperty('rate')
+        self.engine.setProperty('rate', 150) #velocidad de lectura 
+        self.engine.setProperty('volume',1) #para que la ia se escuche por encima de todo
+        voices = self.engine.getProperty('voices')
+        self.engine.setProperty('voice', voices[0].id) #voz en español
+        self.engine.setProperty('language',"es-ES")
+    def stop(self):
+        self.engine.stop()
 
 class Maquina_de_estados:
     def __init__(self,enabledDMVoice,currentPartida,personaje):
@@ -1313,19 +1329,35 @@ class Maquina_de_estados:
     def resetGlobalsForPickle(self):
         self.GLOBAL = None
         self.DM.GLOBAL = None
+        self.personajeDelHost = None
         for id,estado in self.ordenEstados.items():
             estado.resetForPickle()
+        self.DM.reset()
+        for id,estado in self.estadosDeMision.items():
+            estado.resetForPickle()
+            estado.ordenEstados[0].resetForPickle()
+            estado.ordenEstados[1].resetForPickle()
+            estado.ordenEstados[0].NPC.GLOBAL = None
+            estado.ordenEstados[1].GLOBAL = None
         
-        
-    def setForLoad(self,mapa):
+    def setForLoad(self,mapa,jugadorHost):
         self.GLOBAL = Global()
         self.DM.GLOBAL = Global()
+        self.DM.load()
+        self.enabledDMVoice = self.enabledDMVoice
+        self.personajeDelHost = jugadorHost
 
         #cargo el mapa
         mapa = mapa
 
         for id,estado in self.ordenEstados.items():
-            estado.setForLoad(mapa)
+            estado.setForLoad(mapa,jugadorHost)
+        for id,estado in self.estadosDeMision.items():
+            estado.setForLoad(mapa,jugadorHost)
+            estado.ordenEstados[0].setForLoad(mapa,jugadorHost)
+            estado.ordenEstados[1].setForLoad(mapa,jugadorHost)
+            estado.ordenEstados[0].NPC.GLOBAL = Global()
+            estado.ordenEstados[1].GLOBAL = Global()
 
 
         

@@ -1,10 +1,10 @@
-La descripción de la sala 16Es la siguiente: En esta galería puedes ver paredes de piedra arenisca que se extienden hasta el techo, iluminadas por una luz débil que proviene de antorchas que se encuentran en los rincones. El aire está lleno del olor a tierra húmeda y el suelo está cubierto de polvo y rocas escamosas. Algunas paredes presentan inscripciones antiguas, en un lenguaje que ninguno de ustedes puede entender. Un estrecho pasillo en el centro de la galería conduce a una escalera que sube a un pasadizo oscuro y sin fin.
+La descripción de la sala 16Es la siguiente: Descripción sala
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 13, y está abierta: Al entrar, la puerta de madera cedió con un crujido suave, dejándolo en un pasillo sombrío de baldosas moradas que se extiende ante él.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 5, y está abierta: 1
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: Al entrar, la puerta de madera cedió con un crujido suave, dejándolo en un pasillo sombrío de baldosas moradas que se extiende ante él.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: 1
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 17, y está abierta: "El portón de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 10, y está abierta: 1
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: "El portón de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: 1
 

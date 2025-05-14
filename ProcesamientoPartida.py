@@ -7,6 +7,7 @@ import numpy as np
 import random
 import datetime
 import sys
+import _thread  
 import os
 import contextlib
 import sqlite3
@@ -49,6 +50,7 @@ class ProcesamientoPartida:
         self.DMVoice = None
         self.width = None
         self.height = None
+        self.finished = False
         self.PartidaObjeto = None
         self.jugadorHost = None
         self.ubicacion = None
@@ -588,18 +590,16 @@ class ProcesamientoPartida:
             print("Progreso: 100%")
 
             self.maquina.resetGlobalsForPickle()
-
-            datos_maquina_serialized = pickle.dumps(self.maquina)
-            datos_maquina_encoded = base64.b64encode(datos_maquina_serialized).decode('utf-8')
+            self.buscar_surface(self.maquina)
 
             with open('maquina_de_estados/'+self.currentPartida+'/maquina.pickle', "wb") as f:
-                pickle.dump(datos_maquina_encoded, f)
+                pickle.dump(self.maquina, f)
         else:
             with open('maquina_de_estados/'+self.currentPartida+'/maquina.pickle', "rb") as f:
                 self.maquina = pickle.load(f)
         mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,None,None,None,None,None,self.width,self.height,True)
-        self.maquina.setForLoad(mapa)
-        self.GLOBAL.setMAPA(self.maquina)
+        self.maquina.setForLoad(mapa,self.jugadorHost)
+        self.GLOBAL.setMAPA(mapa)
         #procesamiento....
         fin_time = time.time()
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
@@ -608,11 +608,34 @@ class ProcesamientoPartida:
         #TODO: Mensaje TCP a todos los jugadores para que cambien sus variables globales de actualPartidaScreen a "partida"
     
         self.maquina.initExecution()
-        finished = False
-        while(not finished):
+        self.finished = False
+        while(not self.finished):
             self.maquina.runNextEstado(self.jugadorHost)
             time.sleep(0.2)
             #Así evitamos la sobrecarga del portátil. Cada 0.2 segundos, se comprueba la máquina de estados
+
+
+    def buscar_surface(self,obj, nombre_ruta="self.maquina", visitados=None):
+        if visitados is None:
+            visitados = set()
+
+        obj_id = id(obj)
+        if obj_id in visitados:
+            return  # Evitar ciclos infinitos
+        visitados.add(obj_id)
+
+        if isinstance(obj, pygame.mixer.Sound):
+            print(f"🎯 Encontrado pygame.Surface en: {nombre_ruta}")
+        elif isinstance(obj, dict):
+            for k, v in obj.items():
+                self.buscar_surface(v, f"{nombre_ruta}[{repr(k)}]", visitados)
+        elif hasattr(obj, '__dict__'):
+            for attr, val in vars(obj).items():
+                self.buscar_surface(val, f"{nombre_ruta}.{attr}", visitados)
+        elif isinstance(obj, (list, tuple, set)):
+            for idx, item in enumerate(obj):
+                self.buscar_surface(item, f"{nombre_ruta}[{idx}]", visitados)
+
     def getNPC(self):
         return self.personaje
 

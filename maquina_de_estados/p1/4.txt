@@ -1,10 +1,12 @@
 La descripción de la sala 4Es la siguiente: Descripción sala
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 6, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 7, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: 1
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 1, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 11, pero está cerrada: 1
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 11, y está abierta: 2
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: 2
 

@@ -223,6 +223,13 @@ class PartidaScreen:
     def cerrarHilo(self):
         #si está activo, que lo detenga
         if self.hiloProcesamientoPartida != None and self.hiloProcesamientoPartida.is_alive():
+            try:
+                self.ProcesamientoPartida.maquina.DM.engine.stop()
+                self.ProcesamientoPartida.maquina.DM.engine.endLoop()
+            except:
+                pass
+            self.ProcesamientoPartida.finished = True
+            self.GLOBAL.setTextoDM("")
             ctypes.pythonapi.PyThreadState_SetAsyncExc(
                 ctypes.c_long(self.hiloProcesamientoPartida.ident), ctypes.py_object(SystemExit)
             )
@@ -584,14 +591,15 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
                 self.ch1.play(self.pressed)
+                self.imagePhoto = None
                 pygame.display.update() 
                 mixer.music.stop()#para la música
                 mixer.music.load("sounds/background.wav") #carga de nuevo la canción normal de fondo
                 mixer.music.play(-1)
                 try:
                     self.cerrarHilo()
-                except:
-                    pass
+                except Exception as e:
+                    print(e)
                 return 'menu'    
             else:
                 return 'partida'
@@ -617,6 +625,7 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 self.ch1.play(self.pressed)
                 pygame.display.update() 
+                self.currentTextToShow = ""
                 mixer.music.stop()#para la música
                 mixer.music.load("sounds/background.wav") #carga de nuevo la canción normal de fondo
                 mixer.music.play(-1)

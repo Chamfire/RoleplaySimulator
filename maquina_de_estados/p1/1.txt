@@ -1,12 +1,8 @@
 La descripción de la sala 1Es la siguiente: Descripción sala
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 2, pero está cerrada: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 10, pero está cerrada: 1
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 2, y está abierta: 2
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 10, y está abierta: 2
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: 2
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 4, y está abierta: 1
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: 1
 

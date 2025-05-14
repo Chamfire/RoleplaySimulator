@@ -1,10 +1,6 @@
 La descripción de la sala 6Es la siguiente: Descripción sala
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 4, y está abierta: 1
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: 1
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 10, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 12, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: 1
 

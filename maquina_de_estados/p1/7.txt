@@ -1,10 +1,10 @@
 La descripción de la sala 7Es la siguiente: Descripción sala
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 13, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 4, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: 1
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 8, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 2, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: 1
 

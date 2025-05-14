@@ -105,33 +105,23 @@ class Map_generation:
             if not os.path.exists(config_dir):
                 os.makedirs(config_dir)
                         
-            with open(config_dir+'/'+config_file, 'wb',encoding='utf8') as f:
+            with open(config_dir+'/'+config_file, 'wb') as f:
                 # for fila in self.matrix:
                 #     f.write(' '.join(map(str, fila)) + '\n')
-                datos_s = pickle.dumps(self.matrix)
-                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
-                pickle.dump(datos_encoded, f)
+                pickle.dump(self.matrix, f)
 
-            with open(config_dir+'/'+config_file2, 'wb',encoding='utf8') as f:
-                datos_s = pickle.dumps(self.objetos)
-                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
-                pickle.dump(datos_encoded, f)
-            with open(config_dir+'/casillasVistas.pickle', 'wb',encoding='utf8') as f:
-                datos_s = pickle.dumps(self.casillasVistas)
-                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
-                pickle.dump(datos_encoded, f)
-            with open(config_dir+'/salas.pickle', 'wb',encoding='utf8') as f:
-                datos_s = pickle.dumps(self.salas)
-                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
-                pickle.dump(datos_encoded, f)
-            with open(config_dir+'/adyacencias.pickle', 'wb',encoding='utf8') as f:
-                datos_s = pickle.dumps(self.adyacencias)
-                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
-                pickle.dump(datos_encoded, f)
-            with open(config_dir+'/pathNPC.pickle', 'wb',encoding='utf8') as f:
-                datos_s = pickle.dumps(self.NPC_imagen)
-                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
-                pickle.dump(datos_encoded, f)
+            with open(config_dir+'/'+config_file2, 'wb') as f:
+                pickle.dump(self.objetos, f)
+            with open(config_dir+'/casillasVistas.pickle', 'wb') as f:
+                pickle.dump(self.casillasVistas, f)
+            with open(config_dir+'/salas.pickle', 'wb') as f:
+                pickle.dump(self.salas, f)
+            with open(config_dir+'/adyacencias.pickle', 'wb') as f:
+                pickle.dump(self.adyacencias, f)
+            with open(config_dir+'/pathNPC.pickle', 'wb') as f:
+                pickle.dump(self.NPC_imagen, f)
+            with open(config_dir+'/playersCurrentPost.pickle', 'wb') as f:
+                pickle.dump(self.playersCurrentPos, f)
         else:
             config_dir = 'mapas/'+currentPartida
             config_file = 'mapa_'+currentPartida+".pickle"
@@ -148,6 +138,8 @@ class Map_generation:
                 adyacencias = pickle.load(f)
             with open(config_dir+'/pathNPC.pickle', "rb") as f:
                 NPC_imagen = pickle.load(f)
+            with open(config_dir+'/playersCurrentPost.pickle', "rb") as f:
+                self.playersCurrentPos = pickle.load(f)
 
 
             self.reload(matrix,objetos,adyacencias,salas,casillasVistas,eleccion,width,height,NPC_imagen)
@@ -452,7 +444,6 @@ class Map_generation:
                     [pos_x,pos_y] = posiciones[pos]  
                     if(self.objetos[pos_y][pos_x] == 0):
                         self.objetos[pos_y][pos_x] = id
-                        self.mobs[pos_y][pos_x] = id
                         #print("Mob: "+mob+" en posición "+str(pos_x)+","+str(pos_y))
                         found = True
             # Ahora ubico un cofre de botín en esa sala
@@ -1658,8 +1649,10 @@ class Map_generation:
                         tile = self.tile_cache[self.matrix[j][i]]
                         if tile is not None:
                             screen.blit(pygame.transform.scale(tile, (self.map_tileSize[0],self.map_tileSize[1])), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
-                    except:
-                        pass
+                        else:
+                            print("tile es none")
+                    except Exception as e:
+                        print(e)
                     try:
                         id = self.objetos[j][i]
                         if(not (87 <= id <= 90)):

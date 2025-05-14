@@ -1,0 +1,10 @@
+La descripción de la sala 19Es la siguiente: Descripción sala
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 19 con la sala 9, y está abierta: 1
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 19: 1
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 19 con la sala 13, y está abierta: 1
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 19: 1
+
