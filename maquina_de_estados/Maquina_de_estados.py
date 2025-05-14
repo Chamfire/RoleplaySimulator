@@ -396,14 +396,14 @@ class EstadoDeSalaFinal(Estado):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         print("puerta")
                         if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
-                            self.GLOBAL.setActionDoor(2)
+                            self.GLOBAL.setActionDoor([2,[pos_x,pos_y]])
                             self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         else:
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                                 #Es adyacente
-                                self.GLOBAL.setActionDoor(3) #podría abrirla
+                                self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                             else:
-                                self.GLOBAL.setActionDoor(1) #podría abrirla
+                                self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         return False
                     else:
@@ -412,14 +412,14 @@ class EstadoDeSalaFinal(Estado):
                         pygame.mixer.Channel(1).play(self.soundDoor)
                         text_closed = self.frases_puerta[self.id][sala][0]
                         DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor(0) 
+                        self.GLOBAL.setActionDoor([0,[None,None]]) 
                         return False
                 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0])):
             #Ha decidido cruzarla
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
@@ -433,7 +433,7 @@ class EstadoDeSalaFinal(Estado):
             
             return True
         else:
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.pasilloFromPuerta = None
             return False
         
@@ -468,15 +468,15 @@ class EstadoDeSalaFinal(Estado):
             if((self.pasilloFromPuerta[0] == [pos_x,pos_y]) and (self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] == "abierto")):
                 #La puerta existe y da a la sala "sala", y está abierta para pasar
                 if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
-                    self.GLOBAL.setActionDoor(3) #podría abrirla
+                    self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                 else:
-                    self.GLOBAL.setActionDoor(1) #podría abrirla
+                    self.GLOBAL.setActionDoor([2,[pos_x,pos_y]]) #podría abrirla
                 return True
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0]) and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
@@ -488,7 +488,7 @@ class EstadoDeSalaFinal(Estado):
             # Si trata de entrar después a otra puerta de otro camino que se haya anexado, le dirá que una magia oscura impide que la abra jeje
             return True
         else:
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             return False
                     
 
@@ -517,10 +517,10 @@ class EstadoDeSalaFinal(Estado):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
-                            self.GLOBAL.setActionDoor(3) #podría abrirla
+                            self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         else:
-                            self.GLOBAL.setActionDoor(1) #podría abrirla
+                            self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         return False
                     else:
@@ -529,21 +529,21 @@ class EstadoDeSalaFinal(Estado):
                         pygame.mixer.Channel(1).play(self.soundDoor)
                         text_closed = self.frases_puerta[sala][self.id][0]
                         DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor(0) 
+                        self.GLOBAL.setActionDoor([0,[None,None]]) 
                         return False
-                else:
-                    if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
-                        #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
-                        pygame.mixer.Channel(1).play(self.soundDoor)
-                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
-                        DM.speak(text) 
-                        self.GLOBAL.setActionDoor(0) 
+                if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
+                    #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
+                    pygame.mixer.Channel(1).play(self.soundDoor)
+                    text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
+                    DM.speak(text) 
+                    self.GLOBAL.setActionDoor([0,[None,None]])
+                    return False 
                 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
             #Ha decidido cruzarla
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
@@ -562,7 +562,7 @@ class EstadoDeSalaFinal(Estado):
             
             return True
         else:
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             return False
         
         
@@ -675,14 +675,14 @@ class EstadoDeSalaIntermedia(Estado):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         print("puerta")
                         if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
-                            self.GLOBAL.setActionDoor(2)
+                            self.GLOBAL.setActionDoor([2,[pos_x,pos_y]])
                             self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         else:
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                                 #Es adyacente
-                                self.GLOBAL.setActionDoor(3) #podría abrirla
+                                self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                             else:
-                                self.GLOBAL.setActionDoor(1) #podría abrirla
+                                self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         return False
                     else:
@@ -691,7 +691,7 @@ class EstadoDeSalaIntermedia(Estado):
                         pygame.mixer.Channel(1).play(self.soundDoor)
                         text_closed = self.frases_puerta[self.id][sala][0]
                         DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor(0) 
+                        self.GLOBAL.setActionDoor([0,[None,None]]) 
                         return False
                 
                 
@@ -699,7 +699,7 @@ class EstadoDeSalaIntermedia(Estado):
         print(self.GLOBAL.canGoOutFirst(), self.pasilloFromPuerta, self.GLOBAL.getCrossedDoor())
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0])):
             #Ha decidido cruzarla
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
@@ -717,7 +717,7 @@ class EstadoDeSalaIntermedia(Estado):
             
             return True
         else:
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.pasilloFromPuerta = None
             return False
         
@@ -752,15 +752,15 @@ class EstadoDeSalaIntermedia(Estado):
             if((self.pasilloFromPuerta[0] == [pos_x,pos_y]) and (self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] == "abierto")):
                 #La puerta existe y da a la sala "sala", y está abierta para pasar
                 if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
-                    self.GLOBAL.setActionDoor(3) #podría abrirla
+                    self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                 else:
-                    self.GLOBAL.setActionDoor(1) #podría abrirla
+                    self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                 return True
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0]) and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
@@ -772,7 +772,7 @@ class EstadoDeSalaIntermedia(Estado):
             # Si trata de entrar después a otra puerta de otro camino que se haya anexado, le dirá que una magia oscura impide que la abra jeje
             return True
         else:
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             return False
                     
 
@@ -801,10 +801,10 @@ class EstadoDeSalaIntermedia(Estado):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
-                            self.GLOBAL.setActionDoor(3) #podría abrirla
+                            self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         else:
-                            self.GLOBAL.setActionDoor(1) #podría abrirla
+                            self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         return False
                     else:
@@ -813,20 +813,21 @@ class EstadoDeSalaIntermedia(Estado):
                         pygame.mixer.Channel(1).play(self.soundDoor)
                         text_closed = self.frases_puerta[sala][self.id][0]
                         DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor(0) 
+                        self.GLOBAL.setActionDoor([0,[None,None]]) 
                         return False
-                else:
-                    if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
-                        #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
-                        pygame.mixer.Channel(1).play(self.soundDoor)
-                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
-                        DM.speak(text) 
-                        self.GLOBAL.setActionDoor(0) 
+                
+                if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
+                    #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
+                    pygame.mixer.Channel(1).play(self.soundDoor)
+                    text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
+                    DM.speak(text) 
+                    self.GLOBAL.setActionDoor([0,[None,None]]) 
+                    return False
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
             #Ha decidido cruzarla
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
@@ -841,7 +842,7 @@ class EstadoDeSalaIntermedia(Estado):
             
             return True
         else:
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             return False
         
         
@@ -977,16 +978,16 @@ class EstadoDeSalaInicial(Estado):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         print("puerta")
                         if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
-                            self.GLOBAL.setActionDoor(2)
+                            self.GLOBAL.setActionDoor([2,[pos_x,pos_y]])
                             self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         else:
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                                 #Es adyacente
                                 print("sala adyacente")
-                                self.GLOBAL.setActionDoor(3) #podría abrirla
+                                self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                             else:
                                 print("sala normal")
-                                self.GLOBAL.setActionDoor(1) #podría abrirla
+                                self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         return False
                     else:
@@ -995,7 +996,7 @@ class EstadoDeSalaInicial(Estado):
                         pygame.mixer.Channel(1).play(self.soundDoor)
                         text_closed = self.frases_puerta[self.id][sala][0]
                         DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor(0) 
+                        self.GLOBAL.setActionDoor([0,[None,None]]) 
                         return False
                 
                 
@@ -1005,7 +1006,7 @@ class EstadoDeSalaInicial(Estado):
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and(self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0])):
             #Ha decidido cruzarla
             print("aquí")
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             self.GLOBAL.setCrossedDoor([[False],[None,None]])
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
@@ -1026,7 +1027,7 @@ class EstadoDeSalaInicial(Estado):
             
             return True
         else:
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.pasilloFromPuerta = None
             return False
                     
@@ -1069,16 +1070,16 @@ class EstadoDeSalaInicial(Estado):
             if((self.pasilloFromPuerta[0] == [pos_x,pos_y]) and (self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] == "abierto")):
                 #La puerta existe y da a la sala "sala", y está abierta para pasar
                 if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
-                    self.GLOBAL.setActionDoor(3) #podría abrirla
+                    self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                 else:
-                    self.GLOBAL.setActionDoor(1) #podría abrirla
+                    self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                 return True
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         print("aquí 1")
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and(self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0]) and self.checkIfItIsInCurrentRoom(personaje.coordenadas_actuales_r[0],personaje.coordenadas_actuales_r[1])):
             #Ha decidido cruzarla
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
@@ -1091,7 +1092,7 @@ class EstadoDeSalaInicial(Estado):
             print("True")
             return True
         else:
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             print("False")
             return False
                     
@@ -1121,10 +1122,10 @@ class EstadoDeSalaInicial(Estado):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
-                            self.GLOBAL.setActionDoor(3) #podría abrirla
+                            self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         else:
-                            self.GLOBAL.setActionDoor(1) #podría abrirla
+                            self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         return False
                     else:
@@ -1133,21 +1134,21 @@ class EstadoDeSalaInicial(Estado):
                         pygame.mixer.Channel(1).play(self.soundDoor)
                         text_closed = self.frases_puerta[sala][self.id][0]
                         DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor(0) 
+                        self.GLOBAL.setActionDoor([0,[None,None]]) 
                         return False
                 
-                else:
-                    if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
-                        #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
-                        pygame.mixer.Channel(1).play(self.soundDoor)
-                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
-                        DM.speak(text) 
-                        self.GLOBAL.setActionDoor(0) 
+                if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
+                    #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
+                    pygame.mixer.Channel(1).play(self.soundDoor)
+                    text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
+                    DM.speak(text) 
+                    self.GLOBAL.setActionDoor([0,[None,None]]) 
+                    return False
 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and(self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
             #Ha decidido cruzarla
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             self.GLOBAL.setCrossedDoor([[False],[None,None]])
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
@@ -1162,7 +1163,7 @@ class EstadoDeSalaInicial(Estado):
             
             return True
         else:
-            self.GLOBAL.setActionDoor(0)
+            self.GLOBAL.setActionDoor([0,[None,None]])
             return False
         
         

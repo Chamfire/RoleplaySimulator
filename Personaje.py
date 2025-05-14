@@ -210,7 +210,7 @@ class Personaje:
         # Máquina de estados. 
         self.checkDoor = self.GLOBAL.getActionDoor()
         print("checkDoor: "+str(self.checkDoor))
-        if(tile_id == 1 or tile_id == 22 or self.checkDoor == 1 or self.checkDoor == 2 or self.checkDoor == 3):
+        if(tile_id == 1 or tile_id == 22 or ((self.checkDoor[0] == 1 or self.checkDoor[0] == 2 or self.checkDoor[0] == 3) and self.checkDoor[1][0] == x and self.checkDoor[1][1] == y)):
             # Es una casilla andable
             #El objeto/NPC/monstruo no impide su paso
             if((self.mapa.objetos[y][x] != 32) and (not(33 <= self.mapa.objetos[y][x] <=106) or (self.mapa.objetos[y][x] == 80))and (not (111 <= self.mapa.objetos[y][x] <=117))):
@@ -223,27 +223,27 @@ class Personaje:
         if(self.left and not self.right):
             print("LEFT")
             if(self.coordenadas_actuales_r[0]-1 >=0 and self.isLegalAction(self.coordenadas_actuales_r[0]-1,self.coordenadas_actuales_r[1])):
-                if(self.checkDoor == 1):
+                if(self.checkDoor[0] == 1):
                     print("1 en left")
-                    self.checkDoor = 0
+                    self.checkDoor = [0,[None,None]]
                     #if(self.mapa.adyacencias[][])
                     self.coordenadas_actuales_r[0]-=2 #atraviesa la puerta, y llega al camino
-                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setActionDoor([0,[None,None]])
                     pos_x = self.coordenadas_actuales_r[0] + 1
                     pos_y = self.coordenadas_actuales_r[1] 
                     self.GLOBAL.setCrossedDoor([[True],[pos_x,pos_y]])
                     print("fin 1 en left")
                     #Para evitar que se mueva 20 bloques, se bloquea el acceso
-                elif(self.checkDoor == 3):
+                elif(self.checkDoor[0] == 3):
                     #es adyacente
-                    self.checkDoor = 0
+                    self.checkDoor = [0,[None,None]]
                     #if(self.mapa.adyacencias[][])
                     self.coordenadas_actuales_r[0]-=3 #atraviesa la puerta, y llega al camino
-                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setActionDoor([0,[None,None]])
                     pos_x = self.coordenadas_actuales_r[0] +2
                     pos_y = self.coordenadas_actuales_r[1] 
                     self.GLOBAL.setCrossedDoor([[True],[pos_x,pos_y]])
-                elif(self.checkDoor == 2):
+                elif(self.checkDoor[0] == 2):
                     #es un portal
                     pass
                 else:
@@ -254,27 +254,27 @@ class Personaje:
         elif(self.right and not self.left):
             print("RIGHT")
             if((self.coordenadas_actuales_r[0]+1 <100) and self.isLegalAction(self.coordenadas_actuales_r[0]+1,self.coordenadas_actuales_r[1])):
-                if(self.checkDoor == 1):
+                if(self.checkDoor[0] == 1):
                     print("1 en right")
-                    self.checkDoor = 0
+                    self.checkDoor = [0,[None,None]]
                     self.coordenadas_actuales_r[0]+=2
-                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setActionDoor([0,[None,None]])
                     pos_x = self.coordenadas_actuales_r[0] -1
                     pos_y = self.coordenadas_actuales_r[1] 
                     self.GLOBAL.setCrossedDoor([[True],[pos_x,pos_y]])
                     print("fin 1 en right")
-                elif(self.checkDoor == 3):
+                elif(self.checkDoor[0] == 3):
                     #es adyacente
                     print("3 en right")
-                    self.checkDoor = 0
+                    self.checkDoor = [0,[None,None]]
                     #if(self.mapa.adyacencias[][])
                     self.coordenadas_actuales_r[0]+=3 #atraviesa la puerta, y llega al camino
-                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setActionDoor([0,[None,None]])
                     pos_x = self.coordenadas_actuales_r[0] -2
                     pos_y = self.coordenadas_actuales_r[1] 
                     self.GLOBAL.setCrossedDoor([[True],[pos_x,pos_y]])
                     print("fin 3 en right")
-                elif(self.checkDoor == 2):
+                elif(self.checkDoor[0] == 2):
                     #es un portal
                     pass
                 else:
@@ -284,27 +284,27 @@ class Personaje:
         if(self.up and not self.down):
             print("UP")
             if((self.coordenadas_actuales_r[1]-1 >=0) and self.isLegalAction(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1]-1)):
-                if(self.checkDoor == 1):
+                if(self.checkDoor[0] == 1):
                     print("1 en up")
-                    self.checkDoor = 0
+                    self.checkDoor = [0,[None,None]]
                     self.coordenadas_actuales_r[1]-=2
-                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setActionDoor([0,[None,None]])
                     pos_x = self.coordenadas_actuales_r[0]
                     pos_y = self.coordenadas_actuales_r[1] + 1
                     self.GLOBAL.setCrossedDoor([[True],[pos_x,pos_y]])
                     print("fin 1 en up")
-                elif(self.checkDoor == 3):
+                elif(self.checkDoor[0] == 3):
                     #es adyacente
                     print("3 en up")
-                    self.checkDoor = 0
+                    self.checkDoor = [0,[None,None]]
                     #if(self.mapa.adyacencias[][])
                     self.coordenadas_actuales_r[1]-=3 #atraviesa la puerta, y llega al camino
-                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setActionDoor([0,[None,None]])
                     pos_x = self.coordenadas_actuales_r[0]
                     pos_y = self.coordenadas_actuales_r[1] + 2
                     self.GLOBAL.setCrossedDoor([[True],[pos_x,pos_y]])
                     print("fin 3 en up")
-                elif(self.checkDoor == 2):
+                elif(self.checkDoor[0] == 2):
                     #es un portal
                     pass
                 else:
@@ -314,27 +314,27 @@ class Personaje:
         elif(self.down and not self.up):
             print("DOWN")
             if((self.coordenadas_actuales_r[1]+1 <100) and self.isLegalAction(self.coordenadas_actuales_r[0],self.coordenadas_actuales_r[1]+1)):
-                if(self.checkDoor == 1):
+                if(self.checkDoor[0] == 1):
                     print("1 en down")
-                    self.checkDoor = 0
+                    self.checkDoor = [0,[None,None]]
                     self.coordenadas_actuales_r[1]+=2
-                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setActionDoor([0,[None,None]])
                     pos_x = self.coordenadas_actuales_r[0]
                     pos_y = self.coordenadas_actuales_r[1] - 1
                     self.GLOBAL.setCrossedDoor([[True],[pos_x,pos_y]])
                     print("fin 1 en down")
-                elif(self.checkDoor == 3):
+                elif(self.checkDoor[0] == 3):
                     #es adyacente
                     print("3 en down")
-                    self.checkDoor = 0
+                    self.checkDoor = [0,[None,None]]
                     #if(self.mapa.adyacencias[][])
                     self.coordenadas_actuales_r[1]+=3 #atraviesa la puerta, y llega al camino
-                    self.GLOBAL.setActionDoor(0)
+                    self.GLOBAL.setActionDoor([0,[None,None]])
                     pos_x = self.coordenadas_actuales_r[0]
                     pos_y = self.coordenadas_actuales_r[1] - 2
                     self.GLOBAL.setCrossedDoor([[True],[pos_x,pos_y]])
                     print("fin 3 en down")
-                elif(self.checkDoor == 2):
+                elif(self.checkDoor[0] == 2):
                     #es un portal
                     pass
                 else:

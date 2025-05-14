@@ -45,7 +45,7 @@ class Global:
         global m
         m = None
         global actionDoor
-        actionDoor = 0
+        actionDoor = [0,[None,None]]
         global crossedDoor
         crossedDoor = [[False],[None,None]]
         global canGoOutFirst 
