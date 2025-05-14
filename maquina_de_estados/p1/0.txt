@@ -1,0 +1,14 @@
+La descripción de la sala 0Es la siguiente: Descripción sala
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 3, y está abierta: 1
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: 1
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 5, y está abierta: 1
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: 1
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 9, y está abierta: 1
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: 1
+

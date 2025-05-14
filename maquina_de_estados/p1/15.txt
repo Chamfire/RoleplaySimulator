@@ -1,0 +1,10 @@
+La descripción de la sala 15Es la siguiente: En esta galería puedes ver el suelo de piedra sólido debajo de tus pies, con piedras y escombros esparcidos por todas partes, y a lo lejos, ves una luz débil que proviene de antorchas colgadas en las paredes, iluminando el camino hacia la profundidad de la mina. La galería es estrecha y recta, con paredes de piedra rugosa que parecen haber sido talladas a mano, y un techo bajo que hace que te sientas como si estuvieras caminando a través de un túnel. El aire está lleno del olor a tierra húmeda y polvo, y puedes escuchar el sonido de agua subterránea corriendo en el lejano horizonte.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 9, y está abierta: "La puerta de madera se abre con un crujido suave, revelando una galería amplia y oscura que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: "La puerta de madera se abre con un crujido suave, revelando una galería amplia y oscura que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 6, y está abierta: La puerta de madera se abre con un crujido, y ahora se encuentra en un pasillo oscuro, iluminado solo por las moradas baldosas que se extienden ante él.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: La puerta de madera se abre con un crujido, y ahora se encuentra en un pasillo oscuro, iluminado solo por las moradas baldosas que se extienden ante él.
+

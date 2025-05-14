@@ -1,0 +1,14 @@
+La descripción de la sala 17Es la siguiente: En esta galería puedes ver arcos de piedra que sostienen un techo bajo y oscura, y paredes de piedra arenisca que parecen haber sido talladas a mano. La luz del exterior se filtra a través de los arcos, creando sombras profundas y destacando la arena gris que cubre el suelo. En el centro de la sala, un río de agua clara fluye lentamente, alimentado por una fuente en el techo, creando un murmullo suave que rompe el silencio. A lo largo de las paredes, se encuentran antiguas máquinas de molienda y herramientas de mina, cubiertas de polvo y polvo, que parecen haber estado abandonadas durante siglos. La galería parece haber sido olvidada por el tiempo, pero todavía retiene una atmósfera de actividad y trabajo, como si los mineros hubieran abandonado en un momento de la noche.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 8, y está abierta: "La puerta de madera se abre con un crujido, y de repente te encuentras en un pasillo estrecho, sumido en la oscuridad, cubierto de baldosas moradas que se extienden hacia el horizonte.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: "La puerta de madera se abre con un crujido, y de repente te encuentras en un pasillo estrecho, sumido en la oscuridad, cubierto de baldosas moradas que se extienden hacia el horizonte.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 16, y está abierta: La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro y húmedo, donde las baldosas moradas se extienden como un abismo sin fin.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro y húmedo, donde las baldosas moradas se extienden como un abismo sin fin.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 7, y está abierta: "La puerta de madera cruje suavemente mientras se abre con un clic, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: "La puerta de madera cruje suavemente mientras se abre con un clic, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+

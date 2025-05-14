@@ -1,0 +1,6 @@
+La descripción de la sala 14Es la siguiente: Descripción sala
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 3, y está abierta: 1
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: 1
+

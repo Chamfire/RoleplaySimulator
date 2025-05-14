@@ -4,6 +4,8 @@ import random
 import numpy as np
 import sys
 import heapq
+import pickle
+import base64
 
 
 # 0: Casilla sin determinar
@@ -27,9 +29,139 @@ class Sala:
 
 
 class Map_generation:
-    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck, numJugadores, NPC_imagen,id_host,width,height):
+    def __init__(self,eleccion,currentPartida,tipo_mision, variableDeCheck, numJugadores, NPC_imagen,id_host,width,height,load = False):
+        if(not load):
+            self.NPC_imagen = NPC_imagen
+            self.id_host = id_host
+            self.tile_cache = {}
+            imagen = pygame.image.load(self.NPC_imagen)
+
+            # Define el tamaño de cada frame
+            ancho_frame = 64
+            alto_frame = 64
+
+            # Calcula el número de frames en cada fila y columna
+            num_frames_x = imagen.get_width() // ancho_frame
+            num_frames_y = imagen.get_height() // alto_frame
+
+            # Lista para almacenar los frames
+            self.frames = {}
+
+            # Recorre la imagen y extrae cada frame
+            for y in range(num_frames_y):
+                self.frames[y] = []
+                for x in range(num_frames_x):
+                    # Extrae el frame actual
+                    frame = imagen.subsurface(pygame.Rect(x * ancho_frame, y * alto_frame, ancho_frame, alto_frame))
+                    # Añade el frame a la lista
+                    self.frames[y] += [frame]
+
+
+            sys.setrecursionlimit(5000)  
+            config_dir = 'mapas/'+currentPartida
+            config_file = 'mapa_'+currentPartida+".pickle"
+            config_file2 = 'objetos_'+currentPartida+".pickle"
+            self.eleccion = eleccion
+            self.map_size = 100
+            self.spawn = None
+            self.centroides = {}
+            self.salas = {}
+            self.map_tileSize = [width/37.5000,height/21.8750]
+            self.casillasVistas = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
+            self.playersCurrentPos = {}
+
+            self.grafos = {}
+            self.adyacencias = None
+            self.main_path = None
+            self.matrix = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
+            self.objetos = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
+            if(self.eleccion == "mazmorra"):
+                NUM_TILES = 121
+                for i in range(NUM_TILES):  # el número total de IDs posibles
+                    path = f"tiles/{self.eleccion}/{i}.png"
+                    try:
+                        self.tile_cache[i] = pygame.image.load(path)
+                    except:
+                        self.tile_cache[i] = None
+                self.createMazmorra() 
+                self.fillWithObjects(tipo_mision,variableDeCheck)
+                self.createRandomThings(tipo_mision,variableDeCheck, eleccion,numJugadores)
+                # for sala in self.salas: 
+                #     print("Sala "+str(sala)+" acceso directo a:")
+                #     print(self.salas[sala].daASalas)
+                #     print("Llaves: ")
+                #     print(self.salas[sala].contieneLlaves)
+            elif(self.eleccion == "desierto"):
+                pass
+            elif(self.eleccion == "aldea medieval"):
+                pass
+            elif(self.eleccion == "ciudad moderna"):
+                pass
+            elif(self.eleccion == "bosque"):
+                pass
+            elif(self.eleccion == "barco"):
+                pass
+            
+            if not os.path.exists(config_dir):
+                os.makedirs(config_dir)
+                        
+            with open(config_dir+'/'+config_file, 'wb',encoding='utf8') as f:
+                # for fila in self.matrix:
+                #     f.write(' '.join(map(str, fila)) + '\n')
+                datos_s = pickle.dumps(self.matrix)
+                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
+                pickle.dump(datos_encoded, f)
+
+            with open(config_dir+'/'+config_file2, 'wb',encoding='utf8') as f:
+                datos_s = pickle.dumps(self.objetos)
+                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
+                pickle.dump(datos_encoded, f)
+            with open(config_dir+'/casillasVistas.pickle', 'wb',encoding='utf8') as f:
+                datos_s = pickle.dumps(self.casillasVistas)
+                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
+                pickle.dump(datos_encoded, f)
+            with open(config_dir+'/salas.pickle', 'wb',encoding='utf8') as f:
+                datos_s = pickle.dumps(self.salas)
+                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
+                pickle.dump(datos_encoded, f)
+            with open(config_dir+'/adyacencias.pickle', 'wb',encoding='utf8') as f:
+                datos_s = pickle.dumps(self.adyacencias)
+                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
+                pickle.dump(datos_encoded, f)
+            with open(config_dir+'/pathNPC.pickle', 'wb',encoding='utf8') as f:
+                datos_s = pickle.dumps(self.NPC_imagen)
+                datos_encoded = base64.b64encode(datos_s).decode('utf-8')
+                pickle.dump(datos_encoded, f)
+        else:
+            config_dir = 'mapas/'+currentPartida
+            config_file = 'mapa_'+currentPartida+".pickle"
+            config_file2 = 'objetos_'+currentPartida+".pickle"
+            with open(config_dir+'/'+config_file, "rb") as f:
+                matrix = pickle.load(f)
+            with open(config_dir+'/'+config_file2, "rb") as f:
+                objetos = pickle.load(f)
+            with open(config_dir+'/casillasVistas.pickle', "rb") as f:
+                casillasVistas = pickle.load(f)
+            with open(config_dir+'/salas.pickle', "rb") as f:
+                salas = pickle.load(f)
+            with open(config_dir+'/adyacencias.pickle', "rb") as f:
+                adyacencias = pickle.load(f)
+            with open(config_dir+'/pathNPC.pickle', "rb") as f:
+                NPC_imagen = pickle.load(f)
+
+
+            self.reload(matrix,objetos,adyacencias,salas,casillasVistas,eleccion,width,height,NPC_imagen)
+
+    def reload(self,matrix,objetos,adyacencias,salas,casillasVistas,eleccion,width,height,NPC_imagen):
+        self.matrix = matrix
+        self.objetos = objetos
+        self.adyacencias = adyacencias
+        self.salas = salas
+        self.casillasVistas = casillasVistas
+        self.eleccion = eleccion
+        self.width = width
+        self.height = height
         self.NPC_imagen = NPC_imagen
-        self.id_host = id_host
         self.tile_cache = {}
         imagen = pygame.image.load(self.NPC_imagen)
 
@@ -52,27 +184,6 @@ class Map_generation:
                 frame = imagen.subsurface(pygame.Rect(x * ancho_frame, y * alto_frame, ancho_frame, alto_frame))
                 # Añade el frame a la lista
                 self.frames[y] += [frame]
-
-
-        sys.setrecursionlimit(5000)  
-        config_dir = 'mapas/'+currentPartida
-        config_file = 'mapa_'+currentPartida+".txt"
-        config_file2 = 'objetos_'+currentPartida+".txt"
-        self.eleccion = eleccion
-        self.map_size = 100
-        self.spawn = None
-        self.centroides = {}
-        self.salas = {}
-        self.map_tileSize = [width/37.5000,height/21.8750]
-        self.casillasVistas = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
-        self.playersCurrentPos = {}
-
-        self.grafos = {}
-        self.adyacencias = None
-        self.main_path = None
-        self.matrix = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
-        self.objetos = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
-        self.mobs = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
         if(self.eleccion == "mazmorra"):
             NUM_TILES = 121
             for i in range(NUM_TILES):  # el número total de IDs posibles
@@ -81,37 +192,9 @@ class Map_generation:
                     self.tile_cache[i] = pygame.image.load(path)
                 except:
                     self.tile_cache[i] = None
-            self.createMazmorra() 
-            self.fillWithObjects(tipo_mision,variableDeCheck)
-            self.createRandomThings(tipo_mision,variableDeCheck, eleccion,numJugadores)
-            # for sala in self.salas: 
-            #     print("Sala "+str(sala)+" acceso directo a:")
-            #     print(self.salas[sala].daASalas)
-            #     print("Llaves: ")
-            #     print(self.salas[sala].contieneLlaves)
-        elif(self.eleccion == "desierto"):
-            pass
-        elif(self.eleccion == "aldea medieval"):
-            pass
-        elif(self.eleccion == "ciudad moderna"):
-            pass
-        elif(self.eleccion == "bosque"):
-            pass
-        elif(self.eleccion == "barco"):
-            pass
-        
-        if not os.path.exists(config_dir):
-            os.makedirs(config_dir)
-                    
-        with open(config_dir+'/'+config_file, 'w',encoding='utf8') as f:
-            for fila in self.matrix:
-                f.write(' '.join(map(str, fila)) + '\n')
+        self.map_tileSize = [width/37.5000,height/21.8750]
 
-        with open(config_dir+'/'+config_file2, 'w',encoding='utf8') as f:
-            for fila in self.matrix:
-                f.write(' '.join(map(str, fila)) + '\n')
 
-    
     def createMazmorra(self):
         num_max_salas = 20
         num_min_salas = 15

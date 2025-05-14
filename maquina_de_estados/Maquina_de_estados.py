@@ -36,6 +36,8 @@ class Estado:
         self.jugadores = {}
         self.mobs = {}
         self.objetos = {}
+        self.Mapa = None
+
 
     def checkIfCanRun(self,player):
         pass
@@ -51,6 +53,12 @@ class Estado:
         pass
     def OnExitEstadoByPlayers(self,DM):
         pass
+    def resetForPickle(self):
+        self.GLOBAL = None
+        self.Mapa = None
+    def setForLoad(self,mapa):
+        self.GLOBAL = Global()
+        self.Mapa = mapa
 
 class EstadoInicial(Estado):
     def __init__(self,isInicial,content,RAG_musica,currentPartida,id):
@@ -1302,6 +1310,24 @@ class Maquina_de_estados:
         #             #estado.
         #             estado.run(self.DM)
         #             return #para salirte
+    def resetGlobalsForPickle(self):
+        self.GLOBAL = None
+        self.DM.GLOBAL = None
+        for id,estado in self.ordenEstados.items():
+            estado.resetForPickle()
+        
+        
+    def setForLoad(self,mapa):
+        self.GLOBAL = Global()
+        self.DM.GLOBAL = Global()
+
+        #cargo el mapa
+        mapa = mapa
+
+        for id,estado in self.ordenEstados.items():
+            estado.setForLoad(mapa)
+
+
         
         
     
