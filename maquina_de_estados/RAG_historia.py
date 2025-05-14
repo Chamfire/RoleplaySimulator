@@ -66,7 +66,13 @@ class RAG_historia:
     def escribirInfoMision(self,mision_basica,dialogos):
         with open('maquina_de_estados/'+self.currentPartida+'/info_mision.txt','w',encoding='utf-8') as f:
             info_a_escribir = mision_basica+"\n\n"
-            info_a_escribir = dialogos
+            info_a_escribir += dialogos
+            f.write(info_a_escribir)
+    def escribirInfoSala(self,sala,frases_puertas,descripcion):
+        with open('maquina_de_estados/'+self.currentPartida+'/'+str(sala)+'.txt','w',encoding='utf-8') as f:
+            info_a_escribir = "La descripción de la sala "+str(sala)+"Es la siguiente: "+descripcion+"\n\n"
+            for i in frases_puertas[sala]:
+                info_a_escribir += "Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala "+str(sala)+" con la sala "+str(i)+": "+frases_puertas[sala][i]+"\n\n"
             f.write(info_a_escribir)
 
     def escribirDialogosNPC(self,dialogos):
