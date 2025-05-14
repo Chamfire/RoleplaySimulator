@@ -535,7 +535,7 @@ class EstadoDeSalaFinal(Estado):
                     if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
                         #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
                         pygame.mixer.Channel(1).play(self.soundDoor)
-                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta"
+                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
                         DM.speak(text) 
                         self.GLOBAL.setActionDoor(0) 
                 
@@ -818,7 +818,7 @@ class EstadoDeSalaIntermedia(Estado):
                     if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
                         #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
                         pygame.mixer.Channel(1).play(self.soundDoor)
-                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta"
+                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
                         DM.speak(text) 
                         self.GLOBAL.setActionDoor(0) 
                 
@@ -1139,7 +1139,7 @@ class EstadoDeSalaInicial(Estado):
                     if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
                         #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
                         pygame.mixer.Channel(1).play(self.soundDoor)
-                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta"
+                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
                         DM.speak(text) 
                         self.GLOBAL.setActionDoor(0) 
 
