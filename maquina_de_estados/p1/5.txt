@@ -1,10 +1,6 @@
-La descripción de la sala 5Es la siguiente: Descripción sala
+La descripción de la sala 5Es la siguiente: En esta galería puedes ver la capa superior de la mina, una serie de túneles de piedra que se extienden a lo largo de varios kilómetros. Las paredes están cubiertas de una capa de polvo y espolones, y el techo es bajo y cerrado. La galería está iluminada por antorchas que danzan con un movimiento lento, creando sombras en las paredes. El aire está lleno de polvo y el olor a tierra mojada. Un ruido de agua brota de una abertura en la pared, iluminando el camino con una luz suave.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 1, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 6, y está abierta: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: 1
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 4, y está abierta: 1
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
 

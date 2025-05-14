@@ -25,130 +25,7 @@ class CrearTablas:
                 nombre text UNIQUE NOT NULL
             )
         """)
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS mapageneral (
-                partida_id text REFERENCES partida(numPartida) PRIMARY KEY,
-                size text NOT NULL,
-                directorio_imagen text NOT NULL,
-                matriz_codificacion text NOT NULL
-            )
-        """)
 
-        cursor.execute(
-            """
-            CREATE TRIGGER IF NOT EXISTS eliminar_mapa_general
-                BEFORE DELETE ON partida
-                    BEGIN
-                        DELETE FROM mapageneral
-                        WHERE partida_id = OLD.numPartida;
-                    END;
-        """
-        )
-
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS ubicacion (
-                partida_id_mapa text NOT NULL REFERENCES mapageneral(numPartida),
-                nombre text NOT NULL,
-                es_fin boolean NOT NULL,
-                matriz_codificacion text NOT NULL,
-                directorio_imagen text NOT NULL,
-                es_inicio boolean NOT NULL,
-                es_punto_clave boolean NOT NULL,
-                coordenadas_esquina_izqda_sup text NOT NULL,
-                size text NOT NULL,
-                UNIQUE(coordenadas_esquina_izqda_sup,size),
-                PRIMARY KEY(partida_id_mapa,nombre)
-            )
-        """)
-
-        cursor.execute(
-            """
-            CREATE TRIGGER IF NOT EXISTS eliminar_ubicacion
-                BEFORE DELETE ON partida
-                    BEGIN
-                        DELETE FROM ubicacion
-                        WHERE partida_id_mapa = OLD.numPartida;
-                    END;
-        """
-        )
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS quest (
-                partida_id text REFERENCES partida(numPartida) NOT NULL,
-                num_quest integer UNIQUE NOT NULL CHECK(num_quest >=0),
-                estado_quest text REFERENCES enum_estado(estado_quest) NOT NULL,
-                num_npc_partida_q integer,
-                partida_id_npc text CONSTRAINT different_ids_npc_and_id CHECK(partida_id == partida_id_npc),
-                FOREIGN KEY(num_npc_partida_q,partida_id_npc) REFERENCES npc(num_npc_partida,id_partida) ON DELETE CASCADE,
-                PRIMARY KEY(partida_id,num_quest)
-            )
-        """)
-
-        cursor.execute(
-            """
-            CREATE TRIGGER IF NOT EXISTS eliminar_quest
-                BEFORE DELETE ON partida
-                    BEGIN
-                        DELETE FROM quest
-                        WHERE partida_id = OLD.numPartida;
-                    END;
-        """
-        )
-
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS enum_estado (
-                estado_quest text PRIMARY KEY 
-            )
-        """)
-        cursor.execute(
-            """
-            CREATE TRIGGER IF NOT EXISTS eliminar_quest
-                BEFORE DELETE ON enum_estado
-                    BEGIN
-                        DELETE FROM quest
-                        WHERE estado_quest = OLD.estado_quest;
-                    END;
-        """
-        )
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS variable_chequeo (
-                valor text,
-                partida_id_c text UNIQUE NOT NULL,
-                num_quest_c integer UNIQUE NOT NULL,
-                tipo_var text NOT NULL,
-                npartida integer UNIQUE NOT NULL CONSTRAINT npartida_less_than_zero_or_equal CHECK(npartida >0),
-                FOREIGN KEY(partida_id_c,num_quest_c) REFERENCES quest(partida_id,num_quest) ON DELETE CASCADE,
-                PRIMARY KEY(npartida,partida_id_c,num_quest_c)
-            )
-        """)
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS npc (
-                num_npc_partida integer UNIQUE NOT NULL CONSTRAINT num_npc_partida_less_than_zero CHECK(num_npc_partida >=0),
-                partida_id text REFERENCES partida(numPartida) NOT NULL,
-                PRIMARY KEY(num_npc_partida,partida_id)
-            )
-        """)
-
-        cursor.execute(
-            """
-            CREATE TRIGGER IF NOT EXISTS eliminar_npc
-                BEFORE DELETE ON partida
-                    BEGIN
-                        DELETE FROM npc
-                        WHERE partida_id = OLD.numPartida;
-                    END;
-        """
-        )
-
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS dialogo (
-                num_dialogo integer UNIQUE NOT NULL CONSTRAINT num_dialogo_less_than_zero_or_equal CHECK(num_dialogo >0),
-                texto text NOT NULL,
-                num_npc_partida_d integer UNIQUE NOT NULL,
-                partida_id text UNIQUE NOT NULL,
-                FOREIGN KEY(num_npc_partida_d,partida_id) REFERENCES npc(num_npc_partida,partida_id) ON DELETE CASCADE,
-                PRIMARY KEY(num_dialogo,num_npc_partida_d,partida_id)
-            )
-        """)
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS enum_trasfondo (
                 tipo_trasfondo text PRIMARY KEY
@@ -281,8 +158,7 @@ class CrearTablas:
                 tipo_size text NOT NULL REFERENCES size(tipo_size) ON UPDATE CASCADE,
                 partida_id text NOT NULL REFERENCES partida(numPartida),
                 id_jugador text REFERENCES jugador(id_jugador),
-                num_npc_partida integer REFERENCES npc(num_npc_partida) ON DELETE CASCADE,
-                PRIMARY KEY(partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
+                PRIMARY KEY(partida_id,id_jugador,name) CONSTRAINT personaje_con_id CHECK(id_jugador is NOT NULL)
             )
         """)
         cursor.execute(
@@ -321,8 +197,7 @@ class CrearTablas:
                 name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE,
                 partida_id text NOT NULL REFERENCES partida(numPartida),
                 id_jugador text REFERENCES jugador(id_jugador),
-                num_npc_partida integer REFERENCES npc(num_npc_partida),
-                PRIMARY KEY(tipo_language,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
+                PRIMARY KEY(tipo_language,partida_id,id_jugador,name) CONSTRAINT personaje_debe_tener_id_in_pk_comp CHECK(id_jugador is NOT NULL)
             )
         """
         )
@@ -368,8 +243,7 @@ class CrearTablas:
                 name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE,
                 partida_id text NOT NULL REFERENCES partida(numPartida),
                 id_jugador text REFERENCES jugador(id_jugador),
-                num_npc_partida integer REFERENCES npc(num_npc_partida),
-                PRIMARY KEY(tipo_caracteristica,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
+                PRIMARY KEY(tipo_caracteristica,partida_id,id_jugador,name) CONSTRAINT personaje_debe_tener_id_in_pk_comp CHECK(id_jugador is NOT NULL)
             )
         """
         )
@@ -404,8 +278,7 @@ class CrearTablas:
                 name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE,
                 partida_id text NOT NULL REFERENCES partida(numPartida),
                 id_jugador text REFERENCES jugador(id_jugador),
-                num_npc_partida integer REFERENCES npc(num_npc_partida),
-                PRIMARY KEY(tipo_habilidad,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
+                PRIMARY KEY(tipo_habilidad,partida_id,id_jugador,name) CONSTRAINT personaje_debe_tener_id_in_pk_comp CHECK(id_jugador is NOT NULL)
             )
         """
         )
@@ -455,11 +328,10 @@ class CrearTablas:
                 name text NOT NULL REFERENCES personaje(name) ON UPDATE CASCADE,
                 partida_id text NOT NULL REFERENCES partida(numPartida),
                 id_jugador text REFERENCES jugador(id_jugador),
-                num_npc_partida integer REFERENCES npc(num_npc_partida),
                 procedencia text NOT NULL REFERENCES enum_procedencia(procedencia),
                 lista_nombre text NOT NULL,
                 slot text NOT NULL,
-                PRIMARY KEY(categoria_obj,name_obj,partida_id,id_jugador,num_npc_partida,name) CONSTRAINT personaje_must_be_npc_or_jugador_in_pk_comp CHECK((id_jugador is NULL and num_npc_partida is not NULL) or (id_jugador is not NULL and num_npc_partida is NULL))
+                PRIMARY KEY(categoria_obj,name_obj,partida_id,id_jugador,name,slot) CONSTRAINT personaje_debe_tener_id_in_pk_comp CHECK(id_jugador is NOT NULL)
             )
         """
         )

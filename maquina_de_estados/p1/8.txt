@@ -1,6 +1,12 @@
-La descripción de la sala 8Es la siguiente: Descripción sala
+La descripción de la sala 8Es la siguiente: En esta galería puedes ver una serie de paredes de piedra desnudas y una poca iluminación, el suelo está cubierto de una capa fina de polvo, y a lo lejos, puedes ver la luz débil de antorchas colgadas en las paredes para iluminar el camino.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 15, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 10, y está abierta: "La puerta se abre con un crujido y te encuentras en una galería amplia, la oscuridad es total".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: "La puerta se abre con un crujido y te encuentras en una galería amplia, la oscuridad es total".
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 2, pero está cerrada: La puerta de madera permanece cerrada, resistente a sus esfuerzos.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 2, y está abierta: "Has cruzado el umbral y te encuentras ahora en un largo pasillo oscuro, con baldosas moradas que se extienden hasta el horizonte".
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: "Has cruzado el umbral y te encuentras ahora en un largo pasillo oscuro, con baldosas moradas que se extienden hasta el horizonte".
 

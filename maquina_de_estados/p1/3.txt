@@ -1,6 +1,10 @@
-La descripción de la sala 3Es la siguiente: Descripción sala
+La descripción de la sala 3Es la siguiente: En esta galería puedes ver el suelo de piedra a tu alrededor, con rocas y escombros esparcidos por todas partes. La luz de las velas colgadas en las paredes ilumina el espacio, creando sombras largas y profundas en las paredes. El aire está lleno del olor a tierra húmeda y el sonido de las piedras que resuenan con cada paso. A lo lejos, puedes ver una pequeña escalera que conduce a una plataforma superior, y a cada lado de la galería, hay tres pasillos que se bifurcan en diferentes direcciones. Un mural antiguo cubre una pared, mostrando escenas de batallas y dragones. Un río subterráneo crujiente discurre bajo tu pie, y puedes escuchar el sonido de agua que fluye lejos.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 13, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 14, y está abierta: "La puerta de madera cruza sobre su cabeza, dejando atrás un pasillo oscuro y un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: "La puerta de madera cruza sobre su cabeza, dejando atrás un pasillo oscuro y un suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 11, y está abierta: "La puerta de madera cruje ligeramente mientras se abre con un clic, y de repente se encuentra en un pasillo oscuro, donde el suelo de baldosas moradas se extiende ante él, iluminado solo por la débil luz de las piedras.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: "La puerta de madera cruje ligeramente mientras se abre con un clic, y de repente se encuentra en un pasillo oscuro, donde el suelo de baldosas moradas se extiende ante él, iluminado solo por la débil luz de las piedras.
 

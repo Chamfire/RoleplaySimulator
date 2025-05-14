@@ -1,10 +1,10 @@
-La descripción de la sala 0Es la siguiente: Descripción sala
+La descripción de la sala 0Es la siguiente: En esta galería puedes ver una serie de pasillos estrechos y rectos hechos de piedra, con techos altos y paredes de roca sólida. La luz que entra por las pocas aberturas en las paredes es frágil y apenas ilumina el espacio, creando sombras profundas y oscuras en las paredes. El suelo es de piedra plana y fría, y el aire está lleno del olor a tierra y minerales. A lo lejos, puedes ver un arco de piedra que marca el extremo del pasillo, y el sonido de agua corriente se escucha desde allí, creando un misterio y una sensación de profundidad en este lugar.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 12, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 6, y está abierta: "La puerta de madera cruje en su mano mientras se abre con facilidad, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti como un abismo insondable.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: "La puerta de madera cruje en su mano mientras se abre con facilidad, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti como un abismo insondable.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 14, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 13, y está abierta: "Has abierto la puerta y te encuentras ahora en un pasillo oscuro y sombrío, con baldosas moradas que se extienden ante ti en oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: "Has abierto la puerta y te encuentras ahora en un pasillo oscuro y sombrío, con baldosas moradas que se extienden ante ti en oscuridad.
 

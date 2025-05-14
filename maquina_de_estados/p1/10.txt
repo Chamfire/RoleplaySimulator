@@ -1,14 +1,6 @@
-La descripción de la sala 10Es la siguiente: Descripción sala
+La descripción de la sala 10Es la siguiente: En esta galería puedes ver una serie de paredes de piedra grisácea que parecen desafiar el paso de cualquier explorador. La luz de las antorchas que cuelgan de las paredes ilumina las rocas y las esculturas de piedra que adornan las paredes, creando un ambiente sombrío y misterioso. El suelo de piedra es resbaloso y los pasos resonan con cada movimiento, creando un ambiente de tensión y anticipación. El aire está lleno del olor a tierra húmeda y la humedad que emana de las paredes hace que el ambiente sea aún más pesado. La galería se extiende a lo largo de la mina, con pasillos estrechos y cortos que parecen conducir a lugares desconocidos.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 9, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 8, y está abierta: "La puerta de madera crujeó suavemente al abrirse, y ahora te encuentras en una amplia galería oscura y silenciosa.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: 1
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 7, y está abierta: 1
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: 1
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 14, y está abierta: 1
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: "La puerta de madera crujeó suavemente al abrirse, y ahora te encuentras en una amplia galería oscura y silenciosa.
 

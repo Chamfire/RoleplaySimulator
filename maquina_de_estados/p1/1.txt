@@ -1,10 +1,6 @@
-La descripción de la sala 1Es la siguiente: Descripción sala
+La descripción de la sala 1Es la siguiente: En esta galería puedes ver una serie de túneles de piedra con techo bajo, con paredes de ladrillos y caliza, que parecen haber sido excavados a mano en un momento pasado. La luz que entra por las entradas laterales se refleja en el polvo que aletea en el aire, creando sombras en las paredes. El suelo de piedra está cubierto de polvo y escombros, y el aire está lleno del olor a tierra húmeda y a minerales. Algunas paredes tienen grafitis y anuncios de trabajadores, mientras que otras están cubiertas de hongos y musgo. El silencio es absoluto, excepto el sonido de los pasos de los trabajadores de la mina en el exterior.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 5, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 13, y está abierta: "Has abierto la puerta y te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti como un abismo.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: 1
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 15, y está abierta: 1
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: "Has abierto la puerta y te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti como un abismo.
 

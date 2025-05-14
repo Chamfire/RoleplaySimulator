@@ -709,48 +709,49 @@ class SeleccionPersonaje2:
                         cursor.execute(query_save_trasfondo, data_trasfondo)
 
                     #personaje
-                    query_save_personaje = """INSERT INTO personaje (name, sm1, sm2, sm3, nivel, inspiracion,esta_muerto,bpc,cons,fu,des,sab,car,int,coordenadas_actuales,vida_temp,max_vida,ca,edad,peso,pc,pp,pe,po,ppt,velocidad,descripcion_fisica,tipo_raza,tipo_clase,tipo_alineamiento,id_trasfondo,tipo_size,partida_id,id_jugador,num_npc_partida, genero) 
-                                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
+                    query_save_personaje = """INSERT INTO personaje (name, sm1, sm2, sm3, nivel, inspiracion,esta_muerto,bpc,cons,fu,des,sab,car,int,coordenadas_actuales,vida_temp,max_vida,ca,edad,peso,pc,pp,pe,po,ppt,velocidad,descripcion_fisica,tipo_raza,tipo_clase,tipo_alineamiento,id_trasfondo,tipo_size,partida_id,id_jugador, genero) 
+                                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
                         
-                    data_personaje = (self.personaje.name, self.personaje.sm1,self.personaje.sm2,self.personaje.sm3,self.personaje.nivel,self.personaje.inspiracion,self.personaje.esta_muerto,self.personaje.bpc,self.personaje.cons,self.personaje.fu,self.personaje.des,self.personaje.sab,self.personaje.car,self.personaje.int,self.personaje.coordenadas_actuales,self.personaje.vida_temp,self.personaje.max_vida,self.personaje.ca,self.personaje.edad,self.personaje.peso,self.personaje.pc,self.personaje.pp,self.personaje.pe,self.personaje.po,self.personaje.ppt,self.personaje.velocidad,self.personaje.descripcion_fisica,self.personaje.tipo_raza,self.personaje.tipo_clase,self.personaje.tipo_alineamiento[0],id_trasfondo,self.personaje.tipo_size,self.personaje.partida_id,self.id,None,self.personaje.genero) 
+                    data_personaje = (self.personaje.name, self.personaje.sm1,self.personaje.sm2,self.personaje.sm3,self.personaje.nivel,self.personaje.inspiracion,self.personaje.esta_muerto,self.personaje.bpc,self.personaje.cons,self.personaje.fu,self.personaje.des,self.personaje.sab,self.personaje.car,self.personaje.int,self.personaje.coordenadas_actuales,self.personaje.vida_temp,self.personaje.max_vida,self.personaje.ca,self.personaje.edad,self.personaje.peso,self.personaje.pc,self.personaje.pp,self.personaje.pe,self.personaje.po,self.personaje.ppt,self.personaje.velocidad,self.personaje.descripcion_fisica,self.personaje.tipo_raza,self.personaje.tipo_clase,self.personaje.tipo_alineamiento[0],id_trasfondo,self.personaje.tipo_size,self.personaje.partida_id,self.id,self.personaje.genero) 
                     conn.execute(query_save_personaje,data_personaje)
 
                     #competencias de idioma
                     data_idiomas_comp = []
-                    query_save_comp_idioma = """INSERT INTO comp_idioma (tipo_language,name,partida_id,id_jugador,num_npc_partida)
-                                                VALUES (?,?,?,?,?)"""
+                    query_save_comp_idioma = """INSERT INTO comp_idioma (tipo_language,name,partida_id,id_jugador)
+                                                VALUES (?,?,?,?)"""
                     for idioma,isCompetent in self.personaje.idiomas_competencia.items():
                         if(isCompetent):
-                            data_idiomas_comp += [(idioma,self.personaje.name,self.personaje.partida_id,self.id,None)]
+                            data_idiomas_comp += [(idioma,self.personaje.name,self.personaje.partida_id,self.id)]
                     conn.executemany(query_save_comp_idioma,data_idiomas_comp)
                     
                     #salvaciones de competencia
                     data_salvaciones_comp = []
-                    query_save_salvaciones_comp = """INSERT INTO salvaciones_comp (tipo_caracteristica,name,partida_id,id_jugador,num_npc_partida)
-                                                    VALUES(?,?,?,?,?)"""
+                    query_save_salvaciones_comp = """INSERT INTO salvaciones_comp (tipo_caracteristica,name,partida_id,id_jugador)
+                                                    VALUES(?,?,?,?)"""
                     for salvacion, isCompetent in self.personaje.salvaciones_comp.items():
                         if(isCompetent):
-                            data_salvaciones_comp += [(salvacion,self.personaje.name,self.personaje.partida_id,self.id,None)]
+                            data_salvaciones_comp += [(salvacion,self.personaje.name,self.personaje.partida_id,self.id)]
                     conn.executemany(query_save_salvaciones_comp,data_salvaciones_comp)
 
                     #habilidades de competencia
                     data_habilidades_comp = []
-                    query_save_habilidades_comp = """INSERT INTO habilidades_comp (tipo_habilidad,name,partida_id,id_jugador,num_npc_partida)
-                                                    VALUES(?,?,?,?,?)"""
+                    query_save_habilidades_comp = """INSERT INTO habilidades_comp (tipo_habilidad,name,partida_id,id_jugador)
+                                                    VALUES(?,?,?,?)"""
                     for habilidad, isCompetent in self.personaje.habilidades_comp.items():
                         if(isCompetent):
-                            data_habilidades_comp += [(habilidad,self.personaje.name,self.personaje.partida_id,self.id,None)]
+                            data_habilidades_comp += [(habilidad,self.personaje.name,self.personaje.partida_id,self.id)]
                     conn.executemany(query_save_habilidades_comp,data_habilidades_comp)
 
                     #inventario
                     data_inventario = []
-                    query_save_inventario = """INSERT INTO inventario (cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,num_npc_partida,procedencia,lista_nombre,slot)
-                                                VALUES(?,?,?,?,?,?,?,?,?,?)"""
+                    query_save_inventario = """INSERT INTO inventario (cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,procedencia,lista_nombre,slot)
+                                                VALUES(?,?,?,?,?,?,?,?,?)"""
                     for slot_name, objeto in self.personaje.equipo.objetos.items():
                         if(objeto != None):
                             tipo = str(type(objeto[2]))
                             tipo_nombre = tipo[25:-2]
-                            data_inventario += [(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,None,'Equipo',tipo_nombre,slot_name)]
+                            print(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,'Equipo',tipo_nombre,slot_name)
+                            data_inventario += [(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,'Equipo',tipo_nombre,slot_name)]
                     conn.executemany(query_save_inventario,data_inventario)
 
 

@@ -1,6 +1,10 @@
-La descripción de la sala 2Es la siguiente: Descripción sala
+La descripción de la sala 2Es la siguiente: En esta galería puedes ver paredes de piedra de un tono grisáceo, con estalagmitas y estalactitas que caen y se acumulan lentamente. El suelo está cubierto de polvo y rocas, y el aire está lleno del olor a tierra húmeda y a moho. Un río subterráneo, poco profundo, fluye lentamente por el centro de la galería, alimentado por un pequeño manantial en una esquina. Las paredes están iluminadas débilmente por antorchas de madera, que cuelgan de estacas en el suelo, creando un ambiente sombrío y silencioso.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 13, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 7, y está abierta: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo largo y oscuro, iluminado solo por las moradas baldosas que cubren el suelo debajo de tus pies".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo largo y oscuro, iluminado solo por las moradas baldosas que cubren el suelo debajo de tus pies".
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 8, y está abierta: Al abrir la puerta, un viento frío la acarició mientras pasaba a un pasillo oscuro, donde las baldosas moradas se extendían ante él como el abismo.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: Al abrir la puerta, un viento frío la acarició mientras pasaba a un pasillo oscuro, donde las baldosas moradas se extendían ante él como el abismo.
 

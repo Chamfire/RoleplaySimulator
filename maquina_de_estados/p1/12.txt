@@ -1,10 +1,10 @@
-La descripción de la sala 12Es la siguiente: Descripción sala
+La descripción de la sala 12Es la siguiente: En esta galería puedes ver túneles de piedra estrechos y sin iluminación, con paredes de piedra grisácea que parecen abarcar el techo. El aire es frío y húmedo, lleno del olor a tierra y polvo. Las paredes están decoradas con antiguas runas y símbolos de los antiguos mineros, y el suelo está cubierto de polvo y escombros. A lo lejos, puedes ver una luz débil que proviene de una fuente de iluminación a distancia, pero no parece ser lo suficientemente brillante como para iluminar completamente la galería. El ambiente es sombrío y silencioso, con solo el sonido del polvo que se levanta con cada paso.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 13, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 4, y está abierta: "La puerta de madera se abre con un clic, y ahora se encuentra en un pasillo oscuro con baldosas moradas que se extienden ante él como un túnel de espejos".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: "La puerta de madera se abre con un clic, y ahora se encuentra en un pasillo oscuro con baldosas moradas que se extienden ante él como un túnel de espejos".
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 0, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 9, y está abierta: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro y silencioso, con baldosas moradas que se extienden ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro y silencioso, con baldosas moradas que se extienden ante ti.
 

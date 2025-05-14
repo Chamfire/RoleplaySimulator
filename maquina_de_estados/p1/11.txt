@@ -1,10 +1,10 @@
-La descripción de la sala 11Es la siguiente: Descripción sala
+La descripción de la sala 11Es la siguiente: En esta galería puedes ver una estrecha pasarela de piedra que cruza sobre un abismo profundo, con paredes de piedra caliza que se elevan hacia el techo a cielo abierto. Alrededor de la pasarela, se encuentran estalagmitas y estalactitas de piedra, que han crecido durante siglos bajo el peso del agua que cae desde arriba. La luz del día se filtra a través de una puente de piedra que cruza sobre el abismo, creando sombras dramáticas y reflejando la luz en la nieve blanca de la arena que cubre el suelo. El aire está lleno de elusivos olores a humedad y piedra, y se puede escuchar el sonido de agua que cae de lejos.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 4, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 3, y está abierta: "La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro con baldosas moradas que se extienden hacia el fondo.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro con baldosas moradas que se extienden hacia el fondo.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 9, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 7, y está abierta: "La puerta de madera se abre con un crujido, y tú te encuentras en un pasillo oscuro, rodeado de baldosas moradas que se extienden hasta el infinito".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: 1
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta de madera se abre con un crujido, y tú te encuentras en un pasillo oscuro, rodeado de baldosas moradas que se extienden hasta el infinito".
 
