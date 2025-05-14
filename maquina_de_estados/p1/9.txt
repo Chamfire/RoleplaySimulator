@@ -1,10 +1,14 @@
 La descripción de la sala 9Es la siguiente: Descripción sala
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 19, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 10, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: 1
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 17, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 11, y está abierta: 1
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: 1
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 6, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: 1
 

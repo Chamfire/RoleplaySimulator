@@ -176,9 +176,11 @@ class Map_generation:
                 frame = imagen.subsurface(pygame.Rect(x * ancho_frame, y * alto_frame, ancho_frame, alto_frame))
                 # Añade el frame a la lista
                 self.frames[y] += [frame]
+
         if(self.eleccion == "mazmorra"):
             NUM_TILES = 121
             for i in range(NUM_TILES):  # el número total de IDs posibles
+                print(i)
                 path = f"tiles/{self.eleccion}/{i}.png"
                 try:
                     self.tile_cache[i] = pygame.image.load(path)
@@ -1644,17 +1646,16 @@ class Map_generation:
         for i in range(i_start,i_start+26):
             cont_x = 0
             for j in range(j_start,j_start+13):
-                if(self.casillasVistas[i][j] == 1):
+                if(int(self.casillasVistas[i][j]) == 1):
                     try:
-                        tile = self.tile_cache[self.matrix[j][i]]
+                        integ = int(self.matrix[j][i])
+                        tile = self.tile_cache[integ]
                         if tile is not None:
                             screen.blit(pygame.transform.scale(tile, (self.map_tileSize[0],self.map_tileSize[1])), ((width/150.0000)+(self.map_tileSize[0])*cont_y, (height/87.5000)+(self.map_tileSize[1])*cont_x)) #32 32 8 8
-                        else:
-                            print("tile es none")
-                    except Exception as e:
-                        print(e)
+                    except:
+                        pass
                     try:
-                        id = self.objetos[j][i]
+                        id = int(self.objetos[j][i])
                         if(not (87 <= id <= 90)):
                             object = self.tile_cache[id]
                             if object is not None:

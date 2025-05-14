@@ -26,7 +26,7 @@ class Personaje:
         self.po = 0
         self.ppt = 0
         self.genero = None
-        self.coordenadas_actuales = '(0,0)' #de momento serán esas
+        self.coordenadas_actuales = '0,0' #de momento serán esas
         self.coordenadas_actuales_r = [None,None]
         self.vida_temp = None #cambiar al escoger la clase
         self.max_vida = None
@@ -136,7 +136,7 @@ class Personaje:
         self.maxY = (self.tileSize[1])*12
 
 
-        self.coordenadas_actuales = "("+str(self.coordenadas_actuales_r[0])+","+str(self.coordenadas_actuales_r[1])+")"
+        self.coordenadas_actuales = ""+str(self.coordenadas_actuales_r[0])+","+str(self.coordenadas_actuales_r[1])+""
 
 
     def setPlayerAction(self,a):

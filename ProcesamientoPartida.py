@@ -166,7 +166,7 @@ class ProcesamientoPartida:
             prompt = """{Eres un dungeon master de Dnd 5e y quieres presentarte"""+c1+""".}<|eot_id|><|start_header_id|>user<|end_header_id|>
                             {Completa la siguiente frase, en un mismo párrafo: "¡"""+momento+""", y """+bienvenida+"""! """+intro+""", soy Leia, la Dungeon Master. <Genera un texto de presentación general de d&d aquí, sin dar detalles sobre nada de la partida brevemente. """+consideracion+""">.}
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            response_good = "Bienvenido"#self.consultarAlDM(prompt,model_path,fin)
+            response_good = self.consultarAlDM(prompt,model_path,fin)
 
             print("Progreso: 4%")
 
@@ -371,7 +371,7 @@ class ProcesamientoPartida:
                             {Genera un párrafo sobre el motivo por el que un NPC (de nombre """+self.personaje.name+""", que es """+self.personaje.tipo_raza+""" y que además es """+self.personaje.tipo_clase+""") podría encontrarse en la siguiente zona: """+self.ubicacion+""". Ten en cuenta en la redacción, que """+self.personaje.name+""" es """+self.personaje.genero+"""}
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
-            motivoUbicacion = "bonito"#self.consultarAlDM(prompt,model_path,None)
+            motivoUbicacion = self.consultarAlDM(prompt,model_path,None)
             # print("-----------------")
             # print(motivoUbicacion)
             # print("-----------------")
@@ -379,7 +379,7 @@ class ProcesamientoPartida:
             peticion = "Genera 6 párrafos de trasfondo para un NPC que se llama "+self.personaje.name+", que es "+self.personaje.genero+", que es """+self.personaje.tipo_raza+" y que además es "+self.personaje.tipo_clase+". Haz referencia a su familia, a si tiene o no algún romance/matrimonio y detallalo, y a rasgos que podrían ser importantes de su vida"
             prompt = f"Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC, que es {self.personaje.genero}. Usa el siguiente contexto para responder a la petición, y si te falta contexto, inventatelo, siempre que no contradiga al contexto dado: {motivoUbicacion}<|eot_id|><|start_header_id|>user<|end_header_id|>{peticion}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
-            infoTrasfondo = "trasfondo"#self.consultarAlDM(prompt,model_path,None,2024,1024)
+            infoTrasfondo = self.consultarAlDM(prompt,model_path,None,2024,1024)
             # print("-----------------")
             # print(infoTrasfondo)
             # print("-----------------")
@@ -463,7 +463,7 @@ class ProcesamientoPartida:
                             "Um. Quizás puedas ayudarme con una cosa...".
                         No indiques cosas como **diálogo de propuesta de misión** o **párrafo motivacional**. 
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            dialogos_posibles = "mision"#self.consultarAlDM(prompt,model_path,None,2048,300)
+            dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,300)
             print("Progreso: 20%")
             self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
             presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y yo voy a hablar con un NPC por primera vez, y quieres que este NPC se presente, indicando su nombre y el nombre del lugar donde están.<|eot_id|><|start_header_id|>user<|end_header_id|>
@@ -472,7 +472,7 @@ class ProcesamientoPartida:
                             por el que el NPC está ahí, ni cuál es su objetivo, solo limítate a presentarle, sin dar muchos detalles. Omite cualquier frase del tipo "Claro, aquí tienes los párrafos" o cosas de por el estilo. Puedes empezar con frases como
                             "¡Hola aventurero! Soy..." o "¡Buenos días! Mi nombre es ... " o frases similares.
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            dialogos_presentacion = "hola"#self.consultarAlDM(presentacion_NPC,model_path,None,2048,700)
+            dialogos_presentacion = self.consultarAlDM(presentacion_NPC,model_path,None,2048,700)
             print("Progreso: 30%")
             self.RAG_historia.escribirDialogosNPC(dialogos_presentacion)
 
@@ -500,23 +500,23 @@ class ProcesamientoPartida:
                 for j in Mapa.salas[i].daASalas:
                     if(Mapa.salas[i].daASalas[j][1] == "abierto"):
                         if(Mapa.adyacencias[i][j] != 1):
-                            descripcionpa = "1"#self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200)
-                            regresosa = "2"#self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
+                            descripcionpa = self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200)
+                            regresosa = self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
                             frase_puerta[i][j] = [None,descripcionpa,regresosa]
                         else:
-                            descripcionpsa = "1"#self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200)
-                            regresosa = "2"#self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
+                            descripcionpsa = self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200)
+                            regresosa = self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
                             frase_puerta[i][j] = [None,descripcionpsa,regresosa]
                     else:
                         if(Mapa.adyacencias[i][j] != 1):
-                            puertace = "1"#self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200)
-                            descripcionpa = "2"#self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200)
-                            regresosa = "3"#self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
+                            puertace = self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200)
+                            descripcionpa = self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200)
+                            regresosa = self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
                             frase_puerta[i][j] = [puertace,descripcionpa,regresosa]
                         else:
-                            puertace = "1"#self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200)
-                            regresosa = "2"#self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
-                            descripcionpsa = "3"#self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200)
+                            puertace = self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200)
+                            regresosa = self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
+                            descripcionpsa = self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200)
                             frase_puerta[i][j] = [puertace,descripcionpsa,regresosa]
                 objetos = ""
                 for i_start in range(Mapa.salas[i].pos_x, Mapa.salas[i].size[0]):
@@ -579,7 +579,7 @@ class ProcesamientoPartida:
                             objetos += "marcas en el suelo de desgaste, "
                 prompt_sala = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
                             Genea un párrafo breve para describir la galería. Ten encuenta que tiene las siguientes cosas en ella: """+objetos+""". Comienza con la frase "En esta galería puedes ver..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-                descripcion_sala = "Descripción sala"#self.consultarAlDM(prompt_sala,model_path,None,2048,700)
+                descripcion_sala = self.consultarAlDM(prompt_sala,model_path,None,2048,700)
                 self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa,frase_puerta,descripcion_sala)
                 # Guardamos las descripciones asociadas a esa sala
                 self.RAG_historia.escribirInfoSala(i,frase_puerta,descripcion_sala)
@@ -588,13 +588,30 @@ class ProcesamientoPartida:
             self.maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo,NPC_imagen_carpeta)
             self.maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision)
             print("Progreso: 100%")
+            string = str(Mapa.playersCurrentPos[Mapa.id_host][0])+","+str(Mapa.playersCurrentPos[Mapa.id_host][1])
+            conn = sqlite3.connect("simuladordnd.db")
+            cur = conn.cursor()
+            print(string,Mapa.id_host,self.currentPartida)
+            query_updatej = """UPDATE personaje SET coordenadas_actuales = '"""+str(string)+"""' WHERE id_jugador = '"""+Mapa.id_host+"""' and partida_id = '"""+self.currentPartida+"""';"""
+            cur.execute(query_updatej)
+            conn.commit()
+            conn.close() 
+
 
             self.maquina.resetGlobalsForPickle()
-            self.buscar_surface(self.maquina)
 
             with open('maquina_de_estados/'+self.currentPartida+'/maquina.pickle', "wb") as f:
                 pickle.dump(self.maquina, f)
         else:
+            conn = sqlite3.connect("simuladordnd.db")
+            cur = conn.cursor()
+            #cargamos la partida 1, si existe: el orden de las columnas será ese
+            cur.execute("SELECT ubicacion_historia FROM partida WHERE numPartida = '"+self.currentPartida+"'")
+            rows = cur.fetchall() #para llegar a esta pantalla, la pantalla tiene que existir sí o sí
+            if(rows[0] != None):
+                self.ubicacion = rows[0][0]
+            conn.close()
+
             with open('maquina_de_estados/'+self.currentPartida+'/maquina.pickle', "rb") as f:
                 self.maquina = pickle.load(f)
         mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,None,None,None,None,None,self.width,self.height,True)

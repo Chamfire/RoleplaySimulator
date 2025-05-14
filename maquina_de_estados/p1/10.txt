@@ -1,10 +1,14 @@
 La descripción de la sala 10Es la siguiente: Descripción sala
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 1, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 9, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: 1
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 16, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 7, y está abierta: 1
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: 1
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 14, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: 1
 

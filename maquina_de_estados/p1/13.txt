@@ -1,6 +1,16 @@
 La descripción de la sala 13Es la siguiente: Descripción sala
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 19, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 12, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: 1
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 3, y está abierta: 1
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: 1
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 2, pero está cerrada: 1
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 2, y está abierta: 2
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: 2
 

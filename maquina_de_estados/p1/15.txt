@@ -1,6 +1,10 @@
 La descripción de la sala 15Es la siguiente: Descripción sala
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 0, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 8, y está abierta: 1
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: 1
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 1, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: 1
 

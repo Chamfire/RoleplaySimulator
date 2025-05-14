@@ -1,14 +1,10 @@
 La descripción de la sala 17Es la siguiente: Descripción sala
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 2, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 4, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: 1
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 9, y está abierta: 1
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: 1
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 0, y está abierta: 1
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 12, y está abierta: 1
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: 1
 

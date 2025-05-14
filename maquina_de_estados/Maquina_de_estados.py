@@ -912,9 +912,9 @@ class EstadoDeSalaInicial(Estado):
 
 
     def checkIfCanRun(self,DM,personaje):
-        print(self.numAccepts)
-        print(self.numJugadores)
-        print("------------------------")
+        # print(self.numAccepts)
+        # print(self.numJugadores)
+        # print("------------------------")
         if self.numAccepts != self.numJugadores:
             return self.checkIfCanRunFirst(personaje)
         else:
@@ -1230,8 +1230,6 @@ class DM:
         voices = self.engine.getProperty('voices')
         self.engine.setProperty('voice', voices[0].id) #voz en español
         self.engine.setProperty('language',"es-ES")
-    def stop(self):
-        self.engine.stop()
 
 class Maquina_de_estados:
     def __init__(self,enabledDMVoice,currentPartida,personaje):

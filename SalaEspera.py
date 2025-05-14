@@ -744,6 +744,9 @@ class SalaEspera:
                                         personaje_temp.car = row[12]
                                         personaje_temp.int = row[13]
                                         personaje_temp.coordenadas_actuales = row[14]
+                                        text = personaje_temp.coordenadas_actuales.split(",")
+                                        personaje_temp.coordenadas_actuales_r[0] = text[0]
+                                        personaje_temp.coordenadas_actuales_r[1] = text[1]
                                         personaje_temp.vida_temp = row[15]
                                         personaje_temp.max_vida = row[16]
                                         personaje_temp.ca = row[17]
@@ -903,6 +906,9 @@ class SalaEspera:
                                     personaje_temp.car = row[12]
                                     personaje_temp.int = row[13]
                                     personaje_temp.coordenadas_actuales = row[14]
+                                    text = personaje_temp.coordenadas_actuales.split(",")
+                                    personaje_temp.coordenadas_actuales_r[0] = text[0]
+                                    personaje_temp.coordenadas_actuales_r[1] = text[1]
                                     personaje_temp.vida_temp = row[15]
                                     personaje_temp.max_vida = row[16]
                                     personaje_temp.ca = row[17]
@@ -1063,6 +1069,9 @@ class SalaEspera:
                                     personaje_temp.car = row[12]
                                     personaje_temp.int = row[13]
                                     personaje_temp.coordenadas_actuales = row[14]
+                                    text = personaje_temp.coordenadas_actuales.split(",")
+                                    personaje_temp.coordenadas_actuales_r[0] = text[0]
+                                    personaje_temp.coordenadas_actuales_r[1] = text[1]
                                     personaje_temp.vida_temp = row[15]
                                     personaje_temp.max_vida = row[16]
                                     personaje_temp.ca = row[17]
