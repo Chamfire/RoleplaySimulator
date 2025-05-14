@@ -531,6 +531,13 @@ class EstadoDeSalaFinal(Estado):
                         DM.speak(text_closed) 
                         self.GLOBAL.setActionDoor(0) 
                         return False
+                else:
+                    if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
+                        #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
+                        pygame.mixer.Channel(1).play(self.soundDoor)
+                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta"
+                        DM.speak(text) 
+                        self.GLOBAL.setActionDoor(0) 
                 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
@@ -807,7 +814,13 @@ class EstadoDeSalaIntermedia(Estado):
                         DM.speak(text_closed) 
                         self.GLOBAL.setActionDoor(0) 
                         return False
-                
+                else:
+                    if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
+                        #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
+                        pygame.mixer.Channel(1).play(self.soundDoor)
+                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta"
+                        DM.speak(text) 
+                        self.GLOBAL.setActionDoor(0) 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
@@ -1122,7 +1135,14 @@ class EstadoDeSalaInicial(Estado):
                         self.GLOBAL.setActionDoor(0) 
                         return False
                 
-                
+                else:
+                    if(10 <= self.Mapa.matrix[pos_y][pos_x] <= 13):
+                        #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
+                        pygame.mixer.Channel(1).play(self.soundDoor)
+                        text = "Parece que algún tipo de magia impide que puedas abrir esta puerta"
+                        DM.speak(text) 
+                        self.GLOBAL.setActionDoor(0) 
+
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and(self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
             #Ha decidido cruzarla
