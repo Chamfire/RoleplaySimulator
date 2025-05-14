@@ -696,6 +696,7 @@ class EstadoDeSalaIntermedia(Estado):
                 
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
+        print(self.GLOBAL.canGoOutFirst(), self.pasilloFromPuerta, self.GLOBAL.getCrossedDoor())
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor(0)
