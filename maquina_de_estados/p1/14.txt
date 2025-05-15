@@ -1,6 +1,14 @@
-La descripción de la sala 14Es la siguiente: En esta galería puedes ver una serie de pasillos angostos y altos, con paredes de piedra grisácea y un suelo de arenisca que resbala bajo los pies. La galería se extiende durante unos 100 metros, con paredes de piedra que se inclinan ligeramente hacia abajo, creando un efecto de arquitectura antigua y desgastada. En el centro de la galería, una lámpara de carbón colgada del techo proyecta sombras oscuras en las paredes, iluminando parcialmente el camino. A lo lejos, puedes escuchar el sonido de aguas subterráneas que fluyen a través de las profundidades de la mina.
+La descripción de la sala 14Es la siguiente: En esta galería puedes ver túneles de piedra con paredes de roca y techo de arenisca, iluminados por antorchas que cuelgan de las paredes y proyectan sombras en la arena. El aire está lleno del sonido de las herramientas de mina y el murmullo de los trabajadores que excavan la tierra. Un río subterráneo discurre por el centro de la galería, alimentado por una fuente natural que se encuentra en la distancia. La galería está iluminada por antorchas y luce con una luz tenue, pero el sonido de los trabajadores y el río subterráneo la hacen parecer viva y en movimiento.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 3, y está abierta: "La puerta de madera cruje bajo tu mano y se abre con un susurro, revelando un pasillo oscuro con baldosas moradas que se extienden hasta el infierno".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 2, y está abierta: "La puerta de madera se abre con un crujido, y tú te encuentras en un pasillo sombrío, con baldosas moradas que se extienden ante ti como un túnel sin fin.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera cruje bajo tu mano y se abre con un susurro, revelando un pasillo oscuro con baldosas moradas que se extienden hasta el infierno".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido, y tú te encuentras en un pasillo sombrío, con baldosas moradas que se extienden ante ti como un túnel sin fin.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 10, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se estrechan hacia adelante.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se estrechan hacia adelante.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 13, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden hasta el infinito".
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden hasta el infinito".
 

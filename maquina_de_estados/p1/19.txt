@@ -1,0 +1,10 @@
+La descripción de la sala 19Es la siguiente: En esta galería puedes ver una serie de pasillos estrechos y oscuros que conducen a profundidades inexploradas, iluminados solo por el débil resplandor de antorchas colgadas en las paredes, dejando que solo la luz de la luna y las estrellas te acompañen en tu viaje. El aire está lleno de polvo y escombros, y puedes escuchar el sonido de ruido de piedras y metal que se mueven en las profundidades de la mina. El suelo de piedra es frío y duro, y se extiende en cada dirección, ofreciendo caminos que parecen llevar a lugares desconocidos.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 19 con la sala 2, y está abierta: "La puerta de madera se abre con un crujido, y ahora estás en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti como un abismo".
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 19: "La puerta de madera se abre con un crujido, y ahora estás en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti como un abismo".
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 19 con la sala 11, y está abierta: "Has cruzado la puerta de madera sin incidentes, y te encuentras ahora en un pasillo oscuro, rodeado de baldosas moradas que se extienden hasta el horizonte.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 19: "Has cruzado la puerta de madera sin incidentes, y te encuentras ahora en un pasillo oscuro, rodeado de baldosas moradas que se extienden hasta el horizonte.
+

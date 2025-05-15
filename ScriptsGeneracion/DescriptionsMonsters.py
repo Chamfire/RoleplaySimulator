@@ -12,7 +12,7 @@ config_file = 'Monsters.json'
 
 ## Download the GGUF model
 model_name = "bartowski/Llama-3.2-3B-Instruct-GGUF"
-model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf" 
+model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
 model_path = hf_hub_download(model_name, filename=model_file)
 #semilla = 70853
 ## Instantiate model from downloaded file
@@ -22,17 +22,19 @@ prompts = []
 descripciones = {}
 monstruos = {"no-muerto", "slime", "beholder","troll", "droide","fantasma","objeto animado","cyborg", "lobo wargo","vampiro","oso","hombre lobo","serpiente","cocodrilo","momia","esfinge","goblin","cultista","gnoll","sirena","tiburón","hada","elemental de tierra","kraken","dragón","sombra","fénix","ankheg","basilisco","murciélago","rata","felino salvaje"}
 #2 descripciones por cada tipo de monstruo, y luego me quedo con la mejor de las 2 descripciones. 
-for monstruo in monstruos:
-    for i in range(0,2):
-        prompts+= [("""{Eres un dungeon master de Dnd 5e y tienes que generar descripciones para monstruos.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                    {Describe la apariencia física de un """+monstruo+ """. Limítate a ser creativo y divertido, y genéralo directamente como texto en forma de párrafo. Omite cualquier frase inicial de ¡Claro, aquí lo tienes! y cosas parecidas. Comienza tu descripción con "Se trata de un ser/monstruo/animal/etc..."}
-                    <|eot_id|><|start_header_id|>assistant<|end_header_id|>""",str(monstruo+"_"+str(i)))]
-            
+# for monstruo in monstruos:
+#     for i in range(0,1):
+prompts = [[f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                            Genera un párrafo breve para describir la galería. Para ello, usa única y exclusivamente los siguientes elementos: 1 esqueleto, restos de roca por el suelo, setas de color naranja, marcas en el suelo de desgaste, 1 canasto de madera con rubíes, 1 canasto de madera con rubíes, 1 extraño hongo alargado de color azul oscuro,. No puedes asumir que hay más objetos ni más elementos, porque no los hay. Sí que puedes dar detalles de que hay humedad, caen gotitas de agua del techo, y que es una sala de planta rectangular. Comienza con la frase "En esta galería puedes ver..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""]]
+        # prompts+= [("""{Eres un dungeon master de Dnd 5e y tienes que generar descripciones para monstruos.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+        #             {Describe la apariencia física de un """+monstruo+ """. Limítate a ser creativo y divertido, y genéralo directamente como texto en forma de párrafo. Omite cualquier frase inicial de ¡Claro, aquí lo tienes! y cosas parecidas. Comienza tu descripción con "Se trata de un ser/monstruo/animal/etc..."}
+        #             <|eot_id|><|start_header_id|>assistant<|end_header_id|>""",str(monstruo+"_"+str(i)))]
+    
 for prompt in prompts:
     semilla = random.randint(1,100000)
     llm = Llama(
             model_path=model_path,
-            n_ctx=500,  # Context length to use
+            n_ctx=2048,  # Context length to use
             n_threads=32,            # Number of CPU threads to use
             n_gpu_layers=0,        # Number of model layers to offload to GPU
             seed= semilla
@@ -40,7 +42,7 @@ for prompt in prompts:
 
         ## Generation kwargs
     generation_kwargs = {
-                    "max_tokens":400,
+                    "max_tokens":600,
                     "stop":["</s>"],
                     "echo":False, # Echo the prompt in the output
                     "top_p": 0.85, #top_p y temperatura le da aleatoriedad
@@ -55,11 +57,11 @@ for prompt in prompts:
     response_good = response_good.lstrip()
     print(response_good)
     # res is short for result
-    descripciones[prompt[1]] = [response_good]
+    #descripciones[prompt[1]] = [response_good]
 
     
-if not os.path.exists(config_dir):
-     os.makedirs(config_dir)
+# if not os.path.exists(config_dir):
+#      os.makedirs(config_dir)
         
-with open(config_dir+'/'+config_file, 'w',encoding='utf8') as f:
-     json.dump(descripciones, f,ensure_ascii=False)
+# with open(config_dir+'/'+config_file, 'w',encoding='utf8') as f:
+#      json.dump(descripciones, f,ensure_ascii=False)

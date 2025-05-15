@@ -1,0 +1,10 @@
+La descripción de la sala 18Es la siguiente: En esta galería puedes ver estrechos pasillos de piedra que se extienden en ambas direcciones, con paredes de ladrillo y techo de piedra y caliza. La galería está iluminada por pequeñas rendijas de luz que permiten que la luz del exterior se filtre en el interior, creando un ambiente sombrío pero no oscuro. El suelo de piedra es resbaloso y el aire está lleno de polvo y el olor a humedad y piedra. A lo largo de la galería, puedes ver restos de herramientas de mina y objetos abandonados, como cuerdas y cadenas, que sugieren que muchos han pasado por aquí antes que tú.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 6, y está abierta: "La puerta de madera cedió con un crujido suave, dejándolo en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante él".
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: "La puerta de madera cedió con un crujido suave, dejándolo en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante él".
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 12, y está abierta: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con baldosas moradas que se extienden hacia el interior.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con baldosas moradas que se extienden hacia el interior.
+

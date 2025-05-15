@@ -1,14 +1,10 @@
-La descripción de la sala 7Es la siguiente: En esta galería puedes ver una serie de túneles estrechos y rectos, iluminados por antorchas que cuelgan de las paredes de piedra, creando sombras profundas y calientes colores rojizos. El aire está lleno del olor a tierra húmeda y minera, y el suelo está cubierto de polvo y escombros, indicadores de la actividad continua de los mineros que trabajan aquí. A lo largo de los túneles, puedes ver pilas de blocos de piedra, y máquinas de extraer minerales, que encajonan la luz de las antorchas y la convierten en un ambiente sombrío y misterioso.
+La descripción de la sala 7Es la siguiente: En esta galería puedes ver una serie de túneles de piedra que se extienden a lo largo de la mina, con paredes de roca sólida y un techo bajo que parece colapsarse bajo tu peso. El aire está lleno de polvo y el olor a tierra y metal es denso. Algunas secciones de las paredes están decoradas con antiguas pinturas rupestres, representando escenas de mineros trabajando y batallas contra criaturas subterráneas. En el centro de la galería, un río de agua sucia fluye a través de la roca, alimentado por una fuente secreta que emana de la pared de una sección más profunda. El sonido de las piedras que se deslizan y los gritos de los mineros a lo lejos llenan el aire.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 2, y está abierta: "Has abierto la puerta con éxito, ahora te encuentras en un pasillo oscuro y húmedo, con un suelo de baldosas moradas que se extiende ante ti en la oscuridad.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 5, y está abierta: "Has cruzado la puerta de madera y te encuentras ahora en una galería amplia y oscura, con paredes de piedra y un techo alto que parece desaparecer en la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: "Has abierto la puerta con éxito, ahora te encuentras en un pasillo oscuro y húmedo, con un suelo de baldosas moradas que se extiende ante ti en la oscuridad.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: "Has cruzado la puerta de madera y te encuentras ahora en una galería amplia y oscura, con paredes de piedra y un techo alto que parece desaparecer en la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 11, y está abierta: "Has conseguido abrir la puerta sin incidentes, y te encuentras ahora en un pasillo sombrío con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 0, y está abierta: La puerta de madera se abre con un crujido suave y, con un suspiro, entras en el pasillo oscuro y baldoso de colores morados.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: "Has conseguido abrir la puerta sin incidentes, y te encuentras ahora en un pasillo sombrío con un suelo de baldosas moradas que se extiende ante ti.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 4, y está abierta: "La puerta de madera se abre con un crujido, y ahora se encuentra en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante él.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: "La puerta de madera se abre con un crujido, y ahora se encuentra en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante él.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: La puerta de madera se abre con un crujido suave y, con un suspiro, entras en el pasillo oscuro y baldoso de colores morados.
 

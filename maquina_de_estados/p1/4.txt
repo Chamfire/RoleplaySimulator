@@ -1,14 +1,6 @@
-La descripción de la sala 4Es la siguiente: En esta galería puedes ver columnas de piedra de unos 3 metros de altura que se extienden hasta el techo, dejando pasillos angostos entre ellas, con estanterías de piedra en las paredes donde se almacenan gran cantidades de minerales y rocas de todo tipo, y en el suelo, una capa de polvo y escombros que cubre el suelo de piedra, y en el techo, un brillo débil de antorchas que danzan sobre las paredes y columnas, creando sombras largas y oscuras en las paredes.
+La descripción de la sala 4Es la siguiente: En esta galería puedes ver una serie de paredes de piedra y suelo de tierra y polvo, con estalagmitas y estalactitas que caen lentamente desde el techo. La luz de las antorchas colgadas en las paredes es cálida y marrón, creando un ambiente sombrío y antiguo. El aire está lleno del polvo de la tierra y el sonido de la tierra que se desploma y las estalactitas que golpean contra las paredes. En el fondo de la galería, puedes ver una serie de túneles y pasillos que se extienden en dirección a la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 12, y está abierta: "La puerta se abre con un crujido, y encuentras tú mismo en un pasillo oscuro con baldosas moradas que se extienden ante ti como una carretera a la oscuridad.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 1, y está abierta: La puerta de madera cedió con facilidad a tu mano firme y ahora te encuentras en un pasillo oscuro, iluminado solo por las sombrías baldosas moradas que te rodean.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: "La puerta se abre con un crujido, y encuentras tú mismo en un pasillo oscuro con baldosas moradas que se extienden ante ti como una carretera a la oscuridad.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 13, y está abierta: "El portón de madera se abre con un crujido, revelando un pasillo oscuro, con baldosas moradas que se estendían hasta el fondo, y un aire de misterio que lo envuelve.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: "El portón de madera se abre con un crujido, revelando un pasillo oscuro, con baldosas moradas que se estendían hasta el fondo, y un aire de misterio que lo envuelve.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 7, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro, donde las baldosas moradas se extienden como un abismo sin fin.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro, donde las baldosas moradas se extienden como un abismo sin fin.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: La puerta de madera cedió con facilidad a tu mano firme y ahora te encuentras en un pasillo oscuro, iluminado solo por las sombrías baldosas moradas que te rodean.
 

@@ -1,6 +1,10 @@
-La descripción de la sala 5Es la siguiente: En esta galería puedes ver la capa superior de la mina, una serie de túneles de piedra que se extienden a lo largo de varios kilómetros. Las paredes están cubiertas de una capa de polvo y espolones, y el techo es bajo y cerrado. La galería está iluminada por antorchas que danzan con un movimiento lento, creando sombras en las paredes. El aire está lleno de polvo y el olor a tierra mojada. Un ruido de agua brota de una abertura en la pared, iluminando el camino con una luz suave.
+La descripción de la sala 5Es la siguiente: En esta galería de la mina puedes ver estrechos pasillos de piedra que se extienden ante ti, iluminados por antorchas que dan un brillo débil en las paredes grises. El aire está lleno de polvo y el olor a tierra húmeda y carbón asado recorre tus sentidos. El suelo bajo tus pies es de piedra plana y seca, con pequeñas grietas que permiten filtrar la luz de las antorchas. A lo lejos, puedes ver una escalera que conduce a un piso superior, mientras que a tu izquierda y derecha, los pasillos se ramifican en diferentes direcciones, invitándote a explorar sus secretos.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 6, y está abierta: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 7, y está abierta: "El portón de madera cruje suavemente mientras se abre, revelando una galería amplia y oscura, iluminada solo por una luz débil que se filtra a través de las ventanas de piedra.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: "El portón de madera cruje suavemente mientras se abre, revelando una galería amplia y oscura, iluminada solo por una luz débil que se filtra a través de las ventanas de piedra.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 15, y está abierta: La puerta de madera se abre con un crujido, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende hasta la oscuridad.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: La puerta de madera se abre con un crujido, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende hasta la oscuridad.
 

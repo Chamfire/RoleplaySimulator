@@ -1,14 +1,6 @@
-La descripción de la sala 13Es la siguiente: En esta galería puedes ver una serie de pasillos angostos y rectos de piedra que se extienden ante ti, iluminados débilmente por antorchas que cuelgan de las paredes y proyectan sombras inquietantes. El aire está lleno de polvo y el silencio es absoluto, rompido solo por el suave eco de tu paso. Las paredes están cubiertas de hiedra y musgo, y el suelo, cubierto de capas de grava y piedras pequeñas, suena seco bajo tus pies. Ante ti, el pasillo se divide en tres direcciones: a la izquierda, una puerta de madera oxidada y antigua parece conducir a un área oscura y sin iluminación; al centro, el pasillo se abre a un gran espacio con una cúpula alta y una escalera que sube a la cúpula; y a la derecha, una serie de pasillos más estrechos y sin iluminación parece conducir a un laberinto de túneles y pasillos.
+La descripción de la sala 13Es la siguiente: En esta galería puedes ver columnas de piedra negra y blanca que se elevan hasta el techo, y el suelo de piedra es frío y húmedo bajo tus pies. Las paredes están cubiertas de una capa fina de polvo y las luces de gas que se encuentran a intervalos regulares proyectan un resplandor débil sobre el lugar, creando sombras largas y ominosas en las paredes. El aire está lleno de el polvo y el olor a tierra húmeda y metal metálico, y puedes escuchar el sonido de agua corriente en la distancia. A medida que te acercas a la salida, notas que la puerta de entrada está cerrada con candados y parece haber sido cerrada recientemente.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 1, y está abierta: "La puerta se abre con un crujido, y encuentras un pasillo oscuro con baldosas moradas que se extienden ante ti".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 14, y está abierta: "Con un crujido, la puerta se abre, y se encuentra ahora en un pasillo oscuro, con baldosas moradas que se extienden ante él como un abismo sin fin.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "La puerta se abre con un crujido, y encuentras un pasillo oscuro con baldosas moradas que se extienden ante ti".
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 4, y está abierta: "Has cruzado el portal y te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "Has cruzado el portal y te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 0, y está abierta: "La puerta de madera se abre con un crujido suave, y tú entras en un pasillo oscuro, donde el suelo de baldosas moradas parece desafiar tus pasos".
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "La puerta de madera se abre con un crujido suave, y tú entras en un pasillo oscuro, donde el suelo de baldosas moradas parece desafiar tus pasos".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "Con un crujido, la puerta se abre, y se encuentra ahora en un pasillo oscuro, con baldosas moradas que se extienden ante él como un abismo sin fin.
 
