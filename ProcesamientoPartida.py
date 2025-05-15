@@ -579,7 +579,7 @@ class ProcesamientoPartida:
                             objetos += "marcas en el suelo de desgaste, "
                 prompt_sala = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
                             Genea un párrafo breve para describir la galería. Ten encuenta que tiene las siguientes cosas en ella: """+objetos+""". Comienza con la frase "En esta galería puedes ver..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-                descripcion_sala = self.consultarAlDM(prompt_sala,model_path,None,2048,700)
+                descripcion_sala = self.consultarAlDM(prompt_sala,model_path,None,2048,600)
                 self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa,frase_puerta,descripcion_sala)
                 # Guardamos las descripciones asociadas a esa sala
                 self.RAG_historia.escribirInfoSala(i,frase_puerta,descripcion_sala)
