@@ -1,14 +1,6 @@
-La descripción de la sala 0Es la siguiente: En esta galería puedes ver una sala de planta rectangular, con paredes de piedra grisácea que se alzan hasta el techo, donde caen gotitas de agua lentas y regulares. La sala está húmeda, con un olor a tierra y humedad que invade el aire, y el suelo de piedra es frío y resbaloso bajo los pies. El techo, cubierto de piedra caliza, permite que la humedad se filtre y se acumule en gotitas que caen sobre el suelo, creando una sensación de sombra y oscuridad en la habitación.
+La descripción de la sala 0Es la siguiente: En esta galería puedes ver una sala de planta rectangular, iluminada por la entrada y rodeada de sombras, donde la humedad acentúa la oscuridad. El suelo está cubierto de marcas en el desgaste, indicando el paso de pies y ruedas a lo largo de los siglos. Al centro de la sala, una tumba de piedra se alza, cubierta por una runa que parece haber sido grabada recientemente, su presencia es un misterio. A un lado, una roca puntiaguda sobresale del suelo, como si hubiera sido arrancada de la pared. De repente, un gotero bajo el techo rompe el silencio, y caen gotitas de agua que danzan en el suelo, reflejando la luz débil. La atmósfera es pesada y misteriosa, y el aire está lleno del olor a humedad y piedra.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 2, y está abierta: "La puerta de madera cruje bajo su mano, y una luz débil del exterior ilumina un pasillo oscuro de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 13, y está abierta: "La puerta se abre con un crujido, y ahora te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: "La puerta de madera cruje bajo su mano, y una luz débil del exterior ilumina un pasillo oscuro de baldosas moradas que se extiende ante ti.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 5, y está abierta: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con baldosas moradas que se extienden hasta la oscuridad.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con baldosas moradas que se extienden hasta la oscuridad.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 12, y está abierta: "La puerta de madera cedió sucesivamente a tu empuje y se abrió con un crujido, dejándote en un pasillo largo y oscuro, iluminado únicamente por las moradas baldosas que se extienden ante ti.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: "La puerta de madera cedió sucesivamente a tu empuje y se abrió con un crujido, dejándote en un pasillo largo y oscuro, iluminado únicamente por las moradas baldosas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: "La puerta se abre con un crujido, y ahora te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti.
 

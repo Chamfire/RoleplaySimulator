@@ -1,14 +1,14 @@
-La descripción de la sala 2Es la siguiente: En esta galería puedes ver una sala de planta rectangular con paredes de piedra sólida y un techo altísimo que permite el paso de gotitas de agua que caen suavemente de arriba, creando un ambiente húmedo y sombrío. El suelo de piedra es frío y rugoso bajo los pies, y el aire está lleno del olor a humedad y tierra. La luz apenas llega desde las linternas que se han encendido, iluminando apenas la superficie de las paredes y el suelo, creando sombras profundas que parecen moverse en la oscuridad.
+La descripción de la sala 2Es la siguiente: En esta galería puedes ver una sala de planta rectangular, con paredes de piedra arenisca y un techo de madera que deja caer gotitas de agua sobre el suelo húmedo. El piso está cubierto de marcas de desgaste, indicativas de la antigüedad y el uso que se ha hecho de este lugar. En el centro de la habitación, una roca puntiaguda sobresale del suelo, como si hubiera sido excavada con cuidado. Un canasto de madera, antiguo y cubierto de polvo, se encuentra en una esquina, lleno de esmeraldas que brillan con una luz tenue en la penumbra. El aire está cargado de humedad, y el olor a tierra y moho prevalece en este lugar abandonado.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 0, y está abierta: "La puerta de madera cede con un crujido y, con un suspiro, te encuentras en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 8, y está abierta: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: "La puerta de madera cede con un crujido y, con un suspiro, te encuentras en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 9, y está abierta: La puerta de madera cruje bajo tu mano y se abre con un clic, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti como un túnel sombrío.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 14, y está abierta: "La puerta de madera se abre con un crujido, y se encuentra ahora en un pasillo oscuro, con baldosas moradas que se extienden hasta el horizonte".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: La puerta de madera cruje bajo tu mano y se abre con un clic, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti como un túnel sombrío.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: "La puerta de madera se abre con un crujido, y se encuentra ahora en un pasillo oscuro, con baldosas moradas que se extienden hasta el horizonte".
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 10, y está abierta: "El portón de madera cruje suavemente mientras te abre paso, y te encuentras ahora en un pasillo oscuro con baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 3, y está abierta: Al abrir la puerta, una oscuridad densa lo envuelve, y se encuentra en un pasillo largo, con baldosas moradas que se extienden hasta la oscuridad, y un silencio absoluto que lo rodea.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: "El portón de madera cruje suavemente mientras te abre paso, y te encuentras ahora en un pasillo oscuro con baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: Al abrir la puerta, una oscuridad densa lo envuelve, y se encuentra en un pasillo largo, con baldosas moradas que se extienden hasta la oscuridad, y un silencio absoluto que lo rodea.
 

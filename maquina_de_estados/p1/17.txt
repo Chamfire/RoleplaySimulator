@@ -1,0 +1,10 @@
+La descripción de la sala 17Es la siguiente: En esta galería puedes ver el suelo cubierto de restos de roca por el suelo, que se mezclan con setas de color naranja que han crecido en este lugar durante mucho tiempo. Una roca puntiaguda sobresale del suelo, como si hubiera sido arrancada de la pared, y marcas en el suelo de desgaste sugieren que alguien o algo ha pasado por aquí. Un extraño hongo alargado de color azul oscuro se extiende desde la pared, como si estuviera intentando cubrir la superficie. La humedad del aire es palpable y caen gotitas de agua del techo, que danzan en la superficie del suelo. La sala es de planta rectangular, con paredes de piedra que la delimitan en todas direcciones. En este lugar, la naturaleza parece haberse apoderado de la estructura de la galería, creando un entorno único y fascinante.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 1, y está abierta: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que te rodean, y un aire pesado que te envuelve.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que te rodean, y un aire pesado que te envuelve.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 3, y está abierta: "Has cruzado la puerta de madera sin incidentes, y te encuentras ahora en un pasillo oscuro con suelo de baldosas moradas que se extienden ante ti en la oscuridad.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: "Has cruzado la puerta de madera sin incidentes, y te encuentras ahora en un pasillo oscuro con suelo de baldosas moradas que se extienden ante ti en la oscuridad.
+

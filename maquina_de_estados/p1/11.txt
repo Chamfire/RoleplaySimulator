@@ -1,6 +1,16 @@
-La descripción de la sala 11Es la siguiente: En esta galería puedes ver una sala de planta rectangular, iluminada débilmente por pequeñas rendijas de luz que permiten filtrar la luz del exterior a través de las rocas y el suelo de piedra. La atmósfera es húmeda, y puedes escuchar el sonido constante de gotitas de agua que caen del techo, creando un ambiente sombrío y úmbrico. El aire está lleno de humedad, lo que hace que cada respiración sea un poco más difícil.
+La descripción de la sala 11Es la siguiente: En esta galería puedes ver un saco de gran tamaño que parece haber sido arrastrado o tirado, cubierto de polvo y suciedad. El suelo, cubierto de marcas en el desgaste, parece haber sido pisado y arrasado por personas o criaturas con pesadas cargas. Restos de roca se esparcen por el suelo, testigos de los esfuerzos de excavación que se han realizado aquí. La humedad del aire hace que el polvo se levante con cada movimiento, y caen gotitas de agua del techo, iluminando brevemente el suelo con un resplandor tenue. La sala es de planta rectangular, con paredes de piedra y un techo de madera, y el aire está lleno del olor a tierra húmeda y roca. En la distancia, puedes escuchar el sonido de agua corriendo, un susurro constante que parece provenir de un lugar desconocido.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 6, y está abierta: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti como un valle de noche.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 9, y está abierta: "La puerta de madera cedió con facilidad bajo tu mano, y ahora te encuentras en una galería vasta y oscura, iluminada solo por débiles resplandores".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti como un valle de noche.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta de madera cedió con facilidad bajo tu mano, y ahora te encuentras en una galería vasta y oscura, iluminada solo por débiles resplandores".
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 16, y está abierta: "La puerta de madera se abre con un crujido, y ahora se encuentra en un pasillo oscuro, con un suelo de baldosas moradas que se extienden ante él.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta de madera se abre con un crujido, y ahora se encuentra en un pasillo oscuro, con un suelo de baldosas moradas que se extienden ante él.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 13, pero está cerrada: La puerta permanece cerrada, resiste tu fuerza.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 13, y está abierta: "La puerta se abre con un clic suave y, al entrar, te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta se abre con un clic suave y, al entrar, te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti.
 

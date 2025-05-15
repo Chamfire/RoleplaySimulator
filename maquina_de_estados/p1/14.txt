@@ -1,14 +1,10 @@
-La descripción de la sala 14Es la siguiente: En esta galería puedes ver una sala de planta rectangular con paredes de piedra grisácea, suelo de piedra seca y lisa y un techo de piedra que emite gotitas de agua que caen lentamente, creando un efecto de lluvia constante. La luz que entra por las pocas aberturas en las paredes es débil y azulada, y el aire está lleno de humedad, lo que hace que la piel se sienta húmeda y pesada. El suelo, también de piedra, parece estéril y desprovisto de cualquier vida, y las paredes parecen contener la historia de siglos de silencio y abandono. La única sonido es el suave golpe de las gotitas de agua en el suelo, y el crujido levemente de las piedras mojadas.
+La descripción de la sala 14Es la siguiente: En esta galería puedes ver una sala de planta rectangular con un techo bajo y cubierto de una capa de humedad, donde las gotitas de agua caen lentamente desde las grietas del techo, creando un ambiente húmedo y pesado. El suelo está cubierto de restos de roca, dispersos por el suelo con un patrón de desgaste evidente, indicando que alguien o algo ha pasado por aquí antes. En el centro de la sala, un canasto de madera vieja se encuentra, lleno de esmeraldas que brilla débilmente en la luz pobre, rodeadas de un manto de setas de color naranja, que crecen en armonía con la humedad. Algunas de las setas parecen haber crecido alrededor de un extraño hongo alargado de color azul oscuro, que se extiende por el suelo como un tendón. El aire está lleno del olor a humedad y tierra, y el silencio es tan absoluto que parece que el tiempo mismo se ha detenido.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 3, y está abierta: "La puerta de madera se abre con un crujido, y tú entras en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 15, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extiende hasta la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido, y tú entras en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extiende hasta la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 7, y está abierta: "Has abierta la puerta y entras en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 2, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden hasta el horizonte.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "Has abierta la puerta y entras en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 6, y está abierta: "Has superado el portón de madera sin incidentes, y te encuentras ahora en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti en la oscuridad.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "Has superado el portón de madera sin incidentes, y te encuentras ahora en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti en la oscuridad.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden hasta el horizonte.
 

@@ -1,14 +1,10 @@
-La descripción de la sala 13Es la siguiente: En esta galería puedes ver una sala de planta rectangular con paredes de piedra grisácea y un suelo de piedra seca. El aire está lleno de humedad y el techo, una cúpula de piedra, permite que caen gotitas de agua que resbalan sobre el suelo, creando un efecto de lluvia lenta y constante. La luz, débil y azulada, filtra a través de las rendijas de la cúpula, iluminando la oscuridad y creando sombras largas y profundas en las paredes. El silencio es absoluto, roto solo por el sonido de las gotitas de agua que caen y el susurro del viento que pasa por la cúpula.
+La descripción de la sala 13Es la siguiente: En esta galería puedes ver el suelo de piedra cubierto de marcas en el desgaste, indicando pasos y caminos recorridos por los antiguos mineros. Los restos de roca por el suelo sugieren que las paredes están desgastadas, revelando la estructura de la galería. Una roca puntiaguda sobresale del suelo, como si hubiera sido expulsada de la pared. La humedad que llena el aire hace que el suelo esté húmedo, y caen gotitas de agua del techo, creando un ambiente pesado y sombrío. La galería es una sala de planta rectangular, con paredes de piedra que parecen contener el aire de siglos de silencio.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 4, y está abierta: La puerta se abrió con un crujido suave, dejándolo en una galería amplia y oscura, cuya oscuridad parecía palpable en el aire.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 0, y está abierta: "El portón de madera se abre con un crujido, y ahora se encuentra en un pasillo sombrío, con baldosas moradas que se extienden ante él como una carretera a la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: La puerta se abrió con un crujido suave, dejándolo en una galería amplia y oscura, cuya oscuridad parecía palpable en el aire.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "El portón de madera se abre con un crujido, y ahora se encuentra en un pasillo sombrío, con baldosas moradas que se extienden ante él como una carretera a la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 1, y está abierta: "La puerta de madera cede con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 11, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro, donde las baldosas moradas se extienden ante ti como un río de noche".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "La puerta de madera cede con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 7, y está abierta: "Has cruzado el portal de madera y te encuentras ahora en un largo pasillo oscuro, cubierto de baldosas moradas que se extienden hasta la oscuridad.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "Has cruzado el portal de madera y te encuentras ahora en un largo pasillo oscuro, cubierto de baldosas moradas que se extienden hasta la oscuridad.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro, donde las baldosas moradas se extienden ante ti como un río de noche".
 
