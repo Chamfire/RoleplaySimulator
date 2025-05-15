@@ -1,10 +1,14 @@
-La descripción de la sala 6Es la siguiente: En esta galería puedes ver una serie de pasillos estrechos y bajos, iluminados por antorchas que cuelgan de las paredes y dan un tono cálido y acogedor a la atmósfera. El suelo de piedra es frío y desgastado, y el aire está lleno del olor a tierra húmeda y minero. A lo largo de los pasillos, hay varias columnas de piedra que apoyan el techo, y las paredes están cubiertas de hiedra y musgo, que crecen en las grietas y rendijas de la piedra. En el fondo de la galería, se puede ver una luz débil que proviene de una puerta de madera antiguada, que parece ser el único acceso a más allá de la galería.
+La descripción de la sala 6Es la siguiente: En esta galería puedes ver un techo de piedra granítica que sostiene la estructura de la sala, cubierta de una capa fina de polvo y humedad que cae en gotitas de agua que gotean desde los rincones. La sala tiene una planta rectangular, con paredes de piedra que parecen desgastadas por el tiempo, y un piso de tierra compacta que suena hueco bajo los pies. La luz que entra por las escasas ventanas es débil y blanca, y el aire está lleno de polvo y olor a humedad. La galería es estrecha, solo lo suficiente para permitir que un grupo de personas se mueva con dificultad, y se extiende en ambas direcciones, sin fin.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 18, y está abierta: "La puerta de madera cruza sus juntas con un sonido cálido, dejando un pasillo oscuro y frío a tu vista, con baldosas moradas que se extienden ante ti".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 14, y está abierta: Al abrir el portal de madera con un golpe suave, puedes avanzar a lo largo de un pasillo largo y oscuro, donde las baldosas moradas parecen reflejar las últimas luces de la luz del día en las profundidades de tu visión.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: "La puerta de madera cruza sus juntas con un sonido cálido, dejando un pasillo oscuro y frío a tu vista, con baldosas moradas que se extienden ante ti".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: Al abrir el portal de madera con un golpe suave, puedes avanzar a lo largo de un pasillo largo y oscuro, donde las baldosas moradas parecen reflejar las últimas luces de la luz del día en las profundidades de tu visión.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 10, y está abierta: "La puerta de madera cede con un crujido, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 9, y está abierta: "La puerta de madera se abre con un clic suave y puedes ver un pasillo largo y oscuro con baldosas moradas que se extienden ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: "La puerta de madera cede con un crujido, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: "La puerta de madera se abre con un clic suave y puedes ver un pasillo largo y oscuro con baldosas moradas que se extienden ante ti.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 11, y está abierta: "La puerta de madera cede con un crujido suave y, tras un paso en la oscuridad, caes sobre el pasillo morado de baldosas fríos".
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: "La puerta de madera cede con un crujido suave y, tras un paso en la oscuridad, caes sobre el pasillo morado de baldosas fríos".
 

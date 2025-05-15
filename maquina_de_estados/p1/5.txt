@@ -1,10 +1,6 @@
-La descripción de la sala 5Es la siguiente: En esta galería de la mina puedes ver estrechos pasillos de piedra que se extienden ante ti, iluminados por antorchas que dan un brillo débil en las paredes grises. El aire está lleno de polvo y el olor a tierra húmeda y carbón asado recorre tus sentidos. El suelo bajo tus pies es de piedra plana y seca, con pequeñas grietas que permiten filtrar la luz de las antorchas. A lo lejos, puedes ver una escalera que conduce a un piso superior, mientras que a tu izquierda y derecha, los pasillos se ramifican en diferentes direcciones, invitándote a explorar sus secretos.
+La descripción de la sala 5Es la siguiente: En esta galería puedes ver una sala de planta rectangular con paredes de piedra calcárea y un techo bajo y curvo, que da forma a un arco semicircular. La sala está llena de humedad y el aire está lleno de una bruma que se levanta de las paredes húmedas. Gotitas de agua caen desde el techo, iluminando el suelo con un resplandor difuso, y el sonido de sus golpes en el suelo es el único ruido que rompe el silencio. El suelo está cubierto de polvo y rocas, y en el centro de la sala, un estrecho pasillo se extiende hacia el norte, hacia una oscuridad total.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 7, y está abierta: "El portón de madera cruje suavemente mientras se abre, revelando una galería amplia y oscura, iluminada solo por una luz débil que se filtra a través de las ventanas de piedra.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 0, y está abierta: "La puerta de madera cruje ligeramente mientras se abre, y una oscuridad profunda te envuelve, con baldosas moradas que se extienden ante ti como un pasillo sin fin".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: "El portón de madera cruje suavemente mientras se abre, revelando una galería amplia y oscura, iluminada solo por una luz débil que se filtra a través de las ventanas de piedra.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 15, y está abierta: La puerta de madera se abre con un crujido, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende hasta la oscuridad.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: La puerta de madera se abre con un crujido, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende hasta la oscuridad.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: "La puerta de madera cruje ligeramente mientras se abre, y una oscuridad profunda te envuelve, con baldosas moradas que se extienden ante ti como un pasillo sin fin".
 

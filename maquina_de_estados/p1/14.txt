@@ -1,14 +1,14 @@
-La descripción de la sala 14Es la siguiente: En esta galería puedes ver túneles de piedra con paredes de roca y techo de arenisca, iluminados por antorchas que cuelgan de las paredes y proyectan sombras en la arena. El aire está lleno del sonido de las herramientas de mina y el murmullo de los trabajadores que excavan la tierra. Un río subterráneo discurre por el centro de la galería, alimentado por una fuente natural que se encuentra en la distancia. La galería está iluminada por antorchas y luce con una luz tenue, pero el sonido de los trabajadores y el río subterráneo la hacen parecer viva y en movimiento.
+La descripción de la sala 14Es la siguiente: En esta galería puedes ver una sala de planta rectangular con paredes de piedra grisácea, suelo de piedra seca y lisa y un techo de piedra que emite gotitas de agua que caen lentamente, creando un efecto de lluvia constante. La luz que entra por las pocas aberturas en las paredes es débil y azulada, y el aire está lleno de humedad, lo que hace que la piel se sienta húmeda y pesada. El suelo, también de piedra, parece estéril y desprovisto de cualquier vida, y las paredes parecen contener la historia de siglos de silencio y abandono. La única sonido es el suave golpe de las gotitas de agua en el suelo, y el crujido levemente de las piedras mojadas.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 2, y está abierta: "La puerta de madera se abre con un crujido, y tú te encuentras en un pasillo sombrío, con baldosas moradas que se extienden ante ti como un túnel sin fin.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 3, y está abierta: "La puerta de madera se abre con un crujido, y tú entras en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido, y tú te encuentras en un pasillo sombrío, con baldosas moradas que se extienden ante ti como un túnel sin fin.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido, y tú entras en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 10, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se estrechan hacia adelante.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 7, y está abierta: "Has abierta la puerta y entras en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se estrechan hacia adelante.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "Has abierta la puerta y entras en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 13, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden hasta el infinito".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 6, y está abierta: "Has superado el portón de madera sin incidentes, y te encuentras ahora en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti en la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden hasta el infinito".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "Has superado el portón de madera sin incidentes, y te encuentras ahora en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti en la oscuridad.
 

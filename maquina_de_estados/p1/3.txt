@@ -1,20 +1,10 @@
-La descripción de la sala 3Es la siguiente: En esta galería puedes ver el suelo de piedra bajo tus pies, con rocas y escombros esparcidos por todas partes. La galería es estrecha y baja, con paredes de piedra rugosa que se elevan hasta el techo a unos 5 metros de altura. Un débil resplandor de antorchas y linternas ilumina el camino, permitiéndote ver las sombras de los bloques de piedra y las rocas en el suelo. El aire está lleno de polvo y el olor a tierra húmeda y carbón. A medida que avanzas, puedes escuchar el sonido de agua corriente en el lejano horizonte, y el eco de tus propios pasos y los de los demás que han recorrido este camino antes.
+La descripción de la sala 3Es la siguiente: En esta galería puedes ver una sala de planta rectangular con paredes de piedra grisácea y un suelo de piedra seca. La luz entra a través de una serie de agujeros en el techo, dejando que caen gotitas de agua en pequeñas piscinas de agua estancada en las paredes, creando un ambiente húmedo y osco. El aire está lleno de humedad, y el silencio es casi palpable, solo interrumpido por el sonido de las gotitas de agua que caen en el suelo.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 12, y está abierta: "La puerta de madera se abre con un crujido y te dejas llevar a una galería amplia y oscura, donde el solo sonido de tus pasos resuena en el silencio".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 8, y está abierta: "La puerta de madera cruje bajo tu mano, cediendo con un susurro, y te dejas llevar por una galería vasta y oscura, donde las sombras parecen moverse por sí mismas.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: "La puerta de madera se abre con un crujido y te dejas llevar a una galería amplia y oscura, donde el solo sonido de tus pasos resuena en el silencio".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: "La puerta de madera cruje bajo tu mano, cediendo con un susurro, y te dejas llevar por una galería vasta y oscura, donde las sombras parecen moverse por sí mismas.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 15, pero está cerrada: La puerta está cerrada con llave.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 14, y está abierta: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro y frío, con baldosas moradas que se extienden ante ti.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 15, y está abierta: "La puerta de madera se abre con un crujido, y ahora tienes delante un pasillo oscuro, con baldosas moradas que se extienden hasta el horizonte.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: "La puerta de madera se abre con un crujido, y ahora tienes delante un pasillo oscuro, con baldosas moradas que se extienden hasta el horizonte.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 8, y está abierta: La puerta de madera se abre con un suave crujido, y ahora te encuentras en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti, iluminado solo por el débil resplandor de las sombras.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: La puerta de madera se abre con un suave crujido, y ahora te encuentras en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti, iluminado solo por el débil resplandor de las sombras.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 16, y está abierta: "La puerta de madera se abre con un crujido suave, revelando un pasillo largo y oscuro, iluminado únicamente por estrechos pasillos morados que se extienden a lo largo de los muros".
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: "La puerta de madera se abre con un crujido suave, revelando un pasillo largo y oscuro, iluminado únicamente por estrechos pasillos morados que se extienden a lo largo de los muros".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro y frío, con baldosas moradas que se extienden ante ti.
 

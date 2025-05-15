@@ -1,10 +1,6 @@
-La descripción de la sala 8Es la siguiente: En esta galería puedes ver un vasto espacio de piedra rugosa, con paredes de hasta 5 metros de altura, cubiertas de una capa fina de polvo y espinillos de minerales que reflejan la débil luz de las antorchas que iluminan el camino. El suelo, también de piedra, está cubierto de un manto de polvo y escombros, y se extiende hacia el norte, sin fin. A lo lejos, puedes ver una serie de pasillos y trampas escondidas, que parecen esperar a alguien que se atreva a explorarlas. El aire está lleno de elusa, y el silencio es casi palpable.
+La descripción de la sala 8Es la siguiente: En esta galería puedes ver una sala de planta rectangular con paredes de piedra caliza que se elevan hacia el techo, que se encuentra a punto de derrumbarse bajo el peso del agua. La humedad es alta y se puede sentir el olor a moho y tierra húmeda en el aire. Gotitas de agua caen del techo, creando un efecto de lluvia lenta y constante que resuena en la piedra y en el suelo de piedra, creando un eco sombrío y melancólico. La luz que entra por las pequeñas ventanas altas y estrechas es débil y se filtra a través de la grava que cubre el piso, creando un ambiente oscuro y sombrío.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 1, y está abierta: "Has cruzado el portal sin incidentes y te encuentras ahora en un pasillo sombrío con baldosas moradas que se extienden ante ti".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 3, y está abierta: "La puerta de madera cruje ligeramente mientras se abre con un clic, revelando una galería amplia y oscura que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: "Has cruzado el portal sin incidentes y te encuentras ahora en un pasillo sombrío con baldosas moradas que se extienden ante ti".
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 3, y está abierta: "La puerta se abre con un crujido, y de repente te encuentras en un pasillo estrecho y oscuro, con baldosas moradas que se extienden hasta el horizonte.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: "La puerta se abre con un crujido, y de repente te encuentras en un pasillo estrecho y oscuro, con baldosas moradas que se extienden hasta el horizonte.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: "La puerta de madera cruje ligeramente mientras se abre con un clic, revelando una galería amplia y oscura que se extiende ante ti.
 

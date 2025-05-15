@@ -1,10 +1,8 @@
-La descripción de la sala 1Es la siguiente: En esta galería puedes ver el suelo de piedra macizo y liso, con un techo bajo y cubierto de polvo y escombros. Las paredes están hechas de piedra caliza, y el aire está lleno del olor a tierra y metal. En el centro de la galería, un río de agua estancada fluye lentamente, alimentado por un pequeño arroyo que sale de la pared opuesta. El suelo está cubierto de trozos de roca y escombros, y hay un pasillo estrecho que conduce a una puerta de madera rota en la pared opuesta. El suelo crujiente bajo los pies de los pies del jugador es el único sonido que se puede escuchar en el ambiente.
+La descripción de la sala 1Es la siguiente: En esta galería puedes ver una sala de planta rectangular, con paredes de piedra grisácea y un techo de madera vieja, que se inclina ligeramente hacia abajo debido a la humedad que se filtra por las grietas. El aire está lleno de gotitas de agua que caen del techo, creando un efecto de lluvia constante, y el suelo de piedra está resbaloso bajo los pies. La luz de las antorchas que se apoyan en las paredes es débil y mala, creando sombras largas y oscuras que se extienden por el espacio.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 8, y está abierta: "La puerta de madera se abre con un crujido, y entras en un pasillo oscuro, con baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 13, pero está cerrada: La puerta de madera permanece cerrada, su mano se queda apretando el manejo sin que ceda.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: "La puerta de madera se abre con un crujido, y entras en un pasillo oscuro, con baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 13, y está abierta: "Has empujado la puerta con fuerza y la has abierta con un crujido, ahora te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti como un laberinto".
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 4, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro, con baldosas moradas que se extienden ante ti".
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro, con baldosas moradas que se extienden ante ti".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: "Has empujado la puerta con fuerza y la has abierta con un crujido, ahora te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti como un laberinto".
 

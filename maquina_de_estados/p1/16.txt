@@ -1,6 +1,0 @@
-La descripción de la sala 16Es la siguiente: En esta galería puedes ver una serie de túneles estrechos y profundos que se extienden ante ti, iluminados por antorchas que danzan con un fuego cálido y consistente, creando un ambiente de calidez y seguridad, a pesar de la oscuridad que los rodea. El techo, cubierto de una capa de polvo y rocas, se pierde en la oscuridad, y el aire está lleno de el polvo de la piedra y el humo de las antorchas. Alrededor de ti, puedes ver los restos de máquinas y herramientas, olvidadas por los mineros que trabajaban aquí hace años, y el suelo está cubierto de una capa fina de polvo, que se levanta con cada paso que das.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 3, y está abierta: "El portón de madera se abre con un crujido, revelando un pasillo oscuro y sereno, con baldosas moradas que se estendían hasta la distancia".
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: "El portón de madera se abre con un crujido, revelando un pasillo oscuro y sereno, con baldosas moradas que se estendían hasta la distancia".
-
