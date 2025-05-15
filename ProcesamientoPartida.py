@@ -519,62 +519,80 @@ class ProcesamientoPartida:
                             descripcionpsa = self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200)
                             frase_puerta[i][j] = [puertace,descripcionpsa,regresosa]
                 objetos = set()
-                for i_start in range(Mapa.salas[i].pos_x, Mapa.salas[i].pos_x + Mapa.salas[i].size[0]-1):
-                    for j_start in range(Mapa.salas[i].pos_y, Mapa.salas[i].pos_y + Mapa.salas[j].size[1]-1):
+                inicio_x = Mapa.salas[i].pos_x
+                fin_x = Mapa.salas[i].pos_x + Mapa.salas[i].size[0] -2
+                fin_y = Mapa.salas[i].pos_y + Mapa.salas[j].size[1] -2
+                inicio_y = Mapa.salas[i].pos_y
+                for i_start in range(inicio_x, fin_x+1):
+                    for j_start in range(inicio_y, fin_y+1):
+                        # Está en una esquina
+                        posicion = ""
+                        if((i_start == (inicio_x + 1)) or (i_start == (fin_x-1)) and (j_start == (inicio_y +1) or (j_start == (fin_y-1)))):
+                            posicion = " (está en una esquina de la galería)"
+                        elif(i_start== (inicio_x + 1)):
+                            posicion = " (está enfrente, en la galería)"
+                        elif(i_start == (fin_x-1)):
+                            posicion = " (está al fondo de la galería)"
+                        elif(j_start== (inicio_y + 1)):
+                            posicion = " (está en el lateral izquierdo de la galería)"
+                        elif(j_start == (fin_y-1)):
+                            posicion = " (está en el lateral derecho de la galería)"
+                        else:
+                            posicion = " (está en el centro de la galería)"
                         if(33 <=Mapa.objetos[j_start][i_start] <=38):
-                            objetos.add("1 esqueleto")
+                            objetos.add("1 esqueleto"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 39):
-                            objetos.add("1 zombie")
+                            objetos.add("1 zombie"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 40):
-                            objetos.add("1 slime de color azul")
+                            objetos.add("1 slime de color azul"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 41):
-                            objetos.add("1 beholder")
+                            objetos.add("1 beholder"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 42):
-                            objetos.add("1 troll")
+                            objetos.add("1 troll"+posicion)
                         elif(43 <= Mapa.objetos[j_start][i_start] <= 46):
-                            objetos.add("1 dragón")
+                            objetos.add("1 dragón"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 47):
-                            objetos.add("1 extraña sombra humanoide")
+                            objetos.add("1 extraña sombra humanoide"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 48):
-                            objetos.add("1 fénix")
+                            objetos.add("1 fénix"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 49):
-                            objetos.add("1 monstruo con forma de mantis religiosa gigante (un Ankheg)")
+                            objetos.add("1 monstruo con forma de mantis religiosa gigante (un Ankheg)"+posicion)
                         elif(50 <= Mapa.objetos[j_start][i_start] <= 56):
-                            objetos.add("1 basilisco")
+                            objetos.add("1 basilisco"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 57):
-                            objetos.add("1 murciélago")
+                            objetos.add("1 murciélago"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 58):
-                            objetos.add("1 rata")
+                            objetos.add("1 rata"+posicion)
                         elif(59 <= Mapa.objetos[j_start][i_start] <= 66):
-                            objetos.add("1 gato")
+                            objetos.add("1 gato"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 68):
-                            objetos.add("1 cerezo")
+                            objetos.add("1 cerezo"+posicion)
                         elif(60 <= Mapa.objetos[j_start][i_start] <= 70):
-                            objetos.add("1 fragmento del cadáver de un dinosaurio")
+                            objetos.add("1 fragmento del cadáver de un dinosaurio"+posicion)
                         elif(71 <= Mapa.objetos[j_start][i_start] <= 74):
-                            objetos.add("1 cofre de gran tamaño")
+                            objetos.add("1 cofre de gran tamaño"+posicion)
                         elif(75 <= Mapa.objetos[j_start][i_start] <= 78):
-                            objetos.add("1 armario")
+                            objetos.add("1 armario"+posicion)
                         elif(Mapa.objetos[j_start][i_start] == 79):
-                            objetos.add("1 conjunto de ruinas arqueológicas")
+                            objetos.add("1 conjunto de ruinas arqueológicas"+posicion)
                         elif(91 <= Mapa.objetos[j_start][i_start] <= 94):
-                            objetos.add("1 tumba de piedra con una runa sobre ella")
+                            objetos.add("1 tumba de piedra con una runa sobre ella"+posicion)
                         elif((95 <= Mapa.objetos[j_start][i_start] <= 97) or (Mapa.objetos[j_start][i_start] == 104)):
-                            objetos.add("1 canasto de madera con rubíes")
+                            objetos.add("1 canasto de madera con rubíes"+posicion)
                         elif((98 <= Mapa.objetos[j_start][i_start] <= 100) or (Mapa.objetos[j_start][i_start] == 105)):
-                            objetos.add("1 canasto de madera con esmeraldas")
+                            objetos.add("1 canasto de madera con esmeraldas"+posicion)
                         elif((Mapa.objetos[j_start][i_start] == 101) or (Mapa.objetos[j_start][i_start] == 106)):
-                            objetos.add("1 canasto de madera con algún mineral extraño de color amarillento")
+                            objetos.add("1 canasto de madera con algún mineral extraño de color amarillento"+posicion)
                         elif(101 <= Mapa.objetos[j_start][i_start] <= 103):
-                            objetos.add("1 saco de gran tamaño")
+                            objetos.add("1 saco de gran tamaño"+posicion)
                         elif(107 <= Mapa.objetos[j_start][i_start] <= 110):
                             objetos.add("restos de roca por el suelo")
                         elif(111 <= Mapa.objetos[j_start][i_start] <= 112):
-                            objetos.add("1 extraño hongo alargado de color azul oscuro")
+                            objetos.add("1 extraño hongo alargado de color azul oscuro"+posicion)
                         elif(113 <= Mapa.objetos[j_start][i_start] <= 114):
-                            objetos.add("setas de color naranja")
+                            objetos.add("setas de color naranja"+posicion)
                         elif(115 <= Mapa.objetos[j_start][i_start] <= 117):
-                            objetos.add("1 roca puntiaguda que sobresale del suelo")
+                            objetos.add("1 roca puntiaguda que sobresale del suelo"+posicion)
                         elif(118 <= Mapa.objetos[j_start][i_start] <= 121):
                             objetos.add("marcas en el suelo de desgaste")
                 objetos2 = ""
@@ -584,7 +602,7 @@ class ProcesamientoPartida:
                 print(objetos)
                 prompt_sala = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
                             Genera un párrafo breve para describir la galería. Para ello, usa única y exclusivamente los siguientes elementos: """+objetos2+""". No puedes asumir que hay más objetos ni más elementos, porque no los hay. Sí que puedes dar detalles de que hay humedad, caen gotitas de agua del techo, y que es una sala de planta rectangular. No des detalles de las dimensiones de la galería, ni de su tamaño. Comienza con la frase "En esta galería puedes ver..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-                descripcion_sala = self.consultarAlDM(prompt_sala,model_path,None,2048,500)
+                descripcion_sala = self.consultarAlDM(prompt_sala,model_path,None,2048,600)
                 self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa,frase_puerta,descripcion_sala)
                 # Guardamos las descripciones asociadas a esa sala
                 self.RAG_historia.escribirInfoSala(i,frase_puerta,descripcion_sala)
