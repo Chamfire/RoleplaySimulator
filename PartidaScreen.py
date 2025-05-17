@@ -55,6 +55,21 @@ class PartidaScreen:
         self.textWriten = False
         self.canCheck = True
         self.peso = None
+        self.pc = None
+        self.pp = None
+        self.pe = None
+        self.po = None
+        self.ppt = None
+        self.car = None
+        self.sab = None
+        self.cons = None
+        self.des = None
+        self.int = None
+        self.fu = None
+        self.ca = None
+        self.vida = None
+        self.bpc = None
+        self.clase = None
 
         #canales
         self.ch1 = ch1
@@ -89,6 +104,25 @@ class PartidaScreen:
         self.flecha = pygame.image.load("images/flecha_atras.png")
         self.flecha_selected = pygame.image.load("images/flecha_atras_selected.png")
         self.flecha_pressed = pygame.image.load("images/flecha_atras_pressed.png")
+
+        #diccionario de imágenes:
+        # ARMADURAS -------
+        self.imgs = {"Armaduras ligeras": {},"Armaduras medias": {},"Armaduras pesadas": {}}
+        self.imgs["Armaduras ligeras"]["Acolchada"] = pygame.image.load("images/objetos/Armadura/Armaduras ligeras/Acolchada.png")
+        self.imgs["Armaduras ligeras"]["Cuero"] = pygame.image.load("images/objetos/Armadura/Armaduras ligeras/Cuero.png")
+        self.imgs["Armaduras ligeras"]["Cuero tachonado"] = pygame.image.load("images/objetos/Armadura/Armaduras ligeras/Cuero tachonado.png")
+        self.imgs["Armaduras medias"]["Pieles"] = pygame.image.load("images/objetos/Armadura/Armaduras medias/Pieles.png")
+        self.imgs["Armaduras medias"]["Camisote de mallas"] = pygame.image.load("images/objetos/Armadura/Armaduras medias/Camisote de mallas.png")
+        self.imgs["Armaduras medias"]["Cota de escamas"] = pygame.image.load("images/objetos/Armadura/Armaduras medias/Cota de escamas.png")
+        self.imgs["Armaduras medias"]["Coraza"] = pygame.image.load("images/objetos/Armadura/Armaduras medias/Coraza.png")
+        self.imgs["Armaduras medias"]["Semiplacas"] = pygame.image.load("images/objetos/Armadura/Armaduras medias/Semiplacas.png")
+        self.imgs["Armaduras pesadas"]["Cota de anillas"] = pygame.image.load("images/objetos/Armadura/Armaduras pesadas/Cota de anillas.png")
+        self.imgs["Armaduras pesadas"]["Cota de mallas"] = pygame.image.load("images/objetos/Armadura/Armaduras pesadas/Cota de mallas.png")
+        self.imgs["Armaduras pesadas"]["Bandas"] = pygame.image.load("images/objetos/Armadura/Armaduras pesadas/Bandas.png")
+        self.imgs["Armaduras pesadas"]["Placas"] = pygame.image.load("images/objetos/Armadura/Armaduras pesadas/Placas.png")
+
+
+
         self.changePhoto = False
         self.currentImageToShow = ""
         self.imagePhoto = ""
@@ -125,6 +159,7 @@ class PartidaScreen:
         return self.screen
     def setPersonajeMio(self,personaje):
         self.personaje = personaje
+    
 
     def getPersonajeMio(self):
         return self.personaje
@@ -195,7 +230,73 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.invetoryBkg, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000))
                     self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                     self.peso = self.fuente3.render(str(self.personaje.equipo.peso_actual), True, self.color_black)
-                    self.screen.blit(self.peso, (self.width/17.3913, self.height/2.7027)) #69 259
+                    self.screen.blit(self.peso, (self.width/14.1176, self.height/2.1472)) #85 326
+                    self.pc = self.fuente1.render(str(self.personaje.pc), True, self.color_black)
+                    self.pp = self.fuente1.render(str(self.personaje.pp), True, self.color_black)
+                    self.pe = self.fuente1.render(str(self.personaje.pe), True, self.color_black)
+                    self.po = self.fuente1.render(str(self.personaje.po), True, self.color_black)
+                    self.ppt = self.fuente1.render(str(self.personaje.ppt), True, self.color_black)
+                    self.screen.blit(self.pc, (self.width/3.4286, self.height/1.7632)) #350 397
+                    self.screen.blit(self.pp, (self.width/2.9630, self.height/1.7632)) #405 397
+                    self.screen.blit(self.pe, (self.width/2.6030, self.height/1.7632)) #461 397
+                    self.screen.blit(self.po, (self.width/2.3256, self.height/1.7632)) #516 397
+                    self.screen.blit(self.ppt, (self.width/2.0979, self.height/1.7632)) #572 397
+                    #Armadura slot
+                    if(self.personaje.equipo.armadura_actual != None):
+                        # Cargamos cuál es su armadura
+                        img_armadura = self.imgs[self.personaje.equipo.armadura_actual[0]][self.personaje.equipo.armadura_actual[1]]
+                        self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
+                    # Características
+                    att = self.personaje.car-10
+                    if(att < 0):
+                        att -=1
+                    puntaje = str(int(att // 2))
+                    self.car = self.fuente1.render(str(self.personaje.car)+"("+puntaje+")", True, self.color_black)
+                    att = self.personaje.sab-10
+                    if(att < 0):
+                        att -=1
+                    puntaje = str(int(att // 2))
+                    self.sab = self.fuente1.render(str(self.personaje.sab)+"("+puntaje+")", True, self.color_black)
+                    att = self.personaje.des-10
+                    if(att < 0):
+                        att -=1
+                    puntaje = str(int(att // 2))
+                    self.des = self.fuente1.render(str(self.personaje.des)+"("+puntaje+")", True, self.color_black)
+                    att = self.personaje.int-10
+                    if(att < 0):
+                        att -=1
+                    puntaje = str(int(att // 2))
+                    self.int = self.fuente1.render(str(self.personaje.int)+"("+puntaje+")", True, self.color_black)
+                    att = self.personaje.fu-10
+                    if(att < 0):
+                        att -=1
+                    puntaje = str(int(att // 2))
+                    self.fu = self.fuente1.render(str(self.personaje.fu)+"("+puntaje+")", True, self.color_black)
+                    att = self.personaje.cons-10
+                    if(att < 0):
+                        att -=1
+                    puntaje = str(int(att // 2))
+                    self.cons = self.fuente1.render(str(self.personaje.cons)+"("+puntaje+")", True, self.color_black)
+                    self.screen.blit(self.car, (self.width/2.2989, self.height/12.0690)) #522 58
+                    self.screen.blit(self.sab, (self.width/2.0761, self.height/12.0690)) #578 58
+                    self.screen.blit(self.des, (self.width/1.8957, self.height/12.0690)) #633 58
+                    self.screen.blit(self.int, (self.width/1.7417, self.height/12.0690)) #689 58
+                    self.screen.blit(self.fu, (self.width/1.6129, self.height/12.0690)) #744 58
+                    self.screen.blit(self.cons, (self.width/1.5000, self.height/12.0690)) #800 58
+
+                    # BPC
+                    self.bpc = self.fuente3.render(str(self.personaje.bpc), True, self.color_black)
+                    self.screen.blit(self.bpc, (self.width/4.8980, self.height/4.6358)) #245 151
+                    # CA
+                    self.ca = self.fuente1.render(str(self.personaje.ca), True, self.color_black)
+                    self.screen.blit(self.ca, (self.width/5.1064, self.height/12.0690)) #235 58
+                    # Vida
+                    self.vida = self.fuente1.render(str(self.personaje.vida_temp), True, self.color_black)
+                    self.screen.blit(self.vida, (self.width/4.1237, self.height/12.0690)) #291 58
+
+                    # Clase
+                    self.clase = self.fuente1.render(str(self.personaje.tipo_clase), True, self.color_black)
+                    self.screen.blit(self.clase, (self.width/3.3241, self.height/12.0690)) #361 58
 
             if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
                 self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
@@ -261,7 +362,11 @@ class PartidaScreen:
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
 
-        self.letterwidth2 = (self.width/3.4286)/28 #cálculo de la base en píxeles 
+        self.letterwidth1 = (self.width/3.4286)/25 #cálculo de la base en píxeles 
+        self.lettersize1 = int(self.letterwidth1 + 0.1 * self.letterwidth1) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente1 = pygame.font.SysFont(self.font,self.lettersize1)
+
+        self.letterwidth2 = (self.width/3.4286)/20 #cálculo de la base en píxeles 
         self.lettersize2 = int(self.letterwidth2 + 0.5 * self.letterwidth2) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente3 = pygame.font.SysFont(self.font,self.lettersize2)
 
@@ -317,6 +422,11 @@ class PartidaScreen:
                 pass
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             self.peso = self.fuente3.render(str(self.personaje.equipo.peso_actual), True, self.color_black)
+            self.pc = self.fuente1.render(str(self.personaje.pc), True, self.color_black)
+            self.pp = self.fuente1.render(str(self.personaje.pp), True, self.color_black)
+            self.pe = self.fuente1.render(str(self.personaje.pe), True, self.color_black)
+            self.po = self.fuente1.render(str(self.personaje.po), True, self.color_black)
+            self.ppt = self.fuente1.render(str(self.personaje.ppt), True, self.color_black)
             self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
             if(not self.GLOBAL.getViewMap()):
                 self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
@@ -579,7 +689,76 @@ class PartidaScreen:
                             else:
                                 self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                             self.peso = self.fuente3.render(str(self.personaje.equipo.peso_actual), True, self.color_black)
-                            self.screen.blit(self.peso, (self.width/17.3913, self.height/2.7027)) #69 259
+                            self.screen.blit(self.peso, (self.width/14.1176, self.height/2.1472)) #85 326
+                            self.pc = self.fuente1.render(str(self.personaje.pc), True, self.color_black)
+                            self.pp = self.fuente1.render(str(self.personaje.pp), True, self.color_black)
+                            self.pe = self.fuente1.render(str(self.personaje.pe), True, self.color_black)
+                            self.po = self.fuente1.render(str(self.personaje.po), True, self.color_black)
+                            self.ppt = self.fuente1.render(str(self.personaje.ppt), True, self.color_black)
+                            self.screen.blit(self.pc, (self.width/3.4286, self.height/1.7632)) #350 397
+                            self.screen.blit(self.pp, (self.width/2.9630, self.height/1.7632)) #405 397
+                            self.screen.blit(self.pe, (self.width/2.6030, self.height/1.7632)) #461 397
+                            self.screen.blit(self.po, (self.width/2.3256, self.height/1.7632)) #516 397
+                            self.screen.blit(self.ppt, (self.width/2.0979, self.height/1.7632)) #572 397
+                            #Armadura slot
+                            if(self.personaje.equipo.armadura_actual != None):
+                                # Cargamos cuál es su armadura
+                                img_armadura = self.imgs[self.personaje.equipo.armadura_actual[0]][self.personaje.equipo.armadura_actual[1]]
+                                self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
+                            # Características
+                            att = self.personaje.car-10
+                            if(att < 0):
+                                att -=1
+                            puntaje = str(int(att // 2))
+                            self.car = self.fuente1.render(str(self.personaje.car)+"("+puntaje+")", True, self.color_black)
+                            att = self.personaje.sab-10
+                            if(att < 0):
+                                att -=1
+                            puntaje = str(int(att // 2))
+                            self.sab = self.fuente1.render(str(self.personaje.sab)+"("+puntaje+")", True, self.color_black)
+                            att = self.personaje.des-10
+                            if(att < 0):
+                                att -=1
+                            puntaje = str(int(att // 2))
+                            self.des = self.fuente1.render(str(self.personaje.des)+"("+puntaje+")", True, self.color_black)
+                            att = self.personaje.int-10
+                            if(att < 0):
+                                att -=1
+                            puntaje = str(int(att // 2))
+                            self.int = self.fuente1.render(str(self.personaje.int)+"("+puntaje+")", True, self.color_black)
+                            att = self.personaje.fu-10
+                            if(att < 0):
+                                att -=1
+                            puntaje = str(int(att // 2))
+                            self.fu = self.fuente1.render(str(self.personaje.fu)+"("+puntaje+")", True, self.color_black)
+                            att = self.personaje.cons-10
+                            if(att < 0):
+                                att -=1
+                            puntaje = str(int(att // 2))
+                            self.cons = self.fuente1.render(str(self.personaje.cons)+"("+puntaje+")", True, self.color_black)
+
+                            self.screen.blit(self.car, (self.width/2.2989, self.height/12.0690)) #522 58
+                            self.screen.blit(self.sab, (self.width/2.0761, self.height/12.0690)) #578 58
+                            self.screen.blit(self.des, (self.width/1.8957, self.height/12.0690)) #633 58
+                            self.screen.blit(self.int, (self.width/1.7417, self.height/12.0690)) #689 58
+                            self.screen.blit(self.fu, (self.width/1.6129, self.height/12.0690)) #744 58
+                            self.screen.blit(self.cons, (self.width/1.5000, self.height/12.0690)) #800 58
+
+                            # BPC
+                            self.bpc = self.fuente3.render(str(self.personaje.bpc), True, self.color_black)
+                            self.screen.blit(self.bpc, (self.width/4.8980, self.height/4.6358)) #245 151
+                            # CA
+                            self.ca = self.fuente1.render(str(self.personaje.ca), True, self.color_black)
+                            self.screen.blit(self.ca, (self.width/5.1064, self.height/12.0690)) #235 58
+                            # Vida
+                            self.vida = self.fuente1.render(str(self.personaje.vida_temp), True, self.color_black)
+                            self.screen.blit(self.vida, (self.width/4.1237, self.height/12.0690)) #291 58
+
+                            # Clase
+                            self.clase = self.fuente1.render(str(self.personaje.tipo_clase), True, self.color_black)
+                            self.screen.blit(self.clase, (self.width/3.3241, self.height/12.0690)) #361 58
+
+
                 pygame.display.update()
                     
     # size_x, size_y: tamaño del botón en x y en y

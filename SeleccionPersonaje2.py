@@ -752,6 +752,13 @@ class SeleccionPersonaje2:
                             tipo_nombre = tipo[25:-2]
                             print(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,'Equipo',tipo_nombre,slot_name)
                             data_inventario += [(objeto[3],objeto[1],objeto[0],self.personaje.name,self.personaje.partida_id,self.id,'Equipo',tipo_nombre,slot_name)]
+                    
+                    armadura_equipada = self.personaje.equipo.armadura_actual
+                    if(armadura_equipada != None):
+                        tipo = str(type(armadura_equipada[2]))
+                        tipo_nombre = tipo[25:-2]
+                        data_inventario +=[(1,armadura_equipada[1],armadura_equipada[0],self.personaje.name,self.personaje.partida_id,self.id,'Armadura actual',tipo_nombre,'Default')]
+                    
                     conn.executemany(query_save_inventario,data_inventario)
 
 
