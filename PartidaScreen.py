@@ -54,6 +54,7 @@ class PartidaScreen:
         self.availableStart = False
         self.textWriten = False
         self.canCheck = True
+        self.peso = None
 
         #canales
         self.ch1 = ch1
@@ -70,6 +71,8 @@ class PartidaScreen:
         self.first_timeB = True # Aún no has pulsado el botón volver al menú
         self.first_timeM = True #Aún no has pulsado el botón de enviar mensaje
         self.first_timeP = True # Aún no has pulsado el botón de pedir/liberar turno de palabra
+        self.first_timeI = True # Aún no has pulsado el botón de abrir el inventario
+        self.first_timeF = True # Aún no has pulsado el botón de volver a la partida desde el inventario
 
         #cargamos las imágenes del menú
         self.backgroundPic = pygame.image.load("images/background.png")
@@ -79,6 +82,13 @@ class PartidaScreen:
         self.buttonPressedPic = pygame.image.load("images/button_pressed.png")
         self.backgroundPartidaPic = pygame.image.load("images/background_partida.png")
         self.buttonUnavailablePic = pygame.image.load("images/button_unavailable.png")
+        self.butonInv = pygame.image.load("images/inventario_icono.png")
+        self.butonInv_selected = pygame.image.load("images/inventario_icono_selected.png")
+        self.butonInv_pressed = pygame.image.load("images/inventario_icono_pressed.png")
+        self.invetoryBkg = pygame.image.load("images/pantalla_inventario.png")
+        self.flecha = pygame.image.load("images/flecha_atras.png")
+        self.flecha_selected = pygame.image.load("images/flecha_atras_selected.png")
+        self.flecha_pressed = pygame.image.load("images/flecha_atras_pressed.png")
         self.changePhoto = False
         self.currentImageToShow = ""
         self.imagePhoto = ""
@@ -103,6 +113,7 @@ class PartidaScreen:
         self.image = queue.Queue()
         self.currentTextToShow = ""
         self.cont = 0
+        self.openedInventory = False
 
         #estado variable
         self.contMsg = 0 #por defecto empieza en 0
@@ -175,8 +186,17 @@ class PartidaScreen:
             if(not self.GLOBAL.getViewMap()):
                 self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
             else:
-                self.screen = self.map.drawMapInGame(self.ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales_r)
-                self.screen = self.personaje.renderLast(self.map, self.ubicacion, self.width, self.height, self.screen)
+                if((not self.openedInventory)):
+                    self.screen = self.map.drawMapInGame(self.ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales_r)
+                    self.screen = self.personaje.renderLast(self.map, self.ubicacion, self.width, self.height, self.screen)
+                    self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                else:
+                    # Pantalla del inventario
+                    self.screen.blit(pygame.transform.scale(self.invetoryBkg, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000))
+                    self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
+                    self.peso = self.fuente3.render(str(self.personaje.equipo.peso_actual), True, self.color_black)
+                    self.screen.blit(self.peso, (self.width/17.3913, self.height/2.7027)) #69 259
+
             if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
                 self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             else:
@@ -241,6 +261,10 @@ class PartidaScreen:
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
 
+        self.letterwidth2 = (self.width/3.4286)/28 #cálculo de la base en píxeles 
+        self.lettersize2 = int(self.letterwidth2 + 0.5 * self.letterwidth2) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente3 = pygame.font.SysFont(self.font,self.lettersize2)
+
         self.letterwidth3 = (self.width/3.4286)/32 #cálculo de la base en píxeles 
         self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
@@ -292,12 +316,14 @@ class PartidaScreen:
                 #TODO: esperar a recibir maquina de estados para la partida, y crearla con la configuración de voz y efectos
                 pass
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
+            self.peso = self.fuente3.render(str(self.personaje.equipo.peso_actual), True, self.color_black)
             self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
             if(not self.GLOBAL.getViewMap()):
                 self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
             else:
                 self.screen = self.map.drawMapInGame(self.ubicacion,self.width,self.height,self.screen,self.personaje.coordenadas_actuales_r)
                 self.screen = self.personaje.renderLast(self.map, self.ubicacion, self.width, self.height, self.screen)
+                self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
             if(self.availableStart):
@@ -426,6 +452,14 @@ class PartidaScreen:
             y_start = self.height/1.1290
             y_start2 = self.height/1.2658
             y_start3 = self.height/1.4403
+            x_start1 = self.width/1.4706
+            y_start1 = self.height/1.7157
+            x_size1 = self.width/37.5000
+            y_size1 = self.height/21.8750
+            x_size4 = self.width/37.5000
+            y_size4 = self.height/21.8750
+            x_start4 = self.width/120.0000
+            y_start4 = self.height/70.0000
             (x,y) = pygame.mouse.get_pos()
             if(self.first_timeScreen == True):
                 if(not self.isOnline):
@@ -531,8 +565,21 @@ class PartidaScreen:
                     self.cont = 0
                     ma = self.GLOBAL.getViewMap()
                     if(ma):
-                        #print(ma)
-                        self.screen = self.personaje.render(maxFPS,self.map, self.ubicacion, self.width, self.height, self.screen)
+                        if(not self.openedInventory):
+                            self.screen = self.personaje.render(maxFPS,self.map, self.ubicacion, self.width, self.height, self.screen)
+                            if(self.checkIfMouseIsInButton(x_size1,y_size1,x_start1,y_start1,x,y)):
+                                self.screen.blit(pygame.transform.scale(self.butonInv_selected,(self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                            else:
+                                self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                        else:
+                            # Pantalla de inventario
+                            self.screen.blit(pygame.transform.scale(self.invetoryBkg, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000))
+                            if(self.checkIfMouseIsInButton(x_size4,y_size4,x_start4,y_start4,x,y)):
+                                self.screen.blit(pygame.transform.scale(self.flecha_selected, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
+                            else:
+                                self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
+                            self.peso = self.fuente3.render(str(self.personaje.equipo.peso_actual), True, self.color_black)
+                            self.screen.blit(self.peso, (self.width/17.3913, self.height/2.7027)) #69 259
                 pygame.display.update()
                     
     # size_x, size_y: tamaño del botón en x y en y
@@ -600,7 +647,7 @@ class PartidaScreen:
                     self.cerrarHilo()
                 except Exception as e:
                     print(e)
-                return 'menu'    
+                return 'menu' 
             else:
                 return 'partida'
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
@@ -610,6 +657,14 @@ class PartidaScreen:
             y_start = self.height/1.1290
             y_start2 = self.height/1.2658
             y_start3 = self.height/1.4403
+            x_start1 = self.width/1.4706
+            y_start1 = self.height/1.7157
+            x_size1 = self.width/37.5000
+            y_size1 = self.height/21.8750
+            x_size4 = self.width/37.5000
+            y_size4 = self.height/21.8750
+            x_start4 = self.width/120.0000
+            y_start4 = self.height/70.0000
             (x,y) = pygame.mouse.get_pos()
 
             #Botón volver al menú
@@ -623,6 +678,11 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                if(self.GLOBAL.getViewMap()):
+                    if(not self.openedInventory):
+                        self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                 self.ch1.play(self.pressed)
                 pygame.display.update() 
                 self.currentTextToShow = ""
@@ -634,6 +694,51 @@ class PartidaScreen:
                 except:
                     pass
                 return 'menu'
+        
+            # Botón abrir inventario
+            elif(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.checkIfMouseIsInButton(x_size1,y_size1,x_start1,y_start1,x,y)):
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
+
+                if(self.availableStart):
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                else:
+                    self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                
+                if(self.startBoton):
+                    self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
+                else:
+                    self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                self.screen.blit(pygame.transform.scale(self.butonInv_pressed, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                self.ch1.play(self.pressed)
+                self.openedInventory = True #ya no se puede mover el personaje
+                pygame.display.update() 
+                return 'partida'
+            
+            # Botón de volver atrás a la partida
+            elif(self.GLOBAL.getViewMap() and self.openedInventory and self.checkIfMouseIsInButton(x_size4,y_size4,x_start4,y_start4,x,y)):
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
+
+                if(self.availableStart):
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                else:
+                    self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                
+                if(self.startBoton):
+                    self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
+                else:
+                    self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                self.screen.blit(pygame.transform.scale(self.flecha_pressed, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
+                self.ch1.play(self.pressed)
+                self.openedInventory = False #ya se puede mover el personaje
+                pygame.display.update() 
+                return 'partida'
+
             #Botón de enviar mensaje
             elif(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start2,x,y)):
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
@@ -651,6 +756,12 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                if(self.GLOBAL.getViewMap()):
+                    if(not self.openedInventory):
+                        self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
+
                 if(self.availableStart and self.startBoton):
                     self.startBoton = False
                     self.ProcesamientoPartida.clickBotonPreparado()
@@ -666,6 +777,11 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                     self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getViewMap()):
+                        if(not self.openedInventory):
+                            self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                        else:
+                            self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                     self.ch1.play(self.pressed)
                     pygame.display.update() 
                 return 'partida'
@@ -680,6 +796,10 @@ class PartidaScreen:
             y_size = self.height/12.2807
             x_start = self.width/2.7907
             y_start = self.height/1.1667
+            x_start1 = self.width/1.4706
+            y_start1 = self.height/1.7157
+            x_size1 = self.width/37.5000
+            y_size1 = self.height/21.8750
             (x,y) = pygame.mouse.get_pos()
 
             #Botón volver al menú
@@ -690,6 +810,8 @@ class PartidaScreen:
                     self.first_timeB = False
                     self.first_timeM = True
                     self.first_timeP = True
+                    self.first_timeI = True
+                    self.first_timeF = True
                     self.ch2.play(self.selected)     
                 pygame.display.update() 
 
@@ -697,6 +819,8 @@ class PartidaScreen:
                 self.first_timeB = True
                 self.first_timeM = True
                 self.first_timeP = True
+                self.first_timeI = True
+                self.first_timeF = True
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
                 pygame.display.update() 
@@ -708,6 +832,14 @@ class PartidaScreen:
             y_start = self.height/1.1290
             y_start2 = self.height/1.2658
             y_start3 = self.height/1.4403
+            x_start1 = self.width/1.4706
+            y_start1 = self.height/1.7157
+            x_size1 = self.width/37.5000
+            y_size1 = self.height/21.8750
+            x_size4 = self.width/37.5000
+            y_size4 = self.height/21.8750
+            x_start4 = self.width/120.0000
+            y_start4 = self.height/70.0000
             (x,y) = pygame.mouse.get_pos()
 
             #Botón volver al menú
@@ -726,13 +858,72 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                if(self.GLOBAL.getViewMap()):
+                    if(not self.openedInventory):
+                        self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                 if(self.first_timeB):
                     self.first_timeB = False
                     self.first_timeM = True
                     self.first_timeP = True
+                    self.first_timeI = True
+                    self.first_timeF = True
                     self.ch2.play(self.selected)     
                 pygame.display.update() 
             
+            # Botón abrir inventario
+            elif(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.checkIfMouseIsInButton(x_size1,y_size1,x_start1,y_start1,x,y)):
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
+
+                if(self.availableStart):
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                else:
+                    self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                
+                if(self.startBoton):
+                    self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
+                else:
+                    self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                self.screen.blit(pygame.transform.scale(self.butonInv_selected, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                if(self.first_timeI):
+                    self.first_timeI = False
+                    self.first_timeM = True
+                    self.first_timeB = True
+                    self.first_timeP = True
+                    self.first_timeF = True
+                    self.ch2.play(self.selected)     
+                pygame.display.update() 
+
+            # Botón de volver atrás a la partida
+            elif(self.GLOBAL.getViewMap() and self.openedInventory and self.checkIfMouseIsInButton(x_size4,y_size4,x_start4,y_start4,x,y)):
+                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
+                self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
+
+                if(self.availableStart):
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                else:
+                    self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                
+                if(self.startBoton):
+                    self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
+                else:
+                    self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                self.screen.blit(pygame.transform.scale(self.flecha_selected, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
+                if(self.first_timeF):
+                    self.first_timeF = False
+                    self.first_timeI = True
+                    self.first_timeM = True
+                    self.first_timeB = True
+                    self.first_timeP = True
+                    self.ch2.play(self.selected) 
+                pygame.display.update() 
+
             #Botón enviar mensaje
             elif(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start2,x,y)):
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
@@ -748,10 +939,17 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                if(self.GLOBAL.getViewMap()):
+                    if(not self.openedInventory):
+                        self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                 if(self.first_timeM and self.availableStart):
                     self.first_timeM = False
                     self.first_timeB = True
                     self.first_timeP = True
+                    self.first_timeI = True
+                    self.first_timeF = True
                     self.ch2.play(self.selected)     
                 pygame.display.update() 
             
@@ -764,10 +962,17 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                     self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getViewMap()):
+                        if(not self.openedInventory):
+                            self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                        else:
+                            self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                     if(self.first_timeP):
                         self.first_timeP = False
                         self.first_timeB = True
                         self.first_timeM = True
+                        self.first_timeI = True
+                        self.first_timeF = True
                         self.ch2.play(self.selected)     
                     pygame.display.update() 
 
@@ -775,6 +980,8 @@ class PartidaScreen:
                 self.first_timeB = True
                 self.first_timeM = True
                 self.first_timeP = True
+                self.first_timeI = True
+                self.first_timeF = True
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 
@@ -789,5 +996,10 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                if(self.GLOBAL.getViewMap()):
+                    if(not self.openedInventory):
+                        self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                 pygame.display.update() 
             

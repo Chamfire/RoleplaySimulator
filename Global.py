@@ -50,6 +50,8 @@ class Global:
         crossedDoor = [[False],[None,None]]
         global canGoOutFirst 
         canGoOutFirst = True #cambiar cuando se haga la parte de diálogo con el NPC
+
+
     
     def canGoOutFirst(self):
         global canGoOutFirst
