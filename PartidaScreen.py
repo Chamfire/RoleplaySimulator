@@ -1014,6 +1014,15 @@ class PartidaScreen:
             elif(key == pygame.K_i):
                 if(self.slot_selected != None):
                     self.intercambio = True
+            elif(key == pygame.K_x):
+                if(self.slot_selected != None and (not self.intercambio) and (self.slot_selected != 'armor_slot' and self.slot_selected != 'mano derecha' and self.slot_selected != 'mano izquierda')):
+                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][3] -=1
+                    if(self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][3] == 0):
+                        #Ha eliminado por completo el objeto
+                        self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                        self.slot_selected = None
+
+                    self.ch1.play(self.error)
 
     def hasUpKey(self,key,unicode):
         if(self.GLOBAL.getViewMap()):
