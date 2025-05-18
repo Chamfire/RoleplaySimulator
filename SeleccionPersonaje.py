@@ -940,7 +940,10 @@ class SeleccionPersonaje:
                             self.personaje.car = 12
                             self.personaje.int = 10
                             self.personaje.cons = 8
-                            self.personaje.ca = 11 #10 + 1(Des,12)
+                            if(self.personaje.equipo.armadura_actual != None):
+                                self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + 3
+                            else:
+                                self.personaje.ca = 13 #10 + 3(Des,13)
                             self.personaje.salvaciones_comp["fu"] = True
                             self.personaje.salvaciones_comp["des"] = True
                             #Dinero: 5d4x 10

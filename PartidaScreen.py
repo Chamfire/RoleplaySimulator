@@ -10,6 +10,7 @@ from Global import Global
 import queue
 from ProcesamientoPartida import ProcesamientoPartida
 import sqlite3
+from Lista_Inventario import Escudo,Objeto,Objeto_de_Espacio,Arma,Armadura
 
 
 class PartidaScreen:
@@ -107,6 +108,7 @@ class PartidaScreen:
         self.flecha_pressed = pygame.image.load("images/flecha_atras_pressed.png")
         self.whitebkg = pygame.image.load("images/white_bkg.png")
         self.selected_slot = pygame.image.load("images/selected_slot.png")
+        self.intercambio_slot = pygame.image.load("images/intercambio_slot.png")
 
         #diccionario de imágenes:
         # ARMADURAS -------
@@ -206,6 +208,7 @@ class PartidaScreen:
         self.currentTextToShow = ""
         self.cont = 0
         self.openedInventory = False
+        self.intercambio = False
 
         #estado variable
         self.contMsg = 0 #por defecto empieza en 0
@@ -310,23 +313,32 @@ class PartidaScreen:
                         # Cargamos cuál es su armadura
                         img_armadura = self.imgs[self.personaje.equipo.armadura_actual[0]][self.personaje.equipo.armadura_actual[1]]
                         if(self.slot_selected == 'armor_slot'):
-                            self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
+                            if(self.intercambio):
+                                self.screen.blit(pygame.transform.scale(self.intercambio_slot, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
+                            else:
+                                self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
                         self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
-                    
+                            
                     # Mano dcha
                     if(self.personaje.equipo.objeto_equipado_mano_derecha != None):
                         img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_derecha[0]][self.personaje.equipo.objeto_equipado_mano_derecha[1]]
                         if(self.slot_selected == 'mano derecha'):
-                            self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
+                            if(self.intercambio):
+                                self.screen.blit(pygame.transform.scale(self.intercambio_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
+                            else:
+                                self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
                         self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
 
                     # Mano izqda
                     if(self.personaje.equipo.objeto_equipado_mano_izquierda != None): 
                         img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_izquierda[0]][self.personaje.equipo.objeto_equipado_mano_izquierda[1]]
                         if(self.slot_selected == 'mano izquierda'):
-                            self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
+                            if(self.intercambio):
+                                self.screen.blit(pygame.transform.scale(self.intercambio_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
+                            else:
+                                self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
                         self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
-                            
+                                    
                     
                     # Características
                     att = self.personaje.car-10
@@ -402,7 +414,10 @@ class PartidaScreen:
                             col = int(slot_num % 10)
                             img_slot = self.imgs[categoria][name]
                             if(self.slot_selected == slot_num):
-                                self.screen.blit(pygame.transform.scale(self.selected_slot, (base_x_size, base_y_size)), (base_x_start+dif_x*col, base_y_start+dif_y*fila)) #39 40 384 111 
+                                if(self.intercambio):
+                                    self.screen.blit(pygame.transform.scale(self.intercambio_slot, (base_x_size, base_y_size)), (base_x_start+dif_x*col, base_y_start+dif_y*fila)) #39 40 384 111 
+                                else:
+                                    self.screen.blit(pygame.transform.scale(self.selected_slot, (base_x_size, base_y_size)), (base_x_start+dif_x*col, base_y_start+dif_y*fila)) #39 40 384 111 
                                 self.screen.blit(pygame.transform.scale(img_slot, (self.width/8.6957, self.height/4.9645)), (self.width/1.7143, self.height/2.3973))
                                 obj_name = self.fuente3.render(str(name), True, self.color_black)
                                 self.screen.blit(obj_name, (self.width/1.7217, self.height/3.0043)) 
@@ -852,21 +867,30 @@ class PartidaScreen:
                                 # Cargamos cuál es su armadura
                                 img_armadura = self.imgs[self.personaje.equipo.armadura_actual[0]][self.personaje.equipo.armadura_actual[1]]
                                 if(self.slot_selected == 'armor_slot'):
-                                    self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
+                                    if(self.intercambio):
+                                        self.screen.blit(pygame.transform.scale(self.intercambio_slot, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
+                                    else:
+                                        self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
                                 self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
                             
                             # Mano dcha
                             if(self.personaje.equipo.objeto_equipado_mano_derecha != None):
                                 img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_derecha[0]][self.personaje.equipo.objeto_equipado_mano_derecha[1]]
                                 if(self.slot_selected == 'mano derecha'):
-                                    self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
+                                    if(self.intercambio):
+                                        self.screen.blit(pygame.transform.scale(self.intercambio_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
+                                    else:
+                                        self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
                                 self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
 
                             # Mano izqda
                             if(self.personaje.equipo.objeto_equipado_mano_izquierda != None): 
                                 img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_izquierda[0]][self.personaje.equipo.objeto_equipado_mano_izquierda[1]]
                                 if(self.slot_selected == 'mano izquierda'):
-                                    self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
+                                    if(self.intercambio):
+                                        self.screen.blit(pygame.transform.scale(self.intercambio_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
+                                    else:
+                                        self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
                                 self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
                                     
                             # Características
@@ -944,7 +968,10 @@ class PartidaScreen:
                                     col = int(slot_num % 10)
                                     img_slot = self.imgs[categoria][name]
                                     if(self.slot_selected == slot_num):
-                                        self.screen.blit(pygame.transform.scale(self.selected_slot, (base_x_size, base_y_size)), (base_x_start+dif_x*col, base_y_start+dif_y*fila)) #39 40 384 111 
+                                        if(self.intercambio):
+                                            self.screen.blit(pygame.transform.scale(self.intercambio_slot, (base_x_size, base_y_size)), (base_x_start+dif_x*col, base_y_start+dif_y*fila)) #39 40 384 111 
+                                        else:
+                                            self.screen.blit(pygame.transform.scale(self.selected_slot, (base_x_size, base_y_size)), (base_x_start+dif_x*col, base_y_start+dif_y*fila)) #39 40 384 111 
                                         self.screen.blit(pygame.transform.scale(img_slot, (self.width/8.6957, self.height/4.9645)), (self.width/1.7143, self.height/2.3973))
                                         obj_name = self.fuente3.render(str(name), True, self.color_black)
                                         self.screen.blit(obj_name, (self.width/1.7217, self.height/3.0043)) 
@@ -984,6 +1011,9 @@ class PartidaScreen:
             elif(key == pygame.K_RIGHT):
                 print("right")
                 self.personaje.setRight(True)
+            elif(key == pygame.K_i):
+                if(self.slot_selected != None):
+                    self.intercambio = True
 
     def hasUpKey(self,key,unicode):
         if(self.GLOBAL.getViewMap()):
@@ -1048,6 +1078,7 @@ class PartidaScreen:
             #Botón volver al menú
             if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
                 self.slot_selected = None
+                self.intercambio = False
                 self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -1075,13 +1106,337 @@ class PartidaScreen:
                 return 'menu'
             
             elif(self.GLOBAL.getViewMap() and self.openedInventory and self.calculateCurrentSlot(x,y) != None):
-                self.slot_selected = self.calculateCurrentSlot(x,y)
+                slot = self.calculateCurrentSlot(x,y)
+                if(slot != 'armor_slot' and slot != 'mano derecha' and slot != 'mano izquierda'):
+                    # El nuevo objeto es de inventario, y venimos de cualquiera
+                    if(self.personaje.equipo.objetos["slot_"+str(slot)] != None):
+                        # Caso 1: estaba en modo intercambio y hay un objeto en el nuevo slot, que no es ni armadura, ni manos
+                        if(self.intercambio and not(self.slot_selected == 'armor_slot' or self.slot_selected == 'mano derecha' or self.slot_selected == 'mano izquierda')):
+                            objeto_slot_nuevo = self.personaje.equipo.objetos["slot_"+str(slot)]
+                            self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)]
+                            self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = objeto_slot_nuevo
+                            self.intercambio = False
+                            self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado
+                        elif(self.intercambio and self.slot_selected == 'armor_slot'):
+                            # Estaba en modo intercambio, y hay un nuevo objeto en el slot, procediendo de armor slot
+                            # Si es una armadura, se deben intercambiar. Si no, que termine el modo intercambio sin hacer nada, y suene el error
+                            if(type(self.personaje.equipo.objetos["slot_"+str(slot)][2]) == Armadura):
+                                # Se pueden intercambiar
+                                objeto_slot_nuevo = self.personaje.equipo.objetos["slot_"+str(slot)]
+                                self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.armadura_actual
+                                self.personaje.equipo.armadura_actual = objeto_slot_nuevo
+                                # Actualizo la CA
+                                att = self.personaje.des-10
+                                if(att < 0):
+                                    att -=1
+                                puntaje = str(int(att // 2))
+                                self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
+                                self.intercambio = False
+                                self.slot_selected = None 
+                            else:
+                                self.ch1.play(self.error)
+                                self.intercambio = False
+                                self.slot_selected = None 
+                        elif(self.intercambio and self.slot_selected == 'mano derecha'):
+                            # Si es escudo, hay que actualizar la CA, pues da un +2
+                            if(type(self.personaje.equipo.objetos["slot_"+str(slot)][2]) == Escudo):
+                                self.personaje.ca +=2
+                            # Se intercambia el objeto
+                            if(type(self.personaje.equipo.objeto_equipado_mano_derecha)[2] == Escudo):
+                                self.personaje.ca -=2
+                            objeto_slot_nuevo = self.personaje.equipo.objetos["slot_"+str(slot)]
+                            self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.objeto_equipado_mano_derecha
+                            self.personaje.equipo.objeto_equipado_mano_derecha = objeto_slot_nuevo
+                            self.intercambio = False
+                            self.slot_selected = None 
+
+                        elif(self.intercambio and self.slot_selected == 'mano izquierda'):
+                            # Si es escudo, hay que actualizar la CA, pues da un +2
+                            if(type(self.personaje.equipo.objetos["slot_"+str(slot)][2]) == Escudo):
+                                self.personaje.ca +=2
+                            # Se intercambia el objeto
+                            if(type(self.personaje.equipo.objeto_equipado_mano_izquierda)[2] == Escudo):
+                                self.personaje.ca -=2
+                            objeto_slot_nuevo = self.personaje.equipo.objetos["slot_"+str(slot)]
+                            self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.objeto_equipado_mano_izquierda
+                            self.personaje.equipo.objeto_equipado_mano_izquierda = objeto_slot_nuevo
+                            self.intercambio = False
+                            self.slot_selected = None
+                        else:
+                            self.slot_selected = slot
+                    # Caso 2: estaba en modo intercambio y no hay un objeto en el nuevo slot
+                    else:
+                        if(self.intercambio and not(self.slot_selected == 'armor_slot' or self.slot_selected == 'mano derecha' or self.slot_selected == 'mano izquierda')):
+                            self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)]
+                            self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                            self.intercambio = False
+                            self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado
+                        elif(self.intercambio and self.slot_selected == 'armor_slot'):
+                            if(self.personaje.tipo_clase == 'Explorador'):
+                                base_ca = 15
+                            else:
+                                base_ca = 10
+                            dif_ca = self.personaje.equipo.armadura_actual - base_ca
+                            self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.armadura_actual
+                            self.personaje.equipo.armadura_actual = None
+                            self.intercambio = False
+                            self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado
+                            self.personaje.ca -= dif_ca
+                        elif(self.intercambio and self.slot_selected == 'mano derecha'):
+                            if(type(self.personaje.equipo.objeto_equipado_mano_derecha[2]) == Escudo):
+                                self.personaje.ca -=2
+                            self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.objeto_equipado_mano_derecha
+                            self.personaje.equipo.objeto_equipado_mano_derecha = None
+                            self.intercambio = False
+                            self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado
+                        elif(self.intercambio and self.slot_selected == 'mano izquierda'):
+                            if(type(self.personaje.equipo.objeto_equipado_mano_izquierda[2]) == Escudo):
+                                self.personaje.ca -=2
+                            self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.objeto_equipado_mano_izquierda
+                            self.personaje.equipo.objeto_equipado_mano_izquierda = None
+                            self.intercambio = False
+                            self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado  
+                else:
+                    # El nuevo objeto es de armadura o mano, y venimos de cualquiera
+                    if(self.intercambio and self.slot_selected == 'armor_slot'):
+                        # Si hay intercambio, y el slot actual es el de la armadura, y venía de un slot de armadura
+                        if(slot == 'armor_slot'):
+                            self.ch1.play(self.error)
+                            self.intercambio = False
+                            self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado  
+                        elif(slot == 'mano derecha'):
+                            # Solo se podrán intercambiar si ambos son armaduras
+                            if(self.personaje.equipo.objeto_equipado_mano_derecha == None):
+                                # Actualizo la CA
+                                if(self.personaje.tipo_clase == 'Explorador'):
+                                    base_ca = 15
+                                else:
+                                    base_ca = 10
+                                dif_ca = self.personaje.equipo.armadura_actual - base_ca
+
+                                self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.armadura_actual
+                                self.personaje.equipo.armadura_actual = None
+                                self.personaje.ca -= dif_ca
+                                self.intercambio = False
+                                self.slot_selected = None 
+                            elif(type(self.personaje.equipo.objeto_equipado_mano_derecha[2]) == Armadura):
+                                objeto_slot_nuevo = self.personaje.equipo.objeto_equipado_mano_derecha
+                                self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.armadura_actual
+                                self.personaje.equipo.armadura_actual = objeto_slot_nuevo
+                                # Actualizo la CA
+                                att = self.personaje.des-10
+                                if(att < 0):
+                                    att -=1
+                                puntaje = str(int(att // 2))
+                                self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
+                                self.intercambio = False
+                                self.slot_selected = None 
+                            else:
+                                self.ch1.play(self.error)
+                                self.intercambio = False
+                                self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado 
+                        elif(slot == 'mano izquierda'):
+                            if(self.personaje.equipo.objeto_equipado_mano_izquierda == None):
+                                # Actualizo la CA
+                                if(self.personaje.tipo_clase == 'Explorador'):
+                                    base_ca = 15
+                                else:
+                                    base_ca = 10
+                                dif_ca = self.personaje.equipo.armadura_actual - base_ca
+
+                                self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.armadura_actual
+                                self.personaje.equipo.armadura_actual = None
+                                self.personaje.ca -= dif_ca
+                                self.intercambio = False
+                                self.slot_selected = None 
+                            elif(type(self.personaje.equipo.objeto_equipado_mano_izquierda[2]) == Armadura):
+                                objeto_slot_nuevo = self.personaje.equipo.objeto_equipado_mano_izquierda
+                                self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.armadura_actual
+                                self.personaje.equipo.armadura_actual = objeto_slot_nuevo
+                                # Actualizo la CA
+                                att = self.personaje.des-10
+                                if(att < 0):
+                                    att -=1
+                                puntaje = str(int(att // 2))
+                                self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
+                                self.intercambio = False
+                                self.slot_selected = None 
+                            else:
+                                self.ch1.play(self.error)
+                                self.intercambio = False
+                                self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado 
+                    
+
+                    elif(self.intercambio and self.slot_selected == 'mano derecha'):
+                        if(slot == 'armor_slot'):
+                            if(type(self.personaje.equipo.objeto_equipado_mano_derecha[2]) == Armadura):
+                                if(self.personaje.equipo.armadura_actual != None):
+                                    objeto_slot_antiguo = self.personaje.equipo.objeto_equipado_mano_derecha
+                                    self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.armadura_actual
+                                    self.personaje.equipo.armadura_actual = objeto_slot_antiguo
+                                else:
+                                    self.personaje.equipo.armadura_actual = self.personaje.equipo.objeto_equipado_mano_derecha
+                                    self.personaje.equipo.objeto_equipado_mano_derecha = None
+                                # Actualizo la CA
+                                att = self.personaje.des-10
+                                if(att < 0):
+                                    att -=1
+                                puntaje = str(int(att // 2))
+                                self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
+                                self.intercambio = False
+                                self.slot_selected = None 
+                            else:
+                                self.ch1.play(self.error)
+                                self.intercambio = False
+                                self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado 
+                        elif(slot == 'mano derecha'):
+                            self.ch1.play(self.error)
+                            self.intercambio = False
+                            self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado 
+                        elif(slot == 'mano izquierda'):
+                            if(self.personaje.equipo.objeto_equipado_mano_izquierda != None):
+                                objeto_slot_nuevo = self.personaje.equipo.objeto_equipado_mano_izquierda
+                                self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.objeto_equipado_mano_derecha
+                                self.personaje.equipo.objeto_equipado_mano_derecha = objeto_slot_antiguo
+                            else:
+                                self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.objeto_equipado_mano_derecha
+                                self.personaje.equipo.objeto_equipado_mano_derecha = None
+                            self.intercambio = False
+                            self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado 
+                        
+                    elif(self.intercambio and self.slot_selected == 'mano izquierda'):
+                        if(slot == 'armor_slot'):
+                            if(type(self.personaje.equipo.objeto_equipado_mano_izquierda[2]) == Armadura):
+                                if(self.personaje.equipo.armadura_actual != None):
+                                    objeto_slot_antiguo = self.personaje.equipo.objeto_equipado_mano_izquierda
+                                    self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.armadura_actual
+                                    self.personaje.equipo.armadura_actual = objeto_slot_antiguo
+                                else:
+                                    self.personaje.equipo.armadura_actual = self.personaje.equipo.objeto_equipado_mano_izquierda
+                                    self.personaje.equipo.objeto_equipado_mano_izquierda = None
+                                # Actualizo la CA
+                                att = self.personaje.des-10
+                                if(att < 0):
+                                    att -=1
+                                puntaje = str(int(att // 2))
+                                self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
+                                self.intercambio = False
+                                self.slot_selected = None 
+                            else:
+                                self.ch1.play(self.error)
+                                self.intercambio = False
+                                self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado 
+                        elif(slot == 'mano derecha'):
+                            if(self.personaje.equipo.objeto_equipado_mano_derecha != None):
+                                objeto_slot_nuevo = self.personaje.equipo.objeto_equipado_mano_derecha
+                                self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.objeto_equipado_mano_izquierda
+                                self.personaje.equipo.objeto_equipado_mano_izquierda = objeto_slot_antiguo
+                            else:
+                                self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.objeto_equipado_mano_izquierda
+                                self.personaje.equipo.objeto_equipado_mano_izquierda = None
+                            self.intercambio = False
+                            self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado 
+                        elif(slot == 'mano izquierda'):
+                            self.ch1.play(self.error)
+                            self.intercambio = False
+                            self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado 
+                        
+                    elif(self.intercambio and self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] != None):
+                        if(slot == 'armor_slot'):
+                            if(type(self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][2]) == Armadura):
+                                # Se pueden intercambiar
+                                if(self.personaje.equipo.armadura_actual != None):
+                                    objeto_slot_nuevo = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)]
+                                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = self.personaje.equipo.armadura_actual
+                                    self.personaje.equipo.armadura_actual = objeto_slot_nuevo
+                    
+                                else:
+                                    self.personaje.equipo.armadura_actual = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)]
+                                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                                 # Actualizo la CA
+                                att = self.personaje.des-10
+                                if(att < 0):
+                                    att -=1
+                                puntaje = str(int(att // 2))
+                                self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
+                                self.intercambio = False
+                                self.slot_selected = None   
+                                
+                            else:
+                                self.ch1.play(self.error)
+                                self.intercambio = False
+                                self.slot_selected = None 
+                        elif(slot == 'mano derecha'):
+                            if(type(self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][2]) == Escudo):
+                                if(self.personaje.equipo.objeto_equipado_mano_derecha != None):
+                                    objeto_slot_nuevo = self.personaje.equipo.objeto_equipado_mano_derecha
+                                    self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
+                                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = objeto_slot_nuevo
+                                    if(not type(self.personaje.equipo.objeto_equipado_mano_derecha[2]) == Escudo):
+                                        self.personaje.ca +=2
+                                    self.intercambio = False
+                                    self.slot_selected = None 
+                                    
+                                else:
+                                    self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
+                                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                                    self.personaje.ca +=2
+                                    self.intercambio = False
+                                    self.slot_selected = None 
+                            else:
+                                if(self.personaje.equipo.objeto_equipado_mano_derecha != None):
+                                    objeto_slot_nuevo = self.personaje.equipo.objeto_equipado_mano_derecha
+                                    self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
+                                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = objeto_slot_nuevo
+                                    self.intercambio = False
+                                    self.slot_selected = None 
+                                else:
+                                    self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
+                                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                                    self.intercambio = False
+                                    self.slot_selected = None 
+
+
+                        elif(slot == 'mano izquierda'):
+                            if(type(self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][2]) == Escudo):
+                                if(self.personaje.equipo.objeto_equipado_mano_izquierda != None):
+                                    objeto_slot_nuevo = self.personaje.equipo.objeto_equipado_mano_izquierda
+                                    self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
+                                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = objeto_slot_nuevo
+                                    if(not type(self.personaje.equipo.objeto_equipado_mano_izquierda[2]) == Escudo):
+                                        self.personaje.ca +=2
+                                    self.intercambio = False
+                                    self.slot_selected = None 
+                                    
+                                else:
+                                    self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
+                                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                                    self.personaje.ca +=2
+                                    self.intercambio = False
+                                    self.slot_selected = None 
+                            else:
+                                if(self.personaje.equipo.objeto_equipado_mano_izquierda != None):
+                                    objeto_slot_nuevo = self.personaje.equipo.objeto_equipado_mano_izquierda
+                                    self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
+                                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = objeto_slot_nuevo
+                                    self.intercambio = False
+                                    self.slot_selected = None 
+                                else:
+                                    self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
+                                    self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                                    self.intercambio = False
+                                    self.slot_selected = None 
+                        
+                    elif((not self.intercambio) and ((slot == 'armor_slot' and self.personaje.equipo.armadura_actual != None) or (slot == 'mano derecha' and self.personaje.equipo.objeto_equipado_mano_derecha != None) or (slot == 'mano izquierda' and self.personaje.equipo.objeto_equipado_mano_izquierda != None))):
+                        # Si no hay intercambio en progreso, y hay algo en dicho slot, seleccionamos ese slot tal cual
+                        self.slot_selected = slot
                 self.ch1.play(self.pressed)
                 return 'partida'
 
             # Botón abrir inventario
             elif(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.checkIfMouseIsInButton(x_size1,y_size1,x_start1,y_start1,x,y)):
                 self.slot_selected = None
+                self.intercambio = False
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
@@ -1105,6 +1460,7 @@ class PartidaScreen:
             # Botón de volver atrás a la partida
             elif(self.GLOBAL.getViewMap() and self.openedInventory and self.checkIfMouseIsInButton(x_size4,y_size4,x_start4,y_start4,x,y)):
                 self.slot_selected = None
+                self.intercambio = False
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
@@ -1128,6 +1484,7 @@ class PartidaScreen:
             #Botón de enviar mensaje
             elif(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start2,x,y)):
                 self.slot_selected = None
+                self.intercambio = False
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                     
@@ -1158,6 +1515,7 @@ class PartidaScreen:
             #Botón de pedir turno de palabra
             elif(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
                 self.slot_selected = None
+                self.intercambio = False
                 if(not self.startBoton):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                     self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
@@ -1176,6 +1534,7 @@ class PartidaScreen:
                 
             else:
                 self.slot_selected = None
+                self.intercambio = False
                 return 'partida'
         
 
