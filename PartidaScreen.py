@@ -70,6 +70,7 @@ class PartidaScreen:
         self.vida = None
         self.bpc = None
         self.clase = None
+        self.slot_selected = None
 
         #canales
         self.ch1 = ch1
@@ -104,10 +105,12 @@ class PartidaScreen:
         self.flecha = pygame.image.load("images/flecha_atras.png")
         self.flecha_selected = pygame.image.load("images/flecha_atras_selected.png")
         self.flecha_pressed = pygame.image.load("images/flecha_atras_pressed.png")
+        self.whitebkg = pygame.image.load("images/white_bkg.png")
+        self.selected_slot = pygame.image.load("images/selected_slot.png")
 
         #diccionario de imágenes:
         # ARMADURAS -------
-        self.imgs = {"Armaduras ligeras": {},"Armaduras medias": {},"Armaduras pesadas": {}}
+        self.imgs = {"Armaduras ligeras": {},"Armaduras medias": {},"Armaduras pesadas": {}, "Armas c/c simples": {}, "Armas a distancia simples":{},"Armas c/c marciales":{},"Armas a distancia marciales":{},"Comida": {}, "Bebida": {}, "Mecanico": {}, "Refugio": {},"Libro": {}, "Kit": {}, "Iluminación": {}, "Otros": {}, "Almacenaje": {}, "Munición": {}, "Escudo":{}}
         self.imgs["Armaduras ligeras"]["Acolchada"] = pygame.image.load("images/objetos/Armadura/Armaduras ligeras/Acolchada.png")
         self.imgs["Armaduras ligeras"]["Cuero"] = pygame.image.load("images/objetos/Armadura/Armaduras ligeras/Cuero.png")
         self.imgs["Armaduras ligeras"]["Cuero tachonado"] = pygame.image.load("images/objetos/Armadura/Armaduras ligeras/Cuero tachonado.png")
@@ -121,6 +124,61 @@ class PartidaScreen:
         self.imgs["Armaduras pesadas"]["Bandas"] = pygame.image.load("images/objetos/Armadura/Armaduras pesadas/Bandas.png")
         self.imgs["Armaduras pesadas"]["Placas"] = pygame.image.load("images/objetos/Armadura/Armaduras pesadas/Placas.png")
 
+        # Armas
+        self.imgs["Armas c/c simples"]["Bastón"] = pygame.image.load("images/objetos/Armas/Armas cc simples/Bastón.png")
+        self.imgs["Armas c/c simples"]["Daga"] = pygame.image.load("images/objetos/Armas/Armas cc simples/Daga.png")
+        self.imgs["Armas c/c simples"]["Gran clava"] = pygame.image.load("images/objetos/Armas/Armas cc simples/Gran Clava.png")
+        self.imgs["Armas c/c simples"]["Hacha de mano"] = pygame.image.load("images/objetos/Armas/Armas cc simples/Hacha de mano.png")
+        self.imgs["Armas c/c simples"]["Hoz"] = pygame.image.load("images/objetos/Armas/Armas cc simples/Hoz.png")
+        self.imgs["Armas c/c simples"]["Jabalina"] = pygame.image.load("images/objetos/Armas/Armas cc simples/Jabalina.png")
+        self.imgs["Armas c/c simples"]["Lanza"] = pygame.image.load("images/objetos/Armas/Armas cc simples/Lanza.png")
+        self.imgs["Armas c/c simples"]["Martillo ligero"] = pygame.image.load("images/objetos/Armas/Armas cc simples/Martillo Ligero.png")
+        self.imgs["Armas c/c simples"]["Maza"] = pygame.image.load("images/objetos/Armas/Armas cc simples/Maza.png")
+        self.imgs["Armas c/c simples"]["Clava"] = pygame.image.load("images/objetos/Armas/Armas cc simples/Clava.png")
+
+        self.imgs["Armas a distancia simples"]["Arco corto"] = pygame.image.load("images/objetos/Armas/Armas a distancia simples/Arco Corto.png")
+        self.imgs["Armas a distancia simples"]["Ballesta ligera"] = pygame.image.load("images/objetos/Armas/Armas a distancia simples/Ballesta Ligera.png")
+        self.imgs["Armas a distancia simples"]["Dardo"] = pygame.image.load("images/objetos/Armas/Armas a distancia simples/Dardo.png")
+        self.imgs["Armas a distancia simples"]["Honda"] = pygame.image.load("images/objetos/Armas/Armas a distancia simples/Honda.png")
+
+        self.imgs["Armas c/c marciales"]["Alabarda"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Alabarda.png")
+        self.imgs["Armas c/c marciales"]["Atarraga"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Atarraga.png")
+        self.imgs["Armas c/c marciales"]["Cimitarra"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Cimitarra.png")
+        self.imgs["Armas c/c marciales"]["Espada corta"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Espada corta.png")
+        self.imgs["Armas c/c marciales"]["Espada larga"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Espada larga.png")
+        self.imgs["Armas c/c marciales"]["Espadón"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Espadón.png")
+        self.imgs["Armas c/c marciales"]["Estoque"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Estoque.png")
+        self.imgs["Armas c/c marciales"]["Hacha de batalla"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Hacha de batalla.png")
+        self.imgs["Armas c/c marciales"]["Gran hacha"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Gran hacha.png")
+        self.imgs["Armas c/c marciales"]["Guja"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Guja.png")
+        self.imgs["Armas c/c marciales"]["Lanza de caballería"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Lanza de caballería.png")
+        self.imgs["Armas c/c marciales"]["Látigo"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Látigo.png")
+        self.imgs["Armas c/c marciales"]["Lucero del alba"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Lucero del alba.png")
+        self.imgs["Armas c/c marciales"]["Martillo de guerra"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Martillo de guerra.png")
+        self.imgs["Armas c/c marciales"]["Mayal"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Mayal.png")
+        self.imgs["Armas c/c marciales"]["Pica"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Pica.png")
+        self.imgs["Armas c/c marciales"]["Pica de guerra"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Pica de guerra.png")
+        self.imgs["Armas c/c marciales"]["Tridente"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Tridente.png")
+        self.imgs["Armas a distancia marciales"]["Arco largo"] = pygame.image.load("images/objetos/Armas/Armas a distancia marciales/Arco largo.png")
+        self.imgs["Armas a distancia marciales"]["Ballesta de mano"] = pygame.image.load("images/objetos/Armas/Armas a distancia marciales/Ballesta de mano.png")
+        self.imgs["Armas a distancia marciales"]["Ballesta pesada"] = pygame.image.load("images/objetos/Armas/Armas a distancia marciales/Ballesta pesada.png")
+        self.imgs["Armas a distancia marciales"]["Cerbatana"] = pygame.image.load("images/objetos/Armas/Armas a distancia marciales/Cerbatana.png")
+
+        # Objetos variados
+        self.imgs["Refugio"]["Saco de dormir"] = pygame.image.load("images/objetos/Objeto/Refugio/Saco de dormir.png")
+        self.imgs["Mecanico"]["Palanca"] = pygame.image.load("images/objetos/Objeto/Mecanico/Palanca.png")
+        self.imgs["Mecanico"]["Martillo"] = pygame.image.load("images/objetos/Objeto/Mecanico/Martillo.png")
+        self.imgs["Otros"]["Piton"] = pygame.image.load("images/objetos/Objeto/Otros/Pitón.png")
+        self.imgs["Otros"]["Yesquero"] = pygame.image.load("images/objetos/Objeto/Otros/Yesquero.png")
+        self.imgs["Otros"]["Cuerda de cáñamo"] = pygame.image.load("images/objetos/Objeto/Otros/Cuerda de cáñamo.png")
+        self.imgs["Iluminación"]["Antorcha"] = pygame.image.load("images/objetos/Objeto/Iluminación/Antorcha.png")
+        self.imgs["Comida"]["Ración"] = pygame.image.load("images/objetos/Objeto/Comida/Ración.png")
+        self.imgs["Bebida"]["Odre de agua"] = pygame.image.load("images/objetos/Objeto/Bebida/Odre de agua.png")
+        self.imgs["Munición"]["Flecha"] = pygame.image.load("images/objetos/Objeto/Munición/Flecha.png")
+        self.imgs["Almacenaje"]["Mochila"] = pygame.image.load("images/objetos/Objeto/Almacenaje/Mochila.png")
+        self.imgs["Kit"]["De cocina"] = pygame.image.load("images/objetos/Objeto/Kit/De cocina.png")
+
+        self.imgs["Escudo"]["Escudo básico"] = pygame.image.load("images/objetos/Armadura/Escudo/Escudo básico.png")
 
 
         self.changePhoto = False
@@ -151,6 +209,12 @@ class PartidaScreen:
 
         #estado variable
         self.contMsg = 0 #por defecto empieza en 0
+
+        self.filas = [self.height/6.3063, self.height/6.3063 + self.height/16.2791]
+        self.columnas = [self.width/3.1250, self.width/3.1250 + self.width/28.5714, self.width/3.1250 + self.width/28.5714*2, self.width/3.1250 + self.width/28.5714*3, self.width/3.1250 + self.width/28.5714*4, self.width/3.1250 + self.width/28.5714*5, self.width/3.1250 + self.width/28.5714*6, self.width/3.1250 + self.width/28.5714*7, self.width/3.1250 + self.width/28.5714*8, self.width/3.1250 + self.width/28.5714*9]
+        self.base_x_size = self.width/30.7692
+        self.base_y_size =  self.height/17.5000
+
 
     def setScreen(self,screen):
         self.screen = screen
@@ -245,7 +309,25 @@ class PartidaScreen:
                     if(self.personaje.equipo.armadura_actual != None):
                         # Cargamos cuál es su armadura
                         img_armadura = self.imgs[self.personaje.equipo.armadura_actual[0]][self.personaje.equipo.armadura_actual[1]]
+                        if(self.slot_selected == 'armor_slot'):
+                            self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
                         self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
+                    
+                    # Mano dcha
+                    if(self.personaje.equipo.objeto_equipado_mano_derecha != None):
+                        img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_derecha[0]][self.personaje.equipo.objeto_equipado_mano_derecha[1]]
+                        if(self.slot_selected == 'mano derecha'):
+                            self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
+                        self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
+
+                    # Mano izqda
+                    if(self.personaje.equipo.objeto_equipado_mano_izquierda != None): 
+                        img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_izquierda[0]][self.personaje.equipo.objeto_equipado_mano_izquierda[1]]
+                        if(self.slot_selected == 'mano izquierda'):
+                            self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
+                        self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
+                            
+                    
                     # Características
                     att = self.personaje.car-10
                     if(att < 0):
@@ -298,6 +380,42 @@ class PartidaScreen:
                     self.clase = self.fuente1.render(str(self.personaje.tipo_clase), True, self.color_black)
                     self.screen.blit(self.clase, (self.width/3.3241, self.height/12.0690)) #361 58
 
+                    # Objetos de los slot normales
+                    base_x_start = self.width/3.1250
+                    base_y_start = self.height/6.3063
+                    base_x_size = self.width/30.7692
+                    base_y_size =  self.height/17.5000
+                    dif_x = self.width/35.2941
+                    dif_y = self.height/20.5882
+                    base_c_x_start = self.width/2.9412
+                    base_c_y_start = self.height/4.9296
+                    base_c_x_size = self.width/46.1538
+                    base_c_y_size = self.height/36.8421
+                    dif_l_x = self.width/600.0000
+                    dif_l_y = self.height/700.0000
+                    for slot_name, objeto in self.personaje.equipo.objetos.items():
+                        if(objeto != None):
+                            categoria = objeto[0]
+                            name = objeto[1]
+                            slot_num = int(slot_name[5:])
+                            fila = int(slot_num // 10) # Se cuenta a partir de 0 
+                            col = int(slot_num % 10)
+                            img_slot = self.imgs[categoria][name]
+                            if(self.slot_selected == slot_num):
+                                self.screen.blit(pygame.transform.scale(self.selected_slot, (base_x_size, base_y_size)), (base_x_start+dif_x*col, base_y_start+dif_y*fila)) #39 40 384 111 
+                                self.screen.blit(pygame.transform.scale(img_slot, (self.width/8.6957, self.height/4.9645)), (self.width/1.7143, self.height/2.3973))
+                                obj_name = self.fuente3.render(str(name), True, self.color_black)
+                                self.screen.blit(obj_name, (self.width/1.7217, self.height/3.0043)) 
+                            self.screen.blit(pygame.transform.scale(img_slot, (base_x_size, base_y_size)), (base_x_start+dif_x*col, base_y_start+dif_y*fila)) #39 40 384 111 
+                    for slot_name, objeto in self.personaje.equipo.objetos.items():
+                        if(objeto != None):
+                            cantidad = objeto[3]
+                            slot_num = int(slot_name[5:])
+                            fila = int(slot_num // 10) # Se cuenta a partir de 0 
+                            col = int(slot_num % 10)
+                            self.screen.blit(pygame.transform.scale(self.whitebkg, (base_c_x_size, base_c_y_size)), (base_c_x_start+dif_x*col, base_c_y_start+dif_y*fila))
+                            cantidadLetra = self.fuente1.render(str(cantidad), True, self.color_black)
+                            self.screen.blit(cantidadLetra, (base_c_x_start+dif_x*col+dif_l_x, base_c_y_start+dif_y*fila+dif_l_y))
             if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
                 self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             else:
@@ -340,6 +458,35 @@ class PartidaScreen:
 
         pygame.display.update() 
 
+    def calculateCurrentSlot(self,pos_x,pos_y):
+        for fila in self.filas:
+            for col in self.columnas:
+                if((pos_x >= col and pos_x <= self.base_x_size+col) and (pos_y >= fila and pos_y <= self.base_y_size + fila)):
+                    f_n = self.filas.index(fila)
+                    c_n = self.columnas.index(col)
+                    slot = c_n + f_n*10
+                    return slot
+        
+        # Comprobamos si lo que ha clickeado es la armadura
+        armor_x_size = self.width/16.9014
+        armor_y_size = self.height/9.5890
+        armor_x_start = self.width/16.2162
+        armor_y_start = self.height/9.7222
+        if((pos_x >= armor_x_start and pos_x <= armor_x_size+armor_x_start) and (pos_y >= armor_y_start and pos_y <= armor_y_size + armor_y_start)):
+            return 'armor_slot'
+        
+        # Comprobamos si lo que ha clickeado es la mano dcha o la izqda
+        mano_dcha_x_size = self.width/16.2162
+        mano_dcha_y_size = self.height/9.2105
+        mano_dcha_x_start = self.width/48.0000
+        mano_dcha_y_start = self.height/3.6842
+        mano_izda_x_start = self.width/10.1695
+        if((pos_x >= mano_dcha_x_start and pos_x <= mano_dcha_x_size+mano_dcha_x_start) and (pos_y >= mano_dcha_y_start and pos_y <= mano_dcha_y_size + mano_dcha_y_start)):
+            return 'mano derecha'
+        if((pos_x >= mano_izda_x_start and pos_x <= mano_dcha_x_size+mano_izda_x_start) and (pos_y >= mano_dcha_y_start and pos_y <= mano_dcha_y_size + mano_dcha_y_start)):
+            return 'mano izquierda'
+
+        return None
 
     def cerrarHilo(self):
         #si está activo, que lo detenga
@@ -704,7 +851,24 @@ class PartidaScreen:
                             if(self.personaje.equipo.armadura_actual != None):
                                 # Cargamos cuál es su armadura
                                 img_armadura = self.imgs[self.personaje.equipo.armadura_actual[0]][self.personaje.equipo.armadura_actual[1]]
+                                if(self.slot_selected == 'armor_slot'):
+                                    self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
                                 self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
+                            
+                            # Mano dcha
+                            if(self.personaje.equipo.objeto_equipado_mano_derecha != None):
+                                img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_derecha[0]][self.personaje.equipo.objeto_equipado_mano_derecha[1]]
+                                if(self.slot_selected == 'mano derecha'):
+                                    self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
+                                self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
+
+                            # Mano izqda
+                            if(self.personaje.equipo.objeto_equipado_mano_izquierda != None): 
+                                img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_izquierda[0]][self.personaje.equipo.objeto_equipado_mano_izquierda[1]]
+                                if(self.slot_selected == 'mano izquierda'):
+                                    self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
+                                self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
+                                    
                             # Características
                             att = self.personaje.car-10
                             if(att < 0):
@@ -758,7 +922,42 @@ class PartidaScreen:
                             self.clase = self.fuente1.render(str(self.personaje.tipo_clase), True, self.color_black)
                             self.screen.blit(self.clase, (self.width/3.3241, self.height/12.0690)) #361 58
 
-
+                            # Objetos de los slot normales
+                            base_x_start = self.width/3.1250
+                            base_y_start = self.height/6.3063
+                            base_x_size = self.width/30.7692
+                            base_y_size =  self.height/17.5000
+                            dif_x = self.width/28.5714
+                            dif_y = self.height/16.2791
+                            base_c_x_start = self.width/2.9412
+                            base_c_y_start = self.height/4.9296
+                            base_c_x_size = self.width/46.1538
+                            base_c_y_size = self.height/36.8421
+                            dif_l_x = self.width/600.0000
+                            dif_l_y = self.height/700.0000
+                            for slot_name, objeto in self.personaje.equipo.objetos.items():
+                                if(objeto != None):
+                                    categoria = objeto[0]
+                                    name = objeto[1]
+                                    slot_num = int(slot_name[5:])
+                                    fila = int(slot_num // 10) # Se cuenta a partir de 0 
+                                    col = int(slot_num % 10)
+                                    img_slot = self.imgs[categoria][name]
+                                    if(self.slot_selected == slot_num):
+                                        self.screen.blit(pygame.transform.scale(self.selected_slot, (base_x_size, base_y_size)), (base_x_start+dif_x*col, base_y_start+dif_y*fila)) #39 40 384 111 
+                                        self.screen.blit(pygame.transform.scale(img_slot, (self.width/8.6957, self.height/4.9645)), (self.width/1.7143, self.height/2.3973))
+                                        obj_name = self.fuente3.render(str(name), True, self.color_black)
+                                        self.screen.blit(obj_name, (self.width/1.7217, self.height/3.0043)) 
+                                    self.screen.blit(pygame.transform.scale(img_slot, (base_x_size, base_y_size)), (base_x_start+dif_x*col, base_y_start+dif_y*fila)) #39 40 384 111 
+                            for slot_name, objeto in self.personaje.equipo.objetos.items():
+                                if(objeto != None):
+                                    cantidad = objeto[3]
+                                    slot_num = int(slot_name[5:])
+                                    fila = int(slot_num // 10) # Se cuenta a partir de 0 
+                                    col = int(slot_num % 10)
+                                    self.screen.blit(pygame.transform.scale(self.whitebkg, (base_c_x_size, base_c_y_size)), (base_c_x_start+dif_x*col, base_c_y_start+dif_y*fila))
+                                    cantidadLetra = self.fuente1.render(str(cantidad), True, self.color_black)
+                                    self.screen.blit(cantidadLetra, (base_c_x_start+dif_x*col+dif_l_x, base_c_y_start+dif_y*fila+dif_l_y))
                 pygame.display.update()
                     
     # size_x, size_y: tamaño del botón en x y en y
@@ -848,6 +1047,7 @@ class PartidaScreen:
 
             #Botón volver al menú
             if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
+                self.slot_selected = None
                 self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -873,9 +1073,15 @@ class PartidaScreen:
                 except:
                     pass
                 return 'menu'
-        
+            
+            elif(self.GLOBAL.getViewMap() and self.openedInventory and self.calculateCurrentSlot(x,y) != None):
+                self.slot_selected = self.calculateCurrentSlot(x,y)
+                self.ch1.play(self.pressed)
+                return 'partida'
+
             # Botón abrir inventario
             elif(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.checkIfMouseIsInButton(x_size1,y_size1,x_start1,y_start1,x,y)):
+                self.slot_selected = None
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
@@ -898,6 +1104,7 @@ class PartidaScreen:
             
             # Botón de volver atrás a la partida
             elif(self.GLOBAL.getViewMap() and self.openedInventory and self.checkIfMouseIsInButton(x_size4,y_size4,x_start4,y_start4,x,y)):
+                self.slot_selected = None
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
@@ -920,6 +1127,7 @@ class PartidaScreen:
 
             #Botón de enviar mensaje
             elif(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start2,x,y)):
+                self.slot_selected = None
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                     
@@ -949,6 +1157,7 @@ class PartidaScreen:
             
             #Botón de pedir turno de palabra
             elif(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
+                self.slot_selected = None
                 if(not self.startBoton):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                     self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
@@ -966,6 +1175,7 @@ class PartidaScreen:
                 return 'partida'
                 
             else:
+                self.slot_selected = None
                 return 'partida'
         
 

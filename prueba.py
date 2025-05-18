@@ -90,3 +90,5 @@ a4 = [3,[2,4]]
 print(a4[0])
 print(a4[1][0])
 
+a = "slot_1"
+print(a[5:])
