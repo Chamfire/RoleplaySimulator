@@ -940,16 +940,17 @@ class SeleccionPersonaje:
                             self.personaje.car = 12
                             self.personaje.int = 10
                             self.personaje.cons = 8
-                            if(self.personaje.equipo.armadura_actual != None):
-                                self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + 3
-                            else:
-                                self.personaje.ca = 13 #10 + 3(Des,13)
                             self.personaje.salvaciones_comp["fu"] = True
                             self.personaje.salvaciones_comp["des"] = True
                             #Dinero: 5d4x 10
                             self.personaje.po = (random.randint(1,4)+random.randint(1,4)+random.randint(1,4)+random.randint(1,4)+random.randint(1,4))*10
                             self.personaje.initEquipo()
                             self.initExplorerInventory()
+                            if(self.personaje.equipo.armadura_actual != None):
+                                self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + 3
+                                self.personaje.equipo.peso_actual += self.personaje.equipo.armadura_actual[2].peso
+                            else:
+                                self.personaje.ca = 13 #10 + 3(Des,13)
                             if(self.personaje.tipo_raza == "Enano"):
                                 self.personaje.cons += 2 #tiene un +2 en constitución
                                 self.personaje.idiomas_competencia["Común"] = True
