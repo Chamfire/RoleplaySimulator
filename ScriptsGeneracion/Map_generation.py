@@ -5,11 +5,87 @@ import numpy as np
 import sys
 import heapq
 import pickle
+from Lista_Inventario import Lista_Inventario
 import base64
 
 
 # 0: Casilla sin determinar
 # 1: 
+
+class Cofre:
+    def __init__(self, llave_puerta,llave_enlace):
+        self.inventory = []
+        if(llave_puerta != None):
+            # Ya tenemos el objeto
+            llave = Lista_Inventario.createLlave(llave_puerta,llave_enlace)
+            self.inventory = [["Llave","Llave",llave,1]]
+        #rellenamos el cofre con loot
+        self.num_objetos = random.randint(1,2) #hasta 3 objetos por sarcófago -> 2 aleatorios + posible llave
+        if(1 <= self.num_objetos <= 2):
+            # Hay que poner 2 objetos aleatorios de la lista del inventario
+            armaduras_list = Lista_Inventario.getArmaduraList()
+            armas_list = Lista_Inventario.getArmasList()
+            objetos_list = Lista_Inventario.getObjetosList()
+            escudos_list = Lista_Inventario.getEscudosList()
+
+            opcion = random.randint(0,100)
+            if(opcion <= 60):
+                choosed = objetos_list
+            elif(60 < opcion <= 80):
+                choosed = armas_list
+            elif(80 < opcion <= 90):
+                choosed = armaduras_list
+            else:
+                choosed = escudos_list
+            categorias_num = len(choosed)
+            categoria_choosed = random.randint(1,categorias_num)
+            cont = 1
+            for categoria,lista in choosed.items():
+                if(cont == categoria_choosed):
+                    # Es la categoría escogida
+                    items_num =  len(lista)
+                    item_escogido = random.randint(1,items_num)
+                    cont2 = 1
+                    for name, item in lista:
+                        if(cont2 == item_escogido):
+                            # Ya tenemos el objeto
+                            self.inventory += [[categoria,name,item,1]]
+                        cont2 +=1    
+                    break
+                cont+=1
+        if(self.num_objetos == 3):
+            # Otro objeto
+            armaduras_list = Lista_Inventario.getArmaduraList()
+            armas_list = Lista_Inventario.getArmasList()
+            objetos_list = Lista_Inventario.getObjetosList()
+            escudos_list = Lista_Inventario.getEscudosList()
+
+            opcion = random.randint(0,100)
+            if(opcion <= 60):
+                choosed = objetos_list
+            elif(60 < opcion <= 80):
+                choosed = armas_list
+            elif(80 < opcion <= 90):
+                choosed = armaduras_list
+            else:
+                choosed = escudos_list
+            categorias_num = len(choosed)
+            categoria_choosed = random.randint(1,categorias_num)
+            cont = 1
+            for categoria,lista in choosed.items():
+                if(cont == categoria_choosed):
+                    # Es la categoría escogida
+                    items_num =  len(lista)
+                    item_escogido = random.randint(1,items_num)
+                    cont2 = 1
+                    for name, item in lista:
+                        if(cont2 == item_escogido):
+                            # Ya tenemos el objeto
+                            self.inventory += [[categoria,name,item,1]]
+                        cont2 +=1    
+                    break
+                cont+=1
+
 
 class Sala:
     def __init__(self,i,size):
@@ -23,6 +99,7 @@ class Sala:
         self.orden = None
         self.variableDeCheck = None
         self.tipo_mision = None
+        self.contieneCofres = []
         self.size = size
         self.pos_x = None
         self.pos_y = None
@@ -463,15 +540,23 @@ class Map_generation:
                 [pos_x,pos_y] = posiciones[pos]   
                 if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6)):
                     self.objetos[pos_y][pos_x] = 91
+                    cofre = Cofre(None,None)
+                    self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre]]
                     found = True
                 elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8)):
                     self.objetos[pos_y][pos_x] = 93
+                    cofre = Cofre(None,None)
+                    self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre]]
                     found = True
                 elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9)):
                     self.objetos[pos_y][pos_x] = 92
+                    cofre = Cofre(None,None)
+                    self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre]]
                     found = True
                 elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
                     self.objetos[pos_y][pos_x] = 94
+                    cofre = Cofre(None,None)
+                    self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre]]
                     found = True
                 else:
                     posiciones.remove(posiciones[pos])
@@ -494,12 +579,14 @@ class Map_generation:
             coordenadas_puerta = self.salas[sala_elegida].daASalas[pred][0]
             self.salas[sala_con_llave].contieneLlaves += [coordenadas_puerta]
             s = sala_con_llave
+            cofre1 = Cofre(sala_elegida,pred)
         else:
             # Si es la primera sala, se queda todo en la primera sala
             self.salas[sala_elegida].daASalas[self.main_path[1]][1] = "cerrado" #cerramos esa puerta
             coordenadas_puerta = self.salas[sala_elegida].daASalas[self.main_path[1]][0]
             self.salas[sala_elegida].contieneLlaves += [coordenadas_puerta]
             s = sala_elegida
+            cofre1 = Cofre(sala_elegida,self.main_path[1])
         
         # Ubico un baúl en en la sala con llave 's', que es donde irá la llave
         posiciones = []
@@ -515,15 +602,19 @@ class Map_generation:
             [pos_x,pos_y] = posiciones[pos]   
             if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6)):
                 self.objetos[pos_y][pos_x] = 91
+                self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre1]]
                 found = True
             elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8)):
                 self.objetos[pos_y][pos_x] = 93
+                self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre1]]
                 found = True
             elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9)):
                 self.objetos[pos_y][pos_x] = 92
+                self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre1]]
                 found = True
             elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
                 self.objetos[pos_y][pos_x] = 94
+                self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre1]]
                 found = True
             else:
                 posiciones.remove(posiciones[pos])
@@ -545,12 +636,14 @@ class Map_generation:
                 coordenadas_puerta = self.salas[sala2].daASalas[pred][0]
                 self.salas[sala_con_llave].contieneLlaves += [coordenadas_puerta]
                 s = sala_con_llave
+                cofre2 = Cofre(sala2,pred)
             else:
                 # Si es la primera sala, se queda todo en la primera sala
                 self.salas[sala2].daASalas[self.main_path[1]][1] = "cerrado" #cerramos esa puerta
                 coordenadas_puerta = self.salas[sala2].daASalas[self.main_path[1]][0]
                 self.salas[sala2].contieneLlaves += [coordenadas_puerta]
                 s = sala2
+                cofre2 = Cofre(sala2,self.main_path[1])
 
             # Ubico un baúl en en la sala con llave 's', que es donde irá la llave
             posiciones = []
@@ -566,15 +659,19 @@ class Map_generation:
                 [pos_x,pos_y] = posiciones[pos]   
                 if(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y-1][pos_x] == 6)):
                     self.objetos[pos_y][pos_x] = 91
+                    self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre2]]
                     found = True
                 elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y+1][pos_x] == 8)):
                     self.objetos[pos_y][pos_x] = 93
+                    self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre2]]
                     found = True
                 elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x-1] == 9)):
                     self.objetos[pos_y][pos_x] = 92
+                    self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre2]]
                     found = True
                 elif(self.objetos[pos_y][pos_x] == 0 and (self.matrix[pos_y][pos_x+1] == 7)):
                     self.objetos[pos_y][pos_x] = 94
+                    self.salas[s].contieneCofres += [[[pos_x,pos_y],cofre2]]
                     found = True
                 else:
                     posiciones.remove(posiciones[pos])

@@ -150,6 +150,18 @@ class Objeto:
         self.peso = peso
         self.stackeable = stackeable
 
+class Llave:
+    def __init__(self,pc,pp,pe,po,ppt,peso,stackeable,puerta,enlace):
+        self.pc = pc
+        self.pp = pp
+        self.pe = pe
+        self.po = po
+        self.ppt = ppt
+        self.peso = peso
+        self.stackeable = stackeable
+        puerta = puerta
+        enlace = enlace
+
 class Armadura:
     def __init__(self,pc,pp,pe,po,ppt,nueva_ca,modificador,maximo_mod,requisito_fu,desventaja_sigilo,peso):
         self.pc = pc
@@ -480,6 +492,10 @@ class Lista_Inventario:
         self.armadura["Armaduras pesadas"]["Placas"] = Armadura(0,0,0,1500,0,18,None,None,15,True,65)
         self.escudo = {"Escudo":{}}
         self.escudo["Escudo"]["Escudo básico"] = Escudo(0,0,0,10,0,2,6)
+
+
+    def createLlave(self,puerta,enlace):
+        return Llave(0,0,0,0,0,10,False,puerta,enlace)
 
     def getArmasList(self):
         return self.armas

@@ -183,6 +183,7 @@ class PartidaScreen:
 
         self.imgs["Escudo"]["Escudo básico"] = pygame.image.load("images/objetos/Armadura/Escudo/Escudo básico.png")
 
+        self.imgs["Llave"]["Llave"] = pygame.image.load("images/objetos/Llave/Llave.png")
 
         self.changePhoto = False
         self.currentImageToShow = ""

@@ -262,7 +262,7 @@ class EstadoDeHablaNPC(Estado):
             else:
                 msg = "al elfo, "
         # Hay que resetar canción, porque con las canciones no es serializable
-        cancion =  pygame.mixer.Sound('sounds/joinPartida.wav')
+        cancion =  pygame.mixer.Sound('sounds/button_pressed.wav')
         pygame.mixer.Channel(6).play(cancion)
         cancion = None
         print("<DM>: Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
@@ -287,7 +287,9 @@ class EstadoDeHablaNPC(Estado):
             pensando = "pensativo"
         print("<DM>: Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision+" ¿Me ayudarás?") #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         DM.speak("Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision+" ¿Me ayudarás? Si estás interesado, voy a deshacer el conjuro que bloquea la puerta que da acceso al resto de galerías, aunque no te garantizo que puedas abrirla.") 
-        pygame.mixer.Channel(6).play(self.soundDoor)
+        magic =  pygame.mixer.Sound('sounds/magic.wav')
+        pygame.mixer.Channel(6).play(magic)
+        magic = None
         #DM.printVoices()
         #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
@@ -412,9 +414,9 @@ class EstadoDeSalaFinal(Estado):
             pos_y = None
         print(pos_x,pos_y)
         if(pos_x != None and pos_y != None):
-            for sala in self.daASalas:
-                if(self.daASalas[sala][0] == [pos_x,pos_y]):
-                    if(self.daASalas[sala][1] == "abierto"):
+            for sala in self.Mapa.salas[self.id].daASalas:
+                if(self.Mapa.salas[self.id].daASalas[sala][0] == [pos_x,pos_y]):
+                    if(self.Mapa.salas[self.id].daASalas[sala][1] == "abierto"):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         self.read2 = False
                         print("puerta")
@@ -702,9 +704,10 @@ class EstadoDeSalaIntermedia(Estado):
             pos_y = None
         print(pos_x,pos_y)
         if(pos_x != None and pos_y != None):
-            for sala in self.daASalas:
-                if(self.daASalas[sala][0] == [pos_x,pos_y]):
-                    if(self.daASalas[sala][1] == "abierto"):
+            for sala in self.Mapa.salas[self.id].daASalas:
+                if(self.Mapa.salas[self.id].daASalas[sala][0] == [pos_x,pos_y]):
+                    print("En sala "+str(self.id)+" da a salas hacia sala "+str(sala)+" está "+self.Mapa.salas[self.id].daASalas[sala][1])
+                    if(self.Mapa.salas[self.id].daASalas[sala][1] == "abierto"):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         print("puerta")
                         self.read2 = False
@@ -745,6 +748,7 @@ class EstadoDeSalaIntermedia(Estado):
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
+            print("Sala "+str(self.pasilloFromPuerta[1])+", modificado da a salas de sala "+str(self.id))
             if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
                 self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2
                 currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
@@ -1014,11 +1018,11 @@ class EstadoDeSalaInicial(Estado):
             pos_y = None
         print(pos_x,pos_y)
         if(pos_x != None and pos_y != None):
-            for sala in self.daASalas:
-                print(self.daASalas[sala][0])
+            for sala in self.Mapa.salas[self.id].daASalas:
+                print(self.Mapa.salas[self.id].daASalas[sala][0])
                 
-                if(self.daASalas[sala][0] == [pos_x,pos_y]):
-                    if(self.daASalas[sala][1] == "abierto"):
+                if(self.Mapa.salas[self.id].daASalas[sala][0] == [pos_x,pos_y]):
+                    if(self.Mapa.salas[self.id].daASalas[sala][1] == "abierto"):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
                         # Comprobamos el estado de la misión
                         if (self.ordenEstados[0].variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] == 1):
