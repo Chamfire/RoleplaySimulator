@@ -15,18 +15,19 @@ import base64
 class Cofre:
     def __init__(self, llave_puerta,llave_enlace):
         self.inventory = []
+        lista = Lista_Inventario()
         if(llave_puerta != None):
             # Ya tenemos el objeto
-            llave = Lista_Inventario.createLlave(llave_puerta,llave_enlace)
+            llave = lista.createLlave(llave_puerta,llave_enlace)
             self.inventory = [["Llave","Llave",llave,1]]
         #rellenamos el cofre con loot
         self.num_objetos = random.randint(1,2) #hasta 3 objetos por sarcófago -> 2 aleatorios + posible llave
         if(1 <= self.num_objetos <= 2):
             # Hay que poner 2 objetos aleatorios de la lista del inventario
-            armaduras_list = Lista_Inventario.getArmaduraList()
-            armas_list = Lista_Inventario.getArmasList()
-            objetos_list = Lista_Inventario.getObjetosList()
-            escudos_list = Lista_Inventario.getEscudosList()
+            armaduras_list = lista.getArmaduraList()
+            armas_list = lista.getArmasList()
+            objetos_list = lista.getObjetosList()
+            escudos_list = lista.getEscudosList()
 
             opcion = random.randint(0,100)
             if(opcion <= 60):
@@ -46,7 +47,7 @@ class Cofre:
                     items_num =  len(lista)
                     item_escogido = random.randint(1,items_num)
                     cont2 = 1
-                    for name, item in lista:
+                    for name, item in lista.items():
                         if(cont2 == item_escogido):
                             # Ya tenemos el objeto
                             self.inventory += [[categoria,name,item,1]]
@@ -78,7 +79,7 @@ class Cofre:
                     items_num =  len(lista)
                     item_escogido = random.randint(1,items_num)
                     cont2 = 1
-                    for name, item in lista:
+                    for name, item in lista.items():
                         if(cont2 == item_escogido):
                             # Ya tenemos el objeto
                             self.inventory += [[categoria,name,item,1]]

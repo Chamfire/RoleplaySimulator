@@ -211,13 +211,13 @@ class EstadoDeHablaNPC(Estado):
     def checkIfCanRun(self,DM,personaje):
         canTalk  = self.GLOBAL.getCanTalkToNPC()
         isLooking = False
-        if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 89))):  
+        if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] <= 90))):  
             isLooking = True
-        elif(((personaje.playerAction == "WALK_UP") or (personaje.playerAction == "IDLE_UP")) and ((self.Mapa.objetos[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 90) )):
+        elif(((personaje.playerAction == "WALK_UP") or (personaje.playerAction == "IDLE_UP")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] <= 90))):
            isLooking = True
-        elif(((personaje.playerAction == "WALK_LEFT") or (personaje.playerAction == "IDLE_LEFT")) and ((self.Mapa.objetos[personaje.coordenadas_actuales_r[1]][personaje.coordenadas_actuales_r[0]-1] == 88))):
+        elif(((personaje.playerAction == "WALK_LEFT") or (personaje.playerAction == "IDLE_LEFT")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] <= 90))):
             isLooking = True
-        elif(((personaje.playerAction == "WALK_RIGHT") or (personaje.playerAction == "IDLE_RIGHT")) and ((self.Mapa.objetos[personaje.coordenadas_actuales_r[1]][personaje.coordenadas_actuales_r[0]+1] == 87))):
+        elif(((personaje.playerAction == "WALK_RIGHT") or (personaje.playerAction == "IDLE_RIGHT")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] <= 90))):
             isLooking = True
         if(isLooking and canTalk):
             self.click[str(personaje.name)+","+str(personaje.id_jugador)] = True

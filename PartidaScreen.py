@@ -113,7 +113,7 @@ class PartidaScreen:
 
         #diccionario de imágenes:
         # ARMADURAS -------
-        self.imgs = {"Armaduras ligeras": {},"Armaduras medias": {},"Armaduras pesadas": {}, "Armas c/c simples": {}, "Armas a distancia simples":{},"Armas c/c marciales":{},"Armas a distancia marciales":{},"Comida": {}, "Bebida": {}, "Mecanico": {}, "Refugio": {},"Libro": {}, "Kit": {}, "Iluminación": {}, "Otros": {}, "Almacenaje": {}, "Munición": {}, "Escudo":{}}
+        self.imgs = {"Armaduras ligeras": {},"Armaduras medias": {},"Armaduras pesadas": {}, "Armas c/c simples": {}, "Armas a distancia simples":{},"Armas c/c marciales":{},"Armas a distancia marciales":{},"Comida": {}, "Bebida": {}, "Mecanico": {}, "Refugio": {},"Libro": {}, "Kit": {}, "Iluminación": {}, "Otros": {}, "Almacenaje": {}, "Munición": {}, "Escudo":{}, "Llave": {}}
         self.imgs["Armaduras ligeras"]["Acolchada"] = pygame.image.load("images/objetos/Armadura/Armaduras ligeras/Acolchada.png")
         self.imgs["Armaduras ligeras"]["Cuero"] = pygame.image.load("images/objetos/Armadura/Armaduras ligeras/Cuero.png")
         self.imgs["Armaduras ligeras"]["Cuero tachonado"] = pygame.image.load("images/objetos/Armadura/Armaduras ligeras/Cuero tachonado.png")

@@ -1,14 +1,6 @@
-La descripción de la sala 15Es la siguiente: En esta galería puedes ver restos de roca por el suelo, que cubren la superficie en mosaicos de tonos grises y marrones, y marcas en el suelo de desgaste que sugieren que muchos han pasado por esta ruta antes. Al centro de la sala, un canasto de madera antigua y oscura, de ligeramente mayor tamaño que la cabeza de un ser humano, tiene como única característica, una preciosa esmeralda de un tono verde pálido, que parece brillar débilmente en la luz débil que entraba por el techo de la galería. El techo de la galería, de madera seca, deja caer gotitas de agua a intervalos regulares, creando una lucha constante contra la humedad que permea el aire. La sala tiene una planta rectangular y es de una arquitectura antigua, donde la piedra es la única estructura que parece permanecer en pie.
+La descripción de la sala 15Es la siguiente: En esta galería de la mina, puedes ver el suelo cubierto de restos de roca por todas partes, con marcas de desgaste visibles en el suelo. En el centro de la galería, se encuentran dos canastos de madera, uno al frente y otro al fondo, ambos conteniendo minerales extraños: el delantero muestra un mineral de color amarillento, mientras que el más atrás, contiene una esmeralda. Sobre el suelo, a la derecha, una roca puntiaguda sobresale del suelo, mientras que más abajo, un hongo alargado de color azul oscuro se extiende en dirección opuesta. A ambos lados de los canastos, brotan setas de color naranja que crecen del suelo. Al techo, caen gotitas de agua, creando un ambiente húmedo y oscuridad en la galería.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 16, y está abierta: La puerta de madera se abre con un crujido suave, y al entrar, te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 10, y está abierta: "La puerta de madera se abre con un crujido y te dejas llevar por un pasillo oscuro, iluminado únicamente por las baldosas moradas que te rodean.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: La puerta de madera se abre con un crujido suave, y al entrar, te encuentras en un pasillo oscuro con baldosas moradas que se extienden ante ti.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 7, y está abierta: "La puerta de madera cruje y se abre con un clic, revelando un pasillo sombrío y estrecho, iluminado únicamente por la luz azulada de las baldosas moradas que se extienden ante ti".
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: "La puerta de madera cruje y se abre con un clic, revelando un pasillo sombrío y estrecho, iluminado únicamente por la luz azulada de las baldosas moradas que se extienden ante ti".
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 10, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti".
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: "La puerta de madera se abre con un crujido y te dejas llevar por un pasillo oscuro, iluminado únicamente por las baldosas moradas que te rodean.
 
