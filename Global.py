@@ -50,7 +50,36 @@ class Global:
         crossedDoor = [[False],[None,None]]
         global canGoOutFirst 
         canGoOutFirst = True #cambiar cuando se haga la parte de diálogo con el NPC
+        global DMTalking
+        DMTalking = False
+        global canTalk
+        canTalk = False
+        global finishedStart
+        finishedStart = False
 
+    def setFinishedStart(self,v):
+        global finishedStart
+        finishedStart = v
+
+    def getFinishedStart(self):
+        global finishedStart
+        return finishedStart
+
+    def setCanTalkToNPC(self,v):
+        global canTalk
+        canTalk = v
+
+    def getCanTalkToNPC(self):
+        global canTalk
+        return canTalk
+
+    def setDMTalking(self,v):
+        global DMTalking 
+        DMTalking = v
+
+    def getDMTalking(self):
+        global DMTalking
+        return DMTalking
 
     
     def canGoOutFirst(self):

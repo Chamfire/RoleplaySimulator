@@ -34,6 +34,7 @@ class PartidaScreen:
         self.pressed_exit = pygame.mixer.Sound('sounds/button_pressed_ogg.ogg')
         self.selected = pygame.mixer.Sound('sounds/selected_button.wav')
         self.error = pygame.mixer.Sound('sounds/error.wav')
+        self.joinPartida = pygame.mixer.Sound('sounds/joinPartida.wav')
 
         #widht y height
         self.width = width
@@ -749,7 +750,7 @@ class PartidaScreen:
                 self.personaje.setFPS(maxFPS)
                 
             else:
-                change_frame = maxFPS//8
+                change_frame = maxFPS//5
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 
@@ -814,7 +815,7 @@ class PartidaScreen:
                         #hay que printear animado el texto    
                         #Cargamos la animación
                             if(self.currentTextToShow[2] > self.currentTextToShow[1]):
-                                #printar texto con una letra más
+                                #printear texto con una letra más
                                 self.renderTextBlock(self.currentTextToShow[0],self.currentTextToShow[1])
                                 self.currentTextToShow[1] +=1
                             elif(self.currentTextToShow[2] == self.currentTextToShow[1]):
@@ -1011,6 +1012,11 @@ class PartidaScreen:
             elif(key == pygame.K_RIGHT):
                 print("right")
                 self.personaje.setRight(True)
+            elif(key == pygame.K_t):
+                if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
+                    # Si se ve el mapa, no está abierto el inventario, el DM no está hablando y ya se ha leído la descripción -> al darle a la t, si está a 5 pies del NPC puede hablar con él
+                    self.GLOBAL.setCanTalkToNPC(True)
+                    # Así le indico que puede hablar con el NPC
             elif(key == pygame.K_i):
                 if(self.slot_selected != None):
                     self.intercambio = True

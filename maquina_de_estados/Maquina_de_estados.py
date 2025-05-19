@@ -157,7 +157,7 @@ class EstadoDeMision(Estado):
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
             self.runNextInnerEstado(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
-            pass
+            self.runNextInnerEstado(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
             pass
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 3):
@@ -165,8 +165,8 @@ class EstadoDeMision(Estado):
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 4):
             pass
 
-    def ModifyState(self,personaje):
-        pass
+    def ModifyState(self,personaje,v):
+        self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = v
 
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
@@ -182,6 +182,7 @@ class EstadoDeMision(Estado):
         #DM.printVoices()
         #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
+        self.GLOBAL.setFinishedStart(True)
 
 class EstadoDeHablaNPC(Estado):
     def __init__(self,isInicial,DMintro,DMMision,id,personajeDelHost,numJugadores,estado_pred,NPC):
@@ -208,6 +209,19 @@ class EstadoDeHablaNPC(Estado):
         self.dialogoDMMision = DMMision
 
     def checkIfCanRun(self,DM,personaje):
+        canTalk  = self.GLOBAL.getCanTalkToNPC()
+        isLooking = False
+        if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 89))):  
+            isLooking = True
+        elif(((personaje.playerAction == "WALK_UP") or (personaje.playerAction == "IDLE_UP")) and ((self.Mapa.objetos[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 90) )):
+           isLooking = True
+        elif(((personaje.playerAction == "WALK_LEFT") or (personaje.playerAction == "IDLE_LEFT")) and ((self.Mapa.objetos[personaje.coordenadas_actuales_r[1]][personaje.coordenadas_actuales_r[0]-1] == 88))):
+            isLooking = True
+        elif(((personaje.playerAction == "WALK_RIGHT") or (personaje.playerAction == "IDLE_RIGHT")) and ((self.Mapa.objetos[personaje.coordenadas_actuales_r[1]][personaje.coordenadas_actuales_r[0]+1] == 87))):
+            isLooking = True
+        if(isLooking and canTalk):
+            self.click[str(personaje.name)+","+str(personaje.id_jugador)] = True
+
         if(self.click[str(personaje.name)+","+str(personaje.id_jugador)]):
             return True
         else:
@@ -247,6 +261,10 @@ class EstadoDeHablaNPC(Estado):
                 msg = "a la elfa, "
             else:
                 msg = "al elfo, "
+        # Hay que resetar canción, porque con las canciones no es serializable
+        cancion =  pygame.mixer.Sound('sounds/joinPartida.wav')
+        pygame.mixer.Channel(6).play(cancion)
+        cancion = None
         print("<DM>: Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         string_to_speech = "Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro
         DM.speak(string_to_speech) 
@@ -268,10 +286,12 @@ class EstadoDeHablaNPC(Estado):
         else:
             pensando = "pensativo"
         print("<DM>: Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision+" ¿Me ayudarás?") #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
-        DM.speak("Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision+" ¿Me ayudarás?") 
+        DM.speak("Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision+" ¿Me ayudarás? Si estás interesado, voy a abrirte la puerta que da acceso al resto de galerías.") 
+        pygame.mixer.Channel(6).play(self.soundDoor)
         #DM.printVoices()
         #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
+        self.estadosSucesores.ModifyState(personaje,1) #1 quiere decir que ya le ha dado la misión
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
 
 class EstadoDeMisionConcreta(Estado):
@@ -1000,21 +1020,28 @@ class EstadoDeSalaInicial(Estado):
                 if(self.daASalas[sala][0] == [pos_x,pos_y]):
                     if(self.daASalas[sala][1] == "abierto"):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
-                        print("puerta")
-                        self.read2 = False
-                        if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
-                            self.GLOBAL.setActionDoor([2,[pos_x,pos_y]])
-                            self.pasilloFromPuerta = [[pos_x,pos_y], sala]
-                        else:
-                            if(self.Mapa.adyacencias[self.id][sala] == 1):
-                                #Es adyacente
-                                print("sala adyacente")
-                                self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
+                        # Comprobamos el estado de la misión
+                        if (self.ordenEstados[0].variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] == 1):
+                            print("puerta")
+                            self.read2 = False
+                            if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
+                                self.GLOBAL.setActionDoor([2,[pos_x,pos_y]])
+                                self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                             else:
-                                print("sala normal")
-                                self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
-                            self.pasilloFromPuerta = [[pos_x,pos_y], sala]
-                        return False
+                                if(self.Mapa.adyacencias[self.id][sala] == 1):
+                                    #Es adyacente
+                                    print("sala adyacente")
+                                    self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
+                                else:
+                                    print("sala normal")
+                                    self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloFromPuerta = [[pos_x,pos_y], sala]
+                            return False
+                        else:
+                            text = "Vaya, parece que algo impide que puedas abrir esta puerta..."
+                            pygame.mixer.Channel(1).play(self.soundDoor)
+                            DM.speak(text) 
+                            return False
                     else:
                         if(not self.read2):
                             #La puerta está  cerrada
@@ -1267,11 +1294,48 @@ class DM:
         self.enabledDMVoice = enabled
     def speak(self,text):
         #cambio de la variable de texto a mostrar en la interfaz
-        self.GLOBAL.setTextoDM(text)
-        print("establecido texto global DM")
-        if(self.enabledDMVoice):
-            self.engine.say(text)
-            self.engine.runAndWait()
+        frases = text.split('.') #dividimos el texo por frases
+        words = {}
+        index_frase = 0
+        l = len(frases)
+        for frase in frases:
+            words[index_frase] = frase.split(' ')
+            if (l != index_frase+1):
+                if(words[index_frase][-1] != '?' or words[index_frase][-1] != '!'):
+                    words[index_frase] += ['.']
+                index_frase+=1
+            else:
+                break
+        printearTextos = {}
+        cont = 0
+        i = 0
+        # 100 palabras a printear como mucho por fragmento
+        for frase_index,wordList in words.items():
+            if(cont +len(wordList) <= 100):
+                cont+= len(wordList)
+                for word in wordList:
+                    if(printearTextos.get(i) == None):
+                        printearTextos[i] = word+" "
+                    else:
+                        printearTextos[i] += word+" "
+            else:
+                cont= len(wordList)
+                i+=1
+                for word in wordList:
+                    if(printearTextos.get(i) == None):
+                        printearTextos[i] = word+" "
+                    else:
+                        printearTextos[i] += word+" "
+
+        # Va a empezar a hablar 
+        self.GLOBAL.setDMTalking(True)
+        for id,printText in printearTextos.items():
+            self.GLOBAL.setTextoDM(printText)
+            print("establecido texto global DM")
+            if(self.enabledDMVoice):
+                self.engine.say(printText)
+                self.engine.runAndWait()
+        self.GLOBAL.setDMTalking(False)
     def printVoices(self):
         voices = self.engine.getProperty('voices')
         for voice in voices:
