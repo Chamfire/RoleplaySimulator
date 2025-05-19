@@ -286,7 +286,7 @@ class EstadoDeHablaNPC(Estado):
         else:
             pensando = "pensativo"
         print("<DM>: Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision+" ¿Me ayudarás?") #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
-        DM.speak("Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision+" ¿Me ayudarás? Si estás interesado, voy a abrirte la puerta que da acceso al resto de galerías.") 
+        DM.speak("Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision+" ¿Me ayudarás? Si estás interesado, voy a deshacer el conjuro que bloquea la puerta que da acceso al resto de galerías, aunque no te garantizo que puedas abrirla.") 
         pygame.mixer.Channel(6).play(self.soundDoor)
         #DM.printVoices()
         #TODO: enviar TCP
