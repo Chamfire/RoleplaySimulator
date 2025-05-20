@@ -4,7 +4,7 @@ Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conect
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 15, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 9, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: puerta abierta
 

@@ -59,7 +59,7 @@ class Global:
         global finishedStart
         finishedStart = False
         global canOpenChest
-        canOpenChest = False
+        canOpenChest = [False,[None,None]]
 
     def setCanOpenChest(self,v):
         global canOpenChest

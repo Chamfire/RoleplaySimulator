@@ -111,7 +111,7 @@ class EstadoInteractChest(Estado):
             isLooking = True
         elif(((personaje.playerAction == "WALK_RIGHT") or (personaje.playerAction == "IDLE_RIGHT")) and ((91 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]][personaje.coordenadas_actuales_r[0]+1] <= 94))):
             isLooking = True
-        if(isLooking and canOpen):
+        if(isLooking and canOpen[0] and canOpen[1][0] == self.posicion_cofre[0] and canOpen[1][1] == self.posicion_cofre[1]):
             self.click[str(personaje.name)+","+str(personaje.id_jugador)] = True
         
         if(self.click[str(personaje.name)+","+str(personaje.id_jugador)]):
@@ -127,15 +127,15 @@ class EstadoInteractChest(Estado):
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == -1):
             self.OnEnterEstadoByPlayer(DM,personaje)
             print("a False")
-            self.GLOBAL.setCanOpenChest(False)
+            self.GLOBAL.setCanOpenChest([False,[None,None]])
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
             self.DescriptionFullChest(DM,personaje)
             print("a False")
-            self.GLOBAL.setCanOpenChest(False)
+            self.GLOBAL.setCanOpenChest([False,[None,None]])
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             self.DescriptionEmptyChest(DM,personaje)
             print("a False")
-            self.GLOBAL.setCanOpenChest(False)
+            self.GLOBAL.setCanOpenChest([False,[None,None]])
         
 
     def ModifyState(self,player,n):
@@ -304,6 +304,7 @@ class EstadoDeMision(Estado):
             pass
 
     def ModifyState(self,personaje,v):
+        print("modificando estado de misión a "+str(v))
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = v
 
     def runNextInnerEstado(self,DM,personaje):
@@ -434,6 +435,7 @@ class EstadoDeHablaNPC(Estado):
         #DM.printVoices()
         #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
+        print(type(self.estadosSucesores),self.estadosSucesores)
         self.estadosSucesores.ModifyState(personaje,1) #1 quiere decir que ya le ha dado la misión
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
 
@@ -770,7 +772,7 @@ class EstadoDeSalaFinal(Estado):
             pass #si están en 0 no hace nada, hay que esperar a que todos acepten 
 
     def runNextInnerEstado(self,DM,personaje):
-        for id,estado in reversed(list(self.ordenEstados.items())): #quiero que el último estado en ser comprobado sea el de la misión
+        for id,estado in self.ordenEstados.items(): #quiero que el último estado en ser comprobado sea el de la misión
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
 
@@ -1070,7 +1072,7 @@ class EstadoDeSalaIntermedia(Estado):
             pass #si están en 0 no hace nada, hay que esperar a que todos acepten 
 
     def runNextInnerEstado(self,DM,personaje):
-        for id,estado in reversed(list(self.ordenEstados.items())):
+        for id,estado in self.ordenEstados.items():
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
 
@@ -1192,8 +1194,9 @@ class EstadoDeSalaInicial(Estado):
                 if(self.Mapa.salas[self.id].daASalas[sala][0] == [pos_x,pos_y]):
                     if(self.Mapa.salas[self.id].daASalas[sala][1] == "abierto"):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
-                        # Comprobamos el estado de la misión
-                        if (self.ordenEstados[0].variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] == 1):
+                        # Comprobamos el estado de la misión: es el último
+                        ultimo_id, ultimo_estado = list(self.ordenEstados.items())[-1]
+                        if (self.ordenEstados[ultimo_id].variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
                             print("puerta")
                             self.read2 = False
                             self.read3 = False
@@ -1439,7 +1442,7 @@ class EstadoDeSalaInicial(Estado):
         #print("modificado a 0 en sala inicial")
 
     def runNextInnerEstado(self,DM,personaje):
-        for id,estado in reversed(list(self.ordenEstados.items())): 
+        for id,estado in self.ordenEstados.items(): 
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
 
@@ -1633,10 +1636,10 @@ class Maquina_de_estados:
         self.DM.reset()
         for id,estado in self.estadosDeMision.items():
             estado.resetForPickle()
-            estado.ordenEstados[0].resetForPickle()
-            estado.ordenEstados[1].resetForPickle()
-            estado.ordenEstados[0].NPC.GLOBAL = None
-            estado.ordenEstados[1].GLOBAL = None
+            # estado.ordenEstados[0].resetForPickle()
+            # estado.ordenEstados[1].resetForPickle()
+            # estado.ordenEstados[0].NPC.GLOBAL = None
+            # estado.ordenEstados[1].GLOBAL = None
         
     def setForLoad(self,mapa,jugadorHost):
         self.GLOBAL = Global()
@@ -1652,10 +1655,10 @@ class Maquina_de_estados:
             estado.setForLoad(mapa,jugadorHost)
         for id,estado in self.estadosDeMision.items():
             estado.setForLoad(mapa,jugadorHost)
-            estado.ordenEstados[0].setForLoad(mapa,jugadorHost)
-            estado.ordenEstados[1].setForLoad(mapa,jugadorHost)
-            estado.ordenEstados[0].NPC.GLOBAL = Global()
-            estado.ordenEstados[1].GLOBAL = Global()
+            # estado.ordenEstados[0].setForLoad(mapa,jugadorHost)
+            # estado.ordenEstados[1].setForLoad(mapa,jugadorHost)
+            # estado.ordenEstados[0].NPC.GLOBAL = Global()
+            # estado.ordenEstados[1].GLOBAL = Global()
 
 
         

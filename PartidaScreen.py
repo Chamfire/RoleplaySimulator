@@ -1005,43 +1005,58 @@ class PartidaScreen:
                 print("down")
                 self.personaje.setDown(True)
                 self.GLOBAL.setCanTalkToNPC(False)
-                self.GLOBAL.setCanOpenChest(False)
+                self.GLOBAL.setCanOpenChest([False,[None,None]])
             elif(key == pygame.K_UP):
                 print("up")
                 self.personaje.setUp(True)
                 self.GLOBAL.setCanTalkToNPC(False)
-                self.GLOBAL.setCanOpenChest(False)
+                self.GLOBAL.setCanOpenChest([False,[None,None]])
             elif(key == pygame.K_LEFT):
                 print("left")
                 self.personaje.setLeft(True)
                 self.GLOBAL.setCanTalkToNPC(False)
-                self.GLOBAL.setCanOpenChest(False)
+                self.GLOBAL.setCanOpenChest([False,[None,None]])
             elif(key == pygame.K_RIGHT):
                 print("right")
                 self.personaje.setRight(True)
                 self.GLOBAL.setCanTalkToNPC(False)
-                self.GLOBAL.setCanOpenChest(False)
+                self.GLOBAL.setCanOpenChest([False,[None,None]])
             elif(key == pygame.K_t):
                 if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
                     # Si se ve el mapa, no está abierto el inventario, el DM no está hablando y ya se ha leído la descripción -> al darle a la t, si está a 5 pies del NPC puede hablar con él
                     self.GLOBAL.setCanTalkToNPC(True)
-                    self.GLOBAL.setCanOpenChest(False)
+                    self.GLOBAL.setCanOpenChest([False,[None,None]])
                     # Así le indico que puede hablar con el NPC
             elif(key == pygame.K_a):
                 if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
                     # Si se ve el mapa, no está abierto el inventario, el DM no está hablando y ya se ha leído la descripción -> al darle a la t, si está a 5 pies del NPC puede hablar con él
                     print("a True")
-                    self.GLOBAL.setCanOpenChest(True)
+                    if(((self.personaje.playerAction == "WALK_DOWN") or (self.personaje.playerAction == "IDLE_DOWN"))):  
+                        pos_x = self.personaje.coordenadas_actuales_r[0]
+                        pos_y = self.personaje.coordenadas_actuales_r[1]+1
+                    elif(((self.personaje.playerAction == "WALK_UP") or (self.personaje.playerAction == "IDLE_UP"))):
+                        pos_x = self.personaje.coordenadas_actuales_r[0]
+                        pos_y = self.personaje.coordenadas_actuales_r[1]-1
+                    elif(((self.personaje.playerAction == "WALK_LEFT") or (self.personaje.playerAction == "IDLE_LEFT"))):
+                        pos_x = self.personaje.coordenadas_actuales_r[0]-1
+                        pos_y = self.personaje.coordenadas_actuales_r[1]
+                    elif(((self.personaje.playerAction == "WALK_RIGHT") or (self.personaje.playerAction == "IDLE_RIGHT"))):
+                        pos_x = self.personaje.coordenadas_actuales_r[0]+1
+                        pos_y = self.personaje.coordenadas_actuales_r[1]
+                    else:
+                        pos_x = None
+                        pos_y = None
+                    self.GLOBAL.setCanOpenChest([True,[pos_x,pos_y]])
                     self.GLOBAL.setCanTalkToNPC(False)
             elif(key == pygame.K_i):
                 self.GLOBAL.setCanTalkToNPC(False)
-                self.GLOBAL.setCanOpenChest(False)
+                self.GLOBAL.setCanOpenChest([False,[None,None]])
                 if(self.slot_selected != None):
                     self.intercambio = True
                     
             elif(key == pygame.K_x):
                 self.GLOBAL.setCanTalkToNPC(False)
-                self.GLOBAL.setCanOpenChest(False)
+                self.GLOBAL.setCanOpenChest([False,[None,None]])
                 if(self.slot_selected != None and (not self.intercambio) and (self.slot_selected != 'armor_slot' and self.slot_selected != 'mano derecha' and self.slot_selected != 'mano izquierda')):
                     self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][3] -=1
                     if(self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][3] == 0):
