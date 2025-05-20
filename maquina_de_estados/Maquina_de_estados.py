@@ -579,10 +579,10 @@ class EstadoDeSalaFinal(Estado):
                         # Comprobamos si lleva alguna llave equipada en una de las manos:
                         canPass = [False,None]
                         item_left = personaje.equipo.objeto_equipado_mano_izquierda
-                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.id and item_left[2].enlace == sala):
+                        if((item_left != None) and (item_left[1] == "Llave") and (item_left[2].puerta == self.id) and (item_left[2].enlace == sala)):
                             canPass = [True,"left"]
                         item_right = personaje.equipo.objeto_equipado_mano_derecha
-                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.id and item_right[2].enlace == sala):
+                        if((item_right != None) and (item_right[1] == "Llave") and (item_right[2].puerta == self.id) and (item_right[2].enlace == sala)):
                             canPass = [True,"right"]
 
                         if(canPass[0]):
@@ -744,10 +744,10 @@ class EstadoDeSalaFinal(Estado):
                         # Comprobamos si lleva alguna llave equipada en una de las manos:
                         canPass = [False,None]
                         item_left = personaje.equipo.objeto_equipado_mano_izquierda
-                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_left[2].enlace == sala):
+                        if((item_left != None) and (item_left[1] == "Llave") and (item_left[2].puerta == self.id) and (item_left[2].enlace == sala)):
                             canPass = [True,"left"]
                         item_right = personaje.equipo.objeto_equipado_mano_derecha
-                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_right[2].enlace == sala):
+                        if((item_right != None) and (item_right[1] == "Llave") and (item_right[2].puerta == self.id) and (item_right[2].enlace == sala)):
                             canPass = [True,"right"]
 
                         if(canPass[0]):
@@ -953,10 +953,10 @@ class EstadoDeSalaIntermedia(Estado):
                         # Comprobamos si lleva alguna llave equipada en una de las manos:
                         canPass = [False,None]
                         item_left = personaje.equipo.objeto_equipado_mano_izquierda
-                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.id and item_left[2].enlace == sala):
+                        if((item_left != None) and (item_left[1] == "Llave") and (item_left[2].puerta == self.id) and (item_left[2].enlace == sala)):
                             canPass = [True,"left"]
                         item_right = personaje.equipo.objeto_equipado_mano_derecha
-                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.id and item_right[2].enlace == sala):
+                        if((item_right != None) and (item_right[1] == "Llave") and (item_right[2].puerta == self.id) and (item_right[2].enlace == sala)):
                             canPass = [True,"right"]
 
                         if(canPass[0]):
@@ -1118,10 +1118,10 @@ class EstadoDeSalaIntermedia(Estado):
                         # Comprobamos si lleva alguna llave equipada en una de las manos:
                         canPass = [False,None]
                         item_left = personaje.equipo.objeto_equipado_mano_izquierda
-                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_left[2].enlace == sala):
+                        if((item_left != None) and (item_left[1] == "Llave") and (item_left[2].puerta == self.id) and (item_left[2].enlace == sala)):
                             canPass = [True,"left"]
                         item_right = personaje.equipo.objeto_equipado_mano_derecha
-                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_right[2].enlace == sala):
+                        if((item_right != None) and (item_right[1] == "Llave") and (item_right[2].puerta == self.id) and (item_right[2].enlace == sala)):
                             canPass = [True,"right"]
 
                         if(canPass[0]):
@@ -1372,10 +1372,10 @@ class EstadoDeSalaInicial(Estado):
                         # Comprobamos si lleva alguna llave equipada en una de las manos:
                         canPass = [False,None]
                         item_left = personaje.equipo.objeto_equipado_mano_izquierda
-                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.id and item_left[2].enlace == sala):
+                        if((item_left != None) and (item_left[1] == "Llave") and (item_left[2].puerta == self.id) and (item_left[2].enlace == sala)):
                             canPass = [True,"left"]
                         item_right = personaje.equipo.objeto_equipado_mano_derecha
-                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.id and item_right[2].enlace == sala):
+                        if((item_right != None) and (item_right[1] == "Llave") and (item_right[2].puerta == self.id) and (item_right[2].enlace == sala)):
                             canPass = [True,"right"]
 
                         if(canPass[0]):
@@ -1555,10 +1555,10 @@ class EstadoDeSalaInicial(Estado):
                         # Comprobamos si lleva alguna llave equipada en una de las manos:
                         canPass = [False,None]
                         item_left = personaje.equipo.objeto_equipado_mano_izquierda
-                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_left[2].enlace == sala):
+                        if((item_left != None) and (item_left[1] == "Llave") and (item_left[2].puerta == self.id) and (item_left[2].enlace == sala)):
                             canPass = [True,"left"]
                         item_right = personaje.equipo.objeto_equipado_mano_derecha
-                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_right[2].enlace == sala):
+                        if((item_right != None) and (item_right[1] == "Llave") and (item_right[2].puerta == self.id) and (item_right[2].enlace == sala)):
                             canPass = [True,"right"]
 
                         if(canPass[0]):
