@@ -602,22 +602,20 @@ class EstadoDeSalaFinal(Estado):
 
                             #Ejecuto la apertura
                             self.read2 = False
-                            self.read3 = False
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
                                 self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
-                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.pasilloFromPuerta = [[pos_x,pos_y],sala]
 
                             else:
                                 self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
-                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.pasilloFromPuerta = [[pos_x,pos_y],sala]
                             return False
 
                         else:
                             if(not self.read2):
                                 #La puerta está  cerrada
                                 self.read2 = True
-                                self.read3 = False
                                 print("puerta cerrada")
                                 pygame.mixer.Channel(1).play(self.soundDoor)
                                 text_closed = self.frases_puerta[self.id][sala][0]
@@ -978,22 +976,20 @@ class EstadoDeSalaIntermedia(Estado):
 
                             #Ejecuto la apertura
                             self.read2 = False
-                            self.read3 = False
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
                                 self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
-                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.pasilloFromPuerta = [[pos_x,pos_y],sala]
 
                             else:
                                 self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
-                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.pasilloFromPuerta = [[pos_x,pos_y],sala]
                             return False
 
                         else:
                             if(not self.read2):
                                 #La puerta está  cerrada
                                 self.read2 = True
-                                self.read3 = False
                                 print("puerta cerrada")
                                 pygame.mixer.Channel(1).play(self.soundDoor)
                                 text_closed = self.frases_puerta[self.id][sala][0]
@@ -1403,11 +1399,11 @@ class EstadoDeSalaInicial(Estado):
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
                                 self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
-                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.pasilloFromPuerta = [[pos_x,pos_y],sala]
 
                             else:
                                 self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
-                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.pasilloFromPuerta = [[pos_x,pos_y],sala]
                             return False
 
                         else:
