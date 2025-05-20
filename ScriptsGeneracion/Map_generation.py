@@ -555,10 +555,10 @@ class Map_generation:
             length = resp[1]
             camino = resp[2]
             sala_con_llave = camino[random.randint(0,length-1)]
-            coordenadas_puerta = self.salas[sala_elegida].daASalas[pred][0]
+            coordenadas_puerta = self.salas[pred].daASalas[sala_elegida][0]
             self.salas[sala_con_llave].contieneLlaves += [coordenadas_puerta]
             s = sala_con_llave
-            cofre1 = Cofre(sala_elegida,pred)
+            cofre1 = Cofre(pred,sala_elegida)
         else:
             # Si es la primera sala, se queda todo en la primera sala
             self.salas[sala_elegida].daASalas[self.main_path[1]][1] = "cerrado" #cerramos esa puerta
@@ -615,7 +615,7 @@ class Map_generation:
                 coordenadas_puerta = self.salas[sala2].daASalas[pred][0]
                 self.salas[sala_con_llave].contieneLlaves += [coordenadas_puerta]
                 s = sala_con_llave
-                cofre2 = Cofre(sala2,pred)
+                cofre2 = Cofre(pred,sala2)
             else:
                 # Si es la primera sala, se queda todo en la primera sala
                 self.salas[sala2].daASalas[self.main_path[1]][1] = "cerrado" #cerramos esa puerta

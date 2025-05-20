@@ -1,6 +1,12 @@
 La descripción de la sala 7Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 4, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 11, pero está cerrada: puerta cerrada
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 11, y está abierta: puerta adyacente
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: puerta adyacente
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 5, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: puerta abierta
 

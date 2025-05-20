@@ -576,15 +576,54 @@ class EstadoDeSalaFinal(Estado):
                             self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         return False
                     else:
-                        if(not self.read2):
-                            #La puerta está  cerrada
-                            self.read2 = True
-                            print("puerta cerrada")
-                            pygame.mixer.Channel(1).play(self.soundDoor)
-                            text_closed = self.frases_puerta[self.id][sala][0]
-                            DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor([0,[None,None]]) 
-                        return False
+                        # Comprobamos si lleva alguna llave equipada en una de las manos:
+                        canPass = [False,None]
+                        item_left = personaje.equipo.objeto_equipado_mano_izquierda
+                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.id and item_left[2].enlace == sala):
+                            canPass = [True,"left"]
+                        item_right = personaje.equipo.objeto_equipado_mano_derecha
+                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.id and item_right[2].enlace == sala):
+                            canPass = [True,"right"]
+
+                        if(canPass[0]):
+                            # Elimino la llave del inventario
+                            if(canPass[1] == "left"):
+                                personaje.equipo.objeto_equipado_mano_izquierda = None
+                            elif(canPass[1] == "right"):
+                                personaje.equipo.objeto_equipado_mano_derecha = None
+
+                            # Abro la puerta
+                            self.Mapa.salas[self.id].daASalas[sala][1] = "abierto"
+                            cancion = pygame.mixer.Sound('sounds/abrir_llave.wav')
+                            pygame.mixer.Channel(7).play(cancion) #reproduzco el sonido de poner la llave
+                            cancion = None
+                            text_abrir = "Intentas usar una llave en el pomo de la puerta, y ves que esta cede."
+                            DM.speak(text_abrir) 
+
+                            #Ejecuto la apertura
+                            self.read2 = False
+                            self.read3 = False
+                            if(self.Mapa.adyacencias[self.id][sala] == 1):
+                            #Es adyacente
+                                self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+
+                            else:
+                                self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                            return False
+
+                        else:
+                            if(not self.read2):
+                                #La puerta está  cerrada
+                                self.read2 = True
+                                self.read3 = False
+                                print("puerta cerrada")
+                                pygame.mixer.Channel(1).play(self.soundDoor)
+                                text_closed = self.frases_puerta[self.id][sala][0]
+                                DM.speak(text_closed) 
+                            self.GLOBAL.setActionDoor([0,[None,None]]) 
+                            return False
                 
         else:
             self.read2 = False
@@ -704,14 +743,51 @@ class EstadoDeSalaFinal(Estado):
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         return False
                     else:
-                        #La puerta está cerrada
-                        print("puerta cerrada")
-                        self.read = False
-                        pygame.mixer.Channel(1).play(self.soundDoor)
-                        text_closed = self.frases_puerta[sala][self.id][0]
-                        DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor([0,[None,None]]) 
-                        return False
+                        # Comprobamos si lleva alguna llave equipada en una de las manos:
+                        canPass = [False,None]
+                        item_left = personaje.equipo.objeto_equipado_mano_izquierda
+                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_left[2].enlace == sala):
+                            canPass = [True,"left"]
+                        item_right = personaje.equipo.objeto_equipado_mano_derecha
+                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_right[2].enlace == sala):
+                            canPass = [True,"right"]
+
+                        if(canPass[0]):
+                            # Elimino la llave del inventario
+                            if(canPass[1] == "left"):
+                                personaje.equipo.objeto_equipado_mano_izquierda = None
+                            elif(canPass[1] == "right"):
+                                personaje.equipo.objeto_equipado_mano_derecha = None
+
+                            # Abro la puerta
+                            self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[sala][1] = "abierto"
+                            cancion = pygame.mixer.Sound('sounds/abrir_llave.wav')
+                            pygame.mixer.Channel(7).play(cancion) #reproduzco el sonido de poner la llave
+                            cancion = None
+                            text_abrir = "Intentas usar una llave en el pomo de la puerta, y ves que esta cede."
+                            DM.speak(text_abrir) 
+
+                            #Ejecuto la apertura
+                            if(self.Mapa.adyacencias[self.id][sala] == 1):
+                            #Es adyacente
+                                self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.read = False
+                            else:
+                                self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.read = False
+                            return False
+
+                        else:
+                            #La puerta está cerrada
+                            print("puerta cerrada")
+                            pygame.mixer.Channel(1).play(self.soundDoor)
+                            text_closed = self.frases_puerta[sala][self.id][0]
+                            DM.speak(text_closed) 
+                            self.read = False
+                            self.GLOBAL.setActionDoor([0,[None,None]]) 
+                            return False
                 
             if((not self.read) and (10 <= self.Mapa.matrix[pos_y][pos_x] <= 13) and not((self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0]))):
                 #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
@@ -876,15 +952,54 @@ class EstadoDeSalaIntermedia(Estado):
                             self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                         return False
                     else:
-                        if(not self.read2):
-                            #La puerta está  cerrada
-                            self.read2 = True
-                            print("puerta cerrada")
-                            pygame.mixer.Channel(1).play(self.soundDoor)
-                            text_closed = self.frases_puerta[self.id][sala][0]
-                            DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor([0,[None,None]]) 
-                        return False
+                        # Comprobamos si lleva alguna llave equipada en una de las manos:
+                        canPass = [False,None]
+                        item_left = personaje.equipo.objeto_equipado_mano_izquierda
+                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.id and item_left[2].enlace == sala):
+                            canPass = [True,"left"]
+                        item_right = personaje.equipo.objeto_equipado_mano_derecha
+                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.id and item_right[2].enlace == sala):
+                            canPass = [True,"right"]
+
+                        if(canPass[0]):
+                            # Elimino la llave del inventario
+                            if(canPass[1] == "left"):
+                                personaje.equipo.objeto_equipado_mano_izquierda = None
+                            elif(canPass[1] == "right"):
+                                personaje.equipo.objeto_equipado_mano_derecha = None
+
+                            # Abro la puerta
+                            self.Mapa.salas[self.id].daASalas[sala][1] = "abierto"
+                            cancion = pygame.mixer.Sound('sounds/abrir_llave.wav')
+                            pygame.mixer.Channel(7).play(cancion) #reproduzco el sonido de poner la llave
+                            cancion = None
+                            text_abrir = "Intentas usar una llave en el pomo de la puerta, y ves que esta cede."
+                            DM.speak(text_abrir) 
+
+                            #Ejecuto la apertura
+                            self.read2 = False
+                            self.read3 = False
+                            if(self.Mapa.adyacencias[self.id][sala] == 1):
+                            #Es adyacente
+                                self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+
+                            else:
+                                self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                            return False
+
+                        else:
+                            if(not self.read2):
+                                #La puerta está  cerrada
+                                self.read2 = True
+                                self.read3 = False
+                                print("puerta cerrada")
+                                pygame.mixer.Channel(1).play(self.soundDoor)
+                                text_closed = self.frases_puerta[self.id][sala][0]
+                                DM.speak(text_closed) 
+                            self.GLOBAL.setActionDoor([0,[None,None]]) 
+                            return False
                 
         else:
             self.read2 = False
@@ -1004,14 +1119,51 @@ class EstadoDeSalaIntermedia(Estado):
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         return False
                     else:
-                        #La puerta está cerrada
-                        print("puerta cerrada")
-                        self.read = False
-                        pygame.mixer.Channel(1).play(self.soundDoor)
-                        text_closed = self.frases_puerta[sala][self.id][0]
-                        DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor([0,[None,None]]) 
-                        return False
+                        # Comprobamos si lleva alguna llave equipada en una de las manos:
+                        canPass = [False,None]
+                        item_left = personaje.equipo.objeto_equipado_mano_izquierda
+                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_left[2].enlace == sala):
+                            canPass = [True,"left"]
+                        item_right = personaje.equipo.objeto_equipado_mano_derecha
+                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_right[2].enlace == sala):
+                            canPass = [True,"right"]
+
+                        if(canPass[0]):
+                            # Elimino la llave del inventario
+                            if(canPass[1] == "left"):
+                                personaje.equipo.objeto_equipado_mano_izquierda = None
+                            elif(canPass[1] == "right"):
+                                personaje.equipo.objeto_equipado_mano_derecha = None
+
+                            # Abro la puerta
+                            self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[sala][1] = "abierto"
+                            cancion = pygame.mixer.Sound('sounds/abrir_llave.wav')
+                            pygame.mixer.Channel(7).play(cancion) #reproduzco el sonido de poner la llave
+                            cancion = None
+                            text_abrir = "Intentas usar una llave en el pomo de la puerta, y ves que esta cede."
+                            DM.speak(text_abrir) 
+
+                            #Ejecuto la apertura
+                            if(self.Mapa.adyacencias[self.id][sala] == 1):
+                            #Es adyacente
+                                self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.read = False
+                            else:
+                                self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.read = False
+                            return False
+
+                        else:
+                            #La puerta está cerrada
+                            print("puerta cerrada")
+                            pygame.mixer.Channel(1).play(self.soundDoor)
+                            text_closed = self.frases_puerta[sala][self.id][0]
+                            DM.speak(text_closed) 
+                            self.read = False
+                            self.GLOBAL.setActionDoor([0,[None,None]]) 
+                            return False
                 
             if((not self.read) and (10 <= self.Mapa.matrix[pos_y][pos_x] <= 13) and not((self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0]))):
                 #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
@@ -1221,16 +1373,54 @@ class EstadoDeSalaInicial(Estado):
                                 DM.speak(text) 
                             return False
                     else:
-                        if(not self.read2):
-                            #La puerta está  cerrada
-                            self.read2 = True
+                        # Comprobamos si lleva alguna llave equipada en una de las manos:
+                        canPass = [False,None]
+                        item_left = personaje.equipo.objeto_equipado_mano_izquierda
+                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.id and item_left[2].enlace == sala):
+                            canPass = [True,"left"]
+                        item_right = personaje.equipo.objeto_equipado_mano_derecha
+                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.id and item_right[2].enlace == sala):
+                            canPass = [True,"right"]
+
+                        if(canPass[0]):
+                            # Elimino la llave del inventario
+                            if(canPass[1] == "left"):
+                                personaje.equipo.objeto_equipado_mano_izquierda = None
+                            elif(canPass[1] == "right"):
+                                personaje.equipo.objeto_equipado_mano_derecha = None
+
+                            # Abro la puerta
+                            self.Mapa.salas[self.id].daASalas[sala][1] = "abierto"
+                            cancion = pygame.mixer.Sound('sounds/abrir_llave.wav')
+                            pygame.mixer.Channel(7).play(cancion) #reproduzco el sonido de poner la llave
+                            cancion = None
+                            text_abrir = "Intentas usar una llave en el pomo de la puerta, y ves que esta cede."
+                            DM.speak(text_abrir) 
+
+                            #Ejecuto la apertura
+                            self.read2 = False
                             self.read3 = False
-                            print("puerta cerrada")
-                            pygame.mixer.Channel(1).play(self.soundDoor)
-                            text_closed = self.frases_puerta[self.id][sala][0]
-                            DM.speak(text_closed) 
-                        self.GLOBAL.setActionDoor([0,[None,None]]) 
-                        return False
+                            if(self.Mapa.adyacencias[self.id][sala] == 1):
+                            #Es adyacente
+                                self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+
+                            else:
+                                self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                            return False
+
+                        else:
+                            if(not self.read2):
+                                #La puerta está  cerrada
+                                self.read2 = True
+                                self.read3 = False
+                                print("puerta cerrada")
+                                pygame.mixer.Channel(1).play(self.soundDoor)
+                                text_closed = self.frases_puerta[self.id][sala][0]
+                                DM.speak(text_closed) 
+                            self.GLOBAL.setActionDoor([0,[None,None]]) 
+                            return False
                 
         else:
             self.read2 = False
@@ -1366,14 +1556,51 @@ class EstadoDeSalaInicial(Estado):
                             self.read = False
                         return False
                     else:
-                        #La puerta está cerrada
-                        print("puerta cerrada")
-                        pygame.mixer.Channel(1).play(self.soundDoor)
-                        text_closed = self.frases_puerta[sala][self.id][0]
-                        DM.speak(text_closed) 
-                        self.read = False
-                        self.GLOBAL.setActionDoor([0,[None,None]]) 
-                        return False
+                        # Comprobamos si lleva alguna llave equipada en una de las manos:
+                        canPass = [False,None]
+                        item_left = personaje.equipo.objeto_equipado_mano_izquierda
+                        if(item_left != None and item_left[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_left[2].enlace == sala):
+                            canPass = [True,"left"]
+                        item_right = personaje.equipo.objeto_equipado_mano_derecha
+                        if(item_right != None and item_right[1] == "Llave" and item_left[2].puerta == self.pasilloFromPuerta[1] and item_right[2].enlace == sala):
+                            canPass = [True,"right"]
+
+                        if(canPass[0]):
+                            # Elimino la llave del inventario
+                            if(canPass[1] == "left"):
+                                personaje.equipo.objeto_equipado_mano_izquierda = None
+                            elif(canPass[1] == "right"):
+                                personaje.equipo.objeto_equipado_mano_derecha = None
+
+                            # Abro la puerta
+                            self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[sala][1] = "abierto"
+                            cancion = pygame.mixer.Sound('sounds/abrir_llave.wav')
+                            pygame.mixer.Channel(7).play(cancion) #reproduzco el sonido de poner la llave
+                            cancion = None
+                            text_abrir = "Intentas usar una llave en el pomo de la puerta, y ves que esta cede."
+                            DM.speak(text_abrir) 
+
+                            #Ejecuto la apertura
+                            if(self.Mapa.adyacencias[self.id][sala] == 1):
+                            #Es adyacente
+                                self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.read = False
+                            else:
+                                self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
+                                self.pasilloToPuerta = [[pos_x,pos_y],sala]
+                                self.read = False
+                            return False
+
+                        else:
+                            #La puerta está cerrada
+                            print("puerta cerrada")
+                            pygame.mixer.Channel(1).play(self.soundDoor)
+                            text_closed = self.frases_puerta[sala][self.id][0]
+                            DM.speak(text_closed) 
+                            self.read = False
+                            self.GLOBAL.setActionDoor([0,[None,None]]) 
+                            return False
                 
             if((not self.read) and (10 <= self.Mapa.matrix[pos_y][pos_x] <= 13) and not((self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0]))):
                 #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
@@ -1636,10 +1863,10 @@ class Maquina_de_estados:
         self.DM.reset()
         for id,estado in self.estadosDeMision.items():
             estado.resetForPickle()
-            # estado.ordenEstados[0].resetForPickle()
-            # estado.ordenEstados[1].resetForPickle()
-            # estado.ordenEstados[0].NPC.GLOBAL = None
-            # estado.ordenEstados[1].GLOBAL = None
+            estado.ordenEstados[0].resetForPickle()
+            estado.ordenEstados[1].resetForPickle()
+            estado.ordenEstados[0].NPC.GLOBAL = None
+            estado.ordenEstados[1].GLOBAL = None
         
     def setForLoad(self,mapa,jugadorHost):
         self.GLOBAL = Global()
@@ -1655,10 +1882,10 @@ class Maquina_de_estados:
             estado.setForLoad(mapa,jugadorHost)
         for id,estado in self.estadosDeMision.items():
             estado.setForLoad(mapa,jugadorHost)
-            # estado.ordenEstados[0].setForLoad(mapa,jugadorHost)
-            # estado.ordenEstados[1].setForLoad(mapa,jugadorHost)
-            # estado.ordenEstados[0].NPC.GLOBAL = Global()
-            # estado.ordenEstados[1].GLOBAL = Global()
+            estado.ordenEstados[0].setForLoad(mapa,jugadorHost)
+            estado.ordenEstados[1].setForLoad(mapa,jugadorHost)
+            estado.ordenEstados[0].NPC.GLOBAL = Global()
+            estado.ordenEstados[1].GLOBAL = Global()
 
 
         
