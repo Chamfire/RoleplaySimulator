@@ -185,6 +185,12 @@ class PartidaScreen:
 
         self.imgs["Llave"]["Llave"] = pygame.image.load("images/objetos/Llave/Llave.png")
 
+        self.imgs["Recoleccion"]["Seta"] = pygame.image.load("images/objetos/items/seta.png")
+        self.imgs["Recoleccion"]["Esmeralda"] = pygame.image.load("images/objetos/items/esmeralda.png")
+        self.imgs["Recoleccion"]["Rubí"] = pygame.image.load("images/objetos/items/rubi.png")
+        self.imgs["Recoleccion"]["Mineral"] = pygame.image.load("images/objetos/items/mineral.png")
+        self.imgs["Recoleccion"]["Hongo"] = pygame.image.load("images/objetos/items/hongo.png")
+
         self.changePhoto = False
         self.currentImageToShow = ""
         self.imagePhoto = ""

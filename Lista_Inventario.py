@@ -493,6 +493,12 @@ class Lista_Inventario:
         self.escudo = {"Escudo":{}}
         self.escudo["Escudo"]["Escudo básico"] = Escudo(0,0,0,10,0,2,6)
 
+        self.recolectables = {"Recoleccion": {}}
+        self.recolectables["Recoleccion"]["Seta"] = Objeto(0,3,0,0,0,2,True)
+        self.recolectables["Recoleccion"]["Hongo"] = Objeto(0,3,0,0,0,2,True)
+        self.recolectables["Recoleccion"]["Esmeralda"] = Objeto(0,0,1,0,0,2,True)
+        self.recolectables["Recoleccion"]["Rubí"] = Objeto(0,0,2,0,0,2,True)
+        self.recolectables["Recoleccion"]["Mineral"] = Objeto(0,7,0,0,0,2,True)
 
     def createLlave(self,puerta,enlace):
         return Llave(0,0,0,0,0,10,False,puerta,enlace)
