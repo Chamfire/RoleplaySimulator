@@ -1,14 +1,14 @@
-La descripción de la sala 13Es la siguiente: En esta galería de piedra, el suelo está cubierto de restos de roca y marcas de desgaste evidentes, como si el suelo hubiera sido arrasado por una fuerza invisible. El aire está cargado de humedad y caen gotitas de agua del techo, creando un ambiente húmedo y misterioso. En el centro de la galería, el suelo está cubierto de setas de color naranja que brotan del suelo, mientras que en el lateral derecho, una roca puntiaguda sobresale del suelo, como si estuviera esperando a algo. En el centro de la galería, un extraño hongo alargado de color azul oscuro crece lentamente, como si estuviera alimentándose de la humedad del suelo. El ambiente es sombrío y silencioso, con solo el sonido de la agua caída en el techo rompiendo la tranquilidad.
+La descripción de la sala 13Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 11, y está abierta: "La puerta de madera se abre con un crujido, y ante ti se extiende un pasillo oscuro, con un suelo de baldosas moradas que se extienden hasta la oscuridad.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 1, y está abierta: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "La puerta de madera se abre con un crujido, y ante ti se extiende un pasillo oscuro, con un suelo de baldosas moradas que se extienden hasta la oscuridad.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 17, y está abierta: "La puerta de madera se abre con un crujido suave, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti como una carretera al abismo".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 4, y está abierta: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "La puerta de madera se abre con un crujido suave, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti como una carretera al abismo".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 5, y está abierta: "La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 15, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: puerta abierta
 

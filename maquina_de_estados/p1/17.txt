@@ -1,6 +1,14 @@
-La descripción de la sala 17Es la siguiente: En esta galería de planta rectangular, el suelo está cubierto de restos de roca y humo de la minería, y el aire está lleno de gotitas de agua que caen del techo, creando un ambiente húmedo y oscuro. En el centro de la sala, un canasto de madera vieja contiene un mineral extraño de color amarillento, que brilla débilmente en la penumbra. En una esquina, una rata se esconde detrás de una roca, intentando pasar desapercibida. Al lado de la rata, se encuentran dos rocas puntiagudas que sobresalen del suelo, una de las cuales se alza en el lateral derecho, y la otra, más pequeña, se ergue en el centro de la galería. El suelo muestra marcas de desgaste, indicando que ha sido recorrido por alguien o algo. En el centro de la galería, una especie de vegetación se ha hecho un hogar, con setas de color naranja que brotan del suelo. En una esquina, una tumba de piedra vieja y cubierta de humedad lleva una runa que se desvanece en la penumbra. La galería parece ser un lugar donde el tiempo se ha detenido, y donde la minería ha dejado sus huellas en el suelo y las paredes.
+La descripción de la sala 17Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 13, y está abierta: "La puerta de madera cede con un crujido suave, revelando un pasillo sombrío con baldosas moradas que se extienden hasta el horizonte".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 4, y está abierta: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: "La puerta de madera cede con un crujido suave, revelando un pasillo sombrío con baldosas moradas que se extienden hasta el horizonte".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: puerta adyacente
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 13, y está abierta: puerta adyacente
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: puerta adyacente
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 10, y está abierta: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: puerta abierta
 

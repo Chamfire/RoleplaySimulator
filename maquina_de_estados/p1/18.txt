@@ -1,10 +1,10 @@
-La descripción de la sala 18Es la siguiente: En esta galería de planta rectangular, la humedad y la neblina dan un toque misterioso a la atmósfera, mientras que las gotitas de agua caen suavemente desde el techo, creando un suave susurro en el aire. En el centro de la galería, se alzan dos canastos de madera, uno con un mineral extraño de color amarillento, que parece atraer la luz, y otro con rubíes que brillan como estrellas en la oscuridad. Al fondo de la galería, un extraño hongo alargado de color azul oscuro se erige como un monolito, mientras que un slime de color azul flota inmóvil en las profundidades. A lo largo de los lados de la galería, las setas de color naranja brotan del suelo, como si tratasen de señalar algún secreto. En el lateral izquierdo, un extraño hongo alargado de color azul oscuro se eleva de la tierra, mientras que cerca de la entrada, un canasto de madera con esmeralda parece esperar a ser encontrado. El suelo está cubierto de restos de roca y marcas de desgaste, que parecen indicar que esta galería ha sido recorrida por muchos que buscan algo. La tumba de piedra con una runa sobre ella parece un misterio, y el mineral amarillento en el centro de la galería parece un enigma que solo el destino puede resolver. La neblina se cuela en los rincones, y el susurro del agua es el único sonido que rompe el silencio de la galería.
+La descripción de la sala 18Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 4, y está abierta: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro con baldosas moradas que te rodean.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 0, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro con baldosas moradas que te rodean.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 6, y está abierta: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo sombrío, donde las baldosas moradas se estrechan ante ti como un túnel hacia el desconocido.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 3, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo sombrío, donde las baldosas moradas se estrechan ante ti como un túnel hacia el desconocido.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: puerta abierta
 

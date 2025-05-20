@@ -1004,24 +1004,44 @@ class PartidaScreen:
             if(key == pygame.K_DOWN):
                 print("down")
                 self.personaje.setDown(True)
+                self.GLOBAL.setCanTalkToNPC(False)
+                self.GLOBAL.setCanOpenChest(False)
             elif(key == pygame.K_UP):
                 print("up")
                 self.personaje.setUp(True)
+                self.GLOBAL.setCanTalkToNPC(False)
+                self.GLOBAL.setCanOpenChest(False)
             elif(key == pygame.K_LEFT):
                 print("left")
                 self.personaje.setLeft(True)
+                self.GLOBAL.setCanTalkToNPC(False)
+                self.GLOBAL.setCanOpenChest(False)
             elif(key == pygame.K_RIGHT):
                 print("right")
                 self.personaje.setRight(True)
+                self.GLOBAL.setCanTalkToNPC(False)
+                self.GLOBAL.setCanOpenChest(False)
             elif(key == pygame.K_t):
                 if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
                     # Si se ve el mapa, no está abierto el inventario, el DM no está hablando y ya se ha leído la descripción -> al darle a la t, si está a 5 pies del NPC puede hablar con él
                     self.GLOBAL.setCanTalkToNPC(True)
+                    self.GLOBAL.setCanOpenChest(False)
                     # Así le indico que puede hablar con el NPC
+            elif(key == pygame.K_a):
+                if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
+                    # Si se ve el mapa, no está abierto el inventario, el DM no está hablando y ya se ha leído la descripción -> al darle a la t, si está a 5 pies del NPC puede hablar con él
+                    print("a True")
+                    self.GLOBAL.setCanOpenChest(True)
+                    self.GLOBAL.setCanTalkToNPC(False)
             elif(key == pygame.K_i):
+                self.GLOBAL.setCanTalkToNPC(False)
+                self.GLOBAL.setCanOpenChest(False)
                 if(self.slot_selected != None):
                     self.intercambio = True
+                    
             elif(key == pygame.K_x):
+                self.GLOBAL.setCanTalkToNPC(False)
+                self.GLOBAL.setCanOpenChest(False)
                 if(self.slot_selected != None and (not self.intercambio) and (self.slot_selected != 'armor_slot' and self.slot_selected != 'mano derecha' and self.slot_selected != 'mano izquierda')):
                     self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][3] -=1
                     if(self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][3] == 0):

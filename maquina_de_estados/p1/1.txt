@@ -1,10 +1,6 @@
-La descripción de la sala 1Es la siguiente: En esta galería de planta rectangular, la humedad se siente en el aire, y el suelo de piedra está cubierto de restos de roca, que parecen haber sido arrancados recientemente. En el centro de la galería, dos objetos llamativos llaman la atención. En un lado, un extraño hongo alargado de color azul oscuro se extiende desde el suelo, como si estuviera viviendo. Al lado opuesto, una roca puntiaguda sobresale del suelo, aparentemente sin ninguna explicación. En el lateral derecho de la galería, un canasto de madera vacío, pero de color marrón, y que parece ser de madera rica y de alta calidad, se encuentra. Frente a este canasto, otro canasto de madera con rubíes, que están dispuestos en un patrón geométrico, parece ser el centro de atención. En el suelo, marcas de desgaste son visibles, como si la gente hubiera pasado mucho tiempo caminando por la galería. Algunas setas de color naranja brotan del suelo, y caen gotitas de agua del techo, que caen lentamente y sonoramente.
+La descripción de la sala 1Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 5, y está abierta: "Has abierto la puerta sin incidentes, ahora te encuentras en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 13, y está abierta: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: "Has abierto la puerta sin incidentes, ahora te encuentras en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 6, y está abierta: "La puerta de madera se abre con un clic, y ahora te encuentras en un pasillo oscuro, iluminado solo por las baldosas moradas que se extienden ante ti.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: "La puerta de madera se abre con un clic, y ahora te encuentras en un pasillo oscuro, iluminado solo por las baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: puerta adyacente
 

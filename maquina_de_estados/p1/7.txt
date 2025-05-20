@@ -1,14 +1,6 @@
-La descripción de la sala 7Es la siguiente: En esta galería de piedra, el suelo está cubierto de restos de roca dispersos, como si la tierra misma se hubiera desmoronado bajo los pies de aquellos que la han recorrido antes. En el centro de la sala, un canasto de madera vieja, de madera oscura y resbaladiza, se encuentra apoyado en el suelo. El canasto contiene un mineral extraño, de color amarillento intenso, con una textura peculiar y brillante. A su lado, una roca puntiaguda, afilada y peligrosa, parece haber sido arrancada del suelo, y se alza como una espada de piedra. En el centro de la sala, en un lugar que parece haber sido el epicentro de la galería, se encuentra un beholder, su mirada hambrienta y astuta, mira a todos los que la han entrado. En el lateral derecho de la galería, una hongo alargado, de color azul oscuro, se extiende por el suelo, como una sombra viva. Una tumba de piedra, con una runa grabada en su frente, se encuentra en una esquina de la galería, como un recordatorio de momentos pasados. En este lugar, la humedad del aire, y las gotitas de agua que caen del techo, hacen que la galería parezca un lugar de profundo misterio.
+La descripción de la sala 7Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 10, y está abierta: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 4, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: "La puerta de madera se abre con un crujido, y ahora te encuentras en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 8, y está abierta: "Has cruzado el portón de madera con facilidad, y te encuentras ahora en un pasillo oscuro y silencioso, con baldosas moradas que se extienden ante ti como un pasillo funerario".
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: "Has cruzado el portón de madera con facilidad, y te encuentras ahora en un pasillo oscuro y silencioso, con baldosas moradas que se extienden ante ti como un pasillo funerario".
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 9, y está abierta: La puerta de madera cede con un crujido, dejándolo en un pasillo oscuro, donde el suelo de baldosas moradas se extiende ante él.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: La puerta de madera cede con un crujido, dejándolo en un pasillo oscuro, donde el suelo de baldosas moradas se extiende ante él.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: puerta abierta
 

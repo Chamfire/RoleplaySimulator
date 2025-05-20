@@ -1,6 +1,14 @@
-La descripción de la sala 0Es la siguiente: En esta galería puedes ver el suelo cubierto de restos de roca por el suelo, donde la piedra se ha desgastado con el paso del tiempo, revelando capas sucesivas de roca. En el centro de la sala, una roca puntiaguda sobresale del suelo, como un verdadero monolito, y parece haber sido colocada allí con propósito. Las marcas en el suelo de desgaste sugieren que alguien o algo ha pasado por aquí antes, dejando huellas de su paso. En una esquina de la galería, una tumba de piedra se alza, adornada con una runa misteriosa que parece haber sido grabada allí recientemente. La humedad que llena el aire y las gotitas de agua que caen del techo de la galería crean un ambiente húmedo y sombrío, mientras la planta rectangular de la sala te rodea con silencio y expectativa.
+La descripción de la sala 0Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 3, y está abierta: "Has cruzado el portón y te encuentras ahora en un pasillo oscuro, iluminado únicamente por las ligeras baldosas moradas que cubren el suelo.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 12, y está abierta: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: "Has cruzado el portón y te encuentras ahora en un pasillo oscuro, iluminado únicamente por las ligeras baldosas moradas que cubren el suelo.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: puerta adyacente
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 11, y está abierta: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 5, y está abierta: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: puerta abierta
 

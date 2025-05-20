@@ -37,6 +37,7 @@ class Estado:
         self.mobs = {}
         self.objetos = {}
         self.Mapa = None
+        self.ordenEstados = {}
         self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.personajeDelHost = None
 
@@ -60,12 +61,149 @@ class Estado:
         self.Mapa = None
         self.personajeDelHost = None
         self.soundDoor = None
+        if(self.ordenEstados != {}):
+            for id,estado in self.ordenEstados.items():
+                estado.resetForPickle()
 
     def setForLoad(self,mapa,jugador):
         self.GLOBAL = Global()
         self.Mapa = mapa
         self.personajeDelHost = jugador
         self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
+        if(self.ordenEstados != {}):
+            for id,estado in self.ordenEstados.items():
+                estado.setForLoad(mapa,jugador)
+
+class EstadoInteractChest(Estado):
+    def __init__(self,isInicial,content,id,obligatorio,personajeDelHost,numJugadores,estado_pred,posicion_cofre,loot,dialogoFull,dialogoEmpty):
+        super().__init__(isInicial,content,id)
+        self.variableDeCheck["progreso"] = {}
+        self.isInicial = isInicial
+        self.posicion_cofre = posicion_cofre
+        self.personajeDelHost = personajeDelHost
+        self.variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = -1
+        for personaje in self.GLOBAL.getListaPersonajeHost():
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = -1 #-1: No ha abierto el cofre, 0: lo ha abierto pero no ha podido coger el loot, 1: ha cogido el loot
+        self.esObligatorio = obligatorio
+        self.numJugadores = numJugadores
+        self.esPuntoDeRespawn = False
+        self.tipo_de_estado = "apertura_cofre"
+        self.dialogoDMChestFull = dialogoFull
+        self.dialogoDMChestEmpty = dialogoEmpty
+        self.estadosSucesores = estado_pred
+        self.loot = loot
+        self.ids = 0 
+        self.ordenEstados = {} #Estados internos de misión
+        self.click = {}
+        self.click[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = False
+        for personaje in self.GLOBAL.getListaPersonajeHost():
+            self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False 
+
+    def checkIfCanRun(self,DM,personaje):
+        canOpen  = self.GLOBAL.getCanOpenChest()
+        print("can open = "+str(canOpen))
+        isLooking = False
+        if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((91 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] <= 94))):  
+            isLooking = True
+        elif(((personaje.playerAction == "WALK_UP") or (personaje.playerAction == "IDLE_UP")) and ((91 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] <= 94))):
+           isLooking = True
+        elif(((personaje.playerAction == "WALK_LEFT") or (personaje.playerAction == "IDLE_LEFT")) and ((91 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]][personaje.coordenadas_actuales_r[0]-1] <= 94))):
+            isLooking = True
+        elif(((personaje.playerAction == "WALK_RIGHT") or (personaje.playerAction == "IDLE_RIGHT")) and ((91 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]][personaje.coordenadas_actuales_r[0]+1] <= 94))):
+            isLooking = True
+        if(isLooking and canOpen):
+            self.click[str(personaje.name)+","+str(personaje.id_jugador)] = True
+        
+        if(self.click[str(personaje.name)+","+str(personaje.id_jugador)]):
+            return True
+        else:
+            return False
+        
+    def checkIfCompleted(self,personaje):
+        return False # Siempre puedes abrir un cofre, aunque esté vacío
+        
+    def run(self,DM,personaje):
+        #TODO: run en función del estado de la misión
+        if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == -1):
+            self.OnEnterEstadoByPlayer(DM,personaje)
+            print("a False")
+            self.GLOBAL.setCanOpenChest(False)
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
+            self.DescriptionFullChest(DM,personaje)
+            print("a False")
+            self.GLOBAL.setCanOpenChest(False)
+        elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
+            self.DescriptionEmptyChest(DM,personaje)
+            print("a False")
+            self.GLOBAL.setCanOpenChest(False)
+        
+
+    def ModifyState(self,player,n):
+        self.variableDeCheck["progreso"][str(player.name)+","+str(player.id_jugador)] = n
+
+    def OnEnterEstadoByPlayer(self,DM,personaje):
+        # Hay que resetar canción, porque con las canciones no es serializable
+        cancion =  pygame.mixer.Sound('sounds/open_sarcofago.wav')
+        pygame.mixer.Channel(6).play(cancion)
+        cancion = None
+        print("<DM>: Te acercas con cuidado al sarcófago, y al abrirlo, ves que este no está vacío. "+self.dialogoDMChestFull) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        string_to_speech = "Te acercas con cuidado al sarcófago, y al abrirlo, ves que este no está vacío. "+self.dialogoDMChestFull
+        DM.speak(string_to_speech) 
+        res = personaje.equipo.addObjectToInventory(self.loot.inventory[2],self.loot.inventory[0],self.loot.inventory[1])
+        if(res == -1):
+            print("<DM>: Parece que llevas demasiado peso para cargar con este objeto...")
+            string_to_speech = "Parece que llevas demasiado peso para cargar con este objeto..."
+            DM.speak(string_to_speech)
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
+        elif(res == -2):
+            print("<DM>: Parece que no puedes llevar más encima, libera algún slot del inventario para poder cargar con este objeto...")
+            string_to_speech = "Parece que no puedes llevar más encima, libera algún slot del inventario para poder cargar con este objeto..."
+            DM.speak(string_to_speech)
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
+        else:
+            print("<DM>: Sin mayor problema, añades el objeto a tu inventario.")
+            string_to_speech = "Sin mayor problema, añades el objeto a tu inventario."
+            DM.speak(string_to_speech)
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
+        self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
+
+    def DescriptionFullChest(self,DM,personaje):
+        cancion =  pygame.mixer.Sound('sounds/open_sarcofago.wav')
+        pygame.mixer.Channel(6).play(cancion)
+        cancion = None
+        print("<DM>: Abres de nuevo el sarcófago. "+self.dialogoDMChestFull) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        string_to_speech = "Abres de nuevo el sarcófago. "+self.dialogoDMChestFull
+        DM.speak(string_to_speech) 
+        # TODO: can take loot
+        res = personaje.equipo.addObjectToInventory(self.loot.inventory[2],self.loot.inventory[0],self.loot.inventory[1])
+        if(res == -1):
+            print("<DM>: Parece que llevas demasiado peso para cargar con este objeto...")
+            string_to_speech = "Parece que llevas demasiado peso para cargar con este objeto..."
+            DM.speak(string_to_speech)
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
+        elif(res == -2):
+            print("<DM>: Parece que no puedes llevar más encima, libera algún slot del inventario para poder cargar con este objeto...")
+            string_to_speech = "Parece que no puedes llevar más encima, libera algún slot del inventario para poder cargar con este objeto..."
+            DM.speak(string_to_speech)
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
+        else:
+            print("<DM>: Sin mayor problema, añades el objeto a tu inventario.")
+            string_to_speech = "Sin mayor problema, añades el objeto a tu inventario."
+            DM.speak(string_to_speech)
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
+        self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
+
+    def DescriptionEmptyChest(self,DM,personaje):
+        cancion =  pygame.mixer.Sound('sounds/open_sarcofago.wav')
+        pygame.mixer.Channel(6).play(cancion)
+        cancion = None
+        print("<DM>: Abres de nuevo el sarcófago. "+self.dialogoDMChestEmpty) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        string_to_speech = "Abres de nuevo el sarcófago. "+self.dialogoDMChestEmpty
+        DM.speak(string_to_speech) 
+        self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
+
+
+
 
 class EstadoInicial(Estado):
     def __init__(self,isInicial,content,RAG_musica,currentPartida,id):
@@ -170,6 +308,7 @@ class EstadoDeMision(Estado):
 
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
+            print(type(estado))
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
                 break
@@ -213,11 +352,11 @@ class EstadoDeHablaNPC(Estado):
         isLooking = False
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] <= 90))):  
             isLooking = True
-        elif(((personaje.playerAction == "WALK_UP") or (personaje.playerAction == "IDLE_UP")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] <= 90))):
+        elif(((personaje.playerAction == "WALK_UP") or (personaje.playerAction == "IDLE_UP")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] <= 90))):
            isLooking = True
-        elif(((personaje.playerAction == "WALK_LEFT") or (personaje.playerAction == "IDLE_LEFT")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] <= 90))):
+        elif(((personaje.playerAction == "WALK_LEFT") or (personaje.playerAction == "IDLE_LEFT")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]][personaje.coordenadas_actuales_r[0]-1] <= 90))):
             isLooking = True
-        elif(((personaje.playerAction == "WALK_RIGHT") or (personaje.playerAction == "IDLE_RIGHT")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] <= 90))):
+        elif(((personaje.playerAction == "WALK_RIGHT") or (personaje.playerAction == "IDLE_RIGHT")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]][personaje.coordenadas_actuales_r[0]+1] <= 90))):
             isLooking = True
         if(isLooking and canTalk):
             self.click[str(personaje.name)+","+str(personaje.id_jugador)] = True
@@ -239,10 +378,13 @@ class EstadoDeHablaNPC(Estado):
             self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
             self.giveMissionNPC(DM,personaje)
+            self.GLOBAL.setCanTalkToNPC(False)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
             self.talkToNPC(DM,personaje)
+            self.GLOBAL.setCanTalkToNPC(False)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 2):
             self.finishNPCMision(DM,personaje)
+            self.GLOBAL.setCanTalkToNPC(False)
 
     def ModifyState(self,player,n):
         self.variableDeCheck["progreso"][str(player.name)+","+str(player.id_jugador)] = n
@@ -396,7 +538,7 @@ class EstadoDeSalaFinal(Estado):
         return True
         
 
-    def checkIfCanExit(self,DM,personaje,currentEstadoByPlayers):
+    def checkIfCanExit(self,DM,personaje,currentEstado):
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 13) or (self.Mapa.matrix[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] == 23))):  
             pos_x = personaje.coordenadas_actuales_r[0]
             pos_y = personaje.coordenadas_actuales_r[1]+1
@@ -416,10 +558,11 @@ class EstadoDeSalaFinal(Estado):
         if(pos_x != None and pos_y != None):
             for sala in self.Mapa.salas[self.id].daASalas:
                 if(self.Mapa.salas[self.id].daASalas[sala][0] == [pos_x,pos_y]):
+                    print("En sala "+str(self.id)+" da a salas hacia sala "+str(sala)+" está "+self.Mapa.salas[self.id].daASalas[sala][1])
                     if(self.Mapa.salas[self.id].daASalas[sala][1] == "abierto"):
                         #La puerta existe y da a la sala "sala", y está abierta para pasar
-                        self.read2 = False
                         print("puerta")
+                        self.read2 = False
                         if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
                             self.GLOBAL.setActionDoor([2,[pos_x,pos_y]])
                             self.pasilloFromPuerta = [[pos_x,pos_y], sala]
@@ -434,17 +577,18 @@ class EstadoDeSalaFinal(Estado):
                     else:
                         if(not self.read2):
                             #La puerta está  cerrada
-                            print("puerta cerrada")
                             self.read2 = True
+                            print("puerta cerrada")
                             pygame.mixer.Channel(1).play(self.soundDoor)
                             text_closed = self.frases_puerta[self.id][sala][0]
                             DM.speak(text_closed) 
                         self.GLOBAL.setActionDoor([0,[None,None]]) 
                         return False
+                
         else:
             self.read2 = False
-                
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
+        print(self.GLOBAL.canGoOutFirst(), self.pasilloFromPuerta, self.GLOBAL.getCrossedDoor())
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloFromPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloFromPuerta[0])):
             #Ha decidido cruzarla
             self.GLOBAL.setActionDoor([0,[None,None]])
@@ -453,11 +597,16 @@ class EstadoDeSalaFinal(Estado):
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
             #reseteo las variables
-            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto"
-            self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            print("Sala "+str(self.pasilloFromPuerta[1])+", modificado da a salas de sala "+str(self.id))
+            if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
+                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2
+                currentEstado[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
+            else:
+                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
+                self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
             
             return True
         else:
@@ -498,7 +647,7 @@ class EstadoDeSalaFinal(Estado):
                 if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
                     self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                 else:
-                    self.GLOBAL.setActionDoor([2,[pos_x,pos_y]]) #podría abrirla
+                    self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                 return True
                 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
@@ -556,23 +705,23 @@ class EstadoDeSalaFinal(Estado):
                     else:
                         #La puerta está cerrada
                         print("puerta cerrada")
+                        self.read = False
                         pygame.mixer.Channel(1).play(self.soundDoor)
                         text_closed = self.frases_puerta[sala][self.id][0]
                         DM.speak(text_closed) 
-                        self.read = False
                         self.GLOBAL.setActionDoor([0,[None,None]]) 
                         return False
+                
             if((not self.read) and (10 <= self.Mapa.matrix[pos_y][pos_x] <= 13) and not((self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0]))):
                 #Es otra puerta distinta, pero no se puede pasar porque no es del enlace
                 pygame.mixer.Channel(1).play(self.soundDoor)
                 text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
                 DM.speak(text) 
+                self.GLOBAL.setActionDoor([0,[None,None]]) 
                 self.read = True
-                self.GLOBAL.setActionDoor([0,[None,None]])
-                return False 
+                return False
         else:
-            self.read = False     
-                
+            self.read = False
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
             #Ha decidido cruzarla
@@ -581,15 +730,11 @@ class EstadoDeSalaFinal(Estado):
             pygame.mixer.Channel(1).play(self.soundDoor)
             # El texto de la puerta se reproducirá en el estado de destino
             #reseteo las variables
+            self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
             self.Mapa.salas[self.pasilloFromPuerta[1]].daASalas[self.id][1] = "abierto" #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
-            if(self.Mapa.adyacencias[self.id][self.pasilloFromPuerta[1]] == 1):
-                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2
-                currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
-            else:
-                self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 3 #está en un pasillo
-                self.pasilloFromPuerta = [self.pasilloFromPuerta[0],self.pasilloFromPuerta[1]] #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
+            currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = self.idSala_idOrder[self.pasilloFromPuerta[1]]
             self.pasilloFromPuerta = None
             self.pasilloToPuerta = None
             
@@ -626,10 +771,9 @@ class EstadoDeSalaFinal(Estado):
             pass #si están en 0 no hace nada, hay que esperar a que todos acepten 
 
     def runNextInnerEstado(self,DM,personaje):
-        for id,estado in self.ordenEstados.items():
+        for id,estado in reversed(list(self.ordenEstados.items())): #quiero que el último estado en ser comprobado sea el de la misión
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
-                break
 
     def OnEnterEstadoByPlayer(self,DM,personaje,currentEstadoByPlayers):
         #El mensaje de introducción a la sala, se le reproduce a cada uno de forma individual (por si alguno muriera, y se tuviera que crear otro, que esto ya sea independiente)
@@ -640,6 +784,14 @@ class EstadoDeSalaFinal(Estado):
         #TODO: Enviar mensaje TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala normal
         self.run(DM,personaje,currentEstadoByPlayers)
+
+    def addChest(self,dmf1,dme1,cofre):
+        if(cofre[1].inventory[1] == "Llave"):
+            obligatorio = True
+        else:
+            obligatorio = False
+        self.ordenEstados[self.ids] = EstadoInteractChest(False,None,'cofre',obligatorio,self.personajeDelHost,self.numJugadores,self,cofre[0],cofre[1],dmf1,dme1)
+        self.ids +=1
 
 class EstadoDeSalaIntermedia(Estado):
     def __init__(self,isInicial,content,RAG_musica,currentPartida,estado_pred,numJugadores,id,personajeDelHost,id_sala,es_obligatoria,esInicial,daASalas,tienePortales,contieneLlaves,esFinal,orden,tipo_mision, size, pos_x, pos_y,Mapa,frase_puerta,descripcion_sala,idSala_idOrder):
@@ -919,10 +1071,10 @@ class EstadoDeSalaIntermedia(Estado):
             pass #si están en 0 no hace nada, hay que esperar a que todos acepten 
 
     def runNextInnerEstado(self,DM,personaje):
-        for id,estado in self.ordenEstados.items():
+        for id,estado in reversed(list(self.ordenEstados.items())):
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
-                break
+
 
     def OnEnterEstadoByPlayer(self,DM,personaje,currentEstadoByPlayers):
         #El mensaje de introducción a la sala, se le reproduce a cada uno de forma individual (por si alguno muriera, y se tuviera que crear otro, que esto ya sea independiente)
@@ -933,6 +1085,14 @@ class EstadoDeSalaIntermedia(Estado):
 
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala normal
         self.run(DM,personaje,currentEstadoByPlayers)
+
+    def addChest(self,dmf1,dme1,cofre):
+        if(cofre[1].inventory[1] == "Llave"):
+            obligatorio = True
+        else:
+            obligatorio = False
+        self.ordenEstados[self.ids] = EstadoInteractChest(False,None,'cofre',obligatorio,self.personajeDelHost,self.numJugadores,self,cofre[0],cofre[1],dmf1,dme1)
+        self.ids +=1
 
 
 
@@ -970,8 +1130,17 @@ class EstadoDeSalaInicial(Estado):
         self.Mapa = Mapa
         self.frases_puerta = frase_puerta
         self.read2 = False
+        self.read3 = False
         self.pasilloToPuerta = None
         self.idSala_idOrder = idSala_idOrder
+
+    def addChest(self,dmf1,dme1,cofre):
+        if(cofre[1].inventory[1] == "Llave"):
+            obligatorio = True
+        else:
+            obligatorio = False
+        self.ordenEstados[self.ids] = EstadoInteractChest(False,None,'cofre',obligatorio,self.personajeDelHost,self.numJugadores,self,cofre[0],cofre[1],dmf1,dme1)
+        self.ids +=1
 
 
     def checkIfCanRun(self,DM,personaje):
@@ -1028,6 +1197,7 @@ class EstadoDeSalaInicial(Estado):
                         if (self.ordenEstados[0].variableDeCheck["progreso"][str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] == 1):
                             print("puerta")
                             self.read2 = False
+                            self.read3 = False
                             if(self.Mapa.matrix[personaje.coordenadas_actuales_r[1]-1][personaje.coordenadas_actuales_r[0]] == 23):
                                 self.GLOBAL.setActionDoor([2,[pos_x,pos_y]])
                                 self.pasilloFromPuerta = [[pos_x,pos_y], sala]
@@ -1042,14 +1212,17 @@ class EstadoDeSalaInicial(Estado):
                                 self.pasilloFromPuerta = [[pos_x,pos_y], sala]
                             return False
                         else:
-                            text = "Vaya, parece que algo impide que puedas abrir esta puerta..."
-                            pygame.mixer.Channel(1).play(self.soundDoor)
-                            DM.speak(text) 
+                            if(not self.read3):
+                                self.read3 = True
+                                text = "Vaya, parece que algo impide que puedas abrir esta puerta..."
+                                pygame.mixer.Channel(1).play(self.soundDoor)
+                                DM.speak(text) 
                             return False
                     else:
                         if(not self.read2):
                             #La puerta está  cerrada
                             self.read2 = True
+                            self.read3 = False
                             print("puerta cerrada")
                             pygame.mixer.Channel(1).play(self.soundDoor)
                             text_closed = self.frases_puerta[self.id][sala][0]
@@ -1059,6 +1232,7 @@ class EstadoDeSalaInicial(Estado):
                 
         else:
             self.read2 = False
+            self.read3 = False
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         print(self.GLOBAL.canGoOutFirst())
         print(self.GLOBAL.getCrossedDoor())
@@ -1266,10 +1440,9 @@ class EstadoDeSalaInicial(Estado):
         #print("modificado a 0 en sala inicial")
 
     def runNextInnerEstado(self,DM,personaje):
-        for id,estado in self.ordenEstados.items():
+        for id,estado in reversed(list(self.ordenEstados.items())): 
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
-                break
 
     def OnEnterEstadoByPlayer(self,DM,personaje,currentEstadoByPlayers):
         #El mensaje de introducción a la sala, se le reproduce a cada uno de forma individual (por si alguno muriera, y se tuviera que crear otro, que esto ya sea independiente)
@@ -1418,6 +1591,10 @@ class Maquina_de_estados:
         #Misión concreta
         self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeMisionConcreta(False,None,self.estadosDeMision[num_mision],numJ,self.estadosDeMision[num_mision].ids,tipo_mision,variableDeCheck,mision)
         self.estadosDeMision[num_mision].ids +=1
+
+    def addCofreToSala(self,sala,desFull,desEmpty,cofre):
+        id = self.idSala_idOrder[sala]
+        self.ordenEstados[id].addChest(desFull,desEmpty,cofre)
 
 
     def runNextEstado(self,personaje):

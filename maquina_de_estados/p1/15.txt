@@ -1,6 +1,10 @@
-La descripción de la sala 15Es la siguiente: En esta galería de la mina, puedes ver el suelo cubierto de restos de roca por todas partes, con marcas de desgaste visibles en el suelo. En el centro de la galería, se encuentran dos canastos de madera, uno al frente y otro al fondo, ambos conteniendo minerales extraños: el delantero muestra un mineral de color amarillento, mientras que el más atrás, contiene una esmeralda. Sobre el suelo, a la derecha, una roca puntiaguda sobresale del suelo, mientras que más abajo, un hongo alargado de color azul oscuro se extiende en dirección opuesta. A ambos lados de los canastos, brotan setas de color naranja que crecen del suelo. Al techo, caen gotitas de agua, creando un ambiente húmedo y oscuridad en la galería.
+La descripción de la sala 15Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 10, y está abierta: "La puerta de madera se abre con un crujido y te dejas llevar por un pasillo oscuro, iluminado únicamente por las baldosas moradas que te rodean.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 12, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: "La puerta de madera se abre con un crujido y te dejas llevar por un pasillo oscuro, iluminado únicamente por las baldosas moradas que te rodean.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 13, y está abierta: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: puerta abierta
 

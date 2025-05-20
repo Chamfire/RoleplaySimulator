@@ -1,14 +1,10 @@
-La descripción de la sala 11Es la siguiente: En esta galería de planta rectangular, el suelo de piedra es cubierto de restos de roca y marcas de desgaste, indicativas de un uso prolongado y repetitivo. La humedad que permea el aire hace que se forme una capa de vapor sobre el suelo, y de repente caen gotitas de agua del techo, que danzan sobre la piedra y crean un murmullo sordo. En el fondo de la galería, un extraño hongo alargado de color azul oscuro se extiende, como si estuviera vivo. Al lado derecho, un gran saco parece haber sido abandonado, y al fondo, un murciélago se desplaza lentamente, como si estuviera en un sueño. En el centro de la galería, un canasto de madera cubierto de rubíes parece un tesoro olvidado, y frente a él, una roca puntiaguda sobresale del suelo, como un gigante dormido. En la esquina opuesta, una tumba de piedra con una runa grabada sobre ella se alza, como un lema funerario. Cada paso que se hace sobre el suelo de piedra hace que las gotitas de agua sigan caiendo, creando un baile de agua y luz que ilumina la galería.
+La descripción de la sala 11Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 13, y está abierta: La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro y largo, donde el suelo de baldosas moradas parece extenderse hasta el infinito.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 9, y está abierta: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro y largo, donde el suelo de baldosas moradas parece extenderse hasta el infinito.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 4, y está abierta: "La puerta de madera se abre con un crujido, y ante ti se extiende un pasillo oscuro, iluminado solo por las baldosas moradas que se hunden en la oscuridad.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 0, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta de madera se abre con un crujido, y ante ti se extiende un pasillo oscuro, iluminado solo por las baldosas moradas que se hunden en la oscuridad.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 12, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden hasta la oscuridad.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden hasta la oscuridad.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: puerta abierta
 

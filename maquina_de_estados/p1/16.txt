@@ -1,6 +1,12 @@
-La descripción de la sala 16Es la siguiente: En esta galería de planta rectangular, la humedad se cuela desde el techo, creando un ambiente húmedo y pesado. El suelo de piedra está cubierto de restos de roca y marcas de desgaste, que sugieren que el tráfico en esta área ha sido intenso durante mucho tiempo. Al fondo de la galería, dos extraños hongos alargados de color azul oscuro se extienden en direcciones opuestas, como si intentaran cubrir el espacio. Uno de ellos está ubicado en el centro de la galería, mientras que el otro se encuentra en el lateral derecho, justo debajo de la parte superior de la pared. En el centro de la galería, también hay un extraño hongo alargado de color azul oscuro, que parece ser el más grande de los tres. Sobre él se encuentra un canasto de madera con una esmeralda que brilla débilmente en la luz del lugar. En frente a este canasto, se encuentra un beholder, su esfera transparente brilla en la oscuridad, mientras que una roca puntiaguda se eleva desde el suelo, como si estuviera esperando a alguien. Algunas setas de color naranja brotan del suelo, cerca de los hongos más antiguos, y una tumba de piedra con una runa sobre ella se encuentra en el fondo de la galería, cerca de los hongos más antiguos. Las gotitas de agua caen del techo, y el ambiente es sombrío y húmedo, creando un ambiente de misterio y peligro.
+La descripción de la sala 16Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 4, y está abierta: "La puerta de madera se abre con un crujido suave, y de repente, te encuentras en un pasillo oscuro, iluminado solo por las sombras de las baldosas moradas que te rodean.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 6, y está abierta: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: "La puerta de madera se abre con un crujido suave, y de repente, te encuentras en un pasillo oscuro, iluminado solo por las sombras de las baldosas moradas que te rodean.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: puerta adyacente
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 3, pero está cerrada: puerta cerrada
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 3, y está abierta: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: puerta abierta
 

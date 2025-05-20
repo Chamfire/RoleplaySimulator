@@ -19,11 +19,10 @@ class Cofre:
         if(llave_puerta != None):
             # Ya tenemos el objeto
             llave = lista.createLlave(llave_puerta,llave_enlace)
-            self.inventory = [["Llave","Llave",llave,1]]
+            self.inventory = ["Llave","Llave",llave,1]
         #rellenamos el cofre con loot
-        self.num_objetos = random.randint(1,2) #hasta 3 objetos por sarcófago -> 2 aleatorios + posible llave
-        if(1 <= self.num_objetos <= 2):
-            # Hay que poner 2 objetos aleatorios de la lista del inventario
+        else:
+            # Hay que poner 1 objeto aleatorio
             armaduras_list = lista.getArmaduraList()
             armas_list = lista.getArmasList()
             objetos_list = lista.getObjetosList()
@@ -39,53 +38,35 @@ class Cofre:
             else:
                 choosed = escudos_list
             categorias_num = len(choosed)
-            categoria_choosed = random.randint(1,categorias_num)
-            cont = 1
-            for categoria,lista in choosed.items():
-                if(cont == categoria_choosed):
-                    # Es la categoría escogida
-                    items_num =  len(lista)
-                    item_escogido = random.randint(1,items_num)
-                    cont2 = 1
-                    for name, item in lista.items():
-                        if(cont2 == item_escogido):
-                            # Ya tenemos el objeto
-                            self.inventory += [[categoria,name,item,1]]
-                        cont2 +=1    
-                    break
-                cont+=1
-        if(self.num_objetos == 3):
-            # Otro objeto
-            armaduras_list = Lista_Inventario.getArmaduraList()
-            armas_list = Lista_Inventario.getArmasList()
-            objetos_list = Lista_Inventario.getObjetosList()
-            escudos_list = Lista_Inventario.getEscudosList()
-
-            opcion = random.randint(0,100)
-            if(opcion <= 60):
-                choosed = objetos_list
-            elif(60 < opcion <= 80):
-                choosed = armas_list
-            elif(80 < opcion <= 90):
-                choosed = armaduras_list
+            if(categorias_num == 1):
+                categoria_choosed = 1
             else:
-                choosed = escudos_list
-            categorias_num = len(choosed)
-            categoria_choosed = random.randint(1,categorias_num)
+                categoria_choosed = random.randint(1,categorias_num)
+            print(categoria_choosed)
+            print(choosed)
             cont = 1
             for categoria,lista in choosed.items():
                 if(cont == categoria_choosed):
                     # Es la categoría escogida
                     items_num =  len(lista)
-                    item_escogido = random.randint(1,items_num)
+                    print(items_num)
+                    if(items_num == 1):
+                        item_escogido = 1
+                    else:
+                        item_escogido = random.randint(1,items_num)
                     cont2 = 1
                     for name, item in lista.items():
                         if(cont2 == item_escogido):
                             # Ya tenemos el objeto
-                            self.inventory += [[categoria,name,item,1]]
+                            self.inventory = [categoria,name,item,1]
                         cont2 +=1    
                     break
                 cont+=1
+
+    def getLoot(self):
+        return self.inventory
+
+            
 
 
 class Sala:
@@ -571,7 +552,7 @@ class Map_generation:
         # Bloqueamos la puerta predecesora en el camino
         if(sala_elegida != self.main_path[0]):
             pred = self.getPredecesorInmediatoEnMainPath(sala_elegida)
-            self.salas[sala_elegida].daASalas[pred][1] = "cerrado" #cerramos esa puerta
+            self.salas[pred].daASalas[sala_elegida][1] = "cerrado" #cerramos esa puerta
             resp = self.devolverLongitudCamino(self.main_path[0],sala_elegida,[],0,[])
             # Como está en el camino pcpal, sabemos que va a ser True
             length = resp[1]
@@ -628,7 +609,7 @@ class Map_generation:
             # Recuperamos el camino pcpal desde el prinipio hasta esta sala
             if(sala2 != self.main_path[0]):
                 pred = self.getPredecesorInmediatoEnMainPath(sala2)
-                self.salas[sala2].daASalas[pred][1] = "cerrado" #cerramos esa puerta
+                self.salas[pred].daASalas[sala2][1] = "cerrado" #cerramos esa puerta
                 resp = self.devolverLongitudCamino(self.main_path[0],sala2,[],0,[])
                 # Como está en el camino pcpal, sabemos que va a ser True
                 length = resp[1]

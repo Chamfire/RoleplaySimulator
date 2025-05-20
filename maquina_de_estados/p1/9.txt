@@ -1,6 +1,10 @@
-La descripción de la sala 9Es la siguiente: En esta galería de planta rectangular, el suelo está cubierto de restos de roca por todo lo largo, y hay marcas en el suelo de desgaste que sugieren que alguien o algo ha pasado por aquí antes. En el centro de la galería, un canasto de madera de madera se encuentra con un mineral extraño de color amarillento, que parece haber sido descubierto recientemente. Alrededor de este canasto, se encuentran setas de color naranja que brotan del suelo, algunas en el lateral derecho de la galería y otras en una esquina, formando un patrón irracional. La galería parece estar húmeda, y caen gotitas de agua del techo, que resbalan sobre el suelo rocoso. El aire está lleno de una sensación de desgaste, como si la galería hubiera sido utilizada de manera intensa en el pasado.
+La descripción de la sala 9Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 7, y está abierta: La puerta de madera cedió con un susurro bajo y, con un suspiro de alivio, entraste en un pasillo oscuro, donde el suelo de baldosas moradas se extendía ante ti como un manto impenetrable.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 11, y está abierta: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: La puerta de madera cedió con un susurro bajo y, con un suspiro de alivio, entraste en un pasillo oscuro, donde el suelo de baldosas moradas se extendía ante ti como un manto impenetrable.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: puerta adyacente
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 6, y está abierta: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: puerta abierta
 

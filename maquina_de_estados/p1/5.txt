@@ -1,14 +1,6 @@
-La descripción de la sala 5Es la siguiente: En esta galería de la mina, el suelo de piedra cubre el piso, con restos de roca dispersos por todas partes. En el centro de la sala, una roca puntiaguda sobresale del suelo, como si hubiera sido arrancada de la pared. A su lado, un canasto de madera, decorado con rubíes, parece un tesorillo esperando ser descubierto. En una esquina, las setas de color naranja brotan del suelo, sus tallos esqueléticos y coloridos, como si estuvieran tratando de comunicarse con el mundo. Las paredes de piedra están marcadas por patrones de desgaste, evidencia de la actividad minera que se ha llevado a cabo aquí. La humedad del suelo es palpable, y el techo de la galería, construido con piedras y arcilla, emite gotitas de agua que caen lentamente sobre el piso, creando un murmullo suave. La sala es de planta rectangular, con una arquitectura simples pero efectiva, y el aire está lleno de la sensación de haber sido olvidada por el tiempo.
+La descripción de la sala 5Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 1, y está abierta: "Has superado el portal y te encuentras en un pasillo largo y oscuro con un suelo de baldosas moradas que se extiende ante ti".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 0, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: "Has superado el portal y te encuentras en un pasillo largo y oscuro con un suelo de baldosas moradas que se extiende ante ti".
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 13, y está abierta: "Con un crujido suave, la puerta de madera se abrió sin resistencia, y ahora te encuentras en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti, iluminado solo por la débil luz de las piedras que forman el piso.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: "Con un crujido suave, la puerta de madera se abrió sin resistencia, y ahora te encuentras en un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti, iluminado solo por la débil luz de las piedras que forman el piso.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 14, y está abierta: "El portón de madera cruje débilmente mientras se abre con un clic, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti como un túnel inmenso.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: "El portón de madera cruje débilmente mientras se abre con un clic, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti como un túnel inmenso.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: puerta abierta
 

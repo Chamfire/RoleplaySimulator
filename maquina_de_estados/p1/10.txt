@@ -1,14 +1,6 @@
-La descripción de la sala 10Es la siguiente: En esta galería puedes ver un suelo cubierto de restos de roca, con marcas de desgaste profundas que sugieren una gran cantidad de tráfico. Al fondo, un canasto de madera de madera se eleva sobre el suelo, adornado con rubíes brillantes que reflejan las lentes de agua que caen del techo. En el centro de la galería, un extraño hongo alargado de color azul oscuro se eleva del suelo, rodeado de una capa de setas de color naranja que brotan del suelo con un aroma dulce y aterrador. Un poco más adelante, una roca puntiaguda sobresale del suelo, como si estuviera esperando a algo. A pesar de la humedad que permea el aire, las gotitas de agua que caen del techo forman un estanque de agua cristalina que refleja la luz del exterior, creando un efecto de espejismo que hace que la galería parezca más grande de lo que realmente es.
+La descripción de la sala 10Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 15, y está abierta: "Con un suave crujido, la puerta de madera se abre con un clic, revelando un pasillo oscuro y profundo, cuya única luz proviene de estrechas ranuras en las paredes, iluminando un suelo de baldosas moradas que se extiende ante ti".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 6, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: "Con un suave crujido, la puerta de madera se abre con un clic, revelando un pasillo oscuro y profundo, cuya única luz proviene de estrechas ranuras en las paredes, iluminando un suelo de baldosas moradas que se extiende ante ti".
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 7, y está abierta: "Has cruzado el portal y te encuentras ahora en un pasillo oscuro, con un suelo de baldosas moradas bajo tus pies.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: "Has cruzado el portal y te encuentras ahora en un pasillo oscuro, con un suelo de baldosas moradas bajo tus pies.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 14, y está abierta: La puerta de madera cruje suavemente al abrirse y, con un suspiro, la luz del exterior se apaga detrás de él, dejándolo en un pasillo oscuro, donde el suelo de baldosas moradas se extiende ante él como un abismo inmenso.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: La puerta de madera cruje suavemente al abrirse y, con un suspiro, la luz del exterior se apaga detrás de él, dejándolo en un pasillo oscuro, donde el suelo de baldosas moradas se extiende ante él como un abismo inmenso.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: puerta abierta
 

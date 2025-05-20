@@ -1,6 +1,6 @@
-La descripción de la sala 8Es la siguiente: En esta galería de planta rectangular, la humedad es palpable y el aire está lleno de el aire pesado. El suelo está cubierto de restos de roca y marcas de desgaste, indicando que han pasado siglos desde la última vez que alguien pasó por aquí. Al centro de la galería, un extraño hongo alargado de color azul oscuro parece crecer desde la piedra misma, mientras que un esqueleto, cubierto de polvo y rocas, se erige en silencio. Dos canastos de madera, uno con esmeralda y el otro con rubíes, están dispuestos de manera que parecen ofrecer sus tesoros a los que los descubran. Gotitas de agua caen del techo, iluminando la escena con un resplandor tenue, y en el fondo de la galería, un slime de color azul se mueve lentamente, mientras que setas de color naranja brotan del suelo, y al lado derecho, un canasto de madera con rubíes parece esperar ser descubierto. En el fondo de la galería, una tumba de piedra con una runa grabada sobre ella parece ser un lugar de descanso para aquellos que no regresan. La atmósfera es sombría y misteriosa, y se puede sentir que la galería ha estado cerrada durante mucho tiempo, esperando a que alguien la descubriera.
+La descripción de la sala 8Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 7, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro y húmedo con baldosas moradas que se extienden ante ti".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 2, y está abierta: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro y húmedo con baldosas moradas que se extienden ante ti".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: puerta adyacente
 

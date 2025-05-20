@@ -1,10 +1,12 @@
-La descripción de la sala 12Es la siguiente: En esta galería, el suelo está cubierto de restos de roca por el suelo, y se puede ver que ha sido utilizada en varios momentos, ya que hay marcas de desgaste en el mismo. A medida que te acercas a la sala, puedes notar que el aire está lleno de humedad, y que caen gotitas de agua del techo que se filtran por el suelo. La galería tiene una planta rectangular, con paredes de piedra y techo de piedra y yeso, y parece que se trata de una zona donde los antiguos excavaban minerales. En el centro de la galería, puedes ver dos canastos de madera, uno al fondo y otro en el centro de la sala, ambos con un mineral extraño de color amarillento, mientras que en el centro de la galería, hay dos canastos de madera uno con un extraño hongo alargado de color azul oscuro, y otro con rubíes, uno en una esquina de la galería.
+La descripción de la sala 12Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 11, y está abierta: La puerta de madera se abre con un crujido suave, y ahora se encuentra en un pasillo oscuro, iluminado solo por estrechos rayos de luz que caen sobre baldosas moradas que se extienden hasta el horizonte.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 0, pero está cerrada: puerta cerrada
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: La puerta de madera se abre con un crujido suave, y ahora se encuentra en un pasillo oscuro, iluminado solo por estrechos rayos de luz que caen sobre baldosas moradas que se extienden hasta el horizonte.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 0, y está abierta: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 3, y está abierta: La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro y sereno, iluminado solo por las balas de azúcar moradas que cubren el suelo.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: puerta adyacente
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro y sereno, iluminado solo por las balas de azúcar moradas que cubren el suelo.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 15, y está abierta: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: puerta abierta
 

@@ -10,6 +10,8 @@ class Global:
         self.lock_lph = threading.Lock() #para gestionar la lista de personajes en el host
         self.lock_text = threading.Lock() #para gestionar el texto que va a mostrar el DM
         self.lock_image = threading.Lock() #para gestionar la imagen que va a mostrar el DM
+        self.lock_openChest = threading.Lock()
+        self.lock_canTalk = threading.Lock()
 
     def initialize(self):
         global otherPlayers 
@@ -56,6 +58,18 @@ class Global:
         canTalk = False
         global finishedStart
         finishedStart = False
+        global canOpenChest
+        canOpenChest = False
+
+    def setCanOpenChest(self,v):
+        global canOpenChest
+        self.lock_openChest.acquire()
+        canOpenChest = v
+        self.lock_openChest.release()
+
+    def getCanOpenChest(self):
+        global canOpenChest
+        return canOpenChest
 
     def setFinishedStart(self,v):
         global finishedStart
@@ -67,7 +81,9 @@ class Global:
 
     def setCanTalkToNPC(self,v):
         global canTalk
+        self.lock_canTalk.acquire()
         canTalk = v
+        self.lock_canTalk.release()
 
     def getCanTalkToNPC(self):
         global canTalk
