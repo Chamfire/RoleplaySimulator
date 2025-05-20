@@ -1212,7 +1212,7 @@ class PartidaScreen:
                                 base_ca = 15
                             else:
                                 base_ca = 10
-                            dif_ca = self.personaje.equipo.armadura_actual[2].nueva_ca - base_ca
+                            dif_ca = base_ca - self.personaje.equipo.armadura_actual[2].nueva_ca
                             self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.armadura_actual
                             self.personaje.equipo.armadura_actual = None
                             self.intercambio = False
@@ -1248,7 +1248,7 @@ class PartidaScreen:
                                     base_ca = 15
                                 else:
                                     base_ca = 10
-                                dif_ca = self.personaje.equipo.armadura_actual[2].nueva_ca - base_ca
+                                dif_ca = base_ca - self.personaje.equipo.armadura_actual[2].nueva_ca
 
                                 self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.armadura_actual
                                 self.personaje.equipo.armadura_actual = None
@@ -1278,7 +1278,7 @@ class PartidaScreen:
                                     base_ca = 15
                                 else:
                                     base_ca = 10
-                                dif_ca = self.personaje.equipo.armadura_actual[2].nueva_ca - base_ca
+                                dif_ca = base_ca - self.personaje.equipo.armadura_actual[2].nueva_ca
 
                                 self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.armadura_actual
                                 self.personaje.equipo.armadura_actual = None
