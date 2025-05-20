@@ -1,10 +1,14 @@
 La descripción de la sala 11Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 9, y está abierta: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 4, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 0, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 3, y está abierta: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 16, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: puerta abierta
 

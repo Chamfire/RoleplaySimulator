@@ -1,9 +1,5 @@
 La descripción de la sala 9Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 11, y está abierta: puerta adyacente
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: puerta adyacente
-
 Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 6, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: puerta abierta

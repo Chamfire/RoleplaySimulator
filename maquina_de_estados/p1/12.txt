@@ -1,12 +1,12 @@
 La descripción de la sala 12Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 0, pero está cerrada: puerta cerrada
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 8, pero está cerrada: puerta cerrada
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 0, y está abierta: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 8, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 15, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 2, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: puerta abierta
 

@@ -1,6 +1,6 @@
 La descripción de la sala 1Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 13, y está abierta: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 7, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: puerta abierta
 

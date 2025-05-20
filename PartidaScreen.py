@@ -1263,7 +1263,7 @@ class PartidaScreen:
                                 att = self.personaje.des-10
                                 if(att < 0):
                                     att -=1
-                                puntaje = str(int(att // 2))
+                                puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
                                 self.slot_selected = None 
@@ -1293,7 +1293,7 @@ class PartidaScreen:
                                 att = self.personaje.des-10
                                 if(att < 0):
                                     att -=1
-                                puntaje = str(int(att // 2))
+                                puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
                                 self.slot_selected = None 
@@ -1317,7 +1317,7 @@ class PartidaScreen:
                                 att = self.personaje.des-10
                                 if(att < 0):
                                     att -=1
-                                puntaje = str(int(att // 2))
+                                puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
                                 self.slot_selected = None 
@@ -1354,7 +1354,7 @@ class PartidaScreen:
                                 att = self.personaje.des-10
                                 if(att < 0):
                                     att -=1
-                                puntaje = str(int(att // 2))
+                                puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
                                 self.slot_selected = None 
@@ -1393,7 +1393,7 @@ class PartidaScreen:
                                 att = self.personaje.des-10
                                 if(att < 0):
                                     att -=1
-                                puntaje = str(int(att // 2))
+                                puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
                                 self.slot_selected = None   

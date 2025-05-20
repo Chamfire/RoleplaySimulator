@@ -1,12 +1,14 @@
 La descripción de la sala 16Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 6, y está abierta: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 6, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 3, pero está cerrada: puerta cerrada
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 13, y está abierta: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 3, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: puerta abierta
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 11, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: puerta abierta
 

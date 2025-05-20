@@ -1,14 +1,10 @@
 La descripción de la sala 4Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 13, y está abierta: puerta adyacente
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: puerta adyacente
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 7, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 11, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 14, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 17, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: puerta abierta
 

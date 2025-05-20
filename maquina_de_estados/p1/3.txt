@@ -1,6 +1,6 @@
 La descripción de la sala 3Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 16, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 11, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: puerta abierta
 
