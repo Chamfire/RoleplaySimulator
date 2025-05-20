@@ -159,8 +159,8 @@ class Llave:
         self.ppt = ppt
         self.peso = peso
         self.stackeable = stackeable
-        puerta = puerta
-        enlace = enlace
+        self.puerta = puerta
+        self.enlace = enlace
 
 class Armadura:
     def __init__(self,pc,pp,pe,po,ppt,nueva_ca,modificador,maximo_mod,requisito_fu,desventaja_sigilo,peso):
@@ -461,7 +461,7 @@ class Lista_Inventario:
         self.armas["Armas a distancia marciales"]["Cerbatana"] = Arma(0,0,1,0,0,0,10,0,tipo_uso.A_1_Mano,(10,25),tipo_damage.PERFORANTE,False,None,modificador.Fuerza,False,True,False,False,1)
         #La red, como solo es de tipo especial, y no hace daño, no la voy a modelar por ahora
         
-        self.objeto = {"Comida": {}, "Bebida": {}, "Mecanico": {}, "Refugio": {},"Libro": {}, "Kit": {}, "Iluminación": {}, "Otros": {}, "Almacenaje": {}, "Munición": {}}
+        self.objeto = {"Comida": {}, "Bebida": {}, "Mecanico": {}, "Refugio": {}, "Kit": {}, "Iluminación": {}, "Otros": {}, "Almacenaje": {}, "Munición": {}}
         
         self.objeto["Refugio"]["Saco de dormir"] = Objeto(0,0,0,1,0,7,False)
         self.objeto["Mecanico"]["Palanca"] = Objeto(0,0,0,2,0,5,True)

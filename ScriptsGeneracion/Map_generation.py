@@ -42,14 +42,11 @@ class Cofre:
                 categoria_choosed = 1
             else:
                 categoria_choosed = random.randint(1,categorias_num)
-            print(categoria_choosed)
-            print(choosed)
             cont = 1
             for categoria,lista in choosed.items():
                 if(cont == categoria_choosed):
                     # Es la categoría escogida
                     items_num =  len(lista)
-                    print(items_num)
                     if(items_num == 1):
                         item_escogido = 1
                     else:
