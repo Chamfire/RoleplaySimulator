@@ -10,7 +10,7 @@ from Global import Global
 import queue
 from ProcesamientoPartida import ProcesamientoPartida
 import sqlite3
-from Lista_Inventario import Escudo,Objeto,Objeto_de_Espacio,Arma,Armadura
+from Lista_Inventario import Escudo,Objeto,Objeto_de_Espacio,Arma,Armadura,Llave
 
 
 class PartidaScreen:
@@ -1165,7 +1165,7 @@ class PartidaScreen:
                                 att = self.personaje.des-10
                                 if(att < 0):
                                     att -=1
-                                puntaje = str(int(att // 2))
+                                puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
                                 self.slot_selected = None 
@@ -1428,6 +1428,8 @@ class PartidaScreen:
                                     self.slot_selected = None 
                                 else:
                                     self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
+                                    if(type(self.personaje.equipo.objeto_equipado_mano_derecha[2]) == Llave):
+                                        print("Llave que abre posición: "+str(self.personaje.equipo.objeto_equipado_mano_derecha[2].puerta))
                                     self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
                                     self.intercambio = False
                                     self.slot_selected = None 

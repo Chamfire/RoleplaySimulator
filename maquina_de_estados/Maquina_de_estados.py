@@ -308,7 +308,6 @@ class EstadoDeMision(Estado):
 
     def runNextInnerEstado(self,DM,personaje):
         for id,estado in self.ordenEstados.items():
-            print(type(estado))
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
                 break
