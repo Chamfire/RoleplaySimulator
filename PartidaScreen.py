@@ -478,6 +478,12 @@ class PartidaScreen:
 
                 if(self.currentImageToShow != ""):
                     self.screen.blit(pygame.transform.scale(self.imagePhoto, (self.width/4.7059, self.height/2.6415)), (self.width/1.3378, self.height/14.0000)) #255 265 897 50
+                
+                # Para mostrar el nombre del NPC
+                nombre_NPC = self.GLOBAL.getShowNombreNPC()
+                if(nombre_NPC != ""):
+                    textoNPC = self.fuente5.render(nombre_NPC, True, self.color_black)
+                    self.screen.blit(textoNPC,(self.width/1.3514, self.height/1.8421)) #888 380
 
         pygame.display.update() 
 
@@ -543,6 +549,11 @@ class PartidaScreen:
         self.letterwidth3 = (self.width/3.4286)/32 #cálculo de la base en píxeles 
         self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
+
+        self.letterwidth4 = (self.width/3.4286)/15 #cálculo de la base en píxeles 
+        self.lettersize4 = int(self.letterwidth4 + 0.5 * self.letterwidth4) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
+        self.fuente5 = pygame.font.SysFont(self.font,self.lettersize4)
+
         #para extraer qué ubicación se escogió
         conn = sqlite3.connect("simuladordnd.db")
         cur = conn.cursor()
@@ -558,6 +569,7 @@ class PartidaScreen:
 
         if(self.GLOBAL.getActualPartidaState() == "loading"):
             self.startBoton = True
+
             self.ProcesamientoPartida = ProcesamientoPartida(self.seed_random,self.currentPartida)
             self.msg = self.fuente2.render('Preparando Partida', True, self.color_white)
             self.msg1 = self.fuente2.render('Preparando Partida.', True, self.color_white)
@@ -803,7 +815,11 @@ class PartidaScreen:
 
                 if(self.currentImageToShow != ""):
                     self.screen.blit(pygame.transform.scale(self.imagePhoto, (self.width/4.7059, self.height/2.6415)), (self.width/1.3378, self.height/14.0000)) #255 265 897 50
-
+                # Para mostrar el nombre del NPC
+                nombre_NPC = self.GLOBAL.getShowNombreNPC()
+                if(nombre_NPC != ""):
+                    textoNPC = self.fuente5.render(nombre_NPC, True, self.color_black)
+                    self.screen.blit(textoNPC,(self.width/1.3514, self.height/1.8421)) #888 380
 
                 aux = self.GLOBAL.extractAndRemoveTextoDM()
                 if(aux != ""):

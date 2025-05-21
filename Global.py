@@ -63,7 +63,17 @@ class Global:
         canOpenChest = [False,[None,None]]
         global canBreak 
         canBreak = [False,[None,None]]
+        global showNombreNPC
+        showNombreNPC = ""
 
+    def setShowNombreNPC(self,v):
+        global showNombreNPC
+        showNombreNPC = v
+
+    def getShowNombreNPC(self):
+        global showNombreNPC
+        return showNombreNPC
+    
     def setCanBreak(self,v):
         global canBreak
         self.lock_canBreak.acquire()
