@@ -1,14 +1,10 @@
-La descripción de la sala 11Es la siguiente: Que sala más bonita
+La descripción de la sala 11Es la siguiente: En esta galería de la mina, puedes ver una planta rectangular con paredes de piedra que parecen haber sido talladas por la mano de los dioses. El suelo está cubierto de setas de color naranja que brotan del suelo con una belleza inusual. Al fondo de la galería, en un canasto de madera viejo, se encuentra un mineral extraño de color amarillento que parece haber sido extraviado de las profundidades de la tierra. En el centro de la galería, una roca puntiaguda sobresale del suelo, como si estuviera a punto de romper la superficie. Restos de roca se encuentran dispersos por el suelo, como si hubieran sido arrancados de la pared. Marcas en el suelo de desgaste, creadas por el tránsito de pies y herramientas, parecen indicar que alguien o algo ha pasado por aquí antes. En el centro de la galería, un extraño hongo alargado de color azul oscuro se eleva de la tierra, como si estuviera vivo. Debajo de este hongo, la humedad se acumula, y gotitas de agua caen desde el techo, iluminando la galería con una luz tenue. La atmósfera es pesada y húmeda, y parece que el aire está lleno de secretos y misterios.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 1, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 8, y está abierta: "La puerta de madera cruje bajo tu pie, y se abre con un clic, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta de madera cruje bajo tu pie, y se abre con un clic, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 6, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 2, y está abierta: "La puerta de madera cediente a tus golpes, te depara ahora un pasillo insondable, cubierto de baldosas moradas que se extienden ante ti como un abismo insondable.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: puerta abierta
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 7, y está abierta: puerta abierta
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta de madera cediente a tus golpes, te depara ahora un pasillo insondable, cubierto de baldosas moradas que se extienden ante ti como un abismo insondable.
 

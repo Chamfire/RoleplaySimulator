@@ -1,10 +1,6 @@
-La descripción de la sala 14Es la siguiente: Que sala más bonita
+La descripción de la sala 14Es la siguiente: En esta galería de planta rectangular, la humedad flota en el aire, creando un ambiente húmedo y sombrío. Al fondo de la sala, un extraño hongo alargado de color azul oscuro se extiende, cubriendo el techo, mientras que marcas en el suelo de desgaste revelan el paso del tiempo. Los restos de roca dispersos por el suelo parecen haber sido arrancados de las paredes, y gotitas de agua caen del techo, drenándose lentamente en el suelo, creando pequeñas charcas que reflejan la débil luz que filtra desde fuera. El ambiente es tranquilo, pero parece lleno de un silencio pesado, que invita a la reflexión y a la observación cuidadosa.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 2, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 8, y está abierta: "La puerta de madera se abre con un crujido suave y, con un suspiro, entras en un pasillo oscuro, donde baldosas moradas se extienden a lo largo del suelo".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: puerta abierta
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 5, y está abierta: puerta abierta
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: "La puerta de madera se abre con un crujido suave y, con un suspiro, entras en un pasillo oscuro, donde baldosas moradas se extienden a lo largo del suelo".
 

@@ -1,6 +1,6 @@
-La descripción de la sala 15Es la siguiente: Que sala más bonita
+La descripción de la sala 15Es la siguiente: En esta galería puedes ver un esqueleto en una esquina, cubierto de restos de roca por el suelo, con marcas en el suelo de desgaste evidentes. La humedad del aire está presente, y gotitas de agua caen del techo de la sala rectangular, iluminando el espacio con una luz tenue. El aire está lleno de un olor de humedad y tierra, y el suelo de piedra está cubierto de restos de roca, lo que sugiere que la galería no ha sido recorrida recientemente.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 8, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 6, y está abierta: La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro y profundo, iluminado únicamente por las sombras que bailan sobre el suelo de baldosas moradas que se extiende ante él.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro y profundo, iluminado únicamente por las sombras que bailan sobre el suelo de baldosas moradas que se extiende ante él.
 

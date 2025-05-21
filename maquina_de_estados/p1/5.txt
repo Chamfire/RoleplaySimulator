@@ -1,14 +1,10 @@
-La descripción de la sala 5Es la siguiente: Que sala más bonita
+La descripción de la sala 5Es la siguiente: En esta galería de planta rectangular, donde las paredes de piedra se alzan de manera imponente, la luz se filtra desde el techo bajo y cae en gotas débiles, creando un efecto de humedad que se condensa en gotitas que caen lentamente desde arriba. En el suelo, hay restos de roca fragmentada y marcas de desgaste visibles, como si el suelo se hubiera visto el paso de muchos pies y herramientas. En el centro de la galería, una roca puntiaguda sobresale del suelo, como un espolón en el corazón de la estancia. Al fondo de la galería, un extraño hongo alargado de color azul oscuro se erige como un monólito, como si estuviera esperando algo o alguien. A su alrededor, hay otra copia del hongo, esta vez en el centro de la galería, como si estuviera tratando de completar algo o de comunicar un mensaje.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 13, y está abierta: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 12, y está abierta: "Has abierto la puerta con facilidad, y ahora te encuentras en un pasillo oscuro y sombrío, con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: "Has abierto la puerta con facilidad, y ahora te encuentras en un pasillo oscuro y sombrío, con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 17, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 1, y está abierta: "La puerta de madera se abre con un crujido y dejas que la luz del exterior se filtre en el pasillo oscuro, donde las baldosas moradas resplandecen en la penumbra.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: puerta abierta
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 14, y está abierta: puerta abierta
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: "La puerta de madera se abre con un crujido y dejas que la luz del exterior se filtre en el pasillo oscuro, donde las baldosas moradas resplandecen en la penumbra.
 

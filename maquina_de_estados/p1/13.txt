@@ -1,10 +1,10 @@
-La descripción de la sala 13Es la siguiente: Que sala más bonita
+La descripción de la sala 13Es la siguiente: En esta galería de planta rectangular, la humedad es palpable, y las gotitas de agua que caen del techo crean un resplandor diáfano que ilumina el espacio. Al frente, un saco de gran tamaño parece esperar, sus bordes desgastados por el tiempo. Al fondo, una tumba de piedra, adornada con una runa que parece haber sido escavada por las manos de un anciano mago, llama la atención. Sin embargo, lo que realmente atrae la atención es la presencia de un extraño hongo alargado de color azul oscuro que se extiende desde el techo hasta el suelo, como si estuviera vivo. A un lado, un canasto de madera lleno de rubíes brilla con una luz cegadora, mientras que al otro lado, un canasto de madera contiene un mineral extraño de color amarillento que parece haber sido extraído de las profundidades de la tierra. En el centro de la galería, un murciélago flota en el aire, su mirada fija en el hongo. Las marcas en el suelo de desgaste sugieren que muchos han paseado por este lugar antes que él.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 5, y está abierta: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 6, y está abierta: "La puerta de madera cedió con un crujido suave y, con una sensación de frescura, entraste en un pasillo oscuro, cubierto de baldosas moradas que parecían abisos en la oscuridad".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "La puerta de madera cedió con un crujido suave y, con una sensación de frescura, entraste en un pasillo oscuro, cubierto de baldosas moradas que parecían abisos en la oscuridad".
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 12, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 7, y está abierta: "Con un crujido, la puerta se abrió con facilidad, y ahora te encuentras en un pasillo sombrío, con baldosas moradas que se extienden ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: "Con un crujido, la puerta se abrió con facilidad, y ahora te encuentras en un pasillo sombrío, con baldosas moradas que se extienden ante ti.
 

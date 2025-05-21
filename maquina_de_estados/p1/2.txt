@@ -1,10 +1,16 @@
-La descripción de la sala 2Es la siguiente: Que sala más bonita
+La descripción de la sala 2Es la siguiente: En esta galería de planta rectangular, la luz de la entrada ilumina un suelo cubierto de restos de roca, con marcas de desgaste en el suelo, indicando que el paso de los años ha erosionado la superficie. La humedad que flota en el aire hace que las gotitas de agua caídas desde el techo parezcan bailar en el suelo. En el centro de la galería, se encuentran varias setas de color naranja que brotan del suelo, creciendo en un círculo. A su alrededor, se encuentran dos canastos de madera, uno con rubíes y el otro con esmeralda, ambos en el suelo. Un saco de gran tamaño, también en el centro, parece haber sido abandonado de manera apresurada. La roca puntiaguda que sobresale del suelo, también en el centro, parece un obstáculo peligroso. Un extraño hongo alargado de color azul oscuro también se encuentra en el centro de la galería, cubierto de polvo y restos de rocas. La atmósfera es densa y pesada, y se puede sentir la historia detrás de este lugar.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 3, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 9, y está abierta: "La puerta de madera se abre con un crujido, y ahora estás en un pasillo oscuro, iluminado solo por estrechos pasillos morados que se extienden en ambas direcciones".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: "La puerta de madera se abre con un crujido, y ahora estás en un pasillo oscuro, iluminado solo por estrechos pasillos morados que se extienden en ambas direcciones".
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 14, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 10, pero está cerrada: La puerta permanece cerrada.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 10, y está abierta: "La puerta de madera se abre con un crujido, y se encuentra ahora en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante él como un túnel sin fin.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: "La puerta de madera se abre con un crujido, y se encuentra ahora en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante él como un túnel sin fin.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 11, y está abierta: La puerta de madera cruje suavemente al abrirse, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: La puerta de madera cruje suavemente al abrirse, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
 

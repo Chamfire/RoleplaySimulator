@@ -166,7 +166,7 @@ class ProcesamientoPartida:
             prompt = """{Eres un dungeon master de Dnd 5e y quieres presentarte"""+c1+""".}<|eot_id|><|start_header_id|>user<|end_header_id|>
                             {Completa la siguiente frase, en un mismo párrafo: "¡"""+momento+""", y """+bienvenida+"""! """+intro+""", soy Leia, la Dungeon Master. <Genera un texto de presentación general de d&d aquí, sin dar detalles sobre nada de la partida brevemente. """+consideracion+""">.}
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            response_good = "Bienvenido"#self.consultarAlDM(prompt,model_path,fin,1024,200)
+            response_good = self.consultarAlDM(prompt,model_path,fin,1024,200) #"Bienvenido"
 
             print("Progreso: 4%")
 
@@ -362,7 +362,7 @@ class ProcesamientoPartida:
             prompt = """{Eres un dungeon master de Dnd 5e y vas a escoger un nombre para un NPC.}<|eot_id|><|start_header_id|>user<|end_header_id|>
                             {Responde únicamente con el nombre escogido para ese NPC, sin dar ningún detalle adicional, y teniendo en cuenta que es """+self.personaje.genero+""".}
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            nombre = "Paco"#self.consultarAlDM(prompt,model_path,None)
+            nombre = self.consultarAlDM(prompt,model_path,None) #"Paco"
             self.personaje.name = nombre
             #print(self.personaje.name)
             #inicializo el RAG para la historia
@@ -371,7 +371,7 @@ class ProcesamientoPartida:
                             {Genera un párrafo sobre el motivo por el que un NPC (de nombre """+self.personaje.name+""", que es """+self.personaje.tipo_raza+""" y que además es """+self.personaje.tipo_clase+""") podría encontrarse en la siguiente zona: """+self.ubicacion+""". Ten en cuenta en la redacción, que """+self.personaje.name+""" es """+self.personaje.genero+"""}
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
-            motivoUbicacion = "Motivo cool"#self.consultarAlDM(prompt,model_path,None)
+            motivoUbicacion = self.consultarAlDM(prompt,model_path,None) #"Motivo cool"
             # print("-----------------")
             # print(motivoUbicacion)
             # print("-----------------")
@@ -379,7 +379,7 @@ class ProcesamientoPartida:
             peticion = "Genera 6 párrafos de trasfondo para un NPC que se llama "+self.personaje.name+", que es "+self.personaje.genero+", que es """+self.personaje.tipo_raza+" y que además es "+self.personaje.tipo_clase+". Haz referencia a su familia, a si tiene o no algún romance/matrimonio y detallalo, y a rasgos que podrían ser importantes de su vida"
             prompt = f"Eres un dungeon master de Dnd 5e y vas a describir parte del trasfondo de un NPC, que es {self.personaje.genero}. Usa el siguiente contexto para responder a la petición, y si te falta contexto, inventatelo, siempre que no contradiga al contexto dado: {motivoUbicacion}<|eot_id|><|start_header_id|>user<|end_header_id|>{peticion}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
-            infoTrasfondo = "Trasfondo" #self.consultarAlDM(prompt,model_path,None,2024,1024)
+            infoTrasfondo = self.consultarAlDM(prompt,model_path,None,2024,1024) #"Trasfondo" 
             # print("-----------------")
             # print(infoTrasfondo)
             # print("-----------------")
@@ -463,7 +463,7 @@ class ProcesamientoPartida:
                             "Um. Quizás puedas ayudarme con una cosa...".
                         No indiques cosas como **diálogo de propuesta de misión** o **párrafo motivacional**. 
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            dialogos_posibles = "Mision"#self.consultarAlDM(prompt,model_path,None,2048,300)
+            dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,300) #"Mision"
             print("Progreso: 20%")
             self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
             presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y yo voy a hablar con un NPC por primera vez, y quieres que este NPC se presente, indicando su nombre y el nombre del lugar donde están.<|eot_id|><|start_header_id|>user<|end_header_id|>
@@ -472,7 +472,7 @@ class ProcesamientoPartida:
                             por el que el NPC está ahí, ni cuál es su objetivo, solo limítate a presentarle, sin dar muchos detalles. Omite cualquier frase del tipo "Claro, aquí tienes los párrafos" o cosas de por el estilo. Puedes empezar con frases como
                             "¡Hola aventurero! Soy..." o "¡Buenos días! Mi nombre es ... " o frases similares.
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            dialogos_presentacion = "Motivo"#self.consultarAlDM(presentacion_NPC,model_path,None,2048,700)
+            dialogos_presentacion = self.consultarAlDM(presentacion_NPC,model_path,None,2048,700) #"Motivo"
             print("Progreso: 30%")
             self.RAG_historia.escribirDialogosNPC(dialogos_presentacion)
 
@@ -500,23 +500,23 @@ class ProcesamientoPartida:
                 for j in Mapa.salas[i].daASalas:
                     if(Mapa.salas[i].daASalas[j][1] == "abierto"):
                         if(Mapa.adyacencias[i][j] != 1):
-                            descripcionpa = "puerta abierta" #self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200)
-                            regresosa = "regreso a sala" #self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
+                            descripcionpa = self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200) #"puerta abierta"
+                            regresosa = self.consultarAlDM(regreso_a_sala,model_path,None,1048,200) #"regreso a sala" 
                             frase_puerta[i][j] = [None,descripcionpa,regresosa]
                         else:
-                            descripcionpsa =  "puerta adyacente" #self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200)
-                            regresosa = "regreso a sala" #self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
+                            descripcionpsa = self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200) #"puerta adyacente" 
+                            regresosa = self.consultarAlDM(regreso_a_sala,model_path,None,1048,200) #"regreso a sala"
                             frase_puerta[i][j] = [None,descripcionpsa,regresosa]
                     else:
                         if(Mapa.adyacencias[i][j] != 1):
-                            puertace = "puerta cerrada" #self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200)
-                            descripcionpa = "puerta abierta" #self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200)
-                            regresosa = "regreso a sala" #self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
+                            puertace = self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200) #"puerta cerrada"
+                            descripcionpa = self.consultarAlDM(prompt_puerta_abierta,model_path,None,1048,200) #"puerta abierta"
+                            regresosa =  self.consultarAlDM(regreso_a_sala,model_path,None,1048,200) #"regreso a sala"
                             frase_puerta[i][j] = [puertace,descripcionpa,regresosa]
                         else:
-                            puertace = "puerta cerrada" #self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200)
-                            regresosa = "regreso a sala" #self.consultarAlDM(regreso_a_sala,model_path,None,1048,200)
-                            descripcionpsa = "puerta adyacente" #self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200)
+                            puertace = self.consultarAlDM(prompt_puerta_cerrada,model_path,None,1048,200) #"puerta cerrada"
+                            regresosa = self.consultarAlDM(regreso_a_sala,model_path,None,1048,200) #"regreso a sala"
+                            descripcionpsa = self.consultarAlDM(prompt_puerta_abierta_ady,model_path,None,1048,200) #"puerta adyacente"
                             frase_puerta[i][j] = [puertace,descripcionpsa,regresosa]
                 objetos = set()
                 inicio_x = Mapa.salas[i].pos_x
@@ -602,7 +602,7 @@ class ProcesamientoPartida:
                 print(objetos)
                 prompt_sala = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
                             Genera un párrafo breve para describir la galería. Para ello, usa única y exclusivamente los siguientes elementos: """+objetos2+""". No puedes asumir que hay más objetos ni más elementos, porque no los hay. Sí que puedes dar detalles de que hay humedad, caen gotitas de agua del techo, y que es una sala de planta rectangular. No des detalles de las dimensiones de la galería, ni de su tamaño. Comienza con la frase "En esta galería puedes ver..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-                descripcion_sala = "Que sala más bonita" #self.consultarAlDM(prompt_sala,model_path,None,2048,600)
+                descripcion_sala = self.consultarAlDM(prompt_sala,model_path,None,2048,600) #"Que sala más bonita"
                 self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa,frase_puerta,descripcion_sala)
                 # Guardamos las descripciones asociadas a esa sala
                 if(Mapa.salas[i].contieneCofres != []):

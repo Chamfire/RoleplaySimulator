@@ -1,10 +1,6 @@
-La descripción de la sala 4Es la siguiente: Que sala más bonita
+La descripción de la sala 4Es la siguiente: En esta galería de piedra, la humedad emana de las paredes húmedas, y caen gotitas de agua desde el techo, creando un ambiente pesado y sombrío. La sala de planta rectangular está iluminada solo por la débil luz que entra a través de las rendijas de piedra, lo que hace que las sombras parezcan más intensas. En el centro de la galería, un canasto de madera cubierto de esmeralda parece un trofeo olvidado, a los pies de un gato que duerme con indiferencia, sus ojos medio abiertos como si estuviera esperando algo. Al lado derecho de la galería, un extraño hongo alargado de color azul oscuro se extiende hacia la pared, como si estuviera creciendo desde la piedra misma. Al fondo de la galería, una tumba de piedra con una runa grabada en la entrada parece un monolito inmóvil, mientras que marcas en el suelo de desgaste sugieren que alguien o algo ha pasado por aquí antes. Un segundo hongo alargado de color azul oscuro, idéntico al primero, se encuentra en el centro de la galería, creando una sensación de contradicción y misterio en el espacio.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 18, y está abierta: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 10, y está abierta: La puerta de madera cedió con facilidad bajo su mano y, al cruzarla, se encontró en un pasillo largo y oscuro, con baldosas moradas que se extendían ante él.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: puerta adyacente
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 7, y está abierta: puerta abierta
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: La puerta de madera cedió con facilidad bajo su mano y, al cruzarla, se encontró en un pasillo largo y oscuro, con baldosas moradas que se extendían ante él.
 

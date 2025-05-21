@@ -1,10 +1,14 @@
-La descripción de la sala 10Es la siguiente: Que sala más bonita
+La descripción de la sala 10Es la siguiente: En esta galería de piedra, la luz del exterior se filtra a través de los arcos y ventanas de piedra, iluminando la humedad que envuelve el suelo. Las setas de color naranja brotan del suelo, como si estuvieran creciendo en un jardín abandonado. Al fondo de la galería, tres rocas puntiagudas sobresalen del suelo, dos de ellas en el lateral izquierdo y una en el centro, como si fueran el guardián de la galería. Restos de roca se dispersan por el suelo, como si hubieran sido arrancadas o golpeadas. En una esquina de la galería, un extraño hongo alargado de color azul oscuro se ergue, como si estuviera vivo. Las marcas en el suelo de desgaste sugieren que alguien o algo ha pasado por aquí antes. Caen gotitas de agua del techo, que se reflejan en la humedad del suelo, creando un ambiente húmedo y sombrío. La galería es una sala de planta rectangular, con paredes de piedra que parecen contener el secreto de la galería.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 3, y está abierta: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 4, y está abierta: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti".
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: "La puerta de madera cruje suavemente mientras se abre, revelando un pasillo oscuro con baldosas moradas que se extienden ante ti".
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 18, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 2, y está abierta: "La puerta de madera cede con un crujido, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti en la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: "La puerta de madera cede con un crujido, y ahora te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti en la oscuridad.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 7, y está abierta: "La puerta de madera cedió con un suave crujido, y ahora te encuentras en un pasillo oscuro, con un suelo de baldosas moradas que se extienden ante ti como una carretera a la oscuridad.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: "La puerta de madera cedió con un suave crujido, y ahora te encuentras en un pasillo oscuro, con un suelo de baldosas moradas que se extienden ante ti como una carretera a la oscuridad.
 

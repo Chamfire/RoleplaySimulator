@@ -1,8 +1,10 @@
-La descripción de la sala 12Es la siguiente: Que sala más bonita
+La descripción de la sala 12Es la siguiente: En esta galería de planta rectangular, donde la humedad se respira en el aire y las gotitas de agua caen suavemente del techo, puedes ver setas de color naranja que brotan del suelo en dos esquinas, creciendo con fuerza y vitalidad. En el centro de la galería, un terreno cubierto de rocas y roca desgastada testifica la actividad y el movimiento de la tierra. En las esquinas, también se encuentran extraños hongos alargados de color azul oscuro, algunos de ellos se encuentran unidos a la pared o al suelo, mientras que otros parecen haber crecido de repente, como si hubieran surgido de la nada. Además, en una de las esquinas, un extraño hongo alargado de color azul oscuro crece con una textura única, mientras que en otra esquina, un slime de color azul se mueve lentamente. En una esquina, hay una tumba de piedra con una runa antigua grabada sobre ella, que parece ser el centro de atención en este lugar.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 13, pero está cerrada: puerta cerrada
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 5, y está abierta: La puerta de madera cruje suavemente mientras se desliza hacia atrás, revelando un pasillo oscuro y sombrío, donde las baldosas moradas se extienden hasta el horizonte, iluminadas solo por la débil luz de las antorchas que se alinean en las paredes.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 13, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: La puerta de madera cruje suavemente mientras se desliza hacia atrás, revelando un pasillo oscuro y sombrío, donde las baldosas moradas se extienden hasta el horizonte, iluminadas solo por la débil luz de las antorchas que se alinean en las paredes.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 9, y está abierta: "La puerta de madera cruza con un golpe suave, y ahora te encuentras en un pasillo largo y oscuro, donde el suelo de baldosas moradas parece extenderse infinitamente ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: "La puerta de madera cruza con un golpe suave, y ahora te encuentras en un pasillo largo y oscuro, donde el suelo de baldosas moradas parece extenderse infinitamente ante ti.
 
