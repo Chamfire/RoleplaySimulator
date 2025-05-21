@@ -264,7 +264,8 @@ class EstadoRecolectAndBreak(Estado):
             self.Mapa.objetos[y][x] = 0
             string_to_speech = "Acabas de destruir la roca que tenías delante."
             DM.speak(string_to_speech)
-        self.GLOBAL.setCanBreak = [False,[None,None]]
+        
+        self.GLOBAL.setCanBreak([False,[None,None]])
         self.x = None
         self.y = None
     
