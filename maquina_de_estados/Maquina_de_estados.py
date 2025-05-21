@@ -101,16 +101,16 @@ class EstadoRecolectAndBreak(Estado):
         self.x = personaje.coordenadas_actuales_r[0]
         self.y = personaje.coordenadas_actuales_r[1]
         if(canBreak[0]):
-            if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.x == canBreak[1][0]) and (self.y == (canBreak[1][1]+1)))):  
+            if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.x == canBreak[1][0]) and (self.y == (canBreak[1][1]-1)))):  
                 self.y+=1
                 return True
             elif(((personaje.playerAction == "WALK_UP") or (personaje.playerAction == "IDLE_UP")) and ((self.x == canBreak[1][0]) and (self.y == (canBreak[1][1]+1)))):
                 self.y-=1
                 return True
-            elif(((personaje.playerAction == "WALK_LEFT") or (personaje.playerAction == "IDLE_LEFT")) and ((self.x == (canBreak[1][0]-1)) and (self.y == canBreak[1][1]))):
+            elif(((personaje.playerAction == "WALK_LEFT") or (personaje.playerAction == "IDLE_LEFT")) and ((self.x == (canBreak[1][0]+1)) and (self.y == canBreak[1][1]))):
                 self.x-=1
                 return True
-            elif(((personaje.playerAction == "WALK_RIGHT") or (personaje.playerAction == "IDLE_RIGHT")) and ((self.x == (canBreak[1][0]+1)) and (self.y == canBreak[1][1]))):
+            elif(((personaje.playerAction == "WALK_RIGHT") or (personaje.playerAction == "IDLE_RIGHT")) and ((self.x == (canBreak[1][0]-1)) and (self.y == canBreak[1][1]))):
                 self.x+=1
                 return True
         return False
@@ -122,10 +122,11 @@ class EstadoRecolectAndBreak(Estado):
         # SARCÓFAGO
         x = self.x
         y = self.y
+        lista_inv = Lista_Inventario()
         if(91 <= self.Mapa.objetos[y][x] <= 94):
             # Si es un sarcófago, hay que comprobar que no tenga objetos, o de lo contrario se perderán
             sala_actual = self.Mapa.getRoomAtPoint(x,y,self.Mapa.room_sizes,self.Mapa.room_start_points)
-            if(self.Mapa.salas[sala_actual].cofresSinLoot.get(str(x,y) != None)):
+            if(self.Mapa.salas[sala_actual].cofresSinLoot.get(str(x,y)) != None):
                 # El sarcófago está vacío, y se puede romper
                 cancion =  pygame.mixer.Sound('sounds/break.wav')
                 pygame.mixer.Channel(6).play(cancion)
@@ -140,7 +141,7 @@ class EstadoRecolectAndBreak(Estado):
         # Rubíes
         elif((95 <= self.Mapa.objetos[y][x] <= 97) or (self.Mapa.objetos[y][x] == 104)):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
-            lista = Lista_Inventario.getRecolectables()
+            lista = lista_inv.getRecolectables()
             rubi = lista["Recoleccion"]["Rubí"]
             cancion =  pygame.mixer.Sound('sounds/break.wav')
             pygame.mixer.Channel(6).play(cancion)
@@ -161,7 +162,7 @@ class EstadoRecolectAndBreak(Estado):
         # Esmeraldas
         elif((98 <= self.Mapa.objetos[y][x] <= 100) or (self.Mapa.objetos[y][x] == 105)):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
-            lista = Lista_Inventario.getRecolectables()
+            lista = lista_inv.getRecolectables()
             esmeralda = lista["Recoleccion"]["Esmeralda"]
             cancion =  pygame.mixer.Sound('sounds/break.wav')
             pygame.mixer.Channel(6).play(cancion)
@@ -180,7 +181,7 @@ class EstadoRecolectAndBreak(Estado):
         # Mineral extraño
         elif((self.Mapa.objetos[y][x] == 101) or (self.Mapa.objetos[y][x] == 106)):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
-            lista = Lista_Inventario.getRecolectables()
+            lista = lista_inv.getRecolectables()
             mineral = lista["Recoleccion"]["Mineral"]
             cancion =  pygame.mixer.Sound('sounds/break.wav')
             pygame.mixer.Channel(6).play(cancion)
@@ -219,7 +220,7 @@ class EstadoRecolectAndBreak(Estado):
         # Hongo azul
         elif(111 <= self.Mapa.objetos[y][x] <= 112):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
-            lista = Lista_Inventario.getRecolectables()
+            lista = lista_inv.getRecolectables()
             hongo = lista["Recoleccion"]["Hongo"]
             cancion =  pygame.mixer.Sound('sounds/cut.wav')
             pygame.mixer.Channel(6).play(cancion)
@@ -238,7 +239,7 @@ class EstadoRecolectAndBreak(Estado):
         # Seta
         elif(113 <= self.Mapa.objetos[y][x] <= 114):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
-            lista = Lista_Inventario.getRecolectables()
+            lista = lista_inv.getRecolectables()
             seta = lista["Recoleccion"]["Seta"]
             cancion =  pygame.mixer.Sound('sounds/cut.wav')
             pygame.mixer.Channel(6).play(cancion)
