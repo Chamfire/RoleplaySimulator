@@ -731,6 +731,7 @@ class EstadoDeSalaFinal(Estado):
         self.idSala_idOrder = idSala_idOrder
         self.read = False
         self.read2 = False
+        self.read4 = False
 
     def checkIfCanRun(self,DM,personaje):
         return self.checkIfCanRunByPlayer(DM,personaje)
@@ -933,10 +934,12 @@ class EstadoDeSalaFinal(Estado):
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
                             self.read = False
+                            self.read4 = False
                             self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         else:
                             self.read = False
+                            self.read4 = False
                             self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         return False
@@ -971,20 +974,24 @@ class EstadoDeSalaFinal(Estado):
                                 self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                                 self.pasilloToPuerta = [[pos_x,pos_y],sala]
                                 self.read = False
+                                self.read4 = False
                             else:
                                 self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                                 self.pasilloToPuerta = [[pos_x,pos_y],sala]
                                 self.read = False
+                                self.read4 = False
                             return False
 
                         else:
                             #La puerta está cerrada
-                            print("puerta cerrada")
-                            pygame.mixer.Channel(1).play(self.soundDoor)
-                            text_closed = self.frases_puerta[self.pasilloFromPuerta[1]][sala][0]
-                            DM.speak(text_closed) 
-                            self.read = False
-                            self.GLOBAL.setActionDoor([0,[None,None]]) 
+                            if(not self.read):
+                                print("puerta cerrada")
+                                pygame.mixer.Channel(1).play(self.soundDoor)
+                                text_closed = self.frases_puerta[self.pasilloFromPuerta[1]][sala][0]
+                                DM.speak(text_closed) 
+                                self.read = False
+                                self.read4 = True
+                                self.GLOBAL.setActionDoor([0,[None,None]]) 
                             return False
                 
             if((not self.read) and (10 <= self.Mapa.matrix[pos_y][pos_x] <= 13) and not((self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0]))):
@@ -994,9 +1001,11 @@ class EstadoDeSalaFinal(Estado):
                 DM.speak(text) 
                 self.GLOBAL.setActionDoor([0,[None,None]]) 
                 self.read = True
+                self.read4 = False
                 return False
         else:
             self.read = False
+            self.read4 = False
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
             #Ha decidido cruzarla
@@ -1103,6 +1112,7 @@ class EstadoDeSalaIntermedia(Estado):
         self.idSala_idOrder = idSala_idOrder
         self.read = False
         self.read2 = False
+        self.read4 = False
 
 
     def checkIfCanRun(self,DM,personaje):
@@ -1307,10 +1317,12 @@ class EstadoDeSalaIntermedia(Estado):
                         if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
                             self.read = False
+                            self.read4 = False
                             self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         else:
                             self.read = False
+                            self.read4 = False
                             self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                         return False
@@ -1345,20 +1357,24 @@ class EstadoDeSalaIntermedia(Estado):
                                 self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                                 self.pasilloToPuerta = [[pos_x,pos_y],sala]
                                 self.read = False
+                                self.read4 = False
                             else:
                                 self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                                 self.pasilloToPuerta = [[pos_x,pos_y],sala]
                                 self.read = False
+                                self.read4 = False
                             return False
 
                         else:
                             #La puerta está cerrada
-                            print("puerta cerrada")
-                            pygame.mixer.Channel(1).play(self.soundDoor)
-                            text_closed = self.frases_puerta[self.pasilloFromPuerta[1]][sala][0]
-                            DM.speak(text_closed) 
-                            self.read = False
-                            self.GLOBAL.setActionDoor([0,[None,None]]) 
+                            if(not self.read4):
+                                print("puerta cerrada")
+                                pygame.mixer.Channel(1).play(self.soundDoor)
+                                text_closed = self.frases_puerta[self.pasilloFromPuerta[1]][sala][0]
+                                DM.speak(text_closed) 
+                                self.read = False
+                                self.read4 = True
+                                self.GLOBAL.setActionDoor([0,[None,None]]) 
                             return False
                 
             if((not self.read) and (10 <= self.Mapa.matrix[pos_y][pos_x] <= 13) and not((self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0]))):
@@ -1368,9 +1384,11 @@ class EstadoDeSalaIntermedia(Estado):
                 DM.speak(text) 
                 self.GLOBAL.setActionDoor([0,[None,None]]) 
                 self.read = True
+                self.read4 = False
                 return False
         else:
             self.read = False
+            self.read4 = False
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):
             #Ha decidido cruzarla
@@ -1481,6 +1499,7 @@ class EstadoDeSalaInicial(Estado):
         self.read2 = False
         self.read3 = False
         self.pasilloToPuerta = None
+        self.read4 = False
         self.idSala_idOrder = idSala_idOrder
 
     def addChest(self,dmf1,dme1,cofre):
@@ -1746,10 +1765,12 @@ class EstadoDeSalaInicial(Estado):
                             self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                             self.read = False
+                            self.read4 = False
                         else:
                             self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                             self.pasilloToPuerta = [[pos_x,pos_y],sala]
                             self.read = False
+                            self.read4 = False
                         return False
                     else:
                         # Comprobamos si lleva alguna llave equipada en una de las manos:
@@ -1782,20 +1803,24 @@ class EstadoDeSalaInicial(Estado):
                                 self.GLOBAL.setActionDoor([3,[pos_x,pos_y]]) #podría abrirla
                                 self.pasilloToPuerta = [[pos_x,pos_y],sala]
                                 self.read = False
+                                self.read4 = False
                             else:
                                 self.GLOBAL.setActionDoor([1,[pos_x,pos_y]]) #podría abrirla
                                 self.pasilloToPuerta = [[pos_x,pos_y],sala]
                                 self.read = False
+                                self.read4 = False
                             return False
 
                         else:
                             #La puerta está cerrada
-                            print("puerta cerrada")
-                            pygame.mixer.Channel(1).play(self.soundDoor)
-                            text_closed = self.frases_puerta[self.pasilloFromPuerta[1]][sala][0]
-                            DM.speak(text_closed) 
-                            self.read = False
-                            self.GLOBAL.setActionDoor([0,[None,None]]) 
+                            if(not self.read4):
+                                print("puerta cerrada")
+                                pygame.mixer.Channel(1).play(self.soundDoor)
+                                text_closed = self.frases_puerta[self.pasilloFromPuerta[1]][sala][0]
+                                DM.speak(text_closed) 
+                                self.read4 = True
+                                self.read = False
+                                self.GLOBAL.setActionDoor([0,[None,None]]) 
                             return False
                 
             if((not self.read) and (10 <= self.Mapa.matrix[pos_y][pos_x] <= 13) and not((self.pasilloToPuerta != None) and (self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0]))):
@@ -1805,9 +1830,11 @@ class EstadoDeSalaInicial(Estado):
                 DM.speak(text) 
                 self.GLOBAL.setActionDoor([0,[None,None]]) 
                 self.read = True
+                self.read4 = False
                 return False
         else:
             self.read = False
+            self.read4 = False
 
                     # Si ya ha hablado con el NPC y el personaje ha dado click para cruzar la puerta
         if(self.GLOBAL.canGoOutFirst() and (self.pasilloToPuerta != None) and(self.GLOBAL.getCrossedDoor()[1] == self.pasilloToPuerta[0])):

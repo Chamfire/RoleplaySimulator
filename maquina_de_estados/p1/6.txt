@@ -1,14 +1,10 @@
 La descripción de la sala 6Es la siguiente: Que sala más bonita
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 1, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 11, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: puerta abierta
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 7, y está abierta: puerta abierta
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: puerta abierta
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 0, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 8, y está abierta: puerta abierta
 
 Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: puerta abierta
 
