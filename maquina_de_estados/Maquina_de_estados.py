@@ -126,7 +126,7 @@ class EstadoRecolectAndBreak(Estado):
         if(91 <= self.Mapa.objetos[y][x] <= 94):
             # Si es un sarcófago, hay que comprobar que no tenga objetos, o de lo contrario se perderán
             sala_actual = self.Mapa.getRoomAtPoint(x,y,self.Mapa.room_sizes,self.Mapa.room_start_points)
-            if(self.Mapa.salas[sala_actual].cofresSinLoot.get(str(x,y)) != None):
+            if(self.Mapa.salas[sala_actual].cofresSinLoot.get(str([x,y])) != None):
                 # El sarcófago está vacío, y se puede romper
                 cancion =  pygame.mixer.Sound('sounds/break.wav')
                 pygame.mixer.Channel(6).play(cancion)
@@ -155,7 +155,7 @@ class EstadoRecolectAndBreak(Estado):
                 string_to_speech = "Acabas de destruir el canasto de rubíes que tenías delante. Sin embargo, no tienes espacio disponible para cargar con los rubíes, y te ves obligado a tirarlos."
                 DM.speak(string_to_speech)
             else:
-                string_to_speech = "Acabas de destruir el canasto de rubíes que tenías delate. Añades uno de esos preciados rubíes a tu inventario."
+                string_to_speech = "Acabas de destruir el canasto de rubíes que tenías delante. Añades uno de esos preciados rubíes a tu inventario."
                 DM.speak(string_to_speech)
                 
 
@@ -176,7 +176,7 @@ class EstadoRecolectAndBreak(Estado):
                 string_to_speech = "Acabas de destruir el canasto de esmeraldas que tenías delante. Sin embargo, no tienes espacio disponible para cargar con las esmeraldas, y te ves obligado a tirarlas."
                 DM.speak(string_to_speech)
             else:
-                string_to_speech = "Acabas de destruir el canasto de esmeraldas que tenías delate. Añades una de esas preciadas esmeraldas a tu inventario."
+                string_to_speech = "Acabas de destruir el canasto de esmeraldas que tenías delante. Añades una de esas preciadas esmeraldas a tu inventario."
                 DM.speak(string_to_speech)
         # Mineral extraño
         elif((self.Mapa.objetos[y][x] == 101) or (self.Mapa.objetos[y][x] == 106)):
@@ -195,7 +195,7 @@ class EstadoRecolectAndBreak(Estado):
                 string_to_speech = "Acabas de destruir el canasto de minerales que tenías delante. Sin embargo, no tienes espacio disponible para cargar con los minerales, y te ves obligado a tirarlos."
                 DM.speak(string_to_speech)
             else:
-                string_to_speech = "Acabas de destruir el canasto de minerales que tenías delate. Añades uno de esos preciados minerales a tu inventario."
+                string_to_speech = "Acabas de destruir el canasto de minerales que tenías delante. Añades uno de esos preciados minerales a tu inventario."
                 DM.speak(string_to_speech)
         # Saco de monedas
         elif(101 <= self.Mapa.objetos[y][x] <= 103):
@@ -264,6 +264,7 @@ class EstadoRecolectAndBreak(Estado):
             self.Mapa.objetos[y][x] = 0
             string_to_speech = "Acabas de destruir la roca que tenías delante."
             DM.speak(string_to_speech)
+        self.GLOBAL.setCanBreak = [False,[None,None]]
         self.x = None
         self.y = None
     
