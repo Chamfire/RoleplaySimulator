@@ -611,7 +611,7 @@ class EstadoDeHablaNPC(Estado):
         string_to_speech = "Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro
         DM.speak(string_to_speech) 
         #DM.printVoices()
-        #TODO: enviar TCP
+        self.GLOBAL.setShowNombreNPC(self.NPC.name)
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
         self.run(DM,personaje)
 
