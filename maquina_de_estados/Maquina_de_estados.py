@@ -607,11 +607,11 @@ class EstadoDeHablaNPC(Estado):
         cancion =  pygame.mixer.Sound('sounds/button_pressed.wav')
         pygame.mixer.Channel(6).play(cancion)
         cancion = None
+        self.GLOBAL.setShowNombreNPC(self.NPC.name)
         print("<DM>: Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         string_to_speech = "Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro
         DM.speak(string_to_speech) 
         #DM.printVoices()
-        self.GLOBAL.setShowNombreNPC(self.NPC.name)
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
         self.run(DM,personaje)
 
