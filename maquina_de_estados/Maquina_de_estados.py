@@ -5,6 +5,7 @@ import pygame
 import random
 from pygame import mixer
 from Global import Global
+from Lista_Inventario import Lista_Inventario
 import time
 
 class Estado:
@@ -73,6 +74,198 @@ class Estado:
         if(self.ordenEstados != {}):
             for id,estado in self.ordenEstados.items():
                 estado.setForLoad(mapa,jugador)
+
+class EstadoRecolectAndBreak(Estado):
+    def __init__(self,isInicial,content,id,obligatorio,personajeDelHost,numJugadores,estado_pred):
+        super().__init__(isInicial,content,id)
+        # No hay variable de progreso, puesto que se puede recolectar y romper cualquier objeto
+        self.isInicial = isInicial
+        self.personajeDelHost = personajeDelHost
+        self.esObligatorio = obligatorio
+        self.numJugadores = numJugadores
+        self.esPuntoDeRespawn = False
+        self.tipo_de_estado = "recoleccion_y_rotura"
+        self.estadosSucesores = estado_pred
+        self.ids = 0 
+        self.x = None
+        self.y = None
+        self.ordenEstados = {} #Estados internos de misión
+        self.click = {}
+        self.click[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = False
+        for personaje in self.GLOBAL.getListaPersonajeHost():
+            self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False 
+
+
+    def checkIfCanRun(self,DM,personaje):
+        canBreak  = self.GLOBAL.getCanBreak()
+        self.x = personaje.coordenadas_actuales_r[0]
+        self.y = personaje.coordenadas_actuales_r[1]
+        if(canBreak[0]):
+            if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((self.x == canBreak[1][0]) and (self.y == (canBreak[1][1]+1)))):  
+                self.y+=1
+                return True
+            elif(((personaje.playerAction == "WALK_UP") or (personaje.playerAction == "IDLE_UP")) and ((self.x == canBreak[1][0]) and (self.y == (canBreak[1][1]+1)))):
+                self.y-=1
+                return True
+            elif(((personaje.playerAction == "WALK_LEFT") or (personaje.playerAction == "IDLE_LEFT")) and ((self.x == (canBreak[1][0]-1)) and (self.y == canBreak[1][1]))):
+                self.x-=1
+                return True
+            elif(((personaje.playerAction == "WALK_RIGHT") or (personaje.playerAction == "IDLE_RIGHT")) and ((self.x == (canBreak[1][0]+1)) and (self.y == canBreak[1][1]))):
+                self.x+=1
+                return True
+        return False
+
+    def checkIfCompleted(self,personaje):
+        return False 
+        
+    def run(self,DM,personaje):
+        # SARCÓFAGO
+        x = self.x
+        y = self.y
+        if(91 <= self.Mapa.objetos[y][x] <= 94):
+            # Si es un sarcófago, hay que comprobar que no tenga objetos, o de lo contrario se perderán
+            sala_actual = self.Mapa.getRoomAtPoint(x,y,self.Mapa.room_sizes,self.Mapa.room_start_points)
+            if(self.Mapa.salas[sala_actual].cofresSinLoot.get(str(x,y) != None)):
+                # El sarcófago está vacío, y se puede romper
+                cancion =  pygame.mixer.Sound('sounds/break.wav')
+                pygame.mixer.Channel(6).play(cancion)
+                cancion = None
+                self.Mapa.objetos[y][x] = 0
+                texto = "Acabas de destruir el sarcófago."
+                DM.speak(texto)
+            else:
+                # El sarcófago contiene objeto, y no se puede romper
+                texto = "Al intentar destruir el sarcófago, escuchas un ruido procedente de su interior. Parece que hay algo dentro..."
+                DM.speak(texto)
+        # Rubíes
+        elif((95 <= self.Mapa.objetos[y][x] <= 97) or (self.Mapa.objetos[y][x] == 104)):
+            # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
+            lista = Lista_Inventario.getRecolectables()
+            rubi = lista["Recoleccion"]["Rubí"]
+            cancion =  pygame.mixer.Sound('sounds/break.wav')
+            pygame.mixer.Channel(6).play(cancion)
+            cancion = None
+            self.Mapa.objetos[y][x] = 0
+            res = personaje.equipo.addObjectToInventory(rubi,"Recoleccion","Rubí")
+            if(res == -1):
+                string_to_speech = "Acabas de destruir el canasto de rubíes que tenías delante. Sin embargo, llevas mucho peso encima, y te ves obligado a tirar los rubíes."
+                DM.speak(string_to_speech)
+            elif(res == -2):
+                string_to_speech = "Acabas de destruir el canasto de rubíes que tenías delante. Sin embargo, no tienes espacio disponible para cargar con los rubíes, y te ves obligado a tirarlos."
+                DM.speak(string_to_speech)
+            else:
+                string_to_speech = "Acabas de destruir el canasto de rubíes que tenías delate. Añades uno de esos preciados rubíes a tu inventario."
+                DM.speak(string_to_speech)
+                
+
+        # Esmeraldas
+        elif((98 <= self.Mapa.objetos[y][x] <= 100) or (self.Mapa.objetos[y][x] == 105)):
+            # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
+            lista = Lista_Inventario.getRecolectables()
+            esmeralda = lista["Recoleccion"]["Esmeralda"]
+            cancion =  pygame.mixer.Sound('sounds/break.wav')
+            pygame.mixer.Channel(6).play(cancion)
+            cancion = None
+            self.Mapa.objetos[y][x] = 0
+            res = personaje.equipo.addObjectToInventory(esmeralda,"Recoleccion","Esmeralda")
+            if(res == -1):
+                string_to_speech = "Acabas de destruir el canasto de esmeraldas que tenías delante. Sin embargo, llevas mucho peso encima, y te ves obligado a tirar las esmeraldas."
+                DM.speak(string_to_speech)
+            elif(res == -2):
+                string_to_speech = "Acabas de destruir el canasto de esmeraldas que tenías delante. Sin embargo, no tienes espacio disponible para cargar con las esmeraldas, y te ves obligado a tirarlas."
+                DM.speak(string_to_speech)
+            else:
+                string_to_speech = "Acabas de destruir el canasto de esmeraldas que tenías delate. Añades una de esas preciadas esmeraldas a tu inventario."
+                DM.speak(string_to_speech)
+        # Mineral extraño
+        elif((self.Mapa.objetos[y][x] == 101) or (self.Mapa.objetos[y][x] == 106)):
+            # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
+            lista = Lista_Inventario.getRecolectables()
+            mineral = lista["Recoleccion"]["Mineral"]
+            cancion =  pygame.mixer.Sound('sounds/break.wav')
+            pygame.mixer.Channel(6).play(cancion)
+            cancion = None
+            self.Mapa.objetos[y][x] = 0
+            res = personaje.equipo.addObjectToInventory(mineral,"Recoleccion","Mineral")
+            if(res == -1):
+                string_to_speech = "Acabas de destruir el canasto de minerales que tenías delante. Sin embargo, llevas mucho peso encima, y te ves obligado a tirar los minerales."
+                DM.speak(string_to_speech)
+            elif(res == -2):
+                string_to_speech = "Acabas de destruir el canasto de minerales que tenías delante. Sin embargo, no tienes espacio disponible para cargar con los minerales, y te ves obligado a tirarlos."
+                DM.speak(string_to_speech)
+            else:
+                string_to_speech = "Acabas de destruir el canasto de minerales que tenías delate. Añades uno de esos preciados minerales a tu inventario."
+                DM.speak(string_to_speech)
+        # Saco de monedas
+        elif(101 <= self.Mapa.objetos[y][x] <= 103):
+            # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
+            cancion =  pygame.mixer.Sound('sounds/coins.wav')
+            pygame.mixer.Channel(6).play(cancion)
+            cancion = None
+            self.Mapa.objetos[y][x] = 0
+            money_value = random.randint(1,5)
+            if(money_value == 1):
+                personaje.pc += random.randint(1,100)
+            elif(money_value == 2):
+                personaje.pp += random.randint(1,50)
+            elif(money_value == 3):
+                personaje.pe += random.randint(1,25)
+            elif(money_value == 4):
+                personaje.po += random.randint(1,10)
+            elif(money_value == 5):
+                personaje.ppt += random.randint(1,3)
+            string_to_speech = "Acabas de abrir el saco que tienes delante de ti. Dentro, descubres unas pocas monedas, que añades a tu inventario."
+            DM.speak(string_to_speech)
+        # Hongo azul
+        elif(111 <= self.Mapa.objetos[y][x] <= 112):
+            # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
+            lista = Lista_Inventario.getRecolectables()
+            hongo = lista["Recoleccion"]["Hongo"]
+            cancion =  pygame.mixer.Sound('sounds/cut.wav')
+            pygame.mixer.Channel(6).play(cancion)
+            cancion = None
+            self.Mapa.objetos[y][x] = 0
+            res = personaje.equipo.addObjectToInventory(hongo,"Recoleccion","Hongo")
+            if(res == -1):
+                string_to_speech = "Acabas de cortar de raíz el hongo azul que tenías delante. Sin embargo, llevas mucho peso encima, y te ves obligado a tirar dicho hongo."
+                DM.speak(string_to_speech)
+            elif(res == -2):
+                string_to_speech = "Acabas de cortar de raíz el hongo azul que tenías delante. Sin embargo, no tienes espacio disponible para cargar con el hongo, y te ves obligado a tirarlo."
+                DM.speak(string_to_speech)
+            else:
+                string_to_speech = "Acabas de cortar de raíz el hongo azul que tenías delante. Añades dicho hongo a tu inventario."
+                DM.speak(string_to_speech)
+        # Seta
+        elif(113 <= self.Mapa.objetos[y][x] <= 114):
+            # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
+            lista = Lista_Inventario.getRecolectables()
+            seta = lista["Recoleccion"]["Seta"]
+            cancion =  pygame.mixer.Sound('sounds/cut.wav')
+            pygame.mixer.Channel(6).play(cancion)
+            cancion = None
+            self.Mapa.objetos[y][x] = 0
+            res = personaje.equipo.addObjectToInventory(seta,"Recoleccion","Seta")
+            if(res == -1):
+                string_to_speech = "Acabas de cortar de raíz la seta naranja que tenías delante. Sin embargo, llevas mucho peso encima, y te ves obligado a tirar dicha seta."
+                DM.speak(string_to_speech)
+            elif(res == -2):
+                string_to_speech = "Acabas de cortar de raíz la seta naranja que tenías delante. Sin embargo, no tienes espacio disponible para cargar con la seta, y te ves obligado a tirarla."
+                DM.speak(string_to_speech)
+            else:
+                string_to_speech = "Acabas de cortar de raíz la seta naranja que tenías delante. Añades dicha seta a tu inventario."
+                DM.speak(string_to_speech)
+
+        # Roca para romperla
+        elif(115 <= self.Mapa.objetos[y][x] <= 117):
+            cancion =  pygame.mixer.Sound('sounds/break.wav')
+            pygame.mixer.Channel(6).play(cancion)
+            cancion = None
+            self.Mapa.objetos[y][x] = 0
+            string_to_speech = "Acabas de destruir la roca que tenías delante."
+            DM.speak(string_to_speech)
+        self.x = None
+        self.y = None
+    
 
 class EstadoInteractChest(Estado):
     def __init__(self,isInicial,content,id,obligatorio,personajeDelHost,numJugadores,estado_pred,posicion_cofre,loot,dialogoFull,dialogoEmpty):
@@ -164,6 +357,8 @@ class EstadoInteractChest(Estado):
             print("<DM>: Sin mayor problema, añades el objeto a tu inventario.")
             string_to_speech = "Sin mayor problema, añades el objeto a tu inventario."
             DM.speak(string_to_speech)
+            sala_actual = self.Mapa.getRoomAtPoint(self.posicion_cofre[0],self.posicion_cofre[1],self.Mapa.room_sizes,self.Mapa.room_start_points)
+            self.Mapa.salas[sala_actual].cofresSinLoot[str(self.posicion_cofre)] = True
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
 
@@ -190,6 +385,8 @@ class EstadoInteractChest(Estado):
             print("<DM>: Sin mayor problema, añades el objeto a tu inventario.")
             string_to_speech = "Sin mayor problema, añades el objeto a tu inventario."
             DM.speak(string_to_speech)
+            sala_actual = self.Mapa.getRoomAtPoint(self.posicion_cofre[0],self.posicion_cofre[1],self.Mapa.room_sizes,self.Mapa.room_start_points)
+            self.Mapa.salas[sala_actual].cofresSinLoot[str(self.posicion_cofre)] = True
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
 
@@ -1808,6 +2005,10 @@ class Maquina_de_estados:
             self.idSala_idOrder[id_sala] = self.ids
             self.ids +=1
 
+    def addEstadoRecoleccion(self,id_sala,numJ):
+        id = self.idSala_idOrder[id_sala]
+        self.ordenEstados[id].ordenEstados[self.ordenEstados[id].ids] = EstadoRecolectAndBreak(False,None,'Recoleccion',False,self.personajeDelHost,numJ,self.ordenEstados[id])
+        self.ordenEstados[id].ids +=1
         #Mision 0, Estado 1: Misión específica
     def crearEstadoDeMisionConcreta(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC,tipo_mision,mision):
         self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeHablaNPC(False,dialogo_bienvenida,propuesta_mision,self.estadosDeMision[num_mision].ids,self.personajeDelHost,numJ,self.estadosDeMision[num_mision],NPC)

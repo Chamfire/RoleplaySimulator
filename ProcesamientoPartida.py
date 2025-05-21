@@ -618,7 +618,7 @@ class ProcesamientoPartida:
 
                         # Añadimos el estado a la sala
                         self.maquina.addCofreToSala(i,descripcion_cf1,descripcion_ce1,cofre)
-
+                self.maquina.addEstadoRecoleccion(i,self.numJugadores)
                 self.RAG_historia.escribirInfoSala(i,frase_puerta,descripcion_sala)
             
             print("Progreso: 90%")

@@ -502,6 +502,8 @@ class Lista_Inventario:
 
     def createLlave(self,puerta,enlace):
         return Llave(0,0,0,0,0,10,False,puerta,enlace)
+    def getRecolectables(self):
+        return self.recolectables
 
     def getArmasList(self):
         return self.armas

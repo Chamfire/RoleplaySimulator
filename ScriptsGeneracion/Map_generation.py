@@ -79,6 +79,7 @@ class Sala:
         self.variableDeCheck = None
         self.tipo_mision = None
         self.contieneCofres = []
+        self.cofresSinLoot = {}
         self.size = size
         self.pos_x = None
         self.pos_y = None
@@ -122,6 +123,8 @@ class Map_generation:
             self.spawn = None
             self.centroides = {}
             self.salas = {}
+            self.room_sizes = {}
+            self.room_start_points = {}
             self.map_tileSize = [width/37.5000,height/21.8750]
             self.casillasVistas = np.zeros((self.map_size,self.map_size), dtype=int) #matriz de 0s de 100 x 100 -> es el mapa
             self.playersCurrentPos = {}
@@ -178,6 +181,10 @@ class Map_generation:
                 pickle.dump(self.NPC_imagen, f)
             with open(config_dir+'/playersCurrentPost.pickle', 'wb') as f:
                 pickle.dump(self.playersCurrentPos, f)
+            with open(config_dir+'/room_sizes.pickle', 'wb') as f:
+                pickle.dump(self.room_sizes, f)
+            with open(config_dir+'/room_start_points.pickle', 'wb') as f:
+                pickle.dump(self.room_start_points, f)
         else:
             config_dir = 'mapas/'+currentPartida
             config_file = 'mapa_'+currentPartida+".pickle"
@@ -196,6 +203,10 @@ class Map_generation:
                 NPC_imagen = pickle.load(f)
             with open(config_dir+'/playersCurrentPost.pickle', "rb") as f:
                 self.playersCurrentPos = pickle.load(f)
+            with open(config_dir+'/room_sizes.pickle', "rb") as f:
+                self.room_sizes = pickle.load(f)
+            with open(config_dir+'/room_start_points.pickle', "rb") as f:
+                self.room_start_points = pickle.load(f)
 
 
             self.reload(matrix,objetos,adyacencias,salas,casillasVistas,eleccion,width,height,NPC_imagen)
@@ -265,7 +276,7 @@ class Map_generation:
             room_sizes[i] = [random.randint(length_min_one_side,length_max_one_side),random.randint(length_min_one_side,length_max_one_side)]
             self.adyacencias = np.zeros((num_aleatorio_salas,num_aleatorio_salas), dtype=int)
             self.salas[i] = Sala(i,room_sizes[i])
-
+        self.room_sizes = room_sizes
         # print("Número total de salas: ", num_aleatorio_salas)
         # print("Tamaños de las salas: ")
         # print(room_sizes)
@@ -336,7 +347,8 @@ class Map_generation:
             half_size_x = room_sizes[i][0]//2
             half_size_y = room_sizes[i][1]//2
             self.centroides[i] = [room_start_points[i][0]+half_size_x,room_start_points[i][1]+half_size_y]
-
+        
+        self.room_start_points = room_start_points
         #ponemos a -1 los muros de los bordes
         for pos in range(0,self.map_size):
             self.matrix[0][pos] = -1 #fila de arriba a -1

@@ -12,6 +12,7 @@ class Global:
         self.lock_image = threading.Lock() #para gestionar la imagen que va a mostrar el DM
         self.lock_openChest = threading.Lock()
         self.lock_canTalk = threading.Lock()
+        self.lock_canBreak = threading.Lock()
 
     def initialize(self):
         global otherPlayers 
@@ -60,7 +61,19 @@ class Global:
         finishedStart = False
         global canOpenChest
         canOpenChest = [False,[None,None]]
+        global canBreak 
+        canBreak = [False,[None,None]]
 
+    def setCanBreak(self,v):
+        global canBreak
+        self.lock_canBreak.acquire()
+        canBreak = v
+        self.lock_canBreak.release()
+
+    def getCanBreak(self):
+        global canBreak
+        return canBreak
+    
     def setCanOpenChest(self,v):
         global canOpenChest
         self.lock_openChest.acquire()

@@ -1033,10 +1033,31 @@ class PartidaScreen:
                     self.GLOBAL.setCanTalkToNPC(True)
                     self.GLOBAL.setCanOpenChest([False,[None,None]])
                     # Así le indico que puede hablar con el NPC
+            elif(key == pygame.K_r):
+                # Para recoger minerales, hongos, setas, sacos o romper rocas/sarcófagos
+                if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
+                    if(((self.personaje.playerAction == "WALK_DOWN") or (self.personaje.playerAction == "IDLE_DOWN"))):  
+                        pos_x = self.personaje.coordenadas_actuales_r[0]
+                        pos_y = self.personaje.coordenadas_actuales_r[1]+1
+                    elif(((self.personaje.playerAction == "WALK_UP") or (self.personaje.playerAction == "IDLE_UP"))):
+                        pos_x = self.personaje.coordenadas_actuales_r[0]
+                        pos_y = self.personaje.coordenadas_actuales_r[1]-1
+                    elif(((self.personaje.playerAction == "WALK_LEFT") or (self.personaje.playerAction == "IDLE_LEFT"))):
+                        pos_x = self.personaje.coordenadas_actuales_r[0]-1
+                        pos_y = self.personaje.coordenadas_actuales_r[1]
+                    elif(((self.personaje.playerAction == "WALK_RIGHT") or (self.personaje.playerAction == "IDLE_RIGHT"))):
+                        pos_x = self.personaje.coordenadas_actuales_r[0]+1
+                        pos_y = self.personaje.coordenadas_actuales_r[1]
+                    else:
+                        pos_x = None
+                        pos_y = None
+                    self.GLOBAL.setCanBreak([True,[pos_x,pos_y]])
+                    self.GLOBAL.setCanTalkToNPC(False)
+                    self.GLOBAL.setCanOpenChest([False,[None,None]])
+
             elif(key == pygame.K_a):
                 if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
                     # Si se ve el mapa, no está abierto el inventario, el DM no está hablando y ya se ha leído la descripción -> al darle a la t, si está a 5 pies del NPC puede hablar con él
-                    print("a True")
                     if(((self.personaje.playerAction == "WALK_DOWN") or (self.personaje.playerAction == "IDLE_DOWN"))):  
                         pos_x = self.personaje.coordenadas_actuales_r[0]
                         pos_y = self.personaje.coordenadas_actuales_r[1]+1
