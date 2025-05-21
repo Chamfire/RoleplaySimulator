@@ -981,7 +981,7 @@ class EstadoDeSalaFinal(Estado):
                             #La puerta está cerrada
                             print("puerta cerrada")
                             pygame.mixer.Channel(1).play(self.soundDoor)
-                            text_closed = self.frases_puerta[sala][self.id][0]
+                            text_closed = self.frases_puerta[sala][self.pasilloFromPuerta[1]][0]
                             DM.speak(text_closed) 
                             self.read = False
                             self.GLOBAL.setActionDoor([0,[None,None]]) 
@@ -1355,7 +1355,7 @@ class EstadoDeSalaIntermedia(Estado):
                             #La puerta está cerrada
                             print("puerta cerrada")
                             pygame.mixer.Channel(1).play(self.soundDoor)
-                            text_closed = self.frases_puerta[sala][self.id][0]
+                            text_closed = self.frases_puerta[sala][self.pasilloFromPuerta[1]][0]
                             DM.speak(text_closed) 
                             self.read = False
                             self.GLOBAL.setActionDoor([0,[None,None]]) 
@@ -1792,7 +1792,7 @@ class EstadoDeSalaInicial(Estado):
                             #La puerta está cerrada
                             print("puerta cerrada")
                             pygame.mixer.Channel(1).play(self.soundDoor)
-                            text_closed = self.frases_puerta[sala][self.id][0]
+                            text_closed = self.frases_puerta[sala][self.pasilloFromPuerta[1]][0]
                             DM.speak(text_closed) 
                             self.read = False
                             self.GLOBAL.setActionDoor([0,[None,None]]) 
