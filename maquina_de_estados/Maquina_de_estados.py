@@ -4,9 +4,27 @@ import sqlite3
 import pygame
 import random
 from pygame import mixer
+from huggingface_hub import hf_hub_download
 from Global import Global
 from Lista_Inventario import Lista_Inventario
 import time
+import os
+import sys
+import contextlib
+from llama_cpp import Llama
+
+@contextlib.contextmanager
+def suppress_stdout_stderr():
+    with open(os.devnull, "w") as fnull:
+        old_stdout = sys.stdout
+        old_stderr = sys.stderr
+        sys.stdout = fnull
+        sys.stderr = fnull
+        try:
+            yield
+        finally:
+            sys.stdout = old_stdout
+            sys.stderr = old_stderr
 
 class Estado:
     def __init__(self,isInicial,content,id):
@@ -117,6 +135,36 @@ class EstadoRecolectAndBreak(Estado):
 
     def checkIfCompleted(self,personaje):
         return False 
+    
+    def consultarAlDM(self,prompt,fin,token_context = 1024,token_gen = 300):
+        model_name = "bartowski/Llama-3.2-3B-Instruct-GGUF"
+        model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
+        model_path = hf_hub_download(model_name, filename=model_file)
+        with suppress_stdout_stderr():
+            self.llm = Llama(
+                model_path=model_path,
+                n_ctx=token_context,  # Context length to use
+                n_threads=32,            # Number of CPU threads to use
+                n_gpu_layers=0,        # Number of model layers to offload to GPU
+                seed= random.randint(1,100000)
+            )
+        ## Generation kwargs
+        self.generation_kwargs = {
+            "max_tokens":token_gen,
+            "stop":["</s>"],
+            "echo":False, # Echo the prompt in the output
+            "top_p": 0.85, #top_p y temperatura le da aleatoriedad
+            "temperature": 0.8
+        }
+        res = self.llm(prompt, **self.generation_kwargs) # Res is a dictionary
+        ## Unpack and the generated text from the LLM response dictionary and print it
+        response_good = res["choices"][0]["text"]
+        if "." in response_good:
+            response_good = response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
+        response_good = response_good.lstrip()
+        if(fin != None):
+            response_good= response_good+fin
+        return response_good
         
     def run(self,DM,personaje):
         # SARCÓFAGO
@@ -132,11 +180,47 @@ class EstadoRecolectAndBreak(Estado):
                 pygame.mixer.Channel(6).play(cancion)
                 cancion = None
                 self.Mapa.objetos[y][x] = 0
-                texto = "Acabas de destruir el sarcófago."
+                texto = "Espera un momento que piense..."
+                DM.speak(texto)
+                usado = ""
+                item_left = personaje.equipo.objeto_equipado_mano_izquierda  
+                item_right = personaje.equipo.objeto_equipado_mano_derecha
+                if(item_left == None and item_right == None):
+                    usado = " con solo mis manos vacías, rompiéndolo a puñetazos"
+                if(item_left != None):
+                    usado = " teniendo en mi mano izquierda el siguiente objeto: "+item_left[1]
+                if(item_right != None):
+                    if(item_left != None):
+                        usado += " y "
+                    usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
+                prompt = """{Eres un dungeon master de Dnd 5e y yo voy a romper un sarcófago. El resultado de mi acción, es que el sarcófago queda destruido. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                            {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador voy a romper el sarcófago """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para golpear y romper el sarcófago. Si los objetos que llevo no permiten romper el sarcófago, indica que lo rompo con mis propios puños a base de puñetazos.
+                            Pregunta: ¿Cómo rompo yo el sarcófago?}
+                            <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+                texto = self.consultarAlDM(prompt,None,1024,400)
+                texto.replace("\\n", " ")
                 DM.speak(texto)
             else:
                 # El sarcófago contiene objeto, y no se puede romper
-                texto = "Al intentar destruir el sarcófago, escuchas un ruido procedente de su interior. Parece que hay algo dentro..."
+                texto = "Espera un momento que piense..."
+                DM.speak(texto)
+                usado = ""
+                item_left = personaje.equipo.objeto_equipado_mano_izquierda  
+                item_right = personaje.equipo.objeto_equipado_mano_derecha
+                if(item_left == None and item_right == None):
+                    usado = " con solo mis manos vacías"
+                if(item_left != None):
+                    usado = " teniendo en mi mano izquierda el siguiente objeto: "+item_left[1]
+                if(item_right != None):
+                    if(item_left != None):
+                        usado += " y "
+                    usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
+                prompt = """{Eres un dungeon master de Dnd 5e y yo me acerco a un sarcófago. El resultado de mi acción, es que sacudo el sarcófago, pero no lo destruyo porque escucho un ruido de su interior, de algún objeto que al moverse hace un ruido.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                            {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al sarcófago """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para sacudir el sarcófago. Si los objetos que llevo no permiten sacudir el sarcófago, indica que lo sacudo con mis propias manos.
+                            Pregunta: ¿Qué sucede al acercarme al sarcófago?}
+                            <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+                texto = self.consultarAlDM(prompt,None,1024,400)
+                texto.replace("\\n", " ")
                 DM.speak(texto)
         # Rubíes
         elif((95 <= self.Mapa.objetos[y][x] <= 97) or (self.Mapa.objetos[y][x] == 104)):
@@ -148,15 +232,35 @@ class EstadoRecolectAndBreak(Estado):
             cancion = None
             self.Mapa.objetos[y][x] = 0
             res = personaje.equipo.addObjectToInventory(rubi,"Recoleccion","Rubí")
+            texto = "Espera un momento que piense..."
+            DM.speak(texto)
+            usado = ""
+            item_left = personaje.equipo.objeto_equipado_mano_izquierda  
+            item_right = personaje.equipo.objeto_equipado_mano_derecha
+            if(item_left == None and item_right == None):
+                usado = " con solo mis manos vacías, rompiéndolo a puñetazos"
+            if(item_left != None):
+                usado = " teniendo en mi mano izquierda el siguiente objeto: "+item_left[1]
+            if(item_right != None):
+                if(item_left != None):
+                    usado += " y "
+                usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
+            prompt = """{Eres un dungeon master de Dnd 5e y yo voy a destruir un canasto de rubíes que tengo justo delante. El resultado de mi acción, es que destruyo el canasto de rubíes. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de rubíes """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de rubíes. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos.
+                        Pregunta: ¿Cómo rompo yo el canasto de rubíes?}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             if(res == -1):
-                string_to_speech = "Acabas de destruir el canasto de rubíes que tenías delante. Sin embargo, llevas mucho peso encima, y te ves obligado a tirar los rubíes."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar los rubíes.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
             elif(res == -2):
-                string_to_speech = "Acabas de destruir el canasto de rubíes que tenías delante. Sin embargo, no tienes espacio disponible para cargar con los rubíes, y te ves obligado a tirarlos."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt,"  Sin embargo, no tienes espacio disponible para cargar con los rubíes, y te ves obligado a tirarlos.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
             else:
-                string_to_speech = "Acabas de destruir el canasto de rubíes que tenías delante. Añades uno de esos preciados rubíes a tu inventario."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt,"  Añades uno de esos preciados rubíes a tu inventario.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
                 
 
         # Esmeraldas
@@ -169,15 +273,35 @@ class EstadoRecolectAndBreak(Estado):
             cancion = None
             self.Mapa.objetos[y][x] = 0
             res = personaje.equipo.addObjectToInventory(esmeralda,"Recoleccion","Esmeralda")
+            texto = "Espera un momento que piense..."
+            DM.speak(texto)
+            usado = ""
+            item_left = personaje.equipo.objeto_equipado_mano_izquierda  
+            item_right = personaje.equipo.objeto_equipado_mano_derecha
+            if(item_left == None and item_right == None):
+                usado = " con solo mis manos vacías, rompiéndolo a puñetazos"
+            if(item_left != None):
+                usado = " teniendo en mi mano izquierda el siguiente objeto: "+item_left[1]
+            if(item_right != None):
+                if(item_left != None):
+                    usado += " y "
+                usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
+            prompt = """{Eres un dungeon master de Dnd 5e y yo voy a destruir un canasto de esmeraldas que tengo justo delante. El resultado de mi acción, es que destruyo el canasto de esmeraldas. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de esmeraldas """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de esmeraldas. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos.
+                        Pregunta: ¿Cómo rompo yo el canasto de esmeraldas?}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             if(res == -1):
-                string_to_speech = "Acabas de destruir el canasto de esmeraldas que tenías delante. Sin embargo, llevas mucho peso encima, y te ves obligado a tirar las esmeraldas."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar las esmeraldas.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
             elif(res == -2):
-                string_to_speech = "Acabas de destruir el canasto de esmeraldas que tenías delante. Sin embargo, no tienes espacio disponible para cargar con las esmeraldas, y te ves obligado a tirarlas."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt,"  Sin embargo, no tienes espacio disponible para cargar con las esmeraldas, y te ves obligado a tirarlas.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
             else:
-                string_to_speech = "Acabas de destruir el canasto de esmeraldas que tenías delante. Añades una de esas preciadas esmeraldas a tu inventario."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt,"  Añades una de esas preciadas esmeraldas a tu inventario.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
         # Mineral extraño
         elif((self.Mapa.objetos[y][x] == 101) or (self.Mapa.objetos[y][x] == 106)):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -188,15 +312,35 @@ class EstadoRecolectAndBreak(Estado):
             cancion = None
             self.Mapa.objetos[y][x] = 0
             res = personaje.equipo.addObjectToInventory(mineral,"Recoleccion","Mineral")
+            texto = "Espera un momento que piense..."
+            DM.speak(texto)
+            usado = ""
+            item_left = personaje.equipo.objeto_equipado_mano_izquierda  
+            item_right = personaje.equipo.objeto_equipado_mano_derecha
+            if(item_left == None and item_right == None):
+                usado = " con solo mis manos vacías, rompiéndolo a puñetazos"
+            if(item_left != None):
+                usado = " teniendo en mi mano izquierda el siguiente objeto: "+item_left[1]
+            if(item_right != None):
+                if(item_left != None):
+                    usado += " y "
+                usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
+            prompt = """{Eres un dungeon master de Dnd 5e y yo voy a destruir un canasto de minerales amarillos que tengo justo delante. El resultado de mi acción, es que destruyo el canasto de minerales amarillos. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de minerales amarillas """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de minerales amarillos. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos.
+                        Pregunta: ¿Cómo rompo yo el canasto de minerales amarillos?}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             if(res == -1):
-                string_to_speech = "Acabas de destruir el canasto de minerales que tenías delante. Sin embargo, llevas mucho peso encima, y te ves obligado a tirar los minerales."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar los minerales amarillos.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
             elif(res == -2):
-                string_to_speech = "Acabas de destruir el canasto de minerales que tenías delante. Sin embargo, no tienes espacio disponible para cargar con los minerales, y te ves obligado a tirarlos."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt,"  Sin embargo, no tienes espacio disponible para cargar con los minerales amarillos, y te ves obligado a tirarlos.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
             else:
-                string_to_speech = "Acabas de destruir el canasto de minerales que tenías delante. Añades uno de esos preciados minerales a tu inventario."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt,"  Añades uno de esos preciados minerales amarillos a tu inventario.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
         # Saco de monedas
         elif(101 <= self.Mapa.objetos[y][x] <= 103):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -206,17 +350,36 @@ class EstadoRecolectAndBreak(Estado):
             self.Mapa.objetos[y][x] = 0
             money_value = random.randint(1,5)
             if(money_value == 1):
-                personaje.pc += random.randint(1,100)
+                num = random.randint(1,100)
+                personaje.pc += num
+                moneda = "cobre"
             elif(money_value == 2):
-                personaje.pp += random.randint(1,50)
+                num = random.randint(1,50)
+                personaje.pp += num
+                moneda = "plata"
             elif(money_value == 3):
-                personaje.pe += random.randint(1,25)
+                num = random.randint(1,25)
+                personaje.pe += num
+                moneda = "electro"
             elif(money_value == 4):
-                personaje.po += random.randint(1,10)
+                num = random.randint(1,10)
+                personaje.po += num
+                moneda = "oro"
             elif(money_value == 5):
-                personaje.ppt += random.randint(1,3)
-            string_to_speech = "Acabas de abrir el saco que tienes delante de ti. Dentro, descubres unas pocas monedas, que añades a tu inventario."
-            DM.speak(string_to_speech)
+                num = random.randint(1,3)
+                personaje.ppt += num
+                moneda = "platino"
+
+            texto = "Espera un momento que piense..."
+            DM.speak(texto)
+            prompt = """{Eres un dungeon master de Dnd 5e y yo me acerco a un saco de cuero tengo justo delante. El resultado de mi acción, es que abro el saco de cuero, y veo que dentro hay """+num+""" monedas de """+moneda+""".}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de minerales amarillas """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de minerales amarillos. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos.
+                        Pregunta: ¿Qué sucede cuando me acerco al saco de cuero que tengo justo delante?}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+            string = " Tras eso, añades las "+num+" monedas de "+moneda +" a tu inventario."
+            texto = self.consultarAlDM(prompt,string,1024,400)
+            texto.replace("\\n", " ")
+            DM.speak(texto)
         # Hongo azul
         elif(111 <= self.Mapa.objetos[y][x] <= 112):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -227,15 +390,35 @@ class EstadoRecolectAndBreak(Estado):
             cancion = None
             self.Mapa.objetos[y][x] = 0
             res = personaje.equipo.addObjectToInventory(hongo,"Recoleccion","Hongo")
+            texto = "Espera un momento que piense..."
+            DM.speak(texto)
+            usado = ""
+            item_left = personaje.equipo.objeto_equipado_mano_izquierda  
+            item_right = personaje.equipo.objeto_equipado_mano_derecha
+            if(item_left == None and item_right == None):
+                usado = " con solo mis manos vacías, arrancándolo de cuajo"
+            if(item_left != None):
+                usado = " teniendo en mi mano izquierda el siguiente objeto: "+item_left[1]
+            if(item_right != None):
+                if(item_left != None):
+                    usado += " y "
+                usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
+            prompt = """{Eres un dungeon master de Dnd 5e y yo me acerco a un hongo azul alargado que tengo justo delante. El resultado de mi acción, es que arranco el hongo azul del suelo de la mazmorra. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al hongo azul """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para arrancar o cortar el hongo. Si los objetos que llevo no permiten romper o arrancar el hongo azul, indica que lo arranco de cuajo con mis propias manos.
+                        Pregunta: ¿Qué sucede cuando me acerco al hongo azul alargado que tengo justo delante?}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             if(res == -1):
-                string_to_speech = "Acabas de cortar de raíz el hongo azul que tenías delante. Sin embargo, llevas mucho peso encima, y te ves obligado a tirar dicho hongo."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar dicho hongo.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
             elif(res == -2):
-                string_to_speech = "Acabas de cortar de raíz el hongo azul que tenías delante. Sin embargo, no tienes espacio disponible para cargar con el hongo, y te ves obligado a tirarlo."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt,"  Sin embargo, no tienes espacio disponible para cargar con el hongo, y te ves obligado a tirarlo.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
             else:
-                string_to_speech = "Acabas de cortar de raíz el hongo azul que tenías delante. Añades dicho hongo a tu inventario."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt,"Añades dicho hongo a tu inventario.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
         # Seta
         elif(113 <= self.Mapa.objetos[y][x] <= 114):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -246,15 +429,35 @@ class EstadoRecolectAndBreak(Estado):
             cancion = None
             self.Mapa.objetos[y][x] = 0
             res = personaje.equipo.addObjectToInventory(seta,"Recoleccion","Seta")
+            texto = "Espera un momento que piense..."
+            DM.speak(texto)
+            usado = ""
+            item_left = personaje.equipo.objeto_equipado_mano_izquierda  
+            item_right = personaje.equipo.objeto_equipado_mano_derecha
+            if(item_left == None and item_right == None):
+                usado = " con solo mis manos vacías, arrancándolo de cuajo"
+            if(item_left != None):
+                usado = " teniendo en mi mano izquierda el siguiente objeto: "+item_left[1]
+            if(item_right != None):
+                if(item_left != None):
+                    usado += " y "
+                usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
+            prompt = """{Eres un dungeon master de Dnd 5e y yo me acerco a una seta naranja que tengo justo delante. El resultado de mi acción, es que arranco la seta naranja del suelo de la mazmorra. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo a la seta naranja """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para arrancar o cortar la seta. Si los objetos que llevo no permiten romper o arrancar la seta naranja, indica que la arranco de cuajo con mis propias manos.
+                        Pregunta: ¿Qué sucede cuando me acerco a la seta naranja que tengo justo delante?}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             if(res == -1):
-                string_to_speech = "Acabas de cortar de raíz la seta naranja que tenías delante. Sin embargo, llevas mucho peso encima, y te ves obligado a tirar dicha seta."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar dicha seta.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
             elif(res == -2):
-                string_to_speech = "Acabas de cortar de raíz la seta naranja que tenías delante. Sin embargo, no tienes espacio disponible para cargar con la seta, y te ves obligado a tirarla."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt,"  Sin embargo, no tienes espacio disponible para cargar con la seta, y te ves obligado a tirarla.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
             else:
-                string_to_speech = "Acabas de cortar de raíz la seta naranja que tenías delante. Añades dicha seta a tu inventario."
-                DM.speak(string_to_speech)
+                texto = self.consultarAlDM(prompt,"  Añades dicha seta a tu inventario.",1024,400)
+                texto.replace("\\n", " ")
+                DM.speak(texto)
 
         # Roca para romperla
         elif(115 <= self.Mapa.objetos[y][x] <= 117):
@@ -262,8 +465,26 @@ class EstadoRecolectAndBreak(Estado):
             pygame.mixer.Channel(6).play(cancion)
             cancion = None
             self.Mapa.objetos[y][x] = 0
-            string_to_speech = "Acabas de destruir la roca que tenías delante."
-            DM.speak(string_to_speech)
+            texto = "Espera un momento que piense..."
+            DM.speak(texto)
+            usado = ""
+            item_left = personaje.equipo.objeto_equipado_mano_izquierda  
+            item_right = personaje.equipo.objeto_equipado_mano_derecha
+            if(item_left == None and item_right == None):
+                usado = " con solo mis manos vacías, rompiéndola a puñetazos"
+            if(item_left != None):
+                usado = " teniendo en mi mano izquierda el siguiente objeto: "+item_left[1]
+            if(item_right != None):
+                if(item_left != None):
+                    usado += " y "
+                usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
+            prompt = """{Eres un dungeon master de Dnd 5e y yo voy a destruir una roca puntiaguda que tengo justo delante. El resultado de mi acción, es que destruyo la roca puntiaguda que sobresalía del suelo de la mazmorra. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo a la roca puntiaguda """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper la roca puntiaguda. Si los objetos que llevo no permiten romper la roca puntiaguda, indica que la hago añicos con mis propias manos.
+                        Pregunta: ¿Qué sucede al acercame a la roca puntiaguda que tengo delante?}
+                        <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+            texto = self.consultarAlDM(prompt,None,1024,400)
+            texto.replace("\\n", " ")
+            DM.speak(texto)
         
         self.GLOBAL.setCanBreak([False,[None,None]])
         self.x = None
