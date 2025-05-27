@@ -193,9 +193,9 @@ class EstadoRecolectAndBreak(Estado):
                     if(item_left != None):
                         usado += " y "
                     usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
-                prompt = """{Eres un dungeon master de Dnd 5e y yo voy a romper un sarcófago. El resultado de mi acción, es que el sarcófago queda destruido. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                            {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador voy a romper el sarcófago """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para golpear y romper el sarcófago. Si los objetos que llevo no permiten romper el sarcófago, indica que lo rompo con mis propios puños a base de puñetazos.
-                            Pregunta: ¿Cómo rompo yo el sarcófago?}
+                prompt = """Eres un dungeon master de Dnd 5e y yo voy a romper un sarcófago. El resultado de mi acción, es que el sarcófago queda destruido. En ningún caso puedo recibir daño de tal acción.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                            Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador voy a romper el sarcófago """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para golpear y romper el sarcófago. Si los objetos que llevo no permiten romper el sarcófago, indica que lo rompo con mis propios puños a base de puñetazos. El resultado final es que lo destruyo.
+                            Pregunta: ¿Cómo rompo yo el sarcófago?
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
                 texto = self.consultarAlDM(prompt,None,1024,400)
                 texto.replace("\\n", " ")
@@ -215,9 +215,9 @@ class EstadoRecolectAndBreak(Estado):
                     if(item_left != None):
                         usado += " y "
                     usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
-                prompt = """{Eres un dungeon master de Dnd 5e y yo me acerco a un sarcófago. El resultado de mi acción, es que sacudo el sarcófago, pero no lo destruyo porque escucho un ruido de su interior, de algún objeto que al moverse hace un ruido.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                            {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al sarcófago """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para sacudir el sarcófago. Si los objetos que llevo no permiten sacudir el sarcófago, indica que lo sacudo con mis propias manos.
-                            Pregunta: ¿Qué sucede al acercarme al sarcófago?}
+                prompt = """Eres un dungeon master de Dnd 5e y yo me acerco a un sarcófago. El resultado de mi acción, es que sacudo el sarcófago, pero no lo destruyo porque escucho un ruido de su interior, de algún objeto que al moverse hace un ruido.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                            Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al sarcófago """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para sacudir el sarcófago. Si los objetos que llevo no permiten sacudir el sarcófago, indica que lo sacudo con mis propias manos. El resultado final es que no lo destruyo.
+                            Pregunta: ¿Qué sucede al acercarme al sarcófago?
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
                 texto = self.consultarAlDM(prompt,None,1024,400)
                 texto.replace("\\n", " ")
@@ -245,9 +245,9 @@ class EstadoRecolectAndBreak(Estado):
                 if(item_left != None):
                     usado += " y "
                 usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
-            prompt = """{Eres un dungeon master de Dnd 5e y yo voy a destruir un canasto de rubíes que tengo justo delante. El resultado de mi acción, es que destruyo el canasto de rubíes. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de rubíes """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de rubíes. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos.
-                        Pregunta: ¿Cómo rompo yo el canasto de rubíes?}
+            prompt = """Eres un dungeon master de Dnd 5e y yo voy a destruir un canasto de rubíes que tengo justo delante. El resultado de mi acción, es que destruyo el canasto de rubíes. En ningún caso puedo recibir daño de tal acción.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de rubíes """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de rubíes. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos. El resultado final es que lo destruyo.
+                        Pregunta: ¿Cómo rompo yo el canasto de rubíes?
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             if(res == -1):
                 texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar los rubíes.",1024,400)
@@ -286,9 +286,9 @@ class EstadoRecolectAndBreak(Estado):
                 if(item_left != None):
                     usado += " y "
                 usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
-            prompt = """{Eres un dungeon master de Dnd 5e y yo voy a destruir un canasto de esmeraldas que tengo justo delante. El resultado de mi acción, es que destruyo el canasto de esmeraldas. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de esmeraldas """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de esmeraldas. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos.
-                        Pregunta: ¿Cómo rompo yo el canasto de esmeraldas?}
+            prompt = """Eres un dungeon master de Dnd 5e y yo voy a destruir un canasto de esmeraldas que tengo justo delante. El resultado de mi acción, es que destruyo el canasto de esmeraldas. En ningún caso puedo recibir daño de tal acción.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de esmeraldas """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de esmeraldas. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos. El resultado final es que lo destruyo.
+                        Pregunta: ¿Cómo rompo yo el canasto de esmeraldas?
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             if(res == -1):
                 texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar las esmeraldas.",1024,400)
@@ -325,9 +325,9 @@ class EstadoRecolectAndBreak(Estado):
                 if(item_left != None):
                     usado += " y "
                 usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
-            prompt = """{Eres un dungeon master de Dnd 5e y yo voy a destruir un canasto de minerales amarillos que tengo justo delante. El resultado de mi acción, es que destruyo el canasto de minerales amarillos. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de minerales amarillas """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de minerales amarillos. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos.
-                        Pregunta: ¿Cómo rompo yo el canasto de minerales amarillos?}
+            prompt = """Eres un dungeon master de Dnd 5e y yo voy a destruir un canasto de minerales amarillos que tengo justo delante. El resultado de mi acción, es que destruyo el canasto de minerales amarillos. En ningún caso puedo recibir daño de tal acción.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de minerales amarillas """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de minerales amarillos. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos. El resultado final es que lo destruyo.
+                        Pregunta: ¿Cómo rompo yo el canasto de minerales amarillos?
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             if(res == -1):
                 texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar los minerales amarillos.",1024,400)
@@ -372,11 +372,11 @@ class EstadoRecolectAndBreak(Estado):
 
             texto = "Espera un momento que piense..."
             DM.speak(texto)
-            prompt = """{Eres un dungeon master de Dnd 5e y yo me acerco a un saco de cuero tengo justo delante. El resultado de mi acción, es que abro el saco de cuero, y veo que dentro hay """+num+""" monedas de """+moneda+""".}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de minerales amarillas """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de minerales amarillos. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos.
-                        Pregunta: ¿Qué sucede cuando me acerco al saco de cuero que tengo justo delante?}
+            prompt = """Eres un dungeon master de Dnd 5e y yo me acerco a un saco de cuero tengo justo delante. El resultado de mi acción, es que abro el saco de cuero, y veo que dentro hay """+str(num)+""" monedas de """+moneda+""".<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de minerales amarillas """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de minerales amarillos. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos. El resultado final es que lo destruyo.
+                        Pregunta: ¿Qué sucede cuando me acerco al saco de cuero que tengo justo delante?
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            string = " Tras eso, añades las "+num+" monedas de "+moneda +" a tu inventario."
+            string = " Tras eso, añades las "+str(num)+" monedas de "+moneda +" a tu inventario."
             texto = self.consultarAlDM(prompt,string,1024,400)
             texto.replace("\\n", " ")
             DM.speak(texto)
@@ -403,9 +403,9 @@ class EstadoRecolectAndBreak(Estado):
                 if(item_left != None):
                     usado += " y "
                 usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
-            prompt = """{Eres un dungeon master de Dnd 5e y yo me acerco a un hongo azul alargado que tengo justo delante. El resultado de mi acción, es que arranco el hongo azul del suelo de la mazmorra. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al hongo azul """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para arrancar o cortar el hongo. Si los objetos que llevo no permiten romper o arrancar el hongo azul, indica que lo arranco de cuajo con mis propias manos.
-                        Pregunta: ¿Qué sucede cuando me acerco al hongo azul alargado que tengo justo delante?}
+            prompt = """Eres un dungeon master de Dnd 5e y yo me acerco a un hongo azul alargado que tengo justo delante. El resultado de mi acción, es que arranco el hongo azul del suelo de la mazmorra. En ningún caso puedo recibir daño de tal acción.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al hongo azul """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para arrancar o cortar el hongo. Si los objetos que llevo no permiten romper o arrancar el hongo azul, indica que lo arranco de cuajo con mis propias manos. El resultado final es que lo arranco del suelo.
+                        Pregunta: ¿Qué sucede cuando me acerco al hongo azul alargado que tengo justo delante?
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             if(res == -1):
                 texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar dicho hongo.",1024,400)
@@ -442,9 +442,9 @@ class EstadoRecolectAndBreak(Estado):
                 if(item_left != None):
                     usado += " y "
                 usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
-            prompt = """{Eres un dungeon master de Dnd 5e y yo me acerco a una seta naranja que tengo justo delante. El resultado de mi acción, es que arranco la seta naranja del suelo de la mazmorra. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo a la seta naranja """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para arrancar o cortar la seta. Si los objetos que llevo no permiten romper o arrancar la seta naranja, indica que la arranco de cuajo con mis propias manos.
-                        Pregunta: ¿Qué sucede cuando me acerco a la seta naranja que tengo justo delante?}
+            prompt = """Eres un dungeon master de Dnd 5e y yo me acerco a una seta naranja que tengo justo delante. El resultado de mi acción, es que arranco la seta naranja del suelo de la mazmorra. En ningún caso puedo recibir daño de tal acción.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo a la seta naranja """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para arrancar o cortar la seta. Si los objetos que llevo no permiten romper o arrancar la seta naranja, indica que la arranco de cuajo con mis propias manos. El resultado final es que la arranco del suelo.
+                        Pregunta: ¿Qué sucede cuando me acerco a la seta naranja que tengo justo delante?
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             if(res == -1):
                 texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar dicha seta.",1024,400)
@@ -478,9 +478,9 @@ class EstadoRecolectAndBreak(Estado):
                 if(item_left != None):
                     usado += " y "
                 usado = " teniendo en mi mano derecha el siguiente objeto: "+item_right[1]
-            prompt = """{Eres un dungeon master de Dnd 5e y yo voy a destruir una roca puntiaguda que tengo justo delante. El resultado de mi acción, es que destruyo la roca puntiaguda que sobresalía del suelo de la mazmorra. En ningún caso puedo recibir daño de tal acción.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo a la roca puntiaguda """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper la roca puntiaguda. Si los objetos que llevo no permiten romper la roca puntiaguda, indica que la hago añicos con mis propias manos.
-                        Pregunta: ¿Qué sucede al acercame a la roca puntiaguda que tengo delante?}
+            prompt = """Eres un dungeon master de Dnd 5e y yo voy a destruir una roca puntiaguda que tengo justo delante. El resultado de mi acción, es que destruyo la roca puntiaguda que sobresalía del suelo de la mazmorra. En ningún caso puedo recibir daño de tal acción.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo a la roca puntiaguda """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper la roca puntiaguda. Si los objetos que llevo no permiten romper la roca puntiaguda, indica que la hago añicos con mis propias manos. El resultado final, es que la roca se destruye.
+                        Pregunta: ¿Qué sucede al acercame a la roca puntiaguda que tengo delante?
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             texto = self.consultarAlDM(prompt,None,1024,400)
             texto.replace("\\n", " ")
