@@ -199,6 +199,7 @@ class EstadoRecolectAndBreak(Estado):
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
                 texto = self.consultarAlDM(prompt,None,1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             else:
                 # El sarcófago contiene objeto, y no se puede romper
@@ -221,6 +222,7 @@ class EstadoRecolectAndBreak(Estado):
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
                 texto = self.consultarAlDM(prompt,None,1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
         # Rubíes
         elif((95 <= self.Mapa.objetos[y][x] <= 97) or (self.Mapa.objetos[y][x] == 104)):
@@ -252,14 +254,17 @@ class EstadoRecolectAndBreak(Estado):
             if(res == -1):
                 texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar los rubíes.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             elif(res == -2):
                 texto = self.consultarAlDM(prompt,"  Sin embargo, no tienes espacio disponible para cargar con los rubíes, y te ves obligado a tirarlos.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             else:
                 texto = self.consultarAlDM(prompt,"  Añades uno de esos preciados rubíes a tu inventario.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
                 
 
@@ -293,14 +298,17 @@ class EstadoRecolectAndBreak(Estado):
             if(res == -1):
                 texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar las esmeraldas.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             elif(res == -2):
                 texto = self.consultarAlDM(prompt,"  Sin embargo, no tienes espacio disponible para cargar con las esmeraldas, y te ves obligado a tirarlas.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             else:
                 texto = self.consultarAlDM(prompt,"  Añades una de esas preciadas esmeraldas a tu inventario.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
         # Mineral extraño
         elif((self.Mapa.objetos[y][x] == 101) or (self.Mapa.objetos[y][x] == 106)):
@@ -332,14 +340,17 @@ class EstadoRecolectAndBreak(Estado):
             if(res == -1):
                 texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar los minerales amarillos.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             elif(res == -2):
                 texto = self.consultarAlDM(prompt,"  Sin embargo, no tienes espacio disponible para cargar con los minerales amarillos, y te ves obligado a tirarlos.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             else:
                 texto = self.consultarAlDM(prompt,"  Añades uno de esos preciados minerales amarillos a tu inventario.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
         # Saco de monedas
         elif(101 <= self.Mapa.objetos[y][x] <= 103):
@@ -382,6 +393,7 @@ class EstadoRecolectAndBreak(Estado):
                 string = " Tras eso, añades las "+str(num)+" monedas de "+moneda +" a tu inventario."
             texto = self.consultarAlDM(prompt,string,1024,400)
             texto.replace("\\n", " ")
+            texto = ''.join(c for c in texto if c.isprintable())
             DM.speak(texto)
         # Hongo azul
         elif(111 <= self.Mapa.objetos[y][x] <= 112):
@@ -413,14 +425,17 @@ class EstadoRecolectAndBreak(Estado):
             if(res == -1):
                 texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar dicho hongo.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             elif(res == -2):
                 texto = self.consultarAlDM(prompt,"  Sin embargo, no tienes espacio disponible para cargar con el hongo, y te ves obligado a tirarlo.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             else:
                 texto = self.consultarAlDM(prompt,"Añades dicho hongo a tu inventario.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
         # Seta
         elif(113 <= self.Mapa.objetos[y][x] <= 114):
@@ -452,14 +467,17 @@ class EstadoRecolectAndBreak(Estado):
             if(res == -1):
                 texto = self.consultarAlDM(prompt," Sin embargo, llevas mucho peso encima, y te ves obligado a tirar dicha seta.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             elif(res == -2):
                 texto = self.consultarAlDM(prompt,"  Sin embargo, no tienes espacio disponible para cargar con la seta, y te ves obligado a tirarla.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
             else:
                 texto = self.consultarAlDM(prompt,"  Añades dicha seta a tu inventario.",1024,400)
                 texto.replace("\\n", " ")
+                texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
 
         # Roca para romperla
@@ -487,6 +505,7 @@ class EstadoRecolectAndBreak(Estado):
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             texto = self.consultarAlDM(prompt,None,1024,400)
             texto.replace("\\n", " ")
+            texto = ''.join(c for c in texto if c.isprintable())
             DM.speak(texto)
         
         self.GLOBAL.setCanBreak([False,[None,None]])
