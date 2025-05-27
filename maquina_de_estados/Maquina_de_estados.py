@@ -373,7 +373,7 @@ class EstadoRecolectAndBreak(Estado):
             texto = "Espera un momento que piense..."
             DM.speak(texto)
             prompt = """Eres un dungeon master de Dnd 5e y yo me acerco a un saco de cuero tengo justo delante. El resultado de mi acción, es que abro el saco de cuero, y veo que dentro hay """+str(num)+""" monedas de """+moneda+""".<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al canasto de minerales amarillas """+usado+""". Si llevase algún objeto en mis manos, preferiblemente uso esos objetos para romper el canasto de minerales amarillos. Si los objetos que llevo no permiten romper el canasto, indica que lo rompo con mis propias manos. El resultado final es que lo destruyo.
+                        Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al saco de cuero, y lo abro para ver qué hay dentro. Dentro, encuentro """+str(num)+""" monedas de """+moneda+""".
                         Pregunta: ¿Qué sucede cuando me acerco al saco de cuero que tengo justo delante?
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             string = " Tras eso, añades las "+str(num)+" monedas de "+moneda +" a tu inventario."
