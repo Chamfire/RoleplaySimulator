@@ -376,7 +376,10 @@ class EstadoRecolectAndBreak(Estado):
                         Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al saco de cuero, y lo abro para ver qué hay dentro. Dentro, encuentro """+str(num)+""" monedas de """+moneda+""".
                         Pregunta: ¿Qué sucede cuando me acerco al saco de cuero que tengo justo delante?
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            string = " Tras eso, añades las "+str(num)+" monedas de "+moneda +" a tu inventario."
+            if(num == 1):
+                string = " Tras eso, añades "+str(num)+" moneda de "+moneda +" a tu inventario."
+            else:
+                string = " Tras eso, añades las "+str(num)+" monedas de "+moneda +" a tu inventario."
             texto = self.consultarAlDM(prompt,string,1024,400)
             texto.replace("\\n", " ")
             DM.speak(texto)
