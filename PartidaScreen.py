@@ -1225,7 +1225,7 @@ class PartidaScreen:
                                 if(att < 0):
                                     att -=1
                                 elif(att > 0):
-                                    att+1
+                                    att+=1
                                 puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
@@ -1328,7 +1328,7 @@ class PartidaScreen:
                                 if(att < 0):
                                     att -=1
                                 elif(att > 0):
-                                    att+1
+                                    att+=1
                                 puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
@@ -1360,7 +1360,7 @@ class PartidaScreen:
                                 if(att < 0):
                                     att -=1
                                 elif(att > 0):
-                                    att+1
+                                    att+=1
                                 puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
@@ -1386,7 +1386,7 @@ class PartidaScreen:
                                 if(att < 0):
                                     att -=1
                                 elif(att > 0):
-                                    att+1
+                                    att+=1
                                 puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
@@ -1425,7 +1425,7 @@ class PartidaScreen:
                                 if(att < 0):
                                     att -=1
                                 elif(att > 0):
-                                    att+1
+                                    att+=1
                                 puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
@@ -1467,7 +1467,7 @@ class PartidaScreen:
                                 if(att < 0):
                                     att -=1
                                 elif(att > 0):
-                                    att+1
+                                    att+=1
                                 puntaje = int(att // 2)
                                 self.personaje.ca = self.personaje.equipo.armadura_actual[2].nueva_ca + puntaje
                                 self.intercambio = False
