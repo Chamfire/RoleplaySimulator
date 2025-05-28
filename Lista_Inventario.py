@@ -396,7 +396,7 @@ class Equipo:
         if(self.objetos[str("slot_"+str(slot))] != None):
             peso_a_quitar = (self.objetos[str("slot_"+str(slot))][2].peso / self.objetos[str("slot_"+str(slot))][3])
             self.objetos[str("slot_"+str(slot))][3] -=1
-            if(self.objetos[slot][3] == 0):
+            if(self.objetos[str("slot_"+str(slot))][3] == 0):
                 self.objetos[str("slot_"+str(slot))][3] = None
                 self.num_objetos_actual -=1 
             self.peso_actual -= peso_a_quitar
