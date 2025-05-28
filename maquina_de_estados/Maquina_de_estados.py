@@ -8,6 +8,7 @@ from huggingface_hub import hf_hub_download
 from Global import Global
 from Lista_Inventario import Lista_Inventario
 import time
+import json
 import os
 import sys
 import contextlib
@@ -104,6 +105,7 @@ class EstadoRecolectAndBreak(Estado):
         self.esPuntoDeRespawn = False
         self.tipo_de_estado = "recoleccion_y_rotura"
         self.estadosSucesores = estado_pred
+        self.mobsEncontrados = {}
         self.ids = 0 
         self.x = None
         self.y = None
@@ -507,6 +509,321 @@ class EstadoRecolectAndBreak(Estado):
             texto.replace("\\n", " ")
             texto = ''.join(c for c in texto if c.isprintable())
             DM.speak(texto)
+
+        # Esqueleto
+        elif(33 <= self.Mapa.objetos[y][x] <= 38):
+            sound = pygame.mixer.Sound('sounds/zombie.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al esqueleto que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "esqueleto"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["no-muerto"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/no-muerto esqueleto.png")
+            self.GLOBAL.setShowImage(True)
+
+        # Zombie
+        elif(self.Mapa.objetos[y][x] == 39):
+            sound = pygame.mixer.Sound('sounds/zombie.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al zombie que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "zombie"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["no-muerto"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/no-muerto zombie.png")
+            self.GLOBAL.setShowImage(True)
+        # Slime
+        elif(self.Mapa.objetos[y][x] == 40):
+            sound = pygame.mixer.Sound('sounds/slime.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al slime que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "slime"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["slime"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/slime.png")
+            self.GLOBAL.setShowImage(True)
+        # Beholder
+        elif(self.Mapa.objetos[y][x] == 41):
+            sound = pygame.mixer.Sound('sounds/beholder.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al beholder que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "beholder"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["beholder"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/beholder.png")
+            self.GLOBAL.setShowImage(True)
+        # Troll
+        elif(self.Mapa.objetos[y][x] == 42):
+            sound = pygame.mixer.Sound('sounds/troll.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al troll que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "troll"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["troll"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/troll.png")
+            self.GLOBAL.setShowImage(True)
+        # Dragón
+        elif(43 <= self.Mapa.objetos[y][x] <= 46):
+            sound = pygame.mixer.Sound('sounds/dragon.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al dragón que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "dragón"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["dragón"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/dragón.png")
+            self.GLOBAL.setShowImage(True)
+        # Sombra humanoide
+        elif(self.Mapa.objetos[y][x] == 47):
+            sound = pygame.mixer.Sound('sounds/sombra.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco a la sombra humanoide que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "sombra"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["sombra"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/sombra.png")
+            self.GLOBAL.setShowImage(True)
+        # Fénix
+        elif(self.Mapa.objetos[y][x] == 48):
+            sound = pygame.mixer.Sound('sounds/fenix.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al fénix que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "fénix"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["fénix"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/fénix.png")
+            self.GLOBAL.setShowImage(True)
+        # Ankheg
+        elif(self.Mapa.objetos[y][x] == 49):
+            sound = pygame.mixer.Sound('sounds/ankheg.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al ankheg que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "ankheg"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["ankheg"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/ankheg.png")
+            self.GLOBAL.setShowImage(True)
+        # Basilísco
+        elif(50 <= self.Mapa.objetos[y][x] <= 56):
+            sound = pygame.mixer.Sound('sounds/basilisco.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al basilisco que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "basilisco"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["basilisco"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/basilisco.png")
+            self.GLOBAL.setShowImage(True)
+        # Murciélago
+        elif(self.Mapa.objetos[y][x] == 57):
+            sound = pygame.mixer.Sound('sounds/murcielago.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al murciélago que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "murciélago"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["murciélago"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/murciélago.png")
+            self.GLOBAL.setShowImage(True)
+        # Rata
+        elif(self.Mapa.objetos[y][x] == 58):
+            sound = pygame.mixer.Sound('sounds/rata.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco a la rata que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "rata"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["rata"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/rata.png")
+            self.GLOBAL.setShowImage(True)
+        # Gato
+        elif(59 <= self.Mapa.objetos[y][x] <= 66):
+            sound = pygame.mixer.Sound('sounds/gato.wav')
+            pygame.mixer.Channel(8).play(sound)
+            sound = None
+            info_mob = "Te acercas poco a poco al gato que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
+            if(self.mobsEncontrados.get(str([x,y])) == None):
+                # Leer descripción del mob, y lo añadimos a mobs encontrados
+                self.mobsEncontrados[str(x,y)] = "gato"
+                # Cogemos la descripción del mob del .json
+                self.dir = 'descripciones'
+                self.file = 'Monsters.json'
+                with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
+                    try:
+                        Monster_descripcion = json.load(f)
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["gato"][0]
+                        descripcion += " "+info_mob
+                    except Exception as e:
+                        print(e)
+            else:
+                descripcion = info_mob
+            DM.speak(descripcion)
+            self.GLOBAL.setImagePartida("images/monsters/gato.png")
+            self.GLOBAL.setShowImage(True)
+
         
         self.GLOBAL.setCanBreak([False,[None,None]])
         self.x = None

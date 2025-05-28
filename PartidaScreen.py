@@ -1050,7 +1050,7 @@ class PartidaScreen:
                     self.GLOBAL.setCanOpenChest([False,[None,None]])
                     # Así le indico que puede hablar con el NPC
             elif(key == pygame.K_r):
-                # Para recoger minerales, hongos, setas, sacos o romper rocas/sarcófagos
+                # Para recoger minerales, hongos, setas, sacos o romper rocas/sarcófagos, y para interactuar con mobs
                 if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
                     if(((self.personaje.playerAction == "WALK_DOWN") or (self.personaje.playerAction == "IDLE_DOWN"))):  
                         pos_x = self.personaje.coordenadas_actuales_r[0]
