@@ -185,6 +185,8 @@ class Map_generation:
                 pickle.dump(self.room_sizes, f)
             with open(config_dir+'/room_start_points.pickle', 'wb') as f:
                 pickle.dump(self.room_start_points, f)
+            with open(config_dir+'/main_path.pickle','wb') as f:
+                pickle.dump(self.main_path,f)
         else:
             config_dir = 'mapas/'+currentPartida
             config_file = 'mapa_'+currentPartida+".pickle"
@@ -207,6 +209,8 @@ class Map_generation:
                 self.room_sizes = pickle.load(f)
             with open(config_dir+'/room_start_points.pickle', "rb") as f:
                 self.room_start_points = pickle.load(f)
+            with open(config_dir+'/main_path.pickle', "rb") as f:
+                self.main_path = pickle.load(f)
 
 
             self.reload(matrix,objetos,adyacencias,salas,casillasVistas,eleccion,width,height,NPC_imagen)
@@ -712,6 +716,7 @@ class Map_generation:
 
     def fillCasillasVistas(self,pos_x,pos_y):
         # Marcamos esa casilla como vista
+        casillasAComprobar = [[pos_x,pos_y]]
         self.casillasVistas[pos_x][pos_y] = 1
 
         # Calculamos qué casillas podría ver:
@@ -727,56 +732,129 @@ class Map_generation:
         # Si el adyacente es un muro/puerta[0;2-13], no puede ver más allá. (-1 no cuenta porque ya es borde de mapa)
         if(self.matrix[pos_y][pos_x] == 1):
             self.casillasVistas[pos_x][pos_y+1] = 1
+            casillasAComprobar += [[pos_x,pos_y+1]]
             self.casillasVistas[pos_x][pos_y-1] = 1
+            casillasAComprobar += [[pos_x,pos_y-1]]
             self.casillasVistas[pos_x+1][pos_y] = 1
+            casillasAComprobar += [[pos_x+1,pos_y]]
             self.casillasVistas[pos_x-1][pos_y] = 1
+            casillasAComprobar += [[pos_x-1,pos_y]]
             self.casillasVistas[pos_x+1][pos_y+1] = 1
+            casillasAComprobar += [[pos_x+1,pos_y+1]]
             self.casillasVistas[pos_x-1][pos_y-1] = 1
+            casillasAComprobar += [[pos_x-1,pos_y-1]]
             self.casillasVistas[pos_x+1][pos_y-1] = 1
+            casillasAComprobar += [[pos_x+1,pos_y-1]]
             self.casillasVistas[pos_x-1][pos_y+1] = 1
+            casillasAComprobar += [[pos_x-1,pos_y+1]]
             if(not (2 <=self.matrix[pos_y][pos_x+1]<=13)):
                 self.casillasVistas[pos_x+2][pos_y] = 1
+                casillasAComprobar += [[pos_x+2,pos_y]]
             if(not (2 <=self.matrix[pos_y][pos_x-1]<=13)):
                 self.casillasVistas[pos_x-2][pos_y] = 1
+                casillasAComprobar += [[pos_x-2,pos_y]]
             if(not (2 <=self.matrix[pos_y+1][pos_x]<=13)):
                 self.casillasVistas[pos_x][pos_y+2] = 1
+                casillasAComprobar += [[pos_x,pos_y+2]]
             if(not (2 <=self.matrix[pos_y-1][pos_x]<=13)):
                 self.casillasVistas[pos_x][pos_y-2] = 1
+                casillasAComprobar += [[pos_x,pos_y-2]]
 
         # Si está en un pasillo
         elif(self.matrix[pos_y][pos_x] == 22):
             if(self.matrix[pos_y-1][pos_x] == 22):
                 self.casillasVistas[pos_x][pos_y-1] = 1
+                casillasAComprobar += [[pos_x,pos_y-1]]
                 if(pos_y-2 >= 0 and self.matrix[pos_y-2][pos_x] == 22):
                     self.casillasVistas[pos_x][pos_y-2] = 1
+                    casillasAComprobar += [[pos_x,pos_y-2]]
             
             elif(self.matrix[pos_y-1][pos_x] == 13):
                 self.casillasVistas[pos_x][pos_y-1] = 1
+                casillasAComprobar += [[pos_x,pos_y-1]]
 
             if(self.matrix[pos_y+1][pos_x] == 22):
                 self.casillasVistas[pos_x][pos_y+1] = 1
+                casillasAComprobar += [[pos_x,pos_y+1]]
                 if(pos_y+2 <=99 and self.matrix[pos_y+2][pos_x] == 22):
                     self.casillasVistas[pos_x][pos_y+2] = 1
+                    casillasAComprobar += [[pos_x,pos_y+2]]
             
             elif(self.matrix[pos_y+1][pos_x] == 12):
                 self.casillasVistas[pos_x][pos_y+1] = 1
+                casillasAComprobar += [[pos_x,pos_y+1]]
             
             if(self.matrix[pos_y][pos_x-1] == 22):
                 self.casillasVistas[pos_x-1][pos_y] = 1
+                casillasAComprobar += [[pos_x-1,pos_y]]
                 if(pos_x-2 >=0 and self.matrix[pos_y][pos_x-2] == 22):
                     self.casillasVistas[pos_x-2][pos_y] = 1
+                    casillasAComprobar += [[pos_x-2,pos_y]]
             
             elif(self.matrix[pos_y][pos_x-1] == 11):
                 self.casillasVistas[pos_x-1][pos_y] = 1
+                casillasAComprobar += [[pos_x-1,pos_y]]
 
             if(self.matrix[pos_y][pos_x+1] == 22):
                 self.casillasVistas[pos_x+1][pos_y] = 1
+                casillasAComprobar += [[pos_x+1,pos_y]]
                 if(pos_x+2 <=99 and self.matrix[pos_y][pos_x+2] == 22):
                     self.casillasVistas[pos_x+2][pos_y] = 1
+                    casillasAComprobar += [[pos_x+2,pos_y]]
             
             elif(self.matrix[pos_y][pos_x+1] == 10):
                 self.casillasVistas[pos_x+1][pos_y] = 1
-           
+                casillasAComprobar += [[pos_x+1,pos_y]]
+        self.checkIfFindMission(casillasAComprobar,pos_x,pos_y)
+
+    def checkIfFindMission(self,casillasAComprobar,pos_x,pos_y):
+        if(self.getRoomAtPoint(pos_x,pos_y) == self.main_path[-1]):
+            # Si está en la última sala, comprobamos si se ha cumplido o no la misión de la sala
+            tipo_mision = self.salas[self.main_path[-1]].tipo_mision
+            variableDeCheck = self.salas[self.main_path[-1]].variableDeCheck
+            # Calculamos cuál es la codificación de ese objeto/mob
+            if(tipo_mision == "combate"):
+                if(variableDeCheck.get("esqueleto") != None):
+                    id = [33,34,35,36,37,38]
+                    name = "esqueleto"
+                elif(variableDeCheck.get("zombie") != None):
+                    id = [39]
+                    name = "zombie"
+                elif(variableDeCheck.get("slime") != None):
+                    id = [40]
+                    name = "slime"
+                elif(variableDeCheck.get("beholder") != None):
+                    id = [41]
+                    name = "beholder"
+                elif(variableDeCheck.get("troll") != None):
+                    id = [42]
+                    name = "troll"
+            elif(tipo_mision == "búsqueda"):
+                if(variableDeCheck.get("Árbol") != None):
+                    id = [68]
+                    name = "Árbol"
+                elif(variableDeCheck.get("Cadáver de dragón") != None):
+                    id = [69]
+                    name = "Cadáver de dragón"
+                elif(variableDeCheck.get("Parte de cadáver de Dragón") != None):
+                    id = [70]
+                    name = "Parte de cadáver de Dragón"
+                elif(variableDeCheck.get("Cofre") != None):
+                    id = [71,72,73,74]
+                    name = "Cofre"
+                elif(variableDeCheck.get("Armario") != None):
+                    id = [75,76,77,78]
+                    name = "Armario"
+                elif(variableDeCheck.get("Ruina") != None):
+                    id = [79]
+                    name = "Ruina"
+
+            for posicion in casillasAComprobar:
+                if(self.objetos[posicion[1]][posicion[0]] in id):
+                    if(tipo_mision == "combate"):
+                        self.salas[self.main_path[-1]].variableDeCheck[name][1] +=1 #hemos encontrado a un mob de ese tipo
+                    elif(tipo_mision == "búsqueda"):
+                        self.salas[self.main_path[-1]].variableDeCheck[name] = True
 
     def fillWithObjects(self,tipo_mision,variableDeCheck):
         longest_path = self.getLongestPath()

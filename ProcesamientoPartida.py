@@ -424,7 +424,7 @@ class ProcesamientoPartida:
                 tipo_mision = "combate"
                 # tipo_mobs = random.randint(0,100)
                 mobs = {}
-                num_mobs = random.randint(self.numJugadores,self.numJugadores*2)
+                num_mobs = 1#random.randint(self.numJugadores,self.numJugadores*2)
                 n = len(lista_mobs_disponibles[self.ubicacion])-1
                 for i in range(0,num_mobs):
                     seleccion = random.randint(0,n)
@@ -432,7 +432,7 @@ class ProcesamientoPartida:
                         mobs[lista_mobs_disponibles[self.ubicacion][seleccion]] +=1
                     else:
                         mobs[lista_mobs_disponibles[self.ubicacion][seleccion]] = 1
-                mision = "Hay que matar "
+                mision = "Hay que encontrar "
                 variableDeCheck = {}
                 for mob_name,num in mobs.items():
                     mision += str(num)+" "+mob_name+","
@@ -480,17 +480,17 @@ class ProcesamientoPartida:
             Mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,tipo_mision,variableDeCheck,self.numJugadores,NPC_animacion,self.jugadorHost.id_jugador,self.width,self.height) #que genere el mapa de una mazmorra
             self.GLOBAL.setMAPA(Mapa)
 
-            prompt_puerta_abierta = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de atravesar un portón de madera.<|eot_id|><|start_header_id|>user<|end_header_id|>
-                            Genear una frase muy corta para decir que ha podido abrir la puerta sin problemas, y que se encuentra ahora en un pasillo oscuro con un suelo de baldosas moradas.
+            prompt_puerta_abierta = f"""Eres un dungeon master de Dnd 5e, y yo acabo de atravesar un portón de madera.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                            Genear una frase muy corta para decirme que he podido abrir la puerta sin problemas, y que me encuentro ahora en un pasillo oscuro con un suelo de baldosas moradas.
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            prompt_puerta_cerrada = f"""Eres un dungeon master de Dnd 5e, y un jugador ha intentado abrir un portón de madera y no ha podido.<|eot_id|><|start_header_id|>user<|end_header_id|>
-                            Genear una frase muy corta para decir que no ha podido abrir la puerta porque está cerrada.
+            prompt_puerta_cerrada = f"""Eres un dungeon master de Dnd 5e, y yo he intentado abrir un portón de madera y no he podido.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                            Genear una frase muy corta para decir que no he podido abrir la puerta porque está cerrada.
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            prompt_puerta_abierta_ady = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de atravesar un portón de madera.<|eot_id|><|start_header_id|>user<|end_header_id|>
-                            Genear una frase muy corta para decir que ha podido abrir la puerta sin problemas, y que se encuentra ahora en una galería amplia bastante oscura.
+            prompt_puerta_abierta_ady = f"""Eres un dungeon master de Dnd 5e, y yo acabo de atravesar un portón de madera.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                            Genear una frase muy corta para decir que he podido abrir la puerta sin problemas, y que me encuentro ahora en una galería amplia bastante oscura.
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-            regreso_a_sala = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de atravesar un portón de madera para regresar a una galería en la que había estado antes.<|eot_id|><|start_header_id|>user<|end_header_id|>
-                            Genear una frase muy corta para decir que ha podido abrir la puerta sin problemas, y que se encuentra ahora en dicha galería, oscura.
+            regreso_a_sala = f"""Eres un dungeon master de Dnd 5e, y yo acabo de atravesar un portón de madera para regresar a una galería en la que había estado antes.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                            Genear una frase muy corta para decir que he podido abrir la puerta sin problemas, y que me encuentro ahora en dicha galería, oscura.
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             #Creo el resto de estados de la máquina de estado
             frase_puerta = {}
@@ -600,7 +600,7 @@ class ProcesamientoPartida:
                     objetos2 += objeto+"; "
 
                 print(objetos)
-                prompt_sala = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                prompt_sala = f"""Eres un dungeon master de Dnd 5e, y yo acabo de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
                             Genera un párrafo breve para describir la galería. Para ello, usa única y exclusivamente los siguientes elementos: """+objetos2+""". No puedes asumir que hay más objetos ni más elementos, porque no los hay. Sí que puedes dar detalles de que hay humedad, caen gotitas de agua del techo, y que es una sala de planta rectangular. No des detalles de las dimensiones de la galería, ni de su tamaño. Comienza con la frase "En esta galería puedes ver..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
                 descripcion_sala = self.consultarAlDM(prompt_sala,model_path,None,2048,600) #"Que sala más bonita"
                 self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa,frase_puerta,descripcion_sala)
@@ -609,9 +609,9 @@ class ProcesamientoPartida:
                     for cofre in Mapa.salas[i].contieneCofres:
                         # Desarrollamos descripción de lleno y de vacío para ese cofre
                         objeto_name = cofre[1].inventory[1]
-                        prompt_cofre_lleno = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de abrir un sarcófago de piedra en una mazmorra.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        prompt_cofre_lleno = f"""Eres un dungeon master de Dnd 5e, y yo acabo de abrir un sarcófago de piedra en una mazmorra.<|eot_id|><|start_header_id|>user<|end_header_id|>
                             Genera un párrafo muy breve para indicar lo que hay dentro del sarcófago. Dentro está lo siguiente: """+objeto_name+""". No puedes asumir que hay más objetos ni más elementos, porque no los hay. Sí que puedes dar detalles por ejemplo de que hay mucho polvo dentro, o que hay restos de huesos desgastados de algún cadaver. Comienza con la frase "Dentro, hay..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-                        prompt_cofre_vacio = f"""Eres un dungeon master de Dnd 5e, y un jugador acaba de abrir un sarcófago de piedra en una mazmorra.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        prompt_cofre_vacio = f"""Eres un dungeon master de Dnd 5e, y yo acabo de abrir un sarcófago de piedra en una mazmorra.<|eot_id|><|start_header_id|>user<|end_header_id|>
                             Genera una frase muy breve para indicar que el sarcófago está completamente vacío.<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
                         descripcion_cf1 = self.consultarAlDM(prompt_cofre_lleno,model_path,None,1024,300)
                         descripcion_ce1 = self.consultarAlDM(prompt_cofre_vacio,model_path,None,1024,200)
@@ -620,10 +620,18 @@ class ProcesamientoPartida:
                         self.maquina.addCofreToSala(i,descripcion_cf1,descripcion_ce1,cofre)
                 self.maquina.addEstadoRecoleccion(i,self.numJugadores)
                 self.RAG_historia.escribirInfoSala(i,frase_puerta,descripcion_sala)
+
+            #dialogos_posibles
+            prompt_fin = f"""Eres un dungeon master de Dnd 5e, y yo acabo de completar la única misión de la aventura de D&D.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                            Con sólo el contexto siguiente, responde a la pregunta: Teniendo en cuenta que un NPC llamado {self.personaje.name} me dijo esto al comenzar la aventura: {dialogos_posibles}.
+                            Pregunta: ¿Qué párrafo me dirías para indicarme que he completado la misión con éxito, y que he encontrado aquello que se me pedía?
+                            <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+            finMisionDM = self.consultarAlDM(prompt_fin,model_path," Con esto, doy por finalizada esta aventura. ¡Espero volver a verte pronto!",1024,400)
             
+
             print("Progreso: 90%")
             self.maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo,NPC_imagen_carpeta)
-            self.maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision)
+            self.maquina.crearEstadoDeMisionConcreta(variableDeCheck,0,dialogos_presentacion,dialogos_posibles,self.numJugadores,self.personaje,tipo_mision,mision,Mapa,finMisionDM)
             print("Progreso: 100%")
             string = str(Mapa.playersCurrentPos[Mapa.id_host][0])+","+str(Mapa.playersCurrentPos[Mapa.id_host][1])
             conn = sqlite3.connect("simuladordnd.db")
@@ -664,8 +672,16 @@ class ProcesamientoPartida:
         self.finished = False
         while(not self.finished):
             self.maquina.runNextEstado(self.jugadorHost)
+            num_misiones = len(self.maquina.estadosDeMision)
+            completadas = 0
+            for id,estadoDeMision in self.maquina.estadosDeMision.items():
+                if(estadoDeMision.ordenEstados[1].currentState == 2):
+                    completadas+=1
+            if(num_misiones == completadas):
+                self.finished = True
             time.sleep(0.2)
             #Así evitamos la sobrecarga del portátil. Cada 0.2 segundos, se comprueba la máquina de estados
+        print("Aventura terminada -> Cargar pantalla de estadísticas")
 
 
     def buscar_surface(self,obj, nombre_ruta="self.maquina", visitados=None):

@@ -883,7 +883,7 @@ class EstadoDeHablaNPC(Estado):
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
 
 class EstadoDeMisionConcreta(Estado):
-    def __init__(self,isInicial,content,estado_pred,numJugadores,id,tipo_mision,variableDeCheck,mision):
+    def __init__(self,isInicial,content,estado_pred,numJugadores,id,tipo_mision,variableDeCheck,mision,Mapa,textoDM):
         super().__init__(isInicial,content,id)
         self.variableDeCheck["progreso"] = variableDeCheck
         self.esObligatorio = True
@@ -891,15 +891,14 @@ class EstadoDeMisionConcreta(Estado):
         self.esPuntoDeRespawn = False
         self.mision = mision
         self.tipo_de_estado = tipo_mision
+        self.textoDM = textoDM
         self.estadosSucesores = estado_pred
         self.ids = 0 
         self.currentState = 0 #0 no la tiene aún, 1: la tiene, 2: la ha completado
         self.event_trigged = False
         self.ordenEstados = {} #Estados internos de misión
         self.given = False
-        #self.NPCs = #TODO
-        #self.mobs = #TODO
-        #self.objetos = #TODO
+        self.Mapa = Mapa
 
     def checkIfCanRun(self,DM,player):
         if(self.given):
@@ -908,9 +907,14 @@ class EstadoDeMisionConcreta(Estado):
             return False
         
     def checkIfCompleted(self,personaje):
-        for mob in self.variableDeCheck:
-            if(mob[0] != mob[1]):
-                return False
+        if(self.tipo_de_estado == "combate"):
+            for mob,value in self.variableDeCheck.items():
+                if(value[0] != value[1]):
+                    return False
+        elif(self.tipo_de_estado == "búsqueda"):
+            for objeto,value in self.variableDeCheck.items():
+                if(not value):
+                    return False
         return True
     
     def giveMision(self):
@@ -921,15 +925,16 @@ class EstadoDeMisionConcreta(Estado):
         if(self.currentState == 0):
             self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.currentState == 1):
-            pass
+            self.checkCompletedMission(DM,personaje)
         elif(self.currentState == 2):
-            pass
+            self.OnExitEstadoByPlayer(DM,personaje)
+        
+    def checkCompletedMission(self,DM,personaje):
+        self.variableDeCheck["progreso"] = self.Mapa.salas[self.Mapa.main_path[-1]].variableDeCheck
+        if(self.checkIfCompleted(personaje)):
+            self.CompleteMision()
+            self.run(DM,personaje)
 
-    def ModifyState(self,personaje,mob_o_lugar = None):
-        if(self.tipo_de_estado == "combate"):
-            self.variableDeCheck[mob_o_lugar][1] +=1 
-        elif(self.tipo_de_estado == "búsqueda"):
-            self.variableDeCheck[mob_o_lugar] = True
 
     def CompleteMision(self):
         self.currentState = 2
@@ -937,6 +942,9 @@ class EstadoDeMisionConcreta(Estado):
     def OnEnterEstadoByPlayer(self,DM,personaje):
         print("Misión a realizar: "+self.mision)
         self.currentState = 1
+
+    def OnExitEstadoByPlayer(self, player, DM):
+        DM.speak(self.textoDM)
 
 
 class EstadoDeSalaFinal(Estado):
@@ -2283,12 +2291,12 @@ class Maquina_de_estados:
         self.ordenEstados[id].ordenEstados[self.ordenEstados[id].ids] = EstadoRecolectAndBreak(False,None,'Recoleccion',False,self.personajeDelHost,numJ,self.ordenEstados[id])
         self.ordenEstados[id].ids +=1
         #Mision 0, Estado 1: Misión específica
-    def crearEstadoDeMisionConcreta(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC,tipo_mision,mision):
+    def crearEstadoDeMisionConcreta(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC,tipo_mision,mision,Mapa,textoDM):
         self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeHablaNPC(False,dialogo_bienvenida,propuesta_mision,self.estadosDeMision[num_mision].ids,self.personajeDelHost,numJ,self.estadosDeMision[num_mision],NPC)
         self.estadosDeMision[num_mision].ids +=1
 
         #Misión concreta
-        self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeMisionConcreta(False,None,self.estadosDeMision[num_mision],numJ,self.estadosDeMision[num_mision].ids,tipo_mision,variableDeCheck,mision)
+        self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeMisionConcreta(False,None,self.estadosDeMision[num_mision],numJ,self.estadosDeMision[num_mision].ids,tipo_mision,variableDeCheck,mision,Mapa,textoDM)
         self.estadosDeMision[num_mision].ids +=1
 
     def addCofreToSala(self,sala,desFull,desEmpty,cofre):
