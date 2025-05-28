@@ -400,7 +400,6 @@ class Equipo:
                 self.objetos[str("slot_"+str(slot))][3] = None
                 self.num_objetos_actual -=1 
             self.peso_actual -= peso_a_quitar
-            self.objetos[str("slot_"+str(slot))] = None
             return 1 #proceso correcto
         else:
             return -1 #no había nada en ese slot
