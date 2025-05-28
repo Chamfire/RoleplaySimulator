@@ -304,7 +304,7 @@ class PartidaScreen:
                     # Pantalla del inventario
                     self.screen.blit(pygame.transform.scale(self.invetoryBkg, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000))
                     self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
-                    self.peso = self.fuente3.render(str(self.personaje.equipo.peso_actual), True, self.color_black)
+                    self.peso = self.fuente3.render(str(round(self.personaje.equipo.peso_actual,2)), True, self.color_black)
                     self.screen.blit(self.peso, (self.width/14.1176, self.height/2.1472)) #85 326
                     self.pc = self.fuente1.render(str(self.personaje.pc), True, self.color_black)
                     self.pp = self.fuente1.render(str(self.personaje.pp), True, self.color_black)
@@ -603,7 +603,7 @@ class PartidaScreen:
                 #TODO: esperar a recibir maquina de estados para la partida, y crearla con la configuración de voz y efectos
                 pass
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
-            self.peso = self.fuente3.render(str(self.personaje.equipo.peso_actual), True, self.color_black)
+            self.peso = self.fuente3.render(str(round(self.personaje.equipo.peso_actual,2)), True, self.color_black)
             self.pc = self.fuente1.render(str(self.personaje.pc), True, self.color_black)
             self.pp = self.fuente1.render(str(self.personaje.pp), True, self.color_black)
             self.pe = self.fuente1.render(str(self.personaje.pe), True, self.color_black)
@@ -874,7 +874,7 @@ class PartidaScreen:
                                 self.screen.blit(pygame.transform.scale(self.flecha_selected, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                             else:
                                 self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
-                            self.peso = self.fuente3.render(str(self.personaje.equipo.peso_actual), True, self.color_black)
+                            self.peso = self.fuente3.render(str(round(self.personaje.equipo.peso_actual,2)), True, self.color_black)
                             self.screen.blit(self.peso, (self.width/14.1176, self.height/2.1472)) #85 326
                             self.pc = self.fuente1.render(str(self.personaje.pc), True, self.color_black)
                             self.pp = self.fuente1.render(str(self.personaje.pp), True, self.color_black)
