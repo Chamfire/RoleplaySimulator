@@ -512,7 +512,7 @@ class EstadoRecolectAndBreak(Estado):
 
         # Esqueleto
         elif(33 <= self.Mapa.objetos[y][x] <= 38):
-            sound = pygame.mixer.Sound('sounds/zombie.wav')
+            sound = pygame.mixer.Sound('sounds/zombie.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al esqueleto que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -537,7 +537,7 @@ class EstadoRecolectAndBreak(Estado):
 
         # Zombie
         elif(self.Mapa.objetos[y][x] == 39):
-            sound = pygame.mixer.Sound('sounds/zombie.wav')
+            sound = pygame.mixer.Sound('sounds/zombie.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al zombie que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -561,7 +561,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Slime
         elif(self.Mapa.objetos[y][x] == 40):
-            sound = pygame.mixer.Sound('sounds/slime.wav')
+            sound = pygame.mixer.Sound('sounds/slime.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al slime que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -585,7 +585,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Beholder
         elif(self.Mapa.objetos[y][x] == 41):
-            sound = pygame.mixer.Sound('sounds/beholder.wav')
+            sound = pygame.mixer.Sound('sounds/beholder.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al beholder que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -609,7 +609,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Troll
         elif(self.Mapa.objetos[y][x] == 42):
-            sound = pygame.mixer.Sound('sounds/troll.wav')
+            sound = pygame.mixer.Sound('sounds/troll.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al troll que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -633,7 +633,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Dragón
         elif(43 <= self.Mapa.objetos[y][x] <= 46):
-            sound = pygame.mixer.Sound('sounds/dragon.wav')
+            sound = pygame.mixer.Sound('sounds/dragon.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al dragón que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -657,7 +657,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Sombra humanoide
         elif(self.Mapa.objetos[y][x] == 47):
-            sound = pygame.mixer.Sound('sounds/sombra.wav')
+            sound = pygame.mixer.Sound('sounds/sombra.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco a la sombra humanoide que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -681,7 +681,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Fénix
         elif(self.Mapa.objetos[y][x] == 48):
-            sound = pygame.mixer.Sound('sounds/fenix.wav')
+            sound = pygame.mixer.Sound('sounds/fenix.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al fénix que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -705,7 +705,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Ankheg
         elif(self.Mapa.objetos[y][x] == 49):
-            sound = pygame.mixer.Sound('sounds/ankheg.wav')
+            sound = pygame.mixer.Sound('sounds/ankheg.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al ankheg que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -729,7 +729,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Basilísco
         elif(50 <= self.Mapa.objetos[y][x] <= 56):
-            sound = pygame.mixer.Sound('sounds/basilisco.wav')
+            sound = pygame.mixer.Sound('sounds/basilisco.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al basilisco que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -753,7 +753,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Murciélago
         elif(self.Mapa.objetos[y][x] == 57):
-            sound = pygame.mixer.Sound('sounds/murcielago.wav')
+            sound = pygame.mixer.Sound('sounds/murcielago.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al murciélago que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -777,7 +777,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Rata
         elif(self.Mapa.objetos[y][x] == 58):
-            sound = pygame.mixer.Sound('sounds/rata.wav')
+            sound = pygame.mixer.Sound('sounds/rata.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco a la rata que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
@@ -801,7 +801,7 @@ class EstadoRecolectAndBreak(Estado):
             self.GLOBAL.setShowImage(True)
         # Gato
         elif(59 <= self.Mapa.objetos[y][x] <= 66):
-            sound = pygame.mixer.Sound('sounds/gato.wav')
+            sound = pygame.mixer.Sound('sounds/gato.mp3')
             pygame.mixer.Channel(8).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al gato que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
