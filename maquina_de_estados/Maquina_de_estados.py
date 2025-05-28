@@ -513,7 +513,7 @@ class EstadoRecolectAndBreak(Estado):
         # Esqueleto
         elif(33 <= self.Mapa.objetos[y][x] <= 38):
             sound = pygame.mixer.Sound('sounds/zombie.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al esqueleto que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -538,7 +538,7 @@ class EstadoRecolectAndBreak(Estado):
         # Zombie
         elif(self.Mapa.objetos[y][x] == 39):
             sound = pygame.mixer.Sound('sounds/zombie.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al zombie que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -562,7 +562,7 @@ class EstadoRecolectAndBreak(Estado):
         # Slime
         elif(self.Mapa.objetos[y][x] == 40):
             sound = pygame.mixer.Sound('sounds/slime.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al slime que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -586,7 +586,7 @@ class EstadoRecolectAndBreak(Estado):
         # Beholder
         elif(self.Mapa.objetos[y][x] == 41):
             sound = pygame.mixer.Sound('sounds/beholder.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al beholder que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -610,7 +610,7 @@ class EstadoRecolectAndBreak(Estado):
         # Troll
         elif(self.Mapa.objetos[y][x] == 42):
             sound = pygame.mixer.Sound('sounds/troll.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al troll que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -634,7 +634,7 @@ class EstadoRecolectAndBreak(Estado):
         # Dragón
         elif(43 <= self.Mapa.objetos[y][x] <= 46):
             sound = pygame.mixer.Sound('sounds/dragon.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al dragón que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -658,7 +658,7 @@ class EstadoRecolectAndBreak(Estado):
         # Sombra humanoide
         elif(self.Mapa.objetos[y][x] == 47):
             sound = pygame.mixer.Sound('sounds/sombra.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco a la sombra humanoide que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -682,7 +682,7 @@ class EstadoRecolectAndBreak(Estado):
         # Fénix
         elif(self.Mapa.objetos[y][x] == 48):
             sound = pygame.mixer.Sound('sounds/fenix.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al fénix que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -706,7 +706,7 @@ class EstadoRecolectAndBreak(Estado):
         # Ankheg
         elif(self.Mapa.objetos[y][x] == 49):
             sound = pygame.mixer.Sound('sounds/ankheg.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al ankheg que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -730,7 +730,7 @@ class EstadoRecolectAndBreak(Estado):
         # Basilísco
         elif(50 <= self.Mapa.objetos[y][x] <= 56):
             sound = pygame.mixer.Sound('sounds/basilisco.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al basilisco que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -754,7 +754,7 @@ class EstadoRecolectAndBreak(Estado):
         # Murciélago
         elif(self.Mapa.objetos[y][x] == 57):
             sound = pygame.mixer.Sound('sounds/murcielago.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al murciélago que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -778,7 +778,7 @@ class EstadoRecolectAndBreak(Estado):
         # Rata
         elif(self.Mapa.objetos[y][x] == 58):
             sound = pygame.mixer.Sound('sounds/rata.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco a la rata que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
@@ -802,7 +802,7 @@ class EstadoRecolectAndBreak(Estado):
         # Gato
         elif(59 <= self.Mapa.objetos[y][x] <= 66):
             sound = pygame.mixer.Sound('sounds/gato.mp3')
-            pygame.mixer.Channel(8).play(sound)
+            pygame.mixer.Channel(6).play(sound)
             sound = None
             info_mob = "Te acercas poco a poco al gato que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
