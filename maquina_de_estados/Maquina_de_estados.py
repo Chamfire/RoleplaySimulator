@@ -714,13 +714,7 @@ class EstadoDeMision(Estado):
         self.estadosSucesores = estado_pred
         self.ids = 0 
         self.ordenEstados = {} #Estados internos de misión
-        #TODO: incluir la descripción del mapa
         self.dialogoDMIntro = "En frente de ti, te parece ver a alguien. "+descripcionFisicaNPC+" Te muestro una imagen."
-        #TODO: Printear su imagen
-        #TODO: Registrarlos en el mapa
-        #self.NPCs = #TODO
-        #self.mobs = #TODO
-        #self.objetos = #TODO
 
     def checkIfCanRun(self,DM,player):
         return True #no tiene ningún requisito de acceso
@@ -908,11 +902,11 @@ class EstadoDeMisionConcreta(Estado):
         
     def checkIfCompleted(self,personaje):
         if(self.tipo_de_estado == "combate"):
-            for mob,value in self.variableDeCheck.items():
+            for mob,value in self.variableDeCheck["progreso"].items():
                 if(value[0] != value[1]):
                     return False
         elif(self.tipo_de_estado == "búsqueda"):
-            for objeto,value in self.variableDeCheck.items():
+            for objeto,value in self.variableDeCheck["progreso"].items():
                 if(not value):
                     return False
         return True

@@ -1273,6 +1273,7 @@ class PartidaScreen:
                             dif_ca = base_ca - self.personaje.equipo.armadura_actual[2].nueva_ca
                             self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.armadura_actual
                             self.personaje.equipo.armadura_actual = None
+                            self.personaje.equipo.num_objetos_actual +=1
                             self.intercambio = False
                             self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado
                             self.personaje.ca -= dif_ca
@@ -1281,6 +1282,7 @@ class PartidaScreen:
                                 self.personaje.ca -=2
                             self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.objeto_equipado_mano_derecha
                             self.personaje.equipo.objeto_equipado_mano_derecha = None
+                            self.personaje.equipo.num_objetos_actual +=1
                             self.intercambio = False
                             self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado
                         elif(self.intercambio and self.slot_selected == 'mano izquierda'):
@@ -1288,6 +1290,7 @@ class PartidaScreen:
                                 self.personaje.ca -=2
                             self.personaje.equipo.objetos["slot_"+str(slot)] = self.personaje.equipo.objeto_equipado_mano_izquierda
                             self.personaje.equipo.objeto_equipado_mano_izquierda = None
+                            self.personaje.equipo.num_objetos_actual +=1
                             self.intercambio = False
                             self.slot_selected = None #ha terminado el intercambio, ya no hay objeto seleccionado  
                 else:
@@ -1447,6 +1450,7 @@ class PartidaScreen:
                                 else:
                                     self.personaje.equipo.armadura_actual = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)]
                                     self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                                    self.personaje.equipo.num_objetos_actual -=1
                                  # Actualizo la CA
                                 att = self.personaje.des-10
                                 if(att < 0):
@@ -1474,6 +1478,7 @@ class PartidaScreen:
                                 else:
                                     self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
                                     self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                                    self.personaje.equipo.num_objetos_actual -=1
                                     self.personaje.ca +=2
                                     self.intercambio = False
                                     self.slot_selected = None 
@@ -1489,6 +1494,7 @@ class PartidaScreen:
                                     if(type(self.personaje.equipo.objeto_equipado_mano_derecha[2]) == Llave):
                                         print("Llave que abre posición: "+str(self.personaje.equipo.objeto_equipado_mano_derecha[2].puerta))
                                     self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                                    self.personaje.equipo.num_objetos_actual -=1
                                     self.intercambio = False
                                     self.slot_selected = None 
 
@@ -1507,6 +1513,7 @@ class PartidaScreen:
                                 else:
                                     self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
                                     self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                                    self.personaje.equipo.num_objetos_actual -=1
                                     self.personaje.ca +=2
                                     self.intercambio = False
                                     self.slot_selected = None 
@@ -1520,6 +1527,7 @@ class PartidaScreen:
                                 else:
                                     self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] 
                                     self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                                    self.personaje.equipo.num_objetos_actual -=1
                                     self.intercambio = False
                                     self.slot_selected = None 
                         

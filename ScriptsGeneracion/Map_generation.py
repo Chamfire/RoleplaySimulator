@@ -808,7 +808,7 @@ class Map_generation:
         self.checkIfFindMission(casillasAComprobar,pos_x,pos_y)
 
     def checkIfFindMission(self,casillasAComprobar,pos_x,pos_y):
-        if(self.getRoomAtPoint(pos_x,pos_y) == self.main_path[-1]):
+        if(self.getRoomAtPoint(pos_x,pos_y,self.room_sizes,self.room_start_points) == self.main_path[-1]):
             # Si está en la última sala, comprobamos si se ha cumplido o no la misión de la sala
             tipo_mision = self.salas[self.main_path[-1]].tipo_mision
             variableDeCheck = self.salas[self.main_path[-1]].variableDeCheck

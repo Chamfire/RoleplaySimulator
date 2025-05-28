@@ -1,6 +1,10 @@
-La descripción de la sala 17Es la siguiente: Que sala más bonita
+La descripción de la sala 17Es la siguiente: En esta galería de planta rectangular, el suelo de piedra y rocas desgastadas forman un camino sinuoso a través del espacio, con marcas de desgaste visibles en el suelo, indicando que muchos han caminado por este camino antes. La humedad del aire y las gotitas de agua que caen del techo de la galería crean un ambiente húmedo y sombrío, lo que hace que la atmósfera sea pesada y opresiva. En el centro de la galería, dos canastos de madera, uno al lado del otro, contienen esmeraldas que brillan en la luz débil que entra por la entrada de la galería. En uno de los canastes, una rata se ha instalado, mientras que en el otro, un saco de gran tamaño parece haber sido abandonado. Al fondo de la galería, una tumba de piedra con una runa grabada sobre su tapa parece ser el punto de destino final para aquellos que han caminado hasta aquí. La runa, grabada en la piedra, parece ser una advertencia, pero su significado es desconocido.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 5, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 18, y está abierta: "La puerta de madera se abre con un crujido, y te encuentras en un pasillo oscuro con baldosas moradas que se extienden hasta el infinito.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: "La puerta de madera se abre con un crujido, y te encuentras en un pasillo oscuro con baldosas moradas que se extienden hasta el infinito.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 14, y está abierta: La puerta de madera cedió con un susurro y se deslizó hacia atrás, revelando un pasillo oscuro, donde baldosas moradas parecen extenderse hasta el infinito.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: La puerta de madera cedió con un susurro y se deslizó hacia atrás, revelando un pasillo oscuro, donde baldosas moradas parecen extenderse hasta el infinito.
 

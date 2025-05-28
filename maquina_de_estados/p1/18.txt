@@ -1,10 +1,12 @@
-La descripción de la sala 18Es la siguiente: Que sala más bonita
+La descripción de la sala 18Es la siguiente: En esta galería puedes ver restos de roca por el suelo, que se extienden uniformemente en todas direcciones, revelando la dureza del suelo de piedra que te rodea. La superficie del suelo está marcada por una serie de huellas de desgaste, indicativas de que en el pasado, alguien o algo ha pasado por esta misma ruta muchas veces. La humedad del aire hace que el suelo esté húmedo y las gotitas de agua que caen del techo de la galería se filtran lentamente por el suelo, creando un efecto de frescura en la atmósfera, mientras que en las paredes de piedra, se pueden ver pequeñas manchas de hielo en las grietas y fisuras.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 4, y está abierta: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 4, pero está cerrada: La puerta está cerrada.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: puerta adyacente
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 4, y está abierta: "La puerta de madera se abre con un crujido, revelándote un pasillo oscuro y un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 10, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: "La puerta de madera se abre con un crujido, revelándote un pasillo oscuro y un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 17, y está abierta: "La puerta de madera cruje y se abre con un clic, revelándote un pasillo oscuro con baldosas moradas que se extienden hacia la oscuridad.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: "La puerta de madera cruje y se abre con un clic, revelándote un pasillo oscuro con baldosas moradas que se extienden hacia la oscuridad.
 

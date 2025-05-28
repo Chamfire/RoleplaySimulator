@@ -1,6 +1,16 @@
-La descripción de la sala 15Es la siguiente: En esta galería puedes ver un esqueleto en una esquina, cubierto de restos de roca por el suelo, con marcas en el suelo de desgaste evidentes. La humedad del aire está presente, y gotitas de agua caen del techo de la sala rectangular, iluminando el espacio con una luz tenue. El aire está lleno de un olor de humedad y tierra, y el suelo de piedra está cubierto de restos de roca, lo que sugiere que la galería no ha sido recorrida recientemente.
+La descripción de la sala 15Es la siguiente: En esta galería puedes ver el suelo cubierto de restos de roca por el suelo, con marcas en el suelo de desgaste evidentes, y una capa fina de humedad que recorre el suelo. Caen gotitas de agua del techo, que caen de manera uniforme, creando un ambiente húmedo y oscuro. Al lado derecho de la galería, un canasto de madera, ligeramente arrugado y desgastado, se apoya contra la pared, y contiene un hermoso esmeralda que reluce débilmente bajo la luz del techo. En frente de ti, una roca puntiaguda sobresale del suelo, con un borde afilado y una textura rugosa. En una esquina de la galería, un extraño hongo alargado de color azul oscuro se ergue desde el suelo, su forma sinuosa y sus bordes irregulares lo hacen parecer un vegetal singular. Al fondo de la galería, un setos de color naranja brotan del suelo, sus tallos delgados y sus hojas pequeñas se inclinan hacia adelante, como si estuvieran explorando el suelo a su alrededor.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 6, y está abierta: La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro y profundo, iluminado únicamente por las sombras que bailan sobre el suelo de baldosas moradas que se extiende ante él.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 13, y está abierta: Al abrir la puerta de madera, el cierre de bronce cruje suavemente y te dejas llevar a una galería amplia y sombría, iluminada únicamente por velas que danzan en el viento.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: La puerta de madera se abre con un crujido suave, revelando un pasillo oscuro y profundo, iluminado únicamente por las sombras que bailan sobre el suelo de baldosas moradas que se extiende ante él.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: Al abrir la puerta de madera, el cierre de bronce cruje suavemente y te dejas llevar a una galería amplia y sombría, iluminada únicamente por velas que danzan en el viento.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 11, pero está cerrada: La puerta está cerrada, no abierta.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 11, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro y frío, con baldosas moradas que se extienden ante ti".
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro y frío, con baldosas moradas que se extienden ante ti".
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 10, y está abierta: La puerta de madera se abre con un crujido, y tú te encuentras en un pasillo sombrío, iluminado solo por estrechas baldosas moradas que se extienden ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: La puerta de madera se abre con un crujido, y tú te encuentras en un pasillo sombrío, iluminado solo por estrechas baldosas moradas que se extienden ante ti.
 

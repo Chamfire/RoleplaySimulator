@@ -1,10 +1,10 @@
-La descripción de la sala 16Es la siguiente: Que sala más bonita
+La descripción de la sala 16Es la siguiente: En esta galería de planta rectangular, el suelo está cubierto de restos de roca por el suelo, con marcas evidentes de desgaste que sugieren un uso frecuente. Dos rocas puntiagudas, una en una esquina y la otra en frente de ella, sobresalen del suelo, como si fueran los guardias de la entrada. En el centro de la galería, un extraño hongo alargado de color azul oscuro se eleva del suelo, como una sombra vivo. La humedad se siente en el aire, y las gotitas de agua que caen del techo delante de ti crean un ruido constante. La luz que entra por los puntos de ventilación es tenue, y las sombras se proyectan en las paredes, creando un ambiente sombrío y inquietante.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 9, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 12, y está abierta: La puerta de madera se abre con un crujido, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: La puerta de madera se abre con un crujido, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 7, y está abierta: puerta abierta
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 4, y está abierta: La puerta de madera se abre con un crujido suave, revelándote un pasillo oscuro y sereno, con baldosas moradas que se extienden ante ti como un pasillo de sombras.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: puerta abierta
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: La puerta de madera se abre con un crujido suave, revelándote un pasillo oscuro y sereno, con baldosas moradas que se extienden ante ti como un pasillo de sombras.
 
