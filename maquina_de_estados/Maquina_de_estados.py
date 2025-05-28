@@ -518,7 +518,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al esqueleto que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "esqueleto"
+                self.mobsEncontrados[str([x,y])] = "esqueleto"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -543,7 +543,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al zombie que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "zombie"
+                self.mobsEncontrados[str([x,y])] = "zombie"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -567,7 +567,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al slime que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "slime"
+                self.mobsEncontrados[str([x,y])] = "slime"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -591,7 +591,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al beholder que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "beholder"
+                self.mobsEncontrados[str([x,y])] = "beholder"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -615,7 +615,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al troll que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "troll"
+                self.mobsEncontrados[str([x,y])] = "troll"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -639,7 +639,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al dragón que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "dragón"
+                self.mobsEncontrados[str([x,y])] = "dragón"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -663,7 +663,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco a la sombra humanoide que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "sombra"
+                self.mobsEncontrados[str([x,y])] = "sombra"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -687,7 +687,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al fénix que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "fénix"
+                self.mobsEncontrados[str([x,y])] = "fénix"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -711,7 +711,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al ankheg que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "ankheg"
+                self.mobsEncontrados[str([x,y])] = "ankheg"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -735,7 +735,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al basilisco que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "basilisco"
+                self.mobsEncontrados[str([x,y])] = "basilisco"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -759,7 +759,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al murciélago que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "murciélago"
+                self.mobsEncontrados[str([x,y])] = "murciélago"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -783,7 +783,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco a la rata que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "rata"
+                self.mobsEncontrados[str([x,y])] = "rata"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
@@ -807,7 +807,7 @@ class EstadoRecolectAndBreak(Estado):
             info_mob = "Te acercas poco a poco al gato que tienes delante, y ves que se remueve ligeramente. Te muestro una imagen."
             if(self.mobsEncontrados.get(str([x,y])) == None):
                 # Leer descripción del mob, y lo añadimos a mobs encontrados
-                self.mobsEncontrados[str(x,y)] = "gato"
+                self.mobsEncontrados[str([x,y])] = "gato"
                 # Cogemos la descripción del mob del .json
                 self.dir = 'descripciones'
                 self.file = 'Monsters.json'
