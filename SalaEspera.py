@@ -843,7 +843,7 @@ class SalaEspera:
                                         rows = cursor.fetchall()
                                         if(rows != []):
                                             row3 = rows[0]
-                                            personaje_temp.equipo.armadura_actual = [row3[2],row3[1],personaje_temp.equipo.listaInventario.getArmaduraList()[row3[2]][row3[1]]]
+                                            personaje_temp.equipo.armadura_actual = [row3[2],row3[1],personaje_temp.equipo.listaInventario.getArmaduraList()[row3[2]][row3[1]],1]
                                         
                                         #objeto mano derecha equipado
                                         query_get_objeto_mano_derecha = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,procedencia,lista_nombre,slot FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Mano derecha'"
@@ -1004,7 +1004,7 @@ class SalaEspera:
                                     rows = cursor.fetchall()
                                     if(rows != []):
                                         row3 = rows[0]
-                                        personaje_temp.equipo.armadura_actual = [row3[2],row3[1],personaje_temp.equipo.listaInventario.getArmaduraList()[row3[2]][row3[1]]]
+                                        personaje_temp.equipo.armadura_actual = [row3[2],row3[1],personaje_temp.equipo.listaInventario.getArmaduraList()[row3[2]][row3[1]],1]
                                         
                                     #objeto mano derecha equipado
                                     query_get_objeto_mano_derecha = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,procedencia,lista_nombre,slot FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Mano derecha'"
@@ -1166,7 +1166,7 @@ class SalaEspera:
                                     rows = cursor.fetchall()
                                     if(rows != []):
                                         row3 = rows[0]
-                                        personaje_temp.equipo.armadura_actual = [row3[2],row3[1],personaje_temp.equipo.listaInventario.getArmaduraList()[row3[2]][row3[1]]]
+                                        personaje_temp.equipo.armadura_actual = [row3[2],row3[1],personaje_temp.equipo.listaInventario.getArmaduraList()[row3[2]][row3[1]],1]
                                         
                                     #objeto mano derecha equipado
                                     query_get_objeto_mano_derecha = """SELECT cantidad,name_obj,categoria_obj,name,partida_id,id_jugador,procedencia,lista_nombre,slot FROM inventario WHERE partida_id = '"""+self.currentPartida+"' AND name = '"+personaje_temp.name+"' AND id_jugador = '"+personaje_temp.id_jugador+"' AND procedencia = 'Mano derecha'"
