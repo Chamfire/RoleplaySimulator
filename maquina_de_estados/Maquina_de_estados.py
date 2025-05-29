@@ -1191,6 +1191,7 @@ class EstadoDeHablaNPC(Estado):
                 msg = ""
                 self.GLOBAL.setTextoMensaje("")
                 self.GLOBAL.setModoHabla(True)
+                self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
         
 
 
