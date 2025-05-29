@@ -33,8 +33,17 @@ class RAG_historia:
                 with open('maquina_de_estados/'+currentPartida+'/info_NPC.txt','r',encoding='utf-8') as file:
                     text = file.read()
                     file.close()
-                #TODO: indexar por nombre de documento
                 self.documentos = text.split('\n\n')
+            if os.path.exists('maquina_de_estados/'+currentPartida+'/dialogos_NPC.txt'):
+                with open('maquina_de_estados/'+currentPartida+'/dialogos_NPC.txt','r',encoding='utf-8') as file:
+                    text = file.read()
+                    file.close()
+                self.documentos += text.split('\n\n')
+            if os.path.exists('maquina_de_estados/'+currentPartida+'/info_mision.txt'):
+                with open('maquina_de_estados/'+currentPartida+'/info_mision.txt','r',encoding='utf-8') as file:
+                    text = file.read()
+                    file.close()
+                self.documentos += text.split('\n\n')
 
         else:
             #no existe el path -> hay que crearlo (la carpeta p1,p2,p3)
@@ -50,7 +59,7 @@ class RAG_historia:
         index.add(embeddings.astype(np.float32))
         return index, self.documentos, embedding_model
 
-    def devolver_contexto(self,query, embedding_model, index, documents, k=4):
+    def devolver_contexto(self,query, embedding_model, index, documents, k=5):
         query_embedding = embedding_model.encode([query])
         distances, indices = index.search(query_embedding.astype(np.float32), k)
         return [documents[i] for i in indices[0]]
@@ -63,10 +72,16 @@ class RAG_historia:
             info_a_escribir += infoTrasfondo+"\n\n"
             info_a_escribir += motivoUbicacion
             f.write(info_a_escribir)
-    def escribirInfoMision(self,mision_basica,dialogos):
+
+    def escribirCurrentDialogoNPCYPregunta(self,msg_jugador,respuestaNPC,lastText):
+       with open('maquina_de_estados/'+self.currentPartida+'/dialogos_NPC.txt','a',encoding='utf-8') as f:
+            info_a_escribir = "Cuando él me dijo: '"+lastText+"'. Yo le respondí con lo siguiente: '"+msg_jugador+"'. A esa respuesta, él me respondió: "+respuestaNPC+"\n\n"
+            f.write(info_a_escribir)
+
+    def escribirInfoMision(self,mision_basica,dialogos,nombreNPC):
         with open('maquina_de_estados/'+self.currentPartida+'/info_mision.txt','w',encoding='utf-8') as f:
-            info_a_escribir = mision_basica+"\n\n"
-            info_a_escribir += dialogos
+            info_a_escribir = "Misión actual para mí: "+mision_basica+"\n\n"
+            info_a_escribir += "Diálogo que empleó "+nombreNPC+" para proponerme la misión: "+dialogos
             f.write(info_a_escribir)
     def escribirInfoSala(self,sala,frases_puertas,descripcion):
         with open('maquina_de_estados/'+self.currentPartida+'/'+str(sala)+'.txt','w',encoding='utf-8') as f:
@@ -78,12 +93,12 @@ class RAG_historia:
                 info_a_escribir += "Diálogo del Dungeon Master cuando un jugador regresa a la sala "+str(sala)+": "+str(frases_puertas[sala][i][1])+"\n\n"
             f.write(info_a_escribir)
 
-    def escribirDialogosNPC(self,dialogos):
+    def escribirDialogosNPC(self,dialogos, nombreNPC):
         with open('maquina_de_estados/'+self.currentPartida+'/dialogos_NPC.txt','w',encoding='utf-8') as f:
-            info_a_escribir = dialogos
+            info_a_escribir = "Esta es la presentación que ha hecho "+nombreNPC+" de sí mismo: "+dialogos
             f.write(info_a_escribir)
 
-    def consultar_NPC(self,contexto_estado):
+    def consultar_NPC(self,contexto_estado,lastTexto):
         model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
         model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
         model_path = hf_hub_download(model_name, filename=model_file)
@@ -106,16 +121,12 @@ class RAG_historia:
 
         index, document_texts, embedding_model = self.crear_vectores()
         # Retrieve context
-        query_context = contexto_estado
+        query_context = "Teniendo en cuenta que un NPC está hablando conmigo, y ese NPC me dijo: "+lastTexto+". Luego, yo le contesté: "+contexto_estado+". ¿Qué información o diálogos sucedidos pueden ser de utilidad para fundamentar una respuesta a lo que yo le he dicho a ese NPC?"
         context = self.devolver_contexto(query_context, embedding_model, index, document_texts)
         contexto_formato = "\n".join(context)
 
-        # Consulta de ejemplo
-        # query = """{Eres un dungeon master de Dnd 5e y tienes que escoger la mejor canción para un momento específico de una aventura.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-        #                 {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: algo tenso, sigilo y tribal? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
-        #                 <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-        #query = f"Use just the following context for answering the question: \n Taking into account that all the songs have this format: \"carpet/name\": \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nQuestion: {query_context} \nAnswer just with the content above, and giving just the carpet/name or several carpet/names of the songs choosed, separated in different lines and whithout giving any additional detail.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
-        query = f"Usa únicamente el siguiente contexto para responder a la pregunta: \n Teniendo en cuenta que todas las canciones tienen este formato: nombre carpeta/nombre cancion: \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: {query_context} \nResponde únicamente basandote en el contexto anterior, y devolviendo únicamente la carpeta/canción o varias carpeta/canción escogidas, separadas en líneas diferentes, sin dar ningún detalle adicional.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+        pregunta = "Teniendo en cuenta que un NPC está hablando conmigo, y ese NPC me dijo: "+lastTexto+". Luego, yo le contesté: "+contexto_estado+". ¿Qué me responde el NPC? "
+        query = f"Eres un dungeon master de Dnd 5e y debes usar únicamente el siguiente contexto para responder a la pregunta:\n Debes comenzar la respuesta con frases como 'Así, ves que te mira fíjamente y te dice...' o 'tras decir eso, ves que se queda pensativo, y empieza a decir...', etc. Las preguntas que no tengan relación con dungeons and dragons se contestarán con la frase: 'El metajuego no está soportado aún en esta versión de Roleplay simulator. ¡Concéntrate!', {contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: {query_context} <|eot_id|><|start_header_id|>assistant<|end_header_id|>"
         res = llm(query, **generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
         response_good = res["choices"][0]["text"]

@@ -12,6 +12,7 @@ import json
 import os
 import sys
 import contextlib
+import RAG_historia
 from llama_cpp import Llama
 
 @contextlib.contextmanager
@@ -1078,7 +1079,7 @@ class EstadoDeMision(Estado):
         self.GLOBAL.setFinishedStart(True)
 
 class EstadoDeHablaNPC(Estado):
-    def __init__(self,isInicial,DMintro,DMMision,id,personajeDelHost,numJugadores,estado_pred,NPC):
+    def __init__(self,isInicial,DMintro,DMMision,id,personajeDelHost,numJugadores,estado_pred,NPC,currentPartida):
         super().__init__(isInicial,DMintro,id)
         self.variableDeCheck["progreso"] = {}
         self.personajeDelHost = personajeDelHost
@@ -1090,6 +1091,7 @@ class EstadoDeHablaNPC(Estado):
         self.esPuntoDeRespawn = False
         self.tipo_de_estado = "mision_especifica"
         self.estadosSucesores = estado_pred
+        self.currentPartida = currentPartida
         self.ids = 0 
         self.ordenEstados = {} #Estados internos de misión
         self.click = {}
@@ -1100,6 +1102,7 @@ class EstadoDeHablaNPC(Estado):
         self.NPC = NPC
         self.dialogoDMIntro = DMintro
         self.dialogoDMMision = DMMision
+        self.lastTexto = ""
 
     def checkIfCanRun(self,DM,personaje):
         canTalk  = self.GLOBAL.getCanTalkToNPC()
@@ -1167,6 +1170,7 @@ class EstadoDeHablaNPC(Estado):
         DM.speak(string_to_speech) 
         #DM.printVoices()
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
+        self.lastTexto = self.dialogoDMIntro
         self.run(DM,personaje)
 
     def talkToNPC(self,DM,personaje):
@@ -1174,8 +1178,18 @@ class EstadoDeHablaNPC(Estado):
         # Establecemos el modo habla, pues el jugador ha activado este modo
         self.GLOBAL.setModoHabla(True)
         while(self.GLOBAL.getModoHabla()):
-            # Chequear RAG
+            # Esperar a recibir mensaje
             time.sleep(0.2)
+        msg = self.GLOBAL.getTextoMensaje()
+        if(msg != ""):
+            # RAG
+            rag_historia = RAG_historia.RAG_historia(self.currentPartida)
+            resp = rag_historia.consultar_NPC(msg,self.lastTexto)
+            toTalk = resp
+            DM.speak(toTalk)
+            rag_historia.escribirCurrentDialogoNPCYPregunta(msg,resp,self.lastTexto)
+            self.lastTexto = resp
+            msg = ""
 
 
     def finishNPCMision(self,DM,personaje):
@@ -2608,7 +2622,7 @@ class Maquina_de_estados:
         self.ordenEstados[id].ids +=1
         #Mision 0, Estado 1: Misión específica
     def crearEstadoDeMisionConcreta(self,variableDeCheck,num_mision,dialogo_bienvenida,propuesta_mision,numJ,NPC,tipo_mision,mision,Mapa,textoDM):
-        self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeHablaNPC(False,dialogo_bienvenida,propuesta_mision,self.estadosDeMision[num_mision].ids,self.personajeDelHost,numJ,self.estadosDeMision[num_mision],NPC)
+        self.estadosDeMision[num_mision].ordenEstados[self.estadosDeMision[num_mision].ids] = EstadoDeHablaNPC(False,dialogo_bienvenida,propuesta_mision,self.estadosDeMision[num_mision].ids,self.personajeDelHost,numJ,self.estadosDeMision[num_mision],NPC,self.currentPartida)
         self.estadosDeMision[num_mision].ids +=1
 
         #Misión concreta

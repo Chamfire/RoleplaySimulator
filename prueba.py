@@ -92,3 +92,9 @@ print(a4[1][0])
 
 a = "slot_1"
 print(a[5:])
+
+texto = "ahoasof ahsdifa sdhofa sdhiofa"
+texto2 = "hej jej aej sej"
+final = texto.split(" ")
+final += texto2.split(" ")
+print(final)

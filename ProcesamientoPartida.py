@@ -465,7 +465,7 @@ class ProcesamientoPartida:
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             dialogos_posibles = self.consultarAlDM(prompt,model_path,None,2048,300) #"Mision"
             print("Progreso: 20%")
-            self.RAG_historia.escribirInfoMision(mision,dialogos_posibles)
+            self.RAG_historia.escribirInfoMision(mision,dialogos_posibles,self.personaje.name)
             presentacion_NPC = f"""Eres un dungeon master de Dnd 5e y yo voy a hablar con un NPC por primera vez, y quieres que este NPC se presente, indicando su nombre y el nombre del lugar donde están.<|eot_id|><|start_header_id|>user<|end_header_id|>
                             Genera un único párrafo del diálogo que me diría ese NPC, refiriéndote a mí como "aventurero". Ten en cuenta que el NPC se llama {self.personaje.name}, y que tiene este trasfondo:
                             {infoTrasfondo}, y este motivo para estar en este lugar: {self.ubicacion}, que es este: {motivoUbicacion}. La descripción física de este NPC es esta {self.personaje.descripcion_fisica}. No hagas referencia al motivo
@@ -474,7 +474,7 @@ class ProcesamientoPartida:
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             dialogos_presentacion = self.consultarAlDM(presentacion_NPC,model_path,None,2048,700) #"Motivo"
             print("Progreso: 30%")
-            self.RAG_historia.escribirDialogosNPC(dialogos_presentacion)
+            self.RAG_historia.escribirDialogosNPC(dialogos_presentacion,self.personaje.name)
 
             #Creo el mapa 
             Mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,tipo_mision,variableDeCheck,self.numJugadores,NPC_animacion,self.jugadorHost.id_jugador,self.width,self.height) #que genere el mapa de una mazmorra
@@ -627,7 +627,6 @@ class ProcesamientoPartida:
                             Pregunta: ¿Qué párrafo me dirías para indicarme que he completado la misión con éxito, y que he encontrado aquello que se me pedía?
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             finMisionDM = self.consultarAlDM(prompt_fin,model_path," Con esto, doy por finalizada esta aventura. ¡Espero volver a verte pronto!",1024,400)
-            
 
             print("Progreso: 90%")
             self.maquina.crearEstadoDeMision(self.numJugadores,self.personaje.descripcion_fisica,motivoUbicacion,infoTrasfondo,NPC_imagen_carpeta)
