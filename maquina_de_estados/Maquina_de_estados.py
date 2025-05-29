@@ -1189,6 +1189,8 @@ class EstadoDeHablaNPC(Estado):
                 rag_historia.escribirCurrentDialogoNPCYPregunta(msg,resp,self.lastTexto)
                 self.lastTexto = resp
                 msg = ""
+                self.GLOBAL.setTextoMensaje("")
+                self.GLOBAL.setModoHabla(True)
         
 
 
