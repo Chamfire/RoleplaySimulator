@@ -229,6 +229,8 @@ class EstadoRecolectAndBreak(Estado):
                 texto.replace("\\n", " ")
                 texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
+                a_lista = "El jugador ha sacudido un sarcófago, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+                self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
         # Rubíes
         elif((95 <= self.Mapa.objetos[y][x] <= 97) or (self.Mapa.objetos[y][x] == 104)):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -271,6 +273,8 @@ class EstadoRecolectAndBreak(Estado):
                 texto.replace("\\n", " ")
                 texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
+            a_lista = "El jugador ha destruido un canasto de rubíes, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
                 
 
         # Esmeraldas
@@ -315,6 +319,8 @@ class EstadoRecolectAndBreak(Estado):
                 texto.replace("\\n", " ")
                 texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
+            a_lista = "El jugador ha destruido un canasto de esmeraldas, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
         # Mineral extraño
         elif((self.Mapa.objetos[y][x] == 101) or (self.Mapa.objetos[y][x] == 106)):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -357,6 +363,8 @@ class EstadoRecolectAndBreak(Estado):
                 texto.replace("\\n", " ")
                 texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
+            a_lista = "El jugador ha destruido un canasto de minerales amarillos, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
         # Saco de monedas
         elif(101 <= self.Mapa.objetos[y][x] <= 103):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -400,6 +408,8 @@ class EstadoRecolectAndBreak(Estado):
             texto.replace("\\n", " ")
             texto = ''.join(c for c in texto if c.isprintable())
             DM.speak(texto)
+            a_lista = "El jugador ha abierto un saco de cuero, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
         # Hongo azul
         elif(111 <= self.Mapa.objetos[y][x] <= 112):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -442,6 +452,8 @@ class EstadoRecolectAndBreak(Estado):
                 texto.replace("\\n", " ")
                 texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
+            a_lista = "El jugador ha arrancado un hongo azul, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
         # Seta
         elif(113 <= self.Mapa.objetos[y][x] <= 114):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -484,6 +496,8 @@ class EstadoRecolectAndBreak(Estado):
                 texto.replace("\\n", " ")
                 texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
+            a_lista = "El jugador ha arrancado una seta naranja, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
 
         # Roca para romperla
         elif(115 <= self.Mapa.objetos[y][x] <= 117):
@@ -512,6 +526,8 @@ class EstadoRecolectAndBreak(Estado):
             texto.replace("\\n", " ")
             texto = ''.join(c for c in texto if c.isprintable())
             DM.speak(texto)
+            a_lista = "El jugador ha destruido una roca, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
 
         # Esqueleto
         elif(33 <= self.Mapa.objetos[y][x] <= 38):
