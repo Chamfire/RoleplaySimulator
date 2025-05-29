@@ -204,6 +204,8 @@ class EstadoRecolectAndBreak(Estado):
                 texto.replace("\\n", " ")
                 texto = ''.join(c for c in texto if c.isprintable())
                 DM.speak(texto)
+                a_lista = "El jugador ha destruido un sarcófago, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+                self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             else:
                 # El sarcófago contiene objeto, y no se puede romper
                 texto = "Espera un momento que piense..."
@@ -1007,7 +1009,7 @@ class EstadoInicial(Estado):
         #Música de inicio
         mixer.music.stop()#para la música
         mixer.music.load('music/'+self.cancion+".mp3") #carga la nueva canción sugerida por la ia
-        mixer.music.play(-1)
+        mixer.music.play(0)
 
         print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         DM.speak(self.dialogoDMIntro) 
@@ -2650,6 +2652,10 @@ class Maquina_de_estados:
                     player = player[1]
                     self.currentEstadoByPlayers[str(player.name)+","+str(player.id_jugador)] = 1 #paso a todos al segundo estado
         else:
+            if(not mixer.music.get_busy()):
+                # La  música ha parado, y hay que elegir una nueva canción
+                # TODO: llamar al RAG
+                pass
             estado = self.ordenEstados[self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)]]
             #print("antes :)")
             if((not estado.checkIfCompleted(personaje)) and estado.checkIfCanRun(self.DM,personaje)):

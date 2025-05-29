@@ -69,6 +69,18 @@ class Global:
         modoHabla = False
         global textoMensaje
         textoMensaje = ""
+        global lista 
+        lista = list()
+
+    def addElementToListaAndRemoveFirst(self,i):
+        global lista
+        lista.append(i)
+        if(len(lista) > 10):
+            lista.pop(0)
+    
+    def getLista(self):
+        global lista
+        return lista
 
     def setTextoMensaje(self,v):
         global textoMensaje
