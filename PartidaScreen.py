@@ -28,6 +28,7 @@ class PartidaScreen:
         self.seed_random = seed
         self.hiloProcesamientoPartida = None
         self.currentPartida = None
+        self.inputBoxMessage = None
 
         #musica
         self.pressed =  pygame.mixer.Sound('sounds/button_pressed.wav')
@@ -219,6 +220,7 @@ class PartidaScreen:
         self.cont = 0
         self.openedInventory = False
         self.intercambio = False
+        self.mensajePlayer = ""
 
         #estado variable
         self.contMsg = 0 #por defecto empieza en 0
@@ -643,28 +645,8 @@ class PartidaScreen:
         pygame.display.update() 
 
     def renderTextBlock(self,text,position):
-
-        (x,y) = pygame.mouse.get_pos()
-
         self.inputBoxDescripcion = pygame.Rect(self.width/48.0000, self.height/1.4894, self.width/1.4815, self.height/5.6452) #25 470 810 124
         pygame.draw.rect(self.screen, self.color_white, self.inputBoxDescripcion, 0)
-        # img = self.GLOBAL.getImagePartida() 
-        # if(img != ""):
-        #     self.image.put(img)
-
-        # try:
-        #     if(self.changePhoto):
-        #         self.currentImageToShow = self.image.get()
-        #         self.changePhoto = False
-        #         self.imagePhoto = pygame.image.load(self.currentImageToShow)
-        # except:
-        #     self.currentImageToShow = ""
-
-        # if(self.currentImageToShow != ""):
-        #     self.screen.blit(pygame.transform.scale(self.imagePhoto, (self.width/4.7059, self.height/2.6415)), (self.width/1.3378, self.height/14.0000)) #255 265 897 50
-
-
-
         currentWordsPrinted = 0
         lineSpacing = -2
         spaceWidth, fontHeight = self.fuente4.size(" ")[0], self.fuente4.size("Tg")[1]
@@ -702,6 +684,45 @@ class PartidaScreen:
                     currentWordsPrinted += 1
                 else:
                     return #así termina el método
+            lineBottom += fontHeight + lineSpacing
+
+    def renderTextMessageBlock(self,text):
+        self.inputBoxMessage = pygame.Rect(self.width/66.6667, self.height/1.0786, self.width/1.4670, self.height/13.2075) #18 649 818 53
+        pygame.draw.rect(self.screen, self.color_white, self.inputBoxMessage, 0)
+        currentWordsPrinted = 0
+        lineSpacing = -2
+        spaceWidth, fontHeight = self.fuente4.size(" ")[0], self.fuente4.size("Tg")[1]
+
+        listOfWords = text.split(" ")
+        imageList = [self.fuente4.render(word, True, self.color_black) for word in listOfWords]
+
+        maxLen = self.inputBoxMessage[2]-20 #10 de cada lado de margen
+        lineLenList = [0]
+        lineList = [[]]
+        for image in imageList:
+            width = image.get_width()
+            lineLen = lineLenList[-1] + len(lineList[-1]) * spaceWidth + width
+            if len(lineList[-1]) == 0 or lineLen <= maxLen:
+                lineLenList[-1] += width
+                lineList[-1].append(image)
+            else:
+                lineLenList.append(width)
+                lineList.append([image])
+
+        lineBottom = self.inputBoxMessage[1] 
+        lastLine = 0
+        for lineLen, lineImages in zip(lineLenList, lineList):
+            lineLeft = self.inputBoxMessage[0] +10
+            #if len(lineImages) > 1:
+            #   spaceWidth = (self.inputBoxDescripcion[2] - lineLen -20) // (len(lineImages)-1)
+            if lineBottom + fontHeight > self.inputBoxMessage[1] + self.inputBoxMessage[3]:
+                break
+            lastLine += 1
+            for i, image in enumerate(lineImages):
+                x, y = lineLeft + i*spaceWidth, lineBottom
+                self.screen.blit(image, (round(x), y))
+                lineLeft += image.get_width() 
+                currentWordsPrinted += 1
             lineBottom += fontHeight + lineSpacing
 
     def animateScreen(self,maxFPS):
@@ -1056,71 +1077,88 @@ class PartidaScreen:
                 self.GLOBAL.setCanTalkToNPC(False)
                 self.GLOBAL.setCanOpenChest([False,[None,None]])
             elif(key == pygame.K_t):
-                if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
-                    # Si se ve el mapa, no está abierto el inventario, el DM no está hablando y ya se ha leído la descripción -> al darle a la t, si está a 5 pies del NPC puede hablar con él
-                    self.GLOBAL.setCanTalkToNPC(True)
-                    self.GLOBAL.setCanOpenChest([False,[None,None]])
+                if(not self.GLOBAL.getModoHabla()):
+                    if(not self.GLOBAL.getModoHabla() and self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
+                        # Si se ve el mapa, no está abierto el inventario, el DM no está hablando y ya se ha leído la descripción -> al darle a la t, si está a 5 pies del NPC puede hablar con él
+                        self.GLOBAL.setCanTalkToNPC(True)
+                        self.GLOBAL.setCanOpenChest([False,[None,None]])
                     # Así le indico que puede hablar con el NPC
+                else:
+                    self.manageInputBox(key,unicode)
             elif(key == pygame.K_r):
                 # Para recoger minerales, hongos, setas, sacos o romper rocas/sarcófagos, y para interactuar con mobs
-                if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
-                    if(((self.personaje.playerAction == "WALK_DOWN") or (self.personaje.playerAction == "IDLE_DOWN"))):  
-                        pos_x = self.personaje.coordenadas_actuales_r[0]
-                        pos_y = self.personaje.coordenadas_actuales_r[1]+1
-                    elif(((self.personaje.playerAction == "WALK_UP") or (self.personaje.playerAction == "IDLE_UP"))):
-                        pos_x = self.personaje.coordenadas_actuales_r[0]
-                        pos_y = self.personaje.coordenadas_actuales_r[1]-1
-                    elif(((self.personaje.playerAction == "WALK_LEFT") or (self.personaje.playerAction == "IDLE_LEFT"))):
-                        pos_x = self.personaje.coordenadas_actuales_r[0]-1
-                        pos_y = self.personaje.coordenadas_actuales_r[1]
-                    elif(((self.personaje.playerAction == "WALK_RIGHT") or (self.personaje.playerAction == "IDLE_RIGHT"))):
-                        pos_x = self.personaje.coordenadas_actuales_r[0]+1
-                        pos_y = self.personaje.coordenadas_actuales_r[1]
-                    else:
-                        pos_x = None
-                        pos_y = None
-                    self.GLOBAL.setCanBreak([True,[pos_x,pos_y]])
-                    self.GLOBAL.setCanTalkToNPC(False)
-                    self.GLOBAL.setCanOpenChest([False,[None,None]])
+                if(not self.GLOBAL.getModoHabla()):
+                    if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
+                        if(((self.personaje.playerAction == "WALK_DOWN") or (self.personaje.playerAction == "IDLE_DOWN"))):  
+                            pos_x = self.personaje.coordenadas_actuales_r[0]
+                            pos_y = self.personaje.coordenadas_actuales_r[1]+1
+                        elif(((self.personaje.playerAction == "WALK_UP") or (self.personaje.playerAction == "IDLE_UP"))):
+                            pos_x = self.personaje.coordenadas_actuales_r[0]
+                            pos_y = self.personaje.coordenadas_actuales_r[1]-1
+                        elif(((self.personaje.playerAction == "WALK_LEFT") or (self.personaje.playerAction == "IDLE_LEFT"))):
+                            pos_x = self.personaje.coordenadas_actuales_r[0]-1
+                            pos_y = self.personaje.coordenadas_actuales_r[1]
+                        elif(((self.personaje.playerAction == "WALK_RIGHT") or (self.personaje.playerAction == "IDLE_RIGHT"))):
+                            pos_x = self.personaje.coordenadas_actuales_r[0]+1
+                            pos_y = self.personaje.coordenadas_actuales_r[1]
+                        else:
+                            pos_x = None
+                            pos_y = None
+                        self.GLOBAL.setCanBreak([True,[pos_x,pos_y]])
+                        self.GLOBAL.setCanTalkToNPC(False)
+                        self.GLOBAL.setCanOpenChest([False,[None,None]])
+                else:
+                    self.manageInputBox(key,unicode)
 
             elif(key == pygame.K_a):
-                if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
-                    # Si se ve el mapa, no está abierto el inventario, el DM no está hablando y ya se ha leído la descripción -> al darle a la t, si está a 5 pies del NPC puede hablar con él
-                    if(((self.personaje.playerAction == "WALK_DOWN") or (self.personaje.playerAction == "IDLE_DOWN"))):  
-                        pos_x = self.personaje.coordenadas_actuales_r[0]
-                        pos_y = self.personaje.coordenadas_actuales_r[1]+1
-                    elif(((self.personaje.playerAction == "WALK_UP") or (self.personaje.playerAction == "IDLE_UP"))):
-                        pos_x = self.personaje.coordenadas_actuales_r[0]
-                        pos_y = self.personaje.coordenadas_actuales_r[1]-1
-                    elif(((self.personaje.playerAction == "WALK_LEFT") or (self.personaje.playerAction == "IDLE_LEFT"))):
-                        pos_x = self.personaje.coordenadas_actuales_r[0]-1
-                        pos_y = self.personaje.coordenadas_actuales_r[1]
-                    elif(((self.personaje.playerAction == "WALK_RIGHT") or (self.personaje.playerAction == "IDLE_RIGHT"))):
-                        pos_x = self.personaje.coordenadas_actuales_r[0]+1
-                        pos_y = self.personaje.coordenadas_actuales_r[1]
-                    else:
-                        pos_x = None
-                        pos_y = None
-                    self.GLOBAL.setCanOpenChest([True,[pos_x,pos_y]])
-                    self.GLOBAL.setCanTalkToNPC(False)
+                if(not self.GLOBAL.getModoHabla()):
+                    if(self.GLOBAL.getViewMap() and (not self.openedInventory) and self.GLOBAL.getFinishedStart() and (not self.GLOBAL.getDMTalking())):
+                        # Si se ve el mapa, no está abierto el inventario, el DM no está hablando y ya se ha leído la descripción -> al darle a la t, si está a 5 pies del NPC puede hablar con él
+                        if(((self.personaje.playerAction == "WALK_DOWN") or (self.personaje.playerAction == "IDLE_DOWN"))):  
+                            pos_x = self.personaje.coordenadas_actuales_r[0]
+                            pos_y = self.personaje.coordenadas_actuales_r[1]+1
+                        elif(((self.personaje.playerAction == "WALK_UP") or (self.personaje.playerAction == "IDLE_UP"))):
+                            pos_x = self.personaje.coordenadas_actuales_r[0]
+                            pos_y = self.personaje.coordenadas_actuales_r[1]-1
+                        elif(((self.personaje.playerAction == "WALK_LEFT") or (self.personaje.playerAction == "IDLE_LEFT"))):
+                            pos_x = self.personaje.coordenadas_actuales_r[0]-1
+                            pos_y = self.personaje.coordenadas_actuales_r[1]
+                        elif(((self.personaje.playerAction == "WALK_RIGHT") or (self.personaje.playerAction == "IDLE_RIGHT"))):
+                            pos_x = self.personaje.coordenadas_actuales_r[0]+1
+                            pos_y = self.personaje.coordenadas_actuales_r[1]
+                        else:
+                            pos_x = None
+                            pos_y = None
+                        self.GLOBAL.setCanOpenChest([True,[pos_x,pos_y]])
+                        self.GLOBAL.setCanTalkToNPC(False)
+                else:
+                    self.manageInputBox(key,unicode)
             elif(key == pygame.K_i):
-                self.GLOBAL.setCanTalkToNPC(False)
-                self.GLOBAL.setCanOpenChest([False,[None,None]])
-                if(self.slot_selected != None):
-                    self.intercambio = True
-                    
+                if(not self.GLOBAL.getModoHabla()):
+                    self.GLOBAL.setCanTalkToNPC(False)
+                    self.GLOBAL.setCanOpenChest([False,[None,None]])
+                    if(self.slot_selected != None):
+                        self.intercambio = True
+                else:
+                    self.manageInputBox(key,unicode)
             elif(key == pygame.K_x):
-                self.GLOBAL.setCanTalkToNPC(False)
-                self.GLOBAL.setCanOpenChest([False,[None,None]])
-                if(self.slot_selected != None and (not self.intercambio) and (self.slot_selected != 'armor_slot' and self.slot_selected != 'mano derecha' and self.slot_selected != 'mano izquierda')):
-                    # self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][3] -=1
-                    # if(self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][3] == 0):
-                    #     #Ha eliminado por completo el objeto
-                    #     self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
-                    #     self.slot_selected = None
-                    res = self.personaje.equipo.removeObjectFromInventory(self.slot_selected)
-                    if(res == -1):
-                        self.ch1.play(self.error)
+                if(not self.GLOBAL.getModoHabla()):
+                    self.GLOBAL.setCanTalkToNPC(False)
+                    self.GLOBAL.setCanOpenChest([False,[None,None]])
+                    if(self.slot_selected != None and (not self.intercambio) and (self.slot_selected != 'armor_slot' and self.slot_selected != 'mano derecha' and self.slot_selected != 'mano izquierda')):
+                        # self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][3] -=1
+                        # if(self.personaje.equipo.objetos["slot_"+str(self.slot_selected)][3] == 0):
+                        #     #Ha eliminado por completo el objeto
+                        #     self.personaje.equipo.objetos["slot_"+str(self.slot_selected)] = None
+                        #     self.slot_selected = None
+                        res = self.personaje.equipo.removeObjectFromInventory(self.slot_selected)
+                        if(res == -1):
+                            self.ch1.play(self.error)
+                else:
+                    self.manageInputBox(key,unicode)
+            else:
+                self.manageInputBox(key,unicode)
+                
 
     def hasUpKey(self,key,unicode):
         if(self.GLOBAL.getViewMap()):
@@ -1137,6 +1175,28 @@ class PartidaScreen:
             elif(key == pygame.K_RIGHT):
                 print("right levantado")
                 self.personaje.setRight(False)
+
+    def manageInputBox(self, key, unicode):
+        if key == pygame.K_RETURN:
+            self.mensajePlayer = ' '
+        elif key == pygame.K_BACKSPACE:
+            self.mensajePlayer = self.mensajePlayer[:-1]
+            if(len(self.mensajePlayer) == 0):
+                self.mensajePlayer = ' '
+        else:
+            if(len(self.mensajePlayer) <=300): # 100 letras como mucho de input
+                if(unicode != ':' and unicode != ';'):
+                    if(self.mensajePlayer == ' '):
+                        self.mensajePlayer = unicode
+                    else:
+                        self.mensajePlayer += unicode
+                else:
+                    self.ch2.play(self.error)
+            else:
+                self.ch2.play(self.error)
+        
+        self.renderTextMessageBlock(self.mensajePlayer)
+        pygame.display.update() 
 
     def clickedMouse(self):
         #click del ratón
