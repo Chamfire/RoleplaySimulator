@@ -1179,15 +1179,17 @@ class EstadoDeHablaNPC(Estado):
         while(self.GLOBAL.getModoHabla()):
             # Esperar a recibir mensaje
             time.sleep(0.2)
-        msg = self.GLOBAL.getTextoMensaje()
-        if(msg != ""):
-            # RAG
-            rag_historia = RAG_historia.RAG_historia(self.currentPartida)
-            resp = rag_historia.consultar_NPC(msg,self.lastTexto)
-            DM.speak(resp)
-            rag_historia.escribirCurrentDialogoNPCYPregunta(msg,resp,self.lastTexto)
-            self.lastTexto = resp
-            msg = ""
+            msg = self.GLOBAL.getTextoMensaje()
+            if(msg != ""):
+                # RAG
+                DM.speak("Espera un momento que piense...")
+                rag_historia = RAG_historia.RAG_historia(self.currentPartida)
+                resp = rag_historia.consultar_NPC(msg,self.lastTexto)
+                DM.speak(resp)
+                rag_historia.escribirCurrentDialogoNPCYPregunta(msg,resp,self.lastTexto)
+                self.lastTexto = resp
+                msg = ""
+        
 
 
     def finishNPCMision(self,DM,personaje):
