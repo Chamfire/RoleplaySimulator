@@ -1782,10 +1782,15 @@ class PartidaScreen:
                 if(self.availableStart and self.startBoton):
                     self.startBoton = False
                     self.ProcesamientoPartida.clickBotonPreparado()
+                if(self.GLOBAL.getModoHabla()):
+                    # Establezco el mensaje para ser detectado en el método talk de la máquina de estados
+                    self.GLOBAL.setTextoMensaje(self.mensajePlayer)
+                    self.mensajePlayer = ""
+                    self.GLOBAL.setModoHabla(False)
                 pygame.display.update() 
                 return 'partida'
             
-            #Botón de pedir turno de palabra
+            #Botón de finalizar conversación
             elif(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
                 self.slot_selected = None
                 self.intercambio = False
@@ -1807,6 +1812,10 @@ class PartidaScreen:
                             self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                     if(self.GLOBAL.getModoHabla()):
                         self.ch1.play(self.pressed)
+                        if(self.GLOBAL.getModoHabla()):
+                            # Finaliza la conversación desactivando el modo habla, y reseteando el mensaje del jugador
+                            self.mensajePlayer = ""
+                            self.GLOBAL.setModoHabla(False)
                     else:
                         self.ch1.play(self.error)
                     pygame.display.update() 

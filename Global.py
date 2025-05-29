@@ -67,6 +67,16 @@ class Global:
         showNombreNPC = ""
         global modoHabla
         modoHabla = False
+        global textoMensaje
+        textoMensaje = ""
+
+    def setTextoMensaje(self,v):
+        global textoMensaje
+        textoMensaje = v
+
+    def getTextoMensaje(self):
+        global textoMensaje
+        return textoMensaje
 
     def setModoHabla(self,v):
         global modoHabla
