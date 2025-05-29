@@ -73,6 +73,7 @@ class PartidaScreen:
         self.bpc = None
         self.clase = None
         self.slot_selected = None
+        self.lastScreen = None
 
         #canales
         self.ch1 = ch1
@@ -776,6 +777,10 @@ class PartidaScreen:
                 self.personaje.setFPS(maxFPS)
                 
             else:
+                currentMode = self.GLOBAL.getModoHabla()
+                if(currentMode != self.lastScreen):
+                    lastScreen = currentMode
+                    self.reload()
                 change_frame = maxFPS//5
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
