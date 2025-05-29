@@ -1171,7 +1171,12 @@ class EstadoDeHablaNPC(Estado):
 
     def talkToNPC(self,DM,personaje):
         #TODO: RAG
-        pass
+        # Establecemos el modo habla, pues el jugador ha activado este modo
+        self.GLOBAL.setModoHabla(True)
+        while(self.GLOBAL.getModoHabla()):
+            # Chequear RAG
+            time.sleep(0.2)
+
 
     def finishNPCMision(self,DM,personaje):
         pass
@@ -1186,12 +1191,12 @@ class EstadoDeHablaNPC(Estado):
         magic =  pygame.mixer.Sound('sounds/magic.wav')
         pygame.mixer.Channel(6).play(magic)
         magic = None
-        #DM.printVoices()
-        #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
         print(type(self.estadosSucesores),self.estadosSucesores)
         self.estadosSucesores.ModifyState(personaje,1) #1 quiere decir que ya le ha dado la misión
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
+        # Activo el modo de habla, para que el jugador conteste si quiere
+        self.run(DM,personaje)
 
 class EstadoDeMisionConcreta(Estado):
     def __init__(self,isInicial,content,estado_pred,numJugadores,id,tipo_mision,variableDeCheck,mision,Mapa,textoDM):

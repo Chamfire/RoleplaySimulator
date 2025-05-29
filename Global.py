@@ -65,6 +65,16 @@ class Global:
         canBreak = [False,[None,None]]
         global showNombreNPC
         showNombreNPC = ""
+        global modoHabla
+        modoHabla = False
+
+    def setModoHabla(self,v):
+        global modoHabla
+        modoHabla = v
+
+    def getModoHabla(self):
+        global modoHabla
+        return modoHabla
 
     def setShowNombreNPC(self,v):
         global showNombreNPC

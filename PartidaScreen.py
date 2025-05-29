@@ -110,6 +110,7 @@ class PartidaScreen:
         self.whitebkg = pygame.image.load("images/white_bkg.png")
         self.selected_slot = pygame.image.load("images/selected_slot.png")
         self.intercambio_slot = pygame.image.load("images/intercambio_slot.png")
+        self.modoHablaBkg = pygame.image.load("images/background_partida_modo_habla.png")
 
         #diccionario de imágenes:
         # ARMADURAS -------
@@ -292,7 +293,10 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
-            self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
+            if(self.GLOBAL.getModoHabla()):
+                self.screen.blit(pygame.transform.scale(self.modoHablaBkg, (self.width,self.height)), (0, 0))
+            else:
+                self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
             if(not self.GLOBAL.getViewMap()):
                 self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
             else:
@@ -609,7 +613,10 @@ class PartidaScreen:
             self.pe = self.fuente1.render(str(self.personaje.pe), True, self.color_black)
             self.po = self.fuente1.render(str(self.personaje.po), True, self.color_black)
             self.ppt = self.fuente1.render(str(self.personaje.ppt), True, self.color_black)
-            self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
+            if(self.GLOBAL.getModoHabla()):
+                self.screen.blit(pygame.transform.scale(self.modoHablaBkg, (self.width,self.height)), (0, 0))
+            else:
+                self.screen.blit(pygame.transform.scale(self.backgroundPartidaPic, (self.width,self.height)), (0, 0))
             if(not self.GLOBAL.getViewMap()):
                 self.screen.blit(pygame.transform.scale(self.currentImageBkgToShow, (self.width/1.4252, self.height/1.5837)), (self.width/150.0000, self.height/87.5000)) #842 442 8 8
             else:
