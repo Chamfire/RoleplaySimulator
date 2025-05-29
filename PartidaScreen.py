@@ -208,7 +208,7 @@ class PartidaScreen:
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
         self.enviar_msg = self.fuente.render('Enviar mensaje', True, self.color_white)
         self.pedir_turno_palabra = self.fuente.render('Pedir la palabra', True, self.color_white)
-        self.liberar_turno_palabra = self.fuente.render('Ceder la palabra', True, self.color_white)
+        self.liberar_turno_palabra = self.fuente.render('Fin conversación', True, self.color_white)
         self.continuar = self.fuente.render('¡Estoy preparado!', True, self.color_white)
         self.msg = None
         self.msg1 = None
@@ -452,23 +452,26 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
             
-            if(self.availableStart):
+            if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
                 if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start2,x,y)):
                     self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
-            
+
             if(self.startBoton):
                 self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
             else:
                 self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
-                    self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                if(self.GLOBAL.getModoHabla()):
+                    if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
+                        self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                 else:
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 self.inputBoxDescripcion = pygame.Rect(self.width/48.0000, self.height/1.4894, self.width/1.4815, self.height/5.6452) #25 470 810 124
                 pygame.draw.rect(self.screen, self.color_white, self.inputBoxDescripcion, 2)
                 img = self.GLOBAL.getImagePartida() 
@@ -541,6 +544,7 @@ class PartidaScreen:
 
     def render(self):
         #render screen
+        self.GLOBAL.setModoHabla(False)
         self.letterwidth = (self.width/3.4286)/6 #cálculo de la base en píxeles 
         self.lettersize = int(self.letterwidth + 0.5 * self.letterwidth) #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuente2 = pygame.font.SysFont(self.font,self.lettersize)
@@ -628,7 +632,7 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
-            if(self.availableStart):
+            if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
             else:
                 self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -637,8 +641,11 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
             else:
                 self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                if(self.GLOBAL.getModoHabla()):
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                else:
+                    self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
 
             self.inputBoxDescripcion = pygame.Rect(self.width/48.0000, self.height/1.4894, self.width/1.4815, self.height/5.6452) #25 470 810 124
             pygame.draw.rect(self.screen, self.color_white, self.inputBoxDescripcion, 2)
@@ -875,7 +882,7 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 
-                if(self.availableStart):
+                if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
                     if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start2,x,y)):
                         self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                     else:
@@ -887,11 +894,14 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
-                        self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    if(self.GLOBAL.getModoHabla()):
+                        if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start3,x,y)):
+                            self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                        else:
+                            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     else:
-                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 
                 img = self.GLOBAL.getImagePartida() 
                 if(img != ""):
@@ -1308,13 +1318,19 @@ class PartidaScreen:
                 self.intercambio = False
                 self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
-                self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
+                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                else:
+                    self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                 if(self.startBoton):
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getModoHabla()):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 if(self.GLOBAL.getViewMap()):
                     if(not self.openedInventory):
                         self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
@@ -1689,7 +1705,7 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
-                if(self.availableStart):
+                if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -1698,8 +1714,11 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getModoHabla()):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 self.screen.blit(pygame.transform.scale(self.butonInv_pressed, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
                 self.ch1.play(self.pressed)
                 self.openedInventory = True #ya no se puede mover el personaje
@@ -1713,7 +1732,7 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
-                if(self.availableStart):
+                if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -1722,8 +1741,11 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getModoHabla()):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 self.screen.blit(pygame.transform.scale(self.flecha_pressed, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                 self.ch1.play(self.pressed)
                 self.openedInventory = False #ya se puede mover el personaje
@@ -1737,7 +1759,7 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                     
-                if(self.availableStart):
+                if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
                     self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                     self.ch1.play(self.pressed)
                 else:
@@ -1747,8 +1769,10 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getModoHabla()):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 if(self.GLOBAL.getViewMap()):
                     if(not self.openedInventory):
                         self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
@@ -1768,16 +1792,23 @@ class PartidaScreen:
                 if(not self.startBoton):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                     self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                    if(self.GLOBAL.getModoHabla()):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                        self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                     if(self.GLOBAL.getViewMap()):
                         if(not self.openedInventory):
                             self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
                         else:
                             self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
-                    self.ch1.play(self.pressed)
+                    if(self.GLOBAL.getModoHabla()):
+                        self.ch1.play(self.pressed)
+                    else:
+                        self.ch1.play(self.error)
                     pygame.display.update() 
                 return 'partida'
                 
@@ -1844,7 +1875,7 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
-                if(self.availableStart):
+                if(self.availableStart or self.GLOBAL.getModoHabla()):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -1853,8 +1884,11 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getModoHabla()):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 if(self.GLOBAL.getViewMap()):
                     if(not self.openedInventory):
                         self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
@@ -1874,7 +1908,7 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
-                if(self.availableStart):
+                if(self.availableStart or self.GLOBAL.getModoHabla()):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -1883,8 +1917,11 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getModoHabla()):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 self.screen.blit(pygame.transform.scale(self.butonInv_selected, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
                 if(self.first_timeI):
                     self.first_timeI = False
@@ -1900,7 +1937,7 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
 
-                if(self.availableStart):
+                if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -1909,8 +1946,11 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getModoHabla()):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 self.screen.blit(pygame.transform.scale(self.flecha_selected, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                 if(self.first_timeF):
                     self.first_timeF = False
@@ -1926,7 +1966,7 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 
-                if(self.availableStart):
+                if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
                     self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -1934,14 +1974,17 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getModoHabla()):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 if(self.GLOBAL.getViewMap()):
                     if(not self.openedInventory):
                         self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
                     else:
                         self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
-                if(self.first_timeM and self.availableStart):
+                if((self.first_timeM and self.availableStart and self.startBoton) or (self.first_timeM and self.GLOBAL.getModoHabla())):
                     self.first_timeM = False
                     self.first_timeB = True
                     self.first_timeP = True
@@ -1955,16 +1998,20 @@ class PartidaScreen:
                 if(not self.startBoton):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                     self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                    if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                        self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                     if(self.GLOBAL.getViewMap()):
                         if(not self.openedInventory):
                             self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
                         else:
                             self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
-                    if(self.first_timeP):
+                    if((self.first_timeP and self.availableStart and self.startBoton) or (self.first_timeP and self.GLOBAL.getModoHabla())):
                         self.first_timeP = False
                         self.first_timeB = True
                         self.first_timeM = True
@@ -1982,7 +2029,7 @@ class PartidaScreen:
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.1290)) #313 57 865 620
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.1200)) #x x 925 625
                 
-                if(self.availableStart):
+                if((self.availableStart and self.startBoton) or (self.GLOBAL.getModoHabla())):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.2658)) #313 57 865 553
@@ -1991,8 +2038,11 @@ class PartidaScreen:
                     self.screen.blit(pygame.transform.scale(self.continuar, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
                 else:
                     self.screen.blit(pygame.transform.scale(self.enviar_msg, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.2545)) #x x 925 558
-                    self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
-                    self.screen.blit(pygame.transform.scale(self.pedir_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
+                    if(self.GLOBAL.getModoHabla()):
+                        self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    else:
+                        self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/3.8339, self.height/12.2807)), (self.width/1.3873, self.height/1.4403)) #313 57 865 486
+                    self.screen.blit(pygame.transform.scale(self.liberar_turno_palabra, (self.width/6.3158, self.height/17.5000)), (self.width/1.2973, self.height/1.4257)) #x x 925 491
                 if(self.GLOBAL.getViewMap()):
                     if(not self.openedInventory):
                         self.screen.blit(pygame.transform.scale(self.butonInv, (self.width/37.5000, self.height/21.8750)),(self.width/1.4706, self.height/1.7157)) 
