@@ -1227,7 +1227,8 @@ class PartidaScreen:
                 else:
                     self.manageInputBox(key,unicode)
             else:
-                self.manageInputBox(key,unicode)
+                if(self.GLOBAL.getModoHabla()):
+                    self.manageInputBox(key,unicode)
                 
 
     def hasUpKey(self,key,unicode):
@@ -1812,10 +1813,9 @@ class PartidaScreen:
                             self.screen.blit(pygame.transform.scale(self.flecha, (self.width/37.5000, self.height/21.8750)), (self.width/120.0000, self.height/70.0000)) #32 32 10 10
                     if(self.GLOBAL.getModoHabla()):
                         self.ch1.play(self.pressed)
-                        if(self.GLOBAL.getModoHabla()):
-                            # Finaliza la conversación desactivando el modo habla, y reseteando el mensaje del jugador
-                            self.mensajePlayer = ""
-                            self.GLOBAL.setModoHabla(False)
+                        # Finaliza la conversación desactivando el modo habla, y reseteando el mensaje del jugador
+                        self.mensajePlayer = ""
+                        self.GLOBAL.setModoHabla(False)
                     else:
                         self.ch1.play(self.error)
                     pygame.display.update() 
