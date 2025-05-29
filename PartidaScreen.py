@@ -687,43 +687,103 @@ class PartidaScreen:
             lineBottom += fontHeight + lineSpacing
 
     def renderTextMessageBlock(self,text):
-        self.inputBoxMessage = pygame.Rect(self.width/66.6667, self.height/1.0786, self.width/1.4670, self.height/13.2075) #18 649 818 53
+        self.inputBoxMessage = pygame.Rect(self.width/66.6667, self.height/1.1094, self.width/1.4670, self.height/13.4615)
         pygame.draw.rect(self.screen, self.color_white, self.inputBoxMessage, 0)
         currentWordsPrinted = 0
         lineSpacing = -2
         spaceWidth, fontHeight = self.fuente4.size(" ")[0], self.fuente4.size("Tg")[1]
 
         listOfWords = text.split(" ")
-        imageList = [self.fuente4.render(word, True, self.color_black) for word in listOfWords]
+        maxLen = self.inputBoxMessage[2] - 20  # Margen de 10 px a cada lado
 
-        maxLen = self.inputBoxMessage[2]-20 #10 de cada lado de margen
         lineLenList = [0]
         lineList = [[]]
-        for image in imageList:
-            width = image.get_width()
-            lineLen = lineLenList[-1] + len(lineList[-1]) * spaceWidth + width
-            if len(lineList[-1]) == 0 or lineLen <= maxLen:
-                lineLenList[-1] += width
-                lineList[-1].append(image)
+
+        for word in listOfWords:
+            rendered = self.fuente4.render(word, True, self.color_black)
+            word_width = rendered.get_width()
+
+            if word_width <= maxLen:
+                lineLen = lineLenList[-1] + len(lineList[-1]) * spaceWidth + word_width
+                if len(lineList[-1]) == 0 or lineLen <= maxLen:
+                    lineLenList[-1] += word_width
+                    lineList[-1].append(rendered)
+                else:
+                    lineLenList.append(word_width)
+                    lineList.append([rendered])
             else:
-                lineLenList.append(width)
-                lineList.append([image])
+                # Palabra demasiado larga: dividirla
+                subword = ""
+                for char in word:
+                    test_subword = subword + char
+                    test_rendered = self.fuente4.render(test_subword + "-", True, self.color_black)
+                    if test_rendered.get_width() > maxLen:
+                        # Añadir subpalabra con guión a la línea
+                        rendered_split = self.fuente4.render(subword + "-", True, self.color_black)
+                        if lineList[-1]:
+                            lineLenList.append(rendered_split.get_width())
+                            lineList.append([rendered_split])
+                        else:
+                            lineLenList[-1] += rendered_split.get_width()
+                            lineList[-1].append(rendered_split)
+                        subword = char  # reiniciar con el carácter actual
+                    else:
+                        subword = test_subword
+                # Añadir el resto sin guión
+                final_rendered = self.fuente4.render(subword, True, self.color_black)
+                lineLenList.append(final_rendered.get_width())
+                lineList.append([final_rendered])
 
         lineBottom = self.inputBoxMessage[1] 
         lastLine = 0
         for lineLen, lineImages in zip(lineLenList, lineList):
-            lineLeft = self.inputBoxMessage[0] +10
-            #if len(lineImages) > 1:
-            #   spaceWidth = (self.inputBoxDescripcion[2] - lineLen -20) // (len(lineImages)-1)
+            lineLeft = self.inputBoxMessage[0] + 10
             if lineBottom + fontHeight > self.inputBoxMessage[1] + self.inputBoxMessage[3]:
                 break
             lastLine += 1
             for i, image in enumerate(lineImages):
-                x, y = lineLeft + i*spaceWidth, lineBottom
+                x, y = lineLeft + i * spaceWidth, lineBottom
                 self.screen.blit(image, (round(x), y))
-                lineLeft += image.get_width() 
+                lineLeft += image.get_width()
                 currentWordsPrinted += 1
             lineBottom += fontHeight + lineSpacing
+        # self.inputBoxMessage = pygame.Rect(self.width/66.6667, self.height/1.1094, self.width/1.4670, self.height/13.4615) #18 631 818 52
+        # pygame.draw.rect(self.screen, self.color_white, self.inputBoxMessage, 0)
+        # currentWordsPrinted = 0
+        # lineSpacing = -2
+        # spaceWidth, fontHeight = self.fuente4.size(" ")[0], self.fuente4.size("Tg")[1]
+
+        # listOfWords = text.split(" ")
+        # imageList = [self.fuente4.render(word, True, self.color_black) for word in listOfWords]
+
+        # maxLen = self.inputBoxMessage[2]-20 #10 de cada lado de margen
+        # lineLenList = [0]
+        # lineList = [[]]
+        # for image in imageList:
+        #     width = image.get_width()
+        #     lineLen = lineLenList[-1] + len(lineList[-1]) * spaceWidth + width
+        #     if len(lineList[-1]) == 0 or lineLen <= maxLen:
+        #         lineLenList[-1] += width
+        #         lineList[-1].append(image)
+        #     else:
+        #         lineLenList.append(width)
+        #         lineList.append([image])
+
+        # lineBottom = self.inputBoxMessage[1] 
+        # lastLine = 0
+        # for lineLen, lineImages in zip(lineLenList, lineList):
+        #     lineLeft = self.inputBoxMessage[0] +10
+        #     #if len(lineImages) > 1:
+        #     #   spaceWidth = (self.inputBoxDescripcion[2] - lineLen -20) // (len(lineImages)-1)
+        #     if lineBottom + fontHeight > self.inputBoxMessage[1] + self.inputBoxMessage[3]:
+        #         break
+        #     lastLine += 1
+        #     for i, image in enumerate(lineImages):
+        #         x, y = lineLeft + i*spaceWidth, lineBottom
+        #         self.screen.blit(image, (round(x), y))
+        #         lineLeft += image.get_width() 
+        #         currentWordsPrinted += 1
+        #     lineBottom += fontHeight + lineSpacing
 
     def animateScreen(self,maxFPS):
         if(self.GLOBAL.getActualPartidaState() == "loading"):
@@ -1184,7 +1244,7 @@ class PartidaScreen:
             if(len(self.mensajePlayer) == 0):
                 self.mensajePlayer = ' '
         else:
-            if(len(self.mensajePlayer) <=300): # 100 letras como mucho de input
+            if(len(self.mensajePlayer) <=183): # 183 letras como mucho de input
                 if(unicode != ':' and unicode != ';'):
                     if(self.mensajePlayer == ' '):
                         self.mensajePlayer = unicode
