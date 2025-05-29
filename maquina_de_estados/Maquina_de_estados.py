@@ -1105,6 +1105,7 @@ class EstadoDeHablaNPC(Estado):
         self.lastTexto = ""
 
     def checkIfCanRun(self,DM,personaje):
+        print("en el check")
         canTalk  = self.GLOBAL.getCanTalkToNPC()
         isLooking = False
         if(((personaje.playerAction == "WALK_DOWN") or (personaje.playerAction == "IDLE_DOWN")) and ((87 <= self.Mapa.objetos[personaje.coordenadas_actuales_r[1]+1][personaje.coordenadas_actuales_r[0]] <= 90))):  
@@ -1191,7 +1192,7 @@ class EstadoDeHablaNPC(Estado):
                 msg = ""
                 self.GLOBAL.setTextoMensaje("")
                 self.GLOBAL.setModoHabla(True)
-                self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
+            self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
         
 
 
