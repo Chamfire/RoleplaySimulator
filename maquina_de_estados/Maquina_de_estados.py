@@ -12,7 +12,7 @@ import json
 import os
 import sys
 import contextlib
-import RAG_historia
+from maquina_de_estados import RAG_historia
 from llama_cpp import Llama
 
 @contextlib.contextmanager
@@ -1170,7 +1170,6 @@ class EstadoDeHablaNPC(Estado):
         DM.speak(string_to_speech) 
         #DM.printVoices()
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
-        self.lastTexto = self.dialogoDMIntro
         self.run(DM,personaje)
 
     def talkToNPC(self,DM,personaje):
@@ -1185,8 +1184,7 @@ class EstadoDeHablaNPC(Estado):
             # RAG
             rag_historia = RAG_historia.RAG_historia(self.currentPartida)
             resp = rag_historia.consultar_NPC(msg,self.lastTexto)
-            toTalk = resp
-            DM.speak(toTalk)
+            DM.speak(resp)
             rag_historia.escribirCurrentDialogoNPCYPregunta(msg,resp,self.lastTexto)
             self.lastTexto = resp
             msg = ""
@@ -1203,6 +1201,7 @@ class EstadoDeHablaNPC(Estado):
         print("<DM>: Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision+" ¿Me ayudarás?") #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         DM.speak("Tras decirte lo anterior, ves que "+self.NPC.name+" se queda "+pensando+", y continúa diciendote: "+self.dialogoDMMision+" ¿Me ayudarás? Si estás interesado, voy a deshacer el conjuro que bloquea la puerta que da acceso al resto de galerías, aunque no te garantizo que puedas abrirla.") 
         magic =  pygame.mixer.Sound('sounds/magic.wav')
+        self.lastTexto = self.dialogoDMMision+" ¿Me ayudarás? Si estás interesado, voy a deshacer el conjuro que bloquea la puerta que da acceso al resto de galerías, aunque no te garantizo que puedas abrirla."
         pygame.mixer.Channel(6).play(magic)
         magic = None
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1

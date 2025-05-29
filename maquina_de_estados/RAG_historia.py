@@ -95,7 +95,7 @@ class RAG_historia:
 
     def escribirDialogosNPC(self,dialogos, nombreNPC):
         with open('maquina_de_estados/'+self.currentPartida+'/dialogos_NPC.txt','w',encoding='utf-8') as f:
-            info_a_escribir = "Esta es la presentación que ha hecho "+nombreNPC+" de sí mismo: "+dialogos
+            info_a_escribir = "Esta es la presentación que ha hecho "+nombreNPC+" de sí mismo: "+dialogos+"\n\n"
             f.write(info_a_escribir)
 
     def consultar_NPC(self,contexto_estado,lastTexto):
@@ -133,6 +133,8 @@ class RAG_historia:
         if "." in response_good:
             response_good = response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
         response_good = response_good.lstrip()
+        response_good.replace("\\n", " ")
+        response_good = ''.join(c for c in response_good if c.isprintable())
         print("\n=== RESPUESTA ===")
         print(response_good)
         print("\n=== CONTEXTO ===")
