@@ -8,9 +8,9 @@ from llama_cpp import Llama
 from langchain.schema import Document
 import random
 import numpy as np
-import threading
+from multiprocessing import Process
 import contextlib
-import Global
+from Global import Global
 from pygame import mixer
 import os
 import sys
@@ -96,14 +96,22 @@ class Consulta_RAG_musica:
         # print(query)
         return response_good
     
-    def establecerCancionHilo(self,contexto_estado):
+    def establecerCancionHilo(self,contexto_estado,output):
         self.contexto = contexto_estado
-        hiloConsulta = threading.Thread(target = self.runConsulta)
-        hiloConsulta.start()
+        GLOBAL = Global()
+        GLOBAL.setSearchingSong(True)
+        GLOBAL = None
+        documentos = self.documentos.copy()
+        print(type(contexto_estado))
+        print(type(documentos))
+        print(type(output))
+        p = Process(target = runConsulta,args=(output,contexto_estado,documentos))
+        p.start()
+        #self.runConsulta()
 
     
-    def runConsulta(self):
-
+def runConsulta(output,contexto,documentos):
+        print("-------------- searching cancion ------------------------")
         model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
         model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
         model_path = hf_hub_download(model_name, filename=model_file)
@@ -124,10 +132,21 @@ class Consulta_RAG_musica:
             "temperature": 0.8
         }
 
-        index, document_texts, embedding_model = self.crear_vectores()
+        embedding_model = SentenceTransformer('all-MiniLM-L12-v2') 
+        embeddings = embedding_model.encode(documentos)
+
+        dimension = embeddings.shape[1]
+        index = faiss.IndexFlatL2(dimension)
+        index.add(embeddings.astype(np.float32))
+
+        #index, document_texts, embedding_model = self.crear_vectores()
         # Retrieve context
-        query_context = self.contexto
-        context = self.devolver_contexto(query_context, embedding_model, index, document_texts)
+        query_context = contexto
+        query_embedding = embedding_model.encode([query_context])
+        distances, indices = index.search(query_embedding.astype(np.float32), 2)
+        #return [documents[i] for i in indices[0]]
+        context = [documentos[i] for i in indices[0]]
+        #context = self.devolver_contexto(query_context, embedding_model, index, documentos)
         contexto_formato = "\n".join(context)
 
         # Consulta de ejemplo
@@ -135,7 +154,8 @@ class Consulta_RAG_musica:
         #                 {¿Cuál es la mejor canción para una situación que tiene los siguientes atributos: algo tenso, sigilo y tribal? Responde únicamente con el nombre de la canción elegida, sin dar ningún detalle adicional.}
         #                 <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         #query = f"Use just the following context for answering the question: \n Taking into account that all the songs have this format: \"carpet/name\": \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nQuestion: {query_context} \nAnswer just with the content above, and giving just the carpet/name or several carpet/names of the songs choosed, separated in different lines and whithout giving any additional detail.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
-        query = f"Usa únicamente el siguiente contexto para responder a la pregunta: \n Teniendo en cuenta que todas las canciones tienen este formato: nombre carpeta/nombre cancion, y que: \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nSi estos son los últimos sucesos que han ocurrido en la partida: {query_context} \nPregunta: ¿Cuál es la mejor o mejores canciones para reproducir cuando han sucedido esos eventos? Responde únicamente basandote en el contexto anterior, y devolviendo únicamente la carpeta/canción o varias carpeta/canción escogidas, separadas en líneas diferentes, sin dar ningún detalle adicional.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+        #query = f"Usa únicamente el siguiente contexto para responder a la pregunta: \n Teniendo en cuenta que todas las canciones tienen este formato: nombre carpeta/nombre cancion, y que: \n{contexto_formato} \n Si estos son los últimos sucesos que han ocurrido en la partida: {query_context} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: ¿Cuál es la mejor o mejores canciones para reproducir cuando han sucedido esos eventos? Responde únicamente basandote en el contexto anterior, y devolviendo únicamente la carpeta/canción o varias carpeta/canción escogidas, separadas en líneas diferentes, sin dar ningún detalle adicional. Solo puedes usar las canciones que aparezcan en el contexto, y no puedes inventarte ninguna.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+        query = f"Tienes un listado textual de contexto, donde se describe cuándo deben reproducirse ciertas canciones. Todas las canciones están entre comillas y tienen este formato: carpeta/nombre canción. Tu tarea es: 1. Leer el contexto y encontrar las canciones que correspondan al evento dado. 2. Responder solo con las canciones mencionadas literalmente en el contexto, una por línea. 3. No debes inventarte nuevas canciones. Si no encuentras ninguna canción aplicable, responde solo con 'Ninguna canción encontrada': {contexto_formato}.\n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: ¿Cuál es la mejor o mejores canciones para reproducir cuando los últimos sucesos han sido estos: {query_context}\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
         res = llm(query, **generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
         response_good = res["choices"][0]["text"]
@@ -149,18 +169,17 @@ class Consulta_RAG_musica:
         
         try:
             canciones_list = response_good.split("\n")
+            canciones_list = [item.strip().strip('"') for item in canciones_list if item.strip()]
             print(canciones_list)
-            self.cancion = canciones_list[random.randint(0,(len(canciones_list)-1))] #Tomamos la primera de las canciones -> Mejor coincidencia
-            mixer.music.stop()#para la música
-            mixer.music.load('music/'+self.cancion+".mp3") #carga la nueva canción sugerida por la ia
-            mixer.music.play(0)
+            cancion = canciones_list[random.randint(0,(len(canciones_list)-1))] #Tomamos la primera de las canciones -> Mejor coincidencia
+            # mixer.music.stop()#para la música
+            # mixer.music.load('music/'+self.cancion+".mp3") #carga la nueva canción sugerida por la ia
+            # mixer.music.play(0)
+            output.put(cancion)
         except Exception as e:
             print(e)
             print(response_good)
-            return False
-        GLOBAL = Global.Global()
-        GLOBAL.setSearchingSong(False)
-        GLOBAL = None
+            output.put(False)
 
 
 #consulta = Consulta_RAG_musica()

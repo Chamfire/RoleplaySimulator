@@ -1,0 +1,10 @@
+La descripción de la sala 19Es la siguiente: En esta galería de piedra, la luz de tu linterna ilumina el suelo desgastado por el tiempo, que muestra las huellas de pasos de muchos que han caminado antes que tú. Al centro de la sala, una roca puntiaguda se alza del suelo, como si estuviera a punto de romperse y caer sobre cualquier intruso. Un canasto de madera, adornado con un rubí brilloso, se encuentra a unos pasos del centro, pero parece abandonado y olvidado. En el mismo punto, también hay otro canasto, pero con esmeraldas que brillan bajo la luz de tu linterna. De repente, un aroma a musgo y tierra se une al olor de piedra, y setas de color naranja brotan del suelo, como si la tierra misma estuviera tratando de hablar contigo. El aire está lleno de humedad y caen gotitas de agua desde el techo, que caen suavemente alrededor de ti, creando un ambiente húmedo y sombrío en esta sala de planta rectangular.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 19 con la sala 1, y está abierta: Al golpear la puerta con tu bastón, escuchaste un suave clic y la puerta se abrió con un crujido, revelándote un pasillo estrecho y oscuro, cubierto de baldosas moradas que se extendían en lo profundo de la oscuridad.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 19: Al golpear la puerta con tu bastón, escuchaste un suave clic y la puerta se abrió con un crujido, revelándote un pasillo estrecho y oscuro, cubierto de baldosas moradas que se extendían en lo profundo de la oscuridad.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 19 con la sala 0, y está abierta: "La puerta de madera cede con un crujido, dejándote frente a un pasillo oscuro, donde baldosas moradas se extienden hacia la oscuridad.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 19: "La puerta de madera cede con un crujido, dejándote frente a un pasillo oscuro, donde baldosas moradas se extienden hacia la oscuridad.
+

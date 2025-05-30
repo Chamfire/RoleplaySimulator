@@ -643,6 +643,7 @@ class ProcesamientoPartida:
 
 
             self.maquina.resetGlobalsForPickle()
+            #self.buscar_surface(self.maquina)
             with open('maquina_de_estados/'+self.currentPartida+'/maquina.pickle', "wb") as f:
                 pickle.dump(self.maquina, f)
         else:
@@ -692,7 +693,7 @@ class ProcesamientoPartida:
             return  # Evitar ciclos infinitos
         visitados.add(obj_id)
 
-        if isinstance(obj, pygame.mixer.Sound):
+        if isinstance(obj, type(threading.Lock())):
             print(f"🎯 Encontrado pygame.Surface en: {nombre_ruta}")
         elif isinstance(obj, dict):
             for k, v in obj.items():

@@ -12,6 +12,7 @@ import json
 import os
 import sys
 import contextlib
+from multiprocessing import Queue
 from maquina_de_estados import RAG_historia
 from llama_cpp import Llama
 
@@ -1057,7 +1058,7 @@ class EstadoInicial(Estado):
         #Música de inicio
         mixer.music.stop()#para la música
         mixer.music.load('music/'+self.cancion+".mp3") #carga la nueva canción sugerida por la ia
-        mixer.music.play(0)
+        mixer.music.play(loops=1) # Se va a reproducir 2 veces para que le de tiempo a leer toda la introducción
 
         print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         DM.speak(self.dialogoDMIntro) 
@@ -2685,6 +2686,7 @@ class Maquina_de_estados:
         self.DM = DM(self.enabledDMVoice) #creo la voz del DM, que se pasará como parámetro al ejecutar los métodos
         self.RAG_musica = Consulta_RAG_musica()
         self.currentPartida = currentPartida
+        self.output = Queue()
         #TODO: Cargar estados de un fichero (al terminar)
 
     def crearEstadoInicial(self,mensajeInicial):
@@ -2755,10 +2757,22 @@ class Maquina_de_estados:
         else:
             if(not mixer.music.get_busy() and not self.GLOBAL.getSearchingSong()):
                 # La  música ha parado, y hay que elegir una nueva canción
-                # TODO: llamar al RAG
+                texto = "Escogiendo una canción apropiada..."
+                self.DM.speak(texto)
                 self.GLOBAL.setSearchingSong(True)
-                self.RAG_musica.establecerCancionHilo(self.GLOBAL.getLista())
-                
+                self.RAG_musica.establecerCancionHilo(str(self.GLOBAL.getLista()),self.output)
+            elif(self.GLOBAL.getSearchingSong()):
+                if not self.output.empty():
+                    resultado = self.output.get()
+                    if(resultado != False):
+                        try:
+                            mixer.music.stop()#para la música
+                            mixer.music.load('music/'+resultado+".mp3") #carga la nueva canción sugerida por la ia
+                            mixer.music.play(0)
+                        except:
+                            pass
+                        finally:
+                            self.GLOBAL.setSearchingSong(False)
             estado = self.ordenEstados[self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)]]
             #print("antes :)")
             if((not estado.checkIfCompleted(personaje)) and estado.checkIfCanRun(self.DM,personaje)):
@@ -2779,6 +2793,7 @@ class Maquina_de_estados:
     def resetGlobalsForPickle(self):
         self.GLOBAL = None
         self.DM.GLOBAL = None
+        self.output = None
         self.personajeDelHost = None
         for id,estado in self.ordenEstados.items():
             estado.resetForPickle()
@@ -2794,6 +2809,7 @@ class Maquina_de_estados:
         self.GLOBAL = Global()
         self.DM.GLOBAL = Global()
         self.DM.load()
+        self.output = Queue()
         self.enabledDMVoice = self.enabledDMVoice
         self.personajeDelHost = jugadorHost
 
