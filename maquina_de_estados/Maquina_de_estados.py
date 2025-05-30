@@ -1223,6 +1223,8 @@ class EstadoDeHablaNPC(Estado):
         print("<DM>: Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
         string_to_speech = "Al acercarte "+msg+" ves que te mira fíjamente, y te dice: "+self.dialogoDMIntro
         DM.speak(string_to_speech) 
+        a_lista = "El jugador se ha acercado a"+self.NPC.name+", y esto es lo que dijo: "+self.dialogoDMIntro
+        self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
         #DM.printVoices()
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
         self.run(DM,personaje)
@@ -1241,6 +1243,8 @@ class EstadoDeHablaNPC(Estado):
                 rag_historia = RAG_historia.RAG_historia(self.currentPartida)
                 resp = rag_historia.consultar_NPC(msg,self.lastTexto)
                 DM.speak(resp)
+                to_list = "Cuando el NPC le dijo al jugador: '"+self.lastTexto+"'. El jugador le respondió con lo siguiente: '"+msg+"'. A esa respuesta, el Dungeon Master le dijo: "+resp
+                self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
                 rag_historia.escribirCurrentDialogoNPCYPregunta(msg,resp,self.lastTexto)
                 self.lastTexto = resp
                 msg = ""
@@ -1263,6 +1267,8 @@ class EstadoDeHablaNPC(Estado):
         magic =  pygame.mixer.Sound('sounds/magic.wav')
         self.lastTexto = self.dialogoDMMision+" ¿Me ayudarás? Si estás interesado, voy a deshacer el conjuro que bloquea la puerta que da acceso al resto de galerías, aunque no te garantizo que puedas abrirla."
         pygame.mixer.Channel(6).play(magic)
+        a_lista = "El jugador está hablando con "+self.NPC.name+", y esto es lo que dijo: "+self.dialogoDMIntro
+        self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
         magic = None
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
         print(type(self.estadosSucesores),self.estadosSucesores)
@@ -1440,6 +1446,8 @@ class EstadoDeSalaFinal(Estado):
                             cancion = None
                             text_abrir = "Intentas usar una llave en el pomo de la puerta, y ves que esta cede."
                             DM.speak(text_abrir) 
+                            to_list = "El jugador acaba de poner una llave en la cerradura de una puerta que se encontraba bloqueada, y la ha girado, y esta se ha abierto"
+                            self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
 
                             #Ejecuto la apertura
                             self.read2 = False
@@ -1461,6 +1469,8 @@ class EstadoDeSalaFinal(Estado):
                                 pygame.mixer.Channel(1).play(self.soundDoor)
                                 text_closed = self.frases_puerta[self.id][sala][0]
                                 DM.speak(text_closed) 
+                                to_list = "El jugador ha intentado abrir una puerta, pero estaba cerrada. Esto fue lo que le dijo el Dungeon Master: "+text_closed
+                                self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
                             self.GLOBAL.setActionDoor([0,[None,None]]) 
                             return False
                 
@@ -1475,6 +1485,8 @@ class EstadoDeSalaFinal(Estado):
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.id][self.pasilloFromPuerta[1]][1]
             DM.speak(text_open_door) 
+            to_list = "El jugador acaba de abrir una puerta, y esto es lo que le ha dicho el Dungeon Master: "+text_open_door
+            self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
             #reseteo las variables
             #Si la puerta estaba originalmente cerrada, o si está abierta, pero desde el otro lado estaba cerrada, se va a abrir:
             # Es un puntero, así que se cambiará en su correspondiente estado
@@ -1537,7 +1549,9 @@ class EstadoDeSalaFinal(Estado):
             pygame.mixer.Channel(1).play(self.soundDoor)
             text_open_door = self.frases_puerta[self.pasilloFromPuerta[1]][self.id][2]
             self.pasilloFromPuerta = None
-            DM.speak(text_open_door) 
+            DM.speak(text_open_door)
+            to_list = "El jugador acaba de abrir una puerta, y esto es lo que le ha dicho el Dungeon Master: "+text_open_door
+            self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
             #reseteo las variables
             self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala de nuevo
              #guardo cuál es la puerta desde la que entró, y la sala a la que se dirige, para simplificar después las comprobaciones
@@ -1607,7 +1621,8 @@ class EstadoDeSalaFinal(Estado):
                             cancion = None
                             text_abrir = "Intentas usar una llave en el pomo de la puerta, y ves que esta cede."
                             DM.speak(text_abrir) 
-
+                            to_list = "El jugador acaba de poner una llave en la cerradura de una puerta que se encontraba bloqueada, y la ha girado, y esta se ha abierto"
+                            self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
                             #Ejecuto la apertura
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
                             #Es adyacente
@@ -1629,6 +1644,8 @@ class EstadoDeSalaFinal(Estado):
                                 pygame.mixer.Channel(1).play(self.soundDoor)
                                 text_closed = self.frases_puerta[self.pasilloFromPuerta[1]][sala][0]
                                 DM.speak(text_closed) 
+                                to_list = "El jugador ha intentado abrir una puerta, pero estaba cerrada. Esto fue lo que le dijo el Dungeon Master: "+text_closed
+                                self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
                                 self.read = False
                                 self.read4 = True
                                 self.GLOBAL.setActionDoor([0,[None,None]]) 
@@ -1639,6 +1656,8 @@ class EstadoDeSalaFinal(Estado):
                 pygame.mixer.Channel(1).play(self.soundDoor)
                 text = "Parece que algún tipo de magia impide que puedas abrir esta puerta."
                 DM.speak(text) 
+                to_list = "El jugador ha intentado abrir una puerta, pero parece que algún tipo de magia impidió que la abriera"
+                self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
                 self.GLOBAL.setActionDoor([0,[None,None]]) 
                 self.read = True
                 self.read4 = False
@@ -1823,7 +1842,8 @@ class EstadoDeSalaIntermedia(Estado):
                             cancion = None
                             text_abrir = "Intentas usar una llave en el pomo de la puerta, y ves que esta cede."
                             DM.speak(text_abrir) 
-
+                            to_list = "El jugador acaba de poner una llave en la cerradura de una puerta que se encontraba bloqueada, y la ha girado, y esta se ha abierto"
+                            self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
                             #Ejecuto la apertura
                             self.read2 = False
                             if(self.Mapa.adyacencias[self.id][sala] == 1):
