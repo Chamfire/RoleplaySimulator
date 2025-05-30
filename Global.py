@@ -71,6 +71,16 @@ class Global:
         textoMensaje = ""
         global lista 
         lista = list()
+        global searchingSong
+        searchingSong = False
+
+    def setSearchingSong(self,v):
+        global searchingSong 
+        searchingSong = v
+
+    def getSearchingSong(self):
+        global searchingSong
+        return searchingSong
 
     def addElementToListaAndRemoveFirst(self,i):
         global lista

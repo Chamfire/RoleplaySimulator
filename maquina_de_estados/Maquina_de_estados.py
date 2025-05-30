@@ -2753,10 +2753,12 @@ class Maquina_de_estados:
                     player = player[1]
                     self.currentEstadoByPlayers[str(player.name)+","+str(player.id_jugador)] = 1 #paso a todos al segundo estado
         else:
-            if(not mixer.music.get_busy()):
+            if(not mixer.music.get_busy() and not self.GLOBAL.getSearchingSong()):
                 # La  música ha parado, y hay que elegir una nueva canción
                 # TODO: llamar al RAG
-                pass
+                self.GLOBAL.setSearchingSong(True)
+                self.RAG_musica.establecerCancionHilo(self.GLOBAL.getLista())
+                
             estado = self.ordenEstados[self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)]]
             #print("antes :)")
             if((not estado.checkIfCompleted(personaje)) and estado.checkIfCanRun(self.DM,personaje)):
