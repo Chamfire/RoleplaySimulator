@@ -74,6 +74,63 @@ class Global:
         global searchingSong
         searchingSong = False
 
+        # Estadísticas
+        global mobsDiscovered
+        mobsDiscovered = 0
+        global roomsVisited 
+        roomsVisited = 0
+        global openedChests
+        openedChests = 0
+        global brokenObjects
+        brokenObjects = 0
+
+    def resetMob(self):
+        global mobsDiscovered
+        mobsDiscovered = 0
+
+    def resetRooms(self):
+        global roomsVisited
+        roomsVisited = 0
+
+    def resetOpened(self):
+        global openedChests
+        openedChests = 0
+
+    def resetBroken(self):
+        global brokenObjects
+        brokenObjects = 0
+
+    def addMob(self):
+        global mobsDiscovered
+        mobsDiscovered+=1
+
+    def getMobsDiscoverder(self):
+        global mobsDiscovered
+        return mobsDiscovered
+    
+    def addRoomVisited(self):
+        global roomsVisited
+        roomsVisited+=1
+
+    def getRoomsVisited(self):
+        global roomsVisited
+        return roomsVisited
+    
+    def addBrokenObject(self):
+        global brokenObjects
+        brokenObjects+=1
+
+    def getBrokenObjects(self):
+        global brokenObjects
+        return brokenObjects
+    
+    def addOpenedChest(self):
+        global openedChests
+        openedChests+=1
+    def getOpenedChest(self):
+        global openedChests
+        return openedChests
+
     def setSearchingSong(self,v):
         global searchingSong 
         searchingSong = v

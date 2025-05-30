@@ -295,6 +295,14 @@ class PartidaScreen:
             self.screen.blit(self.msg3, (self.width/4.0000, self.height/4.0000)) #300 175 
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
+        elif(self.GLOBAL.getActualPartidaState() == "estadisticas"):
+            self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+            self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+            # Estadísticas
+            
+
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             if(self.GLOBAL.getModoHabla()):
                 self.screen.blit(pygame.transform.scale(self.modoHablaBkg, (self.width,self.height)), (0, 0))
@@ -613,6 +621,8 @@ class PartidaScreen:
             else:
                 #TODO: esperar a recibir maquina de estados para la partida, y crearla con la configuración de voz y efectos
                 pass
+        elif(self.GLOBAL.getActualPartidaState() == "estadisticas"):
+            pass
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             self.peso = self.fuente3.render(str(round(self.personaje.equipo.peso_actual,2)), True, self.color_black)
             self.pc = self.fuente1.render(str(self.personaje.pc), True, self.color_black)
@@ -833,6 +843,8 @@ class PartidaScreen:
                     self.screen.blit(self.msg3, (self.width/4.0000, self.height/4.0000)) #300 175 
                     self.contMsg = 0
                 pygame.display.update()
+        elif(self.GLOBAL.getActualPartidaState() == "estadisticas"):
+            pass
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             x_size = self.width/3.8339
             y_size = self.height/12.2807
@@ -1272,7 +1284,7 @@ class PartidaScreen:
     def clickedMouse(self):
         #click del ratón
         #calculo del tamaño del botón y su posición -> Empezar Simulación
-        if(self.GLOBAL.getActualPartidaState() == "loading"):
+        if((self.GLOBAL.getActualPartidaState() == "loading") or (self.GLOBAL.getActualPartidaState() == "estadisticas")):
             x_size = self.width/3.8339
             y_size = self.height/12.2807
             x_start = self.width/2.7907
@@ -1289,6 +1301,11 @@ class PartidaScreen:
                 mixer.music.stop()#para la música
                 mixer.music.load("sounds/background.wav") #carga de nuevo la canción normal de fondo
                 mixer.music.play(-1)
+                # Reseteo las estadísticas
+                self.GLOBAL.resetBroken()
+                self.GLOBAL.resetMob()
+                self.GLOBAL.resetOpened()
+                self.GLOBAL.resetRooms()
                 try:
                     self.cerrarHilo()
                 except Exception as e:
@@ -1828,7 +1845,7 @@ class PartidaScreen:
         
 
     def movedMouse(self):
-        if(self.GLOBAL.getActualPartidaState() == "loading"):
+        if((self.GLOBAL.getActualPartidaState() == "loading") or (self.GLOBAL.getActualPartidaState() == "estadisticas")):
             x_size = self.width/3.8339
             y_size = self.height/12.2807
             x_start = self.width/2.7907

@@ -207,6 +207,7 @@ class EstadoRecolectAndBreak(Estado):
                 DM.speak(texto)
                 a_lista = "El jugador ha destruido un sarcófago, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
                 self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
+                self.GLOBAL.addBrokenObject()
             else:
                 # El sarcófago contiene objeto, y no se puede romper
                 texto = "Espera un momento que piense..."
@@ -276,6 +277,7 @@ class EstadoRecolectAndBreak(Estado):
                 DM.speak(texto)
             a_lista = "El jugador ha destruido un canasto de rubíes, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
+            self.GLOBAL.addBrokenObject()
                 
 
         # Esmeraldas
@@ -322,6 +324,7 @@ class EstadoRecolectAndBreak(Estado):
                 DM.speak(texto)
             a_lista = "El jugador ha destruido un canasto de esmeraldas, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
+            self.GLOBAL.addBrokenObject()
         # Mineral extraño
         elif((self.Mapa.objetos[y][x] == 101) or (self.Mapa.objetos[y][x] == 106)):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -366,6 +369,7 @@ class EstadoRecolectAndBreak(Estado):
                 DM.speak(texto)
             a_lista = "El jugador ha destruido un canasto de minerales amarillos, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
+            self.GLOBAL.addBrokenObject()
         # Saco de monedas
         elif(101 <= self.Mapa.objetos[y][x] <= 103):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -411,6 +415,7 @@ class EstadoRecolectAndBreak(Estado):
             DM.speak(texto)
             a_lista = "El jugador ha abierto un saco de cuero, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
+            self.GLOBAL.addBrokenObject()
         # Hongo azul
         elif(111 <= self.Mapa.objetos[y][x] <= 112):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -455,6 +460,7 @@ class EstadoRecolectAndBreak(Estado):
                 DM.speak(texto)
             a_lista = "El jugador ha arrancado un hongo azul, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
+            self.GLOBAL.addBrokenObject()
         # Seta
         elif(113 <= self.Mapa.objetos[y][x] <= 114):
             # Como se pueden recolectar, compruebo que haya espacio disponible en el inventario
@@ -499,6 +505,7 @@ class EstadoRecolectAndBreak(Estado):
                 DM.speak(texto)
             a_lista = "El jugador ha arrancado una seta naranja, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
+            self.GLOBAL.addBrokenObject()
 
         # Roca para romperla
         elif(115 <= self.Mapa.objetos[y][x] <= 117):
@@ -529,6 +536,7 @@ class EstadoRecolectAndBreak(Estado):
             DM.speak(texto)
             a_lista = "El jugador ha destruido una roca, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
+            self.GLOBAL.addBrokenObject()
 
         # Esqueleto
         elif(33 <= self.Mapa.objetos[y][x] <= 38):
@@ -972,6 +980,7 @@ class EstadoInteractChest(Estado):
         a_lista = "El jugador ha abierto un sarcófago, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+string_to_speech
         self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
+        self.GLOBAL.addOpenedChest()
 
     def DescriptionFullChest(self,DM,personaje):
         cancion =  pygame.mixer.Sound('sounds/open_sarcofago.wav')
@@ -1727,6 +1736,7 @@ class EstadoDeSalaFinal(Estado):
         #DM.printVoices()
         #TODO: Enviar mensaje TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala normal
+        self.GLOBAL.addRoomVisited()
         self.run(DM,personaje,currentEstadoByPlayers)
 
     def addChest(self,dmf1,dme1,cofre):
@@ -2123,7 +2133,7 @@ class EstadoDeSalaIntermedia(Estado):
         self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
         print("Sala "+str(self.id))
         #DM.printVoices()
-
+        self.GLOBAL.addRoomVisited()
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala normal
         self.run(DM,personaje,currentEstadoByPlayers)
 
@@ -2594,6 +2604,7 @@ class EstadoDeSalaInicial(Estado):
         #DM.printVoices()
         #TODO: Enviar mensaje TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala normal
+        self.GLOBAL.addRoomVisited()
         self.run(DM,personaje,currentEstadoByPlayers)
 
             

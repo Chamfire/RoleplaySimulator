@@ -667,7 +667,9 @@ class ProcesamientoPartida:
 
         self.GLOBAL.setActualPartidaState("partida")
         #TODO: Mensaje TCP a todos los jugadores para que cambien sus variables globales de actualPartidaScreen a "partida"
-    
+
+
+        partida_inicio = time.time()
         self.maquina.initExecution()
         self.finished = False
         while(not self.finished):
@@ -682,7 +684,14 @@ class ProcesamientoPartida:
             time.sleep(0.2)
             #Así evitamos la sobrecarga del portátil. Cada 0.2 segundos, se comprueba la máquina de estados
         print("Aventura terminada -> Cargar pantalla de estadísticas")
-
+        partida_fin = time.time()
+        duracion_partida = partida_inicio-partida_fin
+        self.GLOBAL.setActualPartidaState("estadisticas")
+        #print("Duración de la partida: "+duracion_partida)
+        # print("Mobs descubiertos: "+self.GLOBAL.getMobsDiscoverder())
+        # print("Cofres abiertos: "+self.GLOBAL.getOpenedChest())
+        # print("Salas visitadas: "+self.GLOBAL.getRoomsVisited())
+        # print("Objetos rotos: "+self.GLOBAL.getBrokenObjects())
 
     def buscar_surface(self,obj, nombre_ruta="self.maquina", visitados=None):
         if visitados is None:

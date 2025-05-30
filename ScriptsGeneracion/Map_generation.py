@@ -7,7 +7,7 @@ import heapq
 import pickle
 from Lista_Inventario import Lista_Inventario
 import base64
-
+from Global import Global
 
 # 0: Casilla sin determinar
 # 1: 
@@ -103,6 +103,7 @@ class Map_generation:
 
             # Lista para almacenar los frames
             self.frames = {}
+            self.mobsVistos = {}
 
             # Recorre la imagen y extrae cada frame
             for y in range(num_frames_y):
@@ -808,6 +809,13 @@ class Map_generation:
         self.checkIfFindMission(casillasAComprobar,pos_x,pos_y)
 
     def checkIfFindMission(self,casillasAComprobar,pos_x,pos_y):
+        # Contador de mobs
+        for posicion in casillasAComprobar:
+            if((str([posicion[0],posicion[1]]) not in self.mobsVistos) and (33 <= self.objetos[posicion[1]][posicion[0]]<= 66)):
+                self.mobsVistos[str([posicion[0],posicion[1]])] = self.objetos[posicion[1]][posicion[0]]
+                GLOBAL = Global()
+                GLOBAL.addMob()
+                GLOBAL = None
         if(self.getRoomAtPoint(pos_x,pos_y,self.room_sizes,self.room_start_points) == self.main_path[-1]):
             # Si está en la última sala, comprobamos si se ha cumplido o no la misión de la sala
             tipo_mision = self.salas[self.main_path[-1]].tipo_mision
