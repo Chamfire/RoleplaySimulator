@@ -686,6 +686,9 @@ class ProcesamientoPartida:
         print("Aventura terminada -> Cargar pantalla de estadísticas")
         partida_fin = time.time()
         duracion_partida = partida_inicio-partida_fin
+        self.GLOBAL.setEndingTime(duracion_partida)
+        total_salas = len(Mapa.salas)
+        self.GLOBAL.setNumSalas(total_salas)
         self.GLOBAL.setActualPartidaState("estadisticas")
         #print("Duración de la partida: "+duracion_partida)
         # print("Mobs descubiertos: "+self.GLOBAL.getMobsDiscoverder())

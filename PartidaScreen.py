@@ -299,7 +299,24 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
             self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
             # Estadísticas
-            
+            ending_time = "Tiempo requerido: "+str(self.GLOBAL.getEndingTime())
+            mobs = "Monstruos descubiertos: "+ str(self.GLOBAL.getMobsDiscoverder())
+            cofres = "Sarcófagos abiertos: "+ str(self.GLOBAL.getOpenedChest())
+            rooms = "Habitaciones descubiertas: "+str(self.GLOBAL.getRoomsVisited())+"/"+str(self.GLOBAL.getNumSalas())
+            objetos = "Objetos destruidos: "+str(self.GLOBAL.getBrokenObjects())
+            text1 = self.fuente3.render(ending_time, True, self.color_white)
+            text2 = self.fuente3.render(mobs, True, self.color_white)
+            text3 = self.fuente3.render(cofres, True, self.color_white)
+            text4 = self.fuente3.render(rooms, True, self.color_white)
+            text5 = self.fuente3.render(objetos, True, self.color_white)
+
+            #los renderizamos 
+            self.screen.blit(text1, (self.width/13.6364, self.height/14.2857)) #88 49
+            self.screen.blit(text2, (self.width/13.6364, self.height/5.5118)) #88 127
+            self.screen.blit(text3, (self.width/13.6364, self.height/3.4146)) #88 205
+            self.screen.blit(text4, (self.width/13.6364, self.height/2.4648)) #88 284
+            self.screen.blit(text5, (self.width/13.6364, self.height/1.9337)) #88 362
+
 
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
@@ -622,7 +639,30 @@ class PartidaScreen:
                 #TODO: esperar a recibir maquina de estados para la partida, y crearla con la configuración de voz y efectos
                 pass
         elif(self.GLOBAL.getActualPartidaState() == "estadisticas"):
-            pass
+            self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+            self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+            # Estadísticas
+            ending_time = "Tiempo requerido: "+str(self.GLOBAL.getEndingTime())
+            mobs = "Monstruos descubiertos: "+ str(self.GLOBAL.getMobsDiscoverder())
+            cofres = "Sarcófagos abiertos: "+ str(self.GLOBAL.getOpenedChest())
+            rooms = "Habitaciones descubiertas: "+str(self.GLOBAL.getRoomsVisited())+"/"+str(self.GLOBAL.getNumSalas())
+            objetos = "Objetos destruidos: "+str(self.GLOBAL.getBrokenObjects())
+            text1 = self.fuente3.render(ending_time, True, self.color_white)
+            text2 = self.fuente3.render(mobs, True, self.color_white)
+            text3 = self.fuente3.render(cofres, True, self.color_white)
+            text4 = self.fuente3.render(rooms, True, self.color_white)
+            text5 = self.fuente3.render(objetos, True, self.color_white)
+
+            #los renderizamos 
+            self.screen.blit(text1, (self.width/13.6364, self.height/14.2857)) #88 49
+            self.screen.blit(text2, (self.width/13.6364, self.height/5.5118)) #88 127
+            self.screen.blit(text3, (self.width/13.6364, self.height/3.4146)) #88 205
+            self.screen.blit(text4, (self.width/13.6364, self.height/2.4648)) #88 284
+            self.screen.blit(text5, (self.width/13.6364, self.height/1.9337)) #88 362
+
+
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             self.peso = self.fuente3.render(str(round(self.personaje.equipo.peso_actual,2)), True, self.color_black)
             self.pc = self.fuente1.render(str(self.personaje.pc), True, self.color_black)
@@ -844,7 +884,30 @@ class PartidaScreen:
                     self.contMsg = 0
                 pygame.display.update()
         elif(self.GLOBAL.getActualPartidaState() == "estadisticas"):
-            pass
+            self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
+            self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
+            # Estadísticas
+            ending_time = "Tiempo requerido: "+str(self.GLOBAL.getEndingTime())
+            mobs = "Monstruos descubiertos: "+ str(self.GLOBAL.getMobsDiscoverder())
+            cofres = "Sarcófagos abiertos: "+ str(self.GLOBAL.getOpenedChest())
+            rooms = "Habitaciones descubiertas: "+str(self.GLOBAL.getRoomsVisited())+"/"+str(self.GLOBAL.getNumSalas())
+            objetos = "Objetos destruidos: "+str(self.GLOBAL.getBrokenObjects())
+            text1 = self.fuente3.render(ending_time, True, self.color_white)
+            text2 = self.fuente3.render(mobs, True, self.color_white)
+            text3 = self.fuente3.render(cofres, True, self.color_white)
+            text4 = self.fuente3.render(rooms, True, self.color_white)
+            text5 = self.fuente3.render(objetos, True, self.color_white)
+
+            #los renderizamos 
+            self.screen.blit(text1, (self.width/13.6364, self.height/14.2857)) #88 49
+            self.screen.blit(text2, (self.width/13.6364, self.height/5.5118)) #88 127
+            self.screen.blit(text3, (self.width/13.6364, self.height/3.4146)) #88 205
+            self.screen.blit(text4, (self.width/13.6364, self.height/2.4648)) #88 284
+            self.screen.blit(text5, (self.width/13.6364, self.height/1.9337)) #88 362
+
+
+            self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667))
+            self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/2.4490, self.height/1.1570))
         elif(self.GLOBAL.getActualPartidaState() == "partida"):
             x_size = self.width/3.8339
             y_size = self.height/12.2807
@@ -1306,6 +1369,7 @@ class PartidaScreen:
                 self.GLOBAL.resetMob()
                 self.GLOBAL.resetOpened()
                 self.GLOBAL.resetRooms()
+                self.GLOBAL.setEndingTime(0)
                 try:
                     self.cerrarHilo()
                 except Exception as e:

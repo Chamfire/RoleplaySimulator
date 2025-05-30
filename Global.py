@@ -83,6 +83,26 @@ class Global:
         openedChests = 0
         global brokenObjects
         brokenObjects = 0
+        global endingTime
+        endingTime = 0
+        global numSalas
+        numSalas = 0
+
+    def setNumSalas(self,v):
+        global numSalas
+        numSalas = v
+
+    def getNumSalas(self):
+        global numSalas
+        return numSalas
+
+    def setEndingTime(self,v):
+        global endingTime
+        endingTime = v
+
+    def getEndingTime(self):
+        global endingTime
+        return endingTime
 
     def resetMob(self):
         global mobsDiscovered
