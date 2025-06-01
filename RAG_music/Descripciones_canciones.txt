@@ -1,106 +1,106 @@
 Cuando los jugadores están en una tribu, aldeas indígenas o cualquier cultura en un ambiente alegre,
-la canción a reproducir es "tribal/tribal_joy". Sin embargo, si el ambiente es tenso, la mejor canción 
-es "tribal/Big Mojo". Cuando el ambiente no es tenso, sino neutro, será «tribal/ambient_bongos».
+la canción a reproducir es 'tribal/tribal_joy'. Sin embargo, si el ambiente es tenso, la mejor canción 
+es 'tribal/Big Mojo'. Cuando el ambiente no es tenso, sino neutro, será «tribal/ambient_bongos».
 
 Cuando los jugadores ven varios monstruos en una zona por primera vez, para preparar un posible combate, 
-la canción a reproducir es "tension_corta/Evil March". Esta canción también se puede reproducir en un ambiente tenso.
+la canción a reproducir es 'tension_corta/Evil March'. Esta canción también se puede reproducir en un ambiente tenso.
 
 Cuando los jugadores están explorando una mazmorra, o cualquier zona oscura o lúgubre (podría ser de noche, por ejemplo), 
-las mejores canciones para reproducir son "tension_corta/Constance", "tension_corta/Countdown", "tension_corta/Serpentine Trek" 
-o "tension_corta/Headless_Horseman". Si además sabemos que los jugadores están al aire libre, también se puede reproducir 
-"tension_corta/Bloodlust". Estas canciones también se pueden reproducir en un ambiente tenso.
+las mejores canciones para reproducir son 'tension_corta/Constance', 'tension_corta/Countdown', 'tension_corta/Serpentine Trek' 
+o 'tension_corta/Headless_Horseman'. Si además sabemos que los jugadores están al aire libre, también se puede reproducir 
+'tension_corta/Bloodlust'. Estas canciones también se pueden reproducir en un ambiente tenso.
 
 Cuando los jugadores están hablando con un NPC malvado, la mejor canción para reproducir es «tension_corta/Black Vortex». Esta 
 canción puede también reproducirse en un ambiente tenso.
 
 Al explorar en la cubierta de un barco o en el desierto, al anochecer o en mitad de la noche, en
-un ambiente tenso, las mejores canciones a reproducir serían "tension_corta/Daudir" o "tension_corta/samurai_flutes". 
+un ambiente tenso, las mejores canciones a reproducir serían 'tension_corta/Daudir' o 'tension_corta/samurai_flutes'. 
 
 Al explorar una ciudad moderna, en un ambiente tenso, durante la noche o en el interior de algún edificio, las mejores canciones 
-para reproducir serían "tension_corta/Executioner" o "tension_corta/Haunted_House".
+para reproducir serían 'tension_corta/Executioner' o 'tension_corta/Haunted_House'.
 
 Cuando los jugadores están dentro de una taberna, en una aldea medieval o celebrando algo, las mejores canciones para reproducir son 
-"taberna_corta/The_Memesong", "taberna_corta/Bushwick Tarantella", "taberna_corta/Midsummer_Magic", "taberna_corta/We_Set_Up_Camp_Here"
-"taberna_corta/Fluffing a Duck", "taberna_corta/Achaidh Cheide", "taberna_corta/Banjo_Fever", "exploracion_corta/Degenerate_Blues", 
-"taberna_corta/Monkeys Spinning Monkeys" o "taberna_corta/Scheming Weasel slower".
+'taberna_corta/The_Memesong', 'taberna_corta/Bushwick Tarantella', 'taberna_corta/Midsummer_Magic', 'taberna_corta/We_Set_Up_Camp_Here'
+'taberna_corta/Fluffing a Duck', 'taberna_corta/Achaidh Cheide', 'taberna_corta/Banjo_Fever', 'exploracion_corta/Degenerate_Blues', 
+'taberna_corta/Monkeys Spinning Monkeys' o 'taberna_corta/Scheming Weasel slower'.
 
-Cuando los jugadores están hablando con algún NPC inesperado en una taberna, la mejor canción para reproducir es "taberna_corta/Guess Who"
+Cuando los jugadores están hablando con algún NPC inesperado en una taberna, la mejor canción para reproducir es 'taberna_corta/Guess Who'
 
-Cuando los jugadores están explorando en un ambiente alegre, las mejores canciones para reproducir son "taberna_corta/Achaidh Cheide", 
-"taberna_corta/Banjo_Fever", "taberna_corta/Fluffing a Duck", "taberna_corta/Midsummer_Magic", "taberna_corta/Monkeys Spinning Monkeys",
-"taberna_corta/Scheming Weasel slower" o "taberna_corta/We_Set_Up_Camp_Here".
+Cuando los jugadores están explorando en un ambiente alegre, las mejores canciones para reproducir son 'taberna_corta/Achaidh Cheide', 
+'taberna_corta/Banjo_Fever', 'taberna_corta/Fluffing a Duck', 'taberna_corta/Midsummer_Magic', 'taberna_corta/Monkeys Spinning Monkeys',
+'taberna_corta/Scheming Weasel slower' o 'taberna_corta/We_Set_Up_Camp_Here'.
 
-Cuando los jugadores están en un momento de divertido, las mejores canciones para reproducir son "taberna_corta/Sneaky Snitch", "taberna_corta/Fluffing a Duck", 
-"taberna_corta/Monkeys Spinning Monkeys", "exploracion_corta/Marty Gots a Plan" o "taberna_corta/We_Set_Up_Camp_Here".
+Cuando los jugadores están en un momento de divertido, las mejores canciones para reproducir son 'taberna_corta/Sneaky Snitch', 'taberna_corta/Fluffing a Duck', 
+'taberna_corta/Monkeys Spinning Monkeys', 'exploracion_corta/Marty Gots a Plan' o 'taberna_corta/We_Set_Up_Camp_Here'.
 
 Cuando el DM está dando la introducción para la aventura, y los jugadores empiezan desde un desierto, las mejores canciones para reproducir son
-"intro_corta/Adventure_remaster", "intro_corta/Return of the Mummy" o "intro_corta/Ibn Al-Noor". Si parten de un barco, las mejores canciones para 
-reproducir son "intro_corta/Land_of_Pirates" o "intro_corta/Seven_Seas". Si parten de una ciudad moderna, las mejores canciones para 
-reproducir son "intro_corta/Neverwhere_-_320bit", "intro_corta/Nightclub_Two" o "intro_corta/Part_A". Si parten de una aldea medieval, 
-las mejores canciones para reproducir son "intro_corta/Call to Adventure" o "intro_corta/William_Tell_Overture_orchestral_version". 
-Si parten de una mazmorra, las mejores canciones para reproducir son "intro_corta/Our Story Begins", "intro_corta/Arcadia" o "intro_corta/Red_Barons_Theme".
+'intro_corta/Adventure_remaster', 'intro_corta/Return of the Mummy' o 'intro_corta/Ibn Al-Noor'. Si parten de un barco, las mejores canciones para 
+reproducir son 'intro_corta/Land_of_Pirates' o 'intro_corta/Seven_Seas'. Si parten de una ciudad moderna, las mejores canciones para 
+reproducir son 'intro_corta/Neverwhere_-_320bit', 'intro_corta/Nightclub_Two' o 'intro_corta/Part_A'. Si parten de una aldea medieval, 
+las mejores canciones para reproducir son 'intro_corta/Call to Adventure' o 'intro_corta/William_Tell_Overture_orchestral_version'. 
+Si parten de una mazmorra, las mejores canciones para reproducir son 'intro_corta/Our Story Begins', 'intro_corta/Arcadia' o 'intro_corta/Red_Barons_Theme'.
 
 Cuando el DM está dando la introducción para la aventura, y los jugadores empiezan desde un bosque, un barco o una aldea medieval, 
-las mejores canciones para reproducir son "intro_corta/Adventure_remaster" o "intro_corta/Enchantment".
+las mejores canciones para reproducir son 'intro_corta/Adventure_remaster' o 'intro_corta/Enchantment'.
 
 Cuando el DM está cerrando la aventura, y los jugadores estaban en un bosque, un desierto, un barco o una aldea medieval las mejores canciones para
-reproducir son "final_corta/Spirits_of_the_Greenwood", "final_corta/Echoes_of_Eternity" o "final_corta/Jolly_Good_Captain".
+reproducir son 'final_corta/Spirits_of_the_Greenwood', 'final_corta/Echoes_of_Eternity' o 'final_corta/Jolly_Good_Captain'.
 
-Cuando el DM está cerrando la aventura, las mejores canciones para reproducir son "final_corta/Behind_the_Sword", "final_corta/Bit_O_Fun_With_The_Crew",
-"final_corta/Megaepic", "final_corta/Valley_of_the_Sun" o "final_corta/We_Are_Victorious".
+Cuando el DM está cerrando la aventura, las mejores canciones para reproducir son 'final_corta/Behind_the_Sword', 'final_corta/Bit_O_Fun_With_The_Crew',
+'final_corta/Megaepic', 'final_corta/Valley_of_the_Sun' o 'final_corta/We_Are_Victorious'.
 
-Cuando los jugadores están explorando en el desierto durante mucho tiempo la mejor canción para reproducir es "exploracion_larga/Anket the inundation of the Nyle".
-Si están explorando en un barco durante mucho tiempo las mejores canciones para reproducir son "exploracion_larga/the-sea-longer-edit-crete-2012-19744" o "exploracion_larga/gentle-ocean-waves-mix-2018-19693". 
-Si están explorando un bosque durante mucho tiempo, las mejores canciones son "exploracion_larga/Fantasy_Ambience" o "exploracion_larga/nature-soundstropicaljunglebirds-108380".
-Si están explorando en una aldea medieval durante mucho tiempo las mejores canciones para reproducir son "exploracion_larga/Magic Escape Room" o "exploracion_larga/Crusade - Heavy Industry".
-Si están explorando una mazmorra durante mucho tiempo la mejor canción para reproducir es "exploracion_larga/old-mine-ambience-200677".
-Si están explorando una ciudad moderna durante mucho tiempo, las mejores canciones para reproducir son "exploracion_larga/slow-cold-atmospheric-bass-ambient-sound-250706" o "exploracion_larga/Transcendence».
+Cuando los jugadores están explorando en el desierto durante mucho tiempo la mejor canción para reproducir es 'exploracion_larga/Anket the inundation of the Nyle'.
+Si están explorando en un barco durante mucho tiempo las mejores canciones para reproducir son 'exploracion_larga/the-sea-longer-edit-crete-2012-19744' o 'exploracion_larga/gentle-ocean-waves-mix-2018-19693'. 
+Si están explorando un bosque durante mucho tiempo, las mejores canciones son 'exploracion_larga/Fantasy_Ambience' o 'exploracion_larga/nature-soundstropicaljunglebirds-108380'.
+Si están explorando en una aldea medieval durante mucho tiempo las mejores canciones para reproducir son 'exploracion_larga/Magic Escape Room' o 'exploracion_larga/Crusade - Heavy Industry'.
+Si están explorando una mazmorra durante mucho tiempo la mejor canción para reproducir es 'exploracion_larga/old-mine-ambience-200677'.
+Si están explorando una ciudad moderna durante mucho tiempo, las mejores canciones para reproducir son 'exploracion_larga/slow-cold-atmospheric-bass-ambient-sound-250706' o 'exploracion_larga/Transcendence».
 
-Cuando los jugadores están explorando una aldea medieval o un bosque durante mucho tiempo, la mejor canción para reproducir es "exploracion_larga/nature-ambience-323729".
+Cuando los jugadores están explorando una aldea medieval o un bosque durante mucho tiempo, la mejor canción para reproducir es 'exploracion_larga/nature-ambience-323729'.
 
 
-Cuando llueve y los jugadores están en el bosque o en una aldea medieval durante mucho tiempo, la mejor canción para reproducir es "exploracion_larga/rainy-day-in-town-with-birds-singing-194011".
+Cuando llueve y los jugadores están en el bosque o en una aldea medieval durante mucho tiempo, la mejor canción para reproducir es 'exploracion_larga/rainy-day-in-town-with-birds-singing-194011'.
 
-Cuando hay viento en el bosque, en el desierto o en una aldea medieval durante mucho tiempo, durante la medianoche, la mejor canción para reproducir es "exploracion_larga/sounds-of-nature-relax-in-a-cave-276297".
+Cuando hay viento en el bosque, en el desierto o en una aldea medieval durante mucho tiempo, durante la medianoche, la mejor canción para reproducir es 'exploracion_larga/sounds-of-nature-relax-in-a-cave-276297'.
 
-Cuando los jugadores están explorando una aldea medieval, las mejores canciones para reproducir son "exploracion_corta/Bachs_Bouree_in_Celtic_Minor", 
-"exploracion_corta/Detective_Goofarian", "exploracion_corta/Medieval_Chateau".
-Cuando los jugadores están explorando un barco, las mejores canciones para reproducir son "exploracion_corta/Blue_Hour" o "exploracion_corta/Traversing_the_White_Peaks".
-Cuando los jugadores exploran una mazmorra, las mejores canciones para reproducir son "exploracion_corta/caves-of-dawn-10376" o "exploracion_corta/The Path of the Goblin King v2".
-Cuando los jugadores exploran una ciudad moderna, las mejores canciones para reproducir son "exploracion_corta/Degenerate_Blues" o "exploracion_corta/Pre_Apocalypse".
-Cuando los jugadores exploran el desierto o el bosque, las mejores canciones para reproducir son "exploracion_corta/fading light of the faiyum" o "exploracion_corta/Tabuk".
-Cuando los jugadores exploran el bosque, las mejores canciones para reproducir son "exploracion_corta/Roaming_One" o "exploracion_corta/Roaming_Two".
+Cuando los jugadores están explorando una aldea medieval, las mejores canciones para reproducir son 'exploracion_corta/Bachs_Bouree_in_Celtic_Minor', 
+'exploracion_corta/Detective_Goofarian', 'exploracion_corta/Medieval_Chateau'.
+Cuando los jugadores están explorando un barco, las mejores canciones para reproducir son 'exploracion_corta/Blue_Hour' o 'exploracion_corta/Traversing_the_White_Peaks'.
+Cuando los jugadores exploran una mazmorra, las mejores canciones para reproducir son 'exploracion_corta/caves-of-dawn-10376' o 'exploracion_corta/The Path of the Goblin King v2'.
+Cuando los jugadores exploran una ciudad moderna, las mejores canciones para reproducir son 'exploracion_corta/Degenerate_Blues' o 'exploracion_corta/Pre_Apocalypse'.
+Cuando los jugadores exploran el desierto o el bosque, las mejores canciones para reproducir son 'exploracion_corta/fading light of the faiyum' o 'exploracion_corta/Tabuk'.
+Cuando los jugadores exploran el bosque, las mejores canciones para reproducir son 'exploracion_corta/Roaming_One' o 'exploracion_corta/Roaming_Two'.
 
-Cuando los jugadores están explorando una aldea medieval, el desierto o un bosque, las mejores canciones para reproducir son "exploracion_corta/Celtic_Ambiance" o "exploracion_corta/Traversing_the_White_Peaks".
+Cuando los jugadores están explorando una aldea medieval, el desierto o un bosque, las mejores canciones para reproducir son 'exploracion_corta/Celtic_Ambiance' o 'exploracion_corta/Traversing_the_White_Peaks'.
 
-Cuando los jugadores están explorando un barco o una aldea medieval la mejor canción para reproducir es "exploracion_corta/Heartbeat" o "exploracion_corta/Odins_Blessing"
+Cuando los jugadores están explorando un barco o una aldea medieval la mejor canción para reproducir es 'exploracion_corta/Heartbeat' o 'exploracion_corta/Odins_Blessing'
 
-Cuando los jugadores están explorando una ciudad moderna o una aldea medieval la mejor canción para reproducir es "exploracion_corta/Happy" o "exploracion_corta/Outlaws_of_the_Iron_Horse".
+Cuando los jugadores están explorando una ciudad moderna o una aldea medieval la mejor canción para reproducir es 'exploracion_corta/Happy' o 'exploracion_corta/Outlaws_of_the_Iron_Horse'.
 
-Cuando los jugadores están explorando el desierto o una aldea medieval la mejor canción para reproducir es "exploracion_corta/Lord of the Land".
+Cuando los jugadores están explorando el desierto o una aldea medieval la mejor canción para reproducir es 'exploracion_corta/Lord of the Land'.
 
-Cuando el entorno es bello y triste al mismo tiempo, las mejores canciones para reproducir son "drama_corta/Afterlife" o "drama_corta/tears-of-yesterday-238999".
+Cuando el entorno es bello y triste al mismo tiempo, las mejores canciones para reproducir son 'drama_corta/Afterlife' o 'drama_corta/tears-of-yesterday-238999'.
 
-Cuando los jugadores están en una aldea medieval y hay un momento triste, la mejor canción para reproducir es "drama_corta/Carol_of_the_Bells_Celtic_Version"
+Cuando los jugadores están en una aldea medieval y hay un momento triste, la mejor canción para reproducir es 'drama_corta/Carol_of_the_Bells_Celtic_Version'
 
-Cuando el ambiente es tenso y destructivo la mejor canción para reproducir es "drama_corta/Devastation and Revenge"
+Cuando el ambiente es tenso y destructivo la mejor canción para reproducir es 'drama_corta/Devastation and Revenge'
 
-Cuando el ambiente es dramático y triste la mejor canción para reproducir es "drama_corta/Dramatic_Interlude" o "drama_corta/youx27ll- never-see-them-again-229248"
+Cuando el ambiente es dramático y triste la mejor canción para reproducir es 'drama_corta/Dramatic_Interlude' o 'drama_corta/youx27ll- never-see-them-again-229248'
 
-Cuando los jugadores están en una ciudad moderna o en una aldea medieval en un momento triste pero bonito la mejor canción para reproducir es "drama_corta/Dream_of_a_Dream
+Cuando los jugadores están en una ciudad moderna o en una aldea medieval en un momento triste pero bonito la mejor canción para reproducir es 'drama_corta/Dream_of_a_Dream
 
-When the moment is dramatic and sad the best song to reproduce is "drama_corta/medieval-ambient-236809"
+When the moment is dramatic and sad the best song to reproduce is 'drama_corta/medieval-ambient-236809'
 
-Cuando el momento es destructivo y triste la canción a reproducir es "drama_corta/Rynos Theme"
+Cuando el momento es destructivo y triste la canción a reproducir es 'drama_corta/Rynos Theme'
 
-Cuando el momento es muy bonito y alegre, los mejores hijos a reproducir son "belleza_corta/Dungeons_and_Dragons", "belleza_corta/Frost Waltz", 
-"belleza_corta/Legends" o "belleza_corta/The_Last_Embrace".
+Cuando el momento es muy bonito y alegre, los mejores hijos a reproducir son 'belleza_corta/Dungeons_and_Dragons', 'belleza_corta/Frost Waltz', 
+'belleza_corta/Legends' o 'belleza_corta/The_Last_Embrace'.
 
-Cuando hay un combate en una ciudad moderna la mejor canción para reproducir es "combate_corta/march-of-the-troopers-star-wars-style-cinematic-music-207056", "combate_corta/Fallout" o "combate_corta/Cephalopod".
-Cuando hay un combate en el desierto, la mejor canción para reproducir es "combate_corta/Sandstorm", "combate_corta/Curse of the Scarab" o "combate_corta/Mega_Boss_Fight".
-Cuando hay un combate en una mazmorra, la mejor canción para reproducir es "combate_corta/Burnt Spirit".
-Cuando hay un combate en un barco la mejor canción para reproducir es "combate_corta/Battlefield".
-Cuando hay un combate en el bosque la mejor canción para reproducir es "combate_corta/battle-of-the-dragons-8037".
+Cuando hay un combate en una ciudad moderna la mejor canción para reproducir es 'combate_corta/march-of-the-troopers-star-wars-style-cinematic-music-207056', 'combate_corta/Fallout' o 'combate_corta/Cephalopod'.
+Cuando hay un combate en el desierto, la mejor canción para reproducir es 'combate_corta/Sandstorm', 'combate_corta/Curse of the Scarab' o 'combate_corta/Mega_Boss_Fight'.
+Cuando hay un combate en una mazmorra, la mejor canción para reproducir es 'combate_corta/Burnt Spirit'.
+Cuando hay un combate en un barco la mejor canción para reproducir es 'combate_corta/Battlefield'.
+Cuando hay un combate en el bosque la mejor canción para reproducir es 'combate_corta/battle-of-the-dragons-8037'.
 
-Cuando hay un combate en cualquier lugar las mejores canciones para reproducir son "combate_corta/Volatile Reaction", "combate_corta/Near_End_Action", "combate_corta/epic-action-113888", "combate_corta/Dragonsong",
-"combate_corta/Combat_One", "combate_corta/Boss_Fight", "combate_corta/Big Drumming"
+Cuando hay un combate en cualquier lugar las mejores canciones para reproducir son 'combate_corta/Volatile Reaction', 'combate_corta/Near_End_Action', 'combate_corta/epic-action-113888', 'combate_corta/Dragonsong',
+'combate_corta/Combat_One', 'combate_corta/Boss_Fight', 'combate_corta/Big Drumming'
