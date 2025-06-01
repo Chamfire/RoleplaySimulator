@@ -299,7 +299,7 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
             self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
             # Estadísticas
-            ending_time = "Tiempo requerido: "+str(self.GLOBAL.getEndingTime())
+            ending_time = "Tiempo requerido: "+str(self.GLOBAL.getEndingTime())+" ms"
             mobs = "Monstruos descubiertos: "+ str(self.GLOBAL.getMobsDiscoverder())
             cofres = "Sarcófagos abiertos: "+ str(self.GLOBAL.getOpenedChest())
             rooms = "Habitaciones descubiertas: "+str(self.GLOBAL.getRoomsVisited())+"/"+str(self.GLOBAL.getNumSalas())
@@ -642,7 +642,7 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
             self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
             # Estadísticas
-            ending_time = "Tiempo requerido: "+str(self.GLOBAL.getEndingTime())
+            ending_time = "Tiempo requerido: "+str(self.GLOBAL.getEndingTime())+" ms"
             mobs = "Monstruos descubiertos: "+ str(self.GLOBAL.getMobsDiscoverder())
             cofres = "Sarcófagos abiertos: "+ str(self.GLOBAL.getOpenedChest())
             rooms = "Habitaciones descubiertas: "+str(self.GLOBAL.getRoomsVisited())+"/"+str(self.GLOBAL.getNumSalas())
@@ -887,7 +887,7 @@ class PartidaScreen:
             self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
             self.screen.blit(pygame.transform.scale(self.capa,  (self.width,self.height)), (0, 0))
             # Estadísticas
-            ending_time = "Tiempo requerido: "+str(self.GLOBAL.getEndingTime())
+            ending_time = "Tiempo requerido: "+str(self.GLOBAL.getEndingTime())+" ms"
             mobs = "Monstruos descubiertos: "+ str(self.GLOBAL.getMobsDiscoverder())
             cofres = "Sarcófagos abiertos: "+ str(self.GLOBAL.getOpenedChest())
             rooms = "Habitaciones descubiertas: "+str(self.GLOBAL.getRoomsVisited())+"/"+str(self.GLOBAL.getNumSalas())

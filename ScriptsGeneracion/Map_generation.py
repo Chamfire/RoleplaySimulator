@@ -188,6 +188,8 @@ class Map_generation:
                 pickle.dump(self.room_start_points, f)
             with open(config_dir+'/main_path.pickle','wb') as f:
                 pickle.dump(self.main_path,f)
+            with open(config_dir+'/mobsVistos.pickle','wb') as f:
+                pickle.dump(self.mobsVistos,f)
         else:
             config_dir = 'mapas/'+currentPartida
             config_file = 'mapa_'+currentPartida+".pickle"
@@ -212,6 +214,8 @@ class Map_generation:
                 self.room_start_points = pickle.load(f)
             with open(config_dir+'/main_path.pickle', "rb") as f:
                 self.main_path = pickle.load(f)
+            with open(config_dir+'/mobsVistos.pickle', "rb") as f:
+                self.mobsVistos = pickle.load(f)
 
 
             self.reload(matrix,objetos,adyacencias,salas,casillasVistas,eleccion,width,height,NPC_imagen)
