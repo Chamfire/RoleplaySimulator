@@ -560,7 +560,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un esqueleto viviente, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un esqueleto viviente, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/no-muerto esqueleto.png")
             self.GLOBAL.setShowImage(True)
@@ -587,7 +587,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un zombie, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un zombie, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/no-muerto zombie.png")
             self.GLOBAL.setShowImage(True)
@@ -613,7 +613,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un slime, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un slime, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/slime.png")
             self.GLOBAL.setShowImage(True)
@@ -639,7 +639,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un beholder, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un beholder, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/beholder.png")
             self.GLOBAL.setShowImage(True)
@@ -665,7 +665,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un troll, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un troll, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/troll.png")
             self.GLOBAL.setShowImage(True)
@@ -691,7 +691,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un dragón, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un dragón, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/dragón.png")
             self.GLOBAL.setShowImage(True)
@@ -717,7 +717,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a una sombra humanoide, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a una sombra humanoide, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/sombra.png")
             self.GLOBAL.setShowImage(True)
@@ -743,7 +743,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un fénix, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un fénix, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/fénix.png")
             self.GLOBAL.setShowImage(True)
@@ -769,7 +769,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un ankheg (que es una mantis religiosa gigante), y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un ankheg (que es una mantis religiosa gigante), y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/ankheg.png")
             self.GLOBAL.setShowImage(True)
@@ -795,7 +795,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un basilisco, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un basilisco, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/basilisco.png")
             self.GLOBAL.setShowImage(True)
@@ -821,7 +821,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un murciélago, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un murciélago, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/murciélago.png")
             self.GLOBAL.setShowImage(True)
@@ -847,7 +847,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a una rata, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a una rata, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/rata.png")
             self.GLOBAL.setShowImage(True)
@@ -873,7 +873,7 @@ class EstadoRecolectAndBreak(Estado):
             else:
                 descripcion = info_mob
             DM.speak(descripcion)
-            a_lista = "El jugador se ha acercado a un gato, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+texto
+            a_lista = "El jugador se ha acercado a un gato, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/gato.png")
             self.GLOBAL.setShowImage(True)

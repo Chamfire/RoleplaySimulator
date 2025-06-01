@@ -1,10 +1,14 @@
-La descripción de la sala 17Es la siguiente: En esta galería puedes ver marcas en el suelo de desgaste, como si los pies de los mineros hubieran dejado una huella permanente en la piedra. El suelo está cubierto de restos de roca por el suelo, como si los mineros hubieran estado extraendo mineral durante mucho tiempo. En el centro de la galería, un canasto de madera vieja con esmeralda brillante y resplandeciente se encuentra, como si esperara ser tomado por alguien. También hay un extraño hongo alargado de color azul oscuro, que parece haber crecido en el suelo, como si fuera un gérmeno mágico. La galería tiene una planta rectangular y está llena de humedad, con gotitas de agua que caen del techo, creando un ambiente húmedo y sombrío. La atmósfera es pesada y silenciosa, como si la galería estuviera esperando a que algo suceda.
+La descripción de la sala 17Es la siguiente: En esta galería puedes ver una superficie de suelo de piedra cubierta de marcas en el desgaste, evidencia de años de tráfico y uso. La luz débil que entra de la entrada se refleja en el polvo levantado por el suelo, y la humedad del aire hace que se forme una capa de agua fina en la superficie. Desde el techo, gotitas de agua caen lentamente, creando un murmullo suave que se mezcla con el ruido del agua que fluye a través del suelo. La sala tiene una planta rectangular, y el suelo de piedra parece desgastado en algunos puntos, indicando que en algún momento hubo movimiento y actividad en este espacio.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 11, y está abierta: Al abrir la puerta, un suave crujido de madera, te encuentras en un pasillo oscuro con un suelo de baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 8, y está abierta: La puerta de madera cedió con un ligero crujido, dejándote frente a un pasillo oscuro con baldosas moradas que se estendían hasta la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: Al abrir la puerta, un suave crujido de madera, te encuentras en un pasillo oscuro con un suelo de baldosas moradas que se extienden ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: La puerta de madera cedió con un ligero crujido, dejándote frente a un pasillo oscuro con baldosas moradas que se estendían hasta la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 9, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti".
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 18, y está abierta: La puerta de madera se abre con un crujido, revelándote un pasillo oscuro con baldosas moradas que se extienden en ambas direcciones.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti".
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: La puerta de madera se abre con un crujido, revelándote un pasillo oscuro con baldosas moradas que se extienden en ambas direcciones.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 17 con la sala 0, y está abierta: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden hasta el horizonte.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 17: "La puerta de madera se abre con un crujido, revelando un pasillo oscuro con baldosas moradas que se extienden hasta el horizonte.
 
