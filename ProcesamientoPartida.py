@@ -686,7 +686,7 @@ class ProcesamientoPartida:
             #Así evitamos la sobrecarga del portátil. Cada 0.2 segundos, se comprueba la máquina de estados
         print("Aventura terminada -> Cargar pantalla de estadísticas")
         partida_fin = time.time()
-        duracion_partida = partida_inicio-partida_fin
+        duracion_partida = partida_fin-partida_inicio
         self.GLOBAL.setEndingTime(duracion_partida)
         total_salas = len(mapa.salas)
         self.GLOBAL.setNumSalas(total_salas)
