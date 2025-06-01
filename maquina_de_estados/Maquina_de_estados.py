@@ -1355,7 +1355,7 @@ class EstadoDeMisionConcreta(Estado):
         print("Misión a realizar: "+self.mision)
         self.currentState = 1
 
-    def OnExitEstadoByPlayer(self, player, DM):
+    def OnExitEstadoByPlayer(self, DM, player):
         print("runeando")
         print("final: "+self.textoDM)
         DM.speak(self.textoDM)
