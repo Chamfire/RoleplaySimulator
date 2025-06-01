@@ -118,7 +118,7 @@ def runConsulta(output,contexto,documentos):
         with suppress_stdout_stderr():
             llm = Llama(
                 model_path=model_path,
-                n_ctx=2048,  # Context length to use
+                n_ctx=3000    #Contexto 
                 n_threads=32,            # Number of CPU threads to use
                 n_gpu_layers=0,        # Number of model layers to offload to GPU
                 seed = 55555
