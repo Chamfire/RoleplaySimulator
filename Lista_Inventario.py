@@ -445,8 +445,8 @@ class Lista_Inventario:
         self.armas["Armas c/c marciales"]["Hacha de batalla"] = Arma(8,1,0,0,0,0,10,0,tipo_uso.A_1_Mano,(5,5),tipo_damage.CORTANTE,False,None,modificador.Fuerza,False,False,False,True,4,10,1)
         self.armas["Armas c/c marciales"]["Gran hacha"] = Arma(12,1,0,0,0,0,30,0,tipo_uso.A_2_Manos,(5,5),tipo_damage.CORTANTE,False,None,modificador.Fuerza,False,False,True,False,7)
         self.armas["Armas c/c marciales"]["Guja"] = Arma(10,1,0,0,0,0,20,0,tipo_uso.A_2_Manos,(10,10),tipo_damage.CORTANTE,False,None,modificador.Fuerza,False,False,True,False,6)
-        #No se va a modelar la desventaja y la necesidad de estar a caballo con lanza de caballería
-        self.armas["Armas c/c marciales"]["Lanza de caballería"] = Arma(12,1,0,0,0,0,10,0,tipo_uso.A_2_Manos,(10,10),tipo_damage.PERFORANTE,False,None,modificador.Fuerza,False,False,False,False,6)
+        #No se va a modelar la desventaja y la necesidad de estar a caballo con lanza caballería
+        self.armas["Armas c/c marciales"]["Lanza caballería"] = Arma(12,1,0,0,0,0,10,0,tipo_uso.A_2_Manos,(10,10),tipo_damage.PERFORANTE,False,None,modificador.Fuerza,False,False,False,False,6)
         self.armas["Armas c/c marciales"]["Látigo"] = Arma(4,1,0,0,0,0,2,0,tipo_uso.A_1_Mano,(10,10),tipo_damage.CORTANTE,False,None,modificador.Fuerza,False,False,False,False,3)
         self.armas["Armas c/c marciales"]["Lucero del alba"] = Arma(8,1,0,0,0,0,15,0,tipo_uso.A_1_Mano,(5,5),tipo_damage.PERFORANTE,False,None,modificador.Fuerza,False,False,False,False,4)
         self.armas["Armas c/c marciales"]["Martillo de guerra"] = Arma(8,1,0,0,0,0,15,0,tipo_uso.A_1_Mano,(5,5),tipo_damage.CONTUNDENTE,False,None,modificador.Fuerza,False,False,False,True,2,10,1)

@@ -10,7 +10,7 @@ las mejores canciones para reproducir son 'tension_corta/Constance', 'tension_co
 o 'tension_corta/Headless_Horseman'. Si además sabemos que los jugadores están al aire libre, también se puede reproducir 
 'tension_corta/Bloodlust'. Estas canciones también se pueden reproducir en un ambiente tenso.
 
-Cuando los jugadores están hablando con un NPC malvado, la mejor canción para reproducir es «tension_corta/Black Vortex». Esta 
+Cuando los jugadores están hablando con un NPC malvado, la mejor canción para reproducir es 'tension_corta/Black Vortex'. Esta 
 canción puede también reproducirse en un ambiente tenso.
 
 Al explorar en la cubierta de un barco o en el desierto, al anochecer o en mitad de la noche, en

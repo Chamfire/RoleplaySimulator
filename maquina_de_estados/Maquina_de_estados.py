@@ -1128,7 +1128,6 @@ class EstadoDeMision(Estado):
         for id,estado in self.ordenEstados.items():
             if(not estado.checkIfCompleted(personaje) and estado.checkIfCanRun(DM,personaje)):
                 estado.run(DM,personaje)
-                break
 
     def OnEnterEstadoByPlayer(self,DM,personaje):
         print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
@@ -1283,6 +1282,7 @@ class EstadoDeHablaNPC(Estado):
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 1
         print(type(self.estadosSucesores),self.estadosSucesores)
         self.estadosSucesores.ModifyState(personaje,1) #1 quiere decir que ya le ha dado la misión
+        self.estadosSucesores.ordenEstados[1].giveMision() # dar misión
         self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False
         # Activo el modo de habla, para que el jugador conteste si quiere
         self.run(DM,personaje)
@@ -1290,7 +1290,7 @@ class EstadoDeHablaNPC(Estado):
 class EstadoDeMisionConcreta(Estado):
     def __init__(self,isInicial,content,estado_pred,numJugadores,id,tipo_mision,variableDeCheck,mision,Mapa,textoDM):
         super().__init__(isInicial,content,id)
-        self.variableDeCheck["progreso"] = variableDeCheck
+        self.variableDeCheck["progreso"] = variableDeCheck.copy()
         self.esObligatorio = True
         self.numJugadores = numJugadores
         self.esPuntoDeRespawn = False
@@ -1315,11 +1315,14 @@ class EstadoDeMisionConcreta(Estado):
         if(self.tipo_de_estado == "combate"):
             for mob,value in self.variableDeCheck["progreso"].items():
                 if(value[0] != value[1]):
+                    print("return False")
                     return False
         elif(self.tipo_de_estado == "búsqueda"):
             for objeto,value in self.variableDeCheck["progreso"].items():
                 if(not value):
+                    print("return False")
                     return False
+        print("return True")
         return True
     
     def giveMision(self):
@@ -1327,6 +1330,7 @@ class EstadoDeMisionConcreta(Estado):
         
     def run(self,DM,personaje):
         #TODO: run en función del estado de la misión
+        print("currentState: "+str(self.currentState))
         if(self.currentState == 0):
             self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.currentState == 1):
@@ -1335,8 +1339,11 @@ class EstadoDeMisionConcreta(Estado):
             self.OnExitEstadoByPlayer(DM,personaje)
         
     def checkCompletedMission(self,DM,personaje):
-        self.variableDeCheck["progreso"] = self.Mapa.salas[self.Mapa.main_path[-1]].variableDeCheck
+        value=self.Mapa.salas[self.Mapa.main_path[-1]].variableDeCheck.copy()
+        self.variableDeCheck["progreso"] = value
+        print("variableDeCheck: "+str(self.variableDeCheck["progreso"]))
         if(self.checkIfCompleted(personaje)):
+            print("completando")
             self.CompleteMision()
             self.run(DM,personaje)
 
@@ -1349,7 +1356,16 @@ class EstadoDeMisionConcreta(Estado):
         self.currentState = 1
 
     def OnExitEstadoByPlayer(self, player, DM):
+        print("runeando")
+        print("final: "+self.textoDM)
         DM.speak(self.textoDM)
+        cancion_final = ['final_corta/Behind_the_Sword', 'final_corta/Bit_O_Fun_With_The_Crew',
+                            'final_corta/Megaepic', 'final_corta/Valley_of_the_Sun', 'final_corta/We_Are_Victorious']
+        leng = len(cancion_final)
+        select = random.randint(0,leng-1)
+        mixer.music.stop()#para la música
+        mixer.music.load('music/'+cancion_final[select]+".mp3") #carga la canción para el final
+        mixer.music.play(-1)
 
 
 class EstadoDeSalaFinal(Estado):
@@ -1730,8 +1746,8 @@ class EstadoDeSalaFinal(Estado):
 
     def OnEnterEstadoByPlayer(self,DM,personaje,currentEstadoByPlayers):
         #El mensaje de introducción a la sala, se le reproduce a cada uno de forma individual (por si alguno muriera, y se tuviera que crear otro, que esto ya sea independiente)
-        # print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
-        # DM.speak(self.dialogoDMIntro) 
+        print("<DM>: "+self.dialogoDMIntro) #al mostrarlo por pantalla se añade DM para que no aparezca en el diálogo del text-to-speech
+        DM.speak(self.dialogoDMIntro) 
         print("Sala "+str(self.id))
         #DM.printVoices()
         #TODO: Enviar mensaje TCP
@@ -2768,8 +2784,8 @@ class Maquina_de_estados:
         else:
             if(not mixer.music.get_busy() and not self.GLOBAL.getSearchingSong()):
                 # La  música ha parado, y hay que elegir una nueva canción
-                texto = "Escogiendo una canción apropiada..."
-                self.DM.speak(texto)
+                #texto = "Escogiendo una canción apropiada..."
+                #self.DM.speak(texto)
                 self.GLOBAL.setSearchingSong(True)
                 self.RAG_musica.establecerCancionHilo(str(self.GLOBAL.getLista()),self.output)
             elif(self.GLOBAL.getSearchingSong()):

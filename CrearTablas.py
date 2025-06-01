@@ -894,7 +894,7 @@ class CrearTablas:
             ("Armas c/c marciales","Hacha de batalla"),
             ("Armas c/c marciales","Gran hacha"),
             ("Armas c/c marciales","Guja"),
-            ("Armas c/c marciales","Lanza de caballería"),
+            ("Armas c/c marciales","Lanza caballería"),
             ("Armas c/c marciales","Látigo"),
             ("Armas c/c marciales","Lucero del alba"),
             ("Armas c/c marciales", "Martillo de guerra"),

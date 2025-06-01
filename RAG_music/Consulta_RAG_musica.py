@@ -13,6 +13,7 @@ import contextlib
 from Global import Global
 from pygame import mixer
 import os
+import psutil
 import sys
 
 @contextlib.contextmanager
@@ -102,15 +103,23 @@ class Consulta_RAG_musica:
         GLOBAL.setSearchingSong(True)
         GLOBAL = None
         documentos = self.documentos.copy()
-        print(type(contexto_estado))
-        print(type(documentos))
-        print(type(output))
-        p = Process(target = runConsulta,args=(output,contexto_estado,documentos))
-        p.start()
+        canciones_list = ['tension_corta/Evil March','tension_corta/Constance', 'tension_corta/Countdown', 'tension_corta/Serpentine Trek', 'tension_corta/Headless_Horseman', 'exploracion_larga/old-mine-ambience-200677', 'exploracion_corta/caves-of-dawn-10376', 'exploracion_corta/The Path of the Goblin King v2',
+                            'drama_corta/Afterlife', 'drama_corta/tears-of-yesterday-238999', 'drama_corta/Dramatic_Interlude', 'drama_corta/youx27ll- never-see-them-again-229248','drama_corta/Rynos Theme','belleza_corta/Dungeons_and_Dragons', 'belleza_corta/Frost Waltz', 
+                            'belleza_corta/Legends', 'belleza_corta/The_Last_Embrace','combate_corta/Burnt Spirit','combate_corta/Volatile Reaction', 'combate_corta/Near_End_Action', 'combate_corta/epic-action-113888', 'combate_corta/Dragonsong',
+                            'combate_corta/Combat_One', 'combate_corta/Boss_Fight', 'combate_corta/Big Drumming']
+        leng = len(canciones_list)
+        select = random.randint(0,leng-1)
+        output.put(canciones_list[select])
+        # print(type(contexto_estado))
+        # print(type(documentos))
+        # print(type(output))
+        # p = Process(target = runConsulta,args=(output,contexto_estado,documentos))
+        # p.start()
+        #self.runConsulta(output,contexto_estado,documentos)
         #self.runConsulta()
 
     
-def runConsulta(output,contexto,documentos):
+    def runConsulta(self,output,contexto,documentos):
         print("-------------- searching cancion ------------------------")
         model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
         model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
@@ -155,7 +164,7 @@ def runConsulta(output,contexto,documentos):
         #                 <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         #query = f"Use just the following context for answering the question: \n Taking into account that all the songs have this format: \"carpet/name\": \n{contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nQuestion: {query_context} \nAnswer just with the content above, and giving just the carpet/name or several carpet/names of the songs choosed, separated in different lines and whithout giving any additional detail.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
         #query = f"Usa únicamente el siguiente contexto para responder a la pregunta: \n Teniendo en cuenta que todas las canciones tienen este formato: nombre carpeta/nombre cancion, y que: \n{contexto_formato} \n Si estos son los últimos sucesos que han ocurrido en la partida: {query_context} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: ¿Cuál es la mejor o mejores canciones para reproducir cuando han sucedido esos eventos? Responde únicamente basandote en el contexto anterior, y devolviendo únicamente la carpeta/canción o varias carpeta/canción escogidas, separadas en líneas diferentes, sin dar ningún detalle adicional. Solo puedes usar las canciones que aparezcan en el contexto, y no puedes inventarte ninguna.\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
-        query = f"Tienes un listado textual de contexto, donde se describe cuándo deben reproducirse ciertas canciones. Todas las canciones están entre comillas simples y tienen este formato: 'carpeta/nombre canción'. Tu tarea es: 1. Leer el contexto y encontrar las canciones que correspondan al evento dado. 2. Responder solo con las canciones mencionadas literalmente en el contexto, una por línea. 3. No debes inventarte nuevas canciones. 4. Un ejemplo de la estructura de tu respuesta es el siguiente: 'carpeta/cancion', 'carpeta/cancion'\n .Si no encuentras ninguna canción aplicable, usa las siguientes canciones por defecto: 'tension_corta/Constance', 'tension_corta/Countdown', 'tension_corta/Serpentine Trek' o 'tension_corta/Headless_Horseman'. 5. No puedes decir ninguna frase más adicional a dicha lista de canciones, como 'No encuentro ninguna canción aplicable. Usaré las siguientes canciones por defecto:'. El contexto es el siguiente: {contexto_formato}.\n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: ¿Cuál es la mejor o mejores canciones para reproducir cuando los últimos sucesos han sido estos: {query_context}\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+        query = f"Tienes un listado textual de contexto, donde se describe cuándo deben reproducirse ciertas canciones. Todas las canciones están entre comillas simples y tienen este formato: 'carpeta/nombre canción'. Tu tarea es: 1. Leer el contexto y encontrar las canciones que correspondan al evento dado. 2. Responder solo con las canciones mencionadas literalmente en el contexto, una por línea. 3. No debes inventarte nuevas canciones. 4. Un ejemplo de la estructura de tu respuesta es el siguiente: 'carpeta/cancion', 'carpeta/cancion'\n .Si no encuentras ninguna canción aplicable, tu respuesta será: 'tension_corta/Constance', 'tension_corta/Countdown', 'tension_corta/Serpentine Trek', 'tension_corta/Headless_Horseman'. 5. No puedes decir ninguna frase ni texto adicional, solo la lista de 'carpeta/cancion', 'carpeta/cancion', etc. Usaré las siguientes canciones por defecto:'. El contexto es el siguiente: {contexto_formato}.\n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: ¿Cuál es la mejor o mejores canciones para reproducir cuando los últimos sucesos han sido estos: {query_context}\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
         res = llm(query, **generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
         response_good = res["choices"][0]["text"]

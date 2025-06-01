@@ -864,7 +864,7 @@ class Map_generation:
             for posicion in casillasAComprobar:
                 if(self.objetos[posicion[1]][posicion[0]] in id):
                     if(tipo_mision == "combate"):
-                        self.salas[self.main_path[-1]].variableDeCheck[name][1] +=1 #hemos encontrado a un mob de ese tipo
+                        self.salas[self.main_path[-1]].variableDeCheck[name][1] = 1 #hemos encontrado a un mob de ese tipo
                     elif(tipo_mision == "búsqueda"):
                         self.salas[self.main_path[-1]].variableDeCheck[name] = True
 

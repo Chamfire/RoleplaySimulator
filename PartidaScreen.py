@@ -157,7 +157,7 @@ class PartidaScreen:
         self.imgs["Armas c/c marciales"]["Hacha de batalla"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Hacha de batalla.png")
         self.imgs["Armas c/c marciales"]["Gran hacha"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Gran hacha.png")
         self.imgs["Armas c/c marciales"]["Guja"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Guja.png")
-        self.imgs["Armas c/c marciales"]["Lanza de caballería"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Lanza de caballería.png")
+        self.imgs["Armas c/c marciales"]["Lanza caballería"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Lanza caballería.png")
         self.imgs["Armas c/c marciales"]["Látigo"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Látigo.png")
         self.imgs["Armas c/c marciales"]["Lucero del alba"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Lucero del alba.png")
         self.imgs["Armas c/c marciales"]["Martillo de guerra"] = pygame.image.load("images/objetos/Armas/Armas cc marciales/Martillo de guerra.png")

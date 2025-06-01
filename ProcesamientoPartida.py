@@ -395,7 +395,7 @@ class ProcesamientoPartida:
                                         "Escudo": ["Escudo básico"],
                                         "Armas a distancia marciales": ["Arco largo", "Ballesta de mano", "Ballesta pesada", "Cerbatana"],
                                         "Armas a distancia simples": ["Arco corto", "Ballesta ligera", "Dardo", "Honda"],
-                                        "Armas cc marciales": ["Alabarda", "Atarraga", "Cimitarra", "Espada corta","Espada larga", "Espadón", "Estoque", "Gran hacha", "Guja", "Hacha de batalla", "Lanza de caballería", "Látigo", "Lucero del alba", "Martillo de guerra", "Mayal", "Pica de guerra", "Pica", "Tridente"],
+                                        "Armas cc marciales": ["Alabarda", "Atarraga", "Cimitarra", "Espada corta","Espada larga", "Espadón", "Estoque", "Gran hacha", "Guja", "Hacha de batalla", "Lanza caballería", "Látigo", "Lucero del alba", "Martillo de guerra", "Mayal", "Pica de guerra", "Pica", "Tridente"],
                                         "Armas cc simples": ["Bastón", "Clava", "Daga", "Gran clava", "Hacha de mano", "Hoz", "Jabalina", "Lanza", "Martillo ligero", "Maza"],
                                         "Objetos de almacenaje": ["Mochila"],
                                         "Bebida": ["Odre de agua"],
@@ -674,7 +674,7 @@ class ProcesamientoPartida:
         self.finished = False
         while(not self.finished):
             self.maquina.runNextEstado(self.jugadorHost)
-            num_misiones = len(self.maquina.estadosDeMision)
+            num_misiones = 1
             completadas = 0
             for id,estadoDeMision in self.maquina.estadosDeMision.items():
                 if(estadoDeMision.ordenEstados[1].currentState == 2):
