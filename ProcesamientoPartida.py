@@ -167,7 +167,6 @@ class ProcesamientoPartida:
                             {Completa la siguiente frase, en un mismo párrafo: "¡"""+momento+""", y """+bienvenida+"""! """+intro+""", soy Leia, la Dungeon Master. <Genera un texto de presentación general de d&d aquí, sin dar detalles sobre nada de la partida brevemente. """+consideracion+""">.}
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             response_good = self.consultarAlDM(prompt,model_path,fin,1024,200) #"Bienvenido"
-
             print("Progreso: 4%")
 
             #Generación del primer estado de la máquina
@@ -624,8 +623,10 @@ class ProcesamientoPartida:
             #dialogos_posibles
             prompt_fin = f"""Eres un dungeon master de Dnd 5e, y yo acabo de completar la única misión de la aventura de D&D.<|eot_id|><|start_header_id|>user<|end_header_id|>
                             Con sólo el contexto siguiente, responde a la pregunta: Teniendo en cuenta que un NPC llamado {self.personaje.name} me dijo esto al comenzar la aventura: {dialogos_posibles}.
-                            Pregunta: ¿Qué párrafo me dirías para indicarme que he completado la misión con éxito, y que he encontrado aquello que se me pedía?
+                            Pregunta: ¿Qué me dirías como Dungeon Master para indicarme que he completado la misión con éxito, y que he encontrado aquello que se me pedía?
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+            prompt_fin.replace("\\n", " ")
+            prompt_fin = ''.join(c for c in prompt_fin if c.isprintable())
             finMisionDM = self.consultarAlDM(prompt_fin,model_path," Con esto, doy por finalizada esta aventura. ¡Espero volver a verte pronto!",1024,400)
 
             print("Progreso: 90%")
@@ -687,7 +688,7 @@ class ProcesamientoPartida:
         partida_fin = time.time()
         duracion_partida = partida_inicio-partida_fin
         self.GLOBAL.setEndingTime(duracion_partida)
-        total_salas = len(Mapa.salas)
+        total_salas = len(mapa.salas)
         self.GLOBAL.setNumSalas(total_salas)
         self.GLOBAL.setActualPartidaState("estadisticas")
         #print("Duración de la partida: "+duracion_partida)
