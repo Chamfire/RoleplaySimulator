@@ -25,6 +25,7 @@ import pyttsx3
 from RAG_music.Consulta_RAG_musica import Consulta_RAG_musica
 import random
 from pygame import mixer
+import csv
 
 
 @contextlib.contextmanager
@@ -623,7 +624,7 @@ class ProcesamientoPartida:
             #dialogos_posibles
             prompt_fin = f"""Eres un dungeon master de Dnd 5e, y yo acabo de completar la única misión de la aventura de D&D.<|eot_id|><|start_header_id|>user<|end_header_id|>
                             Con sólo el contexto siguiente, responde a la pregunta: Teniendo en cuenta que un NPC llamado {self.personaje.name} me dijo esto al comenzar la aventura: {dialogos_posibles}.
-                            Pregunta: ¿Qué me dirías como Dungeon Master para indicarme que he completado la misión con éxito, y que he encontrado aquello que se me pedía?
+                            Pregunta: ¿Qué me dirías como Dungeon Master para indicarme que he completado la misión con éxito, y que he encontrado aquello que se me pedía? Puedes comenzar con la frase: ¡Enhorabuena! Parece que has encontrado ...
                             <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
             prompt_fin.replace("\\n", " ")
             prompt_fin = ''.join(c for c in prompt_fin if c.isprintable())
@@ -690,12 +691,16 @@ class ProcesamientoPartida:
         self.GLOBAL.setEndingTime(duracion_partida)
         total_salas = len(mapa.salas)
         self.GLOBAL.setNumSalas(total_salas)
-        self.GLOBAL.setActualPartidaState("estadisticas")
         #print("Duración de la partida: "+duracion_partida)
         # print("Mobs descubiertos: "+self.GLOBAL.getMobsDiscoverder())
         # print("Cofres abiertos: "+self.GLOBAL.getOpenedChest())
         # print("Salas visitadas: "+self.GLOBAL.getRoomsVisited())
         # print("Objetos rotos: "+self.GLOBAL.getBrokenObjects())
+        row = [duracion_partida, self.GLOBAL.getMobsDiscoverder(), self.GLOBAL.getOpenedChest(), self.GLOBAL.getRoomsVisited(),  self.GLOBAL.getBrokenObjects()]
+        self.GLOBAL.setActualPartidaState("estadisticas")
+        with open('resultados/estadisticas.csv', mode='a',newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(row)
 
     def buscar_surface(self,obj, nombre_ruta="self.maquina", visitados=None):
         if visitados is None:

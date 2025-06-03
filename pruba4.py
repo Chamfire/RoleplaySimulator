@@ -1,6 +1,25 @@
 import pygame
 import os
 import random
+from huggingface_hub import hf_hub_download
+from llama_cpp import Llama
+import os
+import sys
+import contextlib
+import csv
+
+@contextlib.contextmanager
+def suppress_stdout_stderr():
+    with open(os.devnull, "w") as fnull:
+        old_stdout = sys.stdout
+        old_stderr = sys.stderr
+        sys.stdout = fnull
+        sys.stderr = fnull
+        try:
+            yield
+        finally:
+            sys.stdout = old_stdout
+            sys.stderr = old_stderr
 
 class Prueba:
     def __init__(self):
@@ -15,6 +34,39 @@ class Prueba:
         self.color_white = (255,255,255)
         self.back = self.fuente.render('Volver al menú', True, self.color_white)
         self.printPrueba()
+
+    def consultarAlDM(self,prompt,fin):
+        model_name = "bartowski/Llama-3.2-3B-Instruct-GGUF"
+        model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
+        model_path = hf_hub_download(model_name, filename=model_file)
+        with suppress_stdout_stderr():
+            self.llm = Llama(
+                model_path=model_path,
+                n_ctx=1024,  # Context length to use
+                n_threads=32,            # Number of CPU threads to use
+                n_gpu_layers=0,        # Number of model layers to offload to GPU
+                seed= random.randint(1,100000)
+            )
+        ## Generation kwargs
+        self.generation_kwargs = {
+            "max_tokens":400,
+            "stop":["</s>"],
+            "echo":False, # Echo the prompt in the output
+            "top_p": 0.85, #top_p y temperatura le da aleatoriedad
+            "temperature": 0.8
+        }
+        res = self.llm(prompt, **self.generation_kwargs) # Res is a dictionary
+        ## Unpack and the generated text from the LLM response dictionary and print it
+        response_good = res["choices"][0]["text"]
+        if "." in response_good:
+            response_good = response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
+        response_good = response_good.lstrip()
+        if(fin != None):
+            response_good= response_good+fin
+
+
+
+        return response_good
 
     def printPrueba(self):
         #printeo de casillas        
@@ -66,6 +118,19 @@ class Prueba:
         cofres = "Sarcófagos abiertos: 10"
         rooms = "Habitaciones descubiertas: 7/14"
         objetos = "Objetos destruidos: 20"
+
+        duracion = 123455666
+        mobsT = 5
+        cofresT = 10
+        roomsT = 7
+        objetosT = 20
+
+        row = [duracion, mobsT, cofresT, roomsT,  objetosT]
+        with open('resultados/estadisticas.csv', mode='a',newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(row)
+        
+
         text1 = self.fuente3.render(ending_time, True, self.color_white)
         text2 = self.fuente3.render(mobs, True, self.color_white)
         text3 = self.fuente3.render(cofres, True, self.color_white)
@@ -85,4 +150,4 @@ class Prueba:
         pygame.display.update() 
         while(True):
             pass
-#prueba = Prueba()
+prueba = Prueba()
