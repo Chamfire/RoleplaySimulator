@@ -78,14 +78,16 @@ class RAG_historia:
             if(word == "metajuego"):
                 return -1
         with open('maquina_de_estados/'+self.currentPartida+'/dialogos_NPC.txt','a',encoding='utf-8') as f:
-            info_a_escribir = "Cuando él me dijo: '"+lastText+"'. Yo le respondí con lo siguiente: '"+msg_jugador+"'. A esa respuesta, él me respondió: "+respuestaNPC+"\n\n"
+            info_a_escribir = "\n\nCuando él me dijo: '"+lastText+"'. Yo le respondí con lo siguiente: '"+msg_jugador+"'. A esa respuesta, él me respondió: "+respuestaNPC
             f.write(info_a_escribir)
         return 1
 
     def escribirInfoMision(self,mision_basica,dialogos,nombreNPC):
         with open('maquina_de_estados/'+self.currentPartida+'/info_mision.txt','w',encoding='utf-8') as f:
             info_a_escribir = "Misión actual para mí: "+mision_basica+"\n\n"
-            info_a_escribir += "Diálogo que empleó "+nombreNPC+" para proponerme la misión: "+dialogos
+            info_a_escribir += "Diálogo que empleó "+nombreNPC+" para proponerme la misión: "+dialogos+"\n\n"
+            info_a_escribir += "Pistas para completar la misión: se necesita abrir una o varias puertas que bloquean el camino entre las galerías. Para abrir las puertas, se debe emplear su llave. Las llaves se pueden encontrar dentro de algunos sarcófagos que hay en las galerías de las mazmorras.\n\n"
+            info_a_escribir += "Detalles sobre la mazmorra en la que se encuentra aquello que hay que encontrar: Solo contiene galerías vacías, conectadas por puertas y pasillos. En las galerías puede haber sarcófagos, y algunos animales o monstruos peligrosos."
             f.write(info_a_escribir)
     def escribirInfoSala(self,sala,frases_puertas,descripcion):
         with open('maquina_de_estados/'+self.currentPartida+'/'+str(sala)+'.txt','w',encoding='utf-8') as f:
@@ -99,7 +101,7 @@ class RAG_historia:
 
     def escribirDialogosNPC(self,dialogos, nombreNPC):
         with open('maquina_de_estados/'+self.currentPartida+'/dialogos_NPC.txt','w',encoding='utf-8') as f:
-            info_a_escribir = "Esta es la presentación que ha hecho "+nombreNPC+" de sí mismo: "+dialogos+"\n\n"
+            info_a_escribir = "Esta es la presentación que ha hecho "+nombreNPC+" de sí mismo: "+dialogos
             f.write(info_a_escribir)
 
     def consultar_NPC(self,contexto_estado,lastTexto):
@@ -129,8 +131,8 @@ class RAG_historia:
         context = self.devolver_contexto(query_context, embedding_model, index, document_texts)
         contexto_formato = "\n".join(context)
 
-        pregunta = "Teniendo en cuenta que un NPC está hablando conmigo, y ese NPC me dijo: "+lastTexto+". Luego, yo le contesté: "+contexto_estado+". ¿Qué me responde el NPC? "
-        query = f"Eres un dungeon master de Dnd 5e y debes usar únicamente el siguiente contexto para responder a la pregunta:\n Debes comenzar la respuesta con frases como 'Así, ves que te mira fíjamente y te dice...' o 'Tras decir eso, ves que se queda pensativo, y empieza a decir...', etc. Para peticiones sin sentido que haya yo le haya dicho, como 'asdasdf' o cosas similares, el NPC me dirá que no eleve la voz, que podría despertar a algún monstruo. No puedes dar ninguna información adicional que se salga del diálogo, es decir, no puedes decir frases como 'Este diálogo te será de ayuda' o 'Esta información podría servirte para conocer qué le ocurrió al NPC', etc. Si lo que el NPC dijo que es que el metajuego no estaba permitido, ignora esa parte, y concéntrate únicamente en la pregunta que ha hecho el jugador. {contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: {query_context} <|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+        pregunta = "Teniendo en cuenta que un NPC está hablando conmigo, y lo último que me dijo el NPC fue: "+lastTexto+". Luego, yo le contesté: "+contexto_estado+". Pregunta: ¿Qué me responde el NPC a lo que yo acabo de decir? Si lo último que me dijo no tiene sentido con lo que yo le he contestado, emplea la información del contexto siguiente dado para elaborar una respuesta, o inventante una respuesta que podría dar el NPC."
+        query = f"Eres un dungeon master de Dnd 5e y debes usar únicamente el siguiente contexto para responder a la pregunta:\n Debes comenzar la respuesta con frases como 'Así, ves que te mira fíjamente y te dice...' o 'Tras decir eso, ves que se queda pensativo, y empieza a decir...', etc. Para peticiones sin sentido que haya yo le haya dicho, como 'asdasdf' o cosas similares, el NPC me dirá que no eleve la voz, que podría despertar a algún monstruo. No puedes dar ninguna información adicional que se salga del diálogo, es decir, no puedes decir frases como 'Este diálogo te será de ayuda' o 'Esta información podría servirte para conocer qué le ocurrió al NPC', etc. {query_context}. Contexto adicional para responder: {contexto_formato}\n<|eot_id|><|start_header_id|>user<|end_header_id|> Pregunta: {query_context}\n <|eot_id|><|start_header_id|>assistant<|end_header_id|>"
         res = llm(query, **generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
         response_good = res["choices"][0]["text"]
