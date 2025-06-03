@@ -74,9 +74,13 @@ class RAG_historia:
             f.write(info_a_escribir)
 
     def escribirCurrentDialogoNPCYPregunta(self,msg_jugador,respuestaNPC,lastText):
-       with open('maquina_de_estados/'+self.currentPartida+'/dialogos_NPC.txt','a',encoding='utf-8') as f:
+        for word in respuestaNPC.split(' '):
+            if(word == "metajuego"):
+                return -1
+        with open('maquina_de_estados/'+self.currentPartida+'/dialogos_NPC.txt','a',encoding='utf-8') as f:
             info_a_escribir = "Cuando él me dijo: '"+lastText+"'. Yo le respondí con lo siguiente: '"+msg_jugador+"'. A esa respuesta, él me respondió: "+respuestaNPC+"\n\n"
             f.write(info_a_escribir)
+        return 1
 
     def escribirInfoMision(self,mision_basica,dialogos,nombreNPC):
         with open('maquina_de_estados/'+self.currentPartida+'/info_mision.txt','w',encoding='utf-8') as f:

@@ -1,0 +1,10 @@
+La descripción de la sala 15Es la siguiente: En esta galería de piedra, el suelo está cubierto de restos de roca y marcas de desgaste, indicando que a lo largo de los años, el agua ha erosionado parte del suelo. Un hongo alargado de color azul oscuro, extraño y descomunal, se alza en el centro de la sala, como un monumento a la naturaleza. A su alrededor, setas de color naranja brotan del suelo, como si intentaran alcanzar hacia arriba, y en el centro de la sala, un canasto de madera con una esmeralda brillante parece un trofeo abandonado. Un rocoso puntiagudo sobresale del suelo, como una espada enterrada, y en el frente de la galería, setas de color naranja crecen, como si intentaran seguir el camino de las que crecen a su alrededor. La humedad que emana del suelo y las gotitas de agua que caen del techo, dan un ritmo de vida a la galería, que es interrumpido solo por el silencio.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 8, y está abierta: "Has abierto la puerta y te encuentras en una galería amplia, cálida oscuridad te envuelve.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: "Has abierto la puerta y te encuentras en una galería amplia, cálida oscuridad te envuelve.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 14, y está abierta: "La puerta de madera se abre con un crujido suave y te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: "La puerta de madera se abre con un crujido suave y te encuentras en un pasillo oscuro, con baldosas moradas que se extienden ante ti.
+

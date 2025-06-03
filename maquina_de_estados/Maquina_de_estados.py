@@ -866,7 +866,7 @@ class EstadoRecolectAndBreak(Estado):
                 with open(self.dir+'/'+self.file,'r',encoding='utf-8') as f:
                     try:
                         Monster_descripcion = json.load(f)
-                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["gato"][0]
+                        descripcion = "Delante de ti, ves a un extraño ser. "+Monster_descripcion["felino salvaje"][0]
                         descripcion += " "+info_mob
                     except Exception as e:
                         print(e)
@@ -875,7 +875,7 @@ class EstadoRecolectAndBreak(Estado):
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un gato, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
-            self.GLOBAL.setImagePartida("images/monsters/gato.png")
+            self.GLOBAL.setImagePartida("images/monsters/felino salvaje.png")
             self.GLOBAL.setShowImage(True)
 
         
@@ -1254,8 +1254,9 @@ class EstadoDeHablaNPC(Estado):
                 DM.speak(resp)
                 to_list = "Cuando el NPC le dijo al jugador: '"+self.lastTexto+"'. El jugador le respondió con lo siguiente: '"+msg+"'. A esa respuesta, el Dungeon Master le dijo: "+resp
                 self.GLOBAL.addElementToListaAndRemoveFirst(to_list)
-                rag_historia.escribirCurrentDialogoNPCYPregunta(msg,resp,self.lastTexto)
-                self.lastTexto = resp
+                res = rag_historia.escribirCurrentDialogoNPCYPregunta(msg,resp,self.lastTexto)
+                if(res == 1):
+                    self.lastTexto = resp
                 msg = ""
                 self.GLOBAL.setTextoMensaje("")
                 self.GLOBAL.setModoHabla(True)
