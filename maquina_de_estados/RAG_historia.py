@@ -109,7 +109,7 @@ class RAG_historia:
         with suppress_stdout_stderr():
             llm = Llama(
                 model_path=model_path,
-                n_ctx=2048,  # Context length to use
+                n_ctx=3000,  # Context length to use
                 n_threads=32,            # Number of CPU threads to use
                 n_gpu_layers=0,        # Number of model layers to offload to GPU
                 seed= random.randint(1,100000)
@@ -130,7 +130,7 @@ class RAG_historia:
         contexto_formato = "\n".join(context)
 
         pregunta = "Teniendo en cuenta que un NPC está hablando conmigo, y ese NPC me dijo: "+lastTexto+". Luego, yo le contesté: "+contexto_estado+". ¿Qué me responde el NPC? "
-        query = f"Eres un dungeon master de Dnd 5e y debes usar únicamente el siguiente contexto para responder a la pregunta:\n Debes comenzar la respuesta con frases como 'Así, ves que te mira fíjamente y te dice...' o 'Tras decir eso, ves que se queda pensativo, y empieza a decir...', etc. Las preguntas obscenas se contestarán con la frase: 'El metajuego no está soportado aún en esta versión de Roleplay simulator. ¡Concéntrate!'. No puedes dar ninguna información adicional que se salga del diálogo, es decir, no puedes decir frases como 'Este diálogo te será de ayuda' o 'Esta información podría servirte para conocer qué le ocurrió al NPC', etc. Si lo que el NPC dijo que es que el metajuego no estaba permitido, ignora esa parte, y concéntrate únicamente en la pregunta que ha hecho el jugador. {contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: {query_context} <|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+        query = f"Eres un dungeon master de Dnd 5e y debes usar únicamente el siguiente contexto para responder a la pregunta:\n Debes comenzar la respuesta con frases como 'Así, ves que te mira fíjamente y te dice...' o 'Tras decir eso, ves que se queda pensativo, y empieza a decir...', etc. Para peticiones sin sentido que haya yo le haya dicho, como 'asdasdf' o cosas similares, el NPC me dirá que no eleve la voz, que podría despertar a algún monstruo. No puedes dar ninguna información adicional que se salga del diálogo, es decir, no puedes decir frases como 'Este diálogo te será de ayuda' o 'Esta información podría servirte para conocer qué le ocurrió al NPC', etc. Si lo que el NPC dijo que es que el metajuego no estaba permitido, ignora esa parte, y concéntrate únicamente en la pregunta que ha hecho el jugador. {contexto_formato} \n<|eot_id|><|start_header_id|>user<|end_header_id|> \nPregunta: {query_context} <|eot_id|><|start_header_id|>assistant<|end_header_id|>"
         res = llm(query, **generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
         response_good = res["choices"][0]["text"]
