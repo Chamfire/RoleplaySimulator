@@ -267,15 +267,15 @@ class SeleccionPersonaje2:
         if(self.personaje.tipo_raza == "Enano"):
             self.defaultTextEdad = self.fuente2.render('1-350', True, self.color_light_grey)
             #60-80kg para un elfo
-            peso = str(random.randint(60, 80))
+            peso = str(random.randint(30, 40)) # en libras
             self.personaje.peso = peso
-            self.defaultTextPeso = self.fuente2.render(str(peso+'kg'), True, self.color_white)
+            self.defaultTextPeso = self.fuente2.render(str(peso+'lb'), True, self.color_white)
         elif(self.personaje.tipo_raza == "Elfo"):
             self.defaultTextEdad = self.fuente2.render('1-750', True, self.color_light_grey)
             #45-66kg para un elfo
-            peso = str(random.randint(45, 67))
+            peso = str(random.randint(22, 34)) #en libras
             self.personaje.peso = peso
-            self.defaultTextPeso = self.fuente2.render(str(peso+'kg'), True, self.color_white)
+            self.defaultTextPeso = self.fuente2.render(str(peso+'lb'), True, self.color_white)
         self.textEdad = self.defaultTextEdad
         self.textAlineamiento = self.defaultTextAlineamiento
     
