@@ -360,26 +360,26 @@ class PartidaScreen:
                                 self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
                         self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
                             
-                    # Mano dcha
-                    if(self.personaje.equipo.objeto_equipado_mano_derecha != None):
-                        img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_derecha[0]][self.personaje.equipo.objeto_equipado_mano_derecha[1]]
-                        if(self.slot_selected == 'mano derecha'):
+                    # Mano izqda
+                    if(self.personaje.equipo.objeto_equipado_mano_izquierda != None):
+                        img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_izquierda[0]][self.personaje.equipo.objeto_equipado_mano_izquierda[1]]
+                        if(self.slot_selected == 'mano izquierda'):
                             if(self.intercambio):
                                 self.screen.blit(pygame.transform.scale(self.intercambio_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
                             else:
                                 self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
                         self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
 
-                    # Mano izqda
-                    if(self.personaje.equipo.objeto_equipado_mano_izquierda != None): 
-                        img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_izquierda[0]][self.personaje.equipo.objeto_equipado_mano_izquierda[1]]
-                        if(self.slot_selected == 'mano izquierda'):
+                    # Mano dcha
+                    if(self.personaje.equipo.objeto_equipado_mano_derecha != None): 
+                        img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_derecha[0]][self.personaje.equipo.objeto_equipado_mano_derecha[1]]
+                        if(self.slot_selected == 'mano derecha'):
                             if(self.intercambio):
                                 self.screen.blit(pygame.transform.scale(self.intercambio_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
                             else:
                                 self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
                         self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
-                                    
+                                             
                     
                     # Características
                     att = self.personaje.car-10
@@ -543,9 +543,9 @@ class PartidaScreen:
         # Comprobamos si lo que ha clickeado es la mano dcha o la izqda
         mano_dcha_x_size = self.width/16.2162
         mano_dcha_y_size = self.height/9.2105
-        mano_dcha_x_start = self.width/48.0000
+        mano_izda_x_start = self.width/48.0000
         mano_dcha_y_start = self.height/3.6842
-        mano_izda_x_start = self.width/10.1695
+        mano_dcha_x_start = self.width/10.1695
         if((pos_x >= mano_dcha_x_start and pos_x <= mano_dcha_x_size+mano_dcha_x_start) and (pos_y >= mano_dcha_y_start and pos_y <= mano_dcha_y_size + mano_dcha_y_start)):
             return 'mano derecha'
         if((pos_x >= mano_izda_x_start and pos_x <= mano_dcha_x_size+mano_izda_x_start) and (pos_y >= mano_dcha_y_start and pos_y <= mano_dcha_y_size + mano_dcha_y_start)):
@@ -1076,20 +1076,20 @@ class PartidaScreen:
                                         self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
                                 self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.9014, self.height/9.5890)), (self.width/16.2162, self.height/9.7222)) # 71 73 74 72
                             
-                            # Mano dcha
-                            if(self.personaje.equipo.objeto_equipado_mano_derecha != None):
-                                img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_derecha[0]][self.personaje.equipo.objeto_equipado_mano_derecha[1]]
-                                if(self.slot_selected == 'mano derecha'):
+                            # Mano izqda
+                            if(self.personaje.equipo.objeto_equipado_mano_izquierda != None):
+                                img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_izquierda[0]][self.personaje.equipo.objeto_equipado_mano_izquierda[1]]
+                                if(self.slot_selected == 'mano izquierda'):
                                     if(self.intercambio):
                                         self.screen.blit(pygame.transform.scale(self.intercambio_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
                                     else:
                                         self.screen.blit(pygame.transform.scale(self.selected_slot, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
                                 self.screen.blit(pygame.transform.scale(img_armadura, (self.width/16.2162, self.height/9.2105)), (self.width/48.0000, self.height/3.6842)) # 74 76 25 190
 
-                            # Mano izqda
-                            if(self.personaje.equipo.objeto_equipado_mano_izquierda != None): 
-                                img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_izquierda[0]][self.personaje.equipo.objeto_equipado_mano_izquierda[1]]
-                                if(self.slot_selected == 'mano izquierda'):
+                            # Mano dcha
+                            if(self.personaje.equipo.objeto_equipado_mano_derecha != None): 
+                                img_armadura = self.imgs[self.personaje.equipo.objeto_equipado_mano_derecha[0]][self.personaje.equipo.objeto_equipado_mano_derecha[1]]
+                                if(self.slot_selected == 'mano derecha'):
                                     if(self.intercambio):
                                         self.screen.blit(pygame.transform.scale(self.intercambio_slot, (self.width/16.2162, self.height/9.2105)), (self.width/10.1695, self.height/3.6842)) # 74 76 118 190
                                     else:
