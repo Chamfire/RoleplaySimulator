@@ -258,7 +258,7 @@ class SeleccionPersonaje2:
         self.fuente4 = pygame.font.SysFont(self.font,self.lettersize3)
 
         self.emptyText = self.fuente2.render(' ', True, self.color_white)
-        self.alineamientoText = self.fuente2.render('Alineamiento', True, self.color_white)
+        self.alineamientoText = self.fuente2.render('Alineamiento (comportamiento)', True, self.color_white)
         self.edadText = self.fuente2.render('Edad', True, self.color_white)
         self.pesoText = self.fuente2.render('Peso', True, self.color_white)
         self.generoText = self.fuente2.render('Apariencia', True, self.color_white)
@@ -269,13 +269,13 @@ class SeleccionPersonaje2:
             #60-80kg para un elfo
             peso = str(random.randint(30, 40)) # en libras
             self.personaje.peso = peso
-            self.defaultTextPeso = self.fuente2.render(str(peso+'lb'), True, self.color_white)
+            self.defaultTextPeso = self.fuente2.render(str(peso+' lb.'), True, self.color_white)
         elif(self.personaje.tipo_raza == "Elfo"):
             self.defaultTextEdad = self.fuente2.render('1-750', True, self.color_light_grey)
             #45-66kg para un elfo
             peso = str(random.randint(22, 34)) #en libras
             self.personaje.peso = peso
-            self.defaultTextPeso = self.fuente2.render(str(peso+'lb'), True, self.color_white)
+            self.defaultTextPeso = self.fuente2.render(str(peso+' lb.'), True, self.color_white)
         self.textEdad = self.defaultTextEdad
         self.textAlineamiento = self.defaultTextAlineamiento
     
