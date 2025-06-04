@@ -11,6 +11,7 @@ import queue
 from ProcesamientoPartida import ProcesamientoPartida
 import sqlite3
 from Lista_Inventario import Escudo,Objeto,Objeto_de_Espacio,Arma,Armadura,Llave
+import csv
 
 
 class PartidaScreen:
@@ -1421,6 +1422,11 @@ class PartidaScreen:
                 self.ch1.play(self.pressed)
                 pygame.display.update() 
                 self.currentTextToShow = ""
+
+                row = ["crono", self.GLOBAL.getMobsDiscoverder(), self.GLOBAL.getOpenedChest(), self.GLOBAL.getRoomsVisited(),  self.GLOBAL.getBrokenObjects()]
+                with open('resultados/estadisticas.csv', mode='a',newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerow(row)
                 mixer.music.stop()#para la música
                 mixer.music.load("sounds/background.wav") #carga de nuevo la canción normal de fondo
                 mixer.music.play(-1)

@@ -401,7 +401,7 @@ class EstadoRecolectAndBreak(Estado):
 
             texto = "Espera un momento que piense..."
             DM.speak(texto)
-            prompt = """Eres un dungeon master de Dnd 5e y yo me acerco a un saco de cuero tengo justo delante. El resultado de mi acción, es que abro el saco de cuero, y veo que dentro hay """+str(num)+""" monedas de """+moneda+""".<|eot_id|><|start_header_id|>user<|end_header_id|>
+            prompt = """Eres un dungeon master de Dnd 5e y yo me acerco a un saco de cuero tengo justo delante, y lo abro para ver su contenido. El resultado de mi acción, es que abro el saco de cuero, y veo que dentro hay """+str(num)+""" monedas de """+moneda+""".<|eot_id|><|start_header_id|>user<|end_header_id|>
                         Teniendo en cuenta únicamente el siguiente contexto para responder a la pregunta: Yo como jugador me dirijo al saco de cuero, y lo abro para ver qué hay dentro. Dentro, encuentro """+str(num)+""" monedas de """+moneda+""".
                         Pregunta: ¿Qué sucede cuando me acerco al saco de cuero que tengo justo delante?
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
