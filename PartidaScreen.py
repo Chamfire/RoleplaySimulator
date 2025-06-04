@@ -1639,7 +1639,7 @@ class PartidaScreen:
                             if(self.personaje.equipo.objeto_equipado_mano_izquierda != None):
                                 objeto_slot_nuevo = self.personaje.equipo.objeto_equipado_mano_izquierda
                                 self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.objeto_equipado_mano_derecha
-                                self.personaje.equipo.objeto_equipado_mano_derecha = objeto_slot_antiguo
+                                self.personaje.equipo.objeto_equipado_mano_derecha = objeto_slot_nuevo
                             else:
                                 self.personaje.equipo.objeto_equipado_mano_izquierda = self.personaje.equipo.objeto_equipado_mano_derecha
                                 self.personaje.equipo.objeto_equipado_mano_derecha = None
@@ -1674,7 +1674,7 @@ class PartidaScreen:
                             if(self.personaje.equipo.objeto_equipado_mano_derecha != None):
                                 objeto_slot_nuevo = self.personaje.equipo.objeto_equipado_mano_derecha
                                 self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.objeto_equipado_mano_izquierda
-                                self.personaje.equipo.objeto_equipado_mano_izquierda = objeto_slot_antiguo
+                                self.personaje.equipo.objeto_equipado_mano_izquierda = objeto_slot_nuevo
                             else:
                                 self.personaje.equipo.objeto_equipado_mano_derecha = self.personaje.equipo.objeto_equipado_mano_izquierda
                                 self.personaje.equipo.objeto_equipado_mano_izquierda = None
