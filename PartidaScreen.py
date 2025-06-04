@@ -1438,6 +1438,7 @@ class PartidaScreen:
             
             elif(self.GLOBAL.getViewMap() and self.openedInventory and self.calculateCurrentSlot(x,y) != None):
                 slot = self.calculateCurrentSlot(x,y)
+                print("mano izqda = "+str(self.personaje.equipo.objeto_equipado_mano_izquierda)+", mano derecha = "+str(self.personaje.equipo.objeto_equipado_mano_derecha))
                 if(slot != 'armor_slot' and slot != 'mano derecha' and slot != 'mano izquierda'):
                     # El nuevo objeto es de inventario, y venimos de cualquiera
                     if(self.personaje.equipo.objetos["slot_"+str(slot)] != None):
