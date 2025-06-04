@@ -1405,6 +1405,9 @@ class SeleccionPersonaje:
                 pygame.display.update() 
             else:
                 self.ch1.play(self.error)
+                newText = self.fuente2.render('-- Escoge trasfondo --', True, self.color_light_pink)
+                self.refresh(2,newText)
+                pygame.display.update() 
             return 'seleccionPersonaje'
         #defectos
         elif(self.rect10.collidepoint((x,y)) and self.opened_screen == None):
@@ -1436,6 +1439,9 @@ class SeleccionPersonaje:
                 pygame.display.update() 
             else:
                 self.ch1.play(self.error)
+                newText = self.fuente2.render('-- Escoge trasfondo --', True, self.color_light_pink)
+                self.refresh(2,newText)
+                pygame.display.update() 
             return 'seleccionPersonaje'
         #rasgos
         elif(self.rect11.collidepoint((x,y)) and self.opened_screen == None):
@@ -1471,6 +1477,9 @@ class SeleccionPersonaje:
                 pygame.display.update() 
             else:
                 self.ch1.play(self.error)
+                newText = self.fuente2.render('-- Escoge trasfondo --', True, self.color_light_pink)
+                self.refresh(2,newText)
+                pygame.display.update() 
             return 'seleccionPersonaje'
         #ideales
         elif(self.rect12.collidepoint((x,y)) and self.opened_screen == None):
@@ -1500,6 +1509,9 @@ class SeleccionPersonaje:
                 pygame.display.update() 
             else:
                 self.ch1.play(self.error)
+                newText = self.fuente2.render('-- Escoge trasfondo --', True, self.color_light_pink)
+                self.refresh(2,newText)
+                pygame.display.update() 
             return 'seleccionPersonaje'
         
         elif(self.r1.collidepoint((x,y)) and self.opened_screen == 4):
