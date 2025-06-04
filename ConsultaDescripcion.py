@@ -73,7 +73,7 @@ class ConsultaDescripcion:
                 
         ## Run inference
         self.prompt = """{Eres un dungeon master de Dnd 5e y me estás ayudando a hacerme la ficha de personaje.}<|eot_id|><|start_header_id|>user<|end_header_id|>
-                        {Describe la apariencia física de un """+raza+ """que pesa """+str(self.personaje.peso)+"""kg, tiene """+str(self.personaje.edad)+ """ años de edad, y """+piel+""") en únicamente un párrafo. """+consideracion+""" Limítate a ser creativo y divertido, y comienza directamente tu respuesta con la frase \""""+genero_text+""""\" }
+                        {Describe la apariencia física de un """+raza+ """que pesa """+str(self.personaje.peso)+""" libras, tiene """+str(self.personaje.edad)+ """ años de edad, y """+piel+""") en únicamente un párrafo. """+consideracion+""" Limítate a ser creativo y divertido, y comienza directamente tu respuesta con la frase \""""+genero_text+""""\" }
                         <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
         res = self.llm(self.prompt, **self.generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
