@@ -518,6 +518,8 @@ class PartidaScreen:
                 # Para mostrar el nombre del NPC
                 nombre_NPC = self.GLOBAL.getShowNombreNPC()
                 if(nombre_NPC != ""):
+                    rect = pygame.Rect(self.width/1.3857, self.height/1.8667, self.width/3.7736, self.height/10.9375)
+                    pygame.draw.rect(self.screen, self.color_white,rect,0)
                     textoNPC = self.fuente5.render(nombre_NPC, True, self.color_black)
                     self.screen.blit(textoNPC,(self.width/1.3514, self.height/1.8421)) #888 380
 
@@ -997,6 +999,8 @@ class PartidaScreen:
                 # Para mostrar el nombre del NPC
                 nombre_NPC = self.GLOBAL.getShowNombreNPC()
                 if(nombre_NPC != ""):
+                    rect = pygame.Rect(self.width/1.3857, self.height/1.8667, self.width/3.7736, self.height/10.9375)
+                    pygame.draw.rect(self.screen, self.color_white,rect,0)
                     textoNPC = self.fuente5.render(nombre_NPC, True, self.color_black)
                     self.screen.blit(textoNPC,(self.width/1.3514, self.height/1.8421)) #888 380
 

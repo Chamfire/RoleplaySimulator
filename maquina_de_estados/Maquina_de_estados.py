@@ -559,7 +559,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un esqueleto viviente, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -588,7 +587,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un zombie, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -616,7 +614,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un slime, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -644,7 +641,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un beholder, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -672,7 +668,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un troll, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -700,7 +695,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un dragón, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -728,7 +722,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a una sombra humanoide, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -756,7 +749,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un fénix, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -784,7 +776,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un ankheg (que es una mantis religiosa gigante), y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -812,7 +803,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un basilisco, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -840,7 +830,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un murciélago, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -868,7 +857,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a una rata, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
@@ -896,7 +884,6 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
-            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un gato, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
