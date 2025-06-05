@@ -282,12 +282,18 @@ class ConfiguracionPartida:
         self.letterwidth = (self.width/3.4286)/14 #cálculo de la base en píxeles 
         self.lettersize = self.letterwidth + 0.5 * self.letterwidth #multiplicamos la base x 0.5 y se lo sumamos a la base para hacerlo proporcional al tamaño que queremos
         self.fuenteText = pygame.font.SysFont(self.font, int(self.lettersize))
+        
+        self.letterwidth3 = (self.width/3.4286)/18 #cálculo de la base en píxeles 
+        self.lettersize3 = int(self.letterwidth3 + 0.5 * self.letterwidth3)
+        self.fuente3 = pygame.font.SysFont(self.font,self.lettersize3)
+
         self.emptyText = self.fuenteText.render(' ', True, self.color_dark_grey)
         self.introduceText = self.fuenteText.render('--- Nombre de la partida ---' , True, self.color_dark_grey)
         self.emptyText2 = self.fuenteText.render(' ', True, self.color_dark_grey)
         self.introduceText2 = self.fuenteText.render('--- Contraseña de acceso ---' , True, self.color_dark_grey)
         self.introduceText3 = self.fuenteText.render('Nombre ya existente' , True, self.color_dark_red_sat)
         self.opened_screen = False #por si vuelve a abrir más tarde la pantalla
+
         #de la input box
         #InputBox
             #self.widthText = self.letterwidth*len(self.name)
@@ -648,17 +654,21 @@ class ConfiguracionPartida:
                         self.screen.blit(pygame.transform.scale(self.ubicacion[self.partidas[self.currentPartida].ubicacion_historia], (self.width/4.8000, self.width/4.8000)), (self.width/12.0000, self.height/2.0000))
                         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.6901, self.height/1.4000))
                         self.screen.blit(pygame.transform.scale(self.back2, (self.width/6.0000, self.height/17.5000)), (self.width/1.5789, self.height/1.3861))
+                    ubicaciones = ["Mazmorra","Barco","Ciudad","Desierto","Aldea","Bosque"]
                     for i in range(0,6):
                         x_size = self.width/10.5263
                         y_size = self.width/10.5263
                         x_start = (self.width/2.2514) +  ((self.width/7.7922)*(i%3))
-                        y_start = (self.height/5.0000) +((self.height/4.5455)*(i//3))
+                        y_start = (self.height/5.0000) +((self.height/3.6082)*(i//3))
+                        y_start2 = (self.height/2.6022) +((self.height/3.6082)*((i//3)))
                         if(self.partidas[self.currentPartida].ubicacion_historia == i):
                             #self.screen.blit(pygame.transform.scale(self.ubicacionSelected[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
                             self.screen.blit(pygame.transform.scale(self.ubicacionSelected[i], (x_size, y_size)), (x_start, y_start))
                         else:
                             #self.screen.blit(pygame.transform.scale(self.ubicacion[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
                             self.screen.blit(pygame.transform.scale(self.ubicacion[i], (x_size, y_size)), (x_start, y_start))#imagenes
+                        nombre = self.fuente3.render(ubicaciones[i], True, self.color_white)
+                        self.screen.blit(nombre,(x_start,y_start2))
                     self.opened_screen = True
                     self.ch2.play(self.pressed)
                 pygame.display.update()
@@ -691,11 +701,13 @@ class ConfiguracionPartida:
                         self.ch3.play(self.error)
                 else:
                     someSelected = 0
+                    ubicaciones = ["Mazmorra","Barco","Ciudad","Desierto","Aldea","Bosque"]
                     for i in range(0,6):
                         x_size = self.width/10.5263
                         y_size = self.width/10.5263
                         x_start = (self.width/2.2514) +  ((self.width/7.7922)*(i%3))
-                        y_start = (self.height/5.0000) +((self.height/4.5455)*(i//3))
+                        y_start = (self.height/5.0000) +((self.height/3.6082)*(i//3))
+                        y_start2 = (self.height/2.6022) +((self.height/3.6082)*((i//3)))
                         if(self.checkIfMouseIsInButton(x_size,y_size,x_start,y_start,x,y)):
                             self.partidas[self.currentPartida].ubicacion_historia = i
                             #self.screen.blit(pygame.transform.scale(self.avatarJugadorSelected[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
@@ -708,12 +720,13 @@ class ConfiguracionPartida:
                         else:
                             #self.screen.blit(pygame.transform.scale(self.avatarJugador[i], (114,114)), (173+154*(i%3),140+154*(i//3)))
                             self.screen.blit(pygame.transform.scale(self.ubicacion[i], (x_size, y_size)), (x_start, y_start))#imagenes
-                    
+                        nombre = self.fuente3.render(ubicaciones[i], True, self.color_white)
+                        self.screen.blit(nombre,(x_start,y_start2))
                     if(someSelected == 0 and self.partidas[self.currentPartida].ubicacion_historia is not None):
                         x_size = self.width/10.5263
                         y_size = self.width/10.5263
                         x_start = (self.width/2.2514) +  ((self.width/7.7922)*(self.partidas[self.currentPartida].ubicacion_historia %3))
-                        y_start = (self.height/5.0000) +((self.height/4.5455)*(self.partidas[self.currentPartida].ubicacion_historia //3))
+                        y_start = (self.height/5.0000) +((self.height/3.6082)*(self.partidas[self.currentPartida].ubicacion_historia //3))
                         self.screen.blit(pygame.transform.scale(self.ubicacionSelected[self.partidas[self.currentPartida].ubicacion_historia], (x_size, y_size)), (x_start, y_start))
                         self.screen.blit(pygame.transform.scale(self.ubicacion[self.partidas[self.currentPartida].ubicacion_historia], (self.width/4.8000, self.width/4.8000)), (self.width/12.0000, self.height/2.0000))
                         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.6901, self.height/1.4000))
