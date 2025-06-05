@@ -559,11 +559,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un esqueleto viviente, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/no-muerto esqueleto.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Esqueleto")
 
         # Zombie
         elif(self.Mapa.objetos[y][x] == 39):
@@ -586,11 +588,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un zombie, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/no-muerto zombie.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Zombie")
         # Slime
         elif(self.Mapa.objetos[y][x] == 40):
             sound = pygame.mixer.Sound('sounds/slime.mp3')
@@ -612,11 +616,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un slime, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/slime.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Slime")
         # Beholder
         elif(self.Mapa.objetos[y][x] == 41):
             sound = pygame.mixer.Sound('sounds/beholder.mp3')
@@ -638,11 +644,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un beholder, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/beholder.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Beholder")
         # Troll
         elif(self.Mapa.objetos[y][x] == 42):
             sound = pygame.mixer.Sound('sounds/troll.mp3')
@@ -664,11 +672,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un troll, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/troll.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Troll")
         # Dragón
         elif(43 <= self.Mapa.objetos[y][x] <= 46):
             sound = pygame.mixer.Sound('sounds/dragon.mp3')
@@ -690,11 +700,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un dragón, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/dragón.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Dragón")
         # Sombra humanoide
         elif(self.Mapa.objetos[y][x] == 47):
             sound = pygame.mixer.Sound('sounds/sombra.mp3')
@@ -716,11 +728,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a una sombra humanoide, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/sombra.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Sombra")
         # Fénix
         elif(self.Mapa.objetos[y][x] == 48):
             sound = pygame.mixer.Sound('sounds/fenix.mp3')
@@ -742,11 +756,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un fénix, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/fénix.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Fénix")
         # Ankheg
         elif(self.Mapa.objetos[y][x] == 49):
             sound = pygame.mixer.Sound('sounds/ankheg.mp3')
@@ -768,11 +784,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un ankheg (que es una mantis religiosa gigante), y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/ankheg.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Ankheg")
         # Basilísco
         elif(50 <= self.Mapa.objetos[y][x] <= 56):
             sound = pygame.mixer.Sound('sounds/basilisco.mp3')
@@ -794,11 +812,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un basilisco, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/basilisco.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Basilisco")
         # Murciélago
         elif(self.Mapa.objetos[y][x] == 57):
             sound = pygame.mixer.Sound('sounds/murcielago.mp3')
@@ -820,11 +840,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un murciélago, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/murciélago.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Murciélago")
         # Rata
         elif(self.Mapa.objetos[y][x] == 58):
             sound = pygame.mixer.Sound('sounds/rata.mp3')
@@ -846,11 +868,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a una rata, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/rata.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Rata")
         # Gato
         elif(59 <= self.Mapa.objetos[y][x] <= 66):
             sound = pygame.mixer.Sound('sounds/gato.mp3')
@@ -872,11 +896,13 @@ class EstadoRecolectAndBreak(Estado):
                         print(e)
             else:
                 descripcion = info_mob
+            self.GLOBAL.setShowNombreNPC("")
             DM.speak(descripcion)
             a_lista = "El jugador se ha acercado a un gato, y esto es lo que dijo el Dungeon Master cuando lo hizo: "+descripcion
             self.GLOBAL.addElementToListaAndRemoveFirst(a_lista)
             self.GLOBAL.setImagePartida("images/monsters/felino salvaje.png")
             self.GLOBAL.setShowImage(True)
+            self.GLOBAL.setShowNombreNPC("Gato")
 
         
         self.GLOBAL.setCanBreak([False,[None,None]])
@@ -1242,6 +1268,7 @@ class EstadoDeHablaNPC(Estado):
         #TODO: RAG
         # Establecemos el modo habla, pues el jugador ha activado este modo
         self.GLOBAL.setModoHabla(True)
+        self.GLOBAL.setShowNombreNPC(self.NPC.name)
         while(self.GLOBAL.getModoHabla()):
             # Esperar a recibir mensaje
             time.sleep(0.2)
