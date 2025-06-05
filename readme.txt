@@ -1,5 +1,11 @@
 Pasos a seguir para ejecutar la plataforma de Roleplay Simulator en su dispositivo:
 
+Requisitos previos:
+- La ejecución de la plataforma se puede realizar en cualquier dispositivo windows 10 y 11 que cuente con al menos 8 GB de RAM
+- Para ejecutar el script de generación de imágenes es necesario disponer de al menos 16 GB de RAM (es independiente de la plataforma)
+- No se garantiza que la plataforma pueda ser ejecutada correctamente en un dispositivo con menor capacidad RAM. 
+
+
 1. Instalar visual studio code: https://code.visualstudio.com/
 2. Instalar el paquete c/c++ en vs code
 3. Instalar el paquete de Python en vs code
