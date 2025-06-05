@@ -131,8 +131,27 @@ class RAG_historia:
         context = self.devolver_contexto(query_context, embedding_model, index, document_texts)
         contexto_formato = "\n".join(context)
 
-        pregunta = "Teniendo en cuenta que un NPC está hablando conmigo, y lo último que me dijo el NPC fue: "+lastTexto+". Luego, yo le contesté: "+contexto_estado+". Pregunta: ¿Qué me responde el NPC a lo que yo acabo de decir? Si lo último que me dijo no tiene sentido con lo que yo le he contestado, emplea la información del contexto siguiente dado para elaborar una respuesta, o inventante una respuesta que podría dar el NPC."
-        query = f"Eres un dungeon master de Dnd 5e y debes usar únicamente el siguiente contexto para responder a la pregunta:\n Debes comenzar la respuesta con frases como 'Así, ves que te mira fíjamente y te dice...' o 'Tras decir eso, ves que se queda pensativo, y empieza a decir...', etc. Para peticiones sin sentido que haya yo le haya dicho, como 'asdasdf' o cosas similares, el NPC me dirá que no eleve la voz, que podría despertar a algún monstruo. No puedes dar ninguna información adicional que se salga del diálogo, es decir, no puedes decir frases como 'Este diálogo te será de ayuda' o 'Esta información podría servirte para conocer qué le ocurrió al NPC', etc. {query_context}. Contexto adicional para responder: {contexto_formato}\n<|eot_id|><|start_header_id|>user<|end_header_id|> Pregunta: {query_context}\n <|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+        pregunta = "Acabo de decirle esto al NPC: "+contexto_estado+". Teniendo en cuenta que un NPC estaba hablando conmigo, y lo último que me dijo el NPC fue esto: "+lastTexto+".Pregunta: ¿Qué me responde el NPC a lo que yo acabo de decir? Emplea información del contexto siguiente dado para elaborar una respuesta, o inventante una respuesta que podría dar el NPC si el contexto no fuera suficiente."
+        query = f"""
+                Eres un dungeon master de DnD 5e y debes responder únicamente como el NPC, usando solo el contexto proporcionado. Tu respuesta debe ser parte del diálogo, como si estuvieras hablando directamente con el jugador.
+
+                **Reglas importantes**:
+                - Comienza cada respuesta con frases como: 'Así, ves que te mira fijamente y te dice...', 'Tras decir eso, ves que se queda pensativo, y empieza a decir...', 'Kaelin desvía la mirada por un instante antes de decir...', etc.
+                - No puedes usar frases de apertura que ya se hayan dicho antes, ni repetir ninguna parte del diálogo anterior.
+                - Si el jugador repite una pregunta o contradice lo que dijo antes, responde con ironía, impaciencia, sospecha o desconfianza, pero **sin decir lo mismo que antes**.
+                - Si el jugador dice algo ilegible (como 'asdasdf'), respóndele en voz baja diciendo que no eleve la voz, porque podría despertar a algún monstruo.
+                - Nunca expliques cosas fuera del personaje. No des descripciones meta como: 'Este diálogo te será útil' o 'Esta información podría ayudarte...'
+                - Reacciona emocionalmente al tono del jugador: si se muestra hostil, sospechoso, insistente o confuso, haz que Kaelin actúe en consecuencia y muestre una evolución emocional (más firmeza, más sospecha, más resignación, etc.)
+
+                {pregunta}
+
+                Contexto adicional para responder:
+                {contexto_formato}
+
+                <|eot_id|><|start_header_id|>user<|end_header_id|>
+                Pregunta: {pregunta}
+                <|eot_id|><|start_header_id|>assistant<|end_header_id|>
+                """
         res = llm(query, **generation_kwargs) # Res is a dictionary
         ## Unpack and the generated text from the LLM response dictionary and print it
         response_good = res["choices"][0]["text"]

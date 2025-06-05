@@ -1526,7 +1526,7 @@ class Map_generation:
                 tentative_g_score = g_score[(x, y)] + 1
                 if new_pos not in g_score or tentative_g_score < g_score[new_pos]:
                     g_score[new_pos] = tentative_g_score
-                    h_score = np.sqrt((goal[0] - nx) ** 2 + (goal[1] - ny) ** 2)  # Heurística: distancia euclidiana
+                    h_score = np.sqrt((goal[0] - nx) ** 2 + (goal[1] - ny) ** 2)  # Heurística: distancia euclidea
                     f_score = tentative_g_score + h_score
                     heapq.heappush(open_set, (f_score, new_pos, path + [direccion]))
         return [False, None]
