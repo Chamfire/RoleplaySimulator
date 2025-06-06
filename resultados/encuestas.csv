@@ -1,12 +1,12 @@
-id,Conoce el juego,Ha jugado antes,Interfaz del menú,Interfaz de la configuración,Interfaz de la selección de partidas,Interfaz de la configuración de partidas,Interfaz de la pantalla 1 de creación de personajes,Interfaz de la pantalla 2 de creación de personajes,Coherencia de la introducción,Relación de la imagen del NPC con su descripción física,Relación de las respuestas del NPC con las preguntas del jugador,Coherencia de las respuestas del NPC,Coherencia de las descripciones del mapa,Coherencia de las descripciones de las acciones de interacción,Coherencia de las descripciones de los monstruos o animales,Relación de la imagen del monstruo o animal con su descripción,Interfaz de la partida,Interfaz del inventario
-1,"si","no",4,4,4,4,4,4,4,"si","si",4,4,3,4,"si",4,4
-2,"si","no",4,4,4,3,3,3,4,"si","si",4,4,4,3,"si",4,3
-3,"si","si",4,4,4,4,4,4,4,"si","si",1,4,3,4,"si",4,4
-4,"si","si",4,4,3,3,4,3,3,"si","si",4,3,2,3,"si",4,4
-5,"si","no",4,4,4,3,3,4,4,"si","si",4,3,4,4,"si",3,3
-6,"no","no",4,4,4,4,4,4,4,"si","si",3,4,4,4,"si",4,4
-7,"si","si",4,3,4,4,4,4,4,"si","no",2,4,4,4,"si",4,4
-8,"si","no",4,3,4,4,4,4,3,"si","si",4,4,4,4,"si",4,4
-9,"si","no",4,4,4,4,4,4,4,"si","si",3,4,4,4,"si",4,4
-10,"si","no",4,4,3,4,4,4,4,"si","si",3,4,4,4,"si",4,3
-11,"si","no",4,4,4,4,4,3,4,"si","si",3,4,4,3,"si",4,4
+id,Conoce Dungeons & Dragons,Ha jugado previamente a Dungeons & Dragons,Interfaz del menú,Interfaz de la configuración,Interfaz de la selección de partidas,Interfaz de la configuración de partidas,Interfaz de la pantalla 1 de creación de personajes,Interfaz de la pantalla 2 de creación de personajes,Coherencia de la introducción,Relación de la imagen del NPC con su descripción física,Relación de las respuestas del NPC con las preguntas del jugador,Coherencia de las respuestas del NPC,Coherencia de las descripciones del mapa,Coherencia de las descripciones de las acciones de interacción,Coherencia de las descripciones de los monstruos o animales,Relación de la imagen del monstruo o animal con su descripción,Interfaz de la partida,Interfaz del inventario
+1,"Sí","No",4,4,4,4,4,4,4,"Sí","Sí",4,4,3,4,"Sí",4,4
+2,"Sí","No",4,4,4,3,3,3,4,"Sí","Sí",4,4,4,3,"Sí",4,3
+3,"Sí","Sí",4,4,4,4,4,4,4,"Sí","Sí",1,4,3,4,"Sí",4,4
+4,"Sí","Sí",4,4,3,3,4,3,3,"Sí","Sí",4,3,2,3,"Sí",4,4
+5,"Sí","No",4,4,4,3,3,4,4,"Sí","Sí",4,3,4,4,"Sí",3,3
+6,"No","No",4,4,4,4,4,4,4,"Sí","Sí",3,4,4,4,"Sí",4,4
+7,"Sí","Sí",4,3,4,4,4,4,4,"Sí","No",2,4,4,4,"Sí",4,4
+8,"Sí","No",4,3,4,4,4,4,3,"Sí","Sí",4,4,4,4,"Sí",4,4
+9,"Sí","No",4,4,4,4,4,4,4,"Sí","Sí",3,4,4,4,"Sí",4,4
+10,"Sí","No",4,4,3,4,4,4,4,"Sí","Sí",3,4,4,4,"Sí",4,3
+11,"Sí","No",4,4,4,4,4,3,4,"Sí","Sí",3,4,4,3,"Sí",4,4

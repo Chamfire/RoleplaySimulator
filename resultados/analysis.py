@@ -32,12 +32,14 @@ class Analisis:
         numeric_cols = self.df_encuestas_sin_id.select_dtypes(include='number').columns
 
         self.df_encuestas_sin_id_interfaz = self.df_encuestas_sin_id[["Interfaz del menú","Interfaz de la configuración","Interfaz de la selección de partidas","Interfaz de la configuración de partidas","Interfaz de la pantalla 1 de creación de personajes","Interfaz de la pantalla 2 de creación de personajes","Interfaz de la partida","Interfaz del inventario"]]
+        self.df_encuestas_coherencia = self.df_encuestas_sin_id[["Coherencia de la introducción","Coherencia de las respuestas del NPC","Coherencia de las descripciones del mapa","Coherencia de las descripciones de las acciones de interacción","Coherencia de las descripciones de los monstruos o animales"]]
+        self.df_encuestas_sin_id_si_no = self.df_encuestas_sin_id[["Conoce Dungeons & Dragons","Ha jugado previamente a Dungeons & Dragons","Relación de la imagen del NPC con su descripción física","Relación de las respuestas del NPC con las preguntas del jugador","Relación de la imagen del monstruo o animal con su descripción"]]
 
     def printResultadoDeCadaVar(self):
         for pregunta in self.df_encuestas_sin_id_interfaz:
             respuestas = self.df_encuestas_sin_id_interfaz[pregunta]
 
-            # Valores posibles (0 a 3)
+            # Valores posibles (1,2,3,4)
             posibles_respuestas = [1, 2, 3, 4]
 
             # Calculo el % de cada respuesta
@@ -67,6 +69,75 @@ class Analisis:
             plt.tight_layout()
             plt.show()
 
+    def printResultadoDeCadaVarCoherencia(self):
+        etiquetas_respuestas = ['No tiene coherencia', 'Coherente con muchas frases carentes de sentido', 'Coherente en su mayoría', 'Todo tiene coherencia']
+        for pregunta in self.df_encuestas_coherencia:
+            respuestas = self.df_encuestas_coherencia[pregunta]
+
+            # Valores posibles (1,2,3,4)
+            posibles_respuestas = [1, 2, 3, 4]
+
+            # Calculo el % de cada respuesta
+            porcentajes_por_respuesta = respuestas.value_counts(normalize=True) * 100
+
+            # Obtener porcentaje para cada valor, poner 0 si no aparece
+            porcentajes = []
+            for respuesta in posibles_respuestas:
+                if respuesta in porcentajes_por_respuesta.index:
+                    porcentajes.append(porcentajes_por_respuesta[respuesta])
+                else:
+                    porcentajes.append(0)
+
+            # Establecimiento de las características de la gráfica
+            plt.figure(figsize=(13,6))
+            barras = plt.bar(posibles_respuestas, porcentajes, color='skyblue', edgecolor='black')
+            plt.title(f'{pregunta}')
+            plt.xlabel('Nivel de coherencia de la descripción')
+            plt.ylabel('Porcentaje de respuestas (%)')
+            plt.ylim(0, 110)  
+            plt.xticks(posibles_respuestas,etiquetas_respuestas)
+
+            # Indicar % de cada respuesta
+            for barra, pct in zip(barras, porcentajes):
+                plt.text(barra.get_x() + barra.get_width()/2, barra.get_height() + 1, f'{pct:.1f}%', ha='center')
+
+            plt.tight_layout()
+            plt.show()
+
+    def printResultadoDeCadaVarRelacion(self):
+        for pregunta in self.df_encuestas_sin_id_si_no:
+            respuestas = self.df_encuestas_sin_id_si_no[pregunta]
+
+            # Valores posibles (Sí, No)
+            posibles_respuestas = ["Sí","No"]
+
+            # Calculo el % de cada respuesta
+            porcentajes_por_respuesta = respuestas.value_counts(normalize=True) * 100
+
+            # Obtener porcentaje para cada valor, poner 0 si no aparece
+            porcentajes = []
+            for respuesta in posibles_respuestas:
+                if respuesta in porcentajes_por_respuesta.index:
+                    porcentajes.append(porcentajes_por_respuesta[respuesta])
+                else:
+                    porcentajes.append(0)
+
+            # Establecimiento de las características de la gráfica
+            plt.figure(figsize=(6,4))
+            barras = plt.bar(posibles_respuestas, porcentajes, color='skyblue', edgecolor='black')
+            plt.title(f'{pregunta}')
+            plt.xlabel('Conocimiento previo')
+            plt.ylabel('Porcentaje de respuestas (%)')
+            plt.ylim(0, 110)  
+            plt.xticks(posibles_respuestas)
+
+            # Indicar % de cada respuesta
+            for barra, pct in zip(barras, porcentajes):
+                plt.text(barra.get_x() + barra.get_width()/2, barra.get_height() + 1, f'{pct:.1f}%', ha='center')
+
+            plt.tight_layout()
+            plt.show()
+
     def printGraficaDescripcionPreguntasInterfaz(self):
         descripciones = self.df_encuestas_sin_id_interfaz.describe()
         descripciones.T[['mean', 'std', 'min', 'max']].plot(kind='barh', figsize=(12,6))
@@ -76,8 +147,11 @@ class Analisis:
         plt.grid(True)
         plt.tight_layout()
         plt.show()
+    
 
 
 analisis = Analisis()
 analisis.describePreguntas()
-analisis.printResultadoDeCadaVar()
+#analisis.printResultadoDeCadaVar()
+#analisis.printResultadoDeCadaVarCoherencia()
+analisis.printResultadoDeCadaVarRelacion()
