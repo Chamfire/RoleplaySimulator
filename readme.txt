@@ -113,9 +113,10 @@ pip install pytest
 
 pip install pyttsx3
 
-24. Instalar pandas para poder ejecutar el script del análisis de los datos
+24. Instalar pandas y matplotlib para poder ejecutar el script del análisis de los datos
 
 pip install pandas
+pip install matplotlib
 
 24. Ejecutar el archivo Main.py
 
@@ -150,6 +151,8 @@ cmake                                    3.31.6
 colorama                                 0.4.6
 coloredlogs                              15.0.1
 comtypes                                 1.4.10
+contourpy                                1.3.2
+cycler                                   0.12.1
 dataclasses-json                         0.6.7
 deep-translator                          1.11.4
 Deprecated                               1.2.18
@@ -162,6 +165,7 @@ faiss-cpu                                1.10.0
 fastapi                                  0.115.9
 filelock                                 3.18.0
 flatbuffers                              25.2.10
+fonttools                                4.58.2
 frozenlist                               1.5.0
 fsspec                                   2025.3.0
 google-auth                              2.38.0
@@ -185,6 +189,7 @@ jsonpatch                                1.33
 jsonpointer                              3.0.0
 jsonschema                               4.23.0
 jsonschema-specifications                2024.10.1
+kiwisolver                               1.4.8
 kubernetes                               32.0.1
 langchain                                0.3.23
 langchain-community                      0.3.21
@@ -196,6 +201,7 @@ llama_cpp_python                         0.3.8
 markdown-it-py                           3.0.0
 MarkupSafe                               3.0.2
 marshmallow                              3.26.1
+matplotlib                               3.10.3
 mdurl                                    0.1.2
 mmh3                                     5.1.0
 monotonic                                1.6
@@ -219,6 +225,7 @@ opentelemetry-util-http                  0.53b0
 orjson                                   3.10.16
 overrides                                7.7.0
 packaging                                24.2
+pandas                                   2.3.0
 peft                                     0.15.2
 pillow                                   11.0.0
 pip                                      22.3.1
@@ -234,6 +241,7 @@ pydantic_core                            2.33.1
 pydantic-settings                        2.8.1
 pygame                                   2.6.1
 Pygments                                 2.19.1
+pyparsing                                3.2.3
 PyPika                                   0.48.9
 pypiwin32                                223
 pyproject_hooks                          1.2.0
@@ -242,6 +250,7 @@ pytest                                   8.3.5
 python-dateutil                          2.9.0.post0
 python-dotenv                            1.1.0
 pyttsx3                                  2.98
+pytz                                     2025.2
 pywin32                                  310
 PyYAML                                   6.0.2
 referencing                              0.36.2
@@ -277,6 +286,7 @@ typer                                    0.15.2
 typing_extensions                        4.12.2
 typing-inspect                           0.9.0
 typing-inspection                        0.4.0
+tzdata                                   2025.2
 urllib3                                  2.3.0
 uvicorn                                  0.34.1
 watchfiles                               1.0.5
@@ -287,7 +297,6 @@ wrapt                                    1.17.2
 yarl                                     1.19.0
 zipp                                     3.21.0
 zstandard                                0.23.0
-
 
 Compare las versiones que se indican aquí con las suyas empleando el siguiente comando en la cmd:
 
