@@ -1,4 +1,4 @@
-id,conoce_el_juego,ha_jugado_antes,interfaz_menu,interfaz_configuracion,interfaz_seleccion_partidas,interfaz_configuracion_partidas,interfaz_creacion_personaje_1,interfaz_creacion_personaje_2,coherencia_introduccion,imagen_NPC,relacion_respuestas_NPC,coherencia_respuestas_NPC,coherencia_descripciones_mapa,coherencia_descripciones_interaccion,coherencia_descripciones_monstruos,imagen_monstruos,interfaz_partida,interfaz_inventario,
+id,conoce_el_juego,ha_jugado_antes,interfaz_menu,interfaz_configuracion,interfaz_seleccion_partidas,interfaz_configuracion_partidas,interfaz_creacion_personaje_1,interfaz_creacion_personaje_2,coherencia_introduccion,imagen_NPC,relacion_respuestas_NPC,coherencia_respuestas_NPC,coherencia_descripciones_mapa,coherencia_descripciones_interaccion,coherencia_descripciones_monstruos,imagen_monstruos,interfaz_partida,interfaz_inventario
 1,"si","no",4,4,4,4,4,4,4,"si","si",4,4,3,4,"si",4,4
 2,"si","no",4,4,4,3,3,3,4,"si","si",4,4,4,3,"si",4,3
 3,"si","si",4,4,4,4,4,4,4,"si","si",1,4,3,4,"si",4,4

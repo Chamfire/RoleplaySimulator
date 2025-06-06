@@ -113,6 +113,10 @@ pip install pytest
 
 pip install pyttsx3
 
+24. Instalar pandas para poder ejecutar el script del análisis de los datos
+
+pip install pandas
+
 24. Ejecutar el archivo Main.py
 
 

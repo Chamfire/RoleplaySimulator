@@ -21,7 +21,9 @@ class Analisis:
         print("------------- Descripción de variables -----------")
         print("* Variables numéricas:")
         print(" -------------------------------------------------")
-        print(self.df_encuestas.describe())
+        for var in self.df_encuestas.columns:
+            if(var != "id"):
+                print(self.df_encuestas[var].describe())
         print("* Variables categóricas:")
         print(" -------------------------------------------------")
         print(self.df_encuestas.describe(include='object'))
