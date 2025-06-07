@@ -35,7 +35,8 @@ class Analisis:
 
         self.df_encuestas_sin_id_interfaz = self.df_encuestas_sin_id[["Interfaz del menú","Interfaz de la configuración","Interfaz de la selección de partidas","Interfaz de la configuración de partidas","Interfaz de la pantalla 1 de creación de personajes","Interfaz de la pantalla 2 de creación de personajes","Interfaz de la partida","Interfaz del inventario"]]
         self.df_encuestas_coherencia = self.df_encuestas_sin_id[["Coherencia de la introducción","Coherencia de las respuestas del NPC","Coherencia de las descripciones del mapa","Coherencia de las descripciones de las acciones de interacción","Coherencia de las descripciones de los monstruos o animales"]]
-        self.df_encuestas_sin_id_si_no = self.df_encuestas_sin_id[["Conoce Dungeons & Dragons","Ha jugado previamente a Dungeons & Dragons","Relación de la imagen del NPC con su descripción física","Relación de las respuestas del NPC con las preguntas del jugador","Relación de la imagen del monstruo o animal con su descripción"]]
+        self.df_encuestas_sin_id_si_no = self.df_encuestas_sin_id[["Conoce Dungeons & Dragons","Ha jugado previamente a Dungeons & Dragons"]]
+        self.df_encuestas_sin_id_si_no_b1 = self.df_encuestas_sin_id[["Relación de la imagen del NPC con su descripción física","Relación de las respuestas del NPC con las preguntas del jugador","Relación de la imagen del monstruo o animal con su descripción"]]
 
         self.df_estadisticas_sin_id = self.df_estadisticas.drop('id',axis=1)
 
@@ -192,38 +193,41 @@ class Analisis:
             plt.show()
 
     def printResultadoDeCadaVarRelacion(self):
-        for pregunta in self.df_encuestas_sin_id_si_no:
-            respuestas = self.df_encuestas_sin_id_si_no[pregunta]
+        preguntas = self.df_encuestas_sin_id_si_no_b1.columns
+        num_preguntas = len(preguntas)
 
-            # Valores posibles (Sí, No)
-            posibles_respuestas = ["Sí","No"]
+        # Definir número de columnas y calcular filas necesarias
+        num_columnas = 2
+        num_filas = math.ceil(num_preguntas / num_columnas)
 
-            # Calculo el % de cada respuesta
+        fig, axs = plt.subplots(num_filas, num_columnas, figsize=(num_columnas * 5, num_filas * 4))
+        axs = axs.flatten()  # Para indexar como lista
+
+        for i, pregunta in enumerate(preguntas):
+            respuestas = self.df_encuestas_sin_id_si_no_b1[pregunta]
+            posibles_respuestas = ["Sí", "No"]
+
             porcentajes_por_respuesta = respuestas.value_counts(normalize=True) * 100
+            porcentajes = [porcentajes_por_respuesta.get(r, 0) for r in posibles_respuestas]
 
-            # Obtener porcentaje para cada valor, poner 0 si no aparece
-            porcentajes = []
-            for respuesta in posibles_respuestas:
-                if respuesta in porcentajes_por_respuesta.index:
-                    porcentajes.append(porcentajes_por_respuesta[respuesta])
-                else:
-                    porcentajes.append(0)
+            ax = axs[i]
+            barras = ax.bar(posibles_respuestas, porcentajes, color='skyblue', edgecolor='black')
+            ax.set_title(f'{pregunta}')
+            ax.set_xlabel('Relación del elemento evaluado')
+            ax.set_ylabel('Porcentaje de respuestas (%)')
+            ax.set_ylim(0, 110)
+            ax.set_xticks(range(len(posibles_respuestas)))
+            ax.set_xticklabels(posibles_respuestas)
 
-            # Establecimiento de las características de la gráfica
-            plt.figure(figsize=(6,4))
-            barras = plt.bar(posibles_respuestas, porcentajes, color='skyblue', edgecolor='black')
-            plt.title(f'{pregunta}')
-            plt.xlabel('Conocimiento previo')
-            plt.ylabel('Porcentaje de respuestas (%)')
-            plt.ylim(0, 110)  
-            plt.xticks(posibles_respuestas)
-
-            # Indicar % de cada respuesta
             for barra, pct in zip(barras, porcentajes):
-                plt.text(barra.get_x() + barra.get_width()/2, barra.get_height() + 1, f'{pct:.1f}%', ha='center')
+                ax.text(barra.get_x() + barra.get_width() / 2, barra.get_height() + 1, f'{pct:.1f}%', ha='center')
 
-            plt.tight_layout()
-            plt.show()
+        # Eliminar subplots vacíos si hay más espacios que preguntas
+        for j in range(i + 1, len(axs)):
+            fig.delaxes(axs[j])
+
+        plt.tight_layout()
+        plt.show()
 
     def printGraficaDescripcionPreguntasInterfaz(self):
         descripciones = self.df_encuestas_sin_id_interfaz.describe()
@@ -239,7 +243,7 @@ class Analisis:
 
 analisis = Analisis()
 analisis.describePreguntas()
-analisis.printResultadoDeCadaVar()
+#analisis.printResultadoDeCadaVar()
 #analisis.printResultadoDeCadaVarCoherencia()
-#analisis.printResultadoDeCadaVarRelacion()
+analisis.printResultadoDeCadaVarRelacion()
 #analisis.printResultadoBarrasVar()
