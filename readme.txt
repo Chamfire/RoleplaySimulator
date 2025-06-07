@@ -113,9 +113,10 @@ pip install pytest
 
 pip install pyttsx3
 
-24. Instalar pandas y matplotlib para poder ejecutar el script del análisis de los datos
+24. Instalar pandas, seaborn y matplotlib para poder ejecutar el script del análisis de los datos
 
 pip install pandas
+pip install seaborn
 pip install matplotlib
 
 24. Ejecutar el archivo Main.py
@@ -264,6 +265,7 @@ rsa                                      4.9
 safetensors                              0.5.3
 scikit-learn                             1.6.1
 scipy                                    1.15.2
+seaborn                                  0.13.2
 sentence-transformers                    4.0.2
 setuptools                               65.5.0
 shellingham                              1.5.4
