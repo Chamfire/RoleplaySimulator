@@ -73,6 +73,8 @@ class Global:
         lista = list()
         global searchingSong
         searchingSong = False
+        global textWriten
+        textWriten = True
 
         # Estadísticas
         global mobsDiscovered
@@ -87,6 +89,14 @@ class Global:
         endingTime = 0
         global numSalas
         numSalas = 0
+
+    def setTextWriten(self,v):
+        global textWriten
+        textWriten = v
+
+    def getTextWriten(self):
+        global textWriten
+        return textWriten
 
     def setNumSalas(self,v):
         global numSalas

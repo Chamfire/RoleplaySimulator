@@ -662,6 +662,7 @@ class ProcesamientoPartida:
                 self.maquina = pickle.load(f)
         mapa = Map_generation.Map_generation(self.ubicacion,self.currentPartida,None,None,None,None,None,self.width,self.height,True)
         self.maquina.setForLoad(mapa,self.jugadorHost)
+        self.maquina.DM.changeEnabledDMVoice(self.DMVoice)
         self.GLOBAL.setMAPA(mapa)
         #procesamiento....
         fin_time = time.time()

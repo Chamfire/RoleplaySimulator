@@ -2692,10 +2692,14 @@ class DM:
         self.GLOBAL.setDMTalking(True)
         for id,printText in printearTextos.items():
             self.GLOBAL.setTextoDM(printText)
+            self.GLOBAL.setTextWriten(False)
             print("establecido texto global DM")
             if(self.enabledDMVoice):
                 self.engine.say(printText)
                 self.engine.runAndWait()
+            else:
+                while(not self.GLOBAL.getTextWriten()):
+                    time.sleep(0.2)
         self.GLOBAL.setDMTalking(False)
     def printVoices(self):
         voices = self.engine.getProperty('voices')

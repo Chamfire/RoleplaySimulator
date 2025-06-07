@@ -1026,12 +1026,14 @@ class PartidaScreen:
                                 self.currentTextToShow[1] +=1
                             elif(self.currentTextToShow[2] == self.currentTextToShow[1]):
                                 self.textWriten = True
+                                self.GLOBAL.setTextWriten(True)
                                 yes = self.GLOBAL.getShowImage()
                                 if(yes):
                                     self.changePhoto = True
                                     self.GLOBAL.setShowImage(False)
                                 self.currentTextToShow = ""
                             else:
+                                self.GLOBAL.setTextWriten(True)
                                 self.currentTextToShow = ""
                     yes = self.GLOBAL.getShowImage()
                     if(yes):
