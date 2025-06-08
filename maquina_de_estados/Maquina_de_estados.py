@@ -2398,6 +2398,8 @@ class EstadoDeSalaInicial(Estado):
         if(2 <= self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] <= 3):
             #Si está ya en la sala, y ha ejecutado la descripción inicial
             return True
+        else:
+            return False
         
 
     def checkIfItIsInCurrentRoom(self,pos_x,pos_y):
