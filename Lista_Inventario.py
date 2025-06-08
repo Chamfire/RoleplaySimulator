@@ -512,3 +512,4 @@ class Lista_Inventario:
         return self.escudo
     def getObjetosList(self):
         return self.objeto
+    

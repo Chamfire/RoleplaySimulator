@@ -1818,7 +1818,7 @@ class Map_generation:
             j_start = currentTilePlayer[1]-13+(99-currentTilePlayer[1])
         cont_x = 0
         cont_y = 0
-        #el tamaño de la pantalla es de 26 x 10, y la casilla actual del jugador debe ser la del medio
+        #el tamaño de la pantalla es de 26 x 13, y la casilla actual del jugador debe ser la del medio
         blackScreen = pygame.Rect(width/150.0000, height/87.5000, width/1.4252, height/1.5837) #25 470 810 124
         pygame.draw.rect(screen, pygame.Color(0,0,0), blackScreen, 0)
         for i in range(i_start,i_start+26):

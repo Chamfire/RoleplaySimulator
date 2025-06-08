@@ -2813,7 +2813,7 @@ class Maquina_de_estados:
                     if(resultado != False):
                         try:
                             mixer.music.stop()#para la música
-                            mixer.music.load('music/'+resultado+".mp3") #carga la nueva canción sugerida por la ia
+                            mixer.music.load('music/'+resultado+".mp3") #carga la nueva canción 
                             mixer.music.play(0)
                         except:
                             pass
