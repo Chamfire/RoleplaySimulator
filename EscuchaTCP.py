@@ -200,7 +200,7 @@ class EscuchaTCP:
                         if(self.numJugadores == (len(self.GLOBAL.getListaPersonajeHost())+1)):
                             msg_ve_partida = str(self.password)+":"+self.idPropia+":ve_partida"
                             socket_c.sendall(msg_ve_partida.encode('utf-8'))
-                            #TODO: Mandar a todos a la partida
+                            #Mandar a todos a la partida
                             for i in range(0,len(self.GLOBAL.getOtherPlayers())):
                                 if(self.GLOBAL.getOtherPlayersIndex(i) != None and self.GLOBAL.getOtherPlayersIndex(i)[0] != resp[2]):
                                     #enviamos un mensaje a todos para que vayan a la partida
@@ -441,7 +441,6 @@ class EscuchaTCP:
                         #toca deserializar a ver si funciona
                         try:
                             return(4,objeto,id_user)
-                            #TODO: Comprobar dónde está cada usuario, y mandarles un mensaje de hacia donde tienen que ir
                         except:
                             return(-1,None)
                 else:

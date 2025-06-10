@@ -335,7 +335,7 @@ class SeleccionPartidas:
                     self.screen.blit(pygame.transform.scale(self.filled, (self.width/2.1818, self.height/7.7778)), (self.width/8.8889, self.height/2.2951))  #550 90 135 305    
                     self.screen.blit(self.labelP[1], (self.width/5.0000, self.height/2.1875)) #240 320
                     self.screen.blit(pygame.transform.scale(self.bin_pressed, (self.width/18.4615, self.height/10.7692)), (self.width/2.0168, self.height/2.2013)) #65 65 595 318 [+13]
-                    #TODO: borrar partida
+                    #borrar partida
                     pantalla = 'seleccionPartidas'
                     self.partidas[1] = None
                     conn = sqlite3.connect("simuladordnd.db")

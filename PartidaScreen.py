@@ -639,7 +639,6 @@ class PartidaScreen:
                 self.hiloProcesamientoPartida = threading.Thread(target=self.ProcesamientoPartida.prepararPartida)
                 self.hiloProcesamientoPartida.start()
             else:
-                #TODO: esperar a recibir maquina de estados para la partida, y crearla con la configuración de voz y efectos
                 pass
         elif(self.GLOBAL.getActualPartidaState() == "estadisticas"):
             self.screen.blit(pygame.transform.scale(self.backgroundPic, (self.width,self.height)), (0, 0)) #0,0 es la posición desde donde empieza a dibujar
@@ -934,7 +933,6 @@ class PartidaScreen:
                     self.first_timeScreen = False
                     self.currentFrame = 0
                 else:
-                    #TODO: establecer turno de palabra en función de lo que te haya dicho el mensaje UDP
                     pass
                 #Establezco la posición del personaje
                 self.map = self.GLOBAL.getMapa()

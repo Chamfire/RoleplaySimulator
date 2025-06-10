@@ -1670,7 +1670,7 @@ class SeleccionPersonaje:
             return 'seleccionPersonaje'
         else:
             self.activeI = False
-            self.opened_screen = None #TODO: Check si hay pantallas de raza o clase abiertas
+            self.opened_screen = None 
             if(self.personaje.name == ' '):
                 self.textName = self.defaultTextName
             else:

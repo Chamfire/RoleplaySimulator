@@ -119,6 +119,7 @@ class Game:
         model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
         model_path = hf_hub_download(model_name, filename=model_file)
 
+        # Inicializamos las pantallas
         self.consultaDescripcion = ConsultaDescripcion(seed_random)
         self.menu = Menu(self.width, self.height,self.screen,self.ch1,self.ch2,self.ch3,self.ch4,self.perfil.logged,self.perfil.avatarPicPerfil,self.perfil.name,self.font)
         self.credits = Credits(self.width, self.height,None,self.ch1,self.ch2,self.ch3,self.ch4,self.font)
@@ -325,7 +326,6 @@ class Game:
                             self.screen = self.seleccionPartidas.getScreen()
                             self.configuracionPartida.setCurrentPartida(self.seleccionPartidas.getPartidaToLoad())
                             self.salaEspera.setCurrentPartida(self.seleccionPartidas.getPartidaToLoad())
-                            #TODO: también a la sala de espera, y las otras pantallas que gestionan las partidas, y lo mismo desde sus refrescos
                     elif self.currentScreen == "login":
                         screenToChange = self.login.clickedMouse()
                         self.online = False

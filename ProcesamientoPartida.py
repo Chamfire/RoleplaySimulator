@@ -171,7 +171,6 @@ class ProcesamientoPartida:
             print("Progreso: 4%")
 
             #Generación del primer estado de la máquina
-            #TODO: Modificar para cargar máquina de estados de la bbdd
             self.maquina = Maquina_de_estados(self.DMVoice,self.currentPartida,self.jugadorHost)
             self.maquina.crearEstadoInicial(response_good)
             print("Progreso: 7%")
@@ -669,7 +668,6 @@ class ProcesamientoPartida:
         print('Tiempo de procesamiento: '+str(fin_time - inicio)+" segundos") 
 
         self.GLOBAL.setActualPartidaState("partida")
-        #TODO: Mensaje TCP a todos los jugadores para que cambien sus variables globales de actualPartidaScreen a "partida"
 
 
         partida_inicio = time.time()

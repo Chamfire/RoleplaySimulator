@@ -1284,7 +1284,7 @@ class SeleccionPersonaje2:
             self.first_timeRD = True
             self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/11.7647, self.height/1.1667)) #313 s 102 p
             self.screen.blit(pygame.transform.scale(self.back, (self.width/6.3158, self.height/17.5000)), (self.width/7.4074, self.height/1.1570)) #190 s 162 p
-            #TODO: Comprobar requisitos para crear personaje botón
+            #Comprobar requisitos para crear personaje botón
             if(self.personaje.edad != None and self.personaje.edad != ' ' and not self.searching and self.personaje.descripcion_fisica != None):
                 #tiene los campos rellenados
                 self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/3.8339, self.height/12.2807)), (self.width/2.7907, self.height/1.1667)) #313 s 430 p

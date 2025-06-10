@@ -961,7 +961,6 @@ class EstadoInteractChest(Estado):
         return False # Siempre puedes abrir un cofre, aunque esté vacío
         
     def run(self,DM,personaje):
-        #TODO: run en función del estado de la misión
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == -1):
             self.OnEnterEstadoByPlayer(DM,personaje)
             print("a False")
@@ -1089,8 +1088,6 @@ class EstadoInicial(Estado):
 
     def OnEnterEstadoByAllPlayers(self,DM):
         #self.GLOBAL.setRefreshScreen() #refrescar la pantalla con el mapa que crearé después
-        #TODO: imagen inicial
-        #TODO: cambiar a escribir por la pantalla de diálogo del DM
 
         #Música de inicio
         mixer.music.stop()#para la música
@@ -1134,7 +1131,6 @@ class EstadoDeMision(Estado):
             return False
         
     def run(self,DM,personaje):
-        #TODO: run en función del estado de la misión
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == -1):
             self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
@@ -1165,7 +1161,6 @@ class EstadoDeMision(Estado):
         self.GLOBAL.setImagePartida(self.pathImageNPC)
         self.GLOBAL.setShowImage(True)
         #DM.printVoices()
-        #TODO: enviar TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 0
         self.GLOBAL.setFinishedStart(True)
 
@@ -1222,7 +1217,6 @@ class EstadoDeHablaNPC(Estado):
             return False
         
     def run(self,DM,personaje):
-        #TODO: run en función del estado de la misión
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == -1):
             self.OnEnterEstadoByPlayer(DM,personaje)
         elif(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 0):
@@ -1267,7 +1261,6 @@ class EstadoDeHablaNPC(Estado):
         self.run(DM,personaje)
 
     def talkToNPC(self,DM,personaje):
-        #TODO: RAG
         # Establecemos el modo habla, pues el jugador ha activado este modo
         self.GLOBAL.setModoHabla(True)
         self.GLOBAL.setShowNombreNPC(self.NPC.name)
@@ -1359,7 +1352,7 @@ class EstadoDeMisionConcreta(Estado):
         self.given = True
         
     def run(self,DM,personaje):
-        #TODO: run en función del estado de la misión
+        #run en función del estado de la misión
         print("currentState: "+str(self.currentState))
         if(self.currentState == 0):
             self.OnEnterEstadoByPlayer(DM,personaje)
@@ -1748,7 +1741,7 @@ class EstadoDeSalaFinal(Estado):
         return False #Una sala nunca se puede completar. Siempre puedes entrar a ella, si el check del run se cumple
         
     def run(self,DM,personaje,currentEstadoByPlayers):
-        #TODO: run en función del estado de la misión
+        #run en función del estado de la misión
         # print("run:")
         print(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)])
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
@@ -1780,7 +1773,6 @@ class EstadoDeSalaFinal(Estado):
         DM.speak(self.dialogoDMIntro) 
         print("Sala "+str(self.id))
         #DM.printVoices()
-        #TODO: Enviar mensaje TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala normal
         self.GLOBAL.addRoomVisited()
         self.run(DM,personaje,currentEstadoByPlayers)
@@ -2144,7 +2136,7 @@ class EstadoDeSalaIntermedia(Estado):
         return False #Una sala nunca se puede completar. Siempre puedes entrar a ella, si el check del run se cumple
         
     def run(self,DM,personaje,currentEstadoByPlayers):
-        #TODO: run en función del estado de la misión
+        #run en función del estado de la misión
         # print("run:")
         print(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)])
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
@@ -2208,7 +2200,7 @@ class EstadoDeSalaInicial(Estado):
         self.ids = 0
         self.ordenEstados = {} #Estados contenidos por la sala
         self.numAccepts = 0 
-        #TODO: incluir la descripción del mapa
+        #descripción del mapa
         self.dialogoDMIntro = "¡Bien! Te encuentras en una amplia galería dentro de una mazmorra subterránea. "+descripcion_sala
         self.id = id_sala
         self.es_obligatorio = es_obligatoria #por defecto se marcan como opcionales. Luego, las obligatorias se marcarán como obligatorias
@@ -2609,7 +2601,7 @@ class EstadoDeSalaInicial(Estado):
         return False #Una sala nunca se puede completar. Siempre puedes entrar a ella, si el check del run se cumple
         
     def run(self,DM,personaje,currentEstadoByPlayers):
-        #TODO: run en función del estado de la misión
+        #run en función del estado de la misión
         # print("run:")
         #print(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)])
         if(self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] == 1):
@@ -2650,7 +2642,6 @@ class EstadoDeSalaInicial(Estado):
         to_list = "El jugador acaba de llegar a una mazmorra subterránea, y la galería en la que se encuentra, es descrita por el Dungeon Master así: "+self.dialogoDMIntro
         self.GLOBAL.addElementToListaAndRemoveFirst(to_list) 
         #DM.printVoices()
-        #TODO: Enviar mensaje TCP
         self.variableDeCheck["progreso"][str(personaje.name)+","+str(personaje.id_jugador)] = 2 #está en la sala normal
         self.GLOBAL.addRoomVisited()
         self.run(DM,personaje,currentEstadoByPlayers)
@@ -2750,7 +2741,6 @@ class Maquina_de_estados:
         self.RAG_musica = Consulta_RAG_musica()
         self.currentPartida = currentPartida
         self.output = Queue()
-        #TODO: Cargar estados de un fichero (al terminar)
 
     def crearEstadoInicial(self,mensajeInicial):
         self.estadoInicial = EstadoInicial(True, mensajeInicial,self.RAG_musica,self.currentPartida,self.ids)
@@ -2761,7 +2751,6 @@ class Maquina_de_estados:
         self.currentEstadoByPlayers[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = 0
         self.runNextEstado(self.personajeDelHost)
         for personaje in self.GLOBAL.getListaPersonajeHost():
-            #TODO:Check si ya estaban en otro estado (partida a medias), si no:
             personaje = personaje[1]
             self.currentEstadoByPlayers[str(personaje.name)+","+str(personaje.id_jugador)] = 0
             #para cada jugador, ejecuta su siguiente estado

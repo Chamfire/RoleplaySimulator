@@ -705,11 +705,6 @@ class SalaEspera:
             if(self.numJugadores == self.GLOBAL.getCurrentPlayers()):
                 self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.9355, self.height/1.1667)) #293 57 620 600
                 self.ch1.play(self.pressed) 
-                #TODO:
-                # Consulta para obtener todos los personajes VIVOS asociados a la partida.
-                # Si todos los jugadores tienen un personaje vivo asociado -> carga directamente la partida, y envía mensaje TCP de cambio de pantalla
-                # Si no todos los jugadores tienen un personaje vivo asociado -> envía a los jugadores sin personaje a la sala de seleccion de personaje, y al resto a la sala de espera 2
-                # Si solo juega el host, no enviará ningun mensaje TCP, y solo puede ir a la pantalla de selección de personaje, o a la de partida, sin pasar por la sala de espera 2
                 if(not self.isOnline):
                     conn = sqlite3.connect("simuladordnd.db")
                     cursor = conn.cursor()
