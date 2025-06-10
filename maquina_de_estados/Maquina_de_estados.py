@@ -16,6 +16,8 @@ from multiprocessing import Queue
 from maquina_de_estados import RAG_historia
 from llama_cpp import Llama
 
+# Evita que se imprima ningún mensaje por la consola empleando la estructura with suppress_stdout_stderr(): <sentencias que imprimen en consola mensajes>
+# Se ha definido para que durante las llamadas al LLM no se llene la consola de mensajes de debug propios de la librería. 
 @contextlib.contextmanager
 def suppress_stdout_stderr():
     with open(os.devnull, "w") as fnull:
@@ -29,6 +31,9 @@ def suppress_stdout_stderr():
             sys.stdout = old_stdout
             sys.stderr = old_stderr
 
+
+# Estado genérico: Es la clase de la que heredan el resto de estados de la máquina de estados.
+# Define los métodos y atributos principales que son comunes en los estados
 class Estado:
     def __init__(self,isInicial,content,id):
         self.id =  id
@@ -78,6 +83,9 @@ class Estado:
         pass
     def OnExitEstadoByPlayers(self,DM):
         pass
+
+    # resetForPickle(): Método que es común en todos los estados para el reseteo interno de sus variables 
+    # para poder serializar la máquina de estados
     def resetForPickle(self):
         self.GLOBAL = None
         self.Mapa = None
@@ -87,6 +95,9 @@ class Estado:
             for id,estado in self.ordenEstados.items():
                 estado.resetForPickle()
 
+    #setForLoad(): Método que toma como parámetros el mapa y la clase del jugador para reestablecerlos
+    # en todos los estados de la máquina. Además, inicializa aquellas variables que se reiniciaron
+    # con el método resetForPickle().
     def setForLoad(self,mapa,jugador):
         self.GLOBAL = Global()
         self.Mapa = mapa
@@ -96,6 +107,8 @@ class Estado:
             for id,estado in self.ordenEstados.items():
                 estado.setForLoad(mapa,jugador)
 
+# Clase EstadoRecolectAndBreak: Es el estado que gestiona las interacciones que realiza el jugador
+# con los objetos del mapa y los monstruos del mapa.
 class EstadoRecolectAndBreak(Estado):
     def __init__(self,isInicial,content,id,obligatorio,personajeDelHost,numJugadores,estado_pred):
         super().__init__(isInicial,content,id)
@@ -117,7 +130,7 @@ class EstadoRecolectAndBreak(Estado):
         for personaje in self.GLOBAL.getListaPersonajeHost():
             self.click[str(personaje.name)+","+str(personaje.id_jugador)] = False 
 
-
+    # checkIfCanRun(): comprueba que deleante tenga un objeto de interacción, que ese objeto sea el objeto con el que quiere interactuar
     def checkIfCanRun(self,DM,personaje):
         canBreak  = self.GLOBAL.getCanBreak()
         self.x = personaje.coordenadas_actuales_r[0]
@@ -137,9 +150,11 @@ class EstadoRecolectAndBreak(Estado):
                 return True
         return False
 
+    # checkIfCompleted(): Nunca se puede completar un estado de recolección.
     def checkIfCompleted(self,personaje):
         return False 
-    
+
+
     def consultarAlDM(self,prompt,fin,token_context = 1024,token_gen = 300):
         model_name = "bartowski/Llama-3.2-3B-Instruct-GGUF"
         model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
