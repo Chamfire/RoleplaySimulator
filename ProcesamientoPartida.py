@@ -644,7 +644,6 @@ class ProcesamientoPartida:
 
 
             self.maquina.resetGlobalsForPickle()
-            #self.buscar_surface(self.maquina)
             with open('maquina_de_estados/'+self.currentPartida+'/maquina.pickle', "wb") as f:
                 pickle.dump(self.maquina, f)
         else:
@@ -700,27 +699,6 @@ class ProcesamientoPartida:
         with open('resultados/estadisticas.csv', mode='a',newline='') as f:
             writer = csv.writer(f)
             writer.writerow(row)
-
-    def buscar_surface(self,obj, nombre_ruta="self.maquina", visitados=None):
-        if visitados is None:
-            visitados = set()
-
-        obj_id = id(obj)
-        if obj_id in visitados:
-            return  # Evitar ciclos infinitos
-        visitados.add(obj_id)
-
-        if isinstance(obj, type(threading.Lock())):
-            print(f"🎯 Encontrado pygame.Surface en: {nombre_ruta}")
-        elif isinstance(obj, dict):
-            for k, v in obj.items():
-                self.buscar_surface(v, f"{nombre_ruta}[{repr(k)}]", visitados)
-        elif hasattr(obj, '__dict__'):
-            for attr, val in vars(obj).items():
-                self.buscar_surface(val, f"{nombre_ruta}.{attr}", visitados)
-        elif isinstance(obj, (list, tuple, set)):
-            for idx, item in enumerate(obj):
-                self.buscar_surface(item, f"{nombre_ruta}[{idx}]", visitados)
 
     def getNPC(self):
         return self.personaje

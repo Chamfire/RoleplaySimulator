@@ -35,8 +35,8 @@ class Game:
         pygame.init()
         #self.font = 'agencyfb'
         self.font = 'agencyfbnormal'
-        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
-        self.screen = pygame.display.set_mode((0,0), pygame.NOFRAME) 
+        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+        #self.screen = pygame.display.set_mode((0,0), pygame.NOFRAME) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1
         #self.screen = pygame.display.set_mode((974,550)) #para pruebas de tamaño 2
         info = pygame.display.Info()

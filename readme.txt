@@ -119,7 +119,8 @@ pip install pandas
 pip install seaborn
 pip install matplotlib
 
-24. Ejecutar el archivo Main.py
+25. Ejecutar el archivo Main.py. La primera vez, tendrá que descargarse todos los modelos empleados, por lo que
+le aparecerá una pantalla en negro hasta que se terminen de cargar todos los modelos.
 
 
 
