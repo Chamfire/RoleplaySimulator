@@ -119,8 +119,12 @@ pip install pandas
 pip install seaborn
 pip install matplotlib
 
-25. Ejecutar el archivo Main.py. La primera vez, tendrá que descargarse todos los modelos empleados, por lo que
+25. Ejecutar el archivo Main.py. La primera vez tendrá que descargarse todos los modelos empleados, por lo que
 le aparecerá una pantalla en negro hasta que se terminen de cargar todos los modelos.
+
+A tener en cuenta: En el menú de configuración de partida, sólo se ha implementado la ubicación "mazmorra". Elegir cualquiera 
+de las otras opciones no le permitirá crear una partida. Puesto que ya se ha integrado un tipo de mapa, el resto se dejan
+para futuras actualizaciones del proyecto. 
 
 
 
