@@ -192,7 +192,7 @@ class ConfiguracionPartida:
             self.screen.blit(pygame.transform.scale(self.select, (self.width/7.5000, self.height/21.8750)), (self.width/8.2759, self.height/1.5217)) #160 32 145 460
         
         
-        if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia != None) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
+        if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia == 0) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
             self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
         else:
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
@@ -269,7 +269,7 @@ class ConfiguracionPartida:
             self.screen.blit(pygame.transform.scale(self.select, (self.width/7.5000, self.height/21.8750)), (self.width/8.2759, self.height/1.5217)) #160 32 145 460
         
         
-        if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia != None) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
+        if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia == 0) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
             self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
         else:
             self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
@@ -407,7 +407,7 @@ class ConfiguracionPartida:
                 if(not self.opened_screen):
                     self.screen.blit(pygame.transform.scale(self.buttonPressedPic, (self.width/4.0956, self.height/12.2807)), (self.width/2.4000, self.height/1.1667))#293 57 500 600
                     self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/2.1053, self.height/1.1570)) #150 40 570 605
-                    if(self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].ubicacion_historia != None and self.partidas[self.currentPartida].server_code != None):
+                    if(self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].ubicacion_historia == 0 and self.partidas[self.currentPartida].server_code != None):
                         self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
                     else:
                         self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
@@ -515,7 +515,7 @@ class ConfiguracionPartida:
                     pantalla = 'salaEspera'
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/2.4000, self.height/1.1667))#293 57 500 600
                     self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/2.1053, self.height/1.1570)) #150 40 570 605
-                    if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia != None) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
+                    if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia == 0) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
                         self.screen.blit(pygame.transform.scale(self.bCreate_pressed, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
                         # ------------- Guardamos la configuración de la partida ----------- #
                         conn = sqlite3.connect("simuladordnd.db")
@@ -889,7 +889,7 @@ class ConfiguracionPartida:
                 if(not self.opened_screen):
                     self.screen.blit(pygame.transform.scale(self.buttonSelectedPic, (self.width/4.0956, self.height/12.2807)), (self.width/2.4000, self.height/1.1667))#293 57 500 600
                     self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/2.1053, self.height/1.1570)) #150 40 570 605
-                    if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia != None) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
+                    if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia == 0) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
                         self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
                     else:
                         self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
@@ -912,7 +912,7 @@ class ConfiguracionPartida:
                 if(not self.opened_screen):
                     self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/2.4000, self.height/1.1667))#293 57 500 600
                     self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/2.1053, self.height/1.1570)) #150 40 570 605
-                    if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia != None) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
+                    if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia == 0) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
                         self.screen.blit(pygame.transform.scale(self.bCreate_selected, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
                         if(self.first_timeC):
                             self.first_timeC = False
@@ -1004,7 +1004,7 @@ class ConfiguracionPartida:
                 self.first_timeBG = True
                 self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/4.0956, self.height/12.2807)), (self.width/2.4000, self.height/1.1667))#293 57 500 600
                 self.screen.blit(pygame.transform.scale(self.back, (self.width/8.0000, self.height/17.5000)), (self.width/2.1053, self.height/1.1570)) #150 40 570 605
-                if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia != None) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
+                if((self.partidas[self.currentPartida].nombre != None and self.partidas[self.currentPartida].nombre != ' ') and (self.partidas[self.currentPartida].ubicacion_historia == 0) and (self.partidas[self.currentPartida].server_code != None and self.partidas[self.currentPartida].server_code != ' ')):
                     self.screen.blit(pygame.transform.scale(self.bCreate, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
                 else:
                     self.screen.blit(pygame.transform.scale(self.buttonUnavailablePic, (self.width/4.0956, self.height/12.2807)), (self.width/1.4760, self.height/1.1667))
