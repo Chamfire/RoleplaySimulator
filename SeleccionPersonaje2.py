@@ -354,7 +354,7 @@ class SeleccionPersonaje2:
         pygame.draw.rect(self.screen, self.color_grey, self.inputBoxDescripcion, 2)
         self.descripcionDefaultText1 = self.fuente3.render('¡Ya casi estamos!', True, self.color_light_grey)
         self.descripcionDefaultText2 = self.fuente3.render('Pulsa el botón de Generar Descripción para darle una buena descripción a tu personaje.', True, self.color_light_grey)
-        self.descripcionSearchingText = self.fuente3.render('Generando descripción física. Este proceso puede tardar entre 10 y 15 segundos...',True,self.color_magenta)
+        self.descripcionSearchingText = self.fuente3.render('Generando descripción física. Este proceso puede tardar unos segundos...',True,self.color_magenta)
         self.screen.blit(self.descripcionDefaultText1,(self.width/11.4286, self.height/2.8000)) #105 250
         self.screen.blit(self.descripcionDefaultText2,(self.width/11.4286, self.height/2.4138)) #105 290
         self.screen.blit(pygame.transform.scale(self.buttonPic, (self.width/3.8339, self.height/12.2807)), (self.width/1.5444, self.height/1.2727)) #313 x h x 777 x 550

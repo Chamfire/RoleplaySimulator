@@ -133,7 +133,7 @@ class ProcesamientoPartida:
             # Usamos 'command-r' que es excelente para rol y español
             res = self.co.chat(
                 message=prompt,
-                model='command-r',
+                model='command-a-03-2025',
                 max_tokens=token_gen,
                 temperature=0.8,
                 p=0.85, # Equivalente a top_p

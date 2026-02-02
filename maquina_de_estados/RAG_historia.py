@@ -160,7 +160,7 @@ class RAG_historia:
         # 4. Llamada a la API de Cohere
         try:
                 res = self.co.chat(
-                    model='command-r', # Ideal para RAG y rol
+                    model='command-a-03-2025', # Ideal para RAG y rol
                     message=prompt_usuario,
                     preamble=preamble,
                     max_tokens=300,

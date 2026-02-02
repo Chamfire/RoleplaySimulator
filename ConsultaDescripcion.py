@@ -118,16 +118,16 @@ class ConsultaDescripcion:
         # --- Llamada a la API de Cohere ---
         try: 
             response = self.co.chat(
-                model='command-r', # Modelo optimizado para texto largo y razonamiento
+                model='command-a-03-2025', # Modelo optimizado para texto largo y razonamiento
                 message=prompt_usuario,
                 preamble=preamble,
                 temperature=0.8,
-                max_tokens=300
+                max_tokens=200
             )
+            self.response_good = response.text
         except Exception as e:
             self.response_good = "Revisa la conexión e inténtalo otra vez..."
-
-        self.response_good = response.text
+            print(e)
         
         # --- Limpieza de texto ---
         if "." in self.response_good:
