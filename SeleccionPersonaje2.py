@@ -218,7 +218,7 @@ class SeleccionPersonaje2:
         if(self.searching):
             self.screen.blit(self.descripcionSearchingText,(self.width/11.4286, self.height/2.8000)) #105 250
         else:
-            if(op == 3):
+            if((op == 3) or (self.personaje.descripcion_fisica is not None and self.personaje.descripcion_fisica != "")):
                 self.responseText = self.fuente3.render(self.response,True,self.color_white)
                 self.renderTextBlock()
                 #self.screen.blit(self.responseText,(self.width/11.4286, self.height/2.8000)) #105 250 
