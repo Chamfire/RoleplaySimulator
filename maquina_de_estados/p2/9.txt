@@ -1,10 +1,16 @@
-La descripción de la sala 9Es la siguiente: En esta galería puedes ver una tumba de piedra con una runa tallada al fondo, rodeada de restos de roca esparcidos por el suelo de piedra, desgastado por el paso del tiempo. En el centro, un canasto de madera contiene una esmeralda brillante, cerca de una roca puntiaguda que sobresale del suelo y un extraño hongo alargado de color azul oscuro. A su alrededor, setas naranjas brotan entre las grietas, mientras que en la entrada, un slime azul resbala lentamente. La humedad es palpable, con gotas que caen rítmicamente del techo, y la planta rectangular de la galería amplifica la sensación de encierro.
+La descripción de la sala 9Es la siguiente: En esta galería puedes ver restos de roca dispersos por el suelo de piedra, que muestra marcas de desgaste por el paso del tiempo. En el centro de la rectangular sala destaca un saco de gran tamaño, junto al cual crece un extraño hongo alargado de color azul oscuro. En una esquina, una roca puntiaguda sobresale del suelo, mientras que del techo cuelgan estalactitas que gotean agua, creando un ambiente húmedo y fresco.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 14, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelando un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas que cubren el suelo.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 8, pero está cerrada: "La puerta permanece firmemente cerrada, resistiendo a tus esfuerzos por abrirla.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: Con un suave crujido, el portón de madera cede a tu toque, revelando un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas que cubren el suelo.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 8, y está abierta: Con un simple empujón, el portón de madera cede, revelando un pasillo oscuro donde el suelo de baldosas moradas brilla tenuemente bajo la luz de tu antorcha.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 2, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro iluminado por la pálida luz de baldosas moradas que se extienden bajo tus pies.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: Con un simple empujón, el portón de madera cede, revelando un pasillo oscuro donde el suelo de baldosas moradas brilla tenuemente bajo la luz de tu antorcha.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro iluminado por la pálida luz de baldosas moradas que se extienden bajo tus pies.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 0, y está abierta: Con un suave crujido, el portón de madera cede a tu empuje, revelándote un pasillo oscuro iluminado por la tenue luz que se filtra a través de las grietas, donde el suelo de baldosas moradas se extiende ante ti, invitándote a explorar lo desconocido.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: Con un suave crujido, el portón de madera cede a tu empuje, revelándote un pasillo oscuro iluminado por la tenue luz que se filtra a través de las grietas, donde el suelo de baldosas moradas se extiende ante ti, invitándote a explorar lo desconocido.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 13, y está abierta: Abres el portón de madera sin dificultad y te encuentras en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: Abres el portón de madera sin dificultad y te encuentras en un pasillo oscuro, con un suelo de baldosas moradas que se extiende ante ti.
 

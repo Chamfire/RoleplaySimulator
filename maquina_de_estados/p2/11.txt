@@ -1,10 +1,6 @@
-La descripción de la sala 11Es la siguiente: En esta galería puedes ver una planta rectangular con un suelo de piedra desgastado, marcado por el paso del tiempo y el uso, donde destacan los restos de roca esparcidos por doquier. Al fondo, una roca puntiaguda sobresale del suelo cerca de un canasto de madera que contiene una esmeralda brillante. En el centro, otra roca puntiaguda interrumpe el camino, mientras que en la entrada, un segundo canasto de madera guarda un mineral extraño de color amarillento. El ambiente es húmedo, con gotas que caen esporádicamente del techo, añadiendo un constante goteo al silencio del lugar.
+La descripción de la sala 11Es la siguiente: En esta galería puedes ver un suelo de piedra desgastado, con marcas de erosión que revelan un uso prolongado, donde brotan setas de color naranja en el centro, rodeando una roca puntiaguda que sobresale del suelo. Al fondo, un extraño hongo alargado de color azul oscuro parece crecer en la oscuridad, mientras que en el lateral derecho, una roca puntiaguda emerge junto a un canasto de madera que contiene esmeraldas. En el centro, otro canasto de madera alberga rubíes, y frente a ti, un tercer canasto de madera guarda un mineral extraño de color amarillento. La humedad es palpable, con gotas que caen del techo en una planta rectangular, creando un ambiente misterioso y enigmático.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 8, y está abierta: El portón cede con facilidad, revelándote un pasillo sombrío donde las baldosas moradas brillan tenuemente bajo la luz de tu antorcha.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 5, y está abierta: "La puerta cede sin resistencia, revelando una amplia galería sumida en una oscuridad casi absoluta.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: El portón cede con facilidad, revelándote un pasillo sombrío donde las baldosas moradas brillan tenuemente bajo la luz de tu antorcha.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 11 con la sala 2, y está abierta: Con un leve crujido, el portón de madera cede a tu empuje, revelando un pasillo oscuro donde el suelo de baldosas moradas brilla tenuemente bajo la luz de tu antorcha.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: Con un leve crujido, el portón de madera cede a tu empuje, revelando un pasillo oscuro donde el suelo de baldosas moradas brilla tenuemente bajo la luz de tu antorcha.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 11: "La puerta cede sin resistencia, revelando una amplia galería sumida en una oscuridad casi absoluta.
 

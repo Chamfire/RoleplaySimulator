@@ -1,6 +1,14 @@
-La descripción de la sala 5Es la siguiente: En esta galería puedes ver marcas de desgaste en el suelo de piedra, mientras que en el centro, un extraño hongo alargado de color azul oscuro crece junto a setas naranjas que brotan del suelo. Al fondo, una roca puntiaguda sobresale del piso, rodeada de restos de piedra, y en el otro extremo, otra roca afilada se alza frente a ti. La humedad es palpable, con gotas que caen del techo en esta planta rectangular, creando un ambiente claustrofóbico y misterioso.
+La descripción de la sala 5Es la siguiente: En esta galería puedes ver un suelo de piedra desgastado, con marcas de erosión y restos de roca esparcidos, mientras que en el centro, un canasto de madera contiene una esmeralda que brilla tenuemente junto a una roca puntiaguda que sobresale del suelo y un extraño hongo alargado de color azul oscuro; setas de color naranja brotan tanto en el centro como al fondo de la galería, donde la humedad es palpable y gotas de agua caen del techo en esta planta rectangular.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 3, y está abierta: Con un suave crujido, el portón de madera se abre sin resistencia, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se pierde en la penumbra.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 3, y está abierta: La puerta cede sin resistencia, revelándote una galería amplia pero sumida en una oscuridad casi palpable.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: Con un suave crujido, el portón de madera se abre sin resistencia, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se pierde en la penumbra.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: La puerta cede sin resistencia, revelándote una galería amplia pero sumida en una oscuridad casi palpable.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 11, y está abierta: La puerta cede sin resistencia, revelándote una galería amplia pero sumida en una oscuridad inquietante.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: La puerta cede sin resistencia, revelándote una galería amplia pero sumida en una oscuridad inquietante.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 5 con la sala 12, y está abierta: El portón de madera cede sin resistencia, revelándote un pasillo oscuro cuyas baldosas moradas brillan tenuemente bajo la luz de tu antorcha.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 5: El portón de madera cede sin resistencia, revelándote un pasillo oscuro cuyas baldosas moradas brillan tenuemente bajo la luz de tu antorcha.
 

@@ -1,6 +1,10 @@
-La descripción de la sala 7Es la siguiente: En esta galería puedes ver un canasto de madera con esmeraldas en su interior, colocado frente a ti, mientras que a tu derecha, otro canasto similar reposa junto a la pared. El suelo de piedra, marcado por el desgaste y cubierto de restos de roca, guía tu mirada hacia el centro, donde un tercer canasto de madera con esmeraldas descansa junto a un extraño hongo alargado de color azul oscuro y setas naranjas que brotan del suelo. La humedad es palpable, con gotas que caen ocasionalmente del techo, y la planta rectangular de la galería parece amplificarla, creando un ambiente casi irreal.
+La descripción de la sala 7Es la siguiente: En esta galería puedes ver restos de roca esparcidos por el suelo de piedra, desgastado por el uso, con marcas evidentes de tránsito. En el centro, una roca puntiaguda sobresale del suelo, rodeada por un canasto de madera que contiene esmeraldas y otro con rubíes, mientras que un extraño hongo alargado de color azul oscuro crece cerca. En una esquina, otra roca afilada emerge del suelo, y el ambiente está cargado de humedad, con gotas que caen lentamente del techo de la rectangular estancia.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 16, y está abierta: El portón cede sin resistencia, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 2, y está abierta: El portón cede sin resistencia, revelándote un pasillo oscuro donde solo las baldosas moradas del suelo reflejan un tenue brillo en la penumbra.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: El portón cede sin resistencia, revelando un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: El portón cede sin resistencia, revelándote un pasillo oscuro donde solo las baldosas moradas del suelo reflejan un tenue brillo en la penumbra.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 7 con la sala 4, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro iluminado por la tenue luz que se filtra a través de las grietas, donde tus pies pisan un suelo de baldosas moradas que se extiende hacia lo desconocido.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 7: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro iluminado por la tenue luz que se filtra a través de las grietas, donde tus pies pisan un suelo de baldosas moradas que se extiende hacia lo desconocido.
 

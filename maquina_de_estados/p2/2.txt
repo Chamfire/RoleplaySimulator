@@ -1,14 +1,6 @@
-La descripción de la sala 2Es la siguiente: En esta galería puedes ver restos de roca esparcidos por el suelo de piedra, desgastado por el paso del tiempo, con marcas evidentes de erosión. Frente a ti, una roca puntiaguda sobresale del suelo, mientras que en el centro de la planta rectangular, un extraño hongo alargado de color azul oscuro llama la atención, junto a otra roca puntiaguda que emerge a su lado. Al fondo de la galería, otro hongo similar contrasta con la humedad que impregna el ambiente, y gotas de agua caen lentamente del techo, creando un ambiente silencioso y enigmático.
+La descripción de la sala 2Es la siguiente: En esta galería puedes ver restos de roca esparcidos por el suelo de piedra, marcado por el desgaste del tiempo, mientras que en el centro, un canasto de madera alberga un puñado de rubíes que brillan tenuemente. A la derecha, setas naranjas brotan del suelo, y frente a ti, más de estas setas se alzan entre las grietas. En el centro, un extraño hongo alargado de color azul oscuro contrasta con el entorno, y en una esquina, una roca puntiaguda sobresale del suelo. Al fondo de la galería, una tumba de piedra con una runa tallada descansa en silencio, mientras que frente a ella, otra roca puntiaguda emerge del suelo. Gotas de agua caen del techo húmedo, creando un ambiente frío y claustrofóbico en esta planta rectangular.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 11, y está abierta: El portón de madera cede sin resistencia, revelándote un pasillo oscuro cuyas baldosas moradas brillan tenuemente bajo la luz de tu antorcha.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 7, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas bajo tus pies.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: El portón de madera cede sin resistencia, revelándote un pasillo oscuro cuyas baldosas moradas brillan tenuemente bajo la luz de tu antorcha.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 9, y está abierta: Abres el portón de madera sin dificultad y te encuentras en un pasillo oscuro, iluminado solo por la tenue luz que se filtra desde el exterior, con un suelo de baldosas moradas que se extienden ante ti.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: Abres el portón de madera sin dificultad y te encuentras en un pasillo oscuro, iluminado solo por la tenue luz que se filtra desde el exterior, con un suelo de baldosas moradas que se extienden ante ti.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 13, y está abierta: El portón de madera cede sin resistencia, revelando un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas bajo tus pies.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: El portón de madera cede sin resistencia, revelando un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas bajo tus pies.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas bajo tus pies.
 

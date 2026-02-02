@@ -1,14 +1,10 @@
-La descripción de la sala 8Es la siguiente: En esta galería rectangular, con marcas de desgaste en el suelo de piedra y restos de roca dispersos, puedes ver un canasto de madera en el centro que contiene un mineral extraño de color amarillento, junto a otro canasto con una esmeralda que brilla tenuemente; en una esquina, un troll parece estar al acecho, mientras que al fondo de la sala se alza una tumba de piedra con una runa grabada, todo bajo la constante goteo de agua desde el techo que añade una atmósfera húmeda al lugar.
+La descripción de la sala 8Es la siguiente: En esta galería rectangular, con el suelo de piedra marcado por el desgaste y la humedad, y gotas que caen ocasionalmente del techo, puedes ver restos de roca dispersos, un saco de gran tamaño en el centro, junto a una roca puntiaguda que sobresale del suelo, y un extraño hongo alargado de color azul oscuro que contrasta con las setas naranjas que brotan tanto en el centro como en una esquina. En frente, un canasto de madera contiene rubíes, mientras que en el centro hay otro canasto con un mineral amarillento, y al fondo, uno más con esmeraldas.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 11, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se pierde en la penumbra.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 14, y está abierta: El portón de madera cede sin resistencia, revelándote un pasillo oscuro iluminado tenuemente por la luz que se filtra, mostrando un suelo de baldosas moradas que se extienden hacia la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se pierde en la penumbra.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: El portón de madera cede sin resistencia, revelándote un pasillo oscuro iluminado tenuemente por la luz que se filtra, mostrando un suelo de baldosas moradas que se extienden hacia la oscuridad.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 16, y está abierta: El portón de madera cede sin resistencia, revelándote un pasillo oscuro iluminado tenuemente por baldosas moradas que brillan bajo tus pies.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 9, y está abierta: El portón de madera cede sin resistencia, revelándote un pasillo oscuro con suelo de baldosas moradas que se extiende ante ti.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: El portón de madera cede sin resistencia, revelándote un pasillo oscuro iluminado tenuemente por baldosas moradas que brillan bajo tus pies.
-
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 15, y está abierta: Con un suave crujido, el portón de madera cede a tu empuje, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
-
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: Con un suave crujido, el portón de madera cede a tu empuje, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: El portón de madera cede sin resistencia, revelándote un pasillo oscuro con suelo de baldosas moradas que se extiende ante ti.
 

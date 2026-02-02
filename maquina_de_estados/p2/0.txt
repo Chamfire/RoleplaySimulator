@@ -1,6 +1,14 @@
-La descripción de la sala 0Es la siguiente: En esta galería puedes ver restos de roca esparcidos por el suelo de piedra, marcado por el desgaste del tiempo, mientras que en el centro, un canasto de madera alberga esmeraldas que brillan tenuemente junto a otro canasto con rubíes y un extraño hongo alargado de color azul oscuro; a su lado, setas naranjas brotan del suelo, rodeando una roca puntiaguda que sobresale amenazante. En el lateral derecho, otro canasto con rubíes descansa cerca de la pared, y al frente, otra roca puntiaguda emerge del suelo, mientras que la humedad impregna el aire y gotas caen esporádicamente del techo sobre la planta rectangular de la galería.
+La descripción de la sala 0Es la siguiente: En esta galería puedes ver un suelo de piedra desgastado por el tiempo, con marcas de erosión que sugieren un uso constante. En el centro, un conjunto de setas naranjas brotan del suelo, rodeando una roca puntiaguda que se alza como una amenaza silenciosa. Cerca de allí, un canasto de madera contiene una esmeralda que brilla con una luz tenue, mientras que un extraño hongo alargado de color azul oscuro crece junto a él. Al fondo de la galería, otra roca puntiaguda sobresale del suelo, y en el lateral derecho, una tercera roca afilada parece desafiar a quien se acerque. La humedad es palpable, con gotas que caen del techo en un ritmo constante, creando un ambiente claustrofóbico en esta planta rectangular de la mina.
 
-Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 13, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle visible son las baldosas moradas que se extienden bajo tus pies.
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 1, y está abierta: Con un suave crujido, la puerta cede, revelándote una amplia galería sumida en la penumbra.
 
-Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle visible son las baldosas moradas que se extienden bajo tus pies.
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: Con un suave crujido, la puerta cede, revelándote una amplia galería sumida en la penumbra.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 4, y está abierta: El portón de madera cede sin resistencia, revelando un pasillo oscuro iluminado por la tenue luz que se filtra a través de las grietas, donde el suelo de baldosas moradas se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: El portón de madera cede sin resistencia, revelando un pasillo oscuro iluminado por la tenue luz que se filtra a través de las grietas, donde el suelo de baldosas moradas se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 9, y está abierta: Logras abrir el portón de madera sin dificultad y te encuentras en un pasillo oscuro, donde el único detalle que destaca es el suelo de baldosas moradas.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: Logras abrir el portón de madera sin dificultad y te encuentras en un pasillo oscuro, donde el único detalle que destaca es el suelo de baldosas moradas.
 

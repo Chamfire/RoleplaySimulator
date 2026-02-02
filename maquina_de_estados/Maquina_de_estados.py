@@ -68,6 +68,7 @@ class Estado:
         self.ordenEstados = {}
         self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.personajeDelHost = None
+        self.co = cohere.Client('')
 
     def checkIfCanRun(self,player):
         pass
@@ -91,6 +92,7 @@ class Estado:
         self.Mapa = None
         self.personajeDelHost = None
         self.soundDoor = None
+        self.co = None
         if(self.ordenEstados != {}):
             for id,estado in self.ordenEstados.items():
                 estado.resetForPickle()
@@ -103,6 +105,7 @@ class Estado:
         self.Mapa = mapa
         self.personajeDelHost = jugador
         self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
+        self.co = cohere.Client('')
         if(self.ordenEstados != {}):
             for id,estado in self.ordenEstados.items():
                 estado.setForLoad(mapa,jugador)
@@ -124,7 +127,6 @@ class EstadoRecolectAndBreak(Estado):
         self.ids = 0 
         self.x = None
         self.y = None
-        self.co = cohere.Client('')
         self.ordenEstados = {} #Estados internos de misión
         self.click = {}
         self.click[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = False
@@ -196,7 +198,7 @@ class EstadoRecolectAndBreak(Estado):
                 max_tokens=token_gen,
                 temperature=0.8,
                 p=0.85, # Equivalente a top_p
-                preamble=preamble
+                preamble=preamble+". No establezcas apartados como **Nota al DM**, **Resultado**, etc, nárralo todo seguido."
             )
 
             # 3. Extraer el texto
