@@ -68,7 +68,6 @@ class Estado:
         self.ordenEstados = {}
         self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.personajeDelHost = None
-        self.co = cohere.Client('')
 
     def checkIfCanRun(self,player):
         pass
@@ -125,6 +124,7 @@ class EstadoRecolectAndBreak(Estado):
         self.ids = 0 
         self.x = None
         self.y = None
+        self.co = cohere.Client('')
         self.ordenEstados = {} #Estados internos de misión
         self.click = {}
         self.click[str(self.personajeDelHost.name)+","+str(self.personajeDelHost.id_jugador)] = False
