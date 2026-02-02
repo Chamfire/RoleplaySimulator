@@ -588,95 +588,171 @@ class ProcesamientoPartida:
                             regresosa = self.consultarAlDM(regreso_a_sala,preamble,None,1048,200) #"regreso a sala"
                             descripcionpsa = self.consultarAlDM(prompt_puerta_abierta_ady,preamble,None,1048,200) #"puerta adyacente"
                             frase_puerta[i][j] = [puertace,descripcionpsa,regresosa]
-                objetos = set()
-                inicio_x = Mapa.salas[i].pos_x
-                fin_x = Mapa.salas[i].pos_x + Mapa.salas[i].size[0] -1
-                fin_y = Mapa.salas[i].pos_y + Mapa.salas[i].size[1] -1
-                inicio_y = Mapa.salas[i].pos_y
-                for i_start in range(inicio_x, fin_x+1):
-                    for j_start in range(inicio_y, fin_y+1):
-                        # Está en una esquina
-                        posicion = ""
-                        if((i_start == (inicio_x + 1)) or (i_start == (fin_x-1)) and (j_start == (inicio_y +1) or (j_start == (fin_y-1)))):
-                            posicion = " está en una esquina de la galería"
-                        elif(i_start== (inicio_x + 1)):
-                            posicion = " está en el lateral izquierdo de la galería"
-                        elif(i_start == (fin_x-1)):
-                            posicion = " está en el lateral derecho de la galería"
-                        elif(j_start== (inicio_y + 1)):
-                            posicion = " está al fondo de la galería"
-                        elif(j_start == (fin_y-1)):
-                            posicion = " está en frente en la galería"
-                        else:
-                            posicion = " está en el centro de la galería"
-                        if(33 <=Mapa.objetos[j_start][i_start] <=38):
-                            objetos.add("1 esqueleto, que "+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 39):
-                            objetos.add("1 zombie, que"+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 40):
-                            objetos.add("1 slime de color azul, que"+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 41):
-                            objetos.add("1 beholder, que"+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 42):
-                            objetos.add("1 troll, que"+posicion)
-                        elif(43 <= Mapa.objetos[j_start][i_start] <= 46):
-                            objetos.add("1 dragón, que"+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 47):
-                            objetos.add("1 extraña sombra humanoide, que"+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 48):
-                            objetos.add("1 fénix, que"+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 49):
-                            objetos.add("1 monstruo con forma de mantis religiosa gigante (un Ankheg), que"+posicion)
-                        elif(50 <= Mapa.objetos[j_start][i_start] <= 56):
-                            objetos.add("1 basilisco, que"+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 57):
-                            objetos.add("1 murciélago, que"+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 58):
-                            objetos.add("1 rata, que"+posicion)
-                        elif(59 <= Mapa.objetos[j_start][i_start] <= 66):
-                            objetos.add("1 gato, que"+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 68):
-                            objetos.add("1 cerezo, que"+posicion)
-                        elif(60 <= Mapa.objetos[j_start][i_start] <= 70):
-                            objetos.add("1 fragmento del cadáver de un dinosaurio, que"+posicion)
-                        elif(71 <= Mapa.objetos[j_start][i_start] <= 74):
-                            objetos.add("1 cofre de gran tamaño, que"+posicion)
-                        elif(75 <= Mapa.objetos[j_start][i_start] <= 78):
-                            objetos.add("1 armario, que"+posicion)
-                        elif(Mapa.objetos[j_start][i_start] == 79):
-                            objetos.add("1 conjunto de ruinas arqueológicas, que"+posicion)
-                        elif(91 <= Mapa.objetos[j_start][i_start] <= 94):
-                            objetos.add("1 tumba de piedra con una runa sobre ella, que"+posicion)
-                        elif((95 <= Mapa.objetos[j_start][i_start] <= 97) or (Mapa.objetos[j_start][i_start] == 104)):
-                            objetos.add("1 canasto de madera con rubíes, que"+posicion)
-                        elif((98 <= Mapa.objetos[j_start][i_start] <= 100) or (Mapa.objetos[j_start][i_start] == 105)):
-                            objetos.add("1 canasto de madera con esmeralda, ques"+posicion)
-                        elif((Mapa.objetos[j_start][i_start] == 101) or (Mapa.objetos[j_start][i_start] == 106)):
-                            objetos.add("1 canasto de madera con algún mineral extraño de color amarillento, que"+posicion)
-                        elif(101 <= Mapa.objetos[j_start][i_start] <= 103):
-                            objetos.add("1 saco de gran tamaño, que"+posicion)
-                        elif(107 <= Mapa.objetos[j_start][i_start] <= 110):
-                            objetos.add("restos de roca por el suelo")
-                        elif(111 <= Mapa.objetos[j_start][i_start] <= 112):
-                            objetos.add("1 extraño hongo alargado de color azul oscuro, que"+posicion)
-                        elif(113 <= Mapa.objetos[j_start][i_start] <= 114):
-                            objetos.add("setas de color naranja que brotan del suelo, que"+posicion)
-                        elif(115 <= Mapa.objetos[j_start][i_start] <= 117):
-                            objetos.add("1 roca puntiaguda que sobresale del suelo, que"+posicion)
-                        elif(118 <= Mapa.objetos[j_start][i_start] <= 121):
-                            objetos.add("marcas en el suelo de desgaste")
-                objetos2 = ""
-                for objeto in objetos:
-                    objetos2 += objeto+"; "
+                # objetos = set()
+                # inicio_x = Mapa.salas[i].pos_x
+                # fin_x = Mapa.salas[i].pos_x + Mapa.salas[i].size[0] -1
+                # fin_y = Mapa.salas[i].pos_y + Mapa.salas[i].size[1] -1
+                # inicio_y = Mapa.salas[i].pos_y
+                # for i_start in range(inicio_x, fin_x+1):
+                #     for j_start in range(inicio_y, fin_y+1):
+                #         # Está en una esquina
+                #         posicion = ""
+                #         if((i_start == (inicio_x + 1)) or (i_start == (fin_x-1)) and (j_start == (inicio_y +1) or (j_start == (fin_y-1)))):
+                #             posicion = " está en una esquina de la galería"
+                #         elif(i_start== (inicio_x + 1)):
+                #             posicion = " está en el lateral izquierdo de la galería"
+                #         elif(i_start == (fin_x-1)):
+                #             posicion = " está en el lateral derecho de la galería"
+                #         elif(j_start== (inicio_y + 1)):
+                #             posicion = " está al fondo de la galería"
+                #         elif(j_start == (fin_y-1)):
+                #             posicion = " está en frente en la galería"
+                #         else:
+                #             posicion = " está en el centro de la galería"
+                #         if(33 <=Mapa.objetos[j_start][i_start] <=38):
+                #             objetos.add("1 esqueleto, que "+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 39):
+                #             objetos.add("1 zombie, que"+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 40):
+                #             objetos.add("1 slime de color azul, que"+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 41):
+                #             objetos.add("1 beholder, que"+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 42):
+                #             objetos.add("1 troll, que"+posicion)
+                #         elif(43 <= Mapa.objetos[j_start][i_start] <= 46):
+                #             objetos.add("1 dragón, que"+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 47):
+                #             objetos.add("1 extraña sombra humanoide, que"+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 48):
+                #             objetos.add("1 fénix, que"+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 49):
+                #             objetos.add("1 monstruo con forma de mantis religiosa gigante (un Ankheg), que"+posicion)
+                #         elif(50 <= Mapa.objetos[j_start][i_start] <= 56):
+                #             objetos.add("1 basilisco, que"+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 57):
+                #             objetos.add("1 murciélago, que"+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 58):
+                #             objetos.add("1 rata, que"+posicion)
+                #         elif(59 <= Mapa.objetos[j_start][i_start] <= 66):
+                #             objetos.add("1 gato, que"+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 68):
+                #             objetos.add("1 cerezo, que"+posicion)
+                #         elif(60 <= Mapa.objetos[j_start][i_start] <= 70):
+                #             objetos.add("1 fragmento del cadáver de un dinosaurio, que"+posicion)
+                #         elif(71 <= Mapa.objetos[j_start][i_start] <= 74):
+                #             objetos.add("1 cofre de gran tamaño, que"+posicion)
+                #         elif(75 <= Mapa.objetos[j_start][i_start] <= 78):
+                #             objetos.add("1 armario, que"+posicion)
+                #         elif(Mapa.objetos[j_start][i_start] == 79):
+                #             objetos.add("1 conjunto de ruinas arqueológicas, que"+posicion)
+                #         elif(91 <= Mapa.objetos[j_start][i_start] <= 94):
+                #             objetos.add("1 tumba de piedra con una runa sobre ella, que"+posicion)
+                #         elif((95 <= Mapa.objetos[j_start][i_start] <= 97) or (Mapa.objetos[j_start][i_start] == 104)):
+                #             objetos.add("1 canasto de madera con rubíes, que"+posicion)
+                #         elif((98 <= Mapa.objetos[j_start][i_start] <= 100) or (Mapa.objetos[j_start][i_start] == 105)):
+                #             objetos.add("1 canasto de madera con esmeralda, ques"+posicion)
+                #         elif((Mapa.objetos[j_start][i_start] == 101) or (Mapa.objetos[j_start][i_start] == 106)):
+                #             objetos.add("1 canasto de madera con algún mineral extraño de color amarillento, que"+posicion)
+                #         elif(101 <= Mapa.objetos[j_start][i_start] <= 103):
+                #             objetos.add("1 saco de gran tamaño, que"+posicion)
+                #         elif(107 <= Mapa.objetos[j_start][i_start] <= 110):
+                #             objetos.add("restos de roca por el suelo")
+                #         elif(111 <= Mapa.objetos[j_start][i_start] <= 112):
+                #             objetos.add("1 extraño hongo alargado de color azul oscuro, que"+posicion)
+                #         elif(113 <= Mapa.objetos[j_start][i_start] <= 114):
+                #             objetos.add("setas de color naranja que brotan del suelo, que"+posicion)
+                #         elif(115 <= Mapa.objetos[j_start][i_start] <= 117):
+                #             objetos.add("1 roca puntiaguda que sobresale del suelo, que"+posicion)
+                #         elif(118 <= Mapa.objetos[j_start][i_start] <= 121):
+                #             objetos.add("marcas en el suelo de desgaste")
+                # objetos2 = ""
+                # for objeto in objetos:
+                #     objetos2 += objeto+"; "
 
-                print(objetos)
-                # prompt_sala = f"""Eres un dungeon master de Dnd 5e, y yo acabo de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
-                #             Genera un párrafo breve para describir la galería. Para ello, usa única y exclusivamente los siguientes elementos: """+objetos2+""". No puedes asumir que hay más objetos ni más elementos, porque no los hay. Sí que puedes dar detalles de que hay humedad, caen gotitas de agua del techo, y que es una sala de planta rectangular. No des detalles de las dimensiones de la galería, ni de su tamaño. Comienza con la frase "En esta galería puedes ver..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
-                preamble = "Eres un dungeon master de Dnd 5e describiendo una localización."
-                prompt_sala = f"""Genera un párrafo breve para describir una galería de mina con suelo de piedra. 
-                Usa EXCLUSIVAMENTE estos elementos: {objetos2}. No asumas que hay más. 
-                Puedes añadir detalles de humedad, gotas del techo y que la planta es rectangular. 
-                No des dimensiones exactas. Empieza con: 'En esta galería puedes ver...'."""
+                # print(objetos)
+                # # prompt_sala = f"""Eres un dungeon master de Dnd 5e, y yo acabo de entrar en una galería de una mina con suelo de piedra.<|eot_id|><|start_header_id|>user<|end_header_id|>
+                # #             Genera un párrafo breve para describir la galería. Para ello, usa única y exclusivamente los siguientes elementos: """+objetos2+""". No puedes asumir que hay más objetos ni más elementos, porque no los hay. Sí que puedes dar detalles de que hay humedad, caen gotitas de agua del techo, y que es una sala de planta rectangular. No des detalles de las dimensiones de la galería, ni de su tamaño. Comienza con la frase "En esta galería puedes ver..."<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+                # preamble = "Eres un dungeon master de Dnd 5e describiendo una localización."
+                # prompt_sala = f"""Genera un párrafo breve para describir una galería de mina con suelo de piedra. 
+                # Usa EXCLUSIVAMENTE estos elementos: {objetos2}. No asumas que hay más. 
+                # Puedes añadir detalles de humedad, gotas del techo y que la planta es rectangular. 
+                # No des dimensiones exactas. Empieza con: 'En esta galería puedes ver...'."""
+                # 1. Extraer la sub-matriz de la sala actual
+                sala = Mapa.salas[i]
+                matriz_sala = []
+                ids_detectados = set()
+
+                for y in range(sala.pos_y, sala.pos_y + sala.size[1]):
+                    fila = []
+                    for x in range(sala.pos_x, sala.pos_x + sala.size[0]):
+                        val = Mapa.objetos[y][x]
+                        fila.append(val)
+                        if val != 0: # 0 asume suelo vacío
+                            ids_detectados.add(val)
+                    matriz_sala.append(fila)
+
+                # Convertir la matriz a una representación de texto visual para el prompt
+                matriz_visual = "\n".join([" ".join(map(str, fila)) for fila in matriz_sala])
+
+                # 2. Crear la leyenda dinámicamente según los IDs encontrados
+                diccionario_mapeo = {
+                    range(33, 39): "Esqueleto",
+                    range(39, 40): "Zombie",
+                    range(40, 41): "Slime azul",
+                    range(41, 42): "Beholder",
+                    range(42, 43): "Troll",
+                    range(43, 47): "Dragón",
+                    range(47, 48): "Sombra humanoide",
+                    range(48, 49): "Fénix",
+                    range(49, 50): "Ankheg (Mantis gigante)",
+                    range(50, 57): "Basilisco",
+                    range(57, 58): "Murciélago",
+                    range(58, 59): "Rata",
+                    range(59, 67): "Gato",
+                    range(68, 69): "Cerezo",
+                    range(69, 71): "Cadáver de dinosaurio",
+                    range(71, 75): "Cofre grande",
+                    range(75, 79): "Armario",
+                    range(79, 80): "Ruinas arqueológicas",
+                    range(91, 95): "Tumba con runas",
+                    range(95, 98): "Canasto con rubíes",
+                    range(104, 105): "Canasto con rubíes",
+                    range(98, 101): "Canasto con esmeraldas",
+                    range(105, 106): "Canasto con esmeraldas",
+                    range(101, 102): "Canasto con mineral amarillo",
+                    range(106, 107): "Canasto con mineral amarillo",
+                    range(101, 104): "Saco de gran tamaño",
+                    range(107, 111): "Restos de roca",
+                    range(111, 113): "Hongo azul alargado",
+                    range(113, 115): "Setas naranjas",
+                    range(115, 118): "Roca puntiaguda",
+                    range(118, 122): "Marcas de desgaste"
+                }
+
+                leyenda_text = ""
+                for id_val in ids_detectados:
+                    nombre = "Objeto desconocido"
+                    for r, n in diccionario_mapeo.items():
+                        if id_val in r:
+                            nombre = n
+                            break
+                    leyenda_text += f"- Número {id_val}: {nombre}\n"
+                prompt_sala = f"""He entrado en una galería de una mina con suelo de piedra. 
+                La sala tiene una planta rectangular representada por la siguiente matriz de celdas (filas y columnas):
+
+                {matriz_visual}
+
+                Leyenda de los números encontrados:
+                - Número 0: Suelo de piedra vacío.
+                {leyenda_text}
+
+                Instrucciones:
+                1. Genera un único párrafo breve y atmosférico.
+                2. Usa la posición de los números en la matriz para describir dónde está cada cosa (por ejemplo, si un número está en las primeras filas, está 'al fondo'; si está en las últimas, está 'cerca de la entrada').
+                3. Añade detalles de humedad y gotas de agua cayendo del techo.
+                4. No menciones las dimensiones exactas.
+                5. Comienza estrictamente con la frase: 'En esta galería puedes ver...' """
+                    
                 descripcion_sala = self.consultarAlDM(prompt_sala,preamble,None,2048,600) #"Que sala más bonita"
                 self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa,frase_puerta,descripcion_sala)
                 # Guardamos las descripciones asociadas a esa sala
