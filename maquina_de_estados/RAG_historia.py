@@ -10,6 +10,8 @@ import numpy as np
 import contextlib
 import os
 import sys
+import time
+import cohere
 
 @contextlib.contextmanager
 def suppress_stdout_stderr():
@@ -27,6 +29,7 @@ def suppress_stdout_stderr():
 class RAG_historia:
     def __init__(self,currentPartida):
         self.currentPartida = currentPartida
+        self.co = cohere.Client('')
         if os.path.exists('maquina_de_estados/'+currentPartida):
             #Cargamos el trasfondo del NPC de la partida, si existe
             if os.path.exists('maquina_de_estados/'+currentPartida+'/info_NPC.txt'):
@@ -105,25 +108,25 @@ class RAG_historia:
             f.write(info_a_escribir)
 
     def consultar_NPC(self,contexto_estado,lastTexto):
-        model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
-        model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
-        model_path = hf_hub_download(model_name, filename=model_file)
-        with suppress_stdout_stderr():
-            llm = Llama(
-                model_path=model_path,
-                n_ctx=3000,  # Context length to use
-                n_threads=32,            # Number of CPU threads to use
-                n_gpu_layers=0,        # Number of model layers to offload to GPU
-                seed= random.randint(1,100000)
-            )
-        ## Generation kwargs
-        generation_kwargs = {
-            "max_tokens":300,
-            "stop":["</s>"],
-            "echo":False, # Echo the prompt in the output
-            "top_p": 0.85, #top_p y temperatura le da aleatoriedad
-            "temperature": 0.8
-        }
+        # model_name="bartowski/Llama-3.2-3B-Instruct-GGUF"
+        # model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
+        # model_path = hf_hub_download(model_name, filename=model_file)
+        # with suppress_stdout_stderr():
+        #     llm = Llama(
+        #         model_path=model_path,
+        #         n_ctx=3000,  # Context length to use
+        #         n_threads=32,            # Number of CPU threads to use
+        #         n_gpu_layers=0,        # Number of model layers to offload to GPU
+        #         seed= random.randint(1,100000)
+        #     )
+        # ## Generation kwargs
+        # generation_kwargs = {
+        #     "max_tokens":300,
+        #     "stop":["</s>"],
+        #     "echo":False, # Echo the prompt in the output
+        #     "top_p": 0.85, #top_p y temperatura le da aleatoriedad
+        #     "temperature": 0.8
+        # }
 
         index, document_texts, embedding_model = self.crear_vectores()
         # Retrieve context
@@ -131,37 +134,56 @@ class RAG_historia:
         context = self.devolver_contexto(query_context, embedding_model, index, document_texts)
         contexto_formato = "\n".join(context)
 
-        pregunta = "Acabo de decirle esto al NPC: "+contexto_estado+". Teniendo en cuenta que un NPC estaba hablando conmigo, y lo último que me dijo el NPC fue esto: "+lastTexto+".Pregunta: ¿Qué me responde el NPC a lo que yo acabo de decir? Emplea información del contexto siguiente dado para elaborar una respuesta, o inventante una respuesta que podría dar el NPC si el contexto no fuera suficiente."
-        query = f"""
-                Eres un dungeon master de DnD 5e y debes responder únicamente como el NPC, usando solo el contexto proporcionado. Tu respuesta debe ser parte del diálogo, como si estuvieras hablando directamente con el jugador.
+        preamble = f"""Eres un dungeon master de DnD 5e. Debes responder únicamente como el NPC Kaelin.
+        Tu respuesta debe ser parte del diálogo, hablando directamente con el jugador.
 
-                **Reglas importantes**:
-                - Comienza cada respuesta con frases como: 'Así, ves que te mira fijamente y te dice...', 'Tras decir eso, ves que se queda pensativo, y empieza a decir...', 'Kaelin desvía la mirada por un instante antes de decir...', etc.
-                - No puedes usar frases de apertura que ya se hayan dicho antes, ni repetir ninguna parte del diálogo anterior.
-                - Si el jugador repite una pregunta o contradice lo que dijo antes, responde con ironía, impaciencia, sospecha o desconfianza, pero **sin decir lo mismo que antes**.
-                - Si el jugador dice algo ilegible (como 'asdasdf'), respóndele en voz baja diciendo que no eleve la voz, porque podría despertar a algún monstruo.
-                - Nunca expliques cosas fuera del personaje. No des descripciones meta como: 'Este diálogo te será útil' o 'Esta información podría ayudarte...'
-                - Reacciona emocionalmente al tono del jugador: si se muestra hostil, sospechoso, insistente o confuso, haz que Kaelin actúe en consecuencia y muestre una evolución emocional (más firmeza, más sospecha, más resignación, etc.)
+        Reglas de comportamiento:
+        - Comienza cada respuesta con una descripción narrativa (ej: 'Te mira fijamente...', 'Se queda pensativo...', 'Desvía la mirada...').
+        - No uses frases de apertura repetidas ni digas lo mismo que en turnos anteriores.
+        - Si el jugador es repetitivo o se contradice, responde con ironía, impaciencia o sospecha.
+        - Si el jugador dice algo ilegible (ej: 'asdfg'), dile en voz baja que no grite para no despertar monstruos.
+        - PROHIBIDO el lenguaje meta: No expliques utilidades del diálogo ni digas 'esta información te ayudará'.
+        - Reacciona al tono: si el jugador es hostil o confuso, Kaelin debe mostrar evolución emocional (firmeza, resignación, etc.)."""
 
-                {pregunta}
+        # 3. Configuración del MESSAGE (Los datos dinámicos)
+        prompt_usuario = f"""
+            Contexto histórico/aventura:
+            {contexto_formato}
 
-                Contexto adicional para responder:
-                {contexto_formato}
+            Diálogo actual:
+            - Lo último que dijo el NPC: "{lastTexto}"
+            - Lo que el jugador acaba de decir: "{contexto_estado}"
 
-                <|eot_id|><|start_header_id|>user<|end_header_id|>
-                Pregunta: {pregunta}
-                <|eot_id|><|start_header_id|>assistant<|end_header_id|>
-                """
-        res = llm(query, **generation_kwargs) # Res is a dictionary
-        ## Unpack and the generated text from the LLM response dictionary and print it
-        response_good = res["choices"][0]["text"]
-        if "." in response_good:
-            response_good = response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
-        response_good = response_good.lstrip()
-        response_good.replace("\\n", " ")
-        response_good = ''.join(c for c in response_good if c.isprintable())
-        print("\n=== RESPUESTA ===")
-        print(response_good)
-        print("\n=== CONTEXTO ===")
-        print(query)
-        return response_good
+            Pregunta: ¿Qué le responde el NPC al jugador exactamente ahora? Usa el contexto para dar una respuesta coherente o invéntala si es necesario, pero siempre siguiendo las reglas de personalidad.
+            """
+
+        # 4. Llamada a la API de Cohere
+        try:
+                res = self.co.chat(
+                    model='command-r', # Ideal para RAG y rol
+                    message=prompt_usuario,
+                    preamble=preamble,
+                    max_tokens=300,
+                    temperature=0.8,
+                    p=0.85
+                )
+
+                response_good = res.text
+
+                # 5. Limpieza y formateo
+                if "." in response_good:
+                    response_good = response_good.rsplit(".", 1)[0] + "."
+                
+                response_good = response_good.lstrip().replace("\n", " ")
+                response_good = ''.join(c for c in response_good if c.isprintable())
+
+                # 6. Respetar el límite de la API (3 segundos)
+                time.sleep(3)
+
+                print("\n=== RESPUESTA COHERE ===")
+                print(response_good)
+                return response_good
+
+        except Exception as e:
+            print(f"Error en la API: {e}")
+            return "Kaelin te mira confundido, parece que el destino se ha fragmentado... (Error de conexión)."
