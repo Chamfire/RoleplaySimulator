@@ -177,8 +177,7 @@ class RAG_historia:
                 response_good = response_good.lstrip().replace("\n", " ")
                 response_good = ''.join(c for c in response_good if c.isprintable())
 
-                # 6. Respetar el límite de la API (3 segundos)
-                time.sleep(3)
+                time.sleep(1)
 
                 print("\n=== RESPUESTA COHERE ===")
                 print(response_good)

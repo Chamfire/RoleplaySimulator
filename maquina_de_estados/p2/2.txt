@@ -1,0 +1,14 @@
+La descripción de la sala 2Es la siguiente: En esta galería puedes ver restos de roca esparcidos por el suelo de piedra, desgastado por el paso del tiempo, con marcas evidentes de erosión. Frente a ti, una roca puntiaguda sobresale del suelo, mientras que en el centro de la planta rectangular, un extraño hongo alargado de color azul oscuro llama la atención, junto a otra roca puntiaguda que emerge a su lado. Al fondo de la galería, otro hongo similar contrasta con la humedad que impregna el ambiente, y gotas de agua caen lentamente del techo, creando un ambiente silencioso y enigmático.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 11, y está abierta: El portón de madera cede sin resistencia, revelándote un pasillo oscuro cuyas baldosas moradas brillan tenuemente bajo la luz de tu antorcha.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: El portón de madera cede sin resistencia, revelándote un pasillo oscuro cuyas baldosas moradas brillan tenuemente bajo la luz de tu antorcha.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 9, y está abierta: Abres el portón de madera sin dificultad y te encuentras en un pasillo oscuro, iluminado solo por la tenue luz que se filtra desde el exterior, con un suelo de baldosas moradas que se extienden ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: Abres el portón de madera sin dificultad y te encuentras en un pasillo oscuro, iluminado solo por la tenue luz que se filtra desde el exterior, con un suelo de baldosas moradas que se extienden ante ti.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 2 con la sala 13, y está abierta: El portón de madera cede sin resistencia, revelando un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 2: El portón de madera cede sin resistencia, revelando un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas bajo tus pies.
+

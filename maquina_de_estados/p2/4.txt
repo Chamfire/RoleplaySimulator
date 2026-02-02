@@ -1,0 +1,12 @@
+La descripción de la sala 4Es la siguiente: En esta galería puedes ver setas de color naranja que brotan del suelo tanto en el centro como frente a ti, iluminando tenuemente el espacio rectangular mientras gotas de agua caen del techo húmedo. En una esquina, un slime azul pulsa lentamente, contrastando con los restos de roca esparcidos por el suelo, marcado por el desgaste del tiempo. En el centro, una roca puntiaguda sobresale peligrosamente, cerca de un canasto de madera lleno de rubíes que brilla entre las sombras. Al fondo de la galería, una tumba de piedra con una runa tallada descansa junto a otro canasto idéntico, mientras el aire pesado carga el ambiente con un silencio expectante.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 15, pero está cerrada: "La puerta permanece firmemente cerrada, resistiéndose a tus esfuerzos por abrirla.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 15, y está abierta: El portón de madera cede sin resistencia, revelando un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas que cubren el suelo.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: El portón de madera cede sin resistencia, revelando un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas que cubren el suelo.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 4 con la sala 3, y está abierta: El portón de madera cede sin resistencia, revelándote un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 4: El portón de madera cede sin resistencia, revelándote un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+

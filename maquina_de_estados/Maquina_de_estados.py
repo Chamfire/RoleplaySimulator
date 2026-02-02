@@ -15,6 +15,7 @@ import contextlib
 from multiprocessing import Queue
 from maquina_de_estados import RAG_historia
 from llama_cpp import Llama
+import cohere
 
 # Evita que se imprima ningún mensaje por la consola empleando la estructura with suppress_stdout_stderr(): <sentencias que imprimen en consola mensajes>
 # Se ha definido para que durante las llamadas al LLM no se llene la consola de mensajes de debug propios de la librería. 
@@ -67,7 +68,7 @@ class Estado:
         self.ordenEstados = {}
         self.soundDoor = pygame.mixer.Sound('sounds/door.wav')
         self.personajeDelHost = None
-
+        self.co = cohere.Client('')
 
     def checkIfCanRun(self,player):
         pass
@@ -155,35 +156,67 @@ class EstadoRecolectAndBreak(Estado):
         return False 
 
 
-    def consultarAlDM(self,prompt,fin,token_context = 1024,token_gen = 300):
-        model_name = "bartowski/Llama-3.2-3B-Instruct-GGUF"
-        model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
-        model_path = hf_hub_download(model_name, filename=model_file)
-        with suppress_stdout_stderr():
-            self.llm = Llama(
-                model_path=model_path,
-                n_ctx=token_context,  # Context length to use
-                n_threads=32,            # Number of CPU threads to use
-                n_gpu_layers=0,        # Number of model layers to offload to GPU
-                seed= random.randint(1,100000)
+    # def consultarAlDM(self,prompt,fin,token_context = 1024,token_gen = 300):
+    #     model_name = "bartowski/Llama-3.2-3B-Instruct-GGUF"
+    #     model_file = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
+    #     model_path = hf_hub_download(model_name, filename=model_file)
+    #     with suppress_stdout_stderr():
+    #         self.llm = Llama(
+    #             model_path=model_path,
+    #             n_ctx=token_context,  # Context length to use
+    #             n_threads=32,            # Number of CPU threads to use
+    #             n_gpu_layers=0,        # Number of model layers to offload to GPU
+    #             seed= random.randint(1,100000)
+    #         )
+    #     ## Generation kwargs
+    #     self.generation_kwargs = {
+    #         "max_tokens":token_gen,
+    #         "stop":["</s>"],
+    #         "echo":False, # Echo the prompt in the output
+    #         "top_p": 0.85, #top_p y temperatura le da aleatoriedad
+    #         "temperature": 0.8
+    #     }
+    #     res = self.llm(prompt, **self.generation_kwargs) # Res is a dictionary
+    #     ## Unpack and the generated text from the LLM response dictionary and print it
+    #     response_good = res["choices"][0]["text"]
+    #     if "." in response_good:
+    #         response_good = response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
+    #     response_good = response_good.lstrip()
+    #     if(fin != None):
+    #         response_good= response_good+fin
+    #     return response_good
+        
+    def consultarAlDM(self,prompt,preamble,fin,token_context = 1024,token_gen = 300):
+        try:
+            # 2. Llamada a la API
+            # Usamos 'command-r' que es excelente para rol y español
+            res = self.co.chat(
+                message=prompt,
+                model='command-a-03-2025',
+                max_tokens=token_gen,
+                temperature=0.8,
+                p=0.85, # Equivalente a top_p
+                preamble=preamble
             )
-        ## Generation kwargs
-        self.generation_kwargs = {
-            "max_tokens":token_gen,
-            "stop":["</s>"],
-            "echo":False, # Echo the prompt in the output
-            "top_p": 0.85, #top_p y temperatura le da aleatoriedad
-            "temperature": 0.8
-        }
-        res = self.llm(prompt, **self.generation_kwargs) # Res is a dictionary
-        ## Unpack and the generated text from the LLM response dictionary and print it
-        response_good = res["choices"][0]["text"]
-        if "." in response_good:
-            response_good = response_good.rsplit(".", 1)[0] + "."  # Para devolver un párrafo completo
-        response_good = response_good.lstrip()
-        if(fin != None):
-            response_good= response_good+fin
-        return response_good
+
+            # 3. Extraer el texto
+            response_good = res.text
+
+            # 4. Tu lógica de limpieza original
+            if "." in response_good:
+                response_good = response_good.rsplit(".", 1)[0] + "."
+            
+            response_good = response_good.lstrip()
+
+            # 5. Añadir el sufijo si existe
+            if fin is not None:
+                response_good = response_good + fin
+                
+            time.sleep(1) 
+            return response_good
+
+        except Exception as e:
+            return f"Error al consultar al DM: {str(e)}"
         
     def run(self,DM,personaje):
         # SARCÓFAGO

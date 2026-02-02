@@ -1,0 +1,6 @@
+La descripción de la sala 1Es la siguiente: En esta galería puedes ver un extraño hongo alargado de color azul oscuro en una esquina, mientras que en el centro, una roca puntiaguda sobresale del suelo junto a un canasto de madera lleno de rubíes, rodeado de setas naranjas que brotan de la tierra. El suelo de piedra muestra marcas de desgaste y está cubierto de restos de roca, y al frente, otra roca puntiaguda se yergue amenazante. La humedad es palpable, con gotas que caen ocasionalmente del techo, y la planta rectangular de la galería amplifica la sensación de encierro.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 1 con la sala 12, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle que destaca son las baldosas moradas que se extienden bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 1: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle que destaca son las baldosas moradas que se extienden bajo tus pies.
+

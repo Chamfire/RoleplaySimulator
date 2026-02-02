@@ -1,0 +1,10 @@
+La descripción de la sala 12Es la siguiente: En esta galería puedes ver un suelo de piedra desgastado, con marcas de uso y restos de roca esparcidos, mientras que en el centro, dos canastos de madera captan tu atención: uno contiene un mineral extraño de color amarillento, y el otro, una esmeralda que brilla con una luz propia. La planta rectangular de la galería está humedecida por gotas que caen del techo, creando un ambiente fresco y ligeramente resbaladizo bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 1, y está abierta: El portón cede sin resistencia, revelando un pasillo oscuro con un suelo de baldosas moradas que se pierde en la penumbra.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: El portón cede sin resistencia, revelando un pasillo oscuro con un suelo de baldosas moradas que se pierde en la penumbra.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 12 con la sala 3, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 12: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+

@@ -1,0 +1,18 @@
+La descripción de la sala 3Es la siguiente: En esta galería puedes ver un suelo de piedra desgastado por el tiempo, con marcas de desgaste que se extienden a lo largo de la planta rectangular. En una esquina, un extraño hongo alargado de color azul oscuro contrasta con la oscuridad, mientras que en el centro, otro hongo similar llama la atención entre setas de color naranja que brotan del suelo. Restos de roca se dispersan por el suelo, y en el centro, una roca puntiaguda sobresale peligrosamente. La humedad es palpable, con gotas que caen del techo y crean un ambiente fresco. En una esquina, un canasto de madera contiene esmeraldas que brillan tenuemente, mientras que en el centro, otro canasto de madera alberga rubíes que resplandecen con intensidad. Junto a ellos, un saco de gran tamaño descansa en el suelo, su contenido desconocido.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 6, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el suelo de baldosas moradas brilla tenuemente bajo la luz de tu antorcha.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el suelo de baldosas moradas brilla tenuemente bajo la luz de tu antorcha.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 5, y está abierta: El portón de madera cede sin resistencia, revelando un pasillo oscuro iluminado solo por el tenue brillo de baldosas moradas bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: El portón de madera cede sin resistencia, revelando un pasillo oscuro iluminado solo por el tenue brillo de baldosas moradas bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 4, y está abierta: Abres el portón sin dificultad y te adentras en un pasillo oscuro, donde el suelo de baldosas moradas parece brillar tenuemente bajo la luz de tu antorcha.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: Abres el portón sin dificultad y te adentras en un pasillo oscuro, donde el suelo de baldosas moradas parece brillar tenuemente bajo la luz de tu antorcha.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 3 con la sala 12, y está abierta: El portón de madera cede sin resistencia, revelándote un pasillo oscuro donde solo destacan las baldosas moradas que se extienden bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 3: El portón de madera cede sin resistencia, revelándote un pasillo oscuro donde solo destacan las baldosas moradas que se extienden bajo tus pies.
+

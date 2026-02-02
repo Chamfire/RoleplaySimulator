@@ -1,0 +1,6 @@
+La descripción de la sala 0Es la siguiente: En esta galería puedes ver restos de roca esparcidos por el suelo de piedra, marcado por el desgaste del tiempo, mientras que en el centro, un canasto de madera alberga esmeraldas que brillan tenuemente junto a otro canasto con rubíes y un extraño hongo alargado de color azul oscuro; a su lado, setas naranjas brotan del suelo, rodeando una roca puntiaguda que sobresale amenazante. En el lateral derecho, otro canasto con rubíes descansa cerca de la pared, y al frente, otra roca puntiaguda emerge del suelo, mientras que la humedad impregna el aire y gotas caen esporádicamente del techo sobre la planta rectangular de la galería.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 0 con la sala 13, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle visible son las baldosas moradas que se extienden bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 0: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle visible son las baldosas moradas que se extienden bajo tus pies.
+

@@ -1,0 +1,10 @@
+La descripción de la sala 13Es la siguiente: En esta galería puedes ver restos de roca esparcidos por el suelo de piedra, marcado por el desgaste del tiempo, mientras que en el centro, un extraño hongo alargado de color azul oscuro captura la atención, rodeado por setas de color naranja que brotan del suelo y una roca puntiaguda que sobresale peligrosamente. La humedad es palpable, con gotas que caen lentamente del techo, y la forma rectangular de la galería se define claramente entre las paredes de piedra.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 2, y está abierta: Con un simple empujón, el portón de madera cede, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: Con un simple empujón, el portón de madera cede, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 13 con la sala 0, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el suelo de baldosas moradas brilla tenuemente bajo la luz de tu antorcha.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 13: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el suelo de baldosas moradas brilla tenuemente bajo la luz de tu antorcha.
+

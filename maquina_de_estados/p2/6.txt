@@ -1,0 +1,6 @@
+La descripción de la sala 6Es la siguiente: En esta galería puedes ver un canasto de madera con una esmeralda en su interior, colocado en el lateral derecho, mientras que el suelo de piedra, marcado por el desgaste del tiempo, está salpicado de restos de roca. En una esquina, una roca puntiaguda sobresale del suelo, y otra similar se alza frente a ti, casi como si bloqueara el camino. Al fondo de la galería, un extraño hongo alargado de color azul oscuro crece en la humedad, sus tonos contrastando con las setas naranjas que brotan en el centro de la sala. Del techo caen gotas de agua que resbalan por las paredes, añadiendo un constante murmullo a la atmósfera de este espacio rectangular.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 6 con la sala 3, y está abierta: El portón de madera cede sin resistencia, revelándote un pasillo oscuro con suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 6: El portón de madera cede sin resistencia, revelándote un pasillo oscuro con suelo de baldosas moradas que se extiende ante ti.
+

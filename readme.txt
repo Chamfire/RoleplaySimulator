@@ -309,4 +309,4 @@ Compare las versiones que se indican aquí con las suyas empleando el siguiente 
 
 pip list
 
-Nota importante: Añadir el API-Key en ConsultaDescripción, ProcesamientoPartida y RAG_historia
+Nota importante: Añadir el API-Key en ConsultaDescripción, ProcesamientoPartida, Maquina_de_estados y RAG_historia

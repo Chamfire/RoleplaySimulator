@@ -1,0 +1,10 @@
+La descripción de la sala 14Es la siguiente: En esta galería puedes ver un canasto de madera en el centro, que contiene un mineral extraño de color amarillento, mientras que el suelo de piedra está cubierto de restos de roca y marcas de desgaste. En una esquina, una roca puntiaguda sobresale del suelo, y otra similar se alza en el centro de la galería, rectangular y con gotas de humedad que caen del techo, creando un ambiente húmedo y fresco.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 9, y está abierta: Con un leve crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: Con un leve crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 10, y está abierta: El portón de madera cede sin resistencia, revelándote un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: El portón de madera cede sin resistencia, revelándote un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+

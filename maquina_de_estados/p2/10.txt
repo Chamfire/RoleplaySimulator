@@ -1,0 +1,6 @@
+La descripción de la sala 10Es la siguiente: En esta galería puedes ver un esqueleto en el centro, rodeado por restos de roca esparcidos por el suelo, mientras que en una esquina una roca puntiaguda sobresale del piso cerca de un grupo de setas naranjas que brotan de la tierra. En el centro, otra roca puntiaguda emerge junto al esqueleto, y marcas de desgaste se extienden por el suelo de piedra, que está húmedo y salpicado por gotas que caen del techo. La planta rectangular de la galería acentúa la quietud del lugar, donde el único movimiento parece ser el goteo constante desde arriba.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 10 con la sala 14, y está abierta: Con un simple giro, el portón de madera cede, revelándote un pasillo oscuro donde el suelo de baldosas moradas brilla tenuemente bajo la luz de tu antorcha.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 10: Con un simple giro, el portón de madera cede, revelándote un pasillo oscuro donde el suelo de baldosas moradas brilla tenuemente bajo la luz de tu antorcha.
+

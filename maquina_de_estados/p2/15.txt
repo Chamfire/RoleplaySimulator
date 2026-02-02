@@ -1,0 +1,10 @@
+La descripción de la sala 15Es la siguiente: En esta galería puedes ver un suelo de piedra cubierto de marcas de desgaste y restos de roca, con una roca puntiaguda que sobresale en el centro, rodeada por un canasto de madera con un mineral amarillento, otro canasto con rubíes y un saco de gran tamaño, mientras que un slime azul se desliza cerca de ellos. En una esquina, una tumba de piedra con una runa descansa junto a un extraño hongo alargado de color azul oscuro, y en el lateral derecho, otro hongo similar parece crecer desde la pared. Al frente, un tercer canasto de madera rebosa de rubíes, y al fondo de la galería, un cuarto canasto con más gemas rojas completa la escena, todo bajo la constante goteo de agua del techo que añade un ambiente húmedo y claustrofóbico a la rectangular estancia.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 4, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro iluminado por la tenue luz que se filtra a través de las grietas, donde el suelo de baldosas moradas se extiende ante ti, invitándote a explorar lo desconocido.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro iluminado por la tenue luz que se filtra a través de las grietas, donde el suelo de baldosas moradas se extiende ante ti, invitándote a explorar lo desconocido.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 8, y está abierta: El portón cede sin resistencia, revelándote un pasillo sombrío donde las baldosas moradas del suelo brillan tenuemente bajo la luz de tu antorcha.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: El portón cede sin resistencia, revelándote un pasillo sombrío donde las baldosas moradas del suelo brillan tenuemente bajo la luz de tu antorcha.
+
