@@ -122,7 +122,7 @@ class ConsultaDescripcion:
                 message=prompt_usuario,
                 preamble=preamble,
                 temperature=0.8,
-                max_tokens=200
+                max_tokens=150
             )
             self.response_good = response.text
         except Exception as e:
