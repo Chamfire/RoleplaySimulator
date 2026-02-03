@@ -2734,7 +2734,7 @@ class DM:
         for frase in frases:
             words[index_frase] = frase.split(' ')
             if (l != index_frase+1):
-                if(words[index_frase][-1] != '?' or words[index_frase][-1] != '!'):
+                if(words[index_frase][-1] != '?' and words[index_frase][-1] != '!'):
                     words[index_frase] += ['.']
                 index_frase+=1
             else:
@@ -2766,9 +2766,12 @@ class DM:
             self.GLOBAL.setTextoDM(printText)
             self.GLOBAL.setTextWriten(False)
             print("establecido texto global DM")
+            print("voz activa DM: ",self.enabledDMVoice)
             if(self.enabledDMVoice):
                 self.engine.say(printText)
                 self.engine.runAndWait()
+                self.reset()
+                self.load()
             else:
                 while(not self.GLOBAL.getTextWriten()):
                     time.sleep(0.2)

@@ -134,7 +134,7 @@ class RAG_historia:
         context = self.devolver_contexto(query_context, embedding_model, index, document_texts)
         contexto_formato = "\n".join(context)
 
-        preamble = f"""Eres un dungeon master de DnD 5e. Debes responder únicamente como el NPC Kaelin.
+        preamble = f"""Eres un dungeon master de DnD 5e. Debes responder únicamente como el NPC.
         Tu respuesta debe ser parte del diálogo, hablando directamente con el jugador.
 
         Reglas de comportamiento:
@@ -143,7 +143,7 @@ class RAG_historia:
         - Si el jugador es repetitivo o se contradice, responde con ironía, impaciencia o sospecha.
         - Si el jugador dice algo ilegible (ej: 'asdfg'), dile en voz baja que no grite para no despertar monstruos.
         - PROHIBIDO el lenguaje meta: No expliques utilidades del diálogo ni digas 'esta información te ayudará'.
-        - Reacciona al tono: si el jugador es hostil o confuso, Kaelin debe mostrar evolución emocional (firmeza, resignación, etc.)."""
+        - Reacciona al tono: si el jugador es hostil o confuso, el NPC debe mostrar evolución emocional (firmeza, resignación, etc.)."""
 
         # 3. Configuración del MESSAGE (Los datos dinámicos)
         prompt_usuario = f"""
@@ -185,4 +185,4 @@ class RAG_historia:
 
         except Exception as e:
             print(f"Error en la API: {e}")
-            return "Kaelin te mira confundido, parece que el destino se ha fragmentado... (Error de conexión)."
+            return "Ves que te mira confundido, parece que el destino se ha fragmentado... (Error de conexión)."
