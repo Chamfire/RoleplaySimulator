@@ -35,6 +35,8 @@ class Game:
         pygame.init()
         #self.font = 'agencyfb'
         self.font = 'agencyfbnormal'
+        icono = pygame.image.load('images/join_partida.png')
+        pygame.display.set_icon(icono)
         # self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
         #self.screen = pygame.display.set_mode((0,0), pygame.NOFRAME) 
         #self.screen = pygame.display.set_mode((1500,600)) #para pruebas de tamaño 1

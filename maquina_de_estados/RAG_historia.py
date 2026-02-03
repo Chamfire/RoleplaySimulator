@@ -177,7 +177,7 @@ class RAG_historia:
                 response_good = response_good.lstrip().replace("\n", " ")
                 response_good = ''.join(c for c in response_good if c.isprintable())
 
-                time.sleep(1)
+                # time.sleep(1)
 
                 print("\n=== RESPUESTA COHERE ===")
                 print(response_good)

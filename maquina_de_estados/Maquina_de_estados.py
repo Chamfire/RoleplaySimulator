@@ -214,7 +214,7 @@ class EstadoRecolectAndBreak(Estado):
             if fin is not None:
                 response_good = response_good + fin
                 
-            time.sleep(1) 
+            # time.sleep(1) 
             return response_good
 
         except Exception as e:
