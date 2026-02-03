@@ -407,6 +407,7 @@ class ProcesamientoPartida:
             prompt = f"Responde únicamente con el nombre escogido para ese NPC, sin dar ningún detalle adicional, y teniendo en cuenta que es {self.personaje.genero}."
             
             nombre = self.consultarAlDM(prompt,preamble,None) #"Paco"
+            nombre = nombre.strip().rstrip('.')
             self.personaje.name = nombre
             #print(self.personaje.name)
             #inicializo el RAG para la historia
