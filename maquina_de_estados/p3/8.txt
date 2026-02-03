@@ -1,0 +1,12 @@
+La descripción de la sala 8Es la siguiente: En esta galería puedes ver, a tus pies, un suelo de roca desgastada por el tiempo y el paso de incontables mineros, donde las marcas de herramientas antiguas se entrelazan en un patrón caótico, como si la propia tierra guardara memoria de su tormento. A medida que tu mirada se eleva, el centro de la sala se abre en una danza de sombras y humedad, donde un canasto de mimbre, ahora descolorido y frágil, yace abandonado cerca de una veta de mineral amarillo que brilla con un resplandor tenue, como si el sol hubiera dejado un último suspiro en las profundidades. Más allá, hacia el fondo, las paredes se curvan en un abrazo de piedra, marcadas por surcos profundos y manchas de humedad que parecen llorar en silencio, mientras el goteo constante del techo teje una melodía melancólica que resuena en el aire pesado, recordándote que incluso aquí, en la oscuridad, la vida y el tiempo siguen su curso inexorable.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 13, pero está cerrada: "La puerta se mantiene firmemente cerrada, resistiéndose a tus esfuerzos por abrirla.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 13, y está abierta: El portón cede con facilidad, revelando un pasillo oscuro donde solo destacan las baldosas moradas bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: El portón cede con facilidad, revelando un pasillo oscuro donde solo destacan las baldosas moradas bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 8 con la sala 15, y está abierta: Abres el portón de madera sin resistencia y te encuentras en un pasillo oscuro, donde el único detalle que distingue la penumbra es el suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 8: Abres el portón de madera sin resistencia y te encuentras en un pasillo oscuro, donde el único detalle que distingue la penumbra es el suelo de baldosas moradas que se extiende ante ti.
+

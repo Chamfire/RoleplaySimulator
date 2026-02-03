@@ -693,7 +693,8 @@ class ProcesamientoPartida:
 
                 # Convertir la matriz a una representación de texto visual para el prompt
                 matriz_visual = "\n".join([" ".join(map(str, fila)) for fila in matriz_sala])
-
+                
+                
                 # 2. Crear la leyenda dinámicamente según los IDs encontrados
                 diccionario_mapeo = {
                     range(33, 39): "Esqueleto",
@@ -714,6 +715,8 @@ class ProcesamientoPartida:
                     range(71, 75): "Cofre grande",
                     range(75, 79): "Armario",
                     range(79, 80): "Ruinas arqueológicas",
+                    range(80, 84): "Es el propio jugador, ignora que existe",
+                    range(87, 91): "Es un NPC, ignora que existe",
                     range(91, 95): "Tumba con runas",
                     range(95, 98): "Canasto con rubíes",
                     range(104, 105): "Canasto con rubíes",
@@ -731,30 +734,52 @@ class ProcesamientoPartida:
 
                 leyenda_text = ""
                 for id_val in ids_detectados:
+                    # FILTRO: No enviamos a la IA información sobre lo que debe ignorar
+                    if 80 <= id_val <= 84 or 87 <= id_val <= 91:
+                        continue
+                        
                     nombre = "Objeto desconocido"
                     for r, n in diccionario_mapeo.items():
                         if id_val in r:
                             nombre = n
                             break
-                    leyenda_text += f"- Número {id_val}: {nombre}\n"
-                prompt_sala = f"""He entrado en una galería de una mina con suelo de piedra. 
-                La sala tiene una planta rectangular representada por la siguiente matriz de celdas (filas y columnas):
+                    leyenda_text += f"- {nombre} (representado por el número {id_val})\n"
+
+                # Definimos el preámbulo para separar el ROL de la TAREA
+                preamble = """Eres un Dungeon Master de D&D 5e experto en narrativa ambiental. 
+                Tu lenguaje es puramente literario y evocador. 
+
+                REGLAS DE ORO DE NARRACIÓN:
+                1. Prohibido usar números, coordenadas o términos técnicos (ej. no digas 'celda 5,2' o 'el objeto 117').
+                2. Prohibido poner números entre paréntesis.
+                3. Si la leyenda dice que algo es 'desconocido', descríbelo como una silueta borrosa o algo oculto por la bruma, nunca uses la palabra 'objeto'.
+                4. La entrada del jugador está en la PARTE INFERIOR de la matriz.
+                """
+                prompt_sala = f"""Describe una galería minera basada en este mapa topográfico (matriz numérica):
 
                 {matriz_visual}
 
-                Leyenda de los números encontrados:
-                - Número 0: Suelo de piedra vacío.
+                GUÍA DE DISTANCIA PARA EL MAPA:
+                - FILAS SUPERIORES (las primeras del bloque): Son el FONDO de la galería (lo más lejano).
+                - FILAS INFERIORES (las últimas del bloque): Son el PRIMER PLANO (lo que el jugador tiene a sus pies al entrar).
+                - COLUMNAS IZQUIERDA/DERECHA: Corresponden a los laterales de la sala.
+
+                LEYENDA DE REFERENCIA:
                 {leyenda_text}
 
-                Instrucciones:
-                1. Genera un único párrafo breve y atmosférico.
-                2. Usa la posición de los números en la matriz para describir dónde está cada cosa (por ejemplo, si un número está en las primeras filas, está 'al fondo'; si está en las últimas, está 'cerca de la entrada').
-                3. Añade detalles de humedad y gotas de agua cayendo del techo.
-                4. No menciones las dimensiones exactas.
-                5. Comienza estrictamente con la frase: 'En esta galería puedes ver...' """
-                    
+                TAREA:
+                Genera un único párrafo inmersivo siguiendo este orden visual:
+                1. Comienza describiendo lo que hay 'Cerca de ti' (filas inferiores).
+                2. Continúa hacia el 'Centro' de la sala.
+                3. Termina describiendo lo que se vislumbra 'Al fondo' (filas superiores).
+                4. Integra la humedad y el goteo constante del techo en el relato.
+
+                REGLA CRÍTICA: Comienza estrictamente con la frase "En esta galería puedes ver..." y no salgas del personaje de Dungeon Master."""
+                print(prompt_sala)
                 descripcion_sala = self.consultarAlDM(prompt_sala,preamble,None,2048,600) #"Que sala más bonita"
+                print(descripcion_sala)
                 self.maquina.crearEstadoSala(self.numJugadores,i,Mapa.salas[i].es_obligatoria,Mapa.salas[i].esInicial,Mapa.salas[i].daASalas,Mapa.salas[i].tienePortales,Mapa.salas[i].contieneLlaves,Mapa.salas[i].esFinal,Mapa.salas[i].orden,Mapa.salas[i].tipo_mision, Mapa.salas[i].size, Mapa.salas[i].pos_x, Mapa.salas[i].pos_y,Mapa,frase_puerta,descripcion_sala)
+                print("Es la inicial: ",Mapa.salas[i].esInicial)
                 # Guardamos las descripciones asociadas a esa sala
                 if(Mapa.salas[i].contieneCofres != []):
                     for cofre in Mapa.salas[i].contieneCofres:

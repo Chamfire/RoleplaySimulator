@@ -1,0 +1,10 @@
+La descripción de la sala 14Es la siguiente: En esta galería puedes ver, a tus pies, un suelo irregular salpicado por una roca puntiaguda que se alza como una amenaza silenciosa, mientras que a poca distancia, un saco de gran tamaño yace abandonado, su tela desgastada por el tiempo y la humedad que impregna el aire. A medida que tu mirada se eleva, el centro de la sala revela un paisaje de sombras y texturas: marcas de desgaste surcan las paredes, testigos de un trabajo incansable, y entre ellas, un hongo azul alargado parece desafiar la oscuridad con su tono vibrante. Más allá, en el corazón de la galería, setas naranjas brotan en un rincón, su color cálido contrastando con la frialdad de las rocas que las rodean. Al fondo, en la distancia, la luz de tu antorcha se pierde en la penumbra, donde restos de roca se amontonan en silencio, y la silueta borrosa de lo que podría ser una estructura o un pasadizo se oculta tras una cortina de goteo constante que cae del techo, creando un ritmo hipnótico que acompaña cada paso que das en este lugar olvidado.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 9, y está abierta: El portón cede con facilidad y te encuentras en un pasillo sombrío, donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: El portón cede con facilidad y te encuentras en un pasillo sombrío, donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 14 con la sala 11, y está abierta: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 14: Con un suave crujido, el portón de madera cede a tu toque, revelándote un pasillo oscuro iluminado por la tenue luz que se filtra a través de las baldosas moradas bajo tus pies.
+

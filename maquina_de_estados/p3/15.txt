@@ -1,0 +1,10 @@
+La descripción de la sala 15Es la siguiente: En esta galería puedes ver, a tus pies, un suelo irregular salpicado por los restos de roca que yacen dispersos, sus formas ásperas y desgastadas por el tiempo, como si el propio peso de la montaña hubiera dejado su huella en ellos. A medida que tu mirada se eleva, el centro de la sala se abre en un laberinto de sombras y destellos, donde un canasto de rubíes, cubierto por una capa de polvo y humedad, descansa olvidado entre las marcas de desgaste que surcan las paredes, surcos profundos que parecen susurrar historias de esfuerzos pasados. Más allá, en el fondo de la galería, la luz de tu antorcha lucha por alcanzar las siluetas borrosas de setas naranjas que crecen en las grietas, mientras una roca puntiaguda se erige como una amenaza silenciosa, custodiando un canasto de esmeraldas que brilla tenuemente bajo el goteo constante del techo, cuyas gotas resuenan como un lamento eterno en el aire cargado de humedad.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 1, y está abierta: El portón de madera cede ante tu toque, revelando un pasillo sumido en la penumbra, donde el suelo de baldosas moradas se extiende como un río de sombras bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: El portón de madera cede ante tu toque, revelando un pasillo sumido en la penumbra, donde el suelo de baldosas moradas se extiende como un río de sombras bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 15 con la sala 8, y está abierta: El portón de madera cede ante tu mano, revelando un pasillo sumido en la penumbra, donde el suelo de baldosas moradas se extiende como un río de misterio bajo tus pies.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 15: El portón de madera cede ante tu mano, revelando un pasillo sumido en la penumbra, donde el suelo de baldosas moradas se extiende como un río de misterio bajo tus pies.
+

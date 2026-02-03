@@ -1,0 +1,10 @@
+La descripción de la sala 9Es la siguiente: En esta galería puedes ver, a tus pies, un suelo irregular salpicado por marcas de desgaste que se entrelazan como cicatrices antiguas, mientras a tu izquierda, una silueta borrosa oculta por la bruma parece guardar un secreto entre sus fibras desgastadas. Más adelante, en el centro de la sala, un canasto de madera carcomida alberga gemas que brillan con un tono escarlata, rodeado por un círculo de setas naranjas que parecen pulsar con una luz propia, sus sombreros curvados hacia el suelo como si adoraran el tesoro. A medida que tu mirada se eleva, el techo gotea con un ritmo constante, gotas que resbalan por las paredes y se pierden en la penumbra, donde, al fondo, se divisan restos de roca apilados en un rincón lejano, junto a un hongo azul alargado que se yergue como un testigo silencioso de la erosión del tiempo, mientras marcas de desgaste se desvanecen en la oscuridad, como susurros de una historia que la humedad se empeña en borrar.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 14, y está abierta: El portón de madera cede a tu toque, revelando un pasillo envuelto en sombras, donde el suelo, pavimentado con baldosas de un morado profundo, se extiende ante ti como un río de misterio.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: El portón de madera cede a tu toque, revelando un pasillo envuelto en sombras, donde el suelo, pavimentado con baldosas de un morado profundo, se extiende ante ti como un río de misterio.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 9 con la sala 5, y está abierta: El portón de madera cede ante tu mano con un crujido sordo, revelando un pasillo envuelto en sombras donde el suelo, compuesto de baldosas moradas, parece absorber la poca luz que se atreve a penetrar.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 9: El portón de madera cede ante tu mano con un crujido sordo, revelando un pasillo envuelto en sombras donde el suelo, compuesto de baldosas moradas, parece absorber la poca luz que se atreve a penetrar.
+
