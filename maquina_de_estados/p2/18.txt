@@ -1,0 +1,10 @@
+La descripción de la sala 18Es la siguiente: En esta galería puedes ver, a tus pies, un suelo marcado por el tiempo, surcado por las huellas de incontables pasos y el peso de la tierra; cerca de ti, una roca puntiaguda se alza como un guardián silencioso, mientras que a su lado, un saco de gran tamaño yace olvidado, su contenido desconocido. A medida que tu mirada se adentra en el corazón de la sala, las paredes revelan marcas de desgaste, surcos profundos que cuentan historias de trabajo y erosión, y entre ellas, un canasto con rubíes brilla tenuemente, su tesoro casi oculto por la sombra. Más allá, en el centro, un hongo azul alargado crece desafiante, su forma elegante contrastando con los restos de roca que se dispersan como huesos de un gigante dormido. Al fondo, donde la luz apenas alcanza, la humedad se hace más palpable, el goteo constante del techo creando un ritmo hipnótico que acompaña la visión de setas naranjas y más marcas de desgaste, todo envuelto en una bruma que difumina los límites entre lo real y lo imaginado, como si la propia mina respirara, viva y vigilante.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 9, y está abierta: El portón de madera cede sin resistencia, revelándote a un pasillo oscuro donde el suelo de baldosas moradas parece absorber la poca luz que se atreve a penetrar.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: El portón de madera cede sin resistencia, revelándote a un pasillo oscuro donde el suelo de baldosas moradas parece absorber la poca luz que se atreve a penetrar.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 18 con la sala 6, y está abierta: El portón de madera cede sin resistencia, revelando un pasillo sumido en la penumbra, donde el suelo de baldosas moradas parece absorber la poca luz que se atreve a adentrarse.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 18: El portón de madera cede sin resistencia, revelando un pasillo sumido en la penumbra, donde el suelo de baldosas moradas parece absorber la poca luz que se atreve a adentrarse.
+

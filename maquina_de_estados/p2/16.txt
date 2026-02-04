@@ -1,0 +1,10 @@
+La descripción de la sala 16Es la siguiente: En esta galería puedes ver, a tus pies, un suelo irregular salpicado por marcas de desgaste que se entrelazan como cicatrices antiguas, mientras a un lado, una silueta borrosa oculta por la bruma parece guardar un secreto entre sus fibras deshilachadas. Más adelante, el centro de la sala se abre en un baile de sombras y humedad, donde restos de roca yacen dispersos como huesos de un gigante olvidado, y un hongo azul alargado se alza desafiante, su luz tenue contrastando con las setas naranjas que brotan en rincones inesperados. Al fondo, la penumbra abraza el techo, de donde cae un goteo constante que resuena como un susurro eterno, mientras las paredes, marcadas por el paso del tiempo, muestran surcos profundos y rocas puntiagudas que parecen acechar desde las alturas, como centinelas silenciosos de un reino subterráneo que nunca duerme. El aire, pesado y frío, carga el olor a tierra mojada y misterio, envolviéndolo todo en una atmósfera que invita tanto a la exploración como a la cautela.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 1, y está abierta: Con un leve crujido, el portón de madera cede ante tu toque, revelando un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: Con un leve crujido, el portón de madera cede ante tu toque, revelando un pasillo oscuro donde el único detalle que destaca es el suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador intenta abrir la puerta que conecta la sala 16 con la sala 15, y está abierta: Con un simple empujón, el portón de madera cede, revelándote un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+
+Diálogo del Dungeon Master cuando un jugador regresa a la sala 16: Con un simple empujón, el portón de madera cede, revelándote un pasillo oscuro con un suelo de baldosas moradas que se extiende ante ti.
+
